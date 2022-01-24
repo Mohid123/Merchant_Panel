@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/sass/style";
+
+/* base */
+@import './tailwindcss/base.css';
+
+/* components */
+@import './tailwindcss/components.css';
+
+/* utilities */
+@import './tailwindcss/utilities.css';
+
+
+// Replace above style with this SCSS file to enable dark mode styles
+//@import "./assets/sass/style.dark";
