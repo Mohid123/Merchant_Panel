@@ -5,6 +5,7 @@ const primaryColors = {
 };
 
 module.exports = {
+  important: true,
   prefix: '',
   purge: {
     enabled: process.env.TAILWIND_MODE === 'build',
@@ -20,8 +21,23 @@ module.exports = {
       width: {
         '35': '35%',
         '38': '38%',
+        '48': '48%',
         '62': '62%',
         '65': '65%',
+      },
+      fontSize: {
+        '45px': '45px'
+      },
+      flexGrow: {
+        '2': 2,
+        '3': 3,
+        '4': 4,
+        '5': 5,
+        '6': 6,
+        '7': 7,
+        '8': 8,
+        '9': 9,
+        '10': 10,
       }
     },
     fontFamily: {

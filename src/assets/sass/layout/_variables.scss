@@ -3,9 +3,9 @@
 //
 
 // Root font Sizes
-$root-font-size:                                    13px; // Root font size for desktop mode
-$root-font-size-lg:                             	13px; // Root font size for tablet mode
-$root-font-size-md:                             	12px; // Root font size for mobile mode
+$root-font-size:                                    16px; // Root font size for desktop mode
+$root-font-size-lg:                             	16px; // Root font size for tablet mode
+$root-font-size-md:                             	16px; // Root font size for mobile mode
 
 // Page bg
 $page-bg: 											if(isDarkMode(), #151521, $gray-100) !default;
@@ -72,6 +72,6 @@ $aside-config: (
 ) !default;
 
 // Footer
-$footer-config: (	
+$footer-config: (
 	bg-color: if(isDarkMode(), #1B1B28, $white),
 ) !default;

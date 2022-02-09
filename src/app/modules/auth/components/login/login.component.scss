@@ -11,3 +11,51 @@
     }
   }
 }
+
+.form-control {
+  background-color: transparent !important;
+  border: 0.5px solid #787F9F
+}
+
+.auth-main-con {
+  background-image:
+  url("../../../../../assets/media/logos/icon-dividis.png"),
+  url("../../../../../assets/media/logos/background-bottom-left.png"),
+  url("../../../../../assets/media/svg/illustrations/login-visual-5.svg"),
+  url("../../../../../assets/media/logos/background-top-right.png");
+  background-position: 0 0, 0 100% ,100% 100% , 100% 0;
+  background-size: 81px 81px, 130px 36px, 122px 122px, 110px 80px;
+  background-repeat: no-repeat;
+}
+
+.login-aside {
+  .top-logo{
+    height: 345px;
+
+    img {
+      max-width: 289px;
+      margin: 0 auto;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .auth-main-con {
+    background-position: 53px 0px, 0 100%, calc(100% - 12px) 100%, 100% 0;
+    background-size: 162px 169px, 243px 118px, 200px 200px, 200px 240px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .auth-main-con {
+    background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
+    background-size: 162px 169px, 243px 118px, 250px 250px, 255px 290px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .auth-main-con {
+    background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
+    background-size: 169px 169px, 375px 118px ,312px 312px,288px 361px;
+  }
+}
