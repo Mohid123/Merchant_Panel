@@ -1,10 +1,12 @@
-<div class="card">
+
+
+<div class="p-0 m-0 card" >
   <div class="card-body">
     <div
-      class="stepper stepper-links d-flex flex-column pt-15"
+      class="stepper stepper-links d-flex flex-column "
       id="kt_create_account_stepper"
     >
-      <div class="stepper-nav mb-5">
+      <div class="mb-5 stepper-nav">
         <div
           class="stepper-item"
           [ngClass]="{
@@ -12,7 +14,7 @@
             completed: currentStep$.value > 1
           }"
         >
-          <h3 class="stepper-title">Account Type</h3>
+          <h3 class="stepper-title">Description</h3>
         </div>
 
         <div
@@ -22,7 +24,7 @@
             completed: currentStep$.value > 2
           }"
         >
-          <h3 class="stepper-title">Account Info</h3>
+          <h3 class="stepper-title">The Numbers</h3>
         </div>
 
         <div
@@ -32,7 +34,7 @@
             completed: currentStep$.value > 3
           }"
         >
-          <h3 class="stepper-title">Business Info</h3>
+          <h3 class="stepper-title">Terms</h3>
         </div>
 
         <div
@@ -42,7 +44,7 @@
             completed: currentStep$.value > 4
           }"
         >
-          <h3 class="stepper-title">Billing Details</h3>
+          <h3 class="stepper-title">Publish</h3>
         </div>
 
         <div
@@ -54,7 +56,7 @@
       </div>
 
       <form
-        class="mx-auto mw-600px w-100 pt-15 pb-10"
+        class="pb-10 mx-auto w-100 pt-15"
         noValidate
         id="kt_create_account_form"
       >
