@@ -66,7 +66,7 @@
 <ng-template #content let-modal>
   <div class="modal-body">
     <div class="p-0 m-0 d-flex justify-content-end">
-      <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" style="
+      <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" (click)="modal.dismiss('Cross click')" style="
        border-radius: 100%;">
         <span class="text-gray-800 fs-6">x</span>
       </button>
