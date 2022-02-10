@@ -47,12 +47,12 @@
           <h3 class="stepper-title">Publish</h3>
         </div>
 
-        <div
+        <!-- <div
           class="stepper-item"
           [ngClass]="{ current: currentStep$.value === 5 }"
         >
           <h3 class="stepper-title">Completed</h3>
-        </div>
+        </div> -->
       </div>
 
       <form
@@ -106,11 +106,7 @@
                 class="btn btn-lg btn-light-primary me-3"
                 (click)="prevStep()"
               >
-                <span
-                  [inlineSVG]="'./assets/media/icons/duotune/arrows/arr063.svg'"
-                  class="svg-icon svg-icon-4 me-1"
-                ></span>
-                Back
+              <&nbsp; Back
               </button>
             </ng-container>
           </div>
@@ -119,19 +115,14 @@
             <div>
               <button
                 type="button"
-                class="btn btn-lg btn-primary me-3"
+                class="btn btn-lg btn-dark me-3"
 
                 (click)="nextStep()"
               >
                 <span class="indicator-label">
                   <ng-container *ngIf="currentStep$.value < formsCount - 1">
-                    Continue {{ " " }}
-                    <span
-                      [inlineSVG]="
-                        './assets/media/icons/duotune/arrows/arr064.svg'
-                      "
-                      class="svg-icon svg-icon-3 ms-2 me-0"
-                    ></span>
+                    Next &nbsp;> {{ " " }}
+
                   </ng-container>
                   <ng-container *ngIf="currentStep$.value === formsCount - 1">
                     Submit
