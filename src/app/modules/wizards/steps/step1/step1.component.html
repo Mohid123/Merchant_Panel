@@ -5,37 +5,55 @@
   <div class="text-gray-400 fw-bold fs-5">First impression matters! Let's start with creating your titles and description.</div>
 </div>
 
-<div class="row">
-  <div class="col-xl-6">
-    <div class="pb-10 pb-lg-15">
-      <p class="d-flex align-items-center text-dark">
-        Title
-      </p>
-      <input type="text font-weight-light" class="form-control" placeholder="Enter title of your deal">
-    </div>
-    <div class="pb-10 pb-lg-15">
-      <p class="d-flex align-items-center text-dark">
-        Subtitle
-      </p>
-      <input type="text font-weight-light" class="form-control" placeholder="Enter subtitle of your deal">
-    </div>
-    <div class="pb-10 pb-lg-15">
-      <p class="d-flex align-items-center text-dark">
-        Description
-      </p>
-      <textarea type="text font-weight-light" class="form-control" placeholder="Description" rows="7"></textarea>
-    </div>
-  </div>
+<div class="card card-custom card-stretch"  style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
 
-  <div class="col-xl-5">
-    <div class="image-input image-input-outline" id="kt_user_add_avatar">
-      <div class="image-input-wrapper" style="background-image: url(/metronic/theme/html/demo1/dist/assets/media/users/100_6.jpg)"></div>
-      <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
-      </label>
-      <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="Cancel avatar">
-        <i class="ki ki-bold-close icon-xs text-muted"></i>
-      </span>
-    </div>
-  </div>
+  <div class="card-body">
+      <div>
+        <div class="row">
+          <div class="col-xl-6">
+            <div class="pb-10 pb-lg-15">
+              <p class="font-bold d-flex align-items-center text-dark">
+                Title
+              </p>
+              <input type="text font-weight-light" class="form-control" placeholder="Enter title of your deal">
+            </div>
+            <div class="pb-10 pb-lg-15">
+              <p class="font-bold d-flex align-items-center text-dark">
+                Subtitle
+              </p>
+              <input type="text font-weight-light" class="form-control" placeholder="Enter subtitle of your deal">
+            </div>
+            <div class="pb-10 pb-lg-15">
+              <p class="font-bold d-flex align-items-center text-dark">
+                Description
+              </p>
+              <textarea type="text font-weight-light" class="form-control" placeholder="Description" rows="7"></textarea>
+            </div>
+          </div>
 
+          <div class="col-xl-5">
+            <div class="ml-20">
+              <p class="font-bold d-flex align-items-center text-dark">
+                Uplaod Images
+              </p>
+              <div class="image-input image-input-outline" id="kt_user_add_avatar">
+                <div class="image-input-wrapper" style="background-image: url(&quot;https://preview.keenthemes.com/metronic/theme/html/demo1/dist/assets/media/users/100_6.jpg&quot;);"></div>
+                <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                  <i class="fa fa-pen icon-sm text-muted"></i>
+                  <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg">
+                  <input type="hidden" name="profile_avatar_remove" value="0">
+                </label>
+                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="Cancel avatar">
+                  <i class="ki ki-bold-close icon-xs text-muted"></i>
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+  </div>
 </div>
+
+
