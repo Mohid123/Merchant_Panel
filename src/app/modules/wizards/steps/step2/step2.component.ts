@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { ICreateAccount } from '../../create-account.helper';
 
@@ -17,7 +18,11 @@ export class Step2Component implements OnInit {
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private modalService: NgbModal) {}
+
+  openVerticallyCentered(content: any) {
+    this.modalService.open(content, { centered: true });
+  }
 
   ngOnInit() {
     this.initForm();
