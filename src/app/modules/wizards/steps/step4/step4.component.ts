@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CalendarOptions } from '@fullcalendar/angular';
 import { Subscription } from 'rxjs';
 import { ICreateAccount } from '../../create-account.helper';
 
@@ -8,6 +9,9 @@ import { ICreateAccount } from '../../create-account.helper';
   templateUrl: './step4.component.html',
 })
 export class Step4Component implements OnInit {
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth'
+  };
   @Input('updateParentModel') updateParentModel: (
     part: Partial<ICreateAccount>,
     isFormValid: boolean
