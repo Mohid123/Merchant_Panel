@@ -48,3 +48,9 @@ input::-webkit-file-upload-button {
 input[type='file'] {
   opacity:0
 }
+
+@media screen and (max-width: 480px) {
+  .calendar{
+    font-size: 10px!important;
+  }
+}
