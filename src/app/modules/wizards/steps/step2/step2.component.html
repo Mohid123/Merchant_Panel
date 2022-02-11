@@ -4,17 +4,17 @@
 </div>
 
 <div class="card card-custom card-stretch"  style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
-  <div class="px-12 py-8 d-flex">
-    <div class="mb-10 col-xl-7">
-      <label class="mb-3 d-flex align-items-center form-label"> Heavenly Massage</label>
+  <div class="px-12 py-8 flex">
+    <div class="mb-10 w-3/5">
+      <label class="mb-3 flex items-center form-label"> Heavenly Massage</label>
       <div class="form-text">
-        <i class="mr-2 fas fa-map-marker-alt text-success fa-lg"></i>
+        <i class="mr-2 fas fa-map-marker-alt text-green-400 fa-lg"></i>
         200 E Gaines St, Tallahassee, FL 32399, United States
       </div>
       <div class="mt-8 mb-7 card" style="width: 16.063rem; height: 9.688rem;">
         <img class="card-img-top img-responsive rounded-bottom" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
       </div>
-      <div class="flex-row mt-2 card justify-content-between" style="width: 1.375rem; height: 1.375rem;">
+      <div class="flex-row mt-2 card justify-between" style="width: 1.375rem; height: 1.375rem;">
         <img class="mr-1 rounded-sm img-responsive" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
         <img class="mr-1 rounded-sm img-responsive" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
         <img class="mr-1 rounded-sm img-responsive" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
@@ -26,18 +26,18 @@
         <img class="mr-1 rounded-sm img-responsive" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
         <img class="mr-1 rounded-sm img-responsive" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
       </div>
-      <div class="mt-8 form-label text-danger fw-bolder">Description</div>
+      <div class="mt-8 form-label text-red-500 fw-bolder">Description</div>
       <p class="text-gray-400 fs-8 w-75">60-Minute Swedish or Deep-Tissue Massage Session for Two with Aromatherapy and Steam Shower Aroma Enhancements, 60-Minute Swedish or Deep-Tissue Massage Session for Two with Aromatherapy and Steam Shower Aroma Enhancements</p>
     </div>
 
 
-    <div class="h-80 m-9 d-flex">
+    <div class="h-80 m-9 flex">
       <div class="vr"></div>
     </div>
 
-    <div class="d-flex flex-column align-items-start">
+    <div class="flex flex-col items-start">
       <div class="py-2 mt-10 mb-4 fw-bolder w-100">Add another deal option
-        <i class="ml-14 fas fa-plus-circle fa-lg text-warning" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></i>
+        <i class="ml-16 fas fa-plus-circle fa-lg text-yellow-500 justify-center" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></i>
       </div>
 
       <div class="fw-lighter">Heavenly Massage 60 Minutes</div>
@@ -49,10 +49,10 @@
                 <i class="fas fa-dollar-sign"></i>320
               </del>
             </th>
-            <th scope="col" class="text-success"><i class="fas fa-dollar-sign text-success"></i>200</th>
-            <th scope="col" class="text-danger fw-bolder">75% off</th>
+            <th scope="col" class="text-green-400"><i class="fas fa-dollar-sign text-green-400"></i>200</th>
+            <th scope="col" class="text-red-500 fw-bolder">75% off</th>
             <th scope="col">
-              <i class="p-2 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
+              <i class="p-2 mr-2 mb-1 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
               <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
             </th>
           </tr>
@@ -65,7 +65,7 @@
 
 <ng-template #content let-modal>
   <div class="modal-body">
-    <div class="p-0 m-0 d-flex justify-content-end">
+    <div class="p-0 m-0 flex justify-end">
       <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" (click)="modal.dismiss('Cross click')" style="
        border-radius: 100%;">
         <span class="text-gray-800 fs-6">x</span>
@@ -83,7 +83,7 @@
        <div class="mb-3 form-group">
         <label class="mb-3">Original Price</label>
         <div class="input-icon">
-         <span class="mt-2 ml-1 position-absolute d-flex align-items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
+         <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
          <input type="text" class="pl-12 form-control" placeholder="">
         </div>
        </div>
@@ -91,7 +91,7 @@
        <div class="form-group">
         <label class="mb-3">Deal Price</label>
         <div class="input-icon">
-         <span class="mt-2 ml-1 position-absolute d-flex align-items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-danger"></i></span>
+         <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-danger"></i></span>
          <input type="text" class="pl-12 form-control" placeholder="">
         </div>
        </div>
