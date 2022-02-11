@@ -44,7 +44,7 @@
             completed: currentStep$.value > 4
           }"
         >
-          <h6 class="fw-lighter">Publish &nbsp;> </h6>
+          <h6 class="fw-lighter">Publish </h6>
         </div>
 
         <!-- <div
@@ -106,7 +106,7 @@
                 class="btn btn-lg btn-secondary me-3"
                 (click)="prevStep()"
               >
-              <&nbsp; Back
+              Back
               </button>
             </ng-container>
           </div>
@@ -121,7 +121,7 @@
               >
                 <span class="indicator-label">
                   <ng-container *ngIf="currentStep$.value < formsCount - 1">
-                    Next &nbsp;> {{ " " }}
+                    Next {{ " " }}
 
                   </ng-container>
                   <ng-container *ngIf="currentStep$.value === formsCount - 1">
