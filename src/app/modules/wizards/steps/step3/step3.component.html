@@ -1,13 +1,9 @@
-
-
+<!--Title/ Header-->
 <div class="text-center mb-13">
   <h1 class="mb-5 fs-hx fw-bolder">The when, the how and the where.</h1>
   <div class="text-gray-400 fw-bold fs-5">Let's make sure all terms are correct before publishing your deal.</div>
 </div>
-
-
-
-
+<!--Card for Duration of Deal-->
 <div class="card card-custom card-stretch"  style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
   <div class="card-body">
     <div class="row">
@@ -18,10 +14,7 @@
             When can customers redeem their voucher
           </p>
           <label class="mt-2 form-check form-check-custom form-check-solid align-items-start">
-            <!--begin::Input-->
-            <input class="form-check-input me-3" type="checkbox" name="email-preferences[]" value="1">
-            <!--end::Input-->
-            <!--begin::Label-->
+            <input class="form-check-input me-3" type="checkbox">
             <span class="form-check-label d-flex flex-column align-items-start">
               <label class="mb-3 form-label required">Start Date</label>
               <div class="input-group date" data-provide="datepicker">
@@ -29,25 +22,21 @@
               </div>
               <span class="mt-2 mb-0 fs-6"><span class="text-red-500">*</span>Max 90 validity days</span>
             </span>
-            <!--end::Label-->
           </label>
         </div>
         <div class="pb-10">
           <label class="form-check form-check-custom form-check-solid align-items-start">
-            <!--begin::Input-->
-            <input class="form-check-input me-3" type="checkbox" name="email-preferences[]" value="1">
-            <!--end::Input-->
-            <!--begin::Label-->
+            <input class="form-check-input me-3" type="checkbox">
             <span class="form-check-label d-flex flex-column align-items-start">
               <label class="mb-3 form-label">Voucher is valid for</label>
               <div class="items-center input-group date" data-provide="datepicker">
-                <input type="number" class="form-control"> <span class="ml-3 text-gray-400">days after purchase</span>
+                <input type="number" class="form-control">
+                <span class="ml-3 text-gray-400">days after purchase</span>
               </div>
             </span>
-            <!--end::Label-->
           </label>
-
         </div>
+
         <div class="pb-10 ">
           <label class="mb-3 form-label">Where can customers redeem their vouchers?</label>
           <table class="datatable-table" style="display: block;">
@@ -87,26 +76,27 @@
           </table>
           <button class="btn btn-light btn-active-light-primary" type="button" (click)="openVerticallyCentered(content)">Edit</button>
         </div>
+
         <div>
-           <div class="d-flex flex-stack">
+          <div class="d-flex flex-stack">
             <div class="mr-2">
               <p class="font-bold d-flex align-items-center text-dark">
                 General terms & cancellation policy
               </p>
-          </div>
+            </div>
             <div>
               <a class="fw-bold">Edit</a>
-        </div>
             </div>
+          </div>
             <p class="p-5 text-justify text-gray-400" style="border: 1px solid #f38b41; border-radius: 12px;">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-          molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-          numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-          optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-          obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-          nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-          tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-          quia. Quo neque error repudiandae fuga?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+              molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+              numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+              optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
+              obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
+              nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
+              tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
+              quia. Quo neque error repudiandae fuga?
             </p>
         </div>
       </div>
@@ -115,29 +105,21 @@
         <div class="mt-20">
           <div class="pb-10 pb-lg-15">
             <label class="form-check form-check-custom form-check-solid align-items-start">
-              <!--begin::Input-->
-              <input class="form-check-input me-3" type="checkbox" name="email-preferences[]" value="1">
-              <!--end::Input-->
-              <!--begin::Label-->
+              <input class="form-check-input me-3" type="checkbox">
               <span class="form-check-label d-flex flex-column align-items-start">
                 <label class="mb-3 form-label required">End Date</label>
                 <div class="input-group date" data-provide="datepicker">
                   <input type="date" class="form-control">
                 </div>
               </span>
-              <!--end::Label-->
             </label>
-
           </div>
         </div>
-
       </div>
-
     </div>
   </div>
-
 </div>
-
+<!--Edit Modal-->
 <ng-template #content let-modal>
   <div class="modal-body">
     <div class="p-0 m-0 d-flex justify-content-end">
