@@ -1,5 +1,5 @@
-import { AuthModel } from './auth.model';
 import { AddressModel } from './address.model';
+import { AuthModel } from './auth.model';
 import { SocialNetworksModel } from './social-networks.model';
 
 export class UserModel extends AuthModel {
