@@ -27,8 +27,8 @@ export class AuthHTTPService {
     return this.http.post<UserModel>(API_USERS_URL, user);
   }
 
-  register(regesterModel: RegisterModel): Observable<RegisterModel> {
-    return this.http.post<RegisterModel>(API_USERS_URL, regesterModel);
+  register(registerModel: RegisterModel): Observable<RegisterModel> {
+    return this.http.post<RegisterModel>(API_USERS_URL, registerModel);
   }
 
   // Your server should check email => If email exists send link to the user and return true | If email doesn't exist return false

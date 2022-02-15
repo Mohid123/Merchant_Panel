@@ -155,10 +155,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     const registrationSubscr = this.authService
       .registration(newModel)
       .pipe(first())
-      .subscribe((regesterModel: RegisterModel) => {
-        console.log('re:',regesterModel);
+      .subscribe((registerModel: RegisterModel) => {
+        console.log('re:',registerModel);
         this.registrationSuccess = true; // need to remove in live version or while api intigration
-        if (regesterModel) {
+        if (registerModel) {
           this.registrationSuccess = true;
         } else {
           this.hasError = true;
