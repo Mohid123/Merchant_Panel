@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { UserModel } from '../../../models/user.model';
-import { AuthModel } from '../../../models/auth.model';
-import { UsersTable } from '../../../../../_fake/users.table';
 import { environment } from '../../../../../../environments/environment';
+import { UsersTable } from '../../../../../_fake/users.table';
+import { AuthModel } from '../../../models/auth.model';
+import { RegisterModel } from '../../../models/register.model';
+import { UserModel } from '../../../models/user.model';
+
 
 const API_USERS_URL = `${environment.apiUrl}/users`;
 
@@ -55,6 +56,10 @@ export class AuthHTTPService {
     user.expiresIn = new Date(Date.now() + 100 * 24 * 60 * 60 * 1000);
     user.pic = './assets/media/avatars/300-1.jpg';
 
+    return this.http.post<UserModel>(API_USERS_URL, user);
+  }
+
+  register(user: RegisterModel): Observable<any> {
     return this.http.post<UserModel>(API_USERS_URL, user);
   }
 

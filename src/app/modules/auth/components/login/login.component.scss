@@ -23,8 +23,8 @@
   url("../../../../../assets/media/logos/background-bottom-left.png"),
   url("../../../../../assets/media/svg/illustrations/login-visual-5.svg"),
   url("../../../../../assets/media/logos/background-top-right.png");
-  background-position: 0 0, 0 100% ,100% 100% , 100% 0;
-  background-size: 81px 81px, 130px 36px, 122px 122px, 110px 80px;
+  background-position: 0 0, 0 100% ,100% 100% , 100% -20px;
+  background-size: 81px 81px, 130px 36px, 122px 122px, 110px 100px;
   background-repeat: no-repeat;
 }
 
@@ -42,20 +42,20 @@
 @media (min-width: 768px) {
   .auth-main-con {
     background-position: 53px 0px, 0 100%, calc(100% - 12px) 100%, 100% 0;
-    background-size: 162px 169px, 243px 118px, 200px 200px, 200px 240px;
+    background-size: 162px 169px, 243px 118px, 200px 200px, 230px 240px;
   }
 }
 
 @media (min-width: 1024px) {
   .auth-main-con {
     background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
-    background-size: 162px 169px, 243px 118px, 250px 250px, 255px 290px;
+    background-size: 162px 169px, 243px 118px, 250px 250px, 285px 290px;
   }
 }
 
 @media (min-width: 1280px) {
   .auth-main-con {
     background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
-    background-size: 169px 169px, 375px 118px ,312px 312px,288px 361px;
+    background-size: 169px 169px, 375px 118px ,312px 312px,320px 361px;
   }
 }

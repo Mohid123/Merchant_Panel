@@ -1,11 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
-import { map, catchError, switchMap, finalize } from 'rxjs/operators';
-import { UserModel } from '../models/user.model';
-import { AuthModel } from '../models/auth.model';
-import { AuthHTTPService } from './auth-http';
-import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { catchError, finalize, map, switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { AuthModel } from '../models/auth.model';
+import { RegisterModel } from '../models/register.model';
+import { UserModel } from '../models/user.model';
+import { AuthHTTPService } from './auth-http';
 
 export type UserType = UserModel | undefined;
 
@@ -88,13 +89,12 @@ export class AuthService implements OnDestroy {
   }
 
   // need create new user then login
-  registration(user: UserModel): Observable<any> {
+  registration(user: RegisterModel): Observable<any> {
     this.isLoadingSubject.next(true);
-    return this.authHttpService.createUser(user).pipe(
+    return this.authHttpService.register(user).pipe(
       map(() => {
         this.isLoadingSubject.next(false);
       }),
-      switchMap(() => this.login(user.email, user.password)),
       catchError((err) => {
         console.error('err', err);
         return of(undefined);

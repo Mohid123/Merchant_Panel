@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 
   constructor(
-    private fb: FormBuilder,
+    private _formBuilder: FormBuilder,
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.loginForm = this.fb.group({
+    this.loginForm = this._formBuilder.group({
       email: [
         this.defaultAuth.email,
         Validators.compose([

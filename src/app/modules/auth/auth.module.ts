@@ -1,14 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthRoutingModule } from './auth-routing.module';
-import { LoginComponent } from './components/login/login.component';
-import { RegistrationComponent } from './components/registration/registration.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { LogoutComponent } from './components/logout/logout.component';
-import { AuthComponent } from './auth.component';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatStepperModule } from '@angular/material/stepper';
 import { TranslationModule } from '../i18n/translation.module';
+import { AuthRoutingModule } from './auth-routing.module';
+import { AuthComponent } from './auth.component';
+import { CategoryRadioButtonComponent } from './components/category-radio-button/category-radio-button.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { LoginComponent } from './components/login/login.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -17,14 +21,19 @@ import { TranslationModule } from '../i18n/translation.module';
     ForgotPasswordComponent,
     LogoutComponent,
     AuthComponent,
+    CategoryRadioButtonComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
     TranslationModule,
     AuthRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatIconModule,
+    MatStepperModule,
+    MatInputModule
   ],
 })
 export class AuthModule {}

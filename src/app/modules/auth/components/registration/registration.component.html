@@ -1,312 +1,330 @@
-<form
-  class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
-  novalidate="novalidate"
-  id="kt_login_signup_form"
-  [formGroup]="registrationForm"
-  (ngSubmit)="submit()"
->
-  <!--begin::Heading-->
-  <div class="mb-10 text-center">
-    <h1 class="text-dark mb-3">Create an Account</h1>
-    <div class="text-gray-400 fw-bold fs-4">
-      Already have an account?
-      <a
-        routerLink="/auth/login"
-        class="link-primary fw-bolder"
-        [style.margin-left]="'5px'"
-        >Sign in?</a
-      >
+<div class="flex justify-center h-fit auth-main-con">
+  <div *ngIf="!registrationSuccess; else RegistrationSuccess"
+    class="max-w-md py-2 overflow-hidden h-fit lg:max-w-lg lg:h-full login-content flex-row-fluid d-flex flex-column justify-content-center position-relative">
+    <div class="w-full px-2 mt-24 d-flex flex-column-fluid flex-center md:mt-0 md:px-0">
+      <mat-stepper labelPosition="bottom" #stepper class="w-full h-full py-6 text-center">
+        <!-- #enddocregion label-position -->
+        <mat-step [stepControl]="registrationForm">
+          <h1 class="mb-4 text-3xl font-medium text-center sm:text-3xl text-dark">Welcome! first things first</h1>
+          <h3 class="max-w-xs mx-auto text-xs font-medium text-center mb-7">Let's make sure we understand your company. What describes your business best?"</h3>
+          <form [formGroup]="registrationForm" class="flex flex-row flex-wrap justify-center categories-step">
+              <ng-template matStepLabel>Your Market</ng-template>
+              <ng-container *ngFor="let category of categories">
+                <app-category-radio-button name="category" [value]="category.id">
+                  <div class="tabs w-90px h-90px" [ngClass]="{'active' : f['category'].value == category.id}">
+                    <img [src]="category.img" alt="category.name">
+                  </div>
+                  <strong class="font-normal" style="font-size: 11px;">{{category.name}}</strong>
+                </app-category-radio-button>
+              </ng-container>
+            </form>
+            <button class="h-10 text-white bg-black rounded-lg mt-9 w-28" [disabled]="!f['category'].value" mat-button matStepperNext>Next</button>
+          </mat-step>
+          <mat-step [stepControl]="registrationForm">
+            <h1 class="mb-2 text-3xl font-medium text-center sm:text-3xl text-dark">Let's get to know each other!</h1>
+            <h3 class="max-w-xs mx-auto mb-4 text-xs font-medium text-center">How can we reach out?</h3>
+            <form class="text-left form w-100" [formGroup]="registrationForm" novalidate="novalidate">
+              <ng-template matStepLabel>Contact Details</ng-template>
+              <h1 class="mb-3 text-xl font-medium text-left text-dark">Your Contact Details</h1>
+            <div class="mb-5 fv-row">
+              <label class="mb-1 text-sm form-label">First Name</label>
+              <input class="form-control form-control-lg form-control-solid" type="text" name="firstName"
+              placeholder="First Name"
+                formControlName="firstName" autocomplete="off" [ngClass]="{
+                'is-invalid': f['firstName'].invalid && f['firstName'].touched,
+                'is-valid': f['firstName'].valid}" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'First name is required',
+                            control: f['firstName']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: 'First name should have at least 3 latters',
+                            control: f['firstName']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'maxlength',
+                            message: 'First name should have maximum 30 latters',
+                            control: f['firstName']}">
+              </ng-container>
+            </div>
+
+            <div class="mb-5 fv-row">
+              <label class="mb-1 text-sm form-label">Last Name</label>
+              <input class="form-control form-control-lg form-control-solid" type="text" name="lastName"
+              placeholder="Last Name"
+                formControlName="lastName" autocomplete="off" [ngClass]="{
+                'is-invalid': f['lastName'].invalid && f['lastName'].touched ,
+                'is-valid': f['lastName'].valid}" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'Last name is required',
+                            control: f['lastName']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: 'Last name should have at least 3 latters',
+                            control: f['lastName']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'maxlength',
+                            message: 'Last name should have maximum 30 latters',
+                            control: f['lastName']}">
+              </ng-container>
+            </div>
+
+
+            <div class="mb-5 fv-row">
+              <label class="mb-1 text-sm form-label">Email</label>
+              <input class="form-control form-control-lg form-control-solid" type="email" name="email"
+              placeholder="Daviddeens@gmail.com"
+                formControlName="email" autocomplete="off" [ngClass]="{
+                'is-invalid': f['email'].invalid && f['email'].touched,
+                'is-valid': f['email'].valid}" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'Email is required',
+                            control: f['email']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'email',
+                            message: 'Email is invalid',
+                            control: f['email']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'maxlength',
+                            message: 'Email should have maximum 60 latters',
+                            control: f['email']}">
+              </ng-container>
+            </div>
+
+            <div class="mb-5 fv-row">
+              <label class="mb-1 text-sm form-label">Mobile</label>
+              <div class="flex">
+                <input class="mr-3 form-control form-control-lg form-control-solid" style="width: 170px;" value="+32" type="text" disabled/>
+                <input class="form-control form-control-lg form-control-solid" type="number" name="mobile"
+                autocomplete="off" formControlName="mobile" [ngClass]="{
+                  'is-invalid': f['mobile'].invalid && f['mobile'].touched,
+                  'is-valid': f['mobile'].valid}" />
+                </div>
+
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'Mobile is required',
+                            control: f['mobile']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'min',
+                            message: 'Mobile should have 9 latters',
+                            control: f['mobile']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'max',
+                            message: 'Mobile should have 9 latters',
+                            control: f['mobile']}">
+              </ng-container>
+            </div>
+
+            <div class="flex justify-between">
+              <button class="h-10 text-white bg-black rounded-lg mt-9 w-28 back" mat-button matStepperPrevious>Back</button>
+              <button class="h-10 text-white bg-black rounded-lg mt-9 w-28" [disabled]="f['firstName'].invalid || f['lastName'].invalid || f['email'].invalid || f['mobile'].invalid" mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+          </mat-step>
+          <mat-step [stepControl]="registrationForm">
+            <h1 class="mb-2 text-3xl font-medium text-center sm:text-3xl text-dark">Tell us about your business.</h1>
+            <h3 class="max-w-xs mx-auto mb-4 text-xs font-medium text-center">Where can we find you?</h3>
+            <ng-container *ngIf="hasError">
+              <div class="mb-lg-15 alert alert-danger">
+                <div class="alert-text font-weight-bold">
+                  The details are incorrect
+                </div>
+              </div>
+            </ng-container>
+            <form class="text-left form w-100" [formGroup]="registrationForm" novalidate="novalidate">
+              <ng-template matStepLabel>Bussiness Details</ng-template>
+              <h1 class="mb-3 text-xl font-medium text-left text-dark">Your Bussiness Details</h1>
+            <div class="mb-5 fv-row">
+              <label class="mb-1 text-sm form-label">Company Name</label>
+              <input class="form-control form-control-lg form-control-solid" type="text" name="companyName"
+              placeholder="Company Name"
+                formControlName="companyName" autocomplete="off" [ngClass]="{
+                'is-invalid': f['companyName'].invalid && f['companyName'].touched,
+                'is-valid': f['companyName'].valid}" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'Company Name is required',
+                            control: f['companyName']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: 'Company Name should have at least 3 latters',
+                            control: f['companyName']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'maxlength',
+                            message: 'Company Name should have maximum 30 latters',
+                            control: f['companyName']}">
+              </ng-container>
+            </div>
+
+            <div class="mb-5 fv-row">
+              <label class="mb-1 text-sm form-label">Street Address</label>
+              <input class="form-control form-control-lg form-control-solid" type="text" name="streetAddress"
+              placeholder="Street Address"
+                formControlName="streetAddress" autocomplete="off" [ngClass]="{
+                'is-invalid': f['streetAddress'].invalid && f['streetAddress'].touched ,
+                'is-valid': f['streetAddress'].valid}" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'Street Address is required',
+                            control: f['streetAddress']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: 'Street Address should have at least 3 latters',
+                            control: f['streetAddress']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'maxlength',
+                            message: 'Street Address should have maximum 100 latters',
+                            control: f['streetAddress']}">
+              </ng-container>
+            </div>
+
+            <div class="flex flex-wrap justify-between mb-5 fv-row province">
+              <label class="w-full mb-1 text-sm form-label">Province</label>
+              <ng-container *ngFor="let province of provincese">
+                <app-category-radio-button class="w-fit" name="province" [value]="province.id">
+                  <strong class="font-normal" style="font-size: 11px;">{{province.name}}</strong>
+                </app-category-radio-button>
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'Street Address is required',
+                            control: f['streetAddress']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: 'Street Address should have at least 3 latters',
+                            control: f['streetAddress']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'maxlength',
+                            message: 'Street Address should have maximum 100 latters',
+                            control: f['streetAddress']}">
+              </ng-container>
+            </div>
+
+            <div class="mb-5 fv-row">
+              <div class="flex">
+                <div class="mr-3" style="width: 170px;">
+                  <label class="mb-1 text-sm form-label">Zip</label>
+                  <input class="form-control form-control-lg form-control-solid" type="number" name="zip"
+                  autocomplete="off" formControlName="zip" [ngClass]="{
+                    'is-invalid': f['zip'].invalid && f['zip'].touched,
+                    'is-valid': f['zip'].valid}" />
+                </div>
+                <div class="w-full">
+                  <label class="mb-1 text-sm form-label">City</label>
+                  <input class="form-control form-control-lg form-control-solid" type="text" name="city"
+                  autocomplete="off" formControlName="city" [ngClass]="{
+                    'is-invalid': f['city'].invalid && f['city'].touched,
+                    'is-valid': f['city'].valid}" />
+                  </div>
+                </div>
+
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'Zip is required',
+                            control: f['zip']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'min',
+                            message: 'Zip should have at least 3 numbers',
+                            control: f['zip']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'max',
+                            message: 'Zip should have maximum 10 numbers',
+                            control: f['zip']}">
+                            </ng-container>
+
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'City is required',
+                            control: f['city']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'min',
+                            message: 'City should have at least 3 latters',
+                            control: f['city']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'max',
+                            message: 'City should have maximum 100 latters',
+                            control: f['city']}">
+              </ng-container>
+            </div>
+
+            <div class="mb-5 fv-row">
+              <label class="mb-1 text-sm form-label">Website or social media</label>
+              <input class="form-control form-control-lg form-control-solid" type="text" name="website"
+              placeholder="Website"
+                formControlName="website" autocomplete="off" [ngClass]="{
+                'is-invalid': f['website'].invalid && f['website'].touched ,
+                'is-valid': f['website'].valid}" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'Website is required',
+                            control: f['website']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: 'Website should have at least 3 latters',
+                            control: f['website']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'maxlength',
+                            message: 'Website should have maximum 100 latters',
+                            control: f['website']}">
+              </ng-container>
+            </div>
+
+            <div class="flex justify-between">
+              <button class="h-10 text-white bg-black rounded-lg mt-9 w-28 back" mat-button matStepperPrevious>Back</button>
+              <button (click)="submit()" class="h-10 text-white bg-black rounded-lg mt-9 w-28" [disabled]="registrationForm.invalid" mat-button>
+                <ng-container *ngIf="isLoading$ | async">
+                  Loading...
+                </ng-container>
+                <ng-container *ngIf="!(isLoading$ | async)">
+                  Next
+                </ng-container>
+              </button>
+            </div>
+          </form>
+          </mat-step>
+        </mat-stepper>
+
     </div>
+
   </div>
-  <!--end::Heading-->
+</div>
 
-  <button type="button" class="btn btn-light-primary fw-bolder w-100 mb-10">
-    <img
-      alt="Logo"
-      src="./assets/media/svg/brand-logos/google-icon.svg"
-      class="h-20px me-3"
-    />Sign in with Google
-  </button>
-
-  <div class="d-flex align-items-center mb-10">
-    <div class="border-bottom border-gray-300 mw-50 w-100"></div>
-    <span class="fw-bold text-gray-400 fs-7 mx-2">OR</span>
-    <div class="border-bottom border-gray-300 mw-50 w-100"></div>
+<ng-template #RegistrationSuccess>
+  <div class="flex flex-col items-center self-center justify-center w-full px-2 mx-2 registration-success rounded-xl h-60">
+    <p class="text-base text-center">Congrats! You have successfully completed your application. We will be in touch within 24hrs.</p>
+    <button class="h-10 text-white bg-black rounded-lg mt-9 w-28" mat-button>ok</button>
   </div>
+</ng-template>
 
-  <!-- begin::Alert error-->
-  <ng-container *ngIf="hasError">
-    <div class="mb-lg-15 alert alert-danger">
-      <div class="alert-text font-weight-bold">
-        The registration details are incorrect
-      </div>
-    </div>
-  </ng-container>
-  <!-- end::Alert error-->
-
-  <!--begin::Form group-->
-  <div class="row fv-row mb-7">
-    <label class="form-label fw-bolder text-dark fs-6">Fullname</label>
-    <input
-      class="form-control form-control-lg form-control-solid"
-      type="text"
-      name="fullname"
-      formControlName="fullname"
-      placeholder="Fullname"
-      autocomplete="off"
-      [ngClass]="{
-        'is-invalid': registrationForm.controls['fullname'].invalid,
-        'is-valid': registrationForm.controls['fullname'].valid
-      }"
-    />
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'required',
-        message: 'Fullname is required',
-        control: registrationForm.controls['fullname']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'minlength',
-        message: 'Fullname should have at least 3 symbols',
-        control: registrationForm.controls['fullname']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'maxLength',
-        message: 'Fullname should have maximum 100 symbols',
-        control: registrationForm.controls['fullname']
-      }"
-    ></ng-container>
-  </div>
-  <!--end::Form group-->
-
-  <!--begin::Form group-->
-  <div class="fv-row mb-7">
-    <label class="form-label fw-bolder text-dark fs-6">Email</label>
-    <input
-      class="form-control form-control-lg form-control-solid"
-      type="email"
-      placeholder="Email"
-      name="email"
-      formControlName="email"
-      autocomplete="off"
-      [ngClass]="{
-        'is-invalid': registrationForm.controls['email'].invalid,
-        'is-valid': registrationForm.controls['email'].valid
-      }"
-    />
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'required',
-        message: 'Email is required',
-        control: registrationForm.controls['email']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'email',
-        message: 'Email is invalid',
-        control: registrationForm.controls['email']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'minlength',
-        message: 'Email should have at least 3 symbols',
-        control: registrationForm.controls['email']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'maxLength',
-        message: 'Email should have maximum 360 symbols',
-        control: registrationForm.controls['email']
-      }"
-    ></ng-container>
-  </div>
-  <!--end::Form group-->
-
-  <!--begin::Form group-->
-  <div class="mb-10 fv-row">
-    <label class="form-label fw-bolder text-dark fs-6">Password</label>
-    <input
-      class="form-control form-control-lg form-control-solid"
-      type="password"
-      placeholder="Password"
-      name="password"
-      formControlName="password"
-      autocomplete="off"
-      [ngClass]="{
-        'is-invalid': registrationForm.controls['password'].invalid,
-        'is-valid': registrationForm.controls['password'].valid
-      }"
-    />
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'required',
-        message: 'Password is required',
-        control: registrationForm.controls['password']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'minlength',
-        message: 'Password should have at least 3 symbols',
-        control: registrationForm.controls['password']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'maxLength',
-        message: 'Password should have maximum 100 symbols',
-        control: registrationForm.controls['password']
-      }"
-    ></ng-container>
-  </div>
-  <!--end::Form group-->
-
-  <!--begin::Form group-->
-  <div class="fv-row mb-5">
-    <label class="form-label fw-bolder text-dark fs-6">Confirm Password</label>
-    <input
-      class="form-control form-control-lg form-control-solid"
-      type="password"
-      placeholder="Confirm password"
-      name="cPassword"
-      autocomplete="off"
-      formControlName="cPassword"
-      [ngClass]="{
-        'is-invalid': registrationForm.controls['cPassword'].invalid,
-        'is-valid': registrationForm.controls['cPassword'].valid
-      }"
-    />
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'required',
-        message: 'Confirm Password is required',
-        control: registrationForm.controls['cPassword']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'minlength',
-        message: 'Confirm Password should have at least 3 symbols',
-        control: registrationForm.controls['cPassword']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'maxLength',
-        message: 'Confirm Password should have maximum 100 symbols',
-        control: registrationForm.controls['cPassword']
-      }"
-    ></ng-container>
-    <ng-container
-      *ngIf="
-        registrationForm.controls['cPassword'].errors &&
-        registrationForm.controls['cPassword'].errors['ConfirmPassword']
-      "
-    >
-      <div class="fv-plugins-message-container">
-        <div class="fv-help-block">
-          'Passsword' and 'Confirm Password' didn't match.
-        </div>
-      </div>
-    </ng-container>
-  </div>
-  <!--end::Form group-->
-
-  <!--begin::Form group-->
-  <div class="fv-row mb-10">
-    <div class="form-check form-check-custom form-check-solid">
-      <input
-        id="kt_login_toc_agree"
-        type="checkbox"
-        formControlName="agree"
-        name="agree"
-        class="form-check-input"
-      />
-
-      <label
-        for="kt_login_toc_agree"
-        class="form-check-label fw-bold text-gray-700 fs-6"
-      >
-        I Agree the&nbsp;<a
-          href="https://keenthemes.com/metronic/?page=faq"
-          target="_blank"
-          class="ms-1 link-primary"
-          >terms and conditions</a
-        >.
-      </label>
-    </div>
-  </div>
-  <!--end::Form group-->
-
-  <!--begin::Form group-->
-  <div class="text-center">
-    <button
-      type="submit"
-      id="kt_sign_up_submit"
-      [disabled]="
-        registrationForm.invalid || !registrationForm.controls['agree'].value
-      "
-      class="btn btn-lg btn-primary w-100 mb-5"
-    >
-      <ng-container *ngIf="(isLoading$ | async) === false">
-        <span class="indicator-label">Submit</span>
-      </ng-container>
-      <ng-container *ngIf="isLoading$ | async">
-        <span class="indicator-progress" [style.display]="'block'">
-          Please wait...
-          <span
-            class="spinner-border spinner-border-sm align-middle ms-2"
-          ></span>
-        </span>
-      </ng-container>
-    </button>
-    <a
-      routerLink="/auth/login"
-      type="button"
-      id="kt_login_signup_form_cancel_button"
-      class="btn btn-lg btn-light-primary w-100 mb-5"
-    >
-      Cancel
-    </a>
-  </div>
-  <!--end::Form group-->
-</form>
-
-<ng-template
-  #formError
-  let-control="control"
-  let-message="message"
-  let-validation="validation"
->
-  <ng-container
-    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
-  >
-    <div class="fv-plugins-message-container">
-      <div class="fv-help-block">
+  <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+      <div class="text-xs fv-plugins-message-container sm:text-sm">
         <span role="alert">
           {{ message }}
         </span>
       </div>
-    </div>
-  </ng-container>
-</ng-template>
+    </ng-container>
+  </ng-template>
