@@ -4,19 +4,19 @@
   <div class="text-gray-400 fw-bold fs-5">Lets make sure our customers realize how exceptional this deal is!</div>
 </div>
 <!--Card for Viewing Deal-->
-<div class="card card-custom card-stretch w-auto shadow-xl">
-  <div class="lg:px-12 lg:py-8 flex p-3 flex-wrap">
+<div class="w-auto shadow-sm card card-custom card-stretch">
+  <div class="flex flex-wrap p-3 lg:px-12 lg:py-8">
     <!--Image Preview and Description Section-->
-    <div class="flex flex-col mb-10 lg:w-3/5 w-full">
-      <label class="mb-3 lg:flex w-full font-semibold text-justify"> Heavenly Massage</label>
-      <div class="text-gray-400 w-full">
-        <i class="mr-2 fas fa-map-marker-alt text-green-400 fa-lg"></i>
+    <div class="flex flex-col w-full mb-10 lg:w-3/5">
+      <label class="w-full mb-3 font-semibold text-justify lg:flex"> Heavenly Massage</label>
+      <div class="w-full text-gray-400">
+        <i class="mr-2 text-green-400 fas fa-map-marker-alt fa-lg"></i>
         200 E Gaines St, Tallahassee, FL 32399, United States
       </div>
-      <div class="mt-8 mb-7 card w-full lg:h-36 lg:w-64">
+      <div class="w-full mt-8 mb-7 card lg:h-36 lg:w-64">
         <img class="card-img-top img-responsive rounded-bottom" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
       </div>
-      <div class="flex-row mt-2 card justify-between lg:w-5 lg:h-5 w-10 h-10">
+      <div class="flex-row justify-between w-10 h-10 mt-2 card lg:w-5 lg:h-5">
         <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
         <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
         <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
@@ -28,21 +28,21 @@
         <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
         <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
       </div>
-      <div class="mt-8 form-label text-red-500 fw-bolder">Description</div>
-      <p class="text-gray-400 fs-8 w-full text-justify">60-Minute Swedish or Deep-Tissue Massage Session for Two with Aromatherapy and Steam Shower Aroma Enhancements, 60-Minute Swedish or Deep-Tissue Massage Session for Two with Aromatherapy and Steam Shower Aroma Enhancements</p>
+      <div class="mt-8 text-red-500 form-label fw-bolder">Description</div>
+      <p class="w-full text-justify text-gray-400 fs-8">60-Minute Swedish or Deep-Tissue Massage Session for Two with Aromatherapy and Steam Shower Aroma Enhancements, 60-Minute Swedish or Deep-Tissue Massage Session for Two with Aromatherapy and Steam Shower Aroma Enhancements</p>
     </div>
 
     <!--Vertical Divider-->
-    <div class="h-80 m-9 lg:flex hidden">
+    <div class="hidden h-80 m-9 lg:flex">
       <div class="vr"></div>
     </div>
 
     <!--Deal View and Offer Section-->
-    <div class="flex flex-col lg:items-start w-full lg:w-auto">
-      <div class="lg:py-2 lg:mt-10 mb-4 fw-bolder w-full">Add another deal option
-        <button type="button" class="ml-16 lg:ml-16 fas fa-plus-circle fa-lg text-yellow-500 justify-center" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
+    <div class="flex flex-col w-full lg:items-start lg:w-auto">
+      <div class="w-full mb-4 lg:py-2 lg:mt-10 fw-bolder">Add another deal option
+        <button type="button" class="justify-center ml-16 text-yellow-500 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
       </div>
-      <div class="lg:h-64 lg:overflow-x-scroll p-3">
+      <div class="p-3 lg:h-64 lg:overflow-x-scroll">
         <div class="fw-lighter">Heavenly Massage 60 Minutes</div>
           <table class="table w-full">
             <thead>
@@ -52,10 +52,10 @@
                     <i class="fas fa-dollar-sign"></i>320
                   </del>
                 </th>
-                <th scope="col" class="text-green-400"><i class="fas fa-dollar-sign text-green-400"></i>200</th>
-                <th scope="col" class="text-red-500 fw-bolder mr-10">75% off</th>
+                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>200</th>
+                <th scope="col" class="mr-10 text-red-500 fw-bolder">75% off</th>
                 <th scope="col">
-                  <i class="p-2 mr-2 mb-1 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
+                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
                   <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
                 </th>
               </tr>
@@ -70,10 +70,10 @@
                     <i class="fas fa-dollar-sign"></i>320
                   </del>
                 </th>
-                <th scope="col" class="text-green-400"><i class="fas fa-dollar-sign text-green-400"></i>200</th>
-                <th scope="col" class="text-red-500 fw-bolder mr-10">75% off</th>
+                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>200</th>
+                <th scope="col" class="mr-10 text-red-500 fw-bolder">75% off</th>
                 <th scope="col">
-                  <i class="p-2 mr-2 mb-1 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
+                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
                   <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
                 </th>
               </tr>
@@ -88,10 +88,10 @@
                     <i class="fas fa-dollar-sign"></i>320
                   </del>
                 </th>
-                <th scope="col" class="text-green-400"><i class="fas fa-dollar-sign text-green-400"></i>200</th>
-                <th scope="col" class="text-red-500 fw-bolder mr-10">75% off</th>
+                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>200</th>
+                <th scope="col" class="mr-10 text-red-500 fw-bolder">75% off</th>
                 <th scope="col">
-                  <i class="p-2 mr-2 mb-1 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
+                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
                   <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
                 </th>
               </tr>
@@ -106,10 +106,10 @@
                     <i class="fas fa-dollar-sign"></i>320
                   </del>
                 </th>
-                <th scope="col" class="text-green-400"><i class="fas fa-dollar-sign text-green-400"></i>200</th>
-                <th scope="col" class="text-red-500 fw-bolder mr-10">75% off</th>
+                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>200</th>
+                <th scope="col" class="mr-10 text-red-500 fw-bolder">75% off</th>
                 <th scope="col">
-                  <i class="p-2 mr-2 mb-1 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
+                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
                   <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
                 </th>
               </tr>
@@ -124,10 +124,10 @@
                     <i class="fas fa-dollar-sign"></i>320
                   </del>
                 </th>
-                <th scope="col" class="text-green-400"><i class="fas fa-dollar-sign text-green-400"></i>200</th>
-                <th scope="col" class="text-red-500 fw-bolder mr-10">75% off</th>
+                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>200</th>
+                <th scope="col" class="mr-10 text-red-500 fw-bolder">75% off</th>
                 <th scope="col">
-                  <i class="p-2 mr-2 mb-1 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
+                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
                   <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
                 </th>
               </tr>
@@ -141,7 +141,7 @@
 <!--Create Deal Modal-->
 <ng-template #content let-modal>
   <div class="modal-body">
-    <div class="p-0 m-0 flex justify-end">
+    <div class="flex justify-end p-0 m-0">
       <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" (click)="modal.dismiss('Cross click')" style="
        border-radius: 100%;">
         <span class="text-gray-800 fs-6">x</span>
