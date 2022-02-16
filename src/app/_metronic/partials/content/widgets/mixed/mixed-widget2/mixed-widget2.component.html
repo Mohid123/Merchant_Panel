@@ -1,35 +1,15 @@
-<div class="card-header border-0 py-5" [ngClass]="'bg-' + chartColor">
+<div class="card-header border-0 py-5" style="background-color: #E67B00;">
   <h3 class="card-title fw-bolder text-white">Sales Statistics</h3>
-  <div class="card-toolbar">
-    <!-- begin::Menu -->
-    <button
-      type="button"
-      class="
-        btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-
-        border-0
-        me-n3
-      "
-      data-kt-menu-trigger="click"
-      data-kt-menu-placement="bottom-end"
-      data-kt-menu-flip="top-end"
-    >
-      <span
-        [inlineSVG]="'./assets/media/icons/duotune/general/gen024.svg'"
-        class="svg-icon svg-icon-2"
-      ></span>
-    </button>
-    <app-dropdown-menu1></app-dropdown-menu1>
-    <!-- end::Menu -->
-  </div>
+
 </div>
 <!-- end::Header -->
 <!-- begin::Body -->
-<div class="card-body p-0">
+<div class="card-body p-0" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
   <!-- begin::Chart -->
   <div
     #chartRef
     class="mixed-widget-2-chart card-rounded-bottom"
-    [ngClass]="'bg-' + chartColor"
+    style="background-color: #E67B00;"
   >
     <apx-chart
       [series]="chartOptions.series"
@@ -53,21 +33,15 @@
     <!-- begin::Row -->
     <div class="row g-0">
       <!-- begin::Col -->
-      <div class="col bg-light-warning px-6 py-8 rounded-2 me-7 mb-7">
-        <span
-          [inlineSVG]="'./assets/media/icons/duotune/general/gen032.svg'"
-          class="svg-icon svg-icon-3x svg-icon-warning d-block my-2"
-        ></span>
-        <a href="#" class="text-warning fw-bold fs-6"> Weekly Sales </a>
+      <div class="col bg-light-primary px-6 py-8 rounded-2 me-7 mb-7 text-center">
+        <span class="text-primary d-block my-2 text-xl font-semibold">200</span>
+        <a  class="text-primary fw-bold text-xs"> Total Deals </a>
       </div>
       <!-- end::Col -->
       <!-- begin::Col -->
-      <div class="col bg-light-primary px-6 py-8 rounded-2 mb-7">
-        <span
-          [inlineSVG]="'./assets/media/icons/duotune/finance/fin006.svg'"
-          class="svg-icon svg-icon-3x svg-icon-primary d-block my-2"
-        ></span>
-        <a href="#" class="text-primary fw-bold fs-6"> New Projects </a>
+      <div class="col bg-blue-100 px-6 py-8 rounded-2 mb-7 text-center">
+        <span class="text-blue-400 d-block my-2 text-xl font-semibold">300</span>
+        <a class="text-blue-400 fw-bold text-xs "> Scheduled Deals </a>
       </div>
       <!-- end::Col -->
     </div>
@@ -75,21 +49,15 @@
     <!-- begin::Row -->
     <div class="row g-0">
       <!-- begin::Col -->
-      <div class="col bg-light-danger px-6 py-8 rounded-2 me-7">
-        <span
-          [inlineSVG]="'./assets/media/icons/duotune/abstract/abs027.svg'"
-          class="svg-icon svg-icon-3x svg-icon-danger d-block my-2"
-        ></span>
-        <a href="#" class="text-danger fw-bold fs-6 mt-2"> Item Orders </a>
+      <div class="col bg-light-primary px-6 py-8 rounded-2 me-7 text-center">
+        <span class="text-primary d-block my-2 text-xl font-semibold">200</span>
+        <a  class="text-primary fw-bold text-xs"> Pending Deals </a>
       </div>
       <!-- end::Col -->
       <!-- begin::Col -->
-      <div class="col bg-light-success px-6 py-8 rounded-2">
-        <span
-          [inlineSVG]="'./assets/media/icons/duotune/communication/com010.svg'"
-          class="svg-icon svg-icon-3x svg-icon-success d-block my-2"
-        ></span>
-        <a href="#" class="text-success fw-bold fs-6 mt-2"> Bug Reports </a>
+      <div class="col bg-blue-100 px-6 py-8 rounded-2 text-center">
+        <span class="text-blue-400 d-block my-2 text-xl font-semibold">200</span>
+        <a  class="text-blue-400 fw-bold text-xs"> Sold Deals </a>
       </div>
       <!-- end::Col -->
     </div>
