@@ -116,7 +116,7 @@
               <button
                 type="button"
                 class="btn btn-lg btn-dark me-3"
-
+                [disabled]="!isCurrentFormValid$.value"
                 (click)="nextStep()"
               >
                 <span class="indicator-label">

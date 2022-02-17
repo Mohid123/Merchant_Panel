@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/modules/auth';
 import { MainDeal } from './../../models/main-deal.model';
 
@@ -27,8 +27,7 @@ export class Step1Component implements OnInit, OnDestroy {
   urls: any[] = [];
   private unsubscribe: Subscription[] = [];
 
-  private dealSubject$ = new BehaviorSubject<MainDeal>({});
-  public deal$: Observable<MainDeal> = this.dealSubject$.asObservable();
+  @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
 
   constructor(private fb: FormBuilder, private cf: ChangeDetectorRef, private router: Router, private authService: AuthService) {}
 
@@ -87,7 +86,8 @@ export class Step1Component implements OnInit, OnDestroy {
     return !(
       this.dealForm.get('title')?.hasError('required') ||
       this.dealForm.get('subtitle')?.hasError('required') ||
-      this.dealForm.get('description')?.hasError('required')
+      this.dealForm.get('description')?.hasError('required') ||
+      this.dealForm.get('description')?.hasError('minlength')
       )
   }
 
@@ -110,7 +110,7 @@ export class Step1Component implements OnInit, OnDestroy {
             // If multple events are fired by user
             this.multiples.pop();
             this.urls.pop();
-            window.alert('Maximum number of files reached') //temporary will replace with toast
+            window.alert('Maximum number of files reached') //temporary alert. will replace with toast
           }
         };
       }
@@ -128,18 +128,6 @@ export class Step1Component implements OnInit, OnDestroy {
   onClick(event: any) {
     event.target.value = ''
   }
-
-
-  // initForm() {
-  //   this.form = this.fb.group({
-  //     accountType: [this.defaultValues.accountType, [Validators.required]],
-  //   });
-
-  //   const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-  //     this.updateParentModel(val, true);
-  //   });
-  //   this.unsubscribe.push(formChangesSubscr);
-  // }
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
