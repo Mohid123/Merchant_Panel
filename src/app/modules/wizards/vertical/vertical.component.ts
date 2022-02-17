@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { ICreateAccount, inits } from '../create-account.helper';
+import { MainDeal } from './../models/main-deal.model';
 
 @Component({
   selector: 'app-vertical',
@@ -8,8 +8,8 @@ import { ICreateAccount, inits } from '../create-account.helper';
 })
 export class VerticalComponent implements OnInit {
   formsCount = 5;
-  account$: BehaviorSubject<ICreateAccount> =
-    new BehaviorSubject<ICreateAccount>(inits);
+  account$: BehaviorSubject<MainDeal> =
+    new BehaviorSubject<MainDeal>({});
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
   isCurrentFormValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
@@ -20,7 +20,7 @@ export class VerticalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  updateAccount = (part: Partial<ICreateAccount>, isFormValid: boolean) => {
+  updateAccount = (part: Partial<MainDeal>, isFormValid: boolean) => {
     const currentAccount = this.account$.value;
     const updatedAccount = { ...currentAccount, ...part };
     this.account$.next(updatedAccount);

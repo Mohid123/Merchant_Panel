@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { ICreateAccount, inits } from '../create-account.helper';
+import { MainDeal } from './../models/main-deal.model';
 @Component({
   selector: 'app-horizontal',
   templateUrl: './horizontal.component.html',
 })
 export class HorizontalComponent implements OnInit {
   formsCount = 5;
-  account$: BehaviorSubject<ICreateAccount> =
-    new BehaviorSubject<ICreateAccount>(inits);
+  deal$: BehaviorSubject<MainDeal> =
+    new BehaviorSubject<MainDeal>({});
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
   isCurrentFormValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
@@ -17,12 +17,13 @@ export class HorizontalComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
-  updateAccount = (part: Partial<ICreateAccount>, isFormValid: boolean) => {
-    const currentAccount = this.account$.value;
-    const updatedAccount = { ...currentAccount, ...part };
-    this.account$.next(updatedAccount);
+  updateDeal = (part: Partial<MainDeal>, isFormValid: boolean) => {
+    const currentDeal = this.deal$.value;
+    const updatedDeal = { ...currentDeal, ...part };
+    this.deal$.next(updatedDeal);
     this.isCurrentFormValid$.next(isFormValid);
   };
 

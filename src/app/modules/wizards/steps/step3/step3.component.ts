@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { ICreateAccount } from '../../create-account.helper';
+import { MainDeal } from './../../models/main-deal.model';
 
 @Component({
   selector: 'app-step3',
@@ -10,11 +10,11 @@ import { ICreateAccount } from '../../create-account.helper';
 })
 export class Step3Component implements OnInit {
   @Input('updateParentModel') updateParentModel: (
-    part: Partial<ICreateAccount>,
+    part: Partial<MainDeal>,
     isFormValid: boolean
   ) => void;
   form: FormGroup;
-  @Input() defaultValues: Partial<ICreateAccount>;
+  @Input() deal: Partial<MainDeal>;
 
   private unsubscribe: Subscription[] = [];
 

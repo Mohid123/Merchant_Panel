@@ -6,21 +6,84 @@
 <!--Card for Creating Deal-->
 <div class="card card-custom card-stretch"  style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
   <div class="p-2 card-body" >
-    <div class="row">
+    <form class="form row" [formGroup]="dealForm">
       <!--Form-->
       <div class="col-xl-7 px-9">
         <div class="p-0 lg:p-10">
           <div class="pb-5">
             <label class="mb-3 form-label">Title</label>
-            <input type="text font-weight-light" class="form-control" placeholder="Enter title of your deal">
+            <input type="text font-weight-light" class="form-control" formControlName="title" name="title" placeholder="Enter title of your deal"
+            [ngClass]="{
+              'is-invalid': f['title'].invalid && f['title'].touched,
+              'is-valid': f['title'].valid}">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Deal title is required',
+              control: dealForm.controls['title']
+            }">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'minlength',
+              message: 'Title should at least be 3 characters',
+              control: dealForm.controls['title']
+            }">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message: 'Title cannot exceed 30 characters',
+              control: dealForm.controls['title']
+            }">
+          </ng-container>
           </div>
           <div class="pb-5">
             <label class="mb-3 form-label">Subtitle</label>
-            <input type="text font-weight-light" class="form-control" placeholder="Enter subtitle of your deal">
+            <input type="text font-weight-light" class="form-control" formControlName="subtitle" name="subtitle" placeholder="Enter subtitle of your deal"
+            [ngClass]="{
+              'is-invalid': f['subtitle'].invalid && f['subtitle'].touched,
+              'is-valid': f['subtitle'].valid}">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Deal Subtitle is required',
+                control: dealForm.controls['subtitle']
+              }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'minlength',
+                message: 'Subtitle should at least be 3 characters',
+                control: dealForm.controls['subtitle']
+              }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message: 'Subtitle cannot exceed 30 characters',
+                control: dealForm.controls['subtitle']
+              }">
+            </ng-container>
           </div>
           <div class="pb-5">
             <label class="mb-3 form-label">Description</label>
-            <textarea type="text font-weight-light" class="form-control" placeholder="Description" rows="7"></textarea>
+            <textarea type="text font-weight-light" class="form-control" formControlName="description" name="description" placeholder="Description" rows="7"
+            [ngClass]="{
+              'is-invalid': f['description'].invalid && f['description'].touched,
+              'is-valid': f['description'].valid}"></textarea>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'A description for the deal is required',
+                control: dealForm.controls['description']
+              }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'minlength',
+                message: 'Description should at least be 20 characters',
+                control: dealForm.controls['description']
+              }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message: 'Description cannot exceed 200 characters',
+                control: dealForm.controls['description']
+              }">
+            </ng-container>
           </div>
         </div>
       </div>
@@ -32,7 +95,7 @@
               <label class="mb-3 d-flex align-items-center form-label">Upload images</label>
             </div>
             <div>
-              <label class="mb-3 font-light text-gray-400 d-flex align-items-center form-label">0/10</label>
+              <label class="mb-3 font-light text-gray-400 d-flex align-items-center form-label">{{multiples.length}}/10</label>
             </div>
           </div>
 
@@ -40,13 +103,35 @@
             <div class="image-input-wrapper" style="box-shadow: none; border: 1px solid #F38B41; opacity: 0.8;"></div>
             <label class="btn btn-xs btn-icon btn-hover-text-primary" style="position: absolute; top: 30px; left: 50px;">
               <span style="color: rgb(179, 179, 179); font-size: 30px" >+</span>
-              <input type="file" accept=".png, .jpg, .jpeg">
+              <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)" (click)="onClick($event)" multiple>
             </label>
+          </div>
+
+           <div class="w-full mt-4 overflow-y-scroll border-yellow-600 h-80">
+            <div class="object-cover w-auto h-auto" data-max-image="10" *ngIf="multiples.length > 0">
+            <ng-container *ngFor="let multiple of multiples; let i = index;">
+              <div class="p-5 mb-3 rounded d-flex align-items-center bg-light-warning">
+                <img [src]="multiple" class="w-16 h-16 mr-3 rounded-sm">
+                <div class="mr-2 d-flex flex-column flex-grow-1">
+                  <a class="mb-1 font-weight-bold text-dark-75 text-hover-primary font-size-lg"></a>
+                </div>
+                <i class="p-0 text-yellow-500 cursor-pointer fas fa-minus-circle" (click)="clearImage(i)"></i>
+              </div>
+            </ng-container>
+           </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 
-
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        {{ message }}
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

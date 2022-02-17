@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { ICreateAccount } from '../../create-account.helper';
+import { MainDeal } from './../../models/main-deal.model';
 
 @Component({
   selector: 'app-step2',
@@ -10,13 +10,14 @@ import { ICreateAccount } from '../../create-account.helper';
 })
 export class Step2Component implements OnInit {
   @Input('updateParentModel') updateParentModel: (
-    part: Partial<ICreateAccount>,
+    part: Partial<MainDeal>,
     isFormValid: boolean
   ) => void;
   form: FormGroup;
-  @Input() defaultValues: Partial<ICreateAccount>;
+  @Input() deal: Partial<MainDeal>;
 
   private unsubscribe: Subscription[] = [];
+
 
   constructor(private fb: FormBuilder, private modalService: NgbModal) {}
 
@@ -26,28 +27,28 @@ export class Step2Component implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.updateParentModel({}, this.checkForm());
+    this.updateParentModel({}, true);
   }
 
   initForm() {
-    this.form = this.fb.group({
-      accountTeamSize: [
-        this.defaultValues.accountTeamSize,
-        [Validators.required],
-      ],
-      accountName: [this.defaultValues.accountName, [Validators.required]],
-      accountPlan: [this.defaultValues.accountPlan, [Validators.required]],
-    });
+    // this.form = this.fb.group({
+    //   accountTeamSize: [
+    //     this.defaultValues.accountTeamSize,
+    //     [Validators.required],
+    //   ],
+    //   accountName: [this.defaultValues.accountName, [Validators.required]],
+    //   accountPlan: [this.defaultValues.accountPlan, [Validators.required]],
+    // });
 
-    const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      this.updateParentModel(val, this.checkForm());
-    });
-    this.unsubscribe.push(formChangesSubscr);
+    // const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
+    //   this.updateParentModel(val, this.checkForm());
+    // });
+    // this.unsubscribe.push(formChangesSubscr);
   }
 
-  checkForm() {
-    return !this.form.get('accountName')?.hasError('required');
-  }
+  // checkForm() {
+  //   return !this.form.get('title')?.hasError('required');
+  // }
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
