@@ -20,6 +20,8 @@
     "@angular/platform-browser": "~12.1.2",
     "@angular/platform-browser-dynamic": "~12.1.2",
     "@angular/router": "~12.1.2",
+    "@ckeditor/ckeditor5-angular": "^2.0.2",
+    "@ckeditor/ckeditor5-build-classic": "^32.0.0",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@fullcalendar/angular": "^5.10.2",
     "@fullcalendar/daygrid": "^5.10.1",

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { MainDeal } from './../../models/main-deal.model';
@@ -13,8 +14,19 @@ export class Step3Component implements OnInit {
     part: Partial<MainDeal>,
     isFormValid: boolean
   ) => void;
+
+  config: any;
+
+  public Editor = ClassicEditor
+  public isDisabled: boolean = true;
+
   form: FormGroup;
-  @Input() deal: Partial<MainDeal>;
+
+  @Input() deal: Partial<MainDeal> = {
+    startDate: Date.toString(),
+    endDate: Date.toString(),
+    policy: ''
+  };
 
   private unsubscribe: Subscription[] = [];
 
@@ -25,44 +37,78 @@ export class Step3Component implements OnInit {
   }
 
   ngOnInit() {
-    // this.initForm();
-    // this.updateParentModel({}, this.checkForm());
+    this.initDateForm();
+    this.updateParentModel({}, this.checkForm());
+
+    this.config = {
+      toolbar: {
+        styles: [
+            'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
+            ],
+        items: [
+          'heading',
+          'fontSize',
+          'bold',
+          'italic',
+          'underline',
+          'highlight',
+          'alignment',
+          'numberedList',
+          'bulletedList',
+          'indent',
+          'outdent',
+          'todoList',
+          'link',
+          'blockQuote',
+          'insertTable',
+          'undo',
+          'redo'
+        ]
+      }
+    }
   }
 
+  toggleDisabled() {
+    this.isDisabled = !this.isDisabled
+  }
 
+  initDateForm() {
+    this.form = this.fb.group({
+      startDate: [
+        this.deal.startDate,
+        Validators.compose([
+          Validators.required
+        ])
+      ],
+      endDate: [
+        this.deal.endDate,
+        Validators.compose([
+          Validators.required
+        ])
+      ],
+      policy: [
+        this.deal.policy,
+        Validators.compose([
+          Validators.required
+        ])
+      ]
+    });
 
-  // initForm() {
-  //   this.form = this.fb.group({
-  //     businessName: [this.defaultValues.businessName, [Validators.required]],
-  //     businessDescriptor: [
-  //       this.defaultValues.businessDescriptor,
-  //       [Validators.required],
-  //     ],
-  //     businessType: [this.defaultValues.businessType, [Validators.required]],
-  //     businessDescription: [this.defaultValues.businessDescription],
-  //     businessEmail: [
-  //       this.defaultValues.businessEmail,
-  //       [Validators.required, Validators.email],
-  //     ],
-  //   });
+    const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
+      this.updateParentModel(val, this.checkForm());
+    });
+    this.unsubscribe.push(formChangesSubscr);
+  }
 
-  //   const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-  //     this.updateParentModel(val, this.checkForm());
-  //   });
-  //   this.unsubscribe.push(formChangesSubscr);
-  // }
+  checkForm() {
+    return !(
+      this.form.get('startDate')?.hasError('required') ||
+      this.form.get('endDate')?.hasError('required') ||
+      this.form.get('policy')?.hasError('required')
+    );
+  }
 
-  // checkForm() {
-  //   return !(
-  //     this.form.get('businessName')?.hasError('required') ||
-  //     this.form.get('businessDescriptor')?.hasError('required') ||
-  //     this.form.get('businessType')?.hasError('required') ||
-  //     this.form.get('businessEmail')?.hasError('required') ||
-  //     this.form.get('businessEmail')?.hasError('email')
-  //   );
-  // }
-
-  // ngOnDestroy() {
-  //   this.unsubscribe.forEach((sb) => sb.unsubscribe());
-  // }
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  }
 }

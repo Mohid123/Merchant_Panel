@@ -54,3 +54,16 @@ input[type='file'] {
     font-size: 10px!important;
   }
 }
+
+.ck-editor__top {
+  max-width: 600px!important;
+  border-radius: 8px!important;
+  border-top: #F38B41!important;
+  border-left: #F38B41!important;
+  border-right: #F38B41!important;
+}
+
+.ck-editor__editable_inline {
+  max-width: 600px;
+  border: 1px solid #F38B41!important;
+}
