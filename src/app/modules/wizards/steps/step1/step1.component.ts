@@ -2,8 +2,8 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/modules/auth';
 import { MainDeal } from './../../models/main-deal.model';
+import { ConnectionService } from './../../services/connection.service';
 
 @Component({
   selector: 'app-step1',
@@ -29,7 +29,7 @@ export class Step1Component implements OnInit, OnDestroy {
 
   @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
 
-  constructor(private fb: FormBuilder, private cf: ChangeDetectorRef, private router: Router, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private cf: ChangeDetectorRef, private router: Router, private connection: ConnectionService) {}
 
   ngOnInit() {
     this.initDealForm();
@@ -63,7 +63,7 @@ export class Step1Component implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.minLength(20),
-          Validators.maxLength(300),
+          Validators.maxLength(400),
         ])
       ],
       images: [
@@ -78,6 +78,7 @@ export class Step1Component implements OnInit, OnDestroy {
         val.images = this.urls
       }
       this.updateParentModel(val, this.checkForm());
+      this.connection.sendData(val)
     });
     this.unsubscribe.push(formChangesSubscr);
   }

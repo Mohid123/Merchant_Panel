@@ -105,6 +105,9 @@
               <span style="color: rgb(179, 179, 179); font-size: 30px" >+</span>
               <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)" (click)="onClick($event)" multiple>
             </label>
+            <ng-container *ngIf="multiples.length == 0">
+              <span class="text-danger">At Least one image is required</span>
+            </ng-container>
           </div>
 
            <div class="w-full mt-4 overflow-y-scroll border-yellow-600 h-80">

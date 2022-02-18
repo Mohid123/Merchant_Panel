@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -38,7 +38,8 @@ FullCalendarModule.registerPlugins([
     ReactiveFormsModule,
     InlineSVGModule,
     NgbTooltipModule,
-    FullCalendarModule
+    FullCalendarModule,
+    FormsModule
   ],
 })
 export class WizardsModule {}

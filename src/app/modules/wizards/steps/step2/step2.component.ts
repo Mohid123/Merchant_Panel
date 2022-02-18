@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SubDeal } from '../../models/subdeal.model';
 import { MainDeal } from './../../models/main-deal.model';
+import { ConnectionService } from './../../services/connection.service';
 
 @Component({
   selector: 'app-step2',
@@ -16,6 +17,9 @@ export class Step2Component implements OnInit {
     isFormValid: boolean
   ) => void;
   subDealForm: FormGroup;
+
+  reciever: Subscription;
+  data: MainDeal
 
   @Input() deal: Partial<SubDeal> = {
     originalPrice: '',
@@ -38,7 +42,10 @@ export class Step2Component implements OnInit {
     false
   );
 
-  constructor(private fb: FormBuilder, private modalService: NgbModal) {
+  constructor(private fb: FormBuilder, private modalService: NgbModal, private connection: ConnectionService) {
+    this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
+      this.data = response
+    })
   }
 
   openVerticallyCentered(content: any) {
@@ -125,5 +132,6 @@ export class Step2Component implements OnInit {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.reciever.unsubscribe();
   }
 }
