@@ -7,7 +7,7 @@
 <div class="w-auto shadow-xl card card-custom card-stretch">
   <div class="flex flex-wrap p-3 lg:px-12 lg:py-8">
     <!--Image Preview and Description Section-->
-    <div class="flex flex-col w-full mb-10 lg:w-3/5">
+    <div class="flex flex-col w-full mb-10 border-b border-gray-300 lg:w-7/12 lg:border-r lg:border-b-0" >
       <label class="w-full mb-3 font-semibold text-justify lg:flex">{{data.title}}</label>
       <div class="w-full text-gray-400">
         <i class="mr-2 text-green-400 fas fa-map-marker-alt fa-lg"></i>
@@ -32,15 +32,9 @@
       <div class="mt-8 text-red-500 form-label fw-bolder">Description</div>
       <p class="w-full text-justify text-gray-400 fs-8">{{data.description}}</p>
     </div>
-
-    <!--Vertical Divider-->
-    <div class="hidden h-80 m-9 lg:flex">
-      <div class="vr"></div>
-    </div>
-
     <!--Deal View and Offer Section-->
-    <div class="flex flex-col w-full lg:items-start lg:w-auto">
-      <div class="w-full mb-4 lg:py-2 lg:mt-10 fw-bolder">Add another deal option
+    <div class="flex flex-col w-full lg:items-start lg:w-2/5 lg:ml-3">
+      <div class="flex justify-between w-full mb-4 lg:py-2 lg:mt-8 fw-bolder">Add another deal option
         <button type="button" class="justify-center ml-16 text-yellow-500 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
       </div>
       <div class="p-3 lg:h-64 lg:overflow-x-scroll">
@@ -48,7 +42,7 @@
           <div class="fw-lighter">{{singleDeal.subtitle}}</div>
           <table class="table w-full">
             <thead>
-              <tr>
+              <tr class="flex justify-between">
                 <th scope="col">
                   <del class="text-gray-400">
                     <i class="fas fa-dollar-sign"></i>{{singleDeal.originalPrice}}

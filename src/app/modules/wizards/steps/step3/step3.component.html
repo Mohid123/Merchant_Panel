@@ -30,7 +30,7 @@
             <span class="mb-0 text-base tracking-widest text-gray-600"><span class="text-red-600">*</span>Max validity 90 days</span>
           </label>
 
-          <label class="ml-4 lg:mt-6 lg:items-center lg:justify-end lg:ml-80 form-check form-check-solid">
+          <label class="ml-4 lg:mt-0 lg:items-center lg:justify-end lg:ml-80 form-check form-check-solid">
             <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
             <div class="flex-auto mt-4 input-group date w-72" data-provide="datepicker">
               <input type="date" class="form-control" formControlName="endDate" name="endDate">
@@ -95,12 +95,13 @@
           <button class="btn btn-light btn-active-light-primary" type="button" (click)="openVerticallyCentered(content)">Edit</button>
         </div>
 
-        <div>
+        <div class="ml-5">
           <div class="mr-2">
             <p class="flex items-center font-medium text-black">
               General terms & cancellation policy
             </p>
-            <ckeditor [disabled]="isDisabled" [editor]="Editor" [config]="config" formControlName="policy" name="policy">
+            <ckeditor [disabled]="isDisabled" [editor]="Editor" [config]="config" data="<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos sint deleniti provident tenetur sed iusto, nulla maiores possimus facilis, expedita sapiente minima suscipit quisquam ea repellendus deserunt quia facere vel.</p>" formControlName="policy" name="policy">
+
             </ckeditor>
           </div>
           <button class="mt-4 btn btn-light btn-active-light-primary" type="button" (click)="toggleDisabled()">{{ isDisabled ? 'Edit' : 'Save Edits' }}</button>
