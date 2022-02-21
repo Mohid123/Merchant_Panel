@@ -4,11 +4,11 @@
   <div class="text-gray-400 fw-bold fs-5">Lets make sure our customers realize how exceptional this deal is!</div>
 </div>
 <!--Card for Viewing Deal-->
-<div class="w-auto shadow-sm card card-custom card-stretch">
+<div class="w-auto shadow-xl card card-custom card-stretch">
   <div class="flex flex-wrap p-3 lg:px-12 lg:py-8">
     <!--Image Preview and Description Section-->
     <div class="flex flex-col w-full mb-10 lg:w-3/5">
-      <label class="w-full mb-3 font-semibold text-justify lg:flex"> Heavenly Massage</label>
+      <label class="w-full mb-3 font-semibold text-justify lg:flex">{{data.title}}</label>
       <div class="w-full text-gray-400">
         <i class="mr-2 text-green-400 fas fa-map-marker-alt fa-lg"></i>
         200 E Gaines St, Tallahassee, FL 32399, United States
@@ -16,6 +16,7 @@
       <div class="w-full mt-8 mb-7 card lg:h-36 lg:w-64">
         <img class="card-img-top img-responsive rounded-bottom" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
       </div>
+      <!--loop for images goes here-->
       <div class="flex-row justify-between w-10 h-10 mt-2 card lg:w-5 lg:h-5">
         <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
         <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
@@ -29,7 +30,7 @@
         <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
       </div>
       <div class="mt-8 text-red-500 form-label fw-bolder">Description</div>
-      <p class="w-full text-justify text-gray-400 fs-8">60-Minute Swedish or Deep-Tissue Massage Session for Two with Aromatherapy and Steam Shower Aroma Enhancements, 60-Minute Swedish or Deep-Tissue Massage Session for Two with Aromatherapy and Steam Shower Aroma Enhancements</p>
+      <p class="w-full text-justify text-gray-400 fs-8">{{data.description}}</p>
     </div>
 
     <!--Vertical Divider-->
@@ -43,96 +44,26 @@
         <button type="button" class="justify-center ml-16 text-yellow-500 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
       </div>
       <div class="p-3 lg:h-64 lg:overflow-x-scroll">
-        <div class="fw-lighter">Heavenly Massage 60 Minutes</div>
+        <ng-container *ngFor="let singleDeal of subDeals; let i = index">
+          <div class="fw-lighter">{{singleDeal.subtitle}}</div>
           <table class="table w-full">
             <thead>
               <tr>
                 <th scope="col">
                   <del class="text-gray-400">
-                    <i class="fas fa-dollar-sign"></i>320
+                    <i class="fas fa-dollar-sign"></i>{{singleDeal.originalPrice}}
                   </del>
                 </th>
-                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>200</th>
-                <th scope="col" class="mr-10 text-red-500 fw-bolder">75% off</th>
+                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>{{singleDeal.dealPrice}}</th>
+                <th scope="col" class="mr-10 text-red-500 fw-bolder">{{discount}}%</th>
                 <th scope="col">
-                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
-                  <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
+                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" (click)="openVerticallyCentered(content)"></i>
+                  <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle" (click)="deleteDeal()"></i>
                 </th>
               </tr>
             </thead>
           </table>
-          <div class="fw-lighter">Heavenly Massage 60 Minutes</div>
-          <table class="table w-full">
-            <thead>
-              <tr>
-                <th scope="col">
-                  <del class="text-gray-400">
-                    <i class="fas fa-dollar-sign"></i>320
-                  </del>
-                </th>
-                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>200</th>
-                <th scope="col" class="mr-10 text-red-500 fw-bolder">75% off</th>
-                <th scope="col">
-                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
-                  <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
-                </th>
-              </tr>
-            </thead>
-          </table>
-          <div class="fw-lighter">Heavenly Massage 60 Minutes</div>
-          <table class="table w-full">
-            <thead>
-              <tr>
-                <th scope="col">
-                  <del class="text-gray-400">
-                    <i class="fas fa-dollar-sign"></i>320
-                  </del>
-                </th>
-                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>200</th>
-                <th scope="col" class="mr-10 text-red-500 fw-bolder">75% off</th>
-                <th scope="col">
-                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
-                  <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
-                </th>
-              </tr>
-            </thead>
-          </table>
-          <div class="fw-lighter">Heavenly Massage 60 Minutes</div>
-          <table class="table w-full">
-            <thead>
-              <tr>
-                <th scope="col">
-                  <del class="text-gray-400">
-                    <i class="fas fa-dollar-sign"></i>320
-                  </del>
-                </th>
-                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>200</th>
-                <th scope="col" class="mr-10 text-red-500 fw-bolder">75% off</th>
-                <th scope="col">
-                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
-                  <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
-                </th>
-              </tr>
-            </thead>
-          </table>
-          <div class="fw-lighter">Heavenly Massage 60 Minutes</div>
-          <table class="table w-full">
-            <thead>
-              <tr>
-                <th scope="col">
-                  <del class="text-gray-400">
-                    <i class="fas fa-dollar-sign"></i>320
-                  </del>
-                </th>
-                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>200</th>
-                <th scope="col" class="mr-10 text-red-500 fw-bolder">75% off</th>
-                <th scope="col">
-                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle"></i>
-                  <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
-                </th>
-              </tr>
-            </thead>
-          </table>
+        </ng-container>
       </div>
     </div>
 
@@ -147,19 +78,49 @@
         <span class="text-gray-800 fs-6">x</span>
       </button>
     </div>
-    <form class="mt-2 px-7 form">
+    <form class="mt-2 px-7 form" [formGroup]="subDealForm">
       <div class="mb-3 form-group">
         <label class="mb-3">Subtitle</label>
         <div class="input-group">
-         <input type="text" class="form-control" placeholder="" />
+         <input type="text" class="form-control" formControlName="subtitle" name="subtitle"
+         [ngClass]="{
+          'is-invalid': f['subtitle'].invalid && f['subtitle'].touched,
+          'is-valid': f['subtitle'].valid}">
         </div>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Deal Subtitle is required',
+          control: subDealForm.controls['subtitle']
+        }">
+      </ng-container>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'minlength',
+          message: 'Subtitle should at least be 3 characters',
+          control: subDealForm.controls['subtitle']
+        }">
+      </ng-container>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'Subtitle should not exceed 30 characters',
+          control: subDealForm.controls['subtitle']
+        }">
+      </ng-container>
       </div>
 
       <div class="mb-3 form-group">
         <label class="mb-3">Original Price</label>
         <div class="input-icon">
          <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
-         <input type="text" class="pl-12 form-control" placeholder="">
+         <input type="text" class="pl-12 form-control" formControlName="originalPrice"
+         [ngClass]="{
+          'is-invalid': f['originalPrice'].invalid && f['originalPrice'].touched,
+          'is-valid': f['originalPrice'].valid}">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Original Price is required',
+            control: subDealForm.controls['originalPrice']
+          }">
+          </ng-container>
         </div>
        </div>
 
@@ -167,27 +128,78 @@
         <label class="mb-3">Deal Price</label>
         <div class="input-icon">
          <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-danger"></i></span>
-         <input type="text" class="pl-12 form-control" placeholder="">
+         <input type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+         [ngClass]="{
+          'is-invalid': f['dealPrice'].invalid && f['dealPrice'].touched,
+          'is-valid': f['dealPrice'].valid}">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Deal Price is required',
+            control: subDealForm.controls['dealPrice']
+          }">
+          </ng-container>
         </div>
        </div>
 
        <div class="form-group">
         <label class="mt-3 mb-3">Description</label>
         <div class="input-icon">
-         <textarea class="form-control" rows="5"></textarea>
-        </div>
+         <textarea class="form-control" rows="5" formControlName="description" name="description"
+         [ngClass]="{
+          'is-invalid': f['description'].invalid && f['description'].touched,
+          'is-valid': f['description'].valid}">
+        </textarea>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Description is required',
+            control: subDealForm.controls['description']
+          }">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'Description should at least be 14 characters',
+            control: subDealForm.controls['description']
+          }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'Description should not exceed 200 characters',
+          control: subDealForm.controls['description']
+        }">
+        </ng-container>
        </div>
+      </div>
 
        <div class="form-group">
         <label class="mt-3 mb-3">Number of Available Vouchers</label>
         <div class="input-icon">
-         <input type="number" class="form-control" placeholder="" min="0">
+         <input type="number" class="form-control" placeholder="" min="0" formControlName="numberOfVouchers" name="numberOfVouchers"
+         [ngClass]="{
+          'is-invalid': f['numberOfVouchers'].invalid && f['numberOfVouchers'].touched,
+          'is-valid': f['numberOfVouchers'].valid}">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Please specify number of vouchers',
+            control: subDealForm.controls['numberOfVouchers']
+          }">
+        </ng-container>
         </div>
        </div>
     </form>
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="text-white btn btn-dark" (click)="modal.close('Close click')">Save</button>
+    <button type="button" class="text-white btn btn-dark" (click)="modal.dismiss('Cross click'); calculateDiscount()" [disabled]="!isCurrentFormValid$.value">Save</button>
   </div>
+</ng-template>
+
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        {{ message }}
+      </div>
+    </div>
+  </ng-container>
 </ng-template>

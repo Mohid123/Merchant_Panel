@@ -4,37 +4,58 @@
   <div class="text-gray-400 fw-bold fs-5">Let's make sure all terms are correct before publishing your deal.</div>
 </div>
 <!--Card for Duration of Deal-->
-<div class="card card-custom card-stretch"  style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
+<div class="card card-custom card-stretch" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
   <div class="card-body">
-    <div class="row">
-      <div class="px-2 py-2 col-xl-7 col-sm-4 lg:px-9 lg:py-11">
-        <div class="pb-10">
-          <label class="mb-6 form-label">When can customers redeem their voucher?</label>
-          <label class="mt-2 form-check form-check-custom form-check-solid align-items-start">
-            <input class="form-check-input me-3" type="checkbox">
-            <span class="form-check-label d-flex flex-column align-items-start">
-              <label class="mb-3 form-label required">Start Date</label>
-              <div class="input-group date" data-provide="datepicker">
-                <input type="date" class="form-control">
-              </div>
-              <span class="mt-2 mb-0 fs-6"><span class="text-red-500">*</span>Max 90 validity days</span>
-            </span>
+
+    <div class="flex flex-col w-full">
+
+      <div class="p-2 mb-2 text-lg">Duration</div>
+      <label class="pl-2 mb-6 text-base text-gray-400">When can customers redeem their voucher?</label>
+
+      <form class="form" [formGroup]="form">
+        <div class="flex flex-col w-full pl-2 lg:flex-row">
+
+          <label class="mb-6 ml-4 form-check form-check-solid">
+            <input class="form-check-input" type="radio">
+            <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
+            <div class="flex-auto mt-4 mb-3 input-group date w-72" data-provide="datepicker">
+              <input type="date" class="form-control" formControlName="startDate" name="startDate">
+            </div>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Start Date is required',
+              control: form.controls['startDate']
+            }">
+          </ng-container>
+            <span class="mb-0 text-base tracking-widest text-gray-600"><span class="text-red-600">*</span>Max validity 90 days</span>
           </label>
-        </div>
-        <div class="pb-10">
-          <label class="form-check form-check-custom form-check-solid align-items-start">
-            <input class="form-check-input me-3" type="checkbox">
-            <span class="flex-col form-check-label lg:flex align-items-start">
-              <label class="mb-3 form-label">Voucher is valid for</label>
-              <div class="items-center input-group date" data-provide="datepicker">
-                <input type="number" class="form-control">
-                <span class="ml-3 text-gray-400">days after purchase</span>
-              </div>
-            </span>
+
+          <label class="ml-4 lg:mt-6 lg:items-center lg:justify-end lg:ml-80 form-check form-check-solid">
+            <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
+            <div class="flex-auto mt-4 input-group date w-72" data-provide="datepicker">
+              <input type="date" class="form-control" formControlName="endDate" name="endDate">
+            </div>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'End Date is required',
+              control: form.controls['endDate']
+            }">
+          </ng-container>
           </label>
         </div>
 
-        <div class="pb-10 ">
+        <div class="flex">
+          <label class="mt-8 ml-6 lg:mt-6 lg:ml-5 form-check form-check-solid">
+            <input class="form-check-input" type="radio">
+            <span class="form-check-label">Voucher is valid for</span>
+            <div class="flex-auto w-full mt-4 mb-3 input-group number">
+              <input type="number" class="form-control">
+              <span class="mt-3 ml-3 text-gray-400">days after purchase</span>
+            </div>
+          </label>
+        </div>
+
+        <div class="pb-10 mt-8 ml-5">
           <label class="mb-3 form-label">Where can customers redeem their vouchers?</label>
           <table class="datatable-table" style="display: block;">
             <tbody class="datatable-body" style="padding: 20px;">
@@ -69,52 +90,24 @@
                     style="width: 108px;">Belgium</span>
                 </td>
               </tr>
-             </tbody>
+            </tbody>
           </table>
           <button class="btn btn-light btn-active-light-primary" type="button" (click)="openVerticallyCentered(content)">Edit</button>
         </div>
 
         <div>
-          <div class="d-flex flex-stack">
-            <div class="mr-2">
-              <p class="font-bold d-flex align-items-center text-dark">
-                General terms & cancellation policy
-              </p>
-            </div>
-          </div>
-            <p class="p-5 text-justify text-gray-400" style="border: 1px solid #f38b41; border-radius: 12px;">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-              molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-              numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-              optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-              obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-              nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-              tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-              quia. Quo neque error repudiandae fuga?
+          <div class="mr-2">
+            <p class="flex items-center font-medium text-black">
+              General terms & cancellation policy
             </p>
-            <div>
-              <button class="btn btn-light btn-active-light-primary" type="button">Edit</button>
-            </div>
-        </div>
-      </div>
-
-      <div class="px-2 py-2 col-xl-5 col-sm-4 lg:px-9 lg:py-11">
-        <div class="mt-0 lg:mt-20">
-          <div class="pb-10 pb-lg-15">
-            <label class="form-check form-check-custom form-check-solid align-items-start">
-              <span class="form-check-label d-flex flex-column align-items-start">
-                <label class="mb-3 form-label required">End Date</label>
-                <div class="input-group date" data-provide="datepicker">
-                  <input type="date" class="form-control">
-                </div>
-              </span>
-            </label>
+            <ckeditor [disabled]="isDisabled" [editor]="Editor" [config]="config" formControlName="policy" name="policy">
+            </ckeditor>
           </div>
+          <button class="mt-4 btn btn-light btn-active-light-primary" type="button" (click)="toggleDisabled()">{{ isDisabled ? 'Edit' : 'Save Edits' }}</button>
         </div>
-      </div>
+      </form>
     </div>
-  </div>
-</div>
+
 <!--Edit Modal-->
 <ng-template #content let-modal>
   <div class="modal-body">
@@ -164,6 +157,17 @@
   </div>
 
 </ng-template>
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        {{ message }}
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
 
 
 

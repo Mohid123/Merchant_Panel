@@ -1,7 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ICreateAccount } from '../../create-account.helper';
+import { MainDeal } from './../../models/main-deal.model';
+import { ConnectionService } from './../../services/connection.service';
 
 @Component({
   selector: 'app-step1',
@@ -9,29 +11,123 @@ import { ICreateAccount } from '../../create-account.helper';
 })
 export class Step1Component implements OnInit, OnDestroy {
   @Input('updateParentModel') updateParentModel: (
-    part: Partial<ICreateAccount>,
+    part: Partial<MainDeal>,
     isFormValid: boolean
   ) => void;
-  form: FormGroup;
-  @Input() defaultValues: Partial<ICreateAccount>;
+  dealForm: FormGroup;
+  @Input() deal: Partial<MainDeal> = {
+    title: '',
+    subtitle: '',
+    images: [],
+    description: '',
+    deletedCheck: false
+  };
+  file: any;
+  multiples: any[] = [];
+  urls: any[] = [];
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
+
+  constructor(private fb: FormBuilder, private cf: ChangeDetectorRef, private router: Router, private connection: ConnectionService) {}
 
   ngOnInit() {
-    this.initForm();
-    this.updateParentModel({}, true);
+    this.initDealForm();
+    this.updateParentModel({}, this.checkForm());
   }
 
-  initForm() {
-    this.form = this.fb.group({
-      accountType: [this.defaultValues.accountType, [Validators.required]],
-    });
+  get f() {
+    return this.dealForm.controls;
+  }
 
-    const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      this.updateParentModel(val, true);
+  initDealForm() {
+    this.dealForm = this.fb.group({
+      title: [
+        this.deal.title,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ])
+      ],
+      subtitle: [
+        this.deal.subtitle,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ])
+      ],
+      description: [
+        this.deal.description,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(20),
+          Validators.maxLength(400),
+        ])
+      ],
+      images: [
+        this.deal.images,
+        Validators.compose([
+          Validators.required
+        ])
+      ]
+    })
+    const formChangesSubscr = this.dealForm.valueChanges.subscribe((val: MainDeal) => {
+      if(val.images) {
+        val.images = this.urls
+      }
+      this.updateParentModel(val, this.checkForm());
+      this.connection.sendData(val)
     });
     this.unsubscribe.push(formChangesSubscr);
+  }
+
+   checkForm() {
+    return !(
+      this.dealForm.get('title')?.hasError('required') ||
+      this.dealForm.get('subtitle')?.hasError('required') ||
+      this.dealForm.get('description')?.hasError('required') ||
+      this.dealForm.get('description')?.hasError('minlength')
+      )
+  }
+
+  onSelectFile(event: any) {
+    this.file = event.target.files && event.target.files.length;
+    if (this.file > 0 && this.file < 11) {
+      let i: number = 0;
+      for (const singlefile of event.target.files) {
+        var reader = new FileReader();
+        reader.readAsDataURL(singlefile);
+        this.urls.push(singlefile);
+        this.cf.detectChanges();
+        i++;
+        reader.onload = (event) => {
+          const url = (<FileReader>event.target).result as string;
+          this.multiples.push(url);
+          this.cf.detectChanges();
+          // If multple events are fired by user
+          if (this.multiples.length > 10) {
+            // If multple events are fired by user
+            this.multiples.pop();
+            this.urls.pop();
+            window.alert('Maximum number of files reached') //temporary alert. will replace with toast
+          }
+        };
+      }
+    }
+    else {
+      window.alert('Please Select upto 10 files')
+    }
+  }
+
+  clearImage(i:any) {
+    this.multiples.splice(i, 1);
+    this.cf.detectChanges();
+  }
+
+  onClick(event: any) {
+    event.target.value = ''
   }
 
   ngOnDestroy() {

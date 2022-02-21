@@ -1,24 +1,11 @@
 <div
-  class="
-    stepper stepper-pills stepper-column
-    d-flex
-    flex-column flex-xl-row flex-row-fluid
-  "
+  class=" stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid"
   id="kt_create_account_stepper"
 >
   <div
-    class="
-      d-flex
-      justify-content-center
-      bg-white
-      rounded
-      justify-content-xl-start
-      flex-row-auto
-      w-100 w-xl-300px w-xxl-400px
-      me-9
-    "
+    class="bg-white rounded  d-flex justify-content-center justify-content-xl-start flex-row-auto w-100 w-xl-300px w-xxl-400px me-9"
   >
-    <div class="px-6 px-lg-10 px-xxl-15 py-20">
+    <div class="px-6 py-20 px-lg-10 px-xxl-15">
       <div class="stepper-nav">
         <div
           class="stepper-item"
@@ -121,7 +108,7 @@
     </div>
   </div>
 
-  <div class="d-flex flex-row-fluid flex-center bg-white rounded">
+  <div class="bg-white rounded d-flex flex-row-fluid flex-center">
     <form
       class="py-20 w-100 w-xl-700px px-9"
       noValidate
@@ -132,7 +119,7 @@
           <app-step1
             class="w-100"
             [updateParentModel]="updateAccount"
-            [defaultValues]="account$.value"
+            [deal]="account$.value"
           ></app-step1>
         </ng-container>
 
@@ -140,7 +127,7 @@
           <app-step2
             class="w-100"
             [updateParentModel]="updateAccount"
-            [defaultValues]="account$.value"
+            [deal]="account$.value"
           ></app-step2>
         </ng-container>
 
@@ -148,7 +135,7 @@
           <app-step3
             class="w-100"
             [updateParentModel]="updateAccount"
-            [defaultValues]="account$.value"
+            [deal]="account$.value"
           ></app-step3>
         </ng-container>
 
@@ -156,7 +143,7 @@
           <app-step4
             class="w-100"
             [updateParentModel]="updateAccount"
-            [defaultValues]="account$.value"
+            [deal]="account$.value"
           ></app-step4>
         </ng-container>
 
@@ -165,7 +152,7 @@
         </ng-container>
       </div>
 
-      <div class="d-flex flex-stack pt-10">
+      <div class="pt-10 d-flex flex-stack">
         <div class="mr-2">
           <ng-container *ngIf="currentStep$.value !== 1">
             <button
