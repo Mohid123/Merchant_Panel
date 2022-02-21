@@ -1,16 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-<<<<<<< HEAD
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CalendarOptions } from '@fullcalendar/angular';
-import { Subscription } from 'rxjs';
-import { MainDeal } from './../../models/main-deal.model';
-=======
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
 import { Subscription } from 'rxjs';
-import { ICreateAccount } from '../../create-account.helper';
+import { MainDeal } from '../../models/main-deal.model';
 import { createEventId } from './event-utils';
->>>>>>> origin/preDev
 
 @Component({
   selector: 'app-step4',
