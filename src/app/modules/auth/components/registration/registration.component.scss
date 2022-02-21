@@ -68,6 +68,10 @@ button.back {
     padding: 0;
   }
 
+  .mat-horizontal-stepper-header{
+    pointer-events: none !important;
+  }
+
   .mat-horizontal-stepper-header-container {
     margin-bottom: 36px;
   }
@@ -81,9 +85,24 @@ button.back {
     margin-top: 16px;
   }
 
+  .mat-step-icon-content span {
+    display: none;
+  }
+
+  .mat-step-icon.mat-step-icon-state-number .mat-step-icon-content span {
+    display: block;
+  }
+
   .mat-step-icon {
-    background-color: #FBF0D5;
-    color: #F38B41;
+    color: #FFFFFF;
+    background-color: #F38B41;
+    width: 35px;
+    height: 36px;
+  }
+
+  .mat-step-icon.mat-step-icon-state-number {
+    background-color: #FBF0D5 !important;
+    color: #F38B41 !important;
     font-size: 12px;
     height:36px;
     width: 35px;
@@ -124,6 +143,7 @@ button.back {
   border: 1px solid #ef9c6580 !important;
 }
 
+.province app-category-radio-button.active,
 .province app-category-radio-button:active,
 .province app-category-radio-button:hover {
   border: 2px solid #F38B41 !important;

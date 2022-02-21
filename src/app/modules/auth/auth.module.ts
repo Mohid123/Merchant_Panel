@@ -1,3 +1,4 @@
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -34,6 +35,12 @@ import { RegistrationComponent } from './components/registration/registration.co
     MatIconModule,
     MatStepperModule,
     MatInputModule
+  ],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: true }
+    }
   ],
 })
 export class AuthModule {}

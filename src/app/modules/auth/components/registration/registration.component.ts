@@ -143,6 +143,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    console.log('thiasdasd:',this.f['province']);
     this.hasError = false;
     const result: {
       [key: string]: string;
