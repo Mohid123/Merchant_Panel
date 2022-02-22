@@ -1,17 +1,16 @@
-<div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
-  <div class="card-header cursor-pointer py-6 px-20" style="border-bottom:1px dashed #dddddd !important;">
-    <div class="card-title m-0">
-      <h3 class="fw-bolder m-0">Profile Details</h3>
+<div *ngIf="showDiv.profile" class="mb-5 card mb-xl-10" id="kt_profile_details_view">
+  <div class="px-20 py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
+    <div class="m-0 card-title">
+      <h3 class="m-0 fw-bolder">Profile Details</h3>
     </div>
     <a
-      routerLink="/crafted/account/profile-details"
-      class="btn btn-dark w-36 align-self-center"
+      class="btn btn-dark w-36 align-self-center" (click)="showDiv.profile = false; showDiv.profileSettings = true"
     >
       Edit
     </a>
   </div>
 
-  <div class="card-body py-9 px-20">
+  <div class="px-20 card-body py-9">
     <div class="row mb-7">
       <label class="col-lg-4 fw-bold text-muted">First Name</label>
 
@@ -43,21 +42,140 @@
   </div>
 </div>
 
-
-<div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
-  <div class="card-header cursor-pointer py-6 px-20" style="border-bottom:1px dashed #dddddd !important;">
-    <div class="card-title m-0">
-      <h3 class="fw-bolder m-0">Your Billing Address</h3>
+<div *ngIf="showDiv.profileSettings" class="mb-5 card mb-xl-10" id="kt_profile_details_view">
+  <div class="px-20 py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
+    <div class="m-0 card-title">
+      <h3 class="m-0 fw-bolder">Profile Details</h3>
     </div>
-    <a
-      routerLink="/crafted/account/billing-form"
+
+  </div>
+
+  <form novalidate="" class="form">
+    <div class="px-20 card-body border-top p-9">
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label fw-bold fs-6">Profile Image</label>
+        <div class="col-lg-6">
+          <div
+            class="image-input image-input-outline"
+            data-kt-image-input="true"
+            [style.background-image]="'url(./assets/media/avatars/blank.png'"
+          >
+            <div
+              class="image-input-wrapper w-125px h-125px"
+              [style.background-image]="
+                'url(./assets/media/avatars/300-1.jpg'
+              "
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label required fw-bold fs-6"
+          >Full Name</label
+        >
+        <div class="col-lg-6 fv-row">
+          <input
+            type="text"
+            class="form-control "
+            placeholder="David Deens"
+            name="fullname"/>
+        </div>
+      </div>
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label required fw-bold fs-6"
+          >Company</label
+        >
+        <div class="col-lg-6 fv-row">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Mark Loops"
+            name="company"/>
+        </div>
+      </div>
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label required fw-bold fs-6"
+          >Contact Number</label
+        >
+        <div class="col-lg-6 fv-row">
+          <input
+            type="tel"
+            class="form-control"
+            placeholder="0214 4587 5698 2358"
+            name="number" />
+        </div>
+      </div>
+
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label fw-bold fs-6"
+          ><span class="required">Company Site</span></label
+        >
+        <div class="col-lg-6 fv-row">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Company website"
+            name="companySite"
+            />
+        </div>
+      </div>
+
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label required fw-bold fs-6"
+          >Country</label
+        >
+        <div class="col-lg-6 fv-row">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Pakistan"
+            name="country" />
+        </div>
+      </div>
+
+
+    </div>
+    <div class="py-6 card-footer d-flex justify-content-end px-9">
+      <button class="btn btn-secondary me-3"
+      routerLinkActive="active"
+      (click)="showDiv.profile = true; showDiv.profileSettings = false">Discard</button>
+
+      <button
+        type="button"
+        class="btn btn-dark"
+        [disabled]="isLoading"
+        (click)="saveSettings()"
+      >
+        <ng-container *ngIf="!isLoading">Save</ng-container>
+        <ng-container *ngIf="isLoading">
+          <span clas="indicator-progress" [style.display]="'block'">
+            Please wait...{{ " " }}
+            <span
+              class="align-middle spinner-border spinner-border-sm ms-2"
+            ></span>
+          </span>
+        </ng-container>
+      </button>
+
+    </div>
+  </form>
+</div>
+
+
+
+<div *ngIf="showDiv.billingAddress" class="mb-5 card mb-xl-10" id="kt_profile_details_view">
+  <div class="px-20 py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
+    <div class="m-0 card-title">
+      <h3 class="m-0 fw-bolder">Your Billing Address</h3>
+    </div>
+    <a (click)="showDiv.billingAddress = false; showDiv.billingAddressSettings = true"
       class="btn btn-dark w-36 align-self-center"
       >
         Edit
     </a>
   </div>
 
-  <div class="card-body p-9 px-20">
+  <div class="px-20 card-body p-9">
     <div class="row mb-7">
       <label class="col-lg-4 fw-bold text-muted">Company Name</label>
 
@@ -79,14 +197,14 @@
         <span class="fw-bolder fs-6 text-dark">456977</span>
       </div>
     </div>
-    <div class="row mb-10">
+    <div class="mb-10 row">
       <label class="col-lg-4 fw-bold text-muted">Zip Code</label>
 
       <div class="col-lg-8">
         <span class="fw-bold fs-6">0214</span>
       </div>
     </div>
-    <div class="row mb-10">
+    <div class="mb-10 row">
       <label class="col-lg-4 fw-bold text-muted">City</label>
 
       <div class="col-lg-8">
@@ -94,4 +212,106 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="showDiv.billingAddressSettings" class="mb-5 card mb-xl-10" id="kt_profile_details_view">
+  <div class="px-20 py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
+    <div class="m-0 card-title">
+      <h3 class="m-0 fw-bolder">Your Billing Address</h3>
+    </div>
+
+  </div>
+
+  <form novalidate="" class="form">
+    <div class="px-20 card-body border-top p-9">
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label required fw-bold fs-6"
+          >Company Name</label
+        >
+        <div class="col-lg-6 fv-row">
+          <input
+            type="text"
+            class="form-control "
+            placeholder="DavidDels"
+            name="company"/>
+        </div>
+      </div>
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label required fw-bold fs-6"
+          >Street Address</label
+        >
+        <div class="col-lg-6 fv-row">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="200 E Gaines St, Talahasse"
+            name="address"/>
+        </div>
+      </div>
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label required fw-bold fs-6"
+          >Vat Number</label
+        >
+        <div class="col-lg-6 fv-row">
+          <input
+            type="tel"
+            class="form-control"
+            placeholder="0214"
+            name="number" />
+        </div>
+      </div>
+
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label fw-bold fs-6"
+          ><span class="required">Zip Code</span></label
+        >
+        <div class="col-lg-6 fv-row">
+          <input
+            type="tel"
+            class="form-control"
+            placeholder="5464654"
+            name="zip"
+            />
+        </div>
+      </div>
+
+      <div class="mb-6 row">
+        <label class="col-lg-4 col-form-label required fw-bold fs-6"
+          >City</label
+        >
+        <div class="col-lg-6 fv-row">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="The hagues"
+            name="city" />
+        </div>
+      </div>
+
+
+    </div>
+    <div class="py-6 card-footer d-flex justify-content-end px-9">
+      <button class="btn btn-secondary me-6"
+      (click)="showDiv.billingAddressSettings = false; showDiv.billingAddress = true"
+      routerLinkActive="active">Discard</button>
+
+      <button
+        type="button"
+        class="btn btn-dark"
+        [disabled]="isLoading"
+        (click)="saveSettings()"
+      >
+        <ng-container *ngIf="!isLoading">Save</ng-container>
+        <ng-container *ngIf="isLoading">
+          <span clas="indicator-progress" [style.display]="'block'">
+            Please wait...{{ " " }}
+            <span
+              class="align-middle spinner-border spinner-border-sm ms-2"
+            ></span>
+          </span>
+        </ng-container>
+      </button>
+
+    </div>
+  </form>
 </div>
