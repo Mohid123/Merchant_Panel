@@ -13,24 +13,26 @@
         <i class="mr-2 text-green-400 fas fa-map-marker-alt fa-lg"></i>
         200 E Gaines St, Tallahassee, FL 32399, United States
       </div>
-      <div class="w-full mt-8 mb-7 card lg:h-36 lg:w-64">
-        <img class="card-img-top img-responsive rounded-bottom" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-      </div>
-      <!--loop for images goes here-->
-      <div class="flex-row justify-between w-10 h-10 mt-2 card lg:w-5 lg:h-5">
-        <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-      </div>
+      <ng-container *ngFor="let image of data.images; let i = index">
+        <!-- <div class="w-full mt-8 mb-7 card lg:h-36 lg:w-64">
+          <img class="card-img-top img-responsive rounded-bottom" [src]="image.captureFileURL">
+        </div> -->
+        <!--loop for images goes here-->
+        <div class="flex-row justify-between w-10 h-10 mt-2 card lg:w-5 lg:h-5">
+          <img class="mr-1 rounded-sm " [src]="image">
+          <!-- <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"> -->
+        </div>
+      </ng-container>
       <div class="mt-8 text-red-500 form-label fw-bolder">Description</div>
-      <p class="w-full text-justify text-gray-400 fs-8">{{data.description}}</p>
+      <p class="w-full mr-6 text-justify text-gray-400 fs-8">{{data.description}}</p>
     </div>
     <!--Deal View and Offer Section-->
     <div class="flex flex-col w-full lg:items-start lg:w-2/5 lg:ml-3">
@@ -49,7 +51,7 @@
                   </del>
                 </th>
                 <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>{{singleDeal.dealPrice}}</th>
-                <th scope="col" class="mr-10 text-red-500 fw-bolder">{{discount}}%</th>
+                <th scope="col" class="mr-10 text-red-500 fw-bolder">{{singleDeal.discount}}%</th>
                 <th scope="col">
                   <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" (click)="openVerticallyCentered(content)"></i>
                   <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle" (click)="deleteDeal()"></i>
@@ -99,13 +101,23 @@
           control: subDealForm.controls['subtitle']
         }">
       </ng-container>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'Only alphabets are allowed',
+        control: subDealForm.controls['subtitle']
+      }">
+      </ng-container>
+      <div class="text-danger"
+        *ngIf="subDealForm.controls['subtitle'].hasError('whitespace')">
+        Empty White Spaces are not allowed
+      </div>
       </div>
 
       <div class="mb-3 form-group">
         <label class="mb-3">Original Price</label>
         <div class="input-icon">
          <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
-         <input type="text" class="pl-12 form-control" formControlName="originalPrice"
+         <input (keypress)="numberOnly($event)" type="text" class="pl-12 form-control" formControlName="originalPrice"
          [ngClass]="{
           'is-invalid': f['originalPrice'].invalid && f['originalPrice'].touched,
           'is-valid': f['originalPrice'].valid}">
@@ -115,6 +127,12 @@
             control: subDealForm.controls['originalPrice']
           }">
           </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'maxlength',
+            message: 'Original Price cannot exceed 5 characters',
+            control: subDealForm.controls['originalPrice']
+          }">
+        </ng-container>
         </div>
        </div>
 
@@ -122,7 +140,7 @@
         <label class="mb-3">Deal Price</label>
         <div class="input-icon">
          <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-danger"></i></span>
-         <input type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+         <input (keypress)="numberOnly($event)" type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
          [ngClass]="{
           'is-invalid': f['dealPrice'].invalid && f['dealPrice'].touched,
           'is-valid': f['dealPrice'].valid}">
@@ -132,6 +150,12 @@
             control: subDealForm.controls['dealPrice']
           }">
           </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'maxlength',
+            message: 'Deal Price cannot exceed 5 characters',
+            control: subDealForm.controls['dealPrice']
+          }">
+        </ng-container>
         </div>
        </div>
 
@@ -161,6 +185,16 @@
           control: subDealForm.controls['description']
         }">
         </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'Only alphabets are allowed',
+          control: subDealForm.controls['description']
+        }">
+        </ng-container>
+        <div class="text-danger"
+          *ngIf="subDealForm.controls['description'].hasError('whitespace')">
+          Empty White Spaces are not allowed
+        </div>
        </div>
       </div>
 
@@ -177,8 +211,22 @@
             control: subDealForm.controls['numberOfVouchers']
           }">
         </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'Vouchers cannot exceed 5 characters',
+          control: subDealForm.controls['numberOfVouchers']
+        }">
+       </ng-container>
         </div>
        </div>
+
+       <!-- <div class="form-group">
+        <label class="mt-3 mb-3">Your Discount</label>
+        <div class="input-icon">
+         <input class="form-control" type="text" formControlName="discount" name="discount" (change)="calculateDiscount()">
+        </div>
+       </div> -->
+
     </form>
   </div>
 

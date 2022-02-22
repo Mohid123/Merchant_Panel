@@ -25,7 +25,8 @@ export class Step3Component implements OnInit {
   @Input() deal: Partial<MainDeal> = {
     startDate: Date.toString(),
     endDate: Date.toString(),
-    policy: ''
+    policy: '',
+    publishDateStart: Date.toString()
   };
 
   private unsubscribe: Subscription[] = [];
@@ -68,6 +69,27 @@ export class Step3Component implements OnInit {
     }
   }
 
+  disableCheckBox(data: any) {
+    if(data == true) {
+      this.form.controls['publishDateStart'].enable();
+    }
+    else {
+      this.form.controls['publishDateStart'].disable();
+    }
+  }
+
+  disableCheckBoxA(data: any) {
+    if(data == true) {
+      this.form.controls['startDate'].enable();
+      this.form.controls['endDate'].enable();
+    }
+    else {
+      this.form.controls['startDate'].disable();
+      this.form.controls['endDate'].disable();
+    }
+  }
+
+
   toggleDisabled() {
     this.isDisabled = !this.isDisabled
   }
@@ -91,6 +113,9 @@ export class Step3Component implements OnInit {
         Validators.compose([
           Validators.required
         ])
+      ],
+      publishDateStart: [
+        this.deal.publishDateStart
       ]
     });
 
