@@ -130,7 +130,7 @@ export class Step2Component implements OnInit {
     });
 
     const formChangesSubscr = this.subDealForm.valueChanges.subscribe((val) => {
-      this.updateParentModel(val, this.checkForm());
+      this.updateParentModel(val, true);
       this.isCurrentFormValid$.next(this.checkForm());
     });
     this.unsubscribe.push(formChangesSubscr);
