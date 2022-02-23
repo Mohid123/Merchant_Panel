@@ -106,7 +106,7 @@
             </ng-container>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'pattern',
-              message: 'Only alphabets are allowed',
+              message: 'Special characters (! / ? * & % @ : #) are not allowed',
               control: dealForm.controls['description']
             }">
             </ng-container>

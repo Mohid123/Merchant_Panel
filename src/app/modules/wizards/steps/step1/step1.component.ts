@@ -71,7 +71,7 @@ export class Step1Component implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(20),
           Validators.maxLength(400),
-          Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
+          Validators.pattern('^[\.a-zA-Z0-9,]*$')
         ]),
         [whitespaceValidator]
       ],
@@ -102,7 +102,10 @@ export class Step1Component implements OnInit, OnDestroy {
       this.dealForm.get('description')?.hasError('required') ||
       this.dealForm.get('description')?.hasError('minlength') ||
       this.dealForm.get('description')?.hasError('whitespace') ||
-      this.dealForm.get('title')?.hasError('whitespace')
+      this.dealForm.get('title')?.hasError('whitespace') ||
+      this.dealForm.get('title')?.hasError('pattern') ||
+      this.dealForm.get('description')?.hasError('pattern') ||
+      this.dealForm.get('subtitle')?.hasError('pattern')
       )
   }
 
