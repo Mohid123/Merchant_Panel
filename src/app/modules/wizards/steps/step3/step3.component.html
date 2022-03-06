@@ -113,10 +113,15 @@
 <ng-template #content let-modal>
   <div class="modal-body">
     <div class="p-0 m-0 d-flex justify-content-end">
-      <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" (click)="modal.close('Close click')"
-       style="border-radius: 100%;">
-        <span class="text-gray-800 fs-6">x</span>
-      </button>
+      <div class="bg-gray-200 rounded-full btn btn-icon btn-sm btn-color-gray-500 btn-active-icon-primary"  (click)="modal.dismiss('Cross click')" data-bs-toggle="tooltip" title="" data-bs-dismiss="modal" data-bs-original-title="Hide Event">
+        <span class="svg-icon svg-icon-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
+          <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
+        </svg>
+      </span>
+      <!--end::Svg Icon-->
+    </div>
     </div>
     <form class="mt-2 px-7 form">
 
