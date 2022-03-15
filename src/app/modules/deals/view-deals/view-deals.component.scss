@@ -1,0 +1,14 @@
+.stepper.stepper-links .stepper-nav .stepper-item {
+  margin-left: 0;
+}
+
+.stepper.stepper-links .stepper-nav .stepper-item.current h6{
+  @apply text-primary-500;
+}
+
+.stepper.stepper-links .stepper-nav .stepper-item.current:after {
+  @apply bg-primary-500 top-5 w-full flex relative mx-auto;
+  height: 5px;
+  top: -2px;
+  max-width: 1.25rem;
+}

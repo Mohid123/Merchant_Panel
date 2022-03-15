@@ -17,6 +17,7 @@ module.exports = {
       colors: {
         'primary-100': '#F7E1AD',
         'primary-400': '#E9A608',
+        'primary-500': '#E67B00',
       },
       width: {
         '90px': '90px',
