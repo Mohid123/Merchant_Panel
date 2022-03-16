@@ -16,7 +16,7 @@
         <div class="flex flex-col w-full pl-2 lg:flex-row">
 
           <label class="mb-6 ml-4 form-check form-check-solid">
-            <input class="form-check-input" type="checkbox" formControlName="startDate" name="startDate" (click)="disableCheckBox(form.controls['startDate'].value)">
+            <input class="form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
             <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
             <div class="flex-auto mt-4 mb-3 input-group date w-72" data-provide="datepicker">
               <input type="date" class="form-control" formControlName="startDate" name="startDate">
@@ -33,7 +33,7 @@
           <label class="ml-4 lg:mt-0 lg:items-center lg:justify-end lg:ml-80 form-check form-check-solid">
             <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
             <div class="flex-auto mt-4 input-group date w-72" data-provide="datepicker">
-              <input type="date" class="form-control" formControlName="endDate" name="endDate">
+              <input type="date" class="form-control" formControlName="endDate" name="endDate" id="specialCheck" (click)="disableCheckBox()">
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
@@ -46,7 +46,7 @@
 
         <div class="flex">
           <label class="mt-8 ml-6 lg:mt-6 lg:ml-5 form-check form-check-solid">
-            <input class="form-check-input" type="checkbox" formControlName="publishDateStart" name="publishDateStart" (click)="disableCheckBoxA(form.controls['publishDateStart'].value)">
+            <input class="form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
             <span class="form-check-label">Voucher is valid for</span>
             <div class="flex-auto w-full mt-4 mb-3 input-group number">
               <input type="number" class="form-control" formControlName="publishDateStart" name="publishDateStart">

@@ -69,23 +69,28 @@ export class Step3Component implements OnInit {
     }
   }
 
-  disableCheckBox(data: any) {
-    if(data == true) {
-      this.form.controls['publishDateStart'].enable();
-    }
-    else {
-      this.form.controls['publishDateStart'].disable();
-    }
-  }
+  disableCheckBox() {
+    const checkA = document.querySelector<Element | any>('#specialCheck');
+    const checkB = document.querySelector<Element | any>('#specialChecked');
 
-  disableCheckBoxA(data: any) {
-    if(data == true) {
+    if(checkA.checked == true) {
+      checkB.disabled = true;
+      this.form.controls['publishDateStart'].disable();
       this.form.controls['startDate'].enable();
       this.form.controls['endDate'].enable();
     }
-    else {
+    else if(checkB.checked == true) {
+      checkA.disabled = true;
+      this.form.controls['publishDateStart'].enable();
       this.form.controls['startDate'].disable();
       this.form.controls['endDate'].disable();
+    }
+    else if(checkA.checked == false || checkB.checked == false) {
+      checkA.disabled = false;
+      checkB.disabled = false;
+      this.form.controls['publishDateStart'].enable();
+      this.form.controls['startDate'].enable();
+      this.form.controls['endDate'].enable();
     }
   }
 
