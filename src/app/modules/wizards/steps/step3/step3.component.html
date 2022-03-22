@@ -52,6 +52,12 @@
               <input type="number" class="form-control" formControlName="publishDateStart" name="publishDateStart">
               <span class="mt-3 ml-3 text-gray-400">days after purchase</span>
             </div>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Voucher validity date is required',
+              control: form.controls['publishDateStart']
+            }">
+          </ng-container>
           </label>
         </div>
 

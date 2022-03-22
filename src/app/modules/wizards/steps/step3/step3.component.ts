@@ -120,7 +120,10 @@ export class Step3Component implements OnInit {
         ])
       ],
       publishDateStart: [
-        this.deal.publishDateStart
+        this.deal.publishDateStart,
+        Validators.compose([
+          Validators.required
+        ])
       ]
     });
 
