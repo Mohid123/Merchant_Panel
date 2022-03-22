@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { whitespaceValidator } from '../../whitespace.validator';
 import { Image } from './../../models/images.model';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
@@ -53,7 +52,6 @@ export class Step1Component implements OnInit, OnDestroy {
           Validators.maxLength(30),
           Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
         ]),
-        [whitespaceValidator]
       ],
       subtitle: [
         this.deal.subtitle,
@@ -63,7 +61,6 @@ export class Step1Component implements OnInit, OnDestroy {
           Validators.maxLength(30),
           Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
         ]),
-        [whitespaceValidator]
       ],
       description: [
         this.deal.description,
@@ -71,9 +68,8 @@ export class Step1Component implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(20),
           Validators.maxLength(400),
-          Validators.pattern('^[\.a-zA-Z0-9,]*$')
+          Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
         ]),
-        [whitespaceValidator]
       ],
       images: [
         this.deal.images,

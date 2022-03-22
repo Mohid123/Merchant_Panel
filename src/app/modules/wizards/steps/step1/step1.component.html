@@ -12,7 +12,7 @@
         <div class="p-0 lg:p-10">
           <div class="pb-5">
             <label class="mb-3 form-label">Title</label>
-            <input type="text font-weight-light" class="form-control" formControlName="title" name="title" placeholder="Enter title of your deal"
+            <input appTrim type="text font-weight-light" class="form-control" formControlName="title" name="title" placeholder="Enter title of your deal"
             [ngClass]="{
               'is-invalid': f['title'].invalid && f['title'].touched,
               'is-valid': f['title'].valid}">
@@ -40,14 +40,10 @@
             control: dealForm.controls['title']
           }">
           </ng-container>
-          <div class="text-danger"
-            *ngIf="dealForm.controls['title'].hasError('whitespace')">
-            Empty White Spaces are not allowed
-          </div>
           </div>
           <div class="pb-5">
             <label class="mb-3 form-label">Subtitle</label>
-            <input type="text font-weight-light" class="form-control" formControlName="subtitle" name="subtitle" placeholder="Enter subtitle of your deal"
+            <input appTrim type="text font-weight-light" class="form-control" formControlName="subtitle" name="subtitle" placeholder="Enter subtitle of your deal"
             [ngClass]="{
               'is-invalid': f['subtitle'].invalid && f['subtitle'].touched,
               'is-valid': f['subtitle'].valid}">
@@ -75,14 +71,10 @@
               control: dealForm.controls['subtitle']
             }">
             </ng-container>
-            <div class="text-danger"
-            *ngIf="dealForm.controls['subtitle'].hasError('whitespace')">
-            Empty White Spaces are not allowed
-          </div>
           </div>
           <div class="pb-5">
             <label class="mb-3 form-label">Description</label>
-            <textarea type="text font-weight-light" class="form-control" formControlName="description" name="description" placeholder="Description" rows="7"
+            <textarea appTrim type="text font-weight-light" class="form-control" formControlName="description" name="description" placeholder="Description" rows="7"
             [ngClass]="{
               'is-invalid': f['description'].invalid && f['description'].touched,
               'is-valid': f['description'].valid}"></textarea>
@@ -110,10 +102,6 @@
               control: dealForm.controls['description']
             }">
             </ng-container>
-            <div class="text-danger"
-              *ngIf="dealForm.controls['description'].hasError('whitespace')">
-              Empty White Spaces are not allowed
-            </div>
           </div>
         </div>
       </div>
