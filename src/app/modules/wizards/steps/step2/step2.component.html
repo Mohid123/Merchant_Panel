@@ -9,7 +9,7 @@
     <div class="flex flex-wrap w-full p-4 lg:px-12 lg:py-8">
       <div class="flex flex-col w-full">
         <label class="w-full mb-2 text-base font-semibold text-justify">{{data.title}}</label>
-        <label class="w-full mb-2 text-xs text-justify text-gray-400">{{data.subtitle}}</label>
+        <label class="w-full mb-4 text-xs text-justify text-gray-400">{{data.subtitle}}</label>
         <div class="w-full text-xs text-gray-700">
           <i class="mr-2 text-green-400 fas fa-map-marker-alt fa-lg"></i>
           200 E Gaines St, Tallahassee, FL 32399, United States
@@ -50,7 +50,7 @@
     </ng-container>
     <ng-container *ngIf="subDeals.length == 0">
       <div class="flex justify-center pb-4 align-middle">
-        <img src="../../../../../assets/media/logos/giftbox.svg" class="lg:w-28 lg:h-28 w-14 h-14">
+        <img src="../../../../../assets/media/logos/giftbox.svg" class="opacity-20 lg:w-28 lg:h-28 w-14 h-14">
       </div>
     </ng-container>
     <ng-container *ngIf="subDeals.length > 0">
@@ -110,7 +110,7 @@
       </ng-container>
       <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'maxlength',
-          message: 'Subtitle should not exceed 30 characters',
+          message: 'Subtitle should not exceed 60 characters',
           control: subDealForm.controls['subtitle']
         }">
       </ng-container>

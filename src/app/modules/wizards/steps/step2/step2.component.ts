@@ -121,7 +121,7 @@ export class Step2Component implements OnInit {
           Validators.compose([
             Validators.required,
             Validators.minLength(3),
-            Validators.maxLength(30),
+            Validators.maxLength(60),
             Validators.pattern('^[a-zA-Z \-\']+')
           ]),
           [whitespaceValidator]
