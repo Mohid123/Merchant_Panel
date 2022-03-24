@@ -13,6 +13,8 @@ import { ConnectionService } from './../../services/connection.service';
 })
 export class Step2Component implements OnInit {
 
+  value = 0;
+
   @Input('updateParentModel') updateParentModel: (
     part: Partial<SubDeal>,
     isFormValid: boolean
@@ -144,6 +146,16 @@ export class Step2Component implements OnInit {
       this.subDealForm.get('description')?.hasError('minlength') ||
       this.subDealForm.get('subtitle')?.hasError('required')
     );
+  }
+
+  handleMinus() {
+    if(this.value >= 1) {
+      this.value--;
+    }
+  }
+
+  handlePlus() {
+    this.value++;
   }
 
   ngOnDestroy() {

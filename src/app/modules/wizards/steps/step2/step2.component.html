@@ -1,58 +1,70 @@
 <!--Title/ Header-->
 <div class="lg:text-center mb-13">
-  <h1 class="mb-5 fs-hx fw-bolder">Let's get the numbers right</h1>
-  <div class="text-gray-400 fw-bold fs-5">Lets make sure our customers realize how exceptional this deal is!</div>
+  <h1 class="mb-5 text-3xl text-center">Let's get the numbers right</h1>
+  <div class="text-xl font-thin text-center text-primary-400">Lets make sure our customers realize how exceptional this deal is!</div>
 </div>
 <!--Card for Viewing Deal-->
-<div class="w-auto shadow-xl card card-custom card-stretch">
-  <div class="flex flex-wrap p-3 lg:px-12 lg:py-8">
-    <!--Image Preview and Description Section-->
-    <div class="flex flex-col w-full mb-10 border-b border-gray-300 lg:w-7/12 lg:border-r lg:border-b-0" >
-      <label class="w-full mb-3 font-semibold text-justify lg:flex">{{data.title}}</label>
-      <div class="w-full text-gray-400">
-        <i class="mr-2 text-green-400 fas fa-map-marker-alt fa-lg"></i>
-        200 E Gaines St, Tallahassee, FL 32399, United States
+<div class="flex flex-row flex-wrap justify-center w-full align-middle lg:flex-row lg:flex-wrap md:flex-row md:flex-wrap">
+  <div class="w-11/12 shadow-xl lg:w-3/6 lg:mr-3 md:w-3/6 md:mr-2 card card-custom card-stretch">
+    <div class="flex flex-wrap w-full p-4 lg:px-12 lg:py-8">
+      <div class="flex flex-col w-full">
+        <label class="w-full mb-2 text-base font-semibold text-justify">{{data.title}}</label>
+        <label class="w-full mb-2 text-xs text-justify text-gray-400">{{data.subtitle}}</label>
+        <div class="w-full text-xs text-gray-700">
+          <i class="mr-2 text-green-400 fas fa-map-marker-alt fa-lg"></i>
+          200 E Gaines St, Tallahassee, FL 32399, United States
+        </div>
+        <!-- <ng-container *ngFor="let image of data.images; let i = index"> -->
+          <div class="w-full mt-3 mb-7 card lg:h-36 lg:w-64">
+            <img class="w-64 h-40 card-img-top rounded-bottom" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          </div>
+          <!--loop for images goes here-->
+          <div class="flex-row justify-between w-6 h-6 mt-1 md:w-10 md:h-10 lg:w-6 lg:h-6 lg:mt-2 card">
+            <!-- <img class="mr-1 rounded-sm " [src]="image"> -->
+            <img class="mr-1 rounded-sm" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+            <img class="mr-1 rounded-sm" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+            <img class="mr-1 rounded-sm" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+            <img class="mr-1 rounded-sm" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+            <img class="mr-1 rounded-sm" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+            <img class="mr-1 rounded-sm" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+            <img class="mr-1 rounded-sm" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+            <img class="mr-1 rounded-sm" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+            <img class="mr-1 rounded-sm" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          </div>
+        <!-- </ng-container> -->
+        <div class="mt-8 text-red-500 form-label fw-bolder">Description</div>
+        <p class="w-full mr-6 text-justify text-gray-400 fs-8">{{data.description}}</p>
       </div>
-      <!-- <ng-container *ngFor="let image of data.images; let i = index"> -->
-        <div class="w-full mt-8 mb-7 card lg:h-36 lg:w-64">
-          <img class="card-img-top img-responsive rounded-bottom" src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        </div>
-        <!--loop for images goes here-->
-        <div class="flex-row justify-between w-10 h-10 mt-2 card lg:w-5 lg:h-5">
-          <!-- <img class="mr-1 rounded-sm " [src]="image"> -->
-          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-          <img class="mr-1 rounded-sm " src="https://images.pexels.com/photos/7932264/pexels-photo-7932264.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-        </div>
-      <!-- </ng-container> -->
-      <div class="mt-8 text-red-500 form-label fw-bolder">Description</div>
-      <p class="w-full mr-6 text-justify text-gray-400 fs-8">{{data.description}}</p>
     </div>
-    <!--Deal View and Offer Section-->
-    <div class="flex flex-col w-full lg:items-start lg:w-2/5 lg:ml-3">
-      <div class="flex justify-between w-full mb-4 lg:py-2 lg:mt-8 fw-bolder">Add another deal option
+  </div>
+  <div class="flex-wrap w-11/12 mt-3 shadow-xl lg:mt-0 md:w-3/6 lg:w-2/6 xl:2/6 2xl:2/6 card card-custom card-stretch">
+    <ng-container *ngIf="subDeals.length == 0">
+      <div class="flex w-full p-2 mb-4 justify-evenly lg:mt-8 fw-bolder">Provide your voucher details.
         <button type="button" class="justify-center ml-16 text-yellow-500 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
       </div>
-      <div class="p-3 lg:h-64 lg:overflow-x-scroll">
+    </ng-container>
+    <ng-container *ngIf="subDeals.length > 0">
+      <div class="flex w-full p-2 mb-4 justify-evenly lg:mt-8 fw-bolder">Add another voucher detail
+        <button type="button" class="justify-center ml-16 text-yellow-500 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="subDeals.length == 0">
+      <div class="flex justify-center pb-4 align-middle">
+        <img src="../../../../../assets/media/logos/giftbox.svg" class="lg:w-28 lg:h-28 w-14 h-14">
+      </div>
+    </ng-container>
+    <ng-container *ngIf="subDeals.length > 0">
+      <div class="p-3 lg:h-72 lg:overflow-x-scroll">
         <ng-container *ngFor="let singleDeal of subDeals; let i = index">
-          <div class="fw-lighter">{{singleDeal.subtitle}}</div>
+          <div class="font-thin text-justify pl-7 xl:pl-4 2xl:pl-4">{{singleDeal.subtitle}}</div>
           <table class="table w-full">
             <thead>
-              <tr class="flex justify-between">
-                <th scope="col">
-                  <del class="text-gray-400">
-                    <i class="fas fa-dollar-sign"></i>{{singleDeal.originalPrice}}
-                  </del>
+              <tr class="flex flex-row flex-wrap justify-evenly">
+                <th scope="col" class="text-gray-600 line-through">
+                  <i class="line-through fas fa-dollar-sign">{{singleDeal.originalPrice}}</i>
                 </th>
-                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign"></i>{{singleDeal.dealPrice}}</th>
-                <th scope="col" class="mr-10 text-red-500 fw-bolder">{{singleDeal.discount}}%</th>
+                <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign">{{singleDeal.dealPrice}}</i></th>
+                <th scope="col" class="text-red-500 xl:mr-10 2xl:mr-10 fw-bolder">{{singleDeal.discount}}%</th>
                 <th scope="col">
                   <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" (click)="openVerticallyCentered(content)"></i>
                   <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle" (click)="deleteDeal()"></i>
@@ -62,10 +74,10 @@
           </table>
         </ng-container>
       </div>
-    </div>
-
-   </div>
+    </ng-container>
   </div>
+</div>
+
 <!--Create Deal Modal-->
 <ng-template #content let-modal>
   <div class="modal-body">
@@ -193,11 +205,12 @@
 
        <div class="form-group">
         <label class="mt-3 mb-3">Number of Available Vouchers</label>
-        <div class="input-icon">
-         <input type="number" class="form-control" placeholder="" min="0" formControlName="numberOfVouchers" name="numberOfVouchers"
-         [ngClass]="{
-          'is-invalid': f['numberOfVouchers'].invalid && f['numberOfVouchers'].touched,
-          'is-valid': f['numberOfVouchers'].valid}">
+        <div class="relative">
+          <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
+            <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
+            <input type="number" class="w-full text-center" value="0" [(ngModel)]="value" min="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+            <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+          </div>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'required',
             message: 'Please specify number of vouchers',
@@ -211,15 +224,7 @@
         }">
        </ng-container>
         </div>
-       </div>
-
-       <!-- <div class="form-group">
-        <label class="mt-3 mb-3">Your Discount</label>
-        <div class="input-icon">
-         <input class="form-control" type="text" formControlName="discount" name="discount" (change)="calculateDiscount()">
-        </div>
-       </div> -->
-
+      </div>
     </form>
   </div>
 
@@ -238,3 +243,15 @@
     </div>
   </ng-container>
 </ng-template>
+
+<style>
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
