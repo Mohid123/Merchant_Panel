@@ -1,7 +1,7 @@
 <!--Title/ Header-->
 <div class="lg:text-center mb-13">
-  <h1 class="mb-5 fs-hx fw-bolder">The when, the how and the where.</h1>
-  <div class="text-gray-400 fw-bold fs-5">Let's make sure all terms are correct before publishing your deal.</div>
+  <h1 class="mb-5 text-3xl text-center">The when, the how and the where.</h1>
+  <div class="text-xl font-thin text-center text-primary-400">Let's make sure all terms are correct before publishing your deal.</div>
 </div>
 <!--Card for Duration of Deal-->
 <div class="card card-custom card-stretch" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
@@ -16,7 +16,7 @@
         <div class="flex flex-col w-full pl-2 lg:flex-row">
 
           <label class="mb-6 ml-4 form-check form-check-solid">
-            <input class="form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
+            <input class="mr-2 border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
             <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
             <div class="flex-auto mt-4 mb-3 input-group date w-72" data-provide="datepicker">
               <input type="date" class="form-control" formControlName="startDate" name="startDate">
@@ -32,7 +32,7 @@
 
           <label class="ml-4 lg:mt-0 lg:items-center lg:justify-end lg:ml-80 form-check form-check-solid">
             <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
-            <div class="flex-auto mt-4 input-group date w-72" data-provide="datepicker">
+            <div class="flex-auto mt-4 input-group w-72" data-provide="datepicker">
               <input type="date" class="form-control" formControlName="endDate" name="endDate" id="specialCheck" (click)="disableCheckBox()">
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -46,18 +46,21 @@
 
         <div class="flex">
           <label class="mt-8 ml-6 lg:mt-6 lg:ml-5 form-check form-check-solid">
-            <input class="form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
+            <input class="mr-2 rounded-full form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
             <span class="form-check-label">Voucher is valid for</span>
-            <div class="flex-auto w-full mt-4 mb-3 input-group number">
-              <input type="number" class="form-control" formControlName="publishDateStart" name="publishDateStart">
-              <span class="mt-3 ml-3 text-gray-400">days after purchase</span>
+            <div class="relative mt-4">
+              <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
+                <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
+                <input type="number" placeholder="0" class="w-full text-center" formControlName="validDays" name="validDays">
+                <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+              </div>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Voucher validity date is required',
+                control: form.controls['validDays']
+              }">
+            </ng-container>
             </div>
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'Voucher validity date is required',
-              control: form.controls['publishDateStart']
-            }">
-          </ng-container>
           </label>
         </div>
 
@@ -172,6 +175,42 @@
     </div>
   </ng-container>
 </ng-template>
+
+<style>
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  color: rgba(0, 0, 0, 0);
+  left: 0;
+  opacity: 1;
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-image: url('../../../../../assets/media/icons/calendar.svg');
+  filter: invert(0);
+}
+
+input::-webkit-datetime-edit {
+  position: relative;
+  left: 25px;
+}
+
+input::-webkit-datetime-edit-fields-wrapper {
+  position: relative;
+  left: 25px;
+}
+
+</style>
+
 
 
 

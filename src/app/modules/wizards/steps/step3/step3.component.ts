@@ -10,6 +10,9 @@ import { MainDeal } from './../../models/main-deal.model';
   templateUrl: './step3.component.html',
 })
 export class Step3Component implements OnInit {
+
+  btnDisable: boolean;
+
   @Input('updateParentModel') updateParentModel: (
     part: Partial<MainDeal>,
     isFormValid: boolean
@@ -26,7 +29,7 @@ export class Step3Component implements OnInit {
     startDate: Date.toString(),
     endDate: Date.toString(),
     policy: '',
-    publishDateStart: Date.toString()
+    validDays: 0
   };
 
   private unsubscribe: Subscription[] = [];
@@ -75,25 +78,27 @@ export class Step3Component implements OnInit {
 
     if(checkA.checked == true) {
       checkB.disabled = true;
-      this.form.controls['publishDateStart'].disable();
+      this.btnDisable = false;
+      this.form.controls['validDays'].disable();
       this.form.controls['startDate'].enable();
       this.form.controls['endDate'].enable();
     }
     else if(checkB.checked == true) {
       checkA.disabled = true;
-      this.form.controls['publishDateStart'].enable();
+      this.btnDisable = true;
+      this.form.controls['validDays'].enable();
       this.form.controls['startDate'].disable();
       this.form.controls['endDate'].disable();
     }
     else if(checkA.checked == false || checkB.checked == false) {
       checkA.disabled = false;
       checkB.disabled = false;
-      this.form.controls['publishDateStart'].enable();
+      this.btnDisable = false;
+      this.form.controls['validDays'].enable();
       this.form.controls['startDate'].enable();
       this.form.controls['endDate'].enable();
     }
   }
-
 
   toggleDisabled() {
     this.isDisabled = !this.isDisabled
@@ -119,8 +124,8 @@ export class Step3Component implements OnInit {
           Validators.required
         ])
       ],
-      publishDateStart: [
-        this.deal.publishDateStart,
+      validDays: [
+        this.deal.validDays,
         Validators.compose([
           Validators.required
         ])
@@ -139,6 +144,20 @@ export class Step3Component implements OnInit {
       this.form.get('endDate')?.hasError('required') ||
       this.form.get('policy')?.hasError('required')
     );
+  }
+
+  handleMinus() {
+    if(this.form.controls['validDays'].value >= 1) {
+      this.form.patchValue({
+        validDays: this.form.controls['validDays'].value - 1
+      });
+    }
+  }
+
+  handlePlus() {
+    this.form.patchValue({
+      validDays: this.form.controls['validDays'].value + 1
+    });
   }
 
   ngOnDestroy() {

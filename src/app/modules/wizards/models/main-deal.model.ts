@@ -11,8 +11,7 @@ export class MainDeal {
   startDate?: string;
   endDate?: string;
   policy?: string;
-  publishDateStart?: string;
-  publishDateEnd?: string;
+  validDays?: number;
   deletedCheck?: boolean;
   subDeals?: SubDeal[];
 }

@@ -39,13 +39,13 @@
   </div>
   <div class="flex-wrap w-11/12 mt-3 shadow-xl lg:mt-0 md:w-3/6 lg:w-2/6 xl:2/6 2xl:2/6 card card-custom card-stretch">
     <ng-container *ngIf="subDeals.length == 0">
-      <div class="flex w-full p-2 mb-4 justify-evenly lg:mt-8 fw-bolder">Provide your voucher details.
-        <button type="button" class="justify-center ml-16 text-yellow-500 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
+      <div class="flex w-full pl-3 mb-4 justify-evenly lg:mt-8 fw-bolder">Provide your voucher details.
+        <button type="button" class="justify-center pb-3 pr-3 ml-16 text-yellow-500 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
       </div>
     </ng-container>
     <ng-container *ngIf="subDeals.length > 0">
-      <div class="flex w-full p-2 mb-4 justify-evenly lg:mt-8 fw-bolder">Add another voucher detail
-        <button type="button" class="justify-center ml-16 text-yellow-500 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
+      <div class="flex w-full pl-3 mb-4 justify-evenly lg:mt-8 fw-bolder">Add another voucher detail
+        <button type="button" class="justify-center pb-3 pr-3 ml-16 text-yellow-500 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
       </div>
     </ng-container>
     <ng-container *ngIf="subDeals.length == 0">
@@ -208,7 +208,7 @@
         <div class="relative">
           <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
             <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-            <input type="number" class="w-full text-center" value="0" [(ngModel)]="value" min="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+            <input type="number" class="w-full text-center" min="0" formControlName="numberOfVouchers" name="numberOfVouchers">
             <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
           </div>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{

@@ -12,9 +12,6 @@ import { ConnectionService } from './../../services/connection.service';
   templateUrl: './step2.component.html',
 })
 export class Step2Component implements OnInit {
-
-  value = 0;
-
   @Input('updateParentModel') updateParentModel: (
     part: Partial<SubDeal>,
     isFormValid: boolean
@@ -149,13 +146,17 @@ export class Step2Component implements OnInit {
   }
 
   handleMinus() {
-    if(this.value >= 1) {
-      this.value--;
+    if(this.subDealForm.controls['numberOfVouchers'].value >= 1) {
+      this.subDealForm.patchValue({
+        numberOfVouchers: this.subDealForm.controls['numberOfVouchers'].value - 1
+      });
     }
   }
 
   handlePlus() {
-    this.value++;
+    this.subDealForm.patchValue({
+      numberOfVouchers: this.subDealForm.controls['numberOfVouchers'].value + 1
+    });
   }
 
   ngOnDestroy() {

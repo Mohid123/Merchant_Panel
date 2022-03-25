@@ -1,7 +1,7 @@
 <!--Title/ Header-->
 <div class="lg:text-center mb-13">
-  <h1 class="mb-5 fs-hx fw-bolder">Let's set up your deal.</h1>
-  <div class="text-gray-400 fw-bold fs-5">First impression matters! Let's start with creating your titles and description.</div>
+  <h1 class="mb-5 text-3xl text-center">Let's set up your deal.</h1>
+  <div class="text-xl font-thin text-center text-primary-400">First impression matters! Let's start with creating your titles and description.</div>
 </div>
 <!--Card for Creating Deal-->
 <div class="w-auto shadow-sm card card-custom card-stretch" >
@@ -123,9 +123,12 @@
               <span style="color: rgb(179, 179, 179); font-size: 30px" >+</span>
               <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)" (click)="onClick($event)" multiple>
             </label>
-            <ng-container *ngIf="multiples.length == 0">
-              <span class="mt-2 text-danger">At Least one image is required</span>
-            </ng-container>
+            <div class="flex flex-col">
+              <span class="font-thin text-center text-gray-400">Allowed file types: png, jpg, jpeg</span>
+              <!-- <ng-container *ngIf="multiples.length == 0">
+                <span class="mt-2 text-danger">At Least one image is required</span>
+              </ng-container> -->
+            </div>
           </div>
 
            <div class="w-full mt-4 overflow-y-scroll border-yellow-600 h-80">

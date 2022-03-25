@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { MainDeal } from '../../models/main-deal.model';
 import { createEventId } from './event-utils';
@@ -16,7 +17,7 @@ export class Step4Component implements OnInit {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      right: ''
     },
     initialView: 'dayGridMonth',
     weekends: true,
@@ -42,11 +43,15 @@ export class Step4Component implements OnInit {
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private modalService: NgbModal) {}
 
   ngOnInit() {
     this.initForm();
     this.updateParentModel({}, true);
+  }
+
+  openVerticallyCentered(content: any) {
+    this.modalService.open(content, { centered: true });
   }
 
   handleWeekendsToggle() {
