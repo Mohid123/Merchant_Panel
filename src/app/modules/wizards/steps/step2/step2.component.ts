@@ -62,7 +62,8 @@ export class Step2Component implements OnInit {
   }
 
   calculateDiscount() {
-    const discountPrice = Math.round(100 * (parseInt(this.subDealForm.get('dealPrice')?.value)/parseInt(this.subDealForm.get('originalPrice')?.value)));
+    const dealPrice = Math.round(parseInt(this.subDealForm.get('originalPrice')?.value) - parseInt(this.subDealForm.get('dealPrice')?.value));
+    const discountPrice = Math.round(100 * dealPrice/parseInt(this.subDealForm.get('originalPrice')?.value));
     this.subDealForm.get('discount')?.setValue(discountPrice)
     this.subDeals.push(this.subDealForm.value);
     this.subDealForm.reset();

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTabsModule } from '@angular/material/tabs';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -15,6 +16,7 @@ import { Step3Component } from './steps/step3/step3.component';
 import { Step4Component } from './steps/step4/step4.component';
 import { Step5Component } from './steps/step5/step5.component';
 import { VerticalComponent } from './vertical/vertical.component';
+import { ViewDealComponent } from './view-deal/view-deal.component';
 import { WizardsRoutingModule } from './wizards-routing.module';
 import { WizardsComponent } from './wizards.component';
 
@@ -33,6 +35,7 @@ FullCalendarModule.registerPlugins([
     Step3Component,
     Step4Component,
     Step5Component,
+    ViewDealComponent,
   ],
   imports: [
   CommonModule,
@@ -43,7 +46,8 @@ FullCalendarModule.registerPlugins([
     FullCalendarModule,
     FormsModule,
     CKEditorModule,
-    TrimModule
+    TrimModule,
+    MatTabsModule
   ],
 })
 export class WizardsModule {}

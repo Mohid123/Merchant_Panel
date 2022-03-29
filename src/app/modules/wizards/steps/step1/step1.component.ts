@@ -90,7 +90,7 @@ export class Step1Component implements OnInit, OnDestroy {
     this.unsubscribe.push(formChangesSubscr);
   }
 
-   checkForm() {
+  checkForm() {
     return !(
       this.dealForm.get('title')?.hasError('required') ||
       this.dealForm.get('subtitle')?.hasError('required') ||

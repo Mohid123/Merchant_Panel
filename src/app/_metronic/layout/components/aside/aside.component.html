@@ -1,11 +1,11 @@
 <!-- begin::Brand -->
-<div class="aside-logo flex-column-auto" id="kt_aside_logo">
+<div class="aside-logo flex-column-auto mt-5 mb-12" id="kt_aside_logo">
   <!-- begin::Logo -->
   <ng-container *ngIf="asideTheme === 'dark'">
     <a routerLink="/dashboard">
       <img
         alt="Logo"
-        class="h-25px logo"
+        class="h-35px logo"
         src="./assets/media/logos/logo-1-dark.svg"
       />
     </a>
@@ -15,7 +15,7 @@
     <a routerLink="/dashboard">
       <img
         alt="Logo"
-        class="h-25px logo"
+        class="h-35px logo"
         src="./assets//media/logos/logo-1.svg"
       />
     </a>
@@ -27,7 +27,7 @@
   <ng-container *ngIf="asideMinimize">
     <div
       id="kt_aside_toggle"
-      class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle"
+      class="w-auto px-0 btn btn-icon btn-active-color-primary aside-toggle"
       data-kt-toggle="true"
       data-kt-toggle-state="active"
       data-kt-toggle-target="body"
@@ -35,7 +35,7 @@
     >
       <span
         [inlineSVG]="'./assets/media/icons/duotune/arrows/arr079.svg'"
-        class="svg-icon svg-icon-1 rotate-180"
+        class="rotate-180 svg-icon svg-icon-1"
       ></span>
     </div>
   </ng-container>
@@ -48,7 +48,7 @@
   <div
     #ktAsideScroll
     id="kt_aside_menu_wrapper"
-    class="hover-scroll-overlay-y my-5 my-lg-5"
+    class="my-5 hover-scroll-overlay-y my-lg-5"
     data-kt-scroll="true"
     data-kt-scroll-activate="{default: false, lg: true}"
     data-kt-scroll-height="auto"
@@ -59,15 +59,7 @@
     <div
       id="#kt_aside_menu"
       data-kt-menu="true"
-      class="
-        menu
-        menu-column
-        menu-title-gray-800
-        menu-state-title-primary
-        menu-state-icon-primary
-        menu-state-bullet-primary
-        menu-arrow-gray-500
-      "
+      class=" menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
     >
       <app-aside-menu id="asideMenu"></app-aside-menu>
     </div>
@@ -76,7 +68,7 @@
 <!-- end::Aside menu -->
 
 <!-- begin::Footer -->
-<div class="aside-footer flex-column-auto pt-5 pb-7 px-5" id="kt_aside_footer">
+<!-- <div class="px-5 pt-5 aside-footer flex-column-auto pb-7" id="kt_aside_footer">
   <a
     target="_blank"
     class="btn btn-custom btn-primary w-100"
@@ -92,5 +84,5 @@
       class="svg-icon btn-icon svg-icon-2"
     ></span>
   </a>
-</div>
+</div> -->
 <!-- end::Footer -->
