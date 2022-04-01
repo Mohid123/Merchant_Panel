@@ -1,107 +1,197 @@
-<div class="flex flex-row justify-end mt-2 mb-5 w-full">
-  <div class="m-2">
-    <a class="px-6 py-3 bg-gray-300 rounded-md text-gray-500"><i class="far fa-calendar-alt mr-3"></i>Pick Date Range<i class="fas fa-angle-down ml-3"></i></a>
+<ng-container *ngIf="showDiv.calendarView == true">
+  <div class="absolute 2xl:top-44 2xl:right-48 xl:top-44 xl:right-48 lg:top-44 lg:right-8 md:top-40 md:right-4 right-5 top-48">
+    <div class="moon">
+      <span class="ml-2 text-xs">05</span>
+    </div>
+    <span class="mb-4 ml-4 font-semibold text-center text-gray-700">Monthly Schedule</span>
   </div>
-  <div class="m-2">
-    <a class="px-6 py-3 bg-gray-300 rounded-md text-gray-500"><i class="fas fa-filter mr-3"></i>Filter<i class="fas fa-angle-down ml-3"></i></a>
+</ng-container>
+
+<ng-container *ngIf="showDiv.listView == true">
+  <div class="absolute 2xl:top-44 2xl:right-48 xl:top-44 xl:right-48 lg:top-44 lg:right-8 md:top-40 md:right-4 right-5 top-48">
+    <div class="flex flex-col justify-end w-full mt-2 mb-5 ml-2 xl:flex-row 2xl:flex-row lg:flex-row md:flex-row">
+      <div class="m-2">
+        <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3 lg:px-4 lg:py-3"><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></a>
+      </div>
+      <div class="m-2">
+        <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3 lg:px-4 lg:py-3"><i class="mr-3 fas fa-filter"></i>Filter<i class="ml-3 fas fa-angle-down"></i></a>
+      </div>
+    </div>
   </div>
-</div>
-<div style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
-  <table class="w-full rounded-md">
-    <tr class="bg-gray-300 text-gray-600 text-center rounded-lg">
-      <th class="font-thin p-4">Deals Title <i class="fas fa-arrows-alt-v"></i></th>
-      <th class="font-thin p-4">Price <i class="fas fa-arrows-alt-v"></i></th>
-      <th class="font-thin p-4">Start Date <i class="fas fa-arrows-alt-v"></i></th>
-      <th class="font-thin p-4">End Date <i class="fas fa-arrows-alt-v"></i></th>
-      <th class="font-thin p-4">Qty <i class="fas fa-arrows-alt-v"></i></th>
-      <th class="font-thin p-4">Status <i class="fas fa-arrows-alt-v"></i></th>
-      <th class="font-thin p-4">Action <i class="fas fa-arrows-alt-v"></i></th>
-    </tr>
-    <tr class="z-40 w-full bg-white rounded-lg text-black text-center">
-      <td class="font-thin p-4 flex flex-row justify-center items-center">
-        <img class="rounded-md w-11 h-11" src="../../../../../assets/media/books/img-72.jpg">
-        <span class="ml-3">Heavenly Massage</span>
-      </td>
-      <td class="font-thin p-4">$300</td>
-      <td class="font-thin p-4">26 April, 2021</td>
-      <td class="font-thin p-4">26 July, 2021</td>
-      <td class="font-thin p-4">74</td>
-      <td class="font-thin p-4">
-        <span class="badge badge-light-success p-3 rounded-2xl">Active</span>
-      </td>
-      <td class="font-thin flex flex-row justify-center" class="vertical-align: middle!important;">
-        <a class="px-2 py-1 bg-gray-300 text-gray-500 rounded-md mr-1">
-          <i class="fas fa-pencil-alt p-1"></i>
-        </a>
-        <a class="px-2 py-1 bg-gray-300 text-gray-500 rounded-md">
-          <i class="fas fa-trash p-1"></i>
-        </a>
-      </td>
-    </tr>
-    <tr class="z-40 w-full bg-white rounded-lg text-black text-center">
-      <td class="font-thin p-4 flex flex-row justify-center items-center">
-        <img class="rounded-md w-11 h-11" src="../../../../../assets/media/books/img-72.jpg">
-        <span class="ml-3">Heavenly Massage</span>
-      </td>
-      <td class="font-thin p-4">$300</td>
-      <td class="font-thin p-4">26 April, 2021</td>
-      <td class="font-thin p-4">26 July, 2021</td>
-      <td class="font-thin p-4">74</td>
-      <td class="font-thin p-4">
-        <span class="badge badge-light-success p-3 rounded-2xl">Active</span>
-      </td>
-      <td class="font-thin flex flex-row justify-center" class="vertical-align: middle!important;">
-        <a class="px-2 py-1 bg-gray-300 text-gray-500 rounded-md mr-1">
-          <i class="fas fa-pencil-alt p-1"></i>
-        </a>
-        <a class="px-2 py-1 bg-gray-300 text-gray-500 rounded-md">
-          <i class="fas fa-trash p-1"></i>
-        </a>
-      </td>
-    </tr>
-    <tr class="z-40 w-full bg-white rounded-lg text-black text-center">
-      <td class="font-thin p-4 flex flex-row justify-center items-center">
-        <img class="rounded-md w-11 h-11" src="../../../../../assets/media/books/img-72.jpg">
-        <span class="ml-3">Heavenly Massage</span>
-      </td>
-      <td class="font-thin p-4">$300</td>
-      <td class="font-thin p-4">26 April, 2021</td>
-      <td class="font-thin p-4">26 July, 2021</td>
-      <td class="font-thin p-4">74</td>
-      <td class="font-thin p-4">
-        <span class="badge badge-light-danger p-3 rounded-2xl">Pending</span>
-      </td>
-      <td class="font-thin flex flex-row justify-center" class="vertical-align: middle!important;">
-        <a class="px-2 py-1 bg-gray-300 text-gray-500 rounded-md mr-1">
-          <i class="fas fa-pencil-alt p-1"></i>
-        </a>
-        <a class="px-2 py-1 bg-gray-300 text-gray-500 rounded-md">
-          <i class="fas fa-trash p-1"></i>
-        </a>
-      </td>
-    </tr>
-    <tr class="z-40 w-full bg-white rounded-lg text-black text-center">
-      <td class="font-thin p-4 flex flex-row justify-center items-center">
-        <img class="rounded-md w-11 h-11" src="../../../../../assets/media/books/img-72.jpg">
-        <span class="ml-3">Heavenly Massage</span>
-      </td>
-      <td class="font-thin p-4">$300</td>
-      <td class="font-thin p-4">26 April, 2021</td>
-      <td class="font-thin p-4">26 July, 2021</td>
-      <td class="font-thin p-4">74</td>
-      <td class="font-thin p-4">
-        <span class="badge badge-light-danger p-3 rounded-2xl">Pending</span>
-      </td>
-      <td class="font-thin flex flex-row justify-center" class="vertical-align: middle!important;">
-        <a class="px-2 py-1 bg-gray-300 text-gray-500 rounded-md mr-1">
-          <i class="fas fa-pencil-alt p-1"></i>
-        </a>
-        <a class="px-2 py-1 bg-gray-300 text-gray-500 rounded-md">
-          <i class="fas fa-trash p-1"></i>
-        </a>
-      </td>
-    </tr>
+</ng-container>
 
-  </table>
-</div>
 
+<mat-tab-group [disableRipple]="true" [selectedIndex]="1" (selectedTabChange)="switchTabs($event)">
+  <mat-tab label="List View">
+    <table class="w-full mt-10 rounded-md shadow-lg">
+      <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
+        <th class="p-4 font-thin">Deals Title&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-thin">Price&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-thin">Start Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-thin">End Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-thin">Qty&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-thin">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-thin">Action&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+      </tr>
+      <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
+        <td class="flex flex-row items-center justify-center p-4 font-thin">
+          <img class="rounded-md w-11 h-11" src="../../../../../assets/media/books/img-72.jpg">
+          <span class="ml-3">Heavenly Massage</span>
+        </td>
+        <td class="p-4 font-thin">$300</td>
+        <td class="p-4 font-thin">26 April, 2021</td>
+        <td class="p-4 font-thin">26 July, 2021</td>
+        <td class="p-4 font-thin">74</td>
+        <td class="p-4 font-thin">
+          <span class="px-5 py-3 badge badge-light-success rounded-2xl">Active</span>
+        </td>
+        <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
+          <a class="px-1 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md">
+            <i class="p-1 fas fa-pencil-alt"></i>
+          </a>
+          <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md">
+            <i class="p-1 fas fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+      <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
+        <td class="flex flex-row items-center justify-center p-4 font-thin">
+          <img class="rounded-md w-11 h-11" src="../../../../../assets/media/books/img-72.jpg">
+          <span class="ml-3">Heavenly Massage</span>
+        </td>
+        <td class="p-4 font-thin">$300</td>
+        <td class="p-4 font-thin">26 April, 2021</td>
+        <td class="p-4 font-thin">26 July, 2021</td>
+        <td class="p-4 font-thin">74</td>
+        <td class="p-4 font-thin">
+          <span class="px-5 py-3 badge badge-light-success rounded-2xl">Active</span>
+        </td>
+        <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
+          <a class="px-1 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md">
+            <i class="p-1 fas fa-pencil-alt"></i>
+          </a>
+          <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md">
+            <i class="p-1 fas fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+      <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
+        <td class="flex flex-row items-center justify-center p-4 font-thin">
+          <img class="rounded-md w-11 h-11" src="../../../../../assets/media/books/img-72.jpg">
+          <span class="ml-3">Heavenly Massage</span>
+        </td>
+        <td class="p-4 font-thin">$300</td>
+        <td class="p-4 font-thin">26 April, 2021</td>
+        <td class="p-4 font-thin">26 July, 2021</td>
+        <td class="p-4 font-thin">74</td>
+        <td class="p-4 font-thin">
+          <span class="px-5 py-3 badge badge-light-danger rounded-2xl">Pending</span>
+        </td>
+        <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
+          <a class="px-1 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md">
+            <i class="p-1 fas fa-pencil-alt"></i>
+          </a>
+          <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md">
+            <i class="p-1 fas fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+      <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
+        <td class="flex flex-row items-center justify-center p-4 font-thin">
+          <img class="rounded-md w-11 h-11" src="../../../../../assets/media/books/img-72.jpg">
+          <span class="ml-3">Heavenly Massage</span>
+        </td>
+        <td class="p-4 font-thin">$300</td>
+        <td class="p-4 font-thin">26 April, 2021</td>
+        <td class="p-4 font-thin">26 July, 2021</td>
+        <td class="p-4 font-thin">74</td>
+        <td class="p-4 font-thin">
+          <span class="px-5 py-3 badge badge-light-danger rounded-2xl">Pending</span>
+        </td>
+        <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
+          <a class="px-1 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md">
+            <i class="p-1 fas fa-pencil-alt"></i>
+          </a>
+          <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md">
+            <i class="p-1 fas fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+    </table>
+  </mat-tab>
+  <mat-tab label="Calendar View">
+    <div class="p-0 mt-5 shadow-sm lg:p-12 card card-custom card-stretch" style="border-top: 16px solid #F38B41;">
+      <div class="p-2 rounded lg:p-8 card card-custom card-stretch bg-gray-50">
+        <div class="lg:p-6 card card-custom card-stretch">
+          <full-calendar #popoverHook="ngbPopover" [ngbPopover]="popContent" triggers="manual" class="calendar" [options]="calendarOptions"></full-calendar>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<!--NOTE:
+   THE NGBOOTSTRAP POPOVER IS TEMPORARY AND ONLY FOR TESTING. WILL BE REPLACED WITH FULLCALENDAR POPOVER
+-->
+
+<ng-template #popContent>
+  <div class="flex flex-row justify-between w-52">
+    <span class="mt-4 text-left text-gray-700">Desert Safari</span>
+    <i (click)="closePopover()" class="far fa-times-circle"></i>
+  </div>
+  <hr>
+  <div class="flex flex-col justify-center p-3 align-middle">
+    <i class="text-green-500 fas fa-circle fa-xs"><span class="ml-2 mr-6 text-sm font-thin text-gray-500" style="font-family: Arial, Helvetica, sans-serif;">Start</span><span class="ml-1 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">08 Feb, 2021</span></i>
+    <i class="text-red-500 fas fa-circle fa-xs"><span class="ml-2 mr-6 text-sm font-thin text-gray-500" style="font-family: Arial, Helvetica, sans-serif;">End</span><span class="ml-2 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">12 Feb, 2021</span></i>
+  </div>
+  <button (click)="openVerticallyCentered(content)" class="px-3 py-1 text-xs font-thin text-center text-yellow-700 rounded-sm" style="background: #FDF0E6;">View Details</button>
+</ng-template>
+
+<ng-template #content let-modal>
+  <div class="border-b border-dashed modal-header">
+    <div class="flex flex-row justify-between w-full">
+      <div class="flex flex-row justify-start w-full p-2">
+        <img src="../../../../../assets/media/books/img-72.jpg" class="w-16 h-16 mr-4 rounded-md">
+        <div class="flex flex-col justify-evenly">
+          <span class="text-base text-gray-800">Heavenly Massage</span>
+          <span class="text-sm text-gray-500">Price: <span class="text-green-500">$ 150</span></span>
+          <span class="text-sm text-gray-500">Sold Vocuhers: <span class="text-green-500">05</span></span>
+        </div>
+      </div>
+      <i (click)="modal.close('Close click')" class="far fa-times-circle"></i>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <form class="mt-2 px-7 form">
+      <div class="mb-3 form-group">
+        <label class="mb-3">Start Date <span class="text-red-600">*</span></label>
+        <div class="input-group">
+          <img src="../../../../assets/media/icons/calendar.svg" class="w-5 h-5 mr-3"> <span class="font-thin text-gray-600">08 Feb, 2021</span>
+        </div>
+      </div>
+
+      <div class="mb-5 form-group">
+        <label class="mb-3">End Date <span class="text-red-600">*</span></label>
+        <div class="input-group">
+          <input type="date" class="form-control" placeholder="dd-mm-yyyy" ngbDatepicker>
+        </div>
+      </div>
+
+       <div class="form-group">
+        <label class="mb-3">Number of Available Vouchers</label>
+        <div class="relative">
+          <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
+            <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14">-</button>
+            <input type="number" class="w-full text-center" placeholder="0">
+            <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14">+</button>
+          </div>
+        </div>
+       </div>
+    </form>
+    <div class="flex justify-center mt-7">
+      <button (click)="modal.close('Close click')" class="px-10 py-2 font-thin text-white bg-gray-900 rounded-md">Update</button>
+    </div>
+  </div>
+
+</ng-template>

@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TrimModule } from './../../@core/directives/trim/trim.module';
 import { HorizontalComponent } from './horizontal/horizontal.component';
@@ -47,7 +48,9 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     CKEditorModule,
     TrimModule,
-    MatTabsModule
+    MatTabsModule,
+    MatMenuModule,
+    NgbModule
   ],
 })
 export class WizardsModule {}
