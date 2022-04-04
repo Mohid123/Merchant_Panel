@@ -15,6 +15,8 @@ import { AppComponent } from './app.component';
 import { AuthService } from './modules/auth/services/auth.service';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
+import { OrderManagementComponent } from './pages/order-management/order-management.component';
+import { BillingsComponent } from './pages/billings/billings.component';
 // #fake-end#
 
 function appInitializer(authService: AuthService) {
@@ -26,7 +28,7 @@ function appInitializer(authService: AuthService) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, OrderManagementComponent, BillingsComponent],
   imports: [
     BrowserModule,
     FormsModule,

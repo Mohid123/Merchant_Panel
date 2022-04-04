@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
@@ -51,6 +52,7 @@ FullCalendarModule.registerPlugins([
     CKEditorModule,
     TrimModule,
     MatTabsModule,
+    MatIconModule,
     MatMenuModule,
     NgbModule
   ],

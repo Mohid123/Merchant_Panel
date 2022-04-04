@@ -64,3 +64,7 @@ input::-webkit-datetime-edit-fields-wrapper {
   position: relative;
   left: 20px;
 }
+
+.dropdown-toggle::after {
+  display: none;
+}
