@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { BillingsComponent } from './billings/billings.component';
+import { OrderManagementComponent } from './order-management/order-management.component';
 
 const Routing: Routes = [
   {
@@ -39,6 +41,14 @@ const Routing: Routes = [
       import('../modules/apps/chat/chat.module').then((m) => m.ChatModule),
   },
   {
+    path: 'order-management',
+    component: OrderManagementComponent
+  },
+  {
+    path: 'billings',
+    component: BillingsComponent
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',
@@ -50,3 +60,4 @@ const Routing: Routes = [
 ];
 
 export { Routing };
+
