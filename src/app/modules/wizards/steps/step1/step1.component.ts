@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Image } from './../../models/images.model';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
 
@@ -24,8 +25,9 @@ export class Step1Component implements OnInit, OnDestroy {
   };
   file: any;
   multiples: any[] = [];
-  urls: any[] = [];
+  urls: Image[] = [];
   private unsubscribe: Subscription[] = [];
+  control: FormControl
 
   @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
 
@@ -48,15 +50,17 @@ export class Step1Component implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(30),
-        ])
+          Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
+        ]),
       ],
       subtitle: [
         this.deal.subtitle,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(30),
-        ])
+          Validators.maxLength(60),
+          Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
+        ]),
       ],
       description: [
         this.deal.description,
@@ -64,7 +68,8 @@ export class Step1Component implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(20),
           Validators.maxLength(400),
-        ])
+          Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
+        ]),
       ],
       images: [
         this.deal.images,
@@ -75,7 +80,9 @@ export class Step1Component implements OnInit, OnDestroy {
     })
     const formChangesSubscr = this.dealForm.valueChanges.subscribe((val: MainDeal) => {
       if(val.images) {
-        val.images = this.urls
+        val.images.forEach((file, i) => {
+          val.images?.push(this.urls[i])
+        })
       }
       this.updateParentModel(val, this.checkForm());
       this.connection.sendData(val)
@@ -83,12 +90,18 @@ export class Step1Component implements OnInit, OnDestroy {
     this.unsubscribe.push(formChangesSubscr);
   }
 
-   checkForm() {
+  checkForm() {
     return !(
       this.dealForm.get('title')?.hasError('required') ||
       this.dealForm.get('subtitle')?.hasError('required') ||
+      this.dealForm.get('subtitle')?.hasError('whitespace') ||
       this.dealForm.get('description')?.hasError('required') ||
-      this.dealForm.get('description')?.hasError('minlength')
+      this.dealForm.get('description')?.hasError('minlength') ||
+      this.dealForm.get('description')?.hasError('whitespace') ||
+      this.dealForm.get('title')?.hasError('whitespace') ||
+      this.dealForm.get('title')?.hasError('pattern') ||
+      this.dealForm.get('description')?.hasError('pattern') ||
+      this.dealForm.get('subtitle')?.hasError('pattern')
       )
   }
 

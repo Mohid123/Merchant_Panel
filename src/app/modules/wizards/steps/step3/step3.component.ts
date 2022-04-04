@@ -10,6 +10,9 @@ import { MainDeal } from './../../models/main-deal.model';
   templateUrl: './step3.component.html',
 })
 export class Step3Component implements OnInit {
+
+  btnDisable: boolean;
+
   @Input('updateParentModel') updateParentModel: (
     part: Partial<MainDeal>,
     isFormValid: boolean
@@ -25,7 +28,8 @@ export class Step3Component implements OnInit {
   @Input() deal: Partial<MainDeal> = {
     startDate: Date.toString(),
     endDate: Date.toString(),
-    policy: ''
+    policy: '',
+    validDays: 0
   };
 
   private unsubscribe: Subscription[] = [];
@@ -68,6 +72,34 @@ export class Step3Component implements OnInit {
     }
   }
 
+  disableCheckBox() {
+    const checkA = document.querySelector<Element | any>('#specialCheck');
+    const checkB = document.querySelector<Element | any>('#specialChecked');
+
+    if(checkA.checked == true) {
+      checkB.disabled = true;
+      this.btnDisable = false;
+      this.form.controls['validDays'].disable();
+      this.form.controls['startDate'].enable();
+      this.form.controls['endDate'].enable();
+    }
+    else if(checkB.checked == true) {
+      checkA.disabled = true;
+      this.btnDisable = true;
+      this.form.controls['validDays'].enable();
+      this.form.controls['startDate'].disable();
+      this.form.controls['endDate'].disable();
+    }
+    else if(checkA.checked == false || checkB.checked == false) {
+      checkA.disabled = false;
+      checkB.disabled = false;
+      this.btnDisable = false;
+      this.form.controls['validDays'].enable();
+      this.form.controls['startDate'].enable();
+      this.form.controls['endDate'].enable();
+    }
+  }
+
   toggleDisabled() {
     this.isDisabled = !this.isDisabled
   }
@@ -91,6 +123,12 @@ export class Step3Component implements OnInit {
         Validators.compose([
           Validators.required
         ])
+      ],
+      validDays: [
+        this.deal.validDays,
+        Validators.compose([
+          Validators.required
+        ])
       ]
     });
 
@@ -106,6 +144,20 @@ export class Step3Component implements OnInit {
       this.form.get('endDate')?.hasError('required') ||
       this.form.get('policy')?.hasError('required')
     );
+  }
+
+  handleMinus() {
+    if(this.form.controls['validDays'].value >= 1) {
+      this.form.patchValue({
+        validDays: this.form.controls['validDays'].value - 1
+      });
+    }
+  }
+
+  handlePlus() {
+    this.form.patchValue({
+      validDays: this.form.controls['validDays'].value + 1
+    });
   }
 
   ngOnDestroy() {
