@@ -39,13 +39,13 @@
   </div>
   <div class="flex-wrap w-11/12 mt-3 shadow-xl lg:mt-0 md:w-3/6 lg:w-2/6 xl:2/6 2xl:2/6 card card-custom card-stretch">
     <ng-container *ngIf="subDeals.length == 0">
-      <div class="flex w-full pl-3 mb-4 font-semibold xl:justify-evenly 2xl:justify-evenly justify-between lg:mt-8">Provide your voucher details.
-        <button type="button" class="justify-center pr-3 ml-16 text-yellow-500 xl:pb-3 2xl:pb-3 lg:pb-3 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
+      <div class="flex justify-between w-full pl-3 mb-4 font-semibold xl:justify-evenly 2xl:justify-evenly lg:mt-8">Provide your voucher details.
+        <button type="button" class="justify-center pr-3 ml-16 text-yellow-500 xl:pb-3 2xl:pb-3 lg:pb-3 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openNew()" style="cursor: pointer;"></button>
       </div>
     </ng-container>
     <ng-container *ngIf="subDeals.length > 0">
       <div class="flex w-full pl-3 mb-4 font-semibold justify-evenly lg:mt-8">Add another voucher detail
-        <button type="button" class="justify-center pr-3 ml-16 text-yellow-500 xl:pb-3 2xl:pb-3 lg:pb-3 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
+        <button type="button" class="justify-center pr-3 ml-16 text-yellow-500 xl:pb-3 2xl:pb-3 lg:pb-3 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openNew()" style="cursor: pointer;"></button>
       </div>
     </ng-container>
     <ng-container *ngIf="subDeals.length == 0">
@@ -66,7 +66,7 @@
                 <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign">{{singleDeal.dealPrice}}</i></th>
                 <th scope="col" class="text-red-500 xl:mr-10 2xl:mr-10 fw-bolder">{{singleDeal.discount}}%</th>
                 <th scope="col">
-                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" (click)="openVerticallyCentered(content)"></i>
+                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" (click)="openNew()"></i>
                   <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle" (click)="deleteDeal()"></i>
                 </th>
               </tr>
@@ -79,10 +79,11 @@
 </div>
 
 <!--Create Deal Modal-->
-<ng-template #content let-modal>
+
+<app-modal-reusable #modal [modalConfig]="modalConfig">
   <div class="modal-body">
     <div class="flex justify-end p-0 m-0">
-      <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" (click)="modal.dismiss('Cross click')" style="
+      <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" (click)="closeModal()" style="
        border-radius: 100%;">
         <span class="text-gray-800 fs-6">x</span>
       </button>
@@ -126,7 +127,7 @@
         <label class="mb-3">Original Price</label>
         <div class="input-icon">
          <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
-         <input (keypress)="numberOnly($event)" type="text" class="pl-12 form-control" formControlName="originalPrice"
+         <input appNumbersOnly type="text" class="pl-12 form-control" formControlName="originalPrice"
          [ngClass]="{
           'is-invalid': f['originalPrice'].invalid && f['originalPrice'].touched,
           'is-valid': f['originalPrice'].valid}">
@@ -149,7 +150,7 @@
         <label class="mb-3">Deal Price</label>
         <div class="input-icon">
          <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-danger"></i></span>
-         <input (keypress)="numberOnly($event)" type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+         <input appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
          [ngClass]="{
           'is-invalid': f['dealPrice'].invalid && f['dealPrice'].touched,
           'is-valid': f['dealPrice'].valid}">
@@ -229,9 +230,9 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="text-white btn btn-dark" (click)="modal.dismiss('Cross click'); calculateDiscount()" [disabled]="!isCurrentFormValid$.value">Save</button>
+    <button type="button" class="text-white btn btn-dark" (click)="closeModal(); calculateDiscount()" [disabled]="!isCurrentFormValid$.value">Save</button>
   </div>
-</ng-template>
+</app-modal-reusable>
 
 
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">

@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalReusableComponent } from '@pages/modal-reusable/modal-reusable.component';
 import { Subscription } from 'rxjs';
 import { MainDeal } from '../../models/main-deal.model';
+import { ModalConfig } from './../../../../@core/models/modal.config';
 import { createEventId } from './event-utils';
 
 @Component({
@@ -11,6 +12,20 @@ import { createEventId } from './event-utils';
   templateUrl: './step4.component.html',
 })
 export class Step4Component implements OnInit {
+
+  @ViewChild('modal') private modal: ModalReusableComponent;
+
+  public modalConfig: ModalConfig = {
+    onDismiss: () => {
+      return true
+    },
+    dismissButtonLabel: "Dismiss",
+    onClose: () => {
+      return true
+    },
+    closeButtonLabel: "Close"
+  }
+
 
   currentEvents: EventApi[] = [];
   calendarOptions: CalendarOptions = {
@@ -43,15 +58,11 @@ export class Step4Component implements OnInit {
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder, private modalService: NgbModal) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.initForm();
     this.updateParentModel({}, true);
-  }
-
-  openVerticallyCentered(content: any) {
-    this.modalService.open(content, { centered: true });
   }
 
   handleWeekendsToggle() {
@@ -117,6 +128,14 @@ export class Step4Component implements OnInit {
   //     this.form.get('cardCvv')?.hasError('required')
   //   );
   // }
+
+  async openNew() {
+    return await this.modal.open();
+  }
+
+  async closeModal() {
+    return await this.modal.close();
+  }
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

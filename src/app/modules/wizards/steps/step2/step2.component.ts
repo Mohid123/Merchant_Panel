@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { SubDeal } from '../../models/subdeal.model';
 import { whitespaceValidator } from '../../whitespace.validator';
+import { ModalConfig } from './../../../../@core/models/modal.config';
+import { ModalReusableComponent } from './../../../../pages/modal-reusable/modal-reusable.component';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
 
@@ -12,6 +13,20 @@ import { ConnectionService } from './../../services/connection.service';
   templateUrl: './step2.component.html',
 })
 export class Step2Component implements OnInit {
+
+  @ViewChild('modal') private modal: ModalReusableComponent;
+
+  public modalConfig: ModalConfig = {
+    onDismiss: () => {
+      return true
+    },
+    dismissButtonLabel: "Dismiss",
+    onClose: () => {
+      return true
+    },
+    closeButtonLabel: "Close"
+  }
+
   @Input('updateParentModel') updateParentModel: (
     part: Partial<SubDeal>,
     isFormValid: boolean
@@ -42,14 +57,10 @@ export class Step2Component implements OnInit {
     false
   );
 
-  constructor(private fb: FormBuilder, private modalService: NgbModal, private connection: ConnectionService) {
+  constructor(private fb: FormBuilder, private connection: ConnectionService) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response
     })
-  }
-
-  openVerticallyCentered(content: any) {
-    this.modalService.open(content, { centered: true });
   }
 
   ngOnInit() {
@@ -71,14 +82,6 @@ export class Step2Component implements OnInit {
 
   deleteDeal() {
     this.subDeals = [];
-  }
-
-  numberOnly(event:any): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode < 48 || charCode > 57) {
-      return false;
-    }
-    return true;
   }
 
   initSubDealForm() {
@@ -158,6 +161,14 @@ export class Step2Component implements OnInit {
     this.subDealForm.patchValue({
       numberOfVouchers: this.subDealForm.controls['numberOfVouchers'].value + 1
     });
+  }
+
+  async openNew() {
+    return await this.modal.open();
+  }
+
+  async closeModal() {
+    return await this.modal.close();
   }
 
   ngOnDestroy() {

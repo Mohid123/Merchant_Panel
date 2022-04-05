@@ -1,38 +1,25 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appNumberOnly]',
+  selector: '[appNumbersOnly]'
 })
-export class NumberOnlyDirective {
+export class NumbersOnlyDirective {
 
-  constructor(private el: ElementRef) {}
+  constructor() { }
 
-  @HostListener('keydown', ['$event']) onKeyDown(event) {
-    const e = <KeyboardEvent>event;
-    console.log('e:',e.keyCode);
-    if (
-      [46, 8, 9, 27, 13, 17].indexOf(e.keyCode) !== -1 ||
-      // Allow: Ctrl+A
-      (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
-      // Allow: Ctrl+C
-      (e.keyCode === 67 && (e.ctrlKey || e.metaKey)) ||
-      // Allow: Ctrl+V
-      (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) ||
-      // Allow: Ctrl+X
-      (e.keyCode === 88 && (e.ctrlKey || e.metaKey)) ||
-      // Allow: home, end, left, right
-      (e.keyCode >= 35 && e.keyCode <= 39)
-    ) {
-      // console.log('.............:',);
-      // let it happen, don't do anything
-      return;
-    }
-    // Ensure that it is a number and stop the keypress
-    if (
-      (e.shiftKey || e.keyCode < 48 || e.keyCode > 57) &&
-      (e.keyCode < 96 || e.keyCode > 105)
-    ) {
-      e.preventDefault();
+  @HostListener('keypress') onkeypress(e:any){
+    let event = e || window.event;
+    if(event){
+      return this.isNumberKey(event);
     }
   }
+
+isNumberKey(event: any){
+ let charCode = (event.which) ? event.which : event.keyCode;
+ if (charCode > 31 && (charCode < 48 || charCode > 57)){
+    return false;
+ }
+ return true;
+}
+
 }

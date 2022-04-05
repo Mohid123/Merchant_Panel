@@ -13,10 +13,10 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService } from './modules/auth/services/auth.service';
+import { BillingsComponent } from './pages/billings/billings.component';
+import { OrderManagementComponent } from './pages/order-management/order-management.component';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
-import { OrderManagementComponent } from './pages/order-management/order-management.component';
-import { BillingsComponent } from './pages/billings/billings.component';
 // #fake-end#
 
 function appInitializer(authService: AuthService) {
