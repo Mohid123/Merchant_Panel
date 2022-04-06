@@ -45,7 +45,7 @@
     <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Date" container="body" [appSort]="billingsData" data-order="desc" data-name="date" class="p-4 font-normal cursor-pointer">Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
     <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Payment Method" container="body" [appSort]="billingsData" data-order="desc" data-name="paymentMethod" class="p-4 font-normal cursor-pointer">Payment Method&nbsp; <i class="fas fa-sort fa-xs"></i></th>
     <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Amount" container="body" [appSort]="billingsData" data-order="desc" data-name="amount" class="p-4 font-normal cursor-pointer">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Status" container="body" [appSort]="billingsData" data-order="desc" data-name="status" class="p-4 font-normal cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th class="p-4 font-normal cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
   </tr>
   <ng-container *ngFor="let data of billingsData">
     <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
