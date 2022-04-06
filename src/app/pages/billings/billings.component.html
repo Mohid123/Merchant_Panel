@@ -41,28 +41,31 @@
 
 <table class="w-full mt-10 rounded-md shadow-md">
   <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
-    <th class="p-4 font-normal">Transaction #&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th class="p-4 font-normal">Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th class="p-4 font-normal">Payment Method&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th class="p-4 font-normal">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th class="p-4 font-normal">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th [appSort]="billingsData" data-order="desc" data-name="transactionNo" class="p-4 font-normal cursor-pointer">Transaction #&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th [appSort]="billingsData" data-order="desc" data-name="date" class="p-4 font-normal cursor-pointer">Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th [appSort]="billingsData" data-order="desc" data-name="paymentMethod" class="p-4 font-normal cursor-pointer">Payment Method&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th [appSort]="billingsData" data-order="desc" data-name="amount" class="p-4 font-normal cursor-pointer">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th [appSort]="billingsData" data-order="desc" data-name="status" class="p-4 font-normal cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
   </tr>
-  <!-- <ng-container *ngFor=""></ng-container> -->
-  <tr class="z-40 text-center text-gray-700 bg-white rounded-lg">
-    <td class="p-4 font-medium">0256235</td>
-    <td class="p-4 font-thin">16-04-2022</td>
-    <td class="p-4 font-thin">PMDC Bank</td>
-    <td class="flex flex-col p-4 font-thin">
-      <span>325,521</span>
-      <span class="text-sm text-gray-600 font-extralight">(Euro)</span>
-    </td>
-    <!-- <ng-container *ngIf="status == Purchased"></ng-container> -->
-    <!-- <td class="p-4 font-thin">
-      <span class="px-5 py-3 badge badge-light-warning rounded-2xl">Redeemed</span>
-    </td> -->
-    <!-- <ng-container *ngIf="status == Redeemed"></ng-container> -->
-    <td class="p-4 font-thin">
-      <span class="px-5 py-3 badge badge-light-success rounded-2xl">Paid</span>
-    </td>
-  </tr>
+  <ng-container *ngFor="let data of billingsData">
+    <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
+      <td class="p-4 font-medium">{{data.transactionNo}}</td>
+      <td class="p-4 font-thin">{{data.date}}</td>
+      <td class="p-4 font-thin">{{data.paymentMethod}}</td>
+      <td class="flex flex-col p-4 font-thin">
+        <span>{{data.amount}}</span>
+        <span class="text-sm text-gray-600 font-extralight">({{data.currency}})</span>
+      </td>
+      <ng-container *ngIf="data.status == 'Paid'">
+        <td class="p-4 font-thin">
+          <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{data.status}}</span>
+        </td>
+      </ng-container>
+      <ng-container *ngIf="data.status == 'Pending'">
+        <td class="p-4 font-thin">
+          <span class="px-5 py-3 badge badge-light-warning rounded-2xl">{{data.status}}</span>
+        </td>
+      </ng-container>
+    </tr>
+  </ng-container>
 </table>

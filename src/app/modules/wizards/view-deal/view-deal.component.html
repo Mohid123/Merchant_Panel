@@ -106,10 +106,10 @@
     <i class="text-green-500 fas fa-circle fa-xs"><span class="ml-2 mr-6 text-sm font-thin text-gray-500" style="font-family: Arial, Helvetica, sans-serif;">Start</span><span class="ml-1 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">08 Feb, 2021</span></i>
     <i class="text-red-500 fas fa-circle fa-xs"><span class="ml-2 mr-6 text-sm font-thin text-gray-500" style="font-family: Arial, Helvetica, sans-serif;">End</span><span class="ml-2 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">12 Feb, 2021</span></i>
   </div>
-  <button (click)="openVerticallyCentered(content)" class="px-3 py-1 text-xs font-thin text-center text-yellow-700 rounded-sm" style="background: #FDF0E6;">View Details</button>
+  <button (click)="openNew()" class="px-3 py-1 text-xs font-thin text-center text-yellow-700 rounded-sm" style="background: #FDF0E6;">View Details</button>
 </ng-template>
 
-<ng-template #content let-modal>
+<app-modal-reusable #modal [modalConfig]="modalConfig">
   <div class="border-b border-dashed modal-header">
     <div class="flex flex-row justify-between w-full">
       <div class="flex flex-row justify-start w-full p-2">
@@ -120,7 +120,7 @@
           <span class="text-sm text-gray-500">Sold Vocuhers: <span class="text-green-500">05</span></span>
         </div>
       </div>
-      <i (click)="modal.close('Close click')" class="far fa-times-circle"></i>
+      <i (click)="closeModal()" class="far fa-times-circle"></i>
     </div>
   </div>
 
@@ -152,8 +152,8 @@
        </div>
     </form>
     <div class="flex justify-center mt-7">
-      <button (click)="modal.close('Close click')" class="px-10 py-2 font-thin text-white bg-gray-900 rounded-md">Update</button>
+      <button (click)="closeModal()" class="px-10 py-2 font-thin text-white bg-gray-900 rounded-md">Update</button>
     </div>
   </div>
 
-</ng-template>
+</app-modal-reusable>

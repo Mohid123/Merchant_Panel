@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
+// import { SortModule } from '@core/directives/sort/sort.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -46,7 +47,7 @@ FullCalendarModule.registerPlugins([
     TruncatePipe
   ],
   imports: [
-  CommonModule,
+    CommonModule,
     WizardsRoutingModule,
     ReactiveFormsModule,
     InlineSVGModule,
@@ -56,6 +57,7 @@ FullCalendarModule.registerPlugins([
     CKEditorModule,
     TrimModule,
     NumberOnlyModule,
+    // SortModule,
     MatTabsModule,
     MatIconModule,
     MatMenuModule,
