@@ -15,7 +15,9 @@ export class Step1Component implements OnInit, OnDestroy {
     part: Partial<MainDeal>,
     isFormValid: boolean
   ) => void;
+
   dealForm: FormGroup;
+
   @Input() deal: Partial<MainDeal> = {
     title: '',
     subtitle: '',
@@ -29,7 +31,7 @@ export class Step1Component implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   control: FormControl
 
-  @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
+  // @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
 
   constructor(private fb: FormBuilder, private cf: ChangeDetectorRef, private router: Router, private connection: ConnectionService) {}
 

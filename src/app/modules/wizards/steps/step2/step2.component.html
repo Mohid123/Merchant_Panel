@@ -39,13 +39,13 @@
   </div>
   <div class="flex-wrap w-11/12 mt-3 shadow-xl lg:mt-0 md:w-3/6 lg:w-2/6 xl:2/6 2xl:2/6 card card-custom card-stretch">
     <ng-container *ngIf="subDeals.length == 0">
-      <div class="flex w-full pl-3 mb-4 font-semibold xl:justify-evenly 2xl:justify-evenly justify-between lg:mt-8">Provide your voucher details.
-        <button type="button" class="justify-center pr-3 ml-16 text-yellow-500 xl:pb-3 2xl:pb-3 lg:pb-3 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
+      <div class="flex justify-between w-full pl-3 mb-4 font-semibold xl:justify-evenly 2xl:justify-evenly lg:mt-8">Provide your voucher details.
+        <button type="button" class="justify-center pr-3 ml-16 text-yellow-500 xl:pb-3 2xl:pb-3 lg:pb-3 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openNew()" style="cursor: pointer;"></button>
       </div>
     </ng-container>
     <ng-container *ngIf="subDeals.length > 0">
       <div class="flex w-full pl-3 mb-4 font-semibold justify-evenly lg:mt-8">Add another voucher detail
-        <button type="button" class="justify-center pr-3 ml-16 text-yellow-500 xl:pb-3 2xl:pb-3 lg:pb-3 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openVerticallyCentered(content)" style="cursor: pointer;"></button>
+        <button type="button" class="justify-center pr-3 ml-16 text-yellow-500 xl:pb-3 2xl:pb-3 lg:pb-3 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openNew()" style="cursor: pointer;"></button>
       </div>
     </ng-container>
     <ng-container *ngIf="subDeals.length == 0">
@@ -66,7 +66,7 @@
                 <th scope="col" class="text-green-400"><i class="text-green-400 fas fa-dollar-sign">{{singleDeal.dealPrice}}</i></th>
                 <th scope="col" class="text-red-500 xl:mr-10 2xl:mr-10 fw-bolder">{{singleDeal.discount}}%</th>
                 <th scope="col">
-                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" (click)="openVerticallyCentered(content)"></i>
+                  <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" (click)="openNew()"></i>
                   <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle" (click)="deleteDeal()"></i>
                 </th>
               </tr>
@@ -79,184 +79,7 @@
 </div>
 
 <!--Create Deal Modal-->
-<ng-template #content let-modal>
+
+<app-modal-reusable #modal [modalConfig]="modalConfig">
   <div class="modal-body">
     <div class="flex justify-end p-0 m-0">
-      <div class="bg-gray-200 rounded-full btn btn-icon btn-sm btn-color-gray-500 btn-active-icon-primary"  (click)="modal.dismiss('Cross click')" data-bs-toggle="tooltip" title="" data-bs-dismiss="modal" data-bs-original-title="Hide Event">
-          <span class="svg-icon svg-icon-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
-            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
-          </svg>
-        </span>
-        <!--end::Svg Icon-->
-      </div>
-    </div>
-    <form class="mt-2 px-7 form" [formGroup]="subDealForm">
-      <div class="mb-3 form-group">
-        <label class="mb-3">Subtitle</label>
-        <div class="input-group">
-         <input appTrim type="text" class="form-control" formControlName="subtitle" name="subtitle"
-         [ngClass]="{
-          'is-invalid': f['subtitle'].invalid && f['subtitle'].touched,
-          'is-valid': f['subtitle'].valid}">
-        </div>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'Deal Subtitle is required',
-          control: subDealForm.controls['subtitle']
-        }">
-      </ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'Subtitle should at least be 3 characters',
-          control: subDealForm.controls['subtitle']
-        }">
-      </ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'Subtitle should not exceed 60 characters',
-          control: subDealForm.controls['subtitle']
-        }">
-      </ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-        validation: 'pattern',
-        message: 'Only alphabets are allowed',
-        control: subDealForm.controls['subtitle']
-      }">
-      </ng-container>
-      </div>
-
-      <div class="mb-3 form-group">
-        <label class="mb-3">Original Price</label>
-        <div class="input-icon">
-         <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
-         <input (keypress)="numberOnly($event)" type="text" class="pl-12 form-control" formControlName="originalPrice"
-         [ngClass]="{
-          'is-invalid': f['originalPrice'].invalid && f['originalPrice'].touched,
-          'is-valid': f['originalPrice'].valid}">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'Original Price is required',
-            control: subDealForm.controls['originalPrice']
-          }">
-          </ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'maxlength',
-            message: 'Original Price cannot exceed 5 characters',
-            control: subDealForm.controls['originalPrice']
-          }">
-        </ng-container>
-        </div>
-       </div>
-
-       <div class="form-group">
-        <label class="mb-3">Deal Price</label>
-        <div class="input-icon">
-         <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-danger"></i></span>
-         <input (keypress)="numberOnly($event)" type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
-         [ngClass]="{
-          'is-invalid': f['dealPrice'].invalid && f['dealPrice'].touched,
-          'is-valid': f['dealPrice'].valid}">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'Deal Price is required',
-            control: subDealForm.controls['dealPrice']
-          }">
-          </ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'maxlength',
-            message: 'Deal Price cannot exceed 5 characters',
-            control: subDealForm.controls['dealPrice']
-          }">
-        </ng-container>
-        </div>
-       </div>
-
-       <div class="form-group">
-        <label class="mt-3 mb-3">Description</label>
-        <div class="input-icon">
-         <textarea appTrim class="form-control" rows="5" formControlName="description" name="description"
-         [ngClass]="{
-          'is-invalid': f['description'].invalid && f['description'].touched,
-          'is-valid': f['description'].valid}">
-        </textarea>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'Description is required',
-            control: subDealForm.controls['description']
-          }">
-          </ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'minlength',
-            message: 'Description should at least be 14 characters',
-            control: subDealForm.controls['description']
-          }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'Description should not exceed 200 characters',
-          control: subDealForm.controls['description']
-        }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: 'Only alphabets are allowed',
-          control: subDealForm.controls['description']
-        }">
-        </ng-container>
-       </div>
-      </div>
-
-       <div class="form-group">
-        <label class="mt-3 mb-3">Number of Available Vouchers</label>
-        <div class="relative">
-          <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
-            <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-            <input type="number" class="w-full text-center" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
-            <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
-          </div>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'Please specify number of vouchers',
-            control: subDealForm.controls['numberOfVouchers']
-          }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'Vouchers cannot exceed 5 characters',
-          control: subDealForm.controls['numberOfVouchers']
-        }">
-       </ng-container>
-        </div>
-      </div>
-    </form>
-  </div>
-
-  <div class="modal-footer">
-    <button type="button" class="text-white btn btn-dark" (click)="modal.dismiss('Cross click'); calculateDiscount()" [disabled]="!isCurrentFormValid$.value">Save</button>
-  </div>
-</ng-template>
-
-
-<ng-template #formError let-control="control" let-message="message" let-validation="validation">
-  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
-    <div class="fv-plugins-message-container">
-      <div class="fv-help-block">
-        {{ message }}
-      </div>
-    </div>
-  </ng-container>
-</ng-template>
-
-<style>
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-}
-</style>

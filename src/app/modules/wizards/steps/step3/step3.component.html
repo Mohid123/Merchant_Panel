@@ -101,7 +101,7 @@
               </tr>
             </tbody>
           </table>
-          <button class="btn btn-light btn-active-light-primary" type="button" (click)="openVerticallyCentered(content)">Edit</button>
+          <button class="btn btn-light btn-active-light-primary" type="button" (click)="openNew()">Edit</button>
         </div>
 
         <div class="ml-5">
@@ -117,18 +117,13 @@
     </div>
 
 <!--Edit Modal-->
-<ng-template #content let-modal>
+<app-modal-reusable #modal [modalConfig]="modalConfig">
   <div class="modal-body">
     <div class="p-0 m-0 d-flex justify-content-end">
-      <div class="bg-gray-200 rounded-full btn btn-icon btn-sm btn-color-gray-500 btn-active-icon-primary"  (click)="modal.dismiss('Cross click')" data-bs-toggle="tooltip" title="" data-bs-dismiss="modal" data-bs-original-title="Hide Event">
-        <span class="svg-icon svg-icon-1">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black"></rect>
-          <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black"></rect>
-        </svg>
-      </span>
-      <!--end::Svg Icon-->
-    </div>
+      <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" (click)="closeModal()"
+       style="border-radius: 100%;">
+        <span class="text-gray-800 fs-6">x</span>
+      </button>
     </div>
     <form class="mt-2 px-7 form">
 
@@ -166,10 +161,10 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="text-white btn btn-dark" (click)="modal.close('Close click')">Save</button>
+    <button type="button" class="text-white btn btn-dark" (click)="closeModal()">Save</button>
   </div>
 
-</ng-template>
+</app-modal-reusable>
 
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">
   <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
@@ -195,23 +190,23 @@ input[type=number] {
 input[type="date"]::-webkit-calendar-picker-indicator {
   position: absolute;
   color: rgba(0, 0, 0, 0);
-  left: 0;
   opacity: 1;
   display: block;
   width: 20px;
   height: 20px;
+  padding-left: 10px;
   background-image: url('../../../../../assets/media/icons/calendar.svg');
   filter: invert(0);
 }
 
 input::-webkit-datetime-edit {
   position: relative;
-  left: 25px;
+  left: 20px;
 }
 
 input::-webkit-datetime-edit-fields-wrapper {
   position: relative;
-  left: 25px;
+  left: 20px;
 }
 
 </style>

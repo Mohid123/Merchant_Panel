@@ -7,7 +7,7 @@ export class MainDeal {
   subtitle?: string;
   description?: string;
   images?: Image[];
-  status?: [string];
+  status?: string;
   startDate?: string;
   endDate?: string;
   policy?: string;

@@ -3,6 +3,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SortModule } from '@core/directives/sort/sort.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,10 +14,10 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService } from './modules/auth/services/auth.service';
+import { BillingsComponent } from './pages/billings/billings.component';
+import { OrderManagementComponent } from './pages/order-management/order-management.component';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
-import { OrderManagementComponent } from './pages/order-management/order-management.component';
-import { BillingsComponent } from './pages/billings/billings.component';
 // #fake-end#
 
 function appInitializer(authService: AuthService) {
@@ -48,6 +49,7 @@ function appInitializer(authService: AuthService) {
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
+    SortModule
   ],
   providers: [
     {

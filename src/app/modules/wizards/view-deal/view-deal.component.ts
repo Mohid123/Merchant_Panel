@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
 import { NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { createEventId } from '../steps/step4/event-utils';
+import { ModalConfig } from './../../../@core/models/modal.config';
+import { ModalReusableComponent } from './../../../pages/modal-reusable/modal-reusable.component';
 
 @Component({
   selector: 'app-view-deal',
@@ -10,6 +12,19 @@ import { createEventId } from '../steps/step4/event-utils';
   encapsulation: ViewEncapsulation.None
 })
 export class ViewDealComponent implements OnInit {
+
+  @ViewChild('modal') private modal: ModalReusableComponent;
+
+  public modalConfig: ModalConfig = {
+    onDismiss: () => {
+      return true
+    },
+    dismissButtonLabel: "Dismiss",
+    onClose: () => {
+      return true
+    },
+    closeButtonLabel: "Close"
+  }
 
   @ViewChild('popoverHook')
   public popoverHook: NgbPopover
@@ -47,10 +62,6 @@ export class ViewDealComponent implements OnInit {
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
-  }
-
-  openVerticallyCentered(content: any) {
-    this.modalService.open(content, { centered: true });
   }
 
   switchTabs(event:any) {
@@ -107,6 +118,14 @@ export class ViewDealComponent implements OnInit {
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
+  }
+
+  async openNew() {
+    return await this.modal.open();
+  }
+
+  async closeModal() {
+    return await this.modal.close();
   }
 
 }

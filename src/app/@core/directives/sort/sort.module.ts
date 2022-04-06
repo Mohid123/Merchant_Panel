@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NumbersOnlyDirective } from './number-only.directive';
+import { SortDirective } from './sort.directive';
 
 
 
 @NgModule({
   declarations: [
-    NumbersOnlyDirective
+    SortDirective
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    NumbersOnlyDirective
+    SortDirective
   ]
 })
-export class NumberOnlyModule { }
+export class SortModule { }

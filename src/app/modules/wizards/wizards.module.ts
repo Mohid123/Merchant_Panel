@@ -5,10 +5,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
+// import { SortModule } from '@core/directives/sort/sort.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalReusableComponent } from '@pages/modal-reusable/modal-reusable.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TrimModule } from './../../@core/directives/trim/trim.module';
 import { TruncatePipe } from './../../@core/pipes/truncate.pipe';
@@ -22,6 +25,7 @@ import { VerticalComponent } from './vertical/vertical.component';
 import { ViewDealComponent } from './view-deal/view-deal.component';
 import { WizardsRoutingModule } from './wizards-routing.module';
 import { WizardsComponent } from './wizards.component';
+
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -39,6 +43,7 @@ FullCalendarModule.registerPlugins([
     Step4Component,
     Step5Component,
     ViewDealComponent,
+    ModalReusableComponent,
     TruncatePipe
   ],
   imports: [
@@ -51,6 +56,8 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     CKEditorModule,
     TrimModule,
+    NumberOnlyModule,
+    // SortModule,
     MatTabsModule,
     MatIconModule,
     MatMenuModule,

@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { ModalConfig } from './../../../../@core/models/modal.config';
+import { ModalReusableComponent } from './../../../../pages/modal-reusable/modal-reusable.component';
 import { MainDeal } from './../../models/main-deal.model';
 
 @Component({
@@ -10,6 +11,19 @@ import { MainDeal } from './../../models/main-deal.model';
   templateUrl: './step3.component.html',
 })
 export class Step3Component implements OnInit {
+
+  @ViewChild('modal') private modal: ModalReusableComponent;
+
+  public modalConfig: ModalConfig = {
+    onDismiss: () => {
+      return true
+    },
+    dismissButtonLabel: "Dismiss",
+    onClose: () => {
+      return true
+    },
+    closeButtonLabel: "Close"
+  }
 
   btnDisable: boolean;
 
@@ -34,11 +48,7 @@ export class Step3Component implements OnInit {
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder, private modalService: NgbModal) {}
-
-  openVerticallyCentered(content: any) {
-    this.modalService.open(content, { centered: true });
-  }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.initDateForm();
@@ -158,6 +168,14 @@ export class Step3Component implements OnInit {
     this.form.patchValue({
       validDays: this.form.controls['validDays'].value + 1
     });
+  }
+
+  async openNew() {
+    return await this.modal.open();
+  }
+
+  async closeModal() {
+    return await this.modal.close();
   }
 
   ngOnDestroy() {
