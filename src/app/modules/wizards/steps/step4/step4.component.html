@@ -1,0 +1,43 @@
+<!--Title-->
+<div class="lg:text-center mb-13">
+  <h1 class="mb-5 text-3xl text-center">Let's get this crazy deal scheduled!</h1>
+  <div class="text-xl font-thin text-center text-primary-400">And we're good to go!</div>
+</div>
+<!--Stepper with Calendar-->
+<div class="p-0 shadow-sm lg:p-12 card card-custom card-stretch" style="border-top: 16px solid #F38B41;">
+  <div class="p-2 rounded lg:p-8 card card-custom card-stretch bg-gray-50">
+    <div class="lg:p-6 card card-custom card-stretch">
+      <button (click)="openNew()" class="absolute top-0 right-0 px-3 py-1 text-center text-white bg-green-400 rounded-md xl:px-10 xl:py-3 2xl:px-10 2xl:py-3 lg:top-6 xl:top-6 2xl:top-6 lg:right-2 xl:right-7 2xl:right-7">Send</button>
+      <full-calendar class="calendar" [options]="calendarOptions"></full-calendar>
+    </div>
+  </div>
+  <div class="h-full lg:p-6 card card-custom card-stretch">
+    <div class="flex items-center pb-3 mt-3 justify-evenly lg:flex-row">
+      <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span class="ml-2 mr-8 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">Published</span></i>
+      <i class="text-green-500 lg:mr-4 fas fa-circle"> <span class="ml-2 mr-8 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">Scheduled</span></i>
+      <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span class="ml-2 mr-8 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">In review</span></i>
+      <i class="text-red-500 lg:mr-4 fas fa-circle"> <span class="ml-2 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">Bounced</span></i>
+    </div>
+  </div>
+</div>
+
+<app-modal-reusable #modal [modalConfig]="modalConfig">
+  <div class="modal-header">
+    <img src="../../../../../assets/media/icons/tick_mark.svg" class="absolute w-12 h-12 left-56 -top-7">
+  </div>
+  <div class="p-6 text-center modal-body">
+    <div class="flex flex-col">
+      <span class="mb-8">Your deal has successfully been sent for review. We will process this within <strong>24hrs</strong>.</span>
+      <div class="flex justify-center">
+        <button (click)="closeModal()" class="px-12 py-2 text-white bg-gray-900 rounded-md">OK</button>
+      </div>
+    </div>
+  </div>
+
+</app-modal-reusable>
+
+<style>
+ ::ng-deep .fc .fc-toolbar-title {
+    margin-right: 40px!important;
+  }
+</style>

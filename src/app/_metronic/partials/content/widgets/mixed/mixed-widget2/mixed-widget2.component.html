@@ -1,0 +1,67 @@
+<div class="card-header border-0 py-5" style="background-color: #E67B00;">
+  <h3 class="card-title fw-bolder text-white">Sales Statistics</h3>
+
+</div>
+<!-- end::Header -->
+<!-- begin::Body -->
+<div class="card-body p-0" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
+  <!-- begin::Chart -->
+  <div
+    #chartRef
+    class="mixed-widget-2-chart card-rounded-bottom"
+    style="background-color: #E67B00;"
+  >
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [yaxis]="chartOptions.yaxis"
+      [dataLabels]="chartOptions.dataLabels"
+      [stroke]="chartOptions.stroke"
+      [legend]="chartOptions.legend"
+      [fill]="chartOptions.fill"
+      [states]="chartOptions.states"
+      [tooltip]="chartOptions.tooltip"
+      [colors]="chartOptions.colors"
+      [markers]="chartOptions.markers"
+      [plotOptions]="chartOptions.plotOptions"
+    ></apx-chart>
+  </div>
+  <!-- end::Chart -->
+  <!-- begin::Stats -->
+  <div class="card-p mt-n20 position-relative">
+    <!-- begin::Row -->
+    <div class="row g-0">
+      <!-- begin::Col -->
+      <div class="col bg-light-primary px-6 py-8 rounded-2 me-7 mb-7 text-center">
+        <span class="text-primary d-block my-2 text-xl font-semibold">200</span>
+        <a  class="text-primary fw-bold text-xs"> Total Deals </a>
+      </div>
+      <!-- end::Col -->
+      <!-- begin::Col -->
+      <div class="col bg-blue-100 px-6 py-8 rounded-2 mb-7 text-center">
+        <span class="text-blue-400 d-block my-2 text-xl font-semibold">300</span>
+        <a class="text-blue-400 fw-bold text-xs "> Scheduled Deals </a>
+      </div>
+      <!-- end::Col -->
+    </div>
+    <!-- end::Row -->
+    <!-- begin::Row -->
+    <div class="row g-0">
+      <!-- begin::Col -->
+      <div class="col bg-light-primary px-6 py-8 rounded-2 me-7 text-center">
+        <span class="text-primary d-block my-2 text-xl font-semibold">200</span>
+        <a  class="text-primary fw-bold text-xs"> Pending Deals </a>
+      </div>
+      <!-- end::Col -->
+      <!-- begin::Col -->
+      <div class="col bg-blue-100 px-6 py-8 rounded-2 text-center">
+        <span class="text-blue-400 d-block my-2 text-xl font-semibold">200</span>
+        <a  class="text-blue-400 fw-bold text-xs"> Sold Deals </a>
+      </div>
+      <!-- end::Col -->
+    </div>
+    <!-- end::Row -->
+  </div>
+  <!-- end::Stats -->
+</div>

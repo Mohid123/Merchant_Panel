@@ -1,0 +1,70 @@
+.mat-tab-label {
+  @apply mt-5 w-5 h-2 relative;
+  opacity: 1!important;
+}
+
+.mat-tab-label-active {
+  color: #f38b41!important;
+}
+
+.mat-tab-label.mat-tab-label-active:after {
+  opacity: 1!important;
+  color: #f38b41!important;
+  content: ' ';
+  text-decoration: none;
+  position: absolute;
+  width: 15%;
+  left: 18%;
+  height: 100%;
+  margin-left: 25%;
+  border-bottom: solid 6px #f38b41;
+}
+
+.moon {
+  margin-top: 10px;
+  margin-bottom: -10px;
+  width: 28px;
+  height: 28px;
+  margin-right: 70px;
+  padding: 0;
+  border-radius: 50%;
+  box-shadow: inset 6px 13px #FF0000, inset 6px 13px 0px 6px #FF0000;
+  color: white;
+}
+
+input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  color: rgba(0, 0, 0, 0);
+  left: 0;
+  opacity: 1;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding-left: 10px;
+  background-image: url('../../../../assets/media/icons/calendar.svg');
+  filter: invert(0);
+}
+
+input::-webkit-datetime-edit {
+  position: relative;
+  left: 20px;
+}
+
+input::-webkit-datetime-edit-fields-wrapper {
+  position: relative;
+  left: 20px;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}

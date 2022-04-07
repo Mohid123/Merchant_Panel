@@ -1,0 +1,4 @@
+<label *ngIf="name && value">
+  <input class="form-control" type="radio" [name]="name" [value]="value" [formControlName]="name">
+  <ng-content></ng-content>
+</label>

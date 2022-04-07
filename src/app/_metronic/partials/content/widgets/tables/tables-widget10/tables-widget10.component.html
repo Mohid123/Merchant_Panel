@@ -1,0 +1,303 @@
+<div style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
+
+  <!-- begin::Header -->
+
+<div class="card-header border-0 pt-5">
+  <h3 class="card-title align-items-start flex-column">
+    <span class="card-label fw-bolder fs-1 mb-1">Deals Report</span>
+    <!-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 members</span> -->
+  </h3>
+
+
+  <div class="row items-center">
+    <div class="col">
+      <div ngbDropdown class="d-inline-block">
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split font-thin" id="dropdownBasic1" ngbDropdownToggle>Pick Date Range  </button>
+        <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem>Action - 1</button>
+          <button ngbDropdownItem>Another Action</button>
+          <button ngbDropdownItem>Something else is here</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col text-end">
+      <div ngbDropdown class="d-inline-block">
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split font-thin mr-2" id="dropdownBasic2" ngbDropdownToggle>Status  </button>
+        <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic2">
+          <button ngbDropdownItem>Action - 1</button>
+          <button ngbDropdownItem>Another Action</button>
+          <button ngbDropdownItem>Something else is here</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <span class="text-gray-500">View Deals</span>
+    </div>
+  </div>
+
+  <!-- <div
+    class="card-toolbar"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    data-bs-trigger="hover"
+    title="Click to add a user"
+  >
+    <a href="#" class="btn btn-sm btn-light-primary">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/arrows/arr075.svg'"
+        class="svg-icon svg-icon-3"
+      ></span>
+      New Member
+    </a>
+  </div> -->
+</div>
+<!-- end::Header -->
+<!-- begin::Body -->
+<div class="card-body py-3">
+  <!-- begin::Table container -->
+  <div class="table-responsive">
+    <!-- begin::Table -->
+    <table
+      class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4"
+    >
+      <!-- begin::Table head -->
+      <thead>
+        <tr class="fw-bolder text-muted">
+          <th class="w-25px">
+            <!-- <div
+              class="
+                form-check form-check-sm form-check-custom form-check-solid
+              "
+            >
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="1"
+                data-kt-check="true"
+                data-kt-check-target=".widget-9-check"
+              />
+            </div> -->
+          </th>
+          <th class="min-w-150px">Deals</th>
+          <th class="min-w-150px">Price</th>
+          <th class="min-w-150px">Start Date</th>
+          <th class="min-w-150px">End Date</th>
+          <th class="min-w-150px">N/A Vouchers</th>
+          <th class="min-w-150px ">Status</th>
+
+        </tr>
+      </thead>
+      <!-- end::Table head -->
+      <!-- begin::Table body -->
+      <tbody>
+        <tr>
+          <td></td>
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="symbol symbol-45px me-5">
+                <img src="./assets/media/avatars/300-14.jpg" alt="" />
+              </div>
+              <div class="d-flex justify-content-start flex-column">
+                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">
+                  Ana Simmons
+                </a>
+                <span class="text-muted fw-bold text-muted d-block fs-7">
+                  HTML, JS, ReactJS
+                </span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+            90$
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+           26-03-21
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+           26-03-21
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+            78
+            </span>
+          </td>
+          <td><span class="badge badge-light-success p-4 w-36 rounded-3xl">Active</span></td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="symbol symbol-45px me-5">
+                <img src="./assets/media/avatars/300-2.jpg" alt="" />
+              </div>
+              <div class="d-flex justify-content-start flex-column">
+                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">
+                  Jessie Clarcson
+                </a>
+                <span class="text-muted fw-bold text-muted d-block fs-7">
+                  C#, ASP.NET, MS SQL
+                </span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+            90$
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+           26-03-21
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+           26-03-21
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+            78
+            </span>
+          </td>
+          <td><span class="badge badge-light-danger p-4 w-36 rounded-3xl">Pending</span></td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="symbol symbol-45px me-5">
+                <img src="./assets/media/avatars/300-5.jpg" alt="" />
+              </div>
+              <div class="d-flex justify-content-start flex-column">
+                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">
+                  Lebron Wayde
+                </a>
+                <span class="text-muted fw-bold text-muted d-block fs-7">
+                  PHP, Laravel, VueJS
+                </span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+            90$
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+           26-03-21
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+           26-03-21
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+            78
+            </span>
+          </td>
+          <td><span class="badge badge-light-danger p-4 w-36 rounded-3xl">Pending</span></td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="symbol symbol-45px me-5">
+                <img src="./assets/media/avatars/300-20.jpg" alt="" />
+              </div>
+              <div class="d-flex justify-content-start flex-column">
+                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">
+                  Natali Goodwin
+                </a>
+                <span class="text-muted fw-bold text-muted d-block fs-7">
+                  Python, PostgreSQL, ReactJS
+                </span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+            90$
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+           26-03-21
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+           26-03-21
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+            78
+            </span>
+          </td>
+          <td><span class="badge badge-light-danger p-4 w-36 rounded-3xl">Pending</span></td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="symbol symbol-45px me-5">
+                <img src="./assets/media/avatars/300-23.jpg" alt="" />
+              </div>
+              <div class="d-flex justify-content-start flex-column">
+                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">
+                  Kevin Leonard
+                </a>
+                <span class="text-muted fw-bold text-muted d-block fs-7">
+                  HTML, JS, ReactJS
+                </span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+            90$
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+           26-03-21
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+           26-03-21
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-bold text-muted d-block fs-7">
+            78
+            </span>
+          </td>
+          <td><span class="badge badge-light-success p-4 w-36 rounded-3xl">Active</span></td>
+        </tr>
+      </tbody>
+      <!-- end::Table body -->
+    </table>
+    <!-- end::Table -->
+  </div>
+  <!-- end::Table container -->
+</div>
+<!-- begin::Body -->
+
+</div>

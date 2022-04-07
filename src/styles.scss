@@ -1,0 +1,64 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/sass/style";
+
+/* base */
+@import './tailwindcss/base.css';
+
+/* components */
+@import './tailwindcss/components.css';
+
+/* utilities */
+@import './tailwindcss/utilities.css';
+
+
+
+// Replace above style with this SCSS file to enable dark mode styles
+//@import "./assets/sass/style.dark";
+
+
+input[type=date] {
+  color: #B5B5C3 ;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 2px;
+  opacity: 0.6;
+  filter: invert(0.8);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="%23bbbbbb" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
+}
+
+input::-webkit-file-upload-button {
+  display: none;
+}
+
+input[type='file'] {
+  opacity:0
+}
+
+@media screen and (max-width: 480px) {
+  .calendar{
+    font-size: 10px!important;
+  }
+}
+
+.ck-editor__top {
+  max-width: 600px!important;
+  border-radius: 8px!important;
+  border-top: #F38B41!important;
+  border-left: #F38B41!important;
+  border-right: #F38B41!important;
+}
+
+.ck-editor__editable_inline {
+  max-width: 600px;
+  border: 1px solid #F38B41!important;
+}

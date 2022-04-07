@@ -1,0 +1,189 @@
+:host {
+  width: 100%;
+  @media (min-width: 992px) {
+    .login-form {
+      width: 100%;
+      max-width: 450px;
+
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+}
+
+input.form-control {
+  background-color: transparent !important;
+  border: 0.5px solid #787f9f5e;
+  font-size: 14px;
+  padding: 13px 44px 13px 33px;
+}
+
+input.form-control:focus {
+  border-color: #F38B41;
+}
+
+.auth-main-con {
+  background-image:
+  url("../../../../../assets/media/logos/icon-dividis.png"),
+  url("../../../../../assets/media/logos/background-bottom-left.png"),
+  url("../../../../../assets/media/svg/illustrations/login-visual-5.svg"),
+  url("../../../../../assets/media/logos/background-top-right.png");
+  background-position: 0 0, 0 100% ,100% 100% , 100% -20px;
+  background-size: 81px 81px, 130px 36px, 122px 122px, 110px 100px;
+  background-repeat: no-repeat;
+  min-height: 900px;
+}
+
+.login-aside {
+  .top-logo{
+    height: 345px;
+
+    img {
+      max-width: 289px;
+      margin: 0 auto;
+    }
+  }
+}
+
+h3 {
+  color: #F38B41;
+}
+
+button.back,
+button:disabled {
+  border: 2px solid #787F9F !important;
+  color: #787F9F !important;
+  background-color: white !important;
+  cursor: default;
+}
+
+button.back {
+  cursor: pointer;
+}
+
+::ng-deep .auth-main-con {
+
+  mat-step-header {
+    padding: 0;
+  }
+
+  // .mat-horizontal-stepper-header-container {
+  //   display: none;
+  // }
+
+  .mat-horizontal-stepper-header{
+    pointer-events: none !important;
+  }
+
+  .mat-horizontal-stepper-header-container {
+    margin-bottom: 36px;
+  }
+
+  .mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:first-child)::before,
+  .mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:last-child)::after {
+    top: 16px !important;
+  }
+
+  .mat-stepper-label-position-bottom .mat-stepper-horizontal-line {
+    margin-top: 16px;
+  }
+
+  .mat-step-icon-content span {
+    display: none;
+  }
+
+  .mat-step-icon.mat-step-icon-state-number .mat-step-icon-content span {
+    display: block;
+  }
+
+  .mat-step-icon {
+    color: #FFFFFF;
+    background-color: #F38B41;
+    width: 35px;
+    height: 36px;
+  }
+
+  .mat-step-icon.mat-step-icon-state-number {
+    background-color: #FBF0D5 !important;
+    color: #F38B41 !important;
+    font-size: 12px;
+    height:36px;
+    width: 35px;
+  }
+
+  .mat-step-text-label {
+    font-size: 11px
+  }
+}
+
+.categories-step app-category-radio-button {
+  @apply flex justify-center items-center w-32 h-28 mb-3;
+  text-align: center;
+  border: none !important;
+
+  .tabs {
+    background-color: #E3FBF1;
+    margin: 0 auto;
+    border-radius: 100px;
+    justify-content: center;
+    display: flex;
+
+    img {
+      max-width: 40px;
+    }
+  }
+
+  .tabs.active,
+  .tabs:hover {
+    border: 2px solid #F38B41;
+    cursor: pointer;
+  }
+}
+
+.province app-category-radio-button {
+  @apply flex justify-center items-center h-8 mb-3 px-4 py-2 mr-3 rounded-md;
+  text-align: center;
+  border: 1px solid #ef9c6580 !important;
+}
+
+.province app-category-radio-button.active,
+.province app-category-radio-button:active,
+.province app-category-radio-button:hover {
+  border: 2px solid #F38B41 !important;
+  box-shadow: 0px 5px 15px #787F9F42;;
+  cursor: pointer;
+}
+
+.registration-success {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 10px #00000029;
+  border: 1px solid #EE9964;
+  max-width: 624px;
+
+  p {
+    max-width: 488px;
+  }
+}
+
+@media (min-width: 768px) {
+  .auth-main-con {
+    background-position: 53px 0px, 0 100%, calc(100% - 12px) 100%, 100% 0;
+    background-size: 162px 169px, 243px 118px, 200px 200px, 230px 240px;
+    min-height: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .auth-main-con {
+    background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
+    background-size: 162px 169px, 243px 118px, 250px 250px, 285px 290px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .auth-main-con {
+    background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
+    background-size: 169px 169px, 375px 118px ,312px 312px,320px 361px;
+  }
+}
