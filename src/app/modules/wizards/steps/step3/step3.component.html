@@ -4,117 +4,122 @@
   <div class="text-xl font-thin text-center text-primary-400">Let's make sure all terms are correct before publishing your deal.</div>
 </div>
 <!--Card for Duration of Deal-->
-<div class="card card-custom card-stretch" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
-  <div class="card-body">
+<div class="flex justify-center w-full align-middle">
+  <div class="w-full lg:w-3/4 card card-custom" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
+    <div class="card-body">
 
-    <div class="flex flex-col w-full">
+      <div class="flex flex-col w-full">
 
-      <div class="p-2 mb-2 text-lg">Duration</div>
-      <label class="pl-2 mb-6 text-base text-gray-400">When can customers redeem their voucher?</label>
+        <div class="p-2 mb-2 text-lg">Duration</div>
+        <label class="pl-2 mb-6 text-base text-gray-400">When can customers redeem their voucher?</label>
 
-      <form class="form" [formGroup]="form">
-        <div class="flex flex-col w-full pl-2 lg:flex-row">
+        <form class="form" [formGroup]="form">
+          <div class="flex flex-col w-full pl-2 lg:flex-row">
 
-          <label class="mb-6 ml-4 form-check form-check-solid">
-            <input class="mr-2 border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
-            <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
-            <div class="flex-auto mt-4 mb-3 input-group date w-72" data-provide="datepicker">
-              <input type="date" class="form-control" formControlName="startDate" name="startDate">
-            </div>
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'Start Date is required',
-              control: form.controls['startDate']
-            }">
-          </ng-container>
-            <span class="mb-0 text-base tracking-widest text-gray-600"><span class="text-red-600">*</span>Max validity 90 days</span>
-          </label>
-
-          <label class="ml-4 2xl:mt-0 2xl:items-center 2xl:justify-end 2xl:ml-80 form-check form-check-solid">
-            <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
-            <div class="flex-auto mt-4 input-group w-72" data-provide="datepicker">
-              <input type="date" class="form-control" formControlName="endDate" name="endDate" id="specialCheck" (click)="disableCheckBox()">
-            </div>
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'End Date is required',
-              control: form.controls['endDate']
-            }">
-          </ng-container>
-          </label>
-        </div>
-
-        <div class="flex">
-          <label class="mt-8 ml-6 lg:mt-6 lg:ml-5 form-check form-check-solid">
-            <input class="mr-2 rounded-full form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
-            <span class="form-check-label">Voucher is valid for</span>
-            <div class="relative mt-4">
-              <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
-                <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-                <input type="number" placeholder="0" class="w-full text-center" formControlName="validDays" name="validDays">
-                <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+            <label class="mb-6 ml-4 form-check form-check-solid">
+              <input class="mr-2 border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
+              <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
+              <div class="flex-auto mt-4 mb-3 input-group date w-72" data-provide="datepicker">
+                <input type="date" class="form-control" formControlName="startDate" name="startDate">
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
-                message: 'Voucher validity date is required',
-                control: form.controls['validDays']
+                message: 'Start Date is required',
+                control: form.controls['startDate']
               }">
             </ng-container>
-            </div>
-          </label>
-        </div>
+              <span class="mb-0 text-base tracking-widest text-gray-600"><span class="text-red-600">*</span>Max validity 90 days</span>
+            </label>
 
-        <div class="pb-10 mt-8 ml-5">
-          <label class="mb-3 form-label">Where can customers redeem their vouchers?</label>
-          <table class="datatable-table" style="display: block;">
-            <tbody class="datatable-body" style="padding: 20px;">
-              <tr data-row="0" class="datatable-row" style="left: 0px;">
-                <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="1"><span class="text-gray-400"
-                    style="width: 30px;">Street Address</span>
-                </td>
-                <td data-field="OrderID" aria-label="64616-103" class="py-3 text-gray-700 datatable-cell"><span
-                    style="width: 108px;">200 E Gaines St, Talahase, FL 32336</span></td>
-                </tr>
-              <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
-                <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-gray-400"
-                    style="width: 30px;">Zip Code</span>
-                </td>
-                <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
-                    style="width: 108px;">23235</span>
-                </td>
-              </tr>
-              <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
-                <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell"  aria-label="2"><span class="text-gray-400"
-                    style="width: 30px;">City</span>
-                </td>
-                <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
-                    style="width: 108px;">Ghent</span>
-                </td>
-              </tr>
-              <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
-                <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell"  aria-label="2"><span class="text-gray-400"
-                    style="width: 30px;">Country</span>
-                </td>
-                <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
-                    style="width: 108px;">Belgium</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <button class="btn btn-light btn-active-light-primary" type="button" (click)="openNew()">Edit</button>
-        </div>
-
-        <div class="ml-5">
-          <div class="mr-2">
-            <p class="flex items-center font-medium text-black">
-              General terms & cancellation policy
-            </p>
-            <ckeditor [disabled]="isDisabled" [editor]="Editor" [config]="config" formControlName="policy" name="policy"></ckeditor>
+            <label class="ml-4 2xl:mt-0 2xl:items-center 2xl:justify-end 2xl:ml-80 form-check form-check-solid">
+              <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
+              <div class="flex-auto mt-4 input-group w-72" data-provide="datepicker">
+                <input type="date" class="form-control" formControlName="endDate" name="endDate" id="specialCheck" (click)="disableCheckBox()">
+              </div>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'End Date is required',
+                control: form.controls['endDate']
+              }">
+            </ng-container>
+            </label>
           </div>
-          <button class="mt-4 btn btn-light btn-active-light-primary" type="button" (click)="toggleDisabled()">{{ isDisabled ? 'Edit' : 'Save Edits' }}</button>
-        </div>
-      </form>
+
+          <div class="flex">
+            <label class="mt-8 ml-6 lg:mt-6 lg:ml-5 form-check form-check-solid">
+              <input class="mr-2 rounded-full form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
+              <span class="form-check-label">Voucher is valid for</span>
+              <div class="relative mt-4">
+                <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
+                  <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
+                  <input type="number" placeholder="0" class="w-full text-center" formControlName="validDays" name="validDays">
+                  <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+                </div>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'Voucher validity date is required',
+                  control: form.controls['validDays']
+                }">
+              </ng-container>
+              </div>
+            </label>
+          </div>
+
+          <div class="pb-10 mt-8 ml-5">
+            <label class="mb-3 form-label">Where can customers redeem their vouchers?</label>
+            <table class="datatable-table" style="display: block;">
+              <tbody class="datatable-body" style="padding: 20px;">
+                <tr data-row="0" class="datatable-row" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="1"><span class="text-gray-400"
+                      style="width: 30px;">Street Address</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="64616-103" class="py-3 text-gray-700 datatable-cell"><span
+                      style="width: 108px;">200 E Gaines St, Talahase, FL 32336</span></td>
+                  </tr>
+                <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-gray-400"
+                      style="width: 30px;">Zip Code</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
+                      style="width: 108px;">23235</span>
+                  </td>
+                </tr>
+                <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell"  aria-label="2"><span class="text-gray-400"
+                      style="width: 30px;">City</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
+                      style="width: 108px;">Ghent</span>
+                  </td>
+                </tr>
+                <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell"  aria-label="2"><span class="text-gray-400"
+                      style="width: 30px;">Country</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
+                      style="width: 108px;">Belgium</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn btn-light btn-active-light-primary" type="button" (click)="openNew()">Edit</button>
+          </div>
+
+          <div class="ml-5">
+            <div class="mr-2">
+              <p class="flex items-center font-medium text-black">
+                General terms & cancellation policy
+              </p>
+              <ckeditor [disabled]="isDisabled" [editor]="Editor" [config]="config" formControlName="policy" name="policy"></ckeditor>
+            </div>
+            <button class="mt-4 btn btn-light btn-active-light-primary" type="button" (click)="toggleDisabled()">{{ isDisabled ? 'Edit' : 'Save Edits' }}</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+</div>
+
 
 <!--Edit Modal-->
 <app-modal-reusable #modal [modalConfig]="modalConfig">
