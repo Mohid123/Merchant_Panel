@@ -13,7 +13,7 @@
           <div class="p-0 lg:p-10">
             <div class="pb-5">
               <label class="mb-3 form-label">Title</label>
-              <input appTrim type="text font-weight-light" class="font-thin form-control" formControlName="title" name="title" placeholder="Enter title of your deal"
+              <input appTrim type="text font-weight-light" class="font-thin form-control text-sm" formControlName="title" name="title" placeholder="Enter title of your deal"
               [ngClass]="{
                 'is-invalid': f['title'].invalid && f['title'].touched,
                 'is-valid': f['title'].valid}">
@@ -44,7 +44,7 @@
             </div>
             <div class="pb-5">
               <label class="mb-3 form-label">Subtitle</label>
-              <input appTrim type="text font-weight-light" class="font-thin form-control" formControlName="subtitle" name="subtitle" placeholder="Enter subtitle of your deal"
+              <input appTrim type="text font-weight-light" class="font-thin form-control text-sm" formControlName="subtitle" name="subtitle" placeholder="Enter subtitle of your deal"
               [ngClass]="{
                 'is-invalid': f['subtitle'].invalid && f['subtitle'].touched,
                 'is-valid': f['subtitle'].valid}">
@@ -75,7 +75,7 @@
             </div>
             <div class="pb-5">
               <label class="mb-3 form-label">Description</label>
-              <textarea appTrim type="text font-weight-light" class="font-thin form-control" formControlName="description" name="description" placeholder="Description" rows="7"
+              <textarea appTrim type="text font-weight-light" class="font-thin form-control text-sm" formControlName="description" name="description" placeholder="Description" rows="7"
               [ngClass]="{
                 'is-invalid': f['description'].invalid && f['description'].touched,
                 'is-valid': f['description'].valid}"></textarea>
