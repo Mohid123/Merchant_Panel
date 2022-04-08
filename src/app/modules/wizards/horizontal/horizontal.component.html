@@ -1,55 +1,11 @@
-
-
 <div class="p-0 m-0" >
   <div class="p-0">
     <div
       class="stepper stepper-links d-flex flex-column"
       id="kt_create_account_stepper"
     >
-      <!-- <div class="mb-0 lg:mb-5 stepper-nav">
-        <div
-          class="stepper-item"
-          [ngClass]="{
-            current: currentStep$.value === 1,
-            completed: currentStep$.value > 1
-          }"
-        >
-          <h6 class="fw-lighter">Description &nbsp; </h6>
-        </div>
-
-        <div
-          class="stepper-item"
-          [ngClass]="{
-            current: currentStep$.value === 2,
-            completed: currentStep$.value > 2
-          }"
-        >
-          <h6 class="fw-lighter">The Numbers &nbsp; </h6>
-        </div>
-
-        <div
-          class="stepper-item"
-          [ngClass]="{
-            current: currentStep$.value === 3,
-            completed: currentStep$.value > 3
-          }"
-        >
-          <h6 class="fw-lighter">Terms &nbsp; </h6>
-        </div>
-
-        <div
-          class="stepper-item"
-          [ngClass]="{
-            current: currentStep$.value === 4,
-            completed: currentStep$.value > 4
-          }"
-        >
-          <h6 class="fw-lighter">Publish </h6>
-        </div>
-      </div> -->
-
       <form
-        class="pt-0 pb-0 mx-auto lg:pb-10 w-100"
+        class="pt-0 pb-0 mx-auto w-100"
         noValidate
         id="kt_create_account_form"
       >
@@ -91,7 +47,7 @@
           </ng-container>
         </div>
 
-        <div class="d-flex flex-stack pt-15">
+        <div class="d-flex justify-content-center mt-2">
           <div class="mr-2">
             <ng-container *ngIf="currentStep$.value !== 1">
               <button
