@@ -34,6 +34,7 @@ export class Step4Component implements OnInit {
       center: 'title',
       right: ''
     },
+    height: "auto",
     initialView: 'dayGridMonth',
     weekends: true,
     editable: true,
