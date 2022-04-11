@@ -80,8 +80,8 @@ export class Step2Component implements OnInit {
     this.subDealForm.reset();
   }
 
-  deleteDeal() {
-    this.subDeals = [];
+  deleteDeal(i:any) {
+    this.subDeals.splice(i, 1)
   }
 
   initSubDealForm() {
