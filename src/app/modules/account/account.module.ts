@@ -3,12 +3,11 @@ import { NgModule } from '@angular/core';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { DropdownMenusModule, WidgetsModule } from '../../_metronic/partials';
 import { AccountComponent } from '../account/account.component';
+import { ReusableModalModule } from './../../components/reusable-modal/reusable-modal.module';
 import { AccountDetailsComponent } from './account-details/account-details.component';
 import { AccountRoutingModule } from './account-routing.module';
-import { BillingFormComponent } from './billing-form/billing-form.component';
 import { BussinessDetailsComponent } from './bussiness-details/bussiness-details.component';
 import { OverviewComponent } from './overview/overview.component';
-import { ProfileFormDetailsComponent } from './profile-form-details/profile-form-details.component';
 import { ConnectedAccountsComponent } from './settings/forms/connected-accounts/connected-accounts.component';
 import { DeactivateAccountComponent } from './settings/forms/deactivate-account/deactivate-account.component';
 import { EmailPreferencesComponent } from './settings/forms/email-preferences/email-preferences.component';
@@ -24,28 +23,21 @@ import { SettingsComponent } from './settings/settings.component';
     OverviewComponent,
     SettingsComponent,
     ProfileDetailsComponent,
-
     ConnectedAccountsComponent,
     DeactivateAccountComponent,
     EmailPreferencesComponent,
     NotificationsComponent,
     SignInMethodComponent,
-    BillingFormComponent,
-    BussinessDetailsComponent,
-    ProfileFormDetailsComponent,
     AccountDetailsComponent,
-
+    BussinessDetailsComponent
   ],
   imports: [
-
     CommonModule,
     AccountRoutingModule,
     InlineSVGModule,
     DropdownMenusModule,
     WidgetsModule,
-
-
-
+    ReusableModalModule
   ],
 })
 export class AccountModule {}
