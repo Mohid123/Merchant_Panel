@@ -1,128 +1,130 @@
-<div class="card mb-5 mb-xl-10">
+<div class="mb-5 card mb-xl-10 company-details">
+  <div class="py-6 mt-5 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
+    <h3 class="mb-0 fw-bolder">Company Details</h3>
+    <a (click)="openCompanyModal()" class="edit-btn">Edit</a>
+  </div>
 
-  <div id="kt_account_profile_details" class="collapse show">
-    <form novalidate="" class="form">
-      <div class="card-body border-top p-9">
-        <div class="row mb-6">
-          <label class="col-lg-4 col-form-label fw-bold fs-6">Profile Image</label>
-          <div class="col-lg-8">
-            <div class="image-input image-input-outline" data-kt-image-input="true"
-              [style.background-image]="'url(./assets/media/avatars/blank.png'">
-              <div class="image-input-wrapper w-125px h-125px" [style.background-image]="
-                  'url(./assets/media/avatars/300-1.jpg'
-                "></div>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-6">
-          <label class="col-lg-4 col-form-label required fw-bold fs-6">Company</label>
-          <div class="col-lg-6 fv-row">
-            <input type="text" class="form-control" placeholder="Company name" name="company" />
-          </div>
-        </div>
-        <div class="row mb-6">
-          <label class="col-lg-4 col-form-label required fw-bold fs-6">Street Address</label>
-          <div class="col-lg-6 fv-row">
-            <input type="text" class="form-control" placeholder="Company name" name="company" />
-          </div>
-        </div>
-        <div class="row mb-6">
-          <label class="col-lg-4 col-form-label required fw-bold fs-6">Zip</label>
-          <div class="col-lg-6 fv-row">
-            <input type="tel" class="form-control" placeholder="Company name" name="company" />
-          </div>
-        </div>
-        <div class="row mb-6">
-          <label class="col-lg-4 col-form-label required fw-bold fs-6">City</label>
-          <div class="col-lg-6 fv-row">
-            <input type="text" class="form-control" placeholder="City name" name="city" />
-          </div>
-        </div>
-        <div class="row mb-6">
-          <label class="col-lg-4 col-form-label required fw-bold fs-6">Google Map Pin</label>
-          <div class="col-lg-6 fv-row">
-            <input type="tel" class="form-control" placeholder="Company name" name="company" />
-          </div>
-        </div>
-        <div class="row mb-6">
-          <label class="col-lg-4 col-form-label fw-bold fs-6"><span class="required">Website/Social Media
-              URL</span></label>
-          <div class="col-lg-6 fv-row">
-            <input type="text" class="form-control" placeholder="Company website" name="companySite" />
-          </div>
-        </div>
-      </div>
-      <!-- <div class="card-footer d-flex justify-content-end py-6 px-9">
-        <button class="btn btn-secondary me-3" routerLink="/crafted/account/overview"
-          routerLinkActive="active">Discard</button>
-        <button type="button" class="btn btn-dark" [disabled]="isLoading" (click)="saveSettings()">
-          <ng-container *ngIf="!isLoading">Save</ng-container>
-          <ng-container *ngIf="isLoading">
-            <span clas="indicator-progress" [style.display]="'block'">
-              Please wait...{{ " " }}
-              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-          </ng-container>
-        </button>
-
-
-      </div> -->
-    </form>
+  <div class="card-body border-top p-9">
+    <div>
+      <label>Company</label>
+      <span>Company</span>
+    </div>
+    <div>
+      <label>Street Address</label>
+      <span>Street Address</span>
+    </div>
+    <div>
+      <label>Zip</label>
+      <span>Zip</span>
+    </div>
+    <div>
+      <label>City</label>
+      <span>City</span>
+    </div>
+    <div>
+      <label>Google Map Pin</label>
+      <span>Google Map Pin</span>
+    </div>
+    <div>
+      <label>Website/Social Media URL</label>
+      <span>Website/Social Media URL</span>
+    </div>
   </div>
 </div>
 
+<app-reusable-modal #companyModal [modalConfig]="modalConfig" [cssClass]="{modalDialogClass:'company-modal'}">
+  <div class="company-detail-modal">
+    <div class="mb-5 card mb-xl-10 company-details edit-modal">
+      <button class="self-end mt-4 mr-4 btn-close" (click)="closeCompanyModal()"></button>
+      <div class="pt-2 cursor-pointer card-header px-16 mx-2.5" style="border-bottom:1px dashed #dddddd !important;">
+        <h3 class="mb-5 text-base fw-bolder">Company Details</h3>
+      </div>
+
+      <form novalidate="" class="form px-16 mx-2.5">
+        <div class="px-0 py-3 card-body">
+          <div>
+            <label>Company</label>
+            <input type="text" class="form-control" placeholder="Company name" name="company" />
+          </div>
+          <div>
+            <label>Street Address</label>
+            <input type="text" class="form-control" placeholder="Company name" name="company" />
+          </div>
+          <div>
+            <label>Zip</label>
+            <input type="tel" class="form-control" placeholder="Company name" name="company" />
+          </div>
+          <div>
+            <label>City</label>
+            <input type="text" class="form-control" placeholder="City name" name="city" />
+          </div>
+          <div>
+            <label>Google Map Pin</label>
+            <input type="tel" class="form-control" placeholder="Company name" name="company" />
+          </div>
+          <div>
+            <label>Website/Social Media URL</label>
+            <input type="text" class="form-control" placeholder="Company website" name="companySite" />
+          </div>
+        </div>
+      <div class="justify-between px-0 py-6 border-none card-footer d-flex">
+        <button class="modal-close-btn"
+        routerLinkActive="active"
+        (click)="closeCompanyModal()">Discard</button>
+
+        <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async)" (click)="saveSettings()">
+          <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+        </button>
+
+      </div>
+    </form>
+    </div>
+  </div>
+</app-reusable-modal>
+
+<ng-template #Loading>
+  <span clas="indicator-progress" [style.display]="'block'">
+    Please wait...{{ " " }}
+    <span
+      class="align-middle spinner-border spinner-border-sm ms-2"
+    ></span>
+  </span>
+</ng-template>
+
 
 <div style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
-  <div class="card-header cursor-pointer py-6 px-20" style="border-bottom:1px dashed #dddddd !important;">
-    <div class="card-title m-0">
-      <h3 class="fw-bolder m-0">Set Bussiness Hours</h3>
+  <div class="px-20 py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
+    <div class="m-0 card-title">
+      <h3 class="m-0 fw-bolder">Set Bussiness Hours</h3>
     </div>
 
   </div>
-  <div class="card-body py-3" style="background-color: white;">
+  <div class="px-12 card-body" style="background-color: white;">
     <div class="table-responsive">
-      <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+      <table class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
 
         <tbody>
           <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <div class="d-flex align-items-center">
-                <div class="d-flex justify-content-start flex-column"><a href="#"
-                    class="text-dark fw-bolder text-hover-primary fs-6"> Sunday </a></div>
+            <td class="day">
+                <div class="d-flex flex-column"><a href="#"> Sunday </a></div>
+            </td>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
+              </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
             </td>
-            <td>
-              <div class="flex justify-center">
-                <div class="form-check form-switch">
-                  <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-primary-400 bg-no-repeat bg-contain  focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-
-                </div>
-              </div>
+            <td class="until">
+              <span class="flex items-center justify-center text-center">Until</span>
             </td>
-            <td>
-              <span class="text-muted fw-bold text-muted d-block fs-7"> Closed </span>
-            </td>
-            <td>
-               <div class="row mb-6 flex justify-center" >
-                <div class="col-lg-3 ">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-              <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
-
-              <div class="row mb-6 flex justify-center">
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
 
 
@@ -131,44 +133,26 @@
           </tr>
 
           <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <div class="d-flex align-items-center">
-                <div class="d-flex justify-content-start flex-column"><a href="#"
-                    class="text-dark fw-bolder text-hover-primary fs-6"> Monday </a></div>
+            <td class="day">
+                <div class="d-flex flex-column"><a href="#"> Monday </a></div>
+            </td>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
+              </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
             </td>
-            <td>
-              <div class="flex justify-center">
-                <div class="form-check form-switch">
-                  <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-primary-400 bg-no-repeat bg-contain  focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-
-                </div>
-              </div>
+            <td class="until">
+              <span class="flex items-center justify-center text-center">Until</span>
             </td>
-            <td>
-              <span class="text-muted fw-bold text-muted d-block fs-7"> Closed </span>
-            </td>
-            <td>
-               <div class="row mb-6 flex justify-center" >
-                <div class="col-lg-3 ">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
-
-              <div class="row mb-6 flex justify-center">
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
 
 
@@ -177,44 +161,26 @@
           </tr>
 
           <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <div class="d-flex align-items-center">
-                <div class="d-flex justify-content-start flex-column"><a href="#"
-                    class="text-dark fw-bolder text-hover-primary fs-6"> Tuesday </a></div>
+            <td class="day">
+                <div class="d-flex flex-column"><a href="#"> Tuesday </a></div>
+            </td>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
+              </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
             </td>
-            <td>
-              <div class="flex justify-center">
-                <div class="form-check form-switch">
-                  <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-primary-400 bg-no-repeat bg-contain  focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-
-                </div>
-              </div>
+            <td class="until">
+              <span class="flex items-center justify-center text-center">Until</span>
             </td>
-            <td>
-              <span class="text-muted fw-bold text-muted d-block fs-7"> Closed </span>
-            </td>
-            <td>
-               <div class="row mb-6 flex justify-center" >
-                <div class="col-lg-3 ">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
-
-              <div class="row mb-6 flex justify-center">
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
 
 
@@ -223,44 +189,26 @@
           </tr>
 
           <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <div class="d-flex align-items-center">
-                <div class="d-flex justify-content-start flex-column"><a href="#"
-                    class="text-dark fw-bolder text-hover-primary fs-6"> Wednesday </a></div>
+            <td class="day">
+                <div class="d-flex flex-column"><a href="#"> Wednesday </a></div>
+            </td>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
+              </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
             </td>
-            <td>
-              <div class="flex justify-center">
-                <div class="form-check form-switch">
-                  <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-primary-400 bg-no-repeat bg-contain  focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-
-                </div>
-              </div>
+            <td class="until">
+              <span class="flex items-center justify-center text-center">Until</span>
             </td>
-            <td>
-              <span class="text-muted fw-bold text-muted d-block fs-7"> Closed </span>
-            </td>
-            <td>
-               <div class="row mb-6 flex justify-center" >
-                <div class="col-lg-3 ">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
-
-              <div class="row mb-6 flex justify-center">
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
 
 
@@ -269,44 +217,26 @@
           </tr>
 
           <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <div class="d-flex align-items-center">
-                <div class="d-flex justify-content-start flex-column"><a href="#"
-                    class="text-dark fw-bolder text-hover-primary fs-6"> Thursday </a></div>
+            <td class="day">
+                <div class="d-flex flex-column"><a href="#"> Thursday </a></div>
+            </td>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
+              </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
             </td>
-            <td>
-              <div class="flex justify-center">
-                <div class="form-check form-switch">
-                  <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-primary-400 bg-no-repeat bg-contain  focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-
-                </div>
-              </div>
+            <td class="until">
+              <span class="flex items-center justify-center text-center">Until</span>
             </td>
-            <td>
-              <span class="text-muted fw-bold text-muted d-block fs-7"> Closed </span>
-            </td>
-            <td>
-               <div class="row mb-6 flex justify-center" >
-                <div class="col-lg-3 ">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
-
-              <div class="row mb-6 flex justify-center">
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
 
 
@@ -315,44 +245,26 @@
           </tr>
 
           <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <div class="d-flex align-items-center">
-                <div class="d-flex justify-content-start flex-column"><a href="#"
-                    class="text-dark fw-bolder text-hover-primary fs-6"> Friday </a></div>
+            <td class="day">
+                <div class="d-flex flex-column"><a href="#"> Friday </a></div>
+            </td>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
+              </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
             </td>
-            <td>
-              <div class="flex justify-center">
-                <div class="form-check form-switch">
-                  <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-primary-400 bg-no-repeat bg-contain  focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-
-                </div>
-              </div>
+            <td class="until">
+              <span class="flex items-center justify-center text-center">Until</span>
             </td>
-            <td>
-              <span class="text-muted fw-bold text-muted d-block fs-7"> Closed </span>
-            </td>
-            <td>
-               <div class="row mb-6 flex justify-center" >
-                <div class="col-lg-3 ">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
-
-              <div class="row mb-6 flex justify-center">
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
 
 
@@ -361,44 +273,26 @@
           </tr>
 
           <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <div class="d-flex align-items-center">
-                <div class="d-flex justify-content-start flex-column"><a href="#"
-                    class="text-dark fw-bolder text-hover-primary fs-6"> Saturday </a></div>
+            <td class="day">
+                <div class="d-flex flex-column"><a href="#"> Saturday </a></div>
+            </td>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
+              </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
             </td>
-            <td>
-              <div class="flex justify-center">
-                <div class="form-check form-switch">
-                  <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-primary-400 bg-no-repeat bg-contain  focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-
-                </div>
-              </div>
+            <td class="until">
+              <span class="flex items-center justify-center text-center">Until</span>
             </td>
-            <td>
-              <span class="text-muted fw-bold text-muted d-block fs-7"> Closed </span>
-            </td>
-            <td>
-               <div class="row mb-6 flex justify-center" >
-                <div class="col-lg-3 ">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+            <td class="time">
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
-
-              <div class="row mb-6 flex justify-center">
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
-                <span class="col-2 text-center flex justify-center items-center">Until</span>
-                <div class="col-lg-3 fv-row">
-                  <input type="time" class="form-control" placeholder="Company name" name="company" />
-                </div>
+              <div>
+                <input type="time" class="form-control" placeholder="Company name" name="company" />
               </div>
 
 
@@ -409,20 +303,5 @@
         </tbody>
       </table>
     </div>
-  </div>
-  <div class="card-footer d-flex justify-content-end py-6 px-9">
-    <button class="btn btn-secondary me-3" routerLink="/crafted/account/overview"
-      routerLinkActive="active">Discard</button>
-    <button type="button" class="btn btn-dark" [disabled]="isLoading" (click)="saveSettings()">
-      <ng-container *ngIf="!isLoading">Save</ng-container>
-      <ng-container *ngIf="isLoading">
-        <span clas="indicator-progress" [style.display]="'block'">
-          Please wait...{{ " " }}
-          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-        </span>
-      </ng-container>
-    </button>
-
-
   </div>
 </div>

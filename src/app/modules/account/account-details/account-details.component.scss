@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+
+.card-header {
+  min-height: unset;
+}
+
+h3 {
+  @apply text-base;
+}
+
+.contact-details {
+  min-height: 489px;
+}
+
+.billing-details {
+  min-height: 389px;
+}
+
+.contact-details, .billing-details {
+
+  label {
+    @apply text-custom-black-600 w-full;
+  }
+
+  .card-body span {
+    @apply text-custom-black-100 text-xs;
+  }
+}
+
+.contact-details.edit-modal, .billing-details.edit-modal {
+
+  h3 {
+    @apply text-base;
+  }
+
+  label {
+    @apply text-xs text-left mb-3;
+  }
+
+  .card-body span {
+    @apply text-custom-black-100 text-xs;
+  }
+
+  .form-control {
+    border-width: 0.5px;
+    margin-bottom: 16px;
+  }
+}
+
+
+.edit-btn {
+  @apply w-12 text-black self-center py-1 px-0 text-center;
+  background-color: #F2F4F7;
+  font-size: 10px;
+}
+
+::ng-deep .contact-modal,.billing-modal{
+  width: 463px;
+}
+
+.modal-close-btn {
+  @apply text-xs bg-white rounded-md border-custom-black-100 text-custom-black-600;
+  width: 117px;
+  border-width: 1px !important;
+}
+
+.modal-save-btn {
+  width: 117px;
+}
