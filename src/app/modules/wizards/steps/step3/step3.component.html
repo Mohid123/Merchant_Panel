@@ -122,7 +122,7 @@
 
 
 <!--Edit Modal-->
-<app-modal-reusable #modal [modalConfig]="modalConfig">
+<app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="modal-body">
     <div class="p-0 m-0 d-flex justify-content-end">
       <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" (click)="closeModal()"
@@ -169,7 +169,7 @@
     <button type="button" class="text-white btn btn-dark" (click)="closeModal()">Save</button>
   </div>
 
-</app-modal-reusable>
+</app-reusable-modal>
 
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">
   <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">

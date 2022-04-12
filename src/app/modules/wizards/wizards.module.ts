@@ -11,10 +11,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { ModalReusableComponent } from '@pages/modal-reusable/modal-reusable.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TrimModule } from './../../@core/directives/trim/trim.module';
 import { TruncatePipe } from './../../@core/pipes/truncate.pipe';
+import { ReusableModalModule } from './../../_metronic/layout/components/reusable-modal/reusable-modal.module';
 import { HorizontalComponent } from './horizontal/horizontal.component';
 import { Step1Component } from './steps/step1/step1.component';
 import { Step2Component } from './steps/step2/step2.component';
@@ -43,7 +43,6 @@ FullCalendarModule.registerPlugins([
     Step4Component,
     Step5Component,
     ViewDealComponent,
-    ModalReusableComponent,
     TruncatePipe
   ],
   imports: [
@@ -61,7 +60,8 @@ FullCalendarModule.registerPlugins([
     MatTabsModule,
     MatIconModule,
     MatMenuModule,
-    NgbModule
+    NgbModule,
+    ReusableModalModule
   ],
 })
 export class WizardsModule {}

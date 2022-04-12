@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { ReusableModalModule } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.module';
 import { DropdownMenusModule, WidgetsModule } from '../../_metronic/partials';
 import { AccountComponent } from '../account/account.component';
 import { AccountDetailsComponent } from './account-details/account-details.component';
@@ -43,7 +44,7 @@ import { SettingsComponent } from './settings/settings.component';
     InlineSVGModule,
     DropdownMenusModule,
     WidgetsModule,
-
+    ReusableModalModule
 
 
   ],
