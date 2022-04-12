@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BillingFormComponent } from './billing-form.component';
+import { ReusableModalComponent } from './reusable-modal.component';
 
-describe('BillingFormComponent', () => {
-  let component: BillingFormComponent;
-  let fixture: ComponentFixture<BillingFormComponent>;
+describe('ReusableModalComponent', () => {
+  let component: ReusableModalComponent;
+  let fixture: ComponentFixture<ReusableModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BillingFormComponent ]
+      declarations: [ ReusableModalComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BillingFormComponent);
+    fixture = TestBed.createComponent(ReusableModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

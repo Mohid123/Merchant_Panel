@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ModalConfig } from './../../../../@core/models/modal.config';
+import { ModalConfig } from './../../../@core/models/modal.config';
 
 @Component({
   selector: 'app-reusable-modal',
@@ -8,6 +8,7 @@ import { ModalConfig } from './../../../../@core/models/modal.config';
   styleUrls: ['./reusable-modal.component.scss']
 })
 export class ReusableModalComponent implements OnInit {
+
   @Input() public modalConfig: ModalConfig;
   @Input() public cssClass: any;
 
@@ -24,7 +25,8 @@ export class ReusableModalComponent implements OnInit {
     const config: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      centered: true
+      centered: true,
+      modalDialogClass: this.cssClass.modalDialogClass,
     };
     return new Promise<boolean>(resolve => {
       this.modalRef = this.modalService.open(this.modalContent, config)
