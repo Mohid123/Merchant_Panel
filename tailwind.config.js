@@ -18,6 +18,14 @@ module.exports = {
         'primary-100': '#F7E1AD',
         'primary-400': '#E9A608',
         'primary-500': '#E67B00',
+        'custom-black' : {
+          '100': '#4e5970b3',
+          '600': '#4E5970',
+          '900': '#191919',
+        },
+        'font-gray' : {
+          '600': '#9399B2',
+        }
       },
       width: {
         '90px': '90px',

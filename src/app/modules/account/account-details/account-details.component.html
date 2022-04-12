@@ -1,317 +1,146 @@
-<div *ngIf="showDiv.profile" class="mb-5 card mb-xl-10" id="kt_profile_details_view">
-  <div class="px-20 py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
-    <div class="m-0 card-title">
-      <h3 class="m-0 fw-bolder">Profile Details</h3>
+<div class="mb-5 card mb-xl-10 contact-details">
+  <div class="pt-8 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
+    <div class="flex flex-col items-center w-full mb-5">
+      <img class="w-24 mb-5 rounded-full" src="./assets/media/avatars/300-1.jpg" alt="Metronic" />
+      <h3 class=""> Max Smith</h3>
     </div>
-    <a
-      class="btn btn-dark w-36 align-self-center" (click)="showDiv.profile = false; showDiv.profileSettings = true"
-    >
-      Edit
-    </a>
+    <h3 class="mb-5 fw-bolder">Contact Details</h3>
+    <a class="mb-5 edit-btn" (click)="openContactModal()">Edit</a>
   </div>
 
-  <div class="px-20 card-body py-9">
-    <div class="row mb-7">
-      <label class="col-lg-4 fw-bold text-muted">First Name</label>
-
-      <div class="col-lg-8">
-        <span class="fw-bolder fs-6 text-dark">David</span>
-      </div>
+  <div class="h-64 py-3 px-9 card-body">
+    <div>
+      <label>Name</label>
+      <span>David Deens</span>
     </div>
-    <div class="row mb-7">
-      <label class="col-lg-4 fw-bold text-muted">Last Name</label>
-
-      <div class="col-lg-8">
-        <span class="fw-bolder fs-6 text-dark">Deens</span>
-      </div>
+    <div>
+      <label>Email</label>
+      <span>david@deen.com</span>
     </div>
-    <div class="row mb-7">
-      <label class="col-lg-4 fw-bold text-muted">Email</label>
-
-      <div class="col-lg-8 fv-row">
-        <span class="fw-bold fs-6">david@deen.com</span>
-      </div>
-    </div>
-    <div class="row mb-7">
-      <label class="col-lg-4 fw-bold text-muted">Mobile</label>
-
-      <div class="col-lg-8 fv-row">
-        <span class="fw-bold fs-6">123456789</span>
-      </div>
+    <div>
+      <label>Mobile</label>
+      <span>123456789</span>
     </div>
   </div>
 </div>
 
-<div *ngIf="showDiv.profileSettings" class="mb-5 card mb-xl-10" id="kt_profile_details_view">
-  <div class="px-20 py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
-    <div class="m-0 card-title">
-      <h3 class="m-0 fw-bolder">Profile Details</h3>
-    </div>
+<app-reusable-modal #contactModal [modalConfig]="modalConfig" [cssClass]="{modalDialogClass:'contact-modal'}">
+  <div class="contact-detail-modal">
+    <div class="mb-5 card mb-xl-10 contact-details edit-modal">
+      <button class="self-end mt-4 mr-4 btn-close" (click)="closeContactModal()"></button>
+      <div class="pt-2 cursor-pointer card-header px-16 mx-2.5" style="border-bottom:1px dashed #dddddd !important;">
+        <h3 class="mb-5 text-base fw-bolder">Contact Details</h3>
+      </div>
 
-  </div>
-
-  <form novalidate="" class="form">
-    <div class="px-20 card-body border-top p-9">
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label fw-bold fs-6">Profile Image</label>
-        <div class="col-lg-6">
-          <div
-            class="image-input image-input-outline"
-            data-kt-image-input="true"
-            [style.background-image]="'url(./assets/media/avatars/blank.png'"
-          >
-            <div
-              class="image-input-wrapper w-125px h-125px"
-              [style.background-image]="
-                'url(./assets/media/avatars/300-1.jpg'
-              "
-            ></div>
+      <form novalidate="" class="form px-16 mx-2.5">
+        <div class="px-0 py-3 card-body">
+          <div>
+            <label>Name</label>
+            <input type="text" class="form-control " placeholder="David Deens" name="fullname"/>
+          </div>
+          <div>
+            <label>Email</label>
+            <input type="text" class="form-control" placeholder="david@deen.com" name="email"/>
+          </div>
+          <div>
+            <label>Mobile</label>
+            <input type="tel" class="form-control" placeholder="0214458723" name="number" />
           </div>
         </div>
-      </div>
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label required fw-bold fs-6"
-          >Full Name</label
-        >
-        <div class="col-lg-6 fv-row">
-          <input
-            type="text"
-            class="form-control "
-            placeholder="David Deens"
-            name="fullname"/>
-        </div>
-      </div>
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label required fw-bold fs-6"
-          >Company</label
-        >
-        <div class="col-lg-6 fv-row">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Mark Loops"
-            name="company"/>
-        </div>
-      </div>
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label required fw-bold fs-6"
-          >Contact Number</label
-        >
-        <div class="col-lg-6 fv-row">
-          <input
-            type="tel"
-            class="form-control"
-            placeholder="0214 4587 5698 2358"
-            name="number" />
-        </div>
-      </div>
+        <div class="justify-between px-0 py-6 border-none card-footer d-flex">
+          <button class="modal-close-btn"
+          routerLinkActive="active"
+          (click)="closeContactModal()">Discard</button>
 
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label fw-bold fs-6"
-          ><span class="required">Company Site</span></label
-        >
-        <div class="col-lg-6 fv-row">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Company website"
-            name="companySite"
-            />
+          <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async)" (click)="saveSettings()">
+            <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+          </button>
+
         </div>
-      </div>
-
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label required fw-bold fs-6"
-          >Country</label
-        >
-        <div class="col-lg-6 fv-row">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Pakistan"
-            name="country" />
-        </div>
-      </div>
-
-
+      </form>
     </div>
-    <div class="py-6 card-footer d-flex justify-content-end px-9">
-      <button class="btn btn-secondary me-3"
-      routerLinkActive="active"
-      (click)="showDiv.profile = true; showDiv.profileSettings = false">Discard</button>
+  </div>
+</app-reusable-modal>
 
-      <button
-        type="button"
-        class="btn btn-dark"
-        [disabled]="isLoading"
-        (click)="saveSettings()"
-      >
-        <ng-container *ngIf="!isLoading">Save</ng-container>
-        <ng-container *ngIf="isLoading">
-          <span clas="indicator-progress" [style.display]="'block'">
-            Please wait...{{ " " }}
-            <span
-              class="align-middle spinner-border spinner-border-sm ms-2"
-            ></span>
-          </span>
-        </ng-container>
+<ng-template #Loading>
+  <span clas="indicator-progress" [style.display]="'block'">
+    Please wait...{{ " " }}
+    <span
+      class="align-middle spinner-border spinner-border-sm ms-2"
+    ></span>
+  </span>
+</ng-template>
+
+<div class="mb-5 card mb-xl-10 billing-details">
+  <div class="py-6 mt-5 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
+    <h3 class="mb-0 fw-bolder">Billing Details</h3>
+    <a (click)="openBillingModal()" class="edit-btn">Edit</a>
+  </div>
+
+  <div class="h-64 py-3 px-9 card-body">
+    <div>
+      <label>Company Name</label>
+      <span>Divideals</span>
+    </div>
+    <div>
+      <label>Street Address</label>
+        <span>200, atlantica xyz, FL 2300</span>
+    </div>
+     <div>
+      <label>Vat Number</label>
+      <span>456977</span>
+    </div>
+    <div>
+      <label>Zip Code</label>
+      <span>0214</span>
+    </div>
+    <div>
+      <label>City</label>
+      <span>The Hague</span>
+    </div>
+  </div>
+</div>
+
+<app-reusable-modal #billingModal [modalConfig]="modalConfig" [cssClass]="{modalDialogClass:'billing-modal'}">
+<div class="billing-detail-modal">
+  <div class="mb-5 card mb-xl-10 billing-details edit-modal">
+    <button class="self-end mt-4 mr-4 btn-close" (click)="closeBillingModal()"></button>
+  <div class="pt-2 cursor-pointer card-header px-16 mx-2.5" style="border-bottom:1px dashed #dddddd !important;">
+    <h3 class="mb-5 text-base fw-bolder">Billing Details</h3>
+  </div>
+
+  <form novalidate="" class="form px-16 mx-2.5">
+    <div class="px-0 py-3 card-body">
+      <div>
+        <label>Company Name</label>
+        <input type="text" class="form-control " placeholder="DavidDels" name="company"/>
+      </div>
+      <div>
+        <label>Street Address</label>
+          <input type="text" class="form-control" placeholder="200 E Gaines St, Talahasse" name="address"/>
+      </div>
+       <div>
+        <label>Vat Number</label>
+        <input type="tel" class="form-control" placeholder="0214" name="number" />
+      </div>
+      <div>
+        <label>Zip Code</label>
+        <input type="tel" class="form-control" placeholder="5464654" name="zip">
+      </div>
+      <div>
+        <label>City</label>
+        <input type="text" class="form-control" placeholder="The hagues" name="city" />
+      </div>
+    </div>
+    <div class="justify-between px-0 py-6 border-none card-footer d-flex">
+      <button class="modal-close-btn" (click)="showDiv.billingAddressSettings = false; showDiv.billingAddress = true" routerLinkActive="active">Discard</button>
+
+      <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async)" (click)="saveSettings()">
+        <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
       </button>
 
     </div>
   </form>
 </div>
-
-
-
-<div *ngIf="showDiv.billingAddress" class="mb-5 card mb-xl-10" id="kt_profile_details_view">
-  <div class="px-20 py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
-    <div class="m-0 card-title">
-      <h3 class="m-0 fw-bolder">Your Billing Address</h3>
-    </div>
-    <a (click)="showDiv.billingAddress = false; showDiv.billingAddressSettings = true"
-      class="btn btn-dark w-36 align-self-center"
-      >
-        Edit
-    </a>
-  </div>
-
-  <div class="px-20 card-body p-9">
-    <div class="row mb-7">
-      <label class="col-lg-4 fw-bold text-muted">Company Name</label>
-
-      <div class="col-lg-8">
-        <span class="fw-bolder fs-6 text-dark">Divideals</span>
-      </div>
-    </div>
-    <div class="row mb-7">
-      <label class="col-lg-4 fw-bold text-muted">Street Address</label>
-
-      <div class="col-lg-8 fv-row">
-        <span class="fw-bold fs-6">200, atlantica xyz, FL 2300</span>
-      </div>
-    </div>
-     <div class="row mb-7">
-      <label class="col-lg-4 fw-bold text-muted">Vat Number</label>
-
-      <div class="col-lg-8">
-        <span class="fw-bolder fs-6 text-dark">456977</span>
-      </div>
-    </div>
-    <div class="mb-10 row">
-      <label class="col-lg-4 fw-bold text-muted">Zip Code</label>
-
-      <div class="col-lg-8">
-        <span class="fw-bold fs-6">0214</span>
-      </div>
-    </div>
-    <div class="mb-10 row">
-      <label class="col-lg-4 fw-bold text-muted">City</label>
-
-      <div class="col-lg-8">
-        <span class="fw-bold fs-6">The Hague</span>
-      </div>
-    </div>
-  </div>
 </div>
-
-<div *ngIf="showDiv.billingAddressSettings" class="mb-5 card mb-xl-10" id="kt_profile_details_view">
-  <div class="px-20 py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
-    <div class="m-0 card-title">
-      <h3 class="m-0 fw-bolder">Your Billing Address</h3>
-    </div>
-
-  </div>
-
-  <form novalidate="" class="form">
-    <div class="px-20 card-body border-top p-9">
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label required fw-bold fs-6"
-          >Company Name</label
-        >
-        <div class="col-lg-6 fv-row">
-          <input
-            type="text"
-            class="form-control "
-            placeholder="DavidDels"
-            name="company"/>
-        </div>
-      </div>
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label required fw-bold fs-6"
-          >Street Address</label
-        >
-        <div class="col-lg-6 fv-row">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="200 E Gaines St, Talahasse"
-            name="address"/>
-        </div>
-      </div>
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label required fw-bold fs-6"
-          >Vat Number</label
-        >
-        <div class="col-lg-6 fv-row">
-          <input
-            type="tel"
-            class="form-control"
-            placeholder="0214"
-            name="number" />
-        </div>
-      </div>
-
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label fw-bold fs-6"
-          ><span class="required">Zip Code</span></label
-        >
-        <div class="col-lg-6 fv-row">
-          <input
-            type="tel"
-            class="form-control"
-            placeholder="5464654"
-            name="zip"
-            />
-        </div>
-      </div>
-
-      <div class="mb-6 row">
-        <label class="col-lg-4 col-form-label required fw-bold fs-6"
-          >City</label
-        >
-        <div class="col-lg-6 fv-row">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="The hagues"
-            name="city" />
-        </div>
-      </div>
-
-
-    </div>
-    <div class="py-6 card-footer d-flex justify-content-end px-9">
-      <button class="btn btn-secondary me-6"
-      (click)="showDiv.billingAddressSettings = false; showDiv.billingAddress = true"
-      routerLinkActive="active">Discard</button>
-
-      <button
-        type="button"
-        class="btn btn-dark"
-        [disabled]="isLoading"
-        (click)="saveSettings()"
-      >
-        <ng-container *ngIf="!isLoading">Save</ng-container>
-        <ng-container *ngIf="isLoading">
-          <span clas="indicator-progress" [style.display]="'block'">
-            Please wait...{{ " " }}
-            <span
-              class="align-middle spinner-border spinner-border-sm ms-2"
-            ></span>
-          </span>
-        </ng-container>
-      </button>
-
-    </div>
-  </form>
-</div>
+</app-reusable-modal>
