@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
-import { ModalReusableComponent } from '@pages/modal-reusable/modal-reusable.component';
 import { Subscription } from 'rxjs';
+import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { MainDeal } from '../../models/main-deal.model';
 import { ModalConfig } from './../../../../@core/models/modal.config';
 import { createEventId } from './event-utils';
@@ -13,7 +13,7 @@ import { createEventId } from './event-utils';
 })
 export class Step4Component implements OnInit {
 
-  @ViewChild('modal') private modal: ModalReusableComponent;
+  @ViewChild('modal') private modal: ReusableModalComponent;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {

@@ -109,7 +109,7 @@
   <button (click)="openNew()" class="px-3 py-1 text-xs font-thin text-center text-yellow-700 rounded-sm" style="background: #FDF0E6;">View Details</button>
 </ng-template>
 
-<app-modal-reusable #modal [modalConfig]="modalConfig">
+<app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="border-b border-dashed modal-header">
     <div class="flex flex-row justify-between w-full">
       <div class="flex flex-row justify-start w-full p-2">
@@ -129,8 +129,8 @@
       <div class="mb-3 form-group">
         <label class="mb-3">Start Date <span class="text-red-600">*</span></label>
         <div class="input-group">
-          <img src="../../../../assets/media/logos/blue-halo-calendar.svg" class="w-9 h-9 mr-3">
-          <span class="font-thin text-gray-600 mt-2">08 Feb, 2021</span>
+          <img src="../../../../assets/media/logos/blue-halo-calendar.svg" class="mr-3 w-9 h-9">
+          <span class="mt-2 font-thin text-gray-600">08 Feb, 2021</span>
         </div>
       </div>
 
@@ -157,4 +157,4 @@
     </div>
   </div>
 
-</app-modal-reusable>
+</app-reusable-modal>

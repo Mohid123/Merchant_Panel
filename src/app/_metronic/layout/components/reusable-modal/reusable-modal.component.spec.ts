@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalReusableComponent } from './modal-reusable.component';
+import { ReusableModalComponent } from './reusable-modal.component';
 
-describe('ModalReusableComponent', () => {
-  let component: ModalReusableComponent;
-  let fixture: ComponentFixture<ModalReusableComponent>;
+describe('ReusableModalComponent', () => {
+  let component: ReusableModalComponent;
+  let fixture: ComponentFixture<ReusableModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ModalReusableComponent ]
+      declarations: [ ReusableModalComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModalReusableComponent);
+    fixture = TestBed.createComponent(ReusableModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
