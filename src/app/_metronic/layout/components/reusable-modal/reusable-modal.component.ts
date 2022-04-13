@@ -9,6 +9,7 @@ import { ModalConfig } from './../../../../@core/models/modal.config';
 })
 export class ReusableModalComponent implements OnInit {
   @Input() public modalConfig: ModalConfig;
+  @Input() public cssClass: any;
 
   @ViewChild('modal') private modalContent: TemplateRef<ReusableModalComponent>
 
