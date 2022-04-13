@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ModalConfig } from './../../../@core/models/modal.config';
-import { ReusableModalComponent } from './../../../_metronic/layout/components/reusable-modal/reusable-modal.component';
+import { ReusableModalComponent } from './../../../components/reusable-modal/reusable-modal/reusable-modal.component';
 
 @Component({
   selector: 'app-bussiness-details',
