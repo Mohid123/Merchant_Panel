@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BillingFormComponent } from './billing-form.component';
+import { SecurityCodeComponent } from './security-code.component';
 
-describe('BillingFormComponent', () => {
-  let component: BillingFormComponent;
-  let fixture: ComponentFixture<BillingFormComponent>;
+describe('SecurityCodeComponent', () => {
+  let component: SecurityCodeComponent;
+  let fixture: ComponentFixture<SecurityCodeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BillingFormComponent ]
+      declarations: [ SecurityCodeComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BillingFormComponent);
+    fixture = TestBed.createComponent(SecurityCodeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

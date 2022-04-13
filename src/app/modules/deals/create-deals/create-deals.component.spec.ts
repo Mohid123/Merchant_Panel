@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalReusableComponent } from './modal-reusable.component';
+import { CreateDealsComponent } from './create-deals.component';
 
-describe('ModalReusableComponent', () => {
-  let component: ModalReusableComponent;
-  let fixture: ComponentFixture<ModalReusableComponent>;
+describe('CreateDealsComponent', () => {
+  let component: CreateDealsComponent;
+  let fixture: ComponentFixture<CreateDealsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ModalReusableComponent ]
+      declarations: [ CreateDealsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModalReusableComponent);
+    fixture = TestBed.createComponent(CreateDealsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

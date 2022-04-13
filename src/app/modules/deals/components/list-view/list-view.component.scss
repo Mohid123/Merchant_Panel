@@ -1,0 +1,30 @@
+thead {
+  background-color: #EFF2F7;
+  color: #787F9F;
+
+  th,
+  td {
+    text-align: center;
+  }
+}
+
+tr {
+  border: none !important;
+}
+
+
+tbody,td, td a {
+  color: #4E5970;
+}
+
+.status {
+  &.active {
+    background-color: #19C12A26;
+    color: #19C12A;
+  }
+
+  &.pendding {
+    background-color: #FAE4E4;
+    color: #D90101;
+  }
+}

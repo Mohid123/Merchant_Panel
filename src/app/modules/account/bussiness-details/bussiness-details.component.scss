@@ -1,0 +1,114 @@
+
+h3 {
+  @apply text-base;
+}
+
+.edit-btn {
+  @apply w-12 text-black self-center py-1 px-0 text-center;
+  background-color: #F2F4F7;
+  font-size: 10px;
+}
+
+.company-details {
+  .card-body {
+    div {
+      display: flex;
+      padding: 14px 0;
+      align-items: center;
+    }
+  }
+
+  label {
+    @apply text-custom-black-600 text-xs w-44 mr-4;
+  }
+
+  .card-body span {
+    @apply text-custom-black-100 text-xs;
+  }
+}
+
+.day {
+  div {
+    @apply  w-10 h-10 rounded-full justify-center items-center;
+    background-color: #4E5970;
+
+    a {
+      color: white;
+      width: 2ch;
+      overflow: hidden;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.time {
+  @apply flex w-60 justify-between px-5;
+
+  div {
+    input {
+      @apply text-xs border-none rounded-md;
+      width: 90px;
+      background-color: #f0f1f4;
+      color: #787F9F;
+    }
+  }
+}
+
+.until{
+  @apply p-0;
+  font-size: 10px;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+  display:none;
+}
+
+.company-details.edit-modal {
+
+  .card-body {
+    div {
+      display: inline-block;
+      padding: 0;
+      width: 100%;
+    }
+  }
+
+  h3 {
+    @apply text-base;
+  }
+
+  label {
+    @apply text-xs text-left mb-3 w-full;
+  }
+
+  .card-body span {
+    @apply text-custom-black-100 text-xs;
+  }
+
+  .form-control {
+    border-width: 0.5px;
+    margin-bottom: 16px;
+  }
+}
+
+
+.edit-btn {
+  @apply w-12 text-black self-center py-1 px-0 text-center;
+  background-color: #F2F4F7;
+  font-size: 10px;
+}
+
+::ng-deep .company-modal {
+  width: 463px;
+}
+
+.modal-close-btn {
+  @apply text-xs bg-white rounded-md border-custom-black-100 text-custom-black-600;
+  width: 117px;
+  border-width: 1px !important;
+}
+
+.modal-save-btn {
+  width: 117px;
+}

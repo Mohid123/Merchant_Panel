@@ -32,7 +32,7 @@
             <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
           </div>
         <!-- </ng-container> -->
-        <div class="mt-8 text-red-500 form-label fw-bolder">Description</div>
+        <div class="mt-8 text-black form-label fw-bolder">Description</div>
         <p class="w-full mr-6 text-justify text-gray-400 fs-8">{{data.description}}</p>
       </div>
     </div>
@@ -80,7 +80,7 @@
 
 <!--Create Deal Modal-->
 
-<app-modal-reusable #modal [modalConfig]="modalConfig">
+<app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="modal-body">
     <div class="flex justify-end p-0 m-0">
       <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" (click)="closeModal()" style="
@@ -232,7 +232,7 @@
   <div class="modal-footer">
     <button type="button" class="text-white btn btn-dark" (click)="closeModal(); calculateDiscount()" [disabled]="!isCurrentFormValid$.value">Save</button>
   </div>
-</app-modal-reusable>
+</app-reusable-modal>
 
 
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">
