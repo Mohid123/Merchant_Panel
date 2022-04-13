@@ -1,12 +1,9 @@
-<div class="card mb-5 mb-xl-10">
-  <div class="card-body pt-9 pb-0">
-    <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
-      <div class="me-7 mb-4">
+<div class="mb-5 card mb-xl-10">
+  <div class="pb-0 card-body pt-9">
+    <div class="flex-wrap mb-3 d-flex flex-sm-nowrap">
+      <div class="mb-4 me-7">
         <div
-          class="
-            symbol symbol-100px symbol-lg-160px symbol-fixed
-            position-relative
-          "
+          class=" symbol symbol-100px symbol-lg-160px symbol-fixed position-relative"
         >
           <img src="./assets/media/avatars/300-1.jpg" alt="Metronic" />
 
@@ -15,37 +12,17 @@
 
       <div class="flex-grow-1">
         <div
-          class="
-            d-flex
-            justify-content-between
-            align-items-start
-            flex-wrap
-            mb-2
-          "
+          class="flex-wrap mb-2 d-flex justify-content-between align-items-start"
         >
           <div class="d-flex flex-column">
-            <div class="d-flex align-items-center mb-2">
+            <div class="mb-2 d-flex align-items-center">
               <a
-                class="
-                  text-gray-800 text-hover-primary
-                  fs-2
-                  fw-bolder
-                  me-1
-                  cursor-pointer
-                "
+                class="text-gray-800 cursor-pointer text-hover-primary fs-2 fw-bolder me-1"
               >
                 Max Smith
               </a>
               <a
-                class="
-                  btn btn-sm btn-light-success
-                  fw-bolder
-                  ms-2
-                  fs-8
-                  py-1
-                  px-3
-                  cursor-pointer rounded-xl
-                "
+                class="px-3 py-1 cursor-pointer btn btn-sm btn-light-success fw-bolder ms-2 fs-8 rounded-xl"
               >
                 Verified
               </a>
@@ -57,19 +34,11 @@
 
         </div>
 
-        <div class="d-flex flex-wrap flex-stack">
+        <div class="flex-wrap d-flex flex-stack">
           <div class="d-flex flex-column flex-grow-1 pe-8">
-            <div class="d-flex flex-wrap">
+            <div class="flex-wrap d-flex">
               <div
-                class="
-                  border border-gray-300 border-dashed
-                  rounded
-                  min-w-125px
-                  py-3
-                  px-4
-                  me-6
-                  mb-3
-                "
+                class="px-4 py-3 mb-3 border border-gray-300 border-dashed rounded min-w-125px me-6"
               >
                 <div class="d-flex align-items-center">
                   <span
@@ -81,19 +50,11 @@
                   <div class="fs-2 fw-bolder">4500$</div>
                 </div>
 
-                <div class="fw-bold fs-6 text-gray-400">Earnings</div>
+                <div class="text-gray-400 fw-bold fs-6">Earnings</div>
               </div>
 
               <div
-                class="
-                  border border-gray-300 border-dashed
-                  rounded
-                  min-w-125px
-                  py-3
-                  px-4
-                  me-6
-                  mb-3
-                "
+                class="px-4 py-3 mb-3 border border-gray-300 border-dashed rounded min-w-125px me-6"
               >
                 <div class="d-flex align-items-center">
                   <span
@@ -105,19 +66,11 @@
                   <div class="fs-2 fw-bolder">75</div>
                 </div>
 
-                <div class="fw-bold fs-6 text-gray-400">Projects</div>
+                <div class="text-gray-400 fw-bold fs-6">Projects</div>
               </div>
 
               <div
-                class="
-                  border border-gray-300 border-dashed
-                  rounded
-                  min-w-125px
-                  py-3
-                  px-4
-                  me-6
-                  mb-3
-                "
+                class="px-4 py-3 mb-3 border border-gray-300 border-dashed rounded min-w-125px me-6"
               >
                 <div class="d-flex align-items-center">
                   <span
@@ -129,7 +82,7 @@
                   <div class="fs-2 fw-bolder">60%</div>
                 </div>
 
-                <div class="fw-bold fs-6 text-gray-400">Success Rate</div>
+                <div class="text-gray-400 fw-bold fs-6">Success Rate</div>
               </div>
             </div>
           </div>
@@ -143,44 +96,13 @@
   </div>
 </div>
 
-<div class="d-flex overflow-auto h-55px mb-8">
-  <ul
-    class="
-      nav nav-stretch nav-line-tabs nav-line-tabs-2x
-      border-transparent
-      fs-5
-      fw-bolder
-      flex-nowrap
-    "
-  >
-    <li class="nav-item">
-      <a
-        class="nav-link text-active-primary me-6"
-        routerLink="/crafted/account/account-details"
-        routerLinkActive="active"
-      >
-        Account Details
-      </a>
-    </li>
-    <!-- <li class="nav-item">
-      <a
-        class="nav-link text-active-primary me-6"
-        routerLink="/crafted/account/settings"
-        routerLinkActive="active"
-      >
-        Settings
-      </a>
-    </li> -->
-    <li class="nav-item">
-      <a
-        class="nav-link text-active-primary me-6"
-        routerLink="/crafted/account/bussiness-details"
-        routerLinkActive="active"
-      >
-        Bussiness Details
-      </a>
-    </li>
-  </ul>
+<div class="flex flex-col sm:flex-row">
+  <div class="w-full mr-4 sm:w-72">
+    <app-account-details></app-account-details>
+  </div>
+  <div>
+    <app-bussiness-details></app-bussiness-details>
+  </div>
 </div>
 
-<router-outlet></router-outlet>
+<!-- <router-outlet></router-outlet> -->

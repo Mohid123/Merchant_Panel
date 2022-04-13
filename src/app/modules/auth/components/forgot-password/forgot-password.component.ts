@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
@@ -23,7 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.isLoading$ = this.authService.isLoading$;
   }
 
@@ -36,12 +37,12 @@ export class ForgotPasswordComponent implements OnInit {
   initForm() {
     this.forgotPasswordForm = this.fb.group({
       email: [
-        'admin@demo.com',
+        '',
         Validators.compose([
           Validators.required,
           Validators.email,
           Validators.minLength(3),
-          Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+          Validators.maxLength(320),
         ]),
       ],
     });
@@ -54,6 +55,7 @@ export class ForgotPasswordComponent implements OnInit {
       .pipe(first())
       .subscribe((result: boolean) => {
         this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
+        this.router.navigate(['/auth/enter-security-code'])
       });
     this.unsubscribe.push(forgotPasswordSubscr);
   }

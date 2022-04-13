@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { SubDeal } from '../../models/subdeal.model';
 import { whitespaceValidator } from '../../whitespace.validator';
 import { ModalConfig } from './../../../../@core/models/modal.config';
-import { ModalReusableComponent } from './../../../../pages/modal-reusable/modal-reusable.component';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
 
@@ -14,7 +14,7 @@ import { ConnectionService } from './../../services/connection.service';
 })
 export class Step2Component implements OnInit {
 
-  @ViewChild('modal') private modal: ModalReusableComponent;
+  @ViewChild('modal') private modal: ReusableModalComponent;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
