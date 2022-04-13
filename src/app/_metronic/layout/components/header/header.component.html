@@ -1,6 +1,6 @@
 <div
   [ngClass]="headerContainerCssClasses"
-  class="d-flex align-items-stretch justify-content-between"
+  class="h-full d-flex align-items-stretch justify-content-between"
 >
   <!-- begin::Aside mobile toggle -->
   <ng-container *ngIf="asideDisplay">
@@ -9,13 +9,7 @@
       title="Show aside menu"
     >
       <div
-        class="
-          btn btn-icon btn-active-light-primary
-          w-10px
-          h-10px
-          w-md-40px
-          h-md-40px
-        "
+        class=" btn btn-icon btn-active-light-primary w-10px h-10px w-md-40px h-md-40px"
         id="kt_aside_mobile_toggle"
       >
         <span
@@ -47,7 +41,7 @@
           data-kt-drawer-name="header-menu"
           data-kt-drawer-activate="{default: true, lg: false}"
           data-kt-drawer-overlay="true"
-          data-kt-drawer-width="{default:'200px', '300px': '250px'}"
+          data-kt-drawer-width="{default:'300px', '300px': '250px'}"
           data-kt-drawer-direction="end"
           data-kt-drawer-toggle="#kt_header_menu_mobile_toggle"
           data-kt-swapper="true"
@@ -55,21 +49,7 @@
           data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}"
         >
           <app-header-menu
-            class="
-              menu
-              menu-lg-rounded
-              menu-column
-              menu-lg-row
-              menu-state-bg
-              menu-title-gray-700
-              menu-state-title-primary
-              menu-state-icon-primary
-              menu-state-bullet-primary
-              menu-arrow-gray-400
-              fw-bold
-              my-5 my-lg-0
-              align-items-stretch
-            "
+            class="my-5 menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-lg-0 align-items-stretch"
             id="#kt_header_menu"
             data-kt-menu="true"
           ></app-header-menu>
@@ -88,8 +68,8 @@
       </div>
     </ng-container>
 
-    <div class="d-flex align-items-stretch flex-shrink-0">
-      <app-topbar class="d-flex align-items-stretch flex-shrink-0"></app-topbar>
+    <div class="flex-shrink-0 d-flex align-items-stretch">
+      <app-topbar class="flex-shrink-0 d-flex align-items-stretch"></app-topbar>
     </div>
   </div>
   <!-- end::Wrapper -->
