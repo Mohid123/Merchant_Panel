@@ -38,6 +38,8 @@ import { SettingsComponent } from './settings/settings.component';
     DropdownMenusModule,
     WidgetsModule,
     ReusableModalModule
+
+
   ],
 })
 export class AccountModule {}

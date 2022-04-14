@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
+import { TimeformatePipe } from '@core/pipes/timeformate.pipe';
 // import { SortModule } from '@core/directives/sort/sort.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -13,7 +14,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TrimModule } from './../../@core/directives/trim/trim.module';
-import { TimeformatePipe } from './../../@core/pipes/timeformate.pipe';
 import { TruncatePipe } from './../../@core/pipes/truncate.pipe';
 import { ReusableModalModule } from './../../_metronic/layout/components/reusable-modal/reusable-modal.module';
 import { HorizontalComponent } from './horizontal/horizontal.component';
@@ -45,7 +45,8 @@ FullCalendarModule.registerPlugins([
     Step5Component,
     ViewDealComponent,
     TruncatePipe,
-    TimeformatePipe
+    TimeformatePipe,
+    PopoverWrapperComponent
   ],
   imports: [
     CommonModule,
