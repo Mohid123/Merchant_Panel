@@ -64,8 +64,8 @@
               <div>
                 <button
                   type="button"
-                  class="py-3 text-sm font-thin btn btn-dark px-13"
-
+                  class="py-3 text-sm font-thin border-gray-400 btn btn-dark px-13"
+                  [disabled]="!isCurrentFormValid$.value"
                   (click)="nextStep()"
                 >
                   <span class="indicator-label">

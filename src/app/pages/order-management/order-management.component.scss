@@ -24,3 +24,20 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+.table-conatiner {
+  width: 100%!important;
+  overflow-x: scroll;
+}
+
+
+@media (max-width: 600px) {
+
+  .table-container {
+      width: 100% !important;
+      overflow-x: scroll;
+  }
+
+  th, td {min-width: 200px; }
+}
+
