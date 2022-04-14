@@ -68,3 +68,25 @@ input::-webkit-datetime-edit-fields-wrapper {
 .dropdown-toggle::after {
   display: none;
 }
+
+.table-conatiner {
+  width: 100%!important;
+  overflow-x: scroll;
+}
+
+
+@media (max-width: 600px) {
+
+  .table-container {
+      width: 100% !important;
+      overflow-x: scroll;
+  }
+
+  th, td {min-width: 200px; }
+
+  .mat-tab-label .mat-tab-label-content {
+    font-size: 10px;
+    font-weight: 600;
+  }
+}
+
