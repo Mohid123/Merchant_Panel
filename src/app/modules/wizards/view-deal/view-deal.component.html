@@ -85,7 +85,7 @@
     <div class="p-0 mt-5 shadow-sm lg:p-12 card card-custom card-stretch" style="border-top: 16px solid #F38B41;">
       <div class="p-2 rounded lg:p-8 card card-custom card-stretch bg-gray-50">
         <div class="lg:p-6 card card-custom card-stretch">
-          <full-calendar #popoverHook="ngbPopover" [ngbPopover]="popContent" triggers="manual" class="calendar" [options]="calendarOptions"></full-calendar>
+          <full-calendar [options]="calendarOptions"></full-calendar>
         </div>
       </div>
     </div>
@@ -96,17 +96,29 @@
    THE NGBOOTSTRAP POPOVER IS TEMPORARY AND ONLY FOR TESTING. WILL BE REPLACED WITH FULLCALENDAR POPOVER
 -->
 
-<ng-template #popContent>
+<ng-template #popContent let-event="event">
   <div class="flex flex-row justify-between w-52">
-    <span class="mt-4 text-left text-gray-700">Desert Safari</span>
-    <i (click)="closePopover()" class="far fa-times-circle"></i>
+    <span class="mt-4 text-left text-gray-700">{{ event.title }}</span>
+    <!-- <i (click)="closePopover()" class="far fa-times-circle"></i> -->
   </div>
   <hr class="text-gray-400">
   <div class="flex flex-col justify-center p-3 align-middle">
-    <i class="text-green-500 fas fa-circle fa-xs"><span class="ml-2 mr-6 text-sm font-thin text-gray-500" style="font-family: Arial, Helvetica, sans-serif;">Start</span><span class="ml-1 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">08 Feb, 2021</span></i>
-    <i class="text-red-500 fas fa-circle fa-xs"><span class="ml-2 mr-6 text-sm font-thin text-gray-500" style="font-family: Arial, Helvetica, sans-serif;">End</span><span class="ml-2 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">12 Feb, 2021</span></i>
+    <i class="text-green-500 fas fa-circle fa-xs">
+      <span class="ml-2 mr-6 text-sm font-thin text-gray-500" style="font-family: Arial, Helvetica, sans-serif;">
+        Start
+      </span><span class="ml-1 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">
+        {{event.start | timeformate:false}}
+      </span>
+    </i>
+    <i class="text-red-500 fas fa-circle fa-xs">
+      <span class="ml-2 mr-6 text-sm font-thin text-gray-500" style="font-family: Arial, Helvetica, sans-serif;">
+        End</span>
+        <span class="ml-2 text-sm font-thin text-gray-700" style="font-family: Arial, Helvetica, sans-serif;">
+          {{event.end | timeformate:true}}
+        </span>
+      </i>
   </div>
-  <button (click)="openNew()" class="px-3 py-1 text-xs font-thin text-center text-yellow-700 rounded-sm" style="background: #FDF0E6;">View Details</button>
+  <button (click)="openNew(event)" class="px-3 py-1 text-xs font-thin text-center text-yellow-700 rounded-sm" style="background: #FDF0E6;">View Details</button>
 </ng-template>
 
 <app-modal-reusable #modal [modalConfig]="modalConfig">

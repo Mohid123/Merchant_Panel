@@ -1,9 +1,24 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import { NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ModalReusableComponent } from './../../../pages/modal-reusable/modal-reusable.component';
+
+@Component({
+  template: `
+    <div class="fc-content" #popoverHook="ngbPopover" [popoverClass]="'calendar-popover'" [ngbPopover]="template" [placement]="'bottom'" triggers="manual">
+      <ng-content></ng-content>
+    </div>
+  `,
+})
+export class PopoverWrapperComponent {
+  template: TemplateRef<any>;
+
+  @ViewChild('popoverHook')
+  public popoverHook: NgbPopover
+}
 
 @Component({
   selector: 'app-view-deal',
@@ -26,8 +41,13 @@ export class ViewDealComponent implements OnInit {
     closeButtonLabel: "Close"
   }
 
-  @ViewChild('popoverHook')
-  public popoverHook: NgbPopover
+  calendarPlugins = [dayGridPlugin];
+
+  @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
+
+  popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
+
+  popoverFactory = this.resolver.resolveComponentFactory(PopoverWrapperComponent);
 
   showDiv = {
     listView: false,
@@ -49,9 +69,14 @@ export class ViewDealComponent implements OnInit {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
+    moreLinkClick: 'popover',
     select: this.handleDateSelect.bind(this),
-    eventClick: this.handleEventClick.bind(this),
-    eventsSet: this.handleEvents.bind(this)
+    eventClick: this.showPopover.bind(this),
+    // eventsSet: this.handleEvents.bind(this),
+    eventDidMount: this.renderTooltip.bind(this),
+    eventWillUnmount: this.destroyTooltip.bind(this),
+    eventMouseEnter: this.showPopover.bind(this),
+    eventMouseLeave: this.hidePopover.bind(this),
     /* you can update a remote database when these fire:
     eventAdd:
     eventChange:
@@ -59,9 +84,56 @@ export class ViewDealComponent implements OnInit {
     */
   };
 
-  constructor(private modalService: NgbModal) { }
+
+
+  constructor(
+    private modalService: NgbModal,
+    private resolver: ComponentFactoryResolver,
+    private injector: Injector,
+    private appRef: ApplicationRef) {
+  }
+
 
   ngOnInit(): void {
+  }
+
+  renderTooltip(event:any) {
+    console.log('renderTooltip:',event);
+    const projectableNodes = Array.from(event.el.childNodes)
+
+    const compRef = this.popoverFactory.create(this.injector, [projectableNodes], event.el);
+    compRef.instance.template = this.popContent;
+
+    this.appRef.attachView(compRef.hostView)
+    this.popoversMap.set(event.el, compRef)
+  }
+
+  destroyTooltip(event:any) {
+    console.log('destroyTooltip:',event);
+
+    const popover = this.popoversMap.get(event.el);
+    if (popover) {
+      this.appRef.detachView(popover.hostView);
+      popover.destroy();
+      this.popoversMap.delete(event.el);
+    }
+  }
+
+  showPopover(event:any) {
+    console.log('showPopover:',event);
+    const popover = this.popoversMap.get(event.el);
+    console.log('popover:',popover);
+    if (popover) {
+      popover.instance.popoverHook.open({ event: event.event });
+    }
+  }
+
+  hidePopover(event:any) {
+    console.log('hidePopover:',event);
+    const popover = this.popoversMap.get(event.el);
+    if (popover?.instance?.popoverHook) {
+      popover.instance.popoverHook.close();
+    }
   }
 
   switchTabs(event:any) {
@@ -103,24 +175,18 @@ export class ViewDealComponent implements OnInit {
     // if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
     //   clickInfo.event.remove();
     // }
-    this.openPopover();
+    console.log('clickInfo:',clickInfo);
+    // this.openPopover(clickInfo);
+    this.showPopover(clickInfo)
 
   }
 
-  openPopover() {
-    this.popoverHook.open();
-    this.popoverHook.placement = 'bottom';
-  }
-
-  closePopover() {
-    this.popoverHook.close();
-  }
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
   }
 
-  async openNew() {
+  async openNew(event:any) {
     return await this.modal.open();
   }
 

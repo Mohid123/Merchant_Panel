@@ -10,10 +10,11 @@ import { NumberOnlyModule } from '@core/directives/number-only/number-only.modul
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalReusableComponent } from '@pages/modal-reusable/modal-reusable.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TrimModule } from './../../@core/directives/trim/trim.module';
+import { TimeformatePipe } from './../../@core/pipes/timeformate.pipe';
 import { TruncatePipe } from './../../@core/pipes/truncate.pipe';
 import { HorizontalComponent } from './horizontal/horizontal.component';
 import { Step1Component } from './steps/step1/step1.component';
@@ -22,7 +23,7 @@ import { Step3Component } from './steps/step3/step3.component';
 import { Step4Component } from './steps/step4/step4.component';
 import { Step5Component } from './steps/step5/step5.component';
 import { VerticalComponent } from './vertical/vertical.component';
-import { ViewDealComponent } from './view-deal/view-deal.component';
+import { PopoverWrapperComponent, ViewDealComponent } from './view-deal/view-deal.component';
 import { WizardsRoutingModule } from './wizards-routing.module';
 import { WizardsComponent } from './wizards.component';
 
@@ -44,7 +45,9 @@ FullCalendarModule.registerPlugins([
     Step5Component,
     ViewDealComponent,
     ModalReusableComponent,
-    TruncatePipe
+    TruncatePipe,
+    TimeformatePipe,
+    PopoverWrapperComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +64,9 @@ FullCalendarModule.registerPlugins([
     MatTabsModule,
     MatIconModule,
     MatMenuModule,
+    NgbPopoverModule,
     NgbModule
   ],
+  entryComponents: [PopoverWrapperComponent],
 })
 export class WizardsModule {}
