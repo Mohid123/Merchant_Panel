@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { ReusableModalModule } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.module';
 import { DropdownMenusModule, WidgetsModule } from '../../_metronic/partials';
 import { AccountComponent } from '../account/account.component';
-import { ReusableModalModule } from './../../components/reusable-modal/reusable-modal.module';
 import { AccountDetailsComponent } from './account-details/account-details.component';
 import { AccountRoutingModule } from './account-routing.module';
 import { BussinessDetailsComponent } from './bussiness-details/bussiness-details.component';

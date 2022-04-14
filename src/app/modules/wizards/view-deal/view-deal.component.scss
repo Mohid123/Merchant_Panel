@@ -48,10 +48,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   left: 0;
   opacity: 1;
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   padding-left: 10px;
-  background-image: url('../../../../assets/media/icons/calendar.svg');
+  background-image: url('../../../../assets/media/logos/blue-calendar.svg');
   filter: invert(0);
 }
 
@@ -68,3 +68,25 @@ input::-webkit-datetime-edit-fields-wrapper {
 .dropdown-toggle::after {
   display: none;
 }
+
+.table-conatiner {
+  width: 100%!important;
+  overflow-x: scroll;
+}
+
+
+@media (max-width: 600px) {
+
+  .table-container {
+      width: 100% !important;
+      overflow-x: scroll;
+  }
+
+  th, td {min-width: 200px; }
+
+  .mat-tab-label .mat-tab-label-content {
+    font-size: 10px;
+    font-weight: 600;
+  }
+}
+

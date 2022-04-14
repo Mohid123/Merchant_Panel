@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Subscription } from 'rxjs';
+import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { ModalConfig } from './../../../../@core/models/modal.config';
-import { ModalReusableComponent } from './../../../../pages/modal-reusable/modal-reusable.component';
 import { MainDeal } from './../../models/main-deal.model';
 
 @Component({
@@ -12,7 +12,7 @@ import { MainDeal } from './../../models/main-deal.model';
 })
 export class Step3Component implements OnInit {
 
-  @ViewChild('modal') private modal: ModalReusableComponent;
+  @ViewChild('modal') private modal: ReusableModalComponent;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
