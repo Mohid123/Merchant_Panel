@@ -81,11 +81,6 @@ export class Step1Component implements OnInit, OnDestroy {
       ]
     })
     const formChangesSubscr = this.dealForm.valueChanges.subscribe((val: MainDeal) => {
-      if(val.images) {
-        val.images.forEach((file, i) => {
-          val.images?.push(this.urls[i])
-        })
-      }
       this.updateParentModel(val, this.checkForm());
       this.connection.sendData(val)
     });

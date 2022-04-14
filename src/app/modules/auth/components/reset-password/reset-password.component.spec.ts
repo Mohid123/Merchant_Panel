@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalReusableComponent } from './modal-reusable.component';
+import { ResetPasswordComponent } from './reset-password.component';
 
-describe('ModalReusableComponent', () => {
-  let component: ModalReusableComponent;
-  let fixture: ComponentFixture<ModalReusableComponent>;
+describe('ResetPasswordComponent', () => {
+  let component: ResetPasswordComponent;
+  let fixture: ComponentFixture<ResetPasswordComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ModalReusableComponent ]
+      declarations: [ ResetPasswordComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModalReusableComponent);
+    fixture = TestBed.createComponent(ResetPasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

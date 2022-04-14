@@ -1,17 +1,17 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ModalConfig } from './../../@core/models/modal.config';
+import { ModalConfig } from './../../../../@core/models/modal.config';
 
 @Component({
-  selector: 'app-modal-reusable',
-  templateUrl: './modal-reusable.component.html',
-  styleUrls: ['./modal-reusable.component.scss']
+  selector: 'app-reusable-modal',
+  templateUrl: './reusable-modal.component.html',
+  styleUrls: ['./reusable-modal.component.scss']
 })
-export class ModalReusableComponent implements OnInit {
-
+export class ReusableModalComponent implements OnInit {
   @Input() public modalConfig: ModalConfig;
+  @Input() public cssClass: any;
 
-  @ViewChild('modal') private modalContent: TemplateRef<ModalReusableComponent>
+  @ViewChild('modal') private modalContent: TemplateRef<ReusableModalComponent>
 
   private modalRef: NgbModalRef
 

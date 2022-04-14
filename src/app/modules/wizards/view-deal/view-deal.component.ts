@@ -2,9 +2,9 @@ import { ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Inje
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
-import { ModalReusableComponent } from './../../../pages/modal-reusable/modal-reusable.component';
 
 @Component({
   template: `
@@ -28,7 +28,7 @@ export class PopoverWrapperComponent {
 })
 export class ViewDealComponent implements OnInit {
 
-  @ViewChild('modal') private modal: ModalReusableComponent;
+  @ViewChild('modal') private modal: ReusableModalComponent;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
