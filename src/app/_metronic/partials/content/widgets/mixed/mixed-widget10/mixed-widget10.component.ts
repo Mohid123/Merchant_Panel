@@ -52,7 +52,7 @@ function getChartOptions(chartHeight: string, chartColor: string) {
     },
     fill: {
       type: 'solid',
-      opacity: 1,
+      opacity: 0.2,
     },
     stroke: {
       curve: 'smooth',

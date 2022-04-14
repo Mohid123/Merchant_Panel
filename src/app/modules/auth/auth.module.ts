@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
+import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
+import { SpaceBetweenModule } from '@core/directives/space-between/space-between.module';
 import { TranslationModule } from '../i18n/translation.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
@@ -14,6 +16,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { RegistrationComponent } from './components/registration/registration.component';
+import { SecurityCodeComponent } from './components/security-code/security-code.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +27,8 @@ import { RegistrationComponent } from './components/registration/registration.co
     LogoutComponent,
     AuthComponent,
     CategoryRadioButtonComponent,
+    SecurityCodeComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     CommonModule,
@@ -34,7 +40,9 @@ import { RegistrationComponent } from './components/registration/registration.co
     HttpClientModule,
     MatIconModule,
     MatStepperModule,
-    MatInputModule
+    MatInputModule,
+    NumberOnlyModule,
+    SpaceBetweenModule
   ],
   providers: [
     {

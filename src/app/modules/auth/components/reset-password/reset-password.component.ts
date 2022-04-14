@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
+import { ConfirmedValidator } from './password.validator';
 
 enum ErrorStates {
   NotSubmitted,
@@ -12,19 +13,23 @@ enum ErrorStates {
 }
 
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss'],
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss']
 })
-export class ForgotPasswordComponent implements OnInit {
-  forgotPasswordForm: FormGroup;
+export class ResetPasswordComponent implements OnInit {
+
+  createPasswordForm: FormGroup;
   errorState: ErrorStates = ErrorStates.NotSubmitted;
   errorStates = ErrorStates;
   isLoading$: Observable<boolean>;
+  private unsubscribe: Subscription[] = [];
 
-  // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.isLoading$ = this.authService.isLoading$;
   }
 
@@ -32,30 +37,37 @@ export class ForgotPasswordComponent implements OnInit {
     this.initForm();
   }
 
-  // convenience getter for easy access to form fields
-
   initForm() {
-    this.forgotPasswordForm = this.fb.group({
-      email: [
+    this.createPasswordForm = this.fb.group({
+      password: [
         '',
         Validators.compose([
           Validators.required,
-          Validators.email,
-          Validators.minLength(3),
-          Validators.maxLength(320),
+          Validators.minLength(8),
+          Validators.maxLength(16),
         ]),
       ],
+      confirmPassword: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(16),
+        ]),
+      ],
+    }, {
+      validator: ConfirmedValidator('password', 'confirmPassword')
     });
   }
 
   submit() {
     this.errorState = ErrorStates.NotSubmitted;
     const forgotPasswordSubscr = this.authService
-      .forgotPassword(this.forgotPasswordForm.controls['email'].value)
+      .forgotPassword(this.createPasswordForm.controls['password'].value)
       .pipe(first())
       .subscribe((result: boolean) => {
         this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
-        this.router.navigate(['/auth/enter-security-code'])
+        this.router.navigate(['/auth/login'])
       });
     this.unsubscribe.push(forgotPasswordSubscr);
   }
