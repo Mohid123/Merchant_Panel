@@ -1,23 +1,25 @@
 <div class="text-3xl font-semibold text-left">Billings</div>
 
-<div class="flex flex-row justify-between">
-  <div class="flex flex-row justify-evenly">
+<div class="flex flex-col justify-center lg:flex-row lg:justify-between">
+  <div class="flex flex-col lg:flex-row justify-evenly">
     <div class="flex flex-col mt-4 mr-7">
       <span class="mb-4 text-lg text-gray-500 font-base">Total Earnings</span>
       <span class="text-5xl font-medium text-gray-700">421,584</span>
     </div>
-    <div class="h-20 py-1 pl-2 pr-12 mr-5 text-center bg-white lg:h-16 mt-9 w-38">
-      <span class="mb-2 text-xs text-gray-500">Pending</span>
-      <br>
-      <span class="text-base text-yellow-500">421,584</span>
-    </div>
-    <div class="h-20 py-1 pl-2 pr-12 text-center bg-white lg:h-16 mt-9 w-38">
-      <span class="mb-2 text-xs text-gray-500">Paid</span>
-      <br>
-      <span class="text-base text-green-500">421,584</span>
+    <div class="flex flex-row">
+      <div class="h-20 py-1 pl-2 pr-12 mr-5 text-center bg-white lg:h-16 mt-9 w-38">
+        <span class="mb-2 text-xs text-gray-500">Pending</span>
+        <br>
+        <span class="text-base text-yellow-500">421,584</span>
+      </div>
+      <div class="h-20 py-1 pl-2 pr-12 text-center bg-white lg:h-16 mt-9 w-38">
+        <span class="mb-2 text-xs text-gray-500">Paid</span>
+        <br>
+        <span class="text-base text-green-500">421,584</span>
+      </div>
     </div>
   </div>
-  <div class="flex flex-row items-end justify-end w-full ml-2 mt-9 lg:mt-0">
+  <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
     <div ngbDropdown placement="bottom-end" id="dropdownBasic1" class="m-2">
       <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
       <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
@@ -39,33 +41,36 @@
   </div>
 </div>
 
-<table class="w-full mt-10 rounded-md shadow-md">
-  <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
-    <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Transaction No." container="body" [appSort]="billingsData" data-order="desc" data-name="transactionNo" class="p-4 font-normal cursor-pointer">Transaction #&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Date" container="body" [appSort]="billingsData" data-order="desc" data-name="date" class="p-4 font-normal cursor-pointer">Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Payment Method" container="body" [appSort]="billingsData" data-order="desc" data-name="paymentMethod" class="p-4 font-normal cursor-pointer">Payment Method&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Amount" container="body" [appSort]="billingsData" data-order="desc" data-name="amount" class="p-4 font-normal cursor-pointer">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th class="p-4 font-normal cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-  </tr>
-  <ng-container *ngFor="let data of billingsData">
-    <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
-      <td class="p-4 font-medium">{{data.transactionNo}}</td>
-      <td class="p-4 font-thin">{{data.date}}</td>
-      <td class="p-4 font-thin">{{data.paymentMethod}}</td>
-      <td class="flex flex-col p-4 font-thin">
-        <span>{{data.amount}}</span>
-        <span class="text-sm text-gray-600 font-extralight">({{data.currency}})</span>
-      </td>
-      <ng-container *ngIf="data.status == 'Paid'">
-        <td class="p-4 font-thin">
-          <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{data.status}}</span>
-        </td>
-      </ng-container>
-      <ng-container *ngIf="data.status == 'Pending'">
-        <td class="p-4 font-thin">
-          <span class="px-5 py-3 badge badge-light-warning rounded-2xl">{{data.status}}</span>
-        </td>
-      </ng-container>
+<div class="table-container">
+  <table class="w-full mt-10 rounded-md shadow-md">
+    <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
+      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Transaction No." container="body" [appSort]="billingsData" data-order="desc" data-name="transactionNo" class="p-4 font-normal cursor-pointer">Transaction #&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Date" container="body" [appSort]="billingsData" data-order="desc" data-name="date" class="p-4 font-normal cursor-pointer">Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Payment Method" container="body" [appSort]="billingsData" data-order="desc" data-name="paymentMethod" class="p-4 font-normal cursor-pointer">Payment Method&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Amount" container="body" [appSort]="billingsData" data-order="desc" data-name="amount" class="p-4 font-normal cursor-pointer">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+      <th class="p-4 font-normal cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
     </tr>
-  </ng-container>
-</table>
+    <ng-container *ngFor="let data of billingsData">
+      <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
+        <td class="p-4 font-medium">{{data.transactionNo}}</td>
+        <td class="p-4 font-thin">{{data.date}}</td>
+        <td class="p-4 font-thin">{{data.paymentMethod}}</td>
+        <td class="flex flex-col p-4 font-thin">
+          <span>{{data.amount}}</span>
+          <span class="text-sm text-gray-600 font-extralight">({{data.currency}})</span>
+        </td>
+        <ng-container *ngIf="data.status == 'Paid'">
+          <td class="p-4 font-thin">
+            <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{data.status}}</span>
+          </td>
+        </ng-container>
+        <ng-container *ngIf="data.status == 'Pending'">
+          <td class="p-4 font-thin">
+            <span class="px-5 py-3 badge badge-light-warning rounded-2xl">{{data.status}}</span>
+          </td>
+        </ng-container>
+      </tr>
+    </ng-container>
+  </table>
+</div>
+

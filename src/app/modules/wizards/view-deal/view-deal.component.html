@@ -1,14 +1,14 @@
 <ng-container *ngIf="showDiv.calendarView == true">
-  <div class="absolute md:top-28 md:right-6 lg:top-44 lg:right-12 2xl:right-56 right-6 top-32">
+  <div class="absolute md:top-36 md:right-6 lg:top-44 lg:right-12 2xl:right-56 right-6 top-36">
     <div class="moon">
       <span class="ml-2 text-xs">05</span>
     </div>
-    <span class="mb-4 ml-4 font-semibold text-center text-gray-700">Monthly Schedule</span>
+    <span class="mb-4 ml-4 text-sm font-thin text-center text-gray-700 lg:font-semibold lg:text-base">Monthly Schedule</span>
   </div>
 </ng-container>
 
 <ng-container *ngIf="showDiv.listView == true">
-  <div class="absolute z-40 2xl:right-56 lg:top-44 lg:right-8 md:top-40 md:right-4 right-5 top-48">
+  <div class="absolute z-40 2xl:right-56 lg:top-44 lg:right-8 md:top-36 md:right-4 right-5 top-32">
     <div class="flex flex-row items-end justify-end w-full mt-5 ml-2 lg:mt-0">
     <div ngbDropdown placement="bottom-end" display="dynamic" id="dropdownBasic1" class="m-2">
       <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
@@ -43,43 +43,45 @@
 
 <mat-tab-group [disableRipple]="true" [selectedIndex]="1" (selectedTabChange)="switchTabs($event)">
   <mat-tab label="List View">
-    <table class="w-full mt-10 rounded-md shadow-lg">
-      <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
-        <th class="p-4 font-thin">Deals Title&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-thin">Price&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-thin">Start Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-thin">End Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-thin">Qty&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-thin">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-thin">Action&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-      </tr>
-      <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
-        <td class="flex flex-row items-center justify-center p-4 font-thin">
-          <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="../../../../../assets/media/books/img-72.jpg">
-          <span class="ml-3">Heavenly Massage</span>
-        </td>
-        <td class="p-4 font-thin">$300</td>
-        <td class="p-4 font-thin">26 April, 2021</td>
-        <td class="p-4 font-thin">26 July, 2021</td>
-        <td class="p-4 font-thin">74</td>
-        <!-- <ng-container *ngIf="status == Active"></ng-container> -->
-        <!-- <td class="p-4 font-thin">
-            <span class="px-5 py-3 badge badge-light-danger rounded-2xl">Pending</span>
-        </td> -->
-        <!-- <ng-container *ngIf="status == Pending"></ng-container> -->
-        <td class="p-4 font-thin">
-          <span class="px-5 py-3 badge badge-light-success rounded-2xl">Active</span>
-        </td>
-        <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
-          <a class="px-1 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md">
-            <i class="p-1 fas fa-pencil-alt"></i>
-          </a>
-          <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md">
-            <i class="p-1 fas fa-trash"></i>
-          </a>
-        </td>
-      </tr>
-    </table>
+    <div class="table-container">
+      <table class="w-full mt-10 rounded-md shadow-lg">
+        <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
+          <th class="p-4 font-thin">Deals Title&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+          <th class="p-4 font-thin">Price&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+          <th class="p-4 font-thin">Start Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+          <th class="p-4 font-thin">End Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+          <th class="p-4 font-thin">Qty&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+          <th class="p-4 font-thin">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+          <th class="p-4 font-thin">Action&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        </tr>
+        <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
+          <td class="flex flex-row items-center justify-center p-4 font-thin">
+            <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="../../../../../assets/media/books/img-72.jpg">
+            <span class="ml-3">Heavenly Massage</span>
+          </td>
+          <td class="p-4 font-thin">$300</td>
+          <td class="p-4 font-thin">26 April, 2021</td>
+          <td class="p-4 font-thin">26 July, 2021</td>
+          <td class="p-4 font-thin">74</td>
+          <!-- <ng-container *ngIf="status == Active"></ng-container> -->
+          <!-- <td class="p-4 font-thin">
+              <span class="px-5 py-3 badge badge-light-danger rounded-2xl">Pending</span>
+          </td> -->
+          <!-- <ng-container *ngIf="status == Pending"></ng-container> -->
+          <td class="p-4 font-thin">
+            <span class="px-5 py-3 badge badge-light-success rounded-2xl">Active</span>
+          </td>
+          <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
+            <a class="px-1 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md">
+              <i class="p-1 fas fa-pencil-alt"></i>
+            </a>
+            <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md">
+              <i class="p-1 fas fa-trash"></i>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
   </mat-tab>
   <mat-tab label="Calendar View">
     <div class="p-0 mt-5 shadow-sm lg:p-12 card card-custom card-stretch" style="border-top: 16px solid #F38B41;">
