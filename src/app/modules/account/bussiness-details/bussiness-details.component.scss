@@ -1,3 +1,13 @@
+:host {
+  display: block;
+  width: calc(100% - 20px);
+}
+
+@media (min-width: 576px) {
+  :host {
+    width: calc(100% - 32px);
+  }
+}
 
 h3 {
   @apply text-base;
