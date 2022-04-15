@@ -21,15 +21,9 @@
           <!--loop for images goes here-->
           <div class="flex-row justify-between w-6 h-6 mt-1 md:w-10 md:h-10 lg:w-6 lg:h-6 lg:mt-2 card">
             <!-- <img class="mr-1 rounded-sm " [src]="image"> -->
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
+            <ng-container *ngFor="let image of images">
+              <img class="mr-1 rounded-sm" [src]="image">
+            </ng-container>
           </div>
         <!-- </ng-container> -->
         <div class="mt-8 text-black form-label fw-bolder">Description</div>

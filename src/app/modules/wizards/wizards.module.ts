@@ -63,6 +63,7 @@ FullCalendarModule.registerPlugins([
     MatTabsModule,
     MatIconModule,
     MatMenuModule,
+    NgbPopoverModule,
     NgbModule,
     ReusableModalModule
   ],
