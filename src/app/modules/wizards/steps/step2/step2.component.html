@@ -14,24 +14,19 @@
           <i class="mr-2 text-green-400 fas fa-map-marker-alt fa-lg"></i>
           200 E Gaines St, Tallahassee, FL 32399, United States
         </div>
-        <!-- <ng-container *ngFor="let image of data.images; let i = index"> -->
-          <div class="w-full mt-3 mb-7 card lg:h-36 lg:w-64">
-            <img class="w-64 h-40 card-img-top rounded-bottom" src="../../../../../assets/media/books/img-72.jpg">
-          </div>
+        <ng-container *ngFor="let image of images; let i = index">
+          <ng-container *ngIf="i == 0">
+            <div class="w-full mt-3 mb-7 card lg:h-36 lg:w-64">
+              <img class="w-72 h-44 card-img-top rounded-bottom" [src]="image">
+            </div>
+          </ng-container>
+        </ng-container>
           <!--loop for images goes here-->
-          <div class="flex-row justify-between w-6 h-6 mt-1 md:w-10 md:h-10 lg:w-6 lg:h-6 lg:mt-2 card">
-            <!-- <img class="mr-1 rounded-sm " [src]="image"> -->
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-            <img class="mr-1 rounded-sm" src="../../../../../assets/media/books/img-72.jpg">
-          </div>
-        <!-- </ng-container> -->
+        <div class="flex-row justify-between w-6 h-6 mt-1 md:w-10 md:h-10 lg:w-6 lg:h-6 lg:mt-2 card">
+          <ng-container *ngFor="let image of images; let i = index;">
+            <img class="mr-1 rounded-sm" [src]="image" *ngIf="i > 0">
+          </ng-container>
+        </div>
         <div class="mt-8 text-black form-label fw-bolder">Description</div>
         <p class="w-full mr-6 text-justify text-gray-400 fs-8">{{data.description}}</p>
       </div>

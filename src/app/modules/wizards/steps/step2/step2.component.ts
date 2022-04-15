@@ -48,6 +48,7 @@ export class Step2Component implements OnInit {
   subDeals: SubDeal[] = [];
 
   @Input() mainDeal: Partial<MainDeal>
+  @Input() images: any;
 
   public discount: number;
 
