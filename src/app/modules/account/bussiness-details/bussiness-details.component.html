@@ -1,5 +1,5 @@
 <h1 class="text-3xl mb-3.5">My DiviDeals Profile</h1>
-<p class="text-font-gray-600 mb-5">How do you want to appear in our DiviDeals?</p>
+<p class="mb-5 text-font-gray-600">How do you want to appear in our DiviDeals?</p>
 <div class="mb-5 card mb-xl-10 company-details">
   <div class="py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
     <h3 class="mb-0 fw-bolder">Company Details</h3>
@@ -8,27 +8,27 @@
 
   <div class="card-body border-top p-9">
     <div>
-      <label>Company</label>
+      <label class="font-semibold">Company Name</label>
       <span>Company</span>
     </div>
     <div>
-      <label>Street Address</label>
+      <label class="font-semibold">Street Address</label>
       <span>Street Address</span>
     </div>
     <div>
-      <label>Zip</label>
+      <label class="font-semibold">Zip</label>
       <span>Zip</span>
     </div>
     <div>
-      <label>City</label>
+      <label class="font-semibold">City</label>
       <span>City</span>
     </div>
     <div>
-      <label>Google Map Pin</label>
+      <label class="font-semibold">Google Map Pin</label>
       <span>Google Map Pin</span>
     </div>
     <div>
-      <label>Website/Social Media URL</label>
+      <label class="font-semibold">Website/Social Media URL</label>
       <span>Website/Social Media URL</span>
     </div>
   </div>
@@ -99,7 +99,6 @@
     <div class="m-0 card-title">
       <h3 class="m-0 fw-bolder">Set Bussiness Hours</h3>
     </div>
-
   </div>
   <div class="px-12 card-body" style="background-color: white;">
     <div class="table-responsive">
@@ -307,3 +306,39 @@
     </div>
   </div>
 </div>
+
+<div style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px; margin-top: 32px;">
+  <div class="px-12 py-6 cursor-pointer card-header" style="border-style: none!important;">
+    <div class="m-0 card-title">
+      <h3 class="m-0 fw-bolder">My Business Profile</h3>
+    </div>
+  </div>
+  <div class="px-12 card-body" style="background-color: white;">
+    <form class="form row" [formGroup]="businessForm">
+      <div class="pb-5">
+       <textarea rows="8" type="text font-weight-light" class="text-sm font-thin form-control" formControlName="businessProfile" name="businessProfile"></textarea>
+      </div>
+
+      <div class="mt-6 mb-6 card-title">
+        <h3 class="fw-bolder">General terms and agreements</h3>
+      </div>
+
+      <div class="pb-5">
+        <textarea rows="8" type="text font-weight-light" class="text-sm font-thin form-control" formControlName="businessProfile" name="businessProfile"></textarea>
+       </div>
+
+      <!-- <div class="px-6 py-12" style="border: 1px solid #F38B41; border-radius: 12px;">
+        <span class="text-gray-600 font-base text-sm" formControlName="validity" name="validity">Validity: </span> <span class="font-light text-gray-500 text-sm">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
+
+
+        <span class="text-gray-600 font-base text-sm" formControlName="purchase" name="purchase">Purchase: </span> <span class="font-light text-gray-500 text-sm">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
+
+
+        <span class="text-gray-600 font-base text-sm" formControlName="cancellation" name="cancellation">Cancellation: </span> <span class="font-light text-gray-500 text-sm">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
+
+        <span class="text-gray-600 font-base text-sm" formControlName="extraInfo" name="extraInfo">Extra Info: </span> <span class="font-light text-gray-500 text-sm">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
+      </div> -->
+    </form>
+  </div>
+</div>
+
