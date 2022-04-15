@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ReusableModalComponent } from './../../../components/reusable-modal/reusable-modal/reusable-modal.component';
@@ -9,6 +10,8 @@ import { ReusableModalComponent } from './../../../components/reusable-modal/reu
   styleUrls: ['./bussiness-details.component.scss']
 })
 export class BussinessDetailsComponent implements OnInit {
+
+  businessForm: FormGroup
 
   @ViewChild('companyModal') private companyModal: ReusableModalComponent;
 
@@ -35,7 +38,7 @@ export class BussinessDetailsComponent implements OnInit {
    }
 
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, private fb: FormBuilder) {
     const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
@@ -43,6 +46,51 @@ export class BussinessDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  initBusinessForm() {
+      this.businessForm = this.fb.group({
+        businessProfile: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(13),
+            Validators.maxLength(300),
+          ]),
+        ],
+        validity: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(13),
+            Validators.maxLength(300),
+          ]),
+        ],
+        purchase: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(13),
+            Validators.maxLength(300),
+          ]),
+        ],
+        cancellation: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(13),
+            Validators.maxLength(300),
+          ]),
+        ],
+        extraInfo: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(13),
+            Validators.maxLength(300),
+          ]),
+        ],
+      })
+    }
 
   saveSettings() {
     this.isLoading$.next(true);
