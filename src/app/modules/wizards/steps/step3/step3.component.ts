@@ -40,10 +40,12 @@ export class Step3Component implements OnInit {
   form: FormGroup;
 
   @Input() deal: Partial<MainDeal> = {
-    startDate: Date.toString(),
-    endDate: Date.toString(),
-    policy: '',
-    validDays: 0
+    termsAndCondition: '',
+    vouchers: {
+      voucherEndDate: Date.toString(),
+      voucherStartDate: Date.toString(),
+      voucherValidity: 0
+    }
   };
 
   private unsubscribe: Subscription[] = [];
@@ -89,24 +91,27 @@ export class Step3Component implements OnInit {
     if(checkA.checked == true) {
       checkB.disabled = true;
       this.btnDisable = false;
-      this.form.controls['validDays'].disable();
-      this.form.controls['startDate'].enable();
-      this.form.controls['endDate'].enable();
+      this.form.controls['voucherValidity'].disable();
+      this.form.get('voucherValidity')?.setValue(0);
+      this.form.controls['voucherStartDate'].enable();
+      this.form.controls['voucherEndDate'].enable();
     }
     else if(checkB.checked == true) {
       checkA.disabled = true;
       this.btnDisable = true;
-      this.form.controls['validDays'].enable();
-      this.form.controls['startDate'].disable();
-      this.form.controls['endDate'].disable();
+      this.form.controls['voucherValidity'].enable();
+      this.form.get('voucherStartDate')?.setValue('');
+      this.form.get('voucherEndDate')?.setValue('');
+      this.form.controls['voucherStartDate'].disable();
+      this.form.controls['voucherEndDate'].disable();
     }
     else if(checkA.checked == false || checkB.checked == false) {
       checkA.disabled = false;
       checkB.disabled = false;
       this.btnDisable = false;
-      this.form.controls['validDays'].enable();
-      this.form.controls['startDate'].enable();
-      this.form.controls['endDate'].enable();
+      this.form.controls['voucherValidity'].enable();
+      this.form.controls['voucherStartDate'].enable();
+      this.form.controls['voucherEndDate'].enable();
     }
   }
 
@@ -116,26 +121,26 @@ export class Step3Component implements OnInit {
 
   initDateForm() {
     this.form = this.fb.group({
-      startDate: [
-        this.deal.startDate,
+      voucherStartDate: [
+        this.deal.vouchers?.voucherStartDate,
         Validators.compose([
           Validators.required
         ])
       ],
-      endDate: [
-        this.deal.endDate,
+      voucherEndDate: [
+        this.deal.vouchers?.voucherEndDate,
         Validators.compose([
           Validators.required
         ])
       ],
-      policy: [
-        this.deal.policy,
+      termsAndCondition: [
+        this.deal.termsAndCondition,
         Validators.compose([
           Validators.required
         ])
       ],
-      validDays: [
-        this.deal.validDays,
+      voucherValidity: [
+        this.deal.vouchers?.voucherValidity,
         Validators.compose([
           Validators.required
         ])
@@ -150,23 +155,23 @@ export class Step3Component implements OnInit {
 
   checkForm() {
     return !(
-      this.form.get('startDate')?.hasError('required') ||
-      this.form.get('endDate')?.hasError('required') ||
-      this.form.get('policy')?.hasError('required')
+      this.form.get('voucherStartDate')?.hasError('required') ||
+      this.form.get('voucherEndDate')?.hasError('required') ||
+      this.form.get('termsAndCondition')?.hasError('required')
     );
   }
 
   handleMinus() {
-    if(this.form.controls['validDays'].value >= 1) {
+    if(this.form.controls['voucherValidity'].value >= 1) {
       this.form.patchValue({
-        validDays: this.form.controls['validDays'].value - 1
+        voucherValidity: this.form.controls['voucherValidity'].value - 1
       });
     }
   }
 
   handlePlus() {
     this.form.patchValue({
-      validDays: this.form.controls['validDays'].value + 1
+      voucherValidity: this.form.controls['voucherValidity'].value + 1
     });
   }
 
