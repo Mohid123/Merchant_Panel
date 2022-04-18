@@ -20,11 +20,12 @@ export class Step1Component implements OnInit, OnDestroy {
 
   @Input() deal: Partial<MainDeal> = {
     title: '',
-    subtitle: '',
-    images: [],
+    subTitle: '',
+    mediaUrl: [''],
     description: '',
     deletedCheck: false
   };
+
   file: any;
   multiples: any[] = [];
   urls: Image[] = [];
@@ -55,8 +56,8 @@ export class Step1Component implements OnInit, OnDestroy {
           Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
         ]),
       ],
-      subtitle: [
-        this.deal.subtitle,
+      subTitle: [
+        this.deal.subTitle,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -73,15 +74,17 @@ export class Step1Component implements OnInit, OnDestroy {
           Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
         ]),
       ],
-      images: [
-        this.deal.images,
+      mediaUrl: [
+        this.urls,
         Validators.compose([
           Validators.required
         ])
-      ]
+      ],
+      deletedCheck: false
     })
     const formChangesSubscr = this.dealForm.valueChanges.subscribe((val: MainDeal) => {
       this.updateParentModel(val, this.checkForm());
+      console.log(val);
       this.connection.sendData(val)
     });
     this.unsubscribe.push(formChangesSubscr);
@@ -90,15 +93,15 @@ export class Step1Component implements OnInit, OnDestroy {
   checkForm() {
     return !(
       this.dealForm.get('title')?.hasError('required') ||
-      this.dealForm.get('subtitle')?.hasError('required') ||
-      this.dealForm.get('subtitle')?.hasError('whitespace') ||
+      this.dealForm.get('subTitle')?.hasError('required') ||
+      this.dealForm.get('subTitle')?.hasError('whitespace') ||
       this.dealForm.get('description')?.hasError('required') ||
       this.dealForm.get('description')?.hasError('minlength') ||
       this.dealForm.get('description')?.hasError('whitespace') ||
       this.dealForm.get('title')?.hasError('whitespace') ||
       this.dealForm.get('title')?.hasError('pattern') ||
       this.dealForm.get('description')?.hasError('pattern') ||
-      this.dealForm.get('subtitle')?.hasError('pattern')
+      this.dealForm.get('subTitle')?.hasError('pattern')
       )
   }
 

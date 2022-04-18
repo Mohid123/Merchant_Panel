@@ -1,17 +1,26 @@
-import { Image } from "./images.model";
-import { SubDeal } from "./subdeal.model";
-
-export class MainDeal {
+export interface MainDeal {
   id?: string;
   title?: string;
-  subtitle?: string;
-  description?: string;
-  images?: Image[];
-  status?: string;
+  subTitle?: string;
+  description?: string | any;
+  categoryType?: string;
+  mediaUrl?: [string];
   startDate?: string;
   endDate?: string;
-  policy?: string;
-  validDays?: number;
+  vouchers?:
+    {
+      subTitle?: string;
+      originalPrice?: string;
+      dealPrice?: string;
+      discountPercentage?: number;
+      details?: string;
+      numberOfVouchers?: string;
+      voucherValidity?: number;
+      voucherStartDate?: Date | string;
+      voucherEndDate?: Date | string;
+    };
+  termsAndCondition?: string;
+  merchantID?: string;
+  dealStatus?: string;
   deletedCheck?: boolean;
-  subDeals?: SubDeal[];
 }
