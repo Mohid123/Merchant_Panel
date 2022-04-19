@@ -2,13 +2,12 @@
 <div class="mt-5 mb-12 aside-logo flex-column-auto" id="kt_aside_logo">
   <!-- begin::Logo -->
   <ng-container *ngIf="asideTheme === 'dark'">
-    <a routerLink="/dashboard">
-      <img
-        alt="Logo"
-        class="h-35px logo"
-        src="./assets/media/logos/logo_white.svg"
-      />
-    </a>
+    <div class="flex flex-row justify-evenly">
+      <a routerLink="/dashboard">
+        <img alt="Logo" class="h-35px logo" src="./assets/media/logos/logo_white.svg">
+      </a>
+      <span class="ml-3 text-xl text-white" style="margin-top: 7px;">DIVIDEALS</span>
+    </div>
   </ng-container>
 
   <ng-container *ngIf="asideTheme === 'light'">
