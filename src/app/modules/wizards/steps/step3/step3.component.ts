@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { ModalConfig } from './../../../../@core/models/modal.config';
 import { MainDeal } from './../../models/main-deal.model';
+import { ConnectionService } from './../../services/connection.service';
 
 @Component({
   selector: 'app-step3',
@@ -41,16 +42,26 @@ export class Step3Component implements OnInit {
 
   @Input() deal: Partial<MainDeal> = {
     termsAndCondition: '',
-    vouchers: {
-      voucherEndDate: Date.toString(),
-      voucherStartDate: Date.toString(),
-      voucherValidity: 0
-    }
+    vouchers: [
+      {
+        voucherEndDate: Date.toString(),
+        voucherStartDate: Date.toString(),
+        voucherValidity: 0
+      }
+    ]
   };
+
+  reciever: Subscription;
+  data: MainDeal;
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private connection: ConnectionService) {
+    this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
+      this.data = response
+      console.log(this.data);
+    })
+  }
 
   ngOnInit() {
     this.initDateForm();
@@ -122,25 +133,25 @@ export class Step3Component implements OnInit {
   initDateForm() {
     this.form = this.fb.group({
       voucherStartDate: [
-        this.deal.vouchers?.voucherStartDate,
+        '',
         Validators.compose([
           Validators.required
         ])
       ],
       voucherEndDate: [
-        this.deal.vouchers?.voucherEndDate,
+        '',
         Validators.compose([
           Validators.required
         ])
       ],
       termsAndCondition: [
-        this.deal.termsAndCondition,
+        '',
         Validators.compose([
           Validators.required
         ])
       ],
       voucherValidity: [
-        this.deal.vouchers?.voucherValidity,
+        0,
         Validators.compose([
           Validators.required
         ])
@@ -148,7 +159,10 @@ export class Step3Component implements OnInit {
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      this.updateParentModel(val, this.checkForm());
+      const updatedData = {...this.data, ...val}
+      this.updateParentModel(updatedData, this.checkForm());
+      this.connection.sendData(updatedData);
+      console.log(updatedData)
     });
     this.unsubscribe.push(formChangesSubscr);
   }

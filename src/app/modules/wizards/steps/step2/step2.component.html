@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-  <div class="flex-wrap mt-3 xl:mt-0 shadow-xl card card-custom card-stretch second-card">
+  <div class="flex-wrap mt-3 shadow-xl xl:mt-0 card card-custom card-stretch second-card">
     <ng-container *ngIf="subDeals.length == 0">
       <div class="flex justify-between w-full pl-3 mb-4 font-semibold xl:justify-evenly 2xl:justify-evenly lg:mt-8">Provide your voucher details.
         <button type="button" class="justify-center pr-3 ml-16 text-yellow-500 xl:pb-3 2xl:pb-3 lg:pb-3 lg:ml-16 fas fa-plus-circle fa-lg" (click)="openNew()" style="cursor: pointer;"></button>
@@ -163,6 +163,10 @@
           }">
         </ng-container>
         </div>
+        <div class="text-danger"
+          *ngIf="subDealForm.controls['dealPrice']?.errors?.['confirmedValidator']">
+          The deal price cannot exceed the original price
+         </div>
        </div>
 
        <div class="form-group">
