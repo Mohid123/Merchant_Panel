@@ -1,6 +1,6 @@
 <ng-container *ngIf="user$ | async as _user">
-  <div class="menu-item px-3">
-    <div class="menu-content d-flex align-items-center px-3">
+  <div class="px-3 menu-item">
+    <div class="px-3 menu-content d-flex align-items-center">
       <div class="symbol symbol-50px me-5">
         <img alt="Logo" [src]="_user.pic" />
       </div>
@@ -8,60 +8,60 @@
       <div class="d-flex flex-column">
         <div class="fw-bolder d-flex align-items-center fs-5">
           {{ _user.firstname }} {{ _user.lastname }}
-          <span class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2"
+          <span class="px-2 py-1 badge badge-light-success fw-bolder fs-8 ms-2"
             >Pro</span
           >
         </div>
-        <a class="fw-bold text-muted text-hover-primary fs-7 cursor-pointer">
+        <a class="cursor-pointer fw-bold text-muted text-hover-primary fs-7">
           {{ _user.email }}
         </a>
       </div>
     </div>
   </div>
 
-  <div class="separator my-2"></div>
+  <div class="my-2 separator"></div>
 
-  <div class="menu-item px-5">
-    <a routerLink="/crafted/pages/profile" class="menu-link px-5">
+  <div class="px-5 menu-item">
+    <a routerLink="/crafted/account/account-details" class="px-5 menu-link">
       My Profile
     </a>
   </div>
 
-  <div class="menu-item px-5">
-    <a class="menu-link px-5 cursor-pointer" placement="top-start" ngbTooltip="Coming soon">
+  <!-- <div class="px-5 menu-item">
+    <a class="px-5 cursor-pointer menu-link" placement="top-start" ngbTooltip="Coming soon">
       <span class="menu-text">My Projects</span>
       <span class="menu-badge">
         <span class="badge badge-light-danger badge-circle fw-bolder fs-7">3</span>
       </span>
     </a>
-  </div>
+  </div> -->
 
-  <div
-    class="menu-item px-5"
+  <!-- <div
+    class="px-5 menu-item"
     data-kt-menu-trigger="hover"
     data-kt-menu-placement="left-start"
     data-kt-menu-flip="bottom"
   >
-    <a class="menu-link px-5 cursor-pointer">
+    <a class="px-5 cursor-pointer menu-link">
       <span class="menu-title">My Subscription</span>
       <span class="menu-arrow"></span>
     </a>
 
-    <div class="menu-sub menu-sub-dropdown w-175px py-4">
-      <div class="menu-item px-3">
-        <a class="menu-link px-5 cursor-pointer" placement="top-start" ngbTooltip="Coming soon">Referrals</a>
+    <div class="py-4 menu-sub menu-sub-dropdown w-175px">
+      <div class="px-3 menu-item">
+        <a class="px-5 cursor-pointer menu-link" placement="top-start" ngbTooltip="Coming soon">Referrals</a>
       </div>
 
-      <div class="menu-item px-3">
-        <a class="menu-link px-5 cursor-pointer" placement="top-start" ngbTooltip="Coming soon">Billing</a>
+      <div class="px-3 menu-item">
+        <a class="px-5 cursor-pointer menu-link" placement="top-start" ngbTooltip="Coming soon">Billing</a>
       </div>
 
-      <div class="menu-item px-3">
-        <a class="menu-link px-5 cursor-pointer" placement="top-start" ngbTooltip="Coming soon">Payments</a>
+      <div class="px-3 menu-item">
+        <a class="px-5 cursor-pointer menu-link" placement="top-start" ngbTooltip="Coming soon">Payments</a>
       </div>
 
-      <div class="menu-item px-3">
-        <a class="menu-link d-flex flex-stack px-5 cursor-pointer" placement="top-start" ngbTooltip="Coming soon">
+      <div class="px-3 menu-item">
+        <a class="px-5 cursor-pointer menu-link d-flex flex-stack" placement="top-start" ngbTooltip="Coming soon">
           Statements
           <i
             class="fas fa-exclamation-circle ms-2 fs-7"
@@ -71,10 +71,10 @@
         </a>
       </div>
 
-      <div class="separator my-2"></div>
+      <div class="my-2 separator"></div>
 
-      <div class="menu-item px-3">
-        <div class="menu-content px-3">
+      <div class="px-3 menu-item">
+        <div class="px-3 menu-content">
           <label
             class="form-check form-switch form-check-custom form-check-solid"
           >
@@ -90,35 +90,25 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div class="menu-item px-5">
-    <a class="menu-link px-5 cursor-pointer" placement="top-start" ngbTooltip="Coming soon">My Statements</a>
-  </div>
+  <!-- <div class="px-5 menu-item">
+    <a class="px-5 cursor-pointer menu-link" placement="top-start" ngbTooltip="Coming soon">My Statements</a>
+  </div> -->
 
-  <div class="separator my-2"></div>
+  <div class="my-2 separator"></div>
 
   <div
-    class="menu-item px-5"
+    class="px-5 menu-item"
     data-kt-menu-trigger="hover"
     data-kt-menu-placement="left-start"
     data-kt-menu-flip="bottom"
   >
-    <a class="menu-link px-5 cursor-pointer">
+    <a class="px-5 cursor-pointer menu-link">
       <span class="menu-title position-relative">
         Language
         <span
-          class="
-            fs-8
-            rounded
-            bg-light
-            px-3
-            py-2
-            position-absolute
-            translate-middle-y
-            top-50
-            end-0
-          "
+          class="px-3 py-2 rounded  fs-8 bg-light position-absolute translate-middle-y top-50 end-0"
         >
           {{ language.name }}{{ " " }}
           <img
@@ -130,14 +120,14 @@
       </span>
     </a>
 
-    <div class="menu-sub menu-sub-dropdown w-175px py-4">
+    <div class="py-4 menu-sub menu-sub-dropdown w-175px">
       <div
         *ngFor="let l of langs"
-        class="menu-item px-3 cursor-pointer"
+        class="px-3 cursor-pointer menu-item"
         (click)="selectLanguage(l.lang)"
       >
         <a
-          class="menu-link d-flex px-5"
+          class="px-5 menu-link d-flex"
           [ngClass]="l.lang === language.lang ? 'active' : ''"
         >
           <span class="symbol symbol-20px me-4">
@@ -149,13 +139,13 @@
     </div>
   </div>
 
-  <div class="menu-item px-5 my-1">
-    <a routerLink="/crafted/account/settings" class="menu-link px-5">
+  <div class="px-5 my-1 menu-item">
+    <a routerLink="/crafted/account/settings" class="px-5 menu-link">
       Account Settings
     </a>
   </div>
 
-  <div class="menu-item px-5">
-    <a (click)="logout()" class="menu-link px-5 cursor-pointer"> Sign Out </a>
+  <div class="px-5 menu-item">
+    <a (click)="logout()" class="px-5 cursor-pointer menu-link"> Sign Out </a>
   </div>
 </ng-container>

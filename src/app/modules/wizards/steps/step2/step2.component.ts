@@ -38,14 +38,16 @@ export class Step2Component implements OnInit {
   data: MainDeal
 
   @Input() deal: Partial<MainDeal> = {
-    vouchers: {
-      subTitle: '',
-      dealPrice: '',
-      originalPrice: '',
-      details: '',
-      discountPercentage: 0,
-      numberOfVouchers: ''
-    }
+    vouchers: [
+      {
+        subTitle: '',
+        dealPrice: '',
+        originalPrice: '',
+        details: '',
+        discountPercentage: 0,
+        numberOfVouchers: ''
+      }
+    ]
   };
 
   subDeals: any[] = [];
@@ -90,21 +92,21 @@ export class Step2Component implements OnInit {
   initSubDealForm() {
     this.subDealForm = this.fb.group({
       originalPrice: [
-        this.deal.vouchers?.originalPrice,
+        '',
         Validators.compose([
           Validators.required,
           Validators.maxLength(5)
         ]),
       ],
       dealPrice: [
-        this.deal.vouchers?.dealPrice,
+        '',
         Validators.compose([
           Validators.required,
           Validators.maxLength(5)
         ]),
       ],
       details: [
-        this.deal.vouchers?.details,
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(14),
@@ -113,14 +115,14 @@ export class Step2Component implements OnInit {
         ]),
       ],
       numberOfVouchers: [
-        this.deal.vouchers?.numberOfVouchers,
+        '',
         Validators.compose([
           Validators.required,
           Validators.maxLength(5)
         ])
       ],
       subTitle: [
-        this.deal.vouchers?.subTitle,
+        '',
           Validators.compose([
             Validators.required,
             Validators.minLength(3),
@@ -129,17 +131,18 @@ export class Step2Component implements OnInit {
           ]),
         ],
         discountPercentage: [
-          this.deal.vouchers?.discountPercentage
+          0
         ]
     }, {
       validator: GreaterThanValidator('originalPrice', 'dealPrice')
     });
 
     const formChangesSubscr = this.subDealForm.valueChanges.subscribe((val) => {
-      debugger
-      const updatedData = {...this.data, ...val}
+      const updatedData = {...[this.data], ...val}
       this.updateParentModel(updatedData, true);
       this.isCurrentFormValid$.next(this.checkForm());
+      this.connection.sendData(updatedData);
+      console.log(updatedData)
     });
     this.unsubscribe.push(formChangesSubscr);
   }

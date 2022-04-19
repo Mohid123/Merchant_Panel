@@ -7,7 +7,7 @@ export interface MainDeal {
   mediaUrl?: [string];
   startDate?: string;
   endDate?: string;
-  vouchers?:
+  vouchers?: [
     {
       subTitle?: string;
       originalPrice?: string;
@@ -18,7 +18,8 @@ export interface MainDeal {
       voucherValidity?: number;
       voucherStartDate?: Date | string;
       voucherEndDate?: Date | string;
-    };
+    }
+  ];
   termsAndCondition?: string;
   merchantID?: string;
   dealStatus?: string;
