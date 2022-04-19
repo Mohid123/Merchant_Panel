@@ -14,7 +14,7 @@
         <label class="pl-2 mb-6 text-base text-gray-400">When can customers redeem their voucher?</label>
 
         <form class="form" [formGroup]="form">
-          <div class="flex flex-col justify-center w-full pl-2 align-middle xl:flex-row">
+          <div class="flex flex-col justify-center w-full align-middle xl:flex-row">
 
             <label class="mb-6 form-check form-check-solid">
               <input class="border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
@@ -31,7 +31,7 @@
               <span class="mb-0 text-base tracking-widest text-gray-600"><span class="text-red-600">*</span>Max validity 90 days</span>
             </label>
 
-            <label class="mt-2 xl:mt-1 2xl:items-center 2xl:justify-end 2xl:ml-44 form-check form-check-solid">
+            <label class="mt-1 xl:mt-1 2xl:items-center 2xl:justify-end 2xl:ml-44 form-check form-check-solid">
               <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-3 input-group md:w-72" data-provide="datepicker">
                 <input [min]="form.controls['voucherStartDate'].value" type="date" class="text-sm font-thin form-control" formControlName="voucherEndDate" name="voucherEndDate" id="specialCheck" (click)="disableCheckBox()">
