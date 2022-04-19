@@ -115,7 +115,7 @@ export class Step2Component implements OnInit {
         ]),
       ],
       numberOfVouchers: [
-        '',
+        0,
         Validators.compose([
           Validators.required,
           Validators.maxLength(5)
@@ -138,7 +138,7 @@ export class Step2Component implements OnInit {
     });
 
     const formChangesSubscr = this.subDealForm.valueChanges.subscribe((val) => {
-      const updatedData = {...[this.data], ...val}
+      const updatedData = {...this.data, ...val}
       this.updateParentModel(updatedData, true);
       this.isCurrentFormValid$.next(this.checkForm());
       this.connection.sendData(updatedData);
