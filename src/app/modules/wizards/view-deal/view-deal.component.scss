@@ -74,6 +74,27 @@ input::-webkit-datetime-edit-fields-wrapper {
   overflow-x: scroll;
 }
 
+// ::ng-deep .fc .fc-toolbar-title {
+//   margin-right: 60px!important;
+//   font-weight: 500;
+//   font-size: 19px!important;
+//   color: #4E5970;
+// }
+
+// ::ng-deep .fc .fc-today-button {
+//   text-transform: capitalize!important;
+//   background: rgba(245, 240, 240, 0.884)!important;
+//   color: black!important;
+//   border: 1px solid white!important;
+// }
+
+// ::ng-deep .fc .fc-prev-button {
+//   background: black!important;
+// }
+
+// ::ng-deep .fc .fc-next-button {
+//   background: black!important;
+// }
 
 @media (max-width: 600px) {
 
