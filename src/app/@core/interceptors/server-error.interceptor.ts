@@ -3,7 +3,7 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest,
+  HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,7 +13,9 @@ import { ROUTER_UTILS } from '../utils/router.utils';
 
 @Injectable()
 export class ServerErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    ) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -21,8 +23,8 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        if ([401, 403].includes(error.status)) {
-          this.router.navigateByUrl(ROUTER_UTILS.config.auth.signIn);
+        if ([401, 403].includes(error.status) && !request.url.includes('group/addGroup') && error?.error?.message !== "Incorrect credentials") {
+          this.router.navigate([ '/', ROUTER_UTILS.config.auth.root,ROUTER_UTILS.config.auth.signIn]);
           return throwError(error);
         } else if (error.status === 500) {
           console.error(error);
