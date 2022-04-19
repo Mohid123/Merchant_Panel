@@ -70,3 +70,13 @@ h3 {
 .modal-save-btn {
   width: 117px;
 }
+
+@media (min-width: 1024px) {
+  .billing-details {
+    height: 450px;
+
+    &.edit-modal {
+      height: auto;
+    }
+  }
+}
