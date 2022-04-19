@@ -74,5 +74,9 @@ h3 {
 @media (min-width: 1024px) {
   .billing-details {
     height: 450px;
+
+    &.edit-modal {
+      height: auto;
+    }
   }
 }

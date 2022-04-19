@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NFTList } from './NFTList.model';
 import { SignInResponse } from './sign-in-response';
 export interface Response {
   status: boolean;
-  data: NFTList | SignInResponse | any;
+  data: SignInResponse | any;
 }
 
 export class ApiResponse<T> {
