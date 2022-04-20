@@ -1,4 +1,6 @@
-export interface MainDeal {
+import { Vouchers } from "./vouchers.model";
+
+export class MainDeal {
   id?: string;
   title?: string;
   subTitle?: string;
@@ -7,19 +9,7 @@ export interface MainDeal {
   mediaUrl?: [string];
   startDate?: string;
   endDate?: string;
-  vouchers?: [
-    {
-      subTitle?: string;
-      originalPrice?: string;
-      dealPrice?: string;
-      discountPercentage?: number;
-      details?: string;
-      numberOfVouchers?: string;
-      voucherValidity?: number;
-      voucherStartDate?: Date | string;
-      voucherEndDate?: Date | string;
-    }
-  ];
+  vouchers?: Vouchers[];
   termsAndCondition?: string;
   merchantID?: string;
   dealStatus?: string;
