@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { ApiService } from '@core/services/api.service';
 import { Observable } from 'rxjs';
-import { Orders } from './../../modules/wizards/models/order.model';
+import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
 
-type OrdersData = Orders
+type OrdersData = OrdersList
 @Injectable({
   providedIn: 'root'
 })
@@ -15,15 +15,9 @@ export class OrdersService extends ApiService<OrdersData> {
     super(http)
   }
 
-  getAllOrders(offset: any, limit: any): Observable<ApiResponse<OrdersData>> {
-    limit = parseInt(limit) < 1 ? 10 : limit;
-    offset = parseInt(offset) < 0 ? 0 : offset;
-    return this.get(`/billing/getAllBillings?offset=${offset}&limit=${limit}`)
-  }
-
   getAllOrdersByID(id: string, offset: any, limit: any): Observable<ApiResponse<OrdersData>> {
     limit = parseInt(limit) < 1 ? 10 : limit;
     offset = parseInt(offset) < 0 ? 0 : offset;
-    return this.get(`/billing/getBillingsByMerchant/${id}?offset=${offset}&limit=${limit}`)
+    return this.get(`/orders/getAllOrderByMerchant/${id}?offset=${offset}&limit=${limit}`)
   }
 }

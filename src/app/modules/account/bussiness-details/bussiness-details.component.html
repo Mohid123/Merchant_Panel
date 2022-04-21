@@ -97,7 +97,7 @@
 <div style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
   <div class="pb-1 cursor-pointer px-9 pt-9 card-header">
     <div class="m-0 card-title">
-      <h3 class="m-0 fw-bolder">Set Bussiness Hours</h3>
+      <h3 class="m-0 fw-bolder">Set Business Hours</h3>
     </div>
   </div>
   <div class="px-10 card-body" style="background-color: white;">
@@ -324,13 +324,13 @@
 <div style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px; margin-top: 32px;">
   <div class="px-12 py-6 cursor-pointer card-header" style="border-style: none!important;">
     <div class="m-0 card-title">
-      <h3 class="m-0 fw-bolder">My Bussiness Profile</h3>
+      <h3 class="m-0 fw-bolder">My Business Profile</h3>
     </div>
   </div>
   <div class="px-12 card-body" style="background-color: white;">
-    <form class="form row" [formGroup]="businessForm">
+    <form class="form row">
       <div class="pb-5">
-       <textarea rows="8" type="text font-weight-light" class="text-sm font-thin form-control" formControlName="businessProfile" name="businessProfile"></textarea>
+       <ckeditor [editor]="Editor" [config]="config" formControlName="termsAndCondition" name="termsAndCondition"></ckeditor>
       </div>
 
       <div class="mt-6 mb-6 card-title">
@@ -338,20 +338,8 @@
       </div>
 
       <div class="pb-5">
-        <textarea rows="8" type="text font-weight-light" class="text-sm font-thin form-control" formControlName="businessProfile" name="businessProfile"></textarea>
+        <ckeditor [editor]="Editor" [config]="config"></ckeditor>
        </div>
-
-      <!-- <div class="px-6 py-12" style="border: 1px solid #F38B41; border-radius: 12px;">
-        <span class="text-sm text-gray-600 font-base" formControlName="validity" name="validity">Validity: </span> <span class="text-sm font-light text-gray-500">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
-
-
-        <span class="text-sm text-gray-600 font-base" formControlName="purchase" name="purchase">Purchase: </span> <span class="text-sm font-light text-gray-500">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
-
-
-        <span class="text-sm text-gray-600 font-base" formControlName="cancellation" name="cancellation">Cancellation: </span> <span class="text-sm font-light text-gray-500">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
-
-        <span class="text-sm text-gray-600 font-base" formControlName="extraInfo" name="extraInfo">Extra Info: </span> <span class="text-sm font-light text-gray-500">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
-      </div> -->
     </form>
   </div>
 </div>

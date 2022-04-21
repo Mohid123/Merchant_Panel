@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
+import { getItem, StorageItem } from '@core/utils';
 import { OrdersService } from '@pages/services/orders.service';
-import { Orders } from './../../modules/wizards/models/order.model';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
+import { User } from '../../@core/models/user.model';
 
 @Component({
   selector: 'app-order-management',
@@ -10,67 +14,47 @@ import { Orders } from './../../modules/wizards/models/order.model';
 })
 export class OrderManagementComponent implements OnInit {
 
-  ordersData: Orders;
+  merchantID: string;
+  showData: boolean;
+  ordersData: OrdersList;
   offset: number = 0;
-  limit: number = 10
+  limit: number = 10;
+  destroy$ = new Subject();
+  private _User$ = new BehaviorSubject<any>(getItem(StorageItem.User));
+  public readonly User$: Observable<any> = this._User$.asObservable();
 
-
-  // DUMMY DATA FOR SORT TESTING
-  public orderData: Array<Orders> = [
-    {
-      orderID: '1',
-      customerName: 'Junaid',
-      date: '20-10-1998',
-      amount: '345',
-      fee: '212',
-      net: '287',
-      source: 'Stripe',
-      status: 'Purchased'
-    },
-    {
-      orderID: '2',
-      customerName: 'Mohid',
-      date: '20-10-2021',
-      amount: '425',
-      fee: '446',
-      net: '987',
-      source: 'Stripe',
-      status: 'Redeemed'
-    },
-    {
-      orderID: '3',
-      customerName: 'Mudassar',
-      date: '20-10-2018',
-      amount: '345',
-      fee: '440',
-      net: '1087',
-      source: 'Stripe',
-      status: 'Purchased'
-    },
-    {
-      orderID: '4',
-      customerName: 'Sameer',
-      date: '20-10-1994',
-      amount: '445',
-      fee: '846',
-      net: '987',
-      source: 'Stripe',
-      status: 'Redeemed'
-    }
-  ]
-
-  constructor(private orderService: OrdersService) { }
+  constructor(private orderService: OrdersService, private cf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.getOrders();
+    this.retreiveUserValue();
+    this.getOrdersByMerchant();
   }
 
-  getOrders() {
-    this.orderService.getAllOrders(this.offset, this.limit).subscribe((res:ApiResponse<Orders>) => {
+  get user(): User {
+    return this._User$.getValue();
+  }
+
+  retreiveUserValue() {
+    this.User$.subscribe((res:User) => {
+      this.merchantID = res.id;
+    })
+  }
+
+  getOrdersByMerchant() {
+    this.showData = false;
+    this.orderService.getAllOrdersByID(this.merchantID, this.offset, this.limit)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res:ApiResponse<OrdersList>) => {
       debugger
       this.ordersData = res.data;
-      console.log(res.data)
+      this.showData = true;
+      this.cf.detectChanges();
     })
+  }
+
+  ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
 }

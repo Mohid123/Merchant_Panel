@@ -1,5 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Billings } from './../../modules/wizards/models/billings.model';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ReusableModalComponent } from '@components/reusable-modal/reusable-modal/reusable-modal.component';
+import { ModalConfig } from '@core/models/modal.config';
+import { ApiResponse } from '@core/models/response.model';
+import { User } from '@core/models/user.model';
+import { getItem, StorageItem } from '@core/utils';
+import { BillingsService } from '@pages/services/billings.service';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { BillingList } from 'src/app/modules/wizards/models/billing-list.model';
 
 @Component({
   selector: 'app-billings',
@@ -8,52 +16,63 @@ import { Billings } from './../../modules/wizards/models/billings.model';
 })
 export class BillingsComponent implements OnInit {
 
-  public billingsData: Array<Billings> = [
-    {
-      transactionNo: '23456',
-      date: '23-12-1999',
-      paymentMethod: 'HBL',
-      amount: '24567',
-      status: 'Paid',
-      currency: 'Euro'
-    },
-    {
-      transactionNo: '23458',
-      date: '23-12-2001',
-      paymentMethod: 'Mezan',
-      amount: '131537',
-      status: 'Paid',
-      currency: 'Euro'
-    },
-    {
-      transactionNo: '23465',
-      date: '23-12-2005',
-      paymentMethod: 'Allied',
-      amount: '74567',
-      status: 'Paid',
-      currency: 'Euro'
-    },
-    {
-      transactionNo: '23461',
-      date: '23-12-2010',
-      paymentMethod: 'FedEx',
-      amount: '234567',
-      status: 'Paid',
-      currency: 'Euro'
-    },
-    {
-      transactionNo: '23470',
-      date: '23-12-2015',
-      paymentMethod: 'MCB',
-      amount: '231345',
-      status: 'Paid',
-      currency: 'Euro'
-    }
-  ]
+  @ViewChild('modal') private modal: ReusableModalComponent;
 
-  constructor() { }
+  public modalConfig: ModalConfig = {
+    onDismiss: () => {
+      return true
+    },
+    dismissButtonLabel: "Dismiss",
+    onClose: () => {
+      return true
+    },
+    closeButtonLabel: "Close"
+  }
+
+  public billingsData: BillingList;
+  merchantID: string;
+  showData: boolean;
+  offset: number = 0;
+  limit: number = 10;
+  destroy$ = new Subject();
+  private _User$ = new BehaviorSubject<any>(getItem(StorageItem.User));
+  public readonly User$: Observable<any> = this._User$.asObservable();
+
+  constructor(private billingService: BillingsService, private cf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.retreiveUserValue();
+    this.getBillingsByMerchant();
   }
+
+  get user(): User {
+    return this._User$.getValue();
+  }
+
+  retreiveUserValue() {
+    this.User$.subscribe((res:User) => {
+      this.merchantID = res.id;
+    })
+  }
+
+  getBillingsByMerchant() {
+    this.showData = false;
+    this.billingService.getAllBillingsByMerchantID(this.merchantID, this.offset, this.limit)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res:ApiResponse<BillingList>) => {
+      this.billingsData = res.data;
+      this.showData = true;
+      this.cf.detectChanges();
+    })
+  }
+
+  async openModal() {
+    return await this.modal.open();
+  }
+
+  async closeModal() {
+    return await this.modal.close();
+  }
+
 
 }
