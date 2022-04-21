@@ -73,7 +73,6 @@ export class Step2Component implements OnInit {
     const discountPrice = Math.round(100 * dealPrice/parseInt(this.vouchers.controls[0].get('originalPrice')?.value));
     this.vouchers.controls[0].get('discountPercentage')?.setValue(discountPrice);
     this.subDeals.push(this.vouchers.value);
-    this.vouchers.removeAt(1);
     this.vouchers.reset();
   }
 
@@ -146,11 +145,7 @@ export class Step2Component implements OnInit {
 
   checkForm() {
     return !(
-      this.subDealForm.get('originalPrice')?.hasError('required') ||
-      this.subDealForm.get('dealPrice')?.hasError('required') ||
-      this.subDealForm.get('details')?.hasError('required') ||
-      this.subDealForm.get('details')?.hasError('minlength') ||
-      this.subDealForm.get('subTitle')?.hasError('required')
+     this.vouchers.valid
     );
   }
 

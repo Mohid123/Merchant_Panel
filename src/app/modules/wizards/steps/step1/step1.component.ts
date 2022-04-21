@@ -92,17 +92,8 @@ export class Step1Component implements OnInit, OnDestroy {
 
   checkForm() {
     return !(
-      this.dealForm.get('title')?.hasError('required') ||
-      this.dealForm.get('subTitle')?.hasError('required') ||
-      this.dealForm.get('subTitle')?.hasError('whitespace') ||
-      this.dealForm.get('description')?.hasError('required') ||
-      this.dealForm.get('description')?.hasError('minlength') ||
-      this.dealForm.get('description')?.hasError('whitespace') ||
-      this.dealForm.get('title')?.hasError('whitespace') ||
-      this.dealForm.get('title')?.hasError('pattern') ||
-      this.dealForm.get('description')?.hasError('pattern') ||
-      this.dealForm.get('subTitle')?.hasError('pattern')
-      )
+      this.dealForm.valid
+    )
   }
 
   onSelectFile(event: any) {

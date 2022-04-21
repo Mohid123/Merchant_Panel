@@ -57,7 +57,7 @@ function getChartOptions(
         left: 0,
         blur: 3,
         color: strokeColor,
-        opacity: 0.5,
+        opacity: 0.2,
       },
     },
     plotOptions: {},
@@ -75,7 +75,7 @@ function getChartOptions(
       curve: 'smooth',
       show: true,
       width: 3,
-      colors: [strokeColor],
+      colors: ['#a55901'],
     },
     xaxis: {
       categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],

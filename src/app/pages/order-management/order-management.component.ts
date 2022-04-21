@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiResponse } from '@core/models/response.model';
+import { OrdersService } from '@pages/services/orders.service';
 import { Orders } from './../../modules/wizards/models/order.model';
 
 @Component({
@@ -7,6 +9,11 @@ import { Orders } from './../../modules/wizards/models/order.model';
   styleUrls: ['./order-management.component.scss']
 })
 export class OrderManagementComponent implements OnInit {
+
+  ordersData: Orders;
+  offset: number = 0;
+  limit: number = 10
+
 
   // DUMMY DATA FOR SORT TESTING
   public orderData: Array<Orders> = [
@@ -52,9 +59,18 @@ export class OrderManagementComponent implements OnInit {
     }
   ]
 
-  constructor() { }
+  constructor(private orderService: OrdersService) { }
 
   ngOnInit(): void {
+    this.getOrders();
+  }
+
+  getOrders() {
+    this.orderService.getAllOrders(this.offset, this.limit).subscribe((res:ApiResponse<Orders>) => {
+      debugger
+      this.ordersData = res.data;
+      console.log(res.data)
+    })
   }
 
 }
