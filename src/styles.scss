@@ -39,6 +39,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 input::-webkit-file-upload-button {
   display: none;
 }
+::-webkit-input-placeholder { /* Edge */
+  @apply text-font-gray-800 text-sm;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  @apply text-font-gray-800 text-sm;
+}
+
+::placeholder {
+  @apply text-font-gray-800 text-sm;
+}
 
 input[type='file'] {
   opacity:0

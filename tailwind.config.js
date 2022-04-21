@@ -16,7 +16,7 @@ module.exports = {
     extend: {
       colors: {
         'primary-100': '#F7E1AD',
-        'primary-400': '#E9A608',
+        'primary-400': '#F38B41',
         'primary-500': '#E67B00',
         'custom-black' : {
           '100': '#4e5970b3',
@@ -25,6 +25,7 @@ module.exports = {
         },
         'font-gray' : {
           '600': '#9399B2',
+          '800': '#787F9F',
         }
       },
       width: {
