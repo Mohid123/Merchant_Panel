@@ -22,10 +22,11 @@ export class JwtInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
+    console.log('JwtInterceptor:',request.url);
+    console.log('JwtInterceptor:',request);
     const isLoggedIn = !!this.authService.currentUserValue;
     const token = this.authService.JwtToken;
     const isApiUrl = request.url.startsWith(environment.apiUrl);
-    console.log('JwtInterceptor:',request.url);
     if (isLoggedIn && isApiUrl) {
       request = request.clone({
         setHeaders: {

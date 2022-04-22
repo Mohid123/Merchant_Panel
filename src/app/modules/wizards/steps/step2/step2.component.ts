@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { ModalConfig } from './../../../../@core/models/modal.config';
 import { GreaterThanValidator } from './../../greater-than.validator';
@@ -12,90 +12,19 @@ import { ConnectionService } from './../../services/connection.service';
   selector: 'app-step2',
   templateUrl: './step2.component.html',
 })
-export class Step2Component implements OnInit {
+export class Step2Component implements OnInit, OnDestroy {
 
-  @ViewChild('modal') private modal: ReusableModalComponent;
-
-  public modalConfig: ModalConfig = {
-    onDismiss: () => {
-      return true
-    },
-    dismissButtonLabel: "Dismiss",
-    onClose: () => {
-      return true
-    },
-    closeButtonLabel: "Close"
-  }
-
-  @Input('updateParentModel') updateParentModel: (
-    part: Partial<MainDeal>,
-    isFormValid: boolean
-  ) => void;
-
-  subDealForm: FormGroup = this.fb.group({
-    vouchers: this.fb.array([])
-  });
-
-  reciever: Subscription;
-  data: MainDeal
-
-  @Input() deal: Partial<MainDeal>
-
-  subDeals: any[] = [];
-
-  @Input() mainDeal: Partial<MainDeal>
-  @Input() images: any;
-
-  public discount: number;
-
-  private unsubscribe: Subscription[] = [];
-
-  isCurrentFormValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
-
-  constructor(private fb: FormBuilder, private connection: ConnectionService) {
-    this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
-      this.data = response
-    })
-  }
-
-  ngOnInit() {
-    this.updateParentModel({}, true);
-  }
-
-  get f() {
-    return this.vouchers.controls;
-  }
-
-  calculateDiscount() {
-    const dealPrice = Math.round(parseInt(this.vouchers.controls[0].get('originalPrice')?.value) - parseInt(this.vouchers.controls[0].get('dealPrice')?.value));
-    const discountPrice = Math.round(100 * dealPrice/parseInt(this.vouchers.controls[0].get('originalPrice')?.value));
-    this.vouchers.controls[0].get('discountPercentage')?.setValue(discountPrice);
-    this.subDeals.push(this.vouchers.value);
-    this.vouchers.reset();
-  }
-
-  deleteDeal(i:any) {
-    this.subDeals.splice(i, 1);
-    this.vouchers.removeAt(i);
-  }
-
-  get vouchers() {
-    return this.subDealForm.controls['vouchers'] as FormArray
-  }
-
-  addVoucher() {
-    const voucherFormGroup = this.fb.group({
+  editIndex:number = -1;
+  vouchers = this.fb.group({
     originalPrice: [
-      '',
+      60,
       Validators.compose([
       Validators.required,
       Validators.maxLength(5)
       ]),
     ],
     dealPrice: [
-      '',
+      50,
       Validators.compose([
       Validators.required,
       Validators.maxLength(5)
@@ -126,45 +55,101 @@ export class Step2Component implements OnInit {
       Validators.pattern('^[a-zA-Z \-\']+')
         ]),
       ],
-      discountPercentage: [
-        0
-      ]
+    discountPercentage: [
+      0
+    ]
     }, {
       validator: GreaterThanValidator('originalPrice', 'dealPrice')
     })
-    this.vouchers.push(voucherFormGroup);
-    const formChangesSubscr = this.subDealForm.valueChanges.subscribe((val) => {
-      const updatedVal = {...this.data, ...val}
-      this.updateParentModel(updatedVal, true);
-      this.isCurrentFormValid$.next(this.checkForm());
-      this.connection.sendData(updatedVal);
-      console.log(updatedVal)
-    });
-    this.unsubscribe.push(formChangesSubscr);
+
+  @ViewChild('modal') private modal: ReusableModalComponent;
+
+  public modalConfig: ModalConfig = {
+    onDismiss: () => {
+      return true
+    },
+    dismissButtonLabel: "Dismiss",
+    onClose: () => {
+      return true
+    },
+    closeButtonLabel: "Close"
   }
 
-  checkForm() {
-    return !(
-     this.vouchers.valid
-    );
-  }
+  @Input('updateParentModel') updateParentModel: (
+    part: Partial<MainDeal>,
+    isFormValid: boolean
+  ) => void;
 
-  handleMinus() {
-    if(this.vouchers.controls[0].get('numberOfVouchers')?.value >= 1) {
-      this.vouchers.controls[0].patchValue({
-        numberOfVouchers: this.vouchers.controls[0].get('numberOfVouchers')?.value - 1
-      });
-    }
-  }
+  reciever: Subscription;
+  data: MainDeal
 
-  handlePlus() {
-    this.vouchers.controls[0].patchValue({
-      numberOfVouchers: this.vouchers.controls[0].get('numberOfVouchers')?.value + 1
+  @Input() deal: Partial<MainDeal>
+
+  subDeals: any[] = [];
+
+  @Input() mainDeal: Partial<MainDeal>
+  @Input() images: any;
+
+  public discount: number;
+
+  private unsubscribe: Subscription[] = [];
+
+  constructor(private fb: FormBuilder, private connection: ConnectionService) {
+    this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
+      this.data = response;
+      this.subDeals = this.data.vouchers ? this.data.vouchers  : [] ;
     })
   }
 
+  ngOnInit() {
+    this.updateParentModel({}, true);
+  }
+
+  get voucherFormControl() {
+    return this.vouchers.controls;
+  }
+
+  async edit(index:any) {
+    this.editIndex = index;
+    this.vouchers.patchValue(this.subDeals[index]);
+    await this.modal.open();
+  }
+
+  calculateDiscount() {
+    const dealPrice = Math.round(parseInt(this.voucherFormControl['originalPrice']?.value) - parseInt(this.voucherFormControl['dealPrice']?.value));
+    const discountPrice = Math.round(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));
+    this.voucherFormControl['discountPercentage']?.setValue(discountPrice);
+    if(this.editIndex >= 0) {
+      this.subDeals[this.editIndex] = this.vouchers.value;
+    } else {
+      this.subDeals.push(this.vouchers.value);
+    }
+    this.data.vouchers = this.subDeals;
+    this.connection.sendData(this.data);
+    this.vouchers.reset();
+  }
+
+  deleteDeal(i:any) {
+    this.subDeals.splice(i, 1);
+    this.data.vouchers = this.subDeals;
+    this.connection.sendData(this.data);
+    // this.vouchers.removeAt(i);
+  }
+
+  handleMinus() {
+    const numOfVoucher = this.voucherFormControl['numberOfVouchers'].value;
+    if(numOfVoucher > 0)
+      this.voucherFormControl['numberOfVouchers'].patchValue(numOfVoucher-1);
+  }
+
+  handlePlus() {
+    const numOfVoucher = this.voucherFormControl['numberOfVouchers'].value;
+    this.voucherFormControl['numberOfVouchers'].patchValue(numOfVoucher+1);
+  }
+
   async openNew() {
-    this.addVoucher();
+    this.vouchers.reset()
+    this.editIndex = -1;
     return await this.modal.open();
   }
 

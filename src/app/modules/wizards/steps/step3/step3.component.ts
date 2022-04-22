@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { ConnectionService } from './../../services/connection.service';
   selector: 'app-step3',
   templateUrl: './step3.component.html',
 })
-export class Step3Component implements OnInit {
+export class Step3Component implements OnInit, OnDestroy {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
 
@@ -159,7 +159,18 @@ export class Step3Component implements OnInit {
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      const updatedData = {...this.data, ...val}
+      this.data.vouchers?.forEach((voucher) => {
+        if (val.voucherValidity) {
+          voucher.voucherValidity = val.voucherValidity;
+          voucher.voucherStartDate ='';
+          voucher.voucherEndDate ='';
+        } else {
+          voucher.voucherValidity = 0;
+          voucher.voucherStartDate = val.voucherStartDate;
+          voucher.voucherEndDate = val.voucherEndDate;
+        }
+      });
+      const updatedData = {...this.data}
       this.updateParentModel(updatedData, this.checkForm());
       this.connection.sendData(updatedData);
       console.log(updatedData)
@@ -199,5 +210,6 @@ export class Step3Component implements OnInit {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.reciever.unsubscribe();
   }
 }
