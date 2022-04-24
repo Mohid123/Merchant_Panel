@@ -22,8 +22,8 @@ export class JwtInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
-    console.log('JwtInterceptor:',request.url);
-    console.log('JwtInterceptor:',request);
+    // console.log('JwtInterceptor:',request.url);
+    // console.log('JwtInterceptor:',request);
     const isLoggedIn = !!this.authService.currentUserValue;
     const token = this.authService.JwtToken;
     const isApiUrl = request.url.startsWith(environment.apiUrl);
@@ -42,7 +42,7 @@ export class JwtInterceptor implements HttpInterceptor {
             status: [200,201,204].includes(response.status),
             data: response.body,
           };
-          console.log('datadatadata:',response.body);
+          // console.log('datadatadata:',response.body);
         }
         return response;
       }),

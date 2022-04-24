@@ -14,4 +14,7 @@ export class MainDeal {
   merchantID?: string;
   dealStatus?: string;
   deletedCheck?: boolean;
+  minRating?: number;
+  maxRating?: number;
+  ratingsAverage?: number;
 }

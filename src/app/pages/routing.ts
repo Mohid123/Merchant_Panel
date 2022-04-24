@@ -3,6 +3,7 @@ import { TableSkeletonComponent } from '@components/table-skeleton/table-skeleto
 import { BillingsComponent } from './billings/billings.component';
 import { OrderManagementComponent } from './order-management/order-management.component';
 import { ReviewsComponent } from './reviews/reviews.component';
+import { SingleReviewComponent } from './single-review/single-review.component';
 
 const Routing: Routes = [
   {
@@ -64,6 +65,10 @@ const Routing: Routes = [
   {
     path: 'reviews',
     component: ReviewsComponent
+  },
+  {
+    path: 'single-review',
+    component: SingleReviewComponent
   },
   {
     path: '',

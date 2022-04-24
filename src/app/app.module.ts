@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReusableModalModule } from '@components/reusable-modal/reusable-modal.module';
+import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.module';
 import { SortModule } from '@core/directives/sort/sort.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -15,12 +16,12 @@ import { environment } from 'src/environments/environment';
 import { CoreModule } from './@core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TableSkeletonComponent } from './components/table-skeleton/table-skeleton/table-skeleton.component';
 import { BillingsComponent } from './pages/billings/billings.component';
 import { OrderManagementComponent } from './pages/order-management/order-management.component';
+import { ReviewsComponent } from './pages/reviews/reviews.component';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
-import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { SingleReviewComponent } from './pages/single-review/single-review.component';
 // #fake-end#
 
 // function appInitializer(authService: AuthService) {
@@ -32,7 +33,7 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 // }
 
 @NgModule({
-  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, TableSkeletonComponent, ReviewsComponent],
+  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent],
   imports: [
     CoreModule,
     BrowserModule,
@@ -42,6 +43,7 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
     TranslateModule.forRoot(),
     HttpClientModule,
     ClipboardModule,
+    TableSkeletonModule,
     // #fake-start#
     environment.isMockEnabled
       ? HttpClientInMemoryWebApiModule.forRoot(FakeAPIService, {

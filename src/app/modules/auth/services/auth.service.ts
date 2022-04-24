@@ -28,6 +28,9 @@ export class AuthService extends ApiService<AuthApiData> {
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<User | null>;
   isLoadingSubject: BehaviorSubject<boolean>;
+  private _User$ = new BehaviorSubject<any>(getItem(StorageItem.User));
+  public readonly User$: Observable<any> = this._User$.asObservable();
+  merchantID: string;
 
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;
@@ -103,5 +106,15 @@ export class AuthService extends ApiService<AuthApiData> {
     return this.authHttpService
       .forgotPassword(email)
       .pipe(finalize(() => this.isLoadingSubject.next(false)));
+  }
+
+  get user(): User {
+    return this._User$.getValue();
+  }
+
+  retreiveUserValue() {
+    this.User$.subscribe((res:User) => {
+      this.merchantID = res.id;
+    })
   }
 }

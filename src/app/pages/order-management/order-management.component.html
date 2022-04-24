@@ -1,8 +1,8 @@
 <div class="flex flex-row flex-wrap justify-between">
-  <div class="text-3xl font-semibold text-left mb-3 lg:mb-0">My Vouchers</div>
+  <div class="mb-3 text-3xl font-semibold text-left lg:mb-0">My Vouchers</div>
   <div class="input-icon">
-    <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 rounded fas fa-search fa-lg text-gray-400"></i></span>
-    <input placeholder="Search By Voucher ID" type="text" class="pl-12 text-gray-700 form-control bg-gray-200 border-0">
+    <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-gray-400 rounded fas fa-search fa-lg"></i></span>
+    <input placeholder="Search By Voucher ID" type="text" class="pl-12 text-gray-700 bg-gray-200 border-0 form-control">
    </div>
 </div>
 
@@ -24,7 +24,7 @@
         <br>
         <span class="text-base text-green-500">421,584</span>
       </div>
-      <div class="h-20 py-1 pl-2 pr-12 text-center bg-white lg:h-16 mt-9 w-38 ml-3">
+      <div class="h-20 py-1 pl-2 pr-12 ml-3 text-center bg-white lg:h-16 mt-9 w-38">
         <span class="mb-2 text-xs text-gray-500">Expired</span>
         <br>
         <span class="text-base text-red-500">13</span>
@@ -63,9 +63,9 @@
       <thead class="text-center text-black bg-gray-300 rounded-lg">
         <th class="p-4 font-normal cursor-pointer customary">Voucher ID</th>
         <th class="p-4 font-normal cursor-pointer">Deal&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer">Fee&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer">Net&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal cursor-pointer" [appSort]="ordersData?.data" data-order="desc" data-name="amount">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal cursor-pointer" [appSort]="ordersData?.data" data-order="desc" data-name="fee">Fee&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal cursor-pointer" [appSort]="ordersData?.data" data-order="desc" data-name="netAmount">Net&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-normal cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-normal cursor-pointer">Payment Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
       </thead>
@@ -102,5 +102,8 @@
     </table>
   </div>
 </ng-container>
+
+<!-- <div class="half-circle"></div> -->
+
 
 

@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class TableSkeletonComponent implements OnInit {
 
   Arr = Array;
-  num: number = 10;
+  num: number = 6;
 
   constructor() { }
 

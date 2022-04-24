@@ -1,17 +1,18 @@
-.dropdown-toggle::after {
-  display: none;
-}
-
 .table-conatiner {
   width: 100%!important;
   overflow-x: scroll;
 }
 
-.KYC {
-  @apply py-3 text-sm font-thin border-gray-400 bg-black text-white px-8;
+.circle {
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  padding-top: 4px;
+  background: #E6E9FF;
+  border: 1px solid #E6E9FF;
+  color: gray;
+  text-align: center;
 }
-
-
 
 @media (max-width: 600px) {
 

@@ -1,6 +1,6 @@
 <div class="flex flex-row flex-wrap justify-between">
-  <div class="text-3xl font-semibold text-left mb-3 lg:mb-0">My Invoices</div>
-  <button (click)="openModal()" class="py-3 text-sm font-thin border-gray-400 btn btn-dark px-8">Complete Your KYC</button>
+  <div class="mb-3 text-3xl font-semibold text-left lg:mb-0">My Invoices</div>
+  <button (click)="openModal()" class="btn KYC">Complete Your KYC</button>
 </div>
 
 
@@ -53,17 +53,17 @@
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
       <tr class="text-center text-black bg-gray-300 rounded-lg">
-        <th class="p-4 font-semibold cursor-pointer">Invoice #&nbsp;</th>
-        <th class="p-4 font-semibold cursor-pointer">Invoice Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-semibold cursor-pointer">Invoice Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-semibold cursor-pointer">Invoice #</th>
+        <th class="p-4 font-semibold cursor-pointer" [appSort]="billingsData?.billings" data-order="desc" data-name="transactionDate">Invoice Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-semibold cursor-pointer" [appSort]="billingsData?.billings" data-order="desc" data-name="amount">Invoice Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-semibold cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-semibold cursor-pointer">Action&nbsp;</th>
       </tr>
       <ng-container *ngFor="let data of billingsData?.billings">
         <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
           <td class="p-4 font-medium">{{data.merchantID}}</td>
-          <td class="p-4 font-thin">{{data.transactionDate}}</td>
-          <td class="flex flex-col p-4 font-thin">
+          <td class="p-4 font-thin">{{data.transactionDate | date}}</td>
+          <td class="flex flex-col p-4 font-semibold">
             <span>{{data.amount}}</span>
             <span class="text-sm text-gray-600 font-extralight">(Euro)</span>
           </td>
@@ -78,7 +78,7 @@
             </td>
           </ng-container>
           <td class="p-4">
-            <button class="bg-gray-200 py-2 px-4 rounded-md text-sm">View Invoices</button>
+            <button class="px-4 py-2 text-sm bg-gray-200 rounded-md hover:bg-yellow-600 hover:text-white">View Invoice</button>
           </td>
         </tr>
       </ng-container>
@@ -88,26 +88,26 @@
 
 <app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="relative">
-    <img src="https://images.pexels.com/photos/1983032/pexels-photo-1983032.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="object-fill">
-    <img src="../../../../../assets/media/icons/tick_mark.svg" class="absolute w-32 h-32 left-44 top-44 shadow-sm">
+    <img src="../../../assets/media/logos/bg.png" class="object-fill">
+    <img src="../../../assets/media/logos/special.svg" class="absolute rounded-full shadow-md" style="top: 120px; left: 184px">
   </div>
 
-  <div class="p-6 flex flex-col justify-center items-center mt-12">
+  <div class="flex flex-col items-center justify-center p-6 mt-12">
     <div class="w-3/4 text-center">
       <span style="font-size: 14px;">Kindly provide your bank account IBAN number where you want to receive the payments</span>
       <br>
       <span style="font-size: 14px;" class="mb-8">Thanks!</span>
     </div>
   </div>
-  <div class="modal-body flex flex-col justify-center items-center">
-    <div class="mb-3 form-group w-3/4">
+  <div class="flex flex-col items-center justify-center modal-body">
+    <div class="w-3/4 mb-3 form-group">
       <label class="mb-3">Bank Name</label>
       <div class="input-group">
        <input type="text" class="form-control" placeholder="" />
       </div>
      </div>
 
-     <div class="mb-3 form-group w-3/4">
+     <div class="w-3/4 mb-3 form-group">
       <label class="mb-3">IBAN</label>
       <div class="input-group">
         <input type="text" class="form-control" placeholder="" />
@@ -115,7 +115,7 @@
      </div>
   </div>
 
-   <div class="flex justify-evenly mb-8">
+   <div class="flex mb-8 justify-evenly">
       <button (click)="closeModal()" class="px-10 py-2 text-yellow-600 bg-gray-100 rounded-md">Back</button>
       <button (click)="closeModal()" class="px-10 py-2 text-white bg-gray-900 rounded-md">Save</button>
     </div>
