@@ -25,6 +25,7 @@ export class ReviewsService extends ApiService<review> {
 
   getReviewsByMerchant(merchantId: string, offset: any, limit: any): Observable<ApiResponse<review>> {
     const params: any = {
+      merchantId: merchantId,
       offset: offset,
       limit: limit
     }

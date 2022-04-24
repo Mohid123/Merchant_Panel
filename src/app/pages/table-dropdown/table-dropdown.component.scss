@@ -1,0 +1,11 @@
+.card {
+  height: 95px;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #F6F8FB;
+  border-left: 4px solid #F38B41;
+  border-bottom: 2px dashed #d1d1d4;
+  overflow-y: scroll;
+}

@@ -11,7 +11,38 @@
   @apply py-3 text-sm font-thin border-gray-400 bg-black text-white px-8;
 }
 
+.image-circle {
+  top: 120px;
+  left: 184px
+}
 
+@media (max-width: 360px) {
+  .image-circle {
+    top: 54px;
+    left: 106px;
+  }
+}
+
+@media (min-width: 390px) and (max-width: 400px) {
+  .image-circle {
+    top: 80px;
+    left: 123px;
+  }
+}
+
+@media (min-width: 401px) and (max-width: 430px) {
+  .image-circle {
+    top: 80px;
+    left: 133px;
+  }
+}
+
+@media (min-width: 430px) and (max-width: 460px) {
+  .image-circle {
+    top: 95px;
+    left: 150px;
+  }
+}
 
 @media (max-width: 600px) {
 

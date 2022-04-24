@@ -4,6 +4,7 @@ import { BillingsComponent } from './billings/billings.component';
 import { OrderManagementComponent } from './order-management/order-management.component';
 import { ReviewsComponent } from './reviews/reviews.component';
 import { SingleReviewComponent } from './single-review/single-review.component';
+import { TableDropdownComponent } from './table-dropdown/table-dropdown.component';
 
 const Routing: Routes = [
   {
@@ -69,6 +70,10 @@ const Routing: Routes = [
   {
     path: 'single-review',
     component: SingleReviewComponent
+  },
+  {
+    path: 'table-drop',
+    component: TableDropdownComponent
   },
   {
     path: '',

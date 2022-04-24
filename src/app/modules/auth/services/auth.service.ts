@@ -28,8 +28,6 @@ export class AuthService extends ApiService<AuthApiData> {
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<User | null>;
   isLoadingSubject: BehaviorSubject<boolean>;
-  private _User$ = new BehaviorSubject<any>(getItem(StorageItem.User));
-  public readonly User$: Observable<any> = this._User$.asObservable();
   merchantID: string;
 
   get currentUserValue(): User | null {
@@ -108,12 +106,12 @@ export class AuthService extends ApiService<AuthApiData> {
       .pipe(finalize(() => this.isLoadingSubject.next(false)));
   }
 
-  get user(): User {
-    return this._User$.getValue();
+  get user(): User| null {
+    return this.currentUserSubject.getValue();
   }
 
   retreiveUserValue() {
-    this.User$.subscribe((res:User) => {
+    this.currentUser$.subscribe((res: User | any) => {
       this.merchantID = res.id;
     })
   }

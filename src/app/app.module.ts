@@ -22,6 +22,7 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
 import { SingleReviewComponent } from './pages/single-review/single-review.component';
+import { TableDropdownComponent } from './pages/table-dropdown/table-dropdown.component';
 // #fake-end#
 
 // function appInitializer(authService: AuthService) {
@@ -33,7 +34,7 @@ import { SingleReviewComponent } from './pages/single-review/single-review.compo
 // }
 
 @NgModule({
-  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent],
+  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent, TableDropdownComponent],
   imports: [
     CoreModule,
     BrowserModule,

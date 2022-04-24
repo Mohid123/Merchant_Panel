@@ -1,10 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { ApiResponse } from '@core/models/response.model';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { first, takeUntil } from 'rxjs/operators';
+import { CategoryList } from '../../models/category-list.model';
 import { RegisterModel } from '../../models/register.model';
 import { AuthService } from '../../services/auth.service';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-registration',
@@ -12,6 +15,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./registration.component.scss'],
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
+
+  categoryData: CategoryList
 
   categories = [
     { id:1, img: '../../../../../assets/media/icons/spaAndWellness.svg', name:'Spa And Wellness' },
@@ -37,6 +42,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   registrationSuccess = false;
   isLinear = false;
+  offset: number = 0;
+  limit: number = 7;
+  destroy$ = new Subject();
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -44,7 +52,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   constructor(
     private _formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private categoryService: CategoryService,
+    private cf: ChangeDetectorRef
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -55,6 +65,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
+    this.getCategories();
+  }
+
+  getCategories() {
+    this.categoryService.getAllCategories(this.offset, this.limit)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<CategoryList>) => {
+      debugger
+      if(!res.hasErrors()) {
+        this.categoryData = res.data;
+        this.cf.detectChanges();
+      }
+    })
   }
 
   // convenience getter for easy access to form fields
