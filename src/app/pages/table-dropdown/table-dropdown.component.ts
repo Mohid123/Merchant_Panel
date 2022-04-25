@@ -28,56 +28,7 @@ export class TableDropdownComponent implements OnInit {
       sold: 456,
       available: 23,
       vaidity: 10
-    },
-    {
-      subtitle: 'Fourth Massage with cupping',
-      price: 150,
-      sold: 456,
-      available: 23,
-      vaidity: 10
-    },
-    {
-      subtitle: 'Heavenly Massage with cupping',
-      price: 150,
-      sold: 456,
-      available: 23,
-      vaidity: 10
-    },
-    {
-      subtitle: 'Heavenly Massage with cupping',
-      price: 150,
-      sold: 456,
-      available: 23,
-      vaidity: 10
-    },
-    {
-      subtitle: 'Heavenly Massage with cupping',
-      price: 150,
-      sold: 456,
-      available: 23,
-      vaidity: 10
-    },
-    {
-      subtitle: 'Heavenly Massage with cupping',
-      price: 150,
-      sold: 456,
-      available: 23,
-      vaidity: 10
-    },
-    {
-      subtitle: 'Heavenly Massage with cupping',
-      price: 150,
-      sold: 456,
-      available: 23,
-      vaidity: 10
-    },
-    {
-      subtitle: 'Heavenly Massage with cupping',
-      price: 150,
-      sold: 456,
-      available: 23,
-      vaidity: 10
-    },
+    }
   ]
 
   newData : any[] = [];

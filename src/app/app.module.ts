@@ -19,10 +19,9 @@ import { AppComponent } from './app.component';
 import { BillingsComponent } from './pages/billings/billings.component';
 import { OrderManagementComponent } from './pages/order-management/order-management.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { SingleReviewComponent } from './pages/single-review/single-review.component';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
-import { SingleReviewComponent } from './pages/single-review/single-review.component';
-import { TableDropdownComponent } from './pages/table-dropdown/table-dropdown.component';
 // #fake-end#
 
 // function appInitializer(authService: AuthService) {
@@ -34,7 +33,7 @@ import { TableDropdownComponent } from './pages/table-dropdown/table-dropdown.co
 // }
 
 @NgModule({
-  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent, TableDropdownComponent],
+  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent],
   imports: [
     CoreModule,
     BrowserModule,

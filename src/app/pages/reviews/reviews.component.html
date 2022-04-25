@@ -1,4 +1,4 @@
-<div class="text-2xl font-semibold text-left mb-3 lg:mb-0">Reviews & rating</div>
+<div class="mb-3 text-3xl font-semibold text-left lg:mb-0">Reviews & rating</div>
 
 <div class="flex flex-col mt-4 mr-7">
   <span class="mb-4 text-lg text-gray-500 font-base">Total Reviews</span>
@@ -10,23 +10,23 @@
     <tr class="text-center text-black bg-gray-300 rounded-lg">
       <th class="p-4 font-semibold cursor-pointer">Products&nbsp;</th>
       <th class="p-4 font-semibold cursor-pointer">Reviews&nbsp;</th>
-      <th class="p-4 font-semibold cursor-pointer">Highest&nbsp; <i class="fas fa-star text-yellow-500"></i></th>
-      <th class="p-4 font-semibold cursor-pointer">Lowest&nbsp; <i class="fas fa-star text-yellow-500"></i></th>
-      <th class="p-4 font-semibold cursor-pointer">Average&nbsp; <i class="fas fa-star text-yellow-500"></i></th>
+      <th class="p-4 font-semibold cursor-pointer">Highest&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
+      <th class="p-4 font-semibold cursor-pointer">Lowest&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
+      <th class="p-4 font-semibold cursor-pointer">Average&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
       <th class="p-4 font-semibold cursor-pointer">Action&nbsp;</th>
     </tr>
-    <!-- <ng-container *ngFor="let data of billingsData?.billings"> -->
+    <ng-container *ngFor="let data of reviews">
       <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
-        <td class="p-4 font-medium">Heavenly Massage</td>
-        <td class="p-4 font-thin">57</td>
-        <td class="p-4 font-thin">4.3</td>
-        <td class="p-4 font-thin">3.4</td>
-        <td class="p-4 font-thin">4.0</td>
+        <td class="p-4 font-medium">{{data.product}}</td>
+        <td class="p-4 font-thin">{{data.reviews}}</td>
+        <td class="p-4 font-thin">{{data.highest}}</td>
+        <td class="p-4 font-thin">{{data.lowest}}</td>
+        <td class="p-4 font-thin">{{data.average}}</td>
         <td class="p-4">
-          <button class="bg-gray-200 py-3 px-4 rounded-md text-sm hover:bg-yellow-600 hover:text-white">View Review</button>
+          <a [routerLink]="['/single-review/', data.id]" class="px-4 py-3 text-sm text-black bg-gray-200 rounded-md hover:bg-yellow-600 hover:text-white">View Review</a>
         </td>
       </tr>
-    <!-- </ng-container> -->
+    </ng-container>
   </table>
 </div>
 

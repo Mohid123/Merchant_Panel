@@ -10,7 +10,7 @@
 <ng-container *ngIf="showDiv.listView == true">
   <div class="absolute z-40 2xl:right-48 lg:top-32 lg:right-8 md:top-28 md:right-4 right-5 top-28">
     <div class="flex flex-row items-end justify-end w-full mt-5 ml-2 lg:mt-0">
-    <div ngbDropdown placement="bottom-end" display="dynamic" id="dropdownBasic1" class="m-2">
+    <div ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
       <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
       <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -19,24 +19,16 @@
         <button ngbDropdownItem>Aug - Dec</button>
       </div>
     </div>
-    <div ngbDropdown placement="bottom-end" display="dynamic" id="dropdownBasic2" class="m-2">
-      <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3" ngbDropdownToggle><i class="mr-3 fas fa-filter"></i>Filter<i class="ml-3 fas fa-angle-down"></i></button>
-      <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden"><i class="mr-3 fas fa-filter" ngbDropdownToggle></i><i class="ml-3 fas fa-angle-down"></i></button>
+    <div ngbDropdown display="dynamic" id="dropdownBasic2" class="m-2">
+      <button class="hidden xl:inline-flex xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3" ngbDropdownToggle><img src="../../../assets/media/logos/filter.svg" class="mt-1 mr-2 text-gray-500">Filter<i class="ml-3 fas fa-angle-down" style="margin-top: 2px;"></i></button>
+      <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden"><img src="../../../assets/media/logos/filter.svg" class="mr-2 text-gray-500" ngbDropdownToggle><i class="ml-3 fas fa-angle-down"></i></button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
         <button ngbDropdownItem>A - Z</button>
         <button ngbDropdownItem>Ascending - Descending</button>
         <button ngbDropdownItem>Something</button>
       </div>
     </div>
-  </div>
-    <!-- <div class="flex flex-col justify-end w-full mt-2 mb-5 ml-2 xl:flex-row 2xl:flex-row lg:flex-row md:flex-row">
-      <div class="m-2">
-        <a class="px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3 lg:px-4 lg:py-4"><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></a>
-      </div>
-      <div class="m-2">
-        <a class="px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3 lg:px-4 lg:py-3"><i class="mr-3 fas fa-filter"></i>Filter<i class="ml-3 fas fa-angle-down"></i></a>
-      </div>
-    </div> -->
+   </div>
   </div>
 </ng-container>
 
@@ -44,40 +36,42 @@
 <mat-tab-group [disableRipple]="true" [selectedIndex]="1" (selectedTabChange)="switchTabs($event)">
   <mat-tab label="List View">
     <div class="table-container">
-      <table class="w-full mt-10 rounded-md shadow-lg">
-        <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
-          <th class="p-4 font-semibold text-black">Deals Title&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-semibold text-black">Start Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-semibold text-black">End Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-semibold text-black">Available&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-semibold text-black">Sold&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-semibold text-black">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-semibold text-black">Action</th>
+      <table mat-table
+       [dataSource]="dataSource" multiTemplateDataRows
+       class="mat-elevation-z3 w-full mt-10 rounded-md shadow-lg">
+        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+          <th class="bg-gray-300 font-base" mat-header-cell *matHeaderCellDef> {{column}} </th>
+          <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+        </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+            <div class="example-element-detail"
+                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+              <div class="example-element-diagram">
+                <div class="example-element-position"> {{element.dealsTitle}} </div>
+                <div class="example-element-symbol"> {{element.startDate}} </div>
+                <div class="example-element-name"> {{element.endDate}} </div>
+                <div class="example-element-weight"> {{element.available}} </div>
+                <div class="example-element-weight"> {{element.sold}} </div>
+                <div class="example-element-weight"> {{element.status}} </div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="expandedElement = expandedElement === element ? null : element">
         </tr>
-        <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
-          <td class="flex flex-row items-center justify-center p-4 font-thin">
-            <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="../../../../../assets/media/books/img-72.jpg">
-            <span class="ml-3">Heavenly Massage</span>
-          </td>
-          <td class="p-4 font-thin">23 April, 2021</td>
-          <td class="p-4 font-thin">26 April, 2021</td>
-          <td class="p-4 font-thin">134</td>
-          <td class="p-4 font-thin">74</td>
-          <td class="p-4 font-thin">
-            <span class="px-5 py-3 badge badge-light-success rounded-2xl">Active</span>
-          </td>
-          <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
-            <a class="px-1 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md">
-              <i class="p-1 fas fa-pencil-alt"></i>
-            </a>
-            <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md">
-              <i class="p-1 fas fa-trash"></i>
-            </a>
-          </td>
-        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
       </table>
     </div>
   </mat-tab>
+
   <mat-tab label="Calendar View">
     <div class="p-0 mt-5 shadow-sm lg:p-12 card card-custom card-stretch" style="border-top: 16px solid #F38B41;">
       <div class="p-2 rounded lg:p-8 card card-custom card-stretch bg-gray-50">
@@ -88,10 +82,6 @@
     </div>
   </mat-tab>
 </mat-tab-group>
-
-<!--NOTE:
-   THE NGBOOTSTRAP POPOVER IS TEMPORARY AND ONLY FOR TESTING. WILL BE REPLACED WITH FULLCALENDAR POPOVER
--->
 
 <ng-template #popContent let-event="event">
   <div class="flex flex-row justify-between w-52">
@@ -168,3 +158,38 @@
 
 </app-reusable-modal>
 
+
+<!-- <table class="w-full mt-10 rounded-md shadow-lg">
+  <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
+    <th class="p-4 font-semibold text-black">Deals Title&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th class="p-4 font-semibold text-black">Start Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th class="p-4 font-semibold text-black">End Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th class="p-4 font-semibold text-black">Available&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th class="p-4 font-semibold text-black">Sold&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th class="p-4 font-semibold text-black">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+    <th class="p-4 font-semibold text-black">Action</th>
+  </tr>
+  <ng-container *ngFor="let deal of dealData; let i = index; let even  = even;">
+    <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
+      <td class="flex flex-row items-center justify-center p-4 font-thin">
+        <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="../../../../../assets/media/books/img-72.jpg">
+        <span class="ml-3">{{deal.title}}</span>
+      </td>
+      <td class="p-4 font-thin">{{deal.startDate}}</td>
+      <td class="p-4 font-thin">{{deal.endDate}}</td>
+      <td class="p-4 font-thin">{{deal.available}}</td>
+      <td class="p-4 font-thin">{{deal.sold}}</td>
+      <td class="p-4 font-thin">
+        <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{deal.status}}</span>
+      </td>
+      <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
+        <a class="px-3 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer">
+          <i class="p-1 fas fa-ellipsis-h"></i>
+        </a>
+        <a class="px-3 py-1 text-yellow-600 rounded-md cursor-pointer" style="background-color:#FEEFE4;">
+          <i class="p-1 fas fa-angle-double-down text-yellow-600"></i>
+        </a>
+      </td>
+    </tr>
+  </ng-container>
+</table> -->

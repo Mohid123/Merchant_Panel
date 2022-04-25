@@ -1,10 +1,12 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
+import { ConnectionService } from './../services/connection.service';
 
 @Component({
   template: `
@@ -24,8 +26,16 @@ export class PopoverWrapperComponent {
   selector: 'app-view-deal',
   templateUrl: './view-deal.component.html',
   styleUrls: ['./view-deal.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
   encapsulation: ViewEncapsulation.None
 })
+
 export class ViewDealComponent implements OnInit {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
@@ -40,6 +50,10 @@ export class ViewDealComponent implements OnInit {
     },
     closeButtonLabel: "Close"
   }
+
+  expandedElement: any;
+  dataSource = ELEMENT_DATA;
+  columnsToDisplay = ['DealsTitle', 'StartDate', 'EndDate', 'Available', 'Sold', 'Status'];
 
   calendarPlugins = [dayGridPlugin];
 
@@ -84,10 +98,11 @@ export class ViewDealComponent implements OnInit {
     */
   };
 
+  newData : any[] = [];
 
 
   constructor(
-    private modalService: NgbModal,
+    private conn: ConnectionService,
     private resolver: ComponentFactoryResolver,
     private injector: Injector,
     private appRef: ApplicationRef) {
@@ -195,3 +210,14 @@ export class ViewDealComponent implements OnInit {
   }
 
 }
+
+const ELEMENT_DATA: any[] = [
+  {
+    DealsTitle: 'Heavenly Massage',
+    StartDate: '23, April 2022',
+    EndDate: '26, April 2022',
+    Available: 456,
+    Sold: 234,
+    Status: 'Active',
+  }
+];
