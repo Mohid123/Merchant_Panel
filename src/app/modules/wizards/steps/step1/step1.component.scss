@@ -1,0 +1,21 @@
+.deal-details {
+  label {
+    @apply text-sm mb-3
+  }
+}
+
+textarea.form-control {
+  min-height: 96px;
+  height: 96px;
+}
+
+.card-custom {
+  max-width: 870px;
+  height: 553px;
+}
+
+@media (max-width: 1280px) {
+  .card-custom {
+    height: auto;
+  }
+}

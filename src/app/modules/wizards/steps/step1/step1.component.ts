@@ -9,6 +9,7 @@ import { ConnectionService } from './../../services/connection.service';
 @Component({
   selector: 'app-step1',
   templateUrl: './step1.component.html',
+  styleUrls: ['./step1.component.scss'],
 })
 export class Step1Component implements OnInit, OnDestroy {
   @Input('updateParentModel') updateParentModel: (
@@ -19,6 +20,7 @@ export class Step1Component implements OnInit, OnDestroy {
   dealForm: FormGroup;
 
   @Input() deal: Partial<MainDeal> = {
+    subCategory:'6262975eece660f8c9cd0fce',
     title: '',
     subTitle: '',
     mediaUrl: [''],
@@ -31,6 +33,7 @@ export class Step1Component implements OnInit, OnDestroy {
   urls: Image[] = [];
   private unsubscribe: Subscription[] = [];
   control: FormControl
+  images = [];
 
   // @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
 
@@ -47,6 +50,12 @@ export class Step1Component implements OnInit, OnDestroy {
 
   initDealForm() {
     this.dealForm = this.fb.group({
+      subCategory: [
+        this.deal.subCategory,
+        Validators.compose([
+          Validators.required,
+        ]),
+      ],
       title: [
         this.deal.title,
         Validators.compose([
@@ -99,6 +108,7 @@ export class Step1Component implements OnInit, OnDestroy {
   onSelectFile(event: any) {
     this.file = event.target.files && event.target.files.length;
     if (this.file > 0 && this.file < 11) {
+      this.images = event.target.files;
       let i: number = 0;
       for (const singlefile of event.target.files) {
         var reader = new FileReader();

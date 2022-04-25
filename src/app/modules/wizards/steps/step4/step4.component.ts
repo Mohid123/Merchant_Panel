@@ -17,7 +17,7 @@ import { createEventId } from './event-utils';
 })
 export class Step4Component implements OnInit {
 
-  @Input() images: any;
+  @Input() images: Array<any>;
   @ViewChild('modal') private modal: ReusableModalComponent;
 
   public modalConfig: ModalConfig = {
@@ -154,11 +154,12 @@ export class Step4Component implements OnInit {
 
   openNew() {
     const mediaUpload:any = [];
-    this.images.forEach((img: any) => {
-      const media = new FormData();
-      media.append('file', img);
-      mediaUpload.push(this.mediaService.uploadMedia('deal', media));
-    });
+    if(!!this.images.length) {
+      console.log('have images:',);
+      for (let index = 0; index < this.images.length; index++) {
+        mediaUpload.push(this.mediaService.uploadMedia('deal', this.images[index]));
+      }
+    }
 
     this.data.mediaUrl = [];
     combineLatest(mediaUpload)
@@ -173,7 +174,6 @@ export class Step4Component implements OnInit {
                 return of(null);
               }
             })
-            this.data.mediaUrl = ['https://dividealapi.dividisapp.commedia-upload/mediaFiles/deal/cc2763b6739ed17b84b254680cceb64c.jpg']
             return this.dealService.createDeal(this.data);
           }),
         )
