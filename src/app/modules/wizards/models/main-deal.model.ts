@@ -2,6 +2,7 @@ import { Vouchers } from "./vouchers.model";
 
 export class MainDeal {
   id?: string;
+  subCategory?: string;
   title?: string;
   subTitle?: string;
   description?: string | any;

@@ -11,6 +11,7 @@ import { ConnectionService } from './../../services/connection.service';
 @Component({
   selector: 'app-step2',
   templateUrl: './step2.component.html',
+  styleUrls: ['./step2.component.scss'],
 })
 export class Step2Component implements OnInit, OnDestroy {
 
@@ -150,7 +151,7 @@ export class Step2Component implements OnInit, OnDestroy {
   async openNew() {
     this.vouchers.reset()
     this.editIndex = -1;
-    return await this.modal.open();
+    return await this.modal.open(null,'voucher-modal');
   }
 
   async closeModal() {
