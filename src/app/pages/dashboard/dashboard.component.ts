@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
+import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
@@ -23,8 +24,19 @@ export class DashboardComponent implements OnInit {
   offset: number = 0;
   limit: number = 10;
   filteredData: any;
+  hoveredDate: NgbDate | null = null;
+  fromDate: NgbDate;
+  toDate: NgbDate | null = null;
 
-  constructor(private dealService: DealService, private authService: AuthService, private cf: ChangeDetectorRef) {}
+  constructor(
+    private dealService: DealService,
+    private authService: AuthService,
+    private cf: ChangeDetectorRef,
+    calendar: NgbCalendar
+    ) {
+      this.fromDate = calendar.getToday();
+      this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+    }
 
   ngOnInit(): void {
     this.authService.retreiveUserValue();
@@ -85,4 +97,28 @@ export class DashboardComponent implements OnInit {
     this.endDate = endDate;
     this.getDealByFilters();
   }
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+  }
+
 }

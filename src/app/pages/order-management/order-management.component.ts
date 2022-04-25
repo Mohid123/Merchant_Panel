@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
-import { getItem, StorageItem } from '@core/utils';
+import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { OrdersService } from '@pages/services/orders.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/modules/auth';
 import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
-import { User } from '../../@core/models/user.model';
 
 @Component({
   selector: 'app-order-management',
@@ -20,29 +20,26 @@ export class OrderManagementComponent implements OnInit {
   offset: number = 0;
   limit: number = 10;
   destroy$ = new Subject();
-  private _User$ = new BehaviorSubject<any>(getItem(StorageItem.User));
-  public readonly User$: Observable<any> = this._User$.asObservable();
+  hoveredDate: NgbDate | null = null;
+  fromDate: NgbDate;
+  toDate: NgbDate | null = null;
 
-  constructor(private orderService: OrdersService, private cf: ChangeDetectorRef) { }
+
+  constructor(
+    private orderService: OrdersService,
+    private cf: ChangeDetectorRef,
+    private authService: AuthService,
+    calendar: NgbCalendar
+    ) { }
 
   ngOnInit(): void {
-    this.retreiveUserValue();
+    this.authService.retreiveUserValue();
     this.getOrdersByMerchant();
-  }
-
-  get user(): User {
-    return this._User$.getValue();
-  }
-
-  retreiveUserValue() {
-    this.User$.subscribe((res:User) => {
-      this.merchantID = res.id;
-    })
   }
 
   getOrdersByMerchant() {
     this.showData = false;
-    this.orderService.getAllOrdersByID(this.merchantID, this.offset, this.limit)
+    this.orderService.getAllOrdersByID(this.authService.merchantID, this.offset, this.limit)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<OrdersList>) => {
       debugger
@@ -50,6 +47,29 @@ export class OrderManagementComponent implements OnInit {
       this.showData = true;
       this.cf.detectChanges();
     })
+  }
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
 
   ngOnDestroy() {

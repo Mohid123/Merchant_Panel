@@ -14,7 +14,6 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg';
-import { TableDropModule } from 'src/app/pages/table-dropdown/table-dropdown.module';
 import { TrimModule } from './../../@core/directives/trim/trim.module';
 import { TruncatePipe } from './../../@core/pipes/truncate.pipe';
 import { ReusableModalModule } from './../../_metronic/layout/components/reusable-modal/reusable-modal.module';
@@ -68,8 +67,7 @@ FullCalendarModule.registerPlugins([
     MatTableModule,
     NgbPopoverModule,
     NgbModule,
-    ReusableModalModule,
-    TableDropModule
+    ReusableModalModule
   ],
   entryComponents: [PopoverWrapperComponent],
 })

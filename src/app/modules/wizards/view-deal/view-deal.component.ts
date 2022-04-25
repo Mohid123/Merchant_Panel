@@ -51,9 +51,62 @@ export class ViewDealComponent implements OnInit {
     closeButtonLabel: "Close"
   }
 
-  expandedElement: any;
-  dataSource = ELEMENT_DATA;
-  columnsToDisplay = ['DealsTitle', 'StartDate', 'EndDate', 'Available', 'Sold', 'Status'];
+  rows = [
+    {
+      title: 'Heavenly Massage',
+      startDate: "23, April 2022",
+      endDate: "26, April 2022",
+      showDetail: false,
+      available: 768,
+      sold: 456,
+      status: 'Active'
+    },
+    {
+      title: 'Heavenly Massage',
+      startDate: "23, April 2022",
+      endDate: "26, April 2022",
+      showDetail: false,
+      available: 768,
+      sold: 456,
+      status: 'Active'
+    },
+    {
+      title: 'Heavenly Massage',
+      startDate: "23, April 2022",
+      endDate: "26, April 2022",
+      showDetail: false,
+      available: 768,
+      sold: 456,
+      status: 'Active'
+    },
+    {
+      title: 'Heavenly Massage',
+      startDate: "23, April 2022",
+      endDate: "26, April 2022",
+      showDetail: false,
+      available: 768,
+      sold: 456,
+      status: 'Active'
+    },
+    {
+      title: 'Heavenly Massage',
+      startDate: "23, April 2022",
+      endDate: "26, April 2022",
+      showDetail: false,
+      available: 768,
+      sold: 456,
+      status: 'Active'
+    },
+    {
+      title: 'Heavenly Massage',
+      startDate: "23, April 2022",
+      endDate: "26, April 2022",
+      showDetail: false,
+      available: 768,
+      sold: 456,
+      status: 'Active'
+    },
+  ]
 
   calendarPlugins = [dayGridPlugin];
 
@@ -210,14 +263,3 @@ export class ViewDealComponent implements OnInit {
   }
 
 }
-
-const ELEMENT_DATA: any[] = [
-  {
-    DealsTitle: 'Heavenly Massage',
-    StartDate: '23, April 2022',
-    EndDate: '26, April 2022',
-    Available: 456,
-    Sold: 234,
-    Status: 'Active',
-  }
-];
