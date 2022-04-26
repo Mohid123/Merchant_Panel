@@ -2,6 +2,9 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { Category, CategoryList } from './../../../auth/models/category-list.model';
+import { CategoryService } from './../../../auth/services/category.service';
 import { Image } from './../../models/images.model';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
@@ -12,6 +15,15 @@ import { ConnectionService } from './../../services/connection.service';
   styleUrls: ['./step1.component.scss'],
 })
 export class Step1Component implements OnInit, OnDestroy {
+
+  categoryList :CategoryList;
+  selectedcategory: Category;
+
+  ChangeSelectedCategory(newSelectedcategory: Category) {
+    this.selectedcategory = newSelectedcategory;
+    this.dealForm.controls['subCategory'].setValue(newSelectedcategory.id);
+  }
+
   @Input('updateParentModel') updateParentModel: (
     part: Partial<MainDeal>,
     isFormValid: boolean
@@ -20,7 +32,7 @@ export class Step1Component implements OnInit, OnDestroy {
   dealForm: FormGroup;
 
   @Input() deal: Partial<MainDeal> = {
-    subCategory:'6262975eece660f8c9cd0fce',
+    subCategory:'',
     title: '',
     subTitle: '',
     mediaUrl: [''],
@@ -37,11 +49,22 @@ export class Step1Component implements OnInit, OnDestroy {
 
   // @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
 
-  constructor(private fb: FormBuilder, private cf: ChangeDetectorRef, private router: Router, private connection: ConnectionService) {}
+  constructor(
+    private fb: FormBuilder,
+    private cf: ChangeDetectorRef,
+    private router: Router,
+    private connection: ConnectionService,
+    private categoryService: CategoryService,
+  ) {}
 
   ngOnInit() {
     this.initDealForm();
     this.updateParentModel({}, this.checkForm());
+    this.categoryService.getAllCategories(0,0).pipe(take(1)).subscribe(categoryList => {
+      if(!categoryList.hasErrors()){
+        this.categoryList = categoryList.data;
+      }
+    })
   }
 
   get f() {

@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiResponse } from '@core/models/response.model';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { CategoryList } from '../../models/category-list.model';
 import { RegisterModel } from '../../models/register.model';
 import { AuthService } from '../../services/auth.service';
@@ -69,15 +68,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   getCategories() {
-    this.categoryService.getAllCategories(this.offset, this.limit)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res: ApiResponse<CategoryList>) => {
-      debugger
-      if(!res.hasErrors()) {
-        this.categoryData = res.data;
-        this.cf.detectChanges();
-      }
-    })
+    // this.categoryService.getAllCategories(this.offset, this.limit)
+    // .pipe(takeUntil(this.destroy$))
+    // .subscribe((res: ApiResponse<CategoryList>) => {
+    //   debugger
+    //   if(!res.hasErrors()) {
+    //     this.categoryData = res.data;
+    //     this.cf.detectChanges();
+    //   }
+    // })
   }
 
   // convenience getter for easy access to form fields

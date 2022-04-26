@@ -1,8 +1,10 @@
 export class CategoryList {
-  data: [
-    {
-      categoryName?: string;
-    }
-  ];
+  data: Category[] ;
   totalCount?: number;
+}
+export class Category {
+  categoryName: string;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
 }

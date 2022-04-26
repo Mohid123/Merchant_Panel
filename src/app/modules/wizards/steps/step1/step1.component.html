@@ -12,11 +12,18 @@
         <div class="p-0 col-xl-7">
           <div class="pt-2 sm:pt-4 xl:pt-8 deal-details">
             <div class="pb-5">
-              <label class="form-label">Select sub-category</label>
-              <input appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="subCategory" name="subCategory" placeholder="Select subCategory of your deal"
-              [ngClass]="{
-                'is-invalid': f['subCategory'].invalid && f['subCategory'].touched,
-                'is-valid': f['subCategory'].valid}">
+              <label class="block form-label">Select sub-category</label>
+              <div ngbDropdown class="w-full rounded-lg d-inline-block" style="border: 1px solid #F38B41;">
+                <button type="button" class="w-full btn p-3.5 text-xs text-left text-font-gray-600" id="dropdownBasic1"
+                ngbDropdownToggle>{{selectedcategory?.categoryName || '-Select'}}</button>
+                <div class="w-full" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <ng-container *ngFor="let category of categoryList?.data" >
+                    <button ngbDropdownItem (click)="ChangeSelectedCategory(category)">{{category.categoryName}}</button>
+                  </ng-container>
+                </div>
+              </div>
+              <!-- <input appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="subCategory" name="subCategory" placeholder="Select subCategory of your deal"
+              > -->
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
                 message: 'sub-category is required',
