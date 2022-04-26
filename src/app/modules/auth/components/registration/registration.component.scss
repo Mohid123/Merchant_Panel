@@ -118,7 +118,7 @@ button.back {
 }
 
 .categories-step app-category-radio-button {
-  @apply flex justify-center items-center w-32 h-28 mb-3;
+  @apply flex justify-center items-start w-32 h-44;
   text-align: center;
   border: none !important;
 

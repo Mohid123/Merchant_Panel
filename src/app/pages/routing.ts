@@ -64,7 +64,11 @@ const Routing: Routes = [
   },
   {
     path: 'reviews',
-    component: ReviewsComponent
+    component: ReviewsComponent,
+  },
+  {
+    path: 'reviews/:reviewId',
+    component: SingleReviewComponent,
   },
   {
     path: 'single-review',

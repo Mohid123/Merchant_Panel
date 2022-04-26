@@ -197,7 +197,7 @@
               <label class="w-full mb-1 text-sm form-label">Province</label>
               <ng-container *ngFor="let province of provincese">
                 <app-category-radio-button class="w-fit" name="province" [ngClass]="{'active' : f['province'].value == province.id}" [value]="province.id">
-                  <strong class="font-normal" style="font-size: 11px;">{{province.name}}</strong>
+                  <strong class="text-sm font-normal" style="font-size: 14px;">{{province.name}}</strong>
                 </app-category-radio-button>
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{

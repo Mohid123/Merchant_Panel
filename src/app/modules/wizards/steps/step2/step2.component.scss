@@ -16,6 +16,10 @@ input[type=number] {
   width: auto;
   height: 550px;
 
+  p {
+    max-width: 320px;
+  }
+
   .main-img-container {
     max-width: 257px;
   }
@@ -40,6 +44,7 @@ input[type=number] {
   .custom-card-design {
     margin-right: 0px;
     margin-bottom: 16px;
+
   }
   .second-card {
     max-width: unset;

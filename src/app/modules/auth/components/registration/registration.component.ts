@@ -18,13 +18,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   categoryData: CategoryList
 
   categories = [
+    { id:2, img: '../../../../../assets/media/icons/accommodation.svg', name:'Accomodation' },
+    { id:3, img: '../../../../../assets/media/icons/dining.svg', name:'Dining' },
+    { id:4, img: '../../../../../assets/media/icons/athletics.svg', name:'Sports, Adventures & Experiences' },
+    { id:5, img: '../../../../../assets/media/icons/experiences-at-home.svg', name:'Experiences at Home' },
     { id:1, img: '../../../../../assets/media/icons/spaAndWellness.svg', name:'Spa And Wellness' },
-    { id:2, img: '../../../../../assets/media/icons/accomodation.svg', name:'Accomodation' },
-    { id:3, img: '../../../../../assets/media/icons/Dining.svg', name:'Dining' },
-    { id:4, img: '../../../../../assets/media/icons/fashion.svg', name:'Fashion' },
-    { id:5, img: '../../../../../assets/media/icons/HomeAndDeco.svg', name:'Home And Deco' },
-    { id:6, img: '../../../../../assets/media/icons/leisure.svg', name:'Lisure' },
-    { id:7, img: '../../../../../assets/media/icons/others.svg', name:'Others' },
+    { id:6, img: '../../../../../assets/media/icons/personal-dev.svg', name:'Personal Development' },
+    { id:7, img: '../../../../../assets/media/icons/concert-event-tickets.svg', name:'Concerts & Event Tickets' },
   ]
   provincese = [
     { id:1, name:'West-Vlaanderen' },
