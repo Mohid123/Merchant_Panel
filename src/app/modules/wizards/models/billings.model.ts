@@ -1,8 +1,8 @@
-export interface Billings {
-  transactionNo?: string;
-  date?: string;
+export class Billings {
+  transactionID?: number;
+  transactionDate?: number;
   paymentMethod?: string;
-  amount?:string;
+  amount?: number;
   status?: string;
-  currency?: string;
+  merchantID?: string;
 }

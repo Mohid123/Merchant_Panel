@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReusableModalModule } from '@components/reusable-modal/reusable-modal.module';
+import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.module';
 import { SortModule } from '@core/directives/sort/sort.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +18,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BillingsComponent } from './pages/billings/billings.component';
 import { OrderManagementComponent } from './pages/order-management/order-management.component';
+import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { SingleReviewComponent } from './pages/single-review/single-review.component';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
 // #fake-end#
@@ -29,7 +33,7 @@ import { FakeAPIService } from './_fake/fake-api.service';
 // }
 
 @NgModule({
-  declarations: [AppComponent, OrderManagementComponent, BillingsComponent],
+  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent],
   imports: [
     CoreModule,
     BrowserModule,
@@ -39,6 +43,7 @@ import { FakeAPIService } from './_fake/fake-api.service';
     TranslateModule.forRoot(),
     HttpClientModule,
     ClipboardModule,
+    TableSkeletonModule,
     // #fake-start#
     environment.isMockEnabled
       ? HttpClientInMemoryWebApiModule.forRoot(FakeAPIService, {
@@ -51,6 +56,8 @@ import { FakeAPIService } from './_fake/fake-api.service';
     InlineSVGModule.forRoot(),
     NgbModule,
     SortModule,
+    ReusableModalModule,
+    SortModule
   ],
   providers: [
     // {

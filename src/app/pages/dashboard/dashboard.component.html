@@ -33,40 +33,70 @@
 </div>
 <!-- end::Row -->
 
-<div class="flex flex-col justify-end w-full mt-10 mb-5 ml-2 xl:flex-row 2xl:flex-row lg:flex-row md:flex-row">
-  <div class="m-2">
-    <a class="px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3 lg:px-4 lg:py-4"><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></a>
+<div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-5">
+  <div ngbDropdown id="dropdownBasic1" display="dynamic" class="m-2">
+    <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
+    <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+      <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" outsideDays="hidden">
+      </ngb-datepicker>
+    </div>
   </div>
-  <div class="m-2">
-    <a class="px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3 lg:px-4 lg:py-3"><i class="mr-3 fas fa-filter"></i>Filter<i class="ml-3 fas fa-angle-down"></i></a>
+
+  <div ngbDropdown placement="bottom-end" display="dynamic" id="dropdownBasic2" class="m-2">
+    <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4 rotate-90" ngbDropdownToggle><i style="transform: rotate(90deg)!important;" class="mr-3 fas fa-sliders-h"></i>Filter<i class="ml-3 fas fa-angle-down"></i></button>
+    <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden"><i class="mr-3 fas fa-sliders-h" ngbDropdownToggle></i><i class="ml-3 fas fa-angle-down"></i></button>
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+      <button ngbDropdownItem>A - Z</button>
+      <button ngbDropdownItem>Ascending - Descending</button>
+      <button ngbDropdownItem>Something Else Entirely!</button>
+    </div>
   </div>
 </div>
 
-<table class="w-full mt-10 rounded-md shadow-md">
-  <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
-    <th class="p-4 font-normal">Deals Title&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th class="p-4 font-normal">Price&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th class="p-4 font-normal">Start Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th class="p-4 font-normal">End Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th class="p-4 font-normal">Qty&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    <th class="p-4 font-normal">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-  </tr>
-  <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
-    <td class="flex flex-row items-center justify-center p-4 font-thin">
-      <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="../../../../../assets/media/books/img-72.jpg">
-      <span class="ml-3">Heavenly Massage</span>
-    </td>
-    <td class="p-4 font-thin">$300</td>
-    <td class="p-4 font-thin">26 April, 2021</td>
-    <td class="p-4 font-thin">26 July, 2021</td>
-    <td class="p-4 font-thin">74</td>
-     <!-- <ng-container *ngIf="status == Pending"></ng-container> -->
-     <!-- <td class="p-4 font-thin">
-      <span class="px-5 py-3 badge badge-light-danger rounded-2xl">Pending</span>
-    </td> -->
-    <!-- <ng-container *ngIf="status == Active"></ng-container> -->
-    <td class="p-4 font-thin">
-      <span class="px-5 py-3 badge badge-light-success rounded-2xl">Active</span>
-    </td>
-  </tr>
-</table>
+<ng-container *ngIf="showData == false">
+  <app-table-skeleton></app-table-skeleton>
+</ng-container>
+
+<!-- <ng-container *ngIf="showData == true"> -->
+  <div class="table-container">
+    <table class="w-full mt-10 rounded-md shadow-md">
+      <tr ngbDropdown placement="bottom-end" id="dropdownBasic1" class="text-center text-gray-600 bg-gray-300 rounded-lg">
+        <th class="p-4 font-normal text-black cursor-pointer" [appSort]="topDeals" data-order="desc" data-name="title">Deals Title&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal text-black cursor-pointer" [appSort]="topDeals" data-order="desc" data-name="startDate">Start Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal text-black cursor-pointer" [appSort]="topDeals" data-order="desc" data-name="endDate">End Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal text-black cursor-pointer" [appSort]="topDeals" data-order="desc" data-name="available">Available&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal text-black cursor-pointer" [appSort]="topDeals" data-order="desc" data-name="sold">Sold&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal text-black cursor-pointer" [appSort]="topDeals" data-order="desc" data-name="average">Average&nbsp; <i class="text-yellow-500 fas fa-star fa-xs"></i></th>
+        <th class="p-4 font-normal text-black cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+      </tr>
+      <ng-container *ngFor="let deal of topDeals; let i = index">
+        <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
+          <td class="flex flex-row items-left ml-4 p-4 font-thin">
+            <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="https://images.pexels.com/photos/2086748/pexels-photo-2086748.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+            <span class="ml-3">{{deal.title}}</span>
+          </td>
+          <td class="p-4 font-thin">{{deal.startDate}}</td>
+          <td class="p-4 font-thin">{{deal.endDate}}</td>
+          <td class="p-4 font-thin">{{deal.available}}</td>
+          <td class="p-4 font-thin">{{deal.sold}}</td>
+          <td class="p-4 font-thin">{{deal.average}}</td>
+           <td class="p-4 font-thin">
+            <span class="px-5 py-3 badge badge-light-warning rounded-2xl">Pending</span>
+          </td>
+        </tr>
+      </ng-container>
+    </table>
+  </div>
+<!-- </ng-container> -->
+
+<ng-template #t let-date let-focused="focused">
+  <span class="custom-day"
+        [class.focused]="focused"
+        [class.range]="isRange(date)"
+        [class.faded]="isHovered(date) || isInside(date)"
+        (mouseenter)="hoveredDate = date"
+        (mouseleave)="hoveredDate = null">
+    {{ date.day }}
+  </span>
+</ng-template>

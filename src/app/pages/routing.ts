@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
+import { TableSkeletonComponent } from '@components/table-skeleton/table-skeleton/table-skeleton.component';
 import { BillingsComponent } from './billings/billings.component';
 import { OrderManagementComponent } from './order-management/order-management.component';
+import { ReviewsComponent } from './reviews/reviews.component';
+import { SingleReviewComponent } from './single-review/single-review.component';
 
 const Routing: Routes = [
   {
@@ -54,6 +57,22 @@ const Routing: Routes = [
   {
     path: 'billings',
     component: BillingsComponent
+  },
+  {
+    path: 'table',
+    component: TableSkeletonComponent
+  },
+  {
+    path: 'reviews',
+    component: ReviewsComponent,
+  },
+  {
+    path: 'reviews/:reviewId',
+    component: SingleReviewComponent,
+  },
+  {
+    path: 'single-review',
+    component: SingleReviewComponent
   },
   {
     path: '',

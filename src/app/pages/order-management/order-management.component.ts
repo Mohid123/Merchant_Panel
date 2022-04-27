@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Orders } from './../../modules/wizards/models/order.model';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { OrdersService } from '@pages/services/orders.service';
+import { Subject } from 'rxjs';
+import { AuthService } from 'src/app/modules/auth';
 
 @Component({
   selector: 'app-order-management',
@@ -8,53 +11,101 @@ import { Orders } from './../../modules/wizards/models/order.model';
 })
 export class OrderManagementComponent implements OnInit {
 
-  // DUMMY DATA FOR SORT TESTING
-  public orderData: Array<Orders> = [
+  merchantID: string;
+  showData: boolean;
+  ordersData: any[] = [
     {
-      orderID: '1',
-      customerName: 'Junaid',
-      date: '20-10-1998',
-      amount: '345',
-      fee: '212',
-      net: '287',
-      source: 'Stripe',
-      status: 'Purchased'
+      voucherID: '3234635',
+      deal: 'Heavenly Massage',
+      dealSub: "The best deal in town!",
+      amount: '3456',
+      fee: '34',
+      net: '321',
+      status: 'Purchased',
+      paymentStatus: 'Pending',
+      date: '23, April, 2022'
     },
     {
-      orderID: '2',
-      customerName: 'Mohid',
-      date: '20-10-2021',
-      amount: '425',
-      fee: '446',
-      net: '987',
-      source: 'Stripe',
-      status: 'Redeemed'
+      voucherID: '3234635',
+      deal: 'Heavenly Massage',
+      dealSub: "The best deal in town!",
+      amount: '3456',
+      fee: '34',
+      net: '321',
+      status: 'Purchased',
+      paymentStatus: 'Pending',
+      date: '23, April, 2022'
     },
     {
-      orderID: '3',
-      customerName: 'Mudassar',
-      date: '20-10-2018',
-      amount: '345',
-      fee: '440',
-      net: '1087',
-      source: 'Stripe',
-      status: 'Purchased'
+      voucherID: '3234635',
+      deal: 'Heavenly Massage',
+      dealSub: "The best deal in town!",
+      amount: '3456',
+      fee: '34',
+      net: '321',
+      status: 'Purchased',
+      paymentStatus: 'Pending',
+      date: '23, April, 2022'
     },
     {
-      orderID: '4',
-      customerName: 'Sameer',
-      date: '20-10-1994',
-      amount: '445',
-      fee: '846',
-      net: '987',
-      source: 'Stripe',
-      status: 'Redeemed'
-    }
-  ]
+      voucherID: '3234635',
+      deal: 'Heavenly Massage',
+      dealSub: "The best deal in town!",
+      amount: '3456',
+      fee: '34',
+      net: '321',
+      status: 'Purchased',
+      paymentStatus: 'Pending',
+      date: '23, April, 2022'
+    },
+  ];
+  offset: number = 0;
+  limit: number = 10;
+  destroy$ = new Subject();
+  hoveredDate: NgbDate | null = null;
+  fromDate: NgbDate;
+  toDate: NgbDate | null = null;
 
-  constructor() { }
+
+  constructor(
+    private orderService: OrdersService,
+    private cf: ChangeDetectorRef,
+    private authService: AuthService,
+    calendar: NgbCalendar
+    ) { }
 
   ngOnInit(): void {
+    this.authService.retreiveUserValue();
+  }
+
+
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
 }

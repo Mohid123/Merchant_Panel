@@ -26,7 +26,7 @@ export class ReusableModalComponent implements OnInit {
       backdrop: 'static',
       keyboard: false,
       centered: true,
-      modalDialogClass: this.cssClass.modalDialogClass,
+      // modalDialogClass: this.cssClass.modalDialogClass,
     };
     return new Promise<boolean>(resolve => {
       this.modalRef = this.modalService.open(this.modalContent, config)

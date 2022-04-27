@@ -46,7 +46,6 @@ body {
 		// Fixed header & fixed toolbar modes
 		.header-fixed.toolbar-fixed & {
 			padding-top: calc(#{get($header-config, fixed, height, desktop-main)} + var(--kt-toolbar-height));
-
 		}
 	}
 }

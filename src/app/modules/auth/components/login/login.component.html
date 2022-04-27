@@ -4,13 +4,13 @@
     <div class="d-flex flex-column-fluid flex-center">
       <form class="form w-100" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
         (ngSubmit)="submit()">
-        <div class="text-center mb-9">
+        <div class="text-center mb-7">
           <h1 class="mb-3 text-xl font-medium sm:text-3xl text-dark">Welcome to DiviDeals</h1>
-          <h3 class="mb-3 text-xs font-medium sm:text-xl text-primary-400">Merchant Panel</h3>
-          <div class="text-xs font-medium sm:text-base">
+          <h3 class="mb-5 text-xs font-medium sm:text-xl text-primary-400">Merchant Panel</h3>
+          <div class="text-xs font-medium text-font-gray-800 sm:text-base">
             New Here?
             <a routerLink="/auth/registration" id="kt_login_signup"
-              class="link-dark fw-bolder">Apply Now</a>
+              class="text-black fw-bolder">Apply Now</a>
           </div>
         </div>
 
@@ -23,7 +23,7 @@
         </ng-container>
 
         <div class="mb-5 fv-row">
-          <label class="mb-3 text-xs font-light sm:text-sm form-label text-dark">Email</label>
+          <label class="mb-3 text-xs font-light text-black sm:text-sm form-label">Email</label>
           <input class="form-control form-control-lg form-control-solid" type="email" name="email"
             formControlName="email" autocomplete="off" [ngClass]="{
             'is-invalid': loginForm.controls['email'].invalid,
@@ -50,8 +50,8 @@
           </ng-container>
         </div>
 
-        <div class="mb-5 fv-row">
-          <label class="mb-3 text-xs font-light sm:text-sm form-label text-dark">Password</label>
+        <div class="mb-7 fv-row">
+          <label class="mb-3 text-xs font-light text-black sm:text-sm form-label">Password</label>
 
           <input class="form-control form-control-lg form-control-solid" type="password" name="password"
             autocomplete="off" formControlName="password" [ngClass]="{
@@ -75,7 +75,7 @@
                         message: 'Password should have maximum 100 symbols',
                         control: loginForm.controls['password']}">
           </ng-container>
-          <div class="w-full mt-5 text-right">
+          <div class="w-full text-right mt-7">
             <a routerLink="/auth/forgot-password" class="text-xs font-light sm:text-sm text-primary-400"
               id="kt_login_forgot">
               Forgot Password ?
@@ -85,7 +85,7 @@
 
         <div class="text-right">
           <button type="submit" id="kt_sign_in_submit"
-            class="mb-5 text-xs text-white bg-black sm:text-sm btn hover:btn-primary" [disabled]="loginForm.invalid">
+            class="mb-5 text-xs text-white bg-black btn hover:btn-primary" [disabled]="loginForm.invalid">
             <ng-container *ngIf="isLoading$ | async">
               <span class="indicator-progress" [style.display]="'block'">
                 Please wait...

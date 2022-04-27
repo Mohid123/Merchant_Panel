@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ReusableModalComponent } from './../../../components/reusable-modal/reusable-modal/reusable-modal.component';
@@ -11,7 +12,9 @@ import { ReusableModalComponent } from './../../../components/reusable-modal/reu
 })
 export class BussinessDetailsComponent implements OnInit {
 
-  businessForm: FormGroup
+  businessForm: FormGroup;
+  config: any;
+  public Editor = ClassicEditor
 
   @ViewChild('companyModal') private companyModal: ReusableModalComponent;
 
@@ -45,7 +48,34 @@ export class BussinessDetailsComponent implements OnInit {
     this.unsubscribe.push(loadingSubscr);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.config = {
+      toolbar: {
+        styles: [
+            'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
+            ],
+        items: [
+          'heading',
+          'fontSize',
+          'bold',
+          'italic',
+          'underline',
+          'highlight',
+          'alignment',
+          'numberedList',
+          'bulletedList',
+          'indent',
+          'outdent',
+          'todoList',
+          'link',
+          'blockQuote',
+          'insertTable',
+          'undo',
+          'redo'
+        ]
+      }
+    }
+  }
 
   initBusinessForm() {
       this.businessForm = this.fb.group({

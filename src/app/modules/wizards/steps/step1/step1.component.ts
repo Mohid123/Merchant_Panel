@@ -2,6 +2,9 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { Category, CategoryList } from './../../../auth/models/category-list.model';
+import { CategoryService } from './../../../auth/services/category.service';
 import { Image } from './../../models/images.model';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
@@ -9,8 +12,18 @@ import { ConnectionService } from './../../services/connection.service';
 @Component({
   selector: 'app-step1',
   templateUrl: './step1.component.html',
+  styleUrls: ['./step1.component.scss'],
 })
 export class Step1Component implements OnInit, OnDestroy {
+
+  categoryList :CategoryList;
+  selectedcategory: Category;
+
+  ChangeSelectedCategory(newSelectedcategory: Category) {
+    this.selectedcategory = newSelectedcategory;
+    this.dealForm.controls['subCategory'].setValue(newSelectedcategory.id);
+  }
+
   @Input('updateParentModel') updateParentModel: (
     part: Partial<MainDeal>,
     isFormValid: boolean
@@ -19,6 +32,7 @@ export class Step1Component implements OnInit, OnDestroy {
   dealForm: FormGroup;
 
   @Input() deal: Partial<MainDeal> = {
+    subCategory:'',
     title: '',
     subTitle: '',
     mediaUrl: [''],
@@ -31,14 +45,26 @@ export class Step1Component implements OnInit, OnDestroy {
   urls: Image[] = [];
   private unsubscribe: Subscription[] = [];
   control: FormControl
+  images = [];
 
   // @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
 
-  constructor(private fb: FormBuilder, private cf: ChangeDetectorRef, private router: Router, private connection: ConnectionService) {}
+  constructor(
+    private fb: FormBuilder,
+    private cf: ChangeDetectorRef,
+    private router: Router,
+    private connection: ConnectionService,
+    private categoryService: CategoryService,
+  ) {}
 
   ngOnInit() {
     this.initDealForm();
     this.updateParentModel({}, this.checkForm());
+    this.categoryService.getAllCategories(0,0).pipe(take(1)).subscribe(categoryList => {
+      if(!categoryList.hasErrors()){
+        this.categoryList = categoryList.data;
+      }
+    })
   }
 
   get f() {
@@ -47,6 +73,12 @@ export class Step1Component implements OnInit, OnDestroy {
 
   initDealForm() {
     this.dealForm = this.fb.group({
+      subCategory: [
+        this.deal.subCategory,
+        Validators.compose([
+          Validators.required,
+        ]),
+      ],
       title: [
         this.deal.title,
         Validators.compose([
@@ -84,30 +116,22 @@ export class Step1Component implements OnInit, OnDestroy {
     })
     const formChangesSubscr = this.dealForm.valueChanges.subscribe((val: MainDeal) => {
       this.updateParentModel(val, this.checkForm());
-      console.log(val);
       this.connection.sendData(val)
+      // console.log(val);
     });
     this.unsubscribe.push(formChangesSubscr);
   }
 
   checkForm() {
     return !(
-      this.dealForm.get('title')?.hasError('required') ||
-      this.dealForm.get('subTitle')?.hasError('required') ||
-      this.dealForm.get('subTitle')?.hasError('whitespace') ||
-      this.dealForm.get('description')?.hasError('required') ||
-      this.dealForm.get('description')?.hasError('minlength') ||
-      this.dealForm.get('description')?.hasError('whitespace') ||
-      this.dealForm.get('title')?.hasError('whitespace') ||
-      this.dealForm.get('title')?.hasError('pattern') ||
-      this.dealForm.get('description')?.hasError('pattern') ||
-      this.dealForm.get('subTitle')?.hasError('pattern')
-      )
+      this.dealForm.valid
+    )
   }
 
   onSelectFile(event: any) {
     this.file = event.target.files && event.target.files.length;
     if (this.file > 0 && this.file < 11) {
+      this.images = event.target.files;
       let i: number = 0;
       for (const singlefile of event.target.files) {
         var reader = new FileReader();

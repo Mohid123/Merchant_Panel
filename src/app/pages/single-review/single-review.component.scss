@@ -1,0 +1,25 @@
+.table-conatiner {
+  width: 100%!important;
+  overflow-x: scroll;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  padding-top: 4px;
+  background: #E6E9FF;
+  border: 1px solid #E6E9FF;
+  color: gray;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+
+  .table-container {
+      width: 100% !important;
+      overflow-x: scroll;
+  }
+
+  th, td {min-width: 200px; }
+}

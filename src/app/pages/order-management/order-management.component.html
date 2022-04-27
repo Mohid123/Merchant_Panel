@@ -1,10 +1,17 @@
-<div class="text-3xl font-semibold text-left">Order Management</div>
+<div class="flex flex-row flex-wrap justify-between">
+  <div class="mb-3 text-3xl font-semibold text-left lg:mb-0">My Vouchers</div>
+  <div class="input-icon">
+    <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-gray-400 rounded fas fa-search fa-lg"></i></span>
+    <input placeholder="Search By Voucher ID" type="text" class="pl-12 text-gray-700 bg-gray-200 border-0 form-control">
+   </div>
+</div>
+
 
 <div class="flex flex-col justify-center lg:flex-row lg:justify-between">
   <div class="flex flex-col lg:flex-row justify-evenly">
     <div class="flex flex-col mt-4 mr-7">
       <span class="mb-4 text-lg text-gray-500 font-base">Total Sales</span>
-      <span class="text-5xl font-medium text-gray-700">421,584</span>
+      <span class="text-5xl font-medium text-black">421,584</span>
     </div>
     <div class="flex flex-row">
       <div class="h-20 py-1 pl-2 pr-12 mr-5 text-center bg-white lg:h-16 mt-9 w-38">
@@ -17,65 +24,93 @@
         <br>
         <span class="text-base text-green-500">421,584</span>
       </div>
+      <div class="h-20 py-1 pl-2 pr-12 ml-3 text-center bg-white lg:h-16 mt-9 w-38">
+        <span class="mb-2 text-xs text-gray-500">Expired</span>
+        <br>
+        <span class="text-base text-red-500">13</span>
+      </div>
     </div>
   </div>
   <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
-    <div ngbDropdown placement="bottom-end" id="dropdownBasic1" class="m-2">
+    <div ngbDropdown id="dropdownBasic1" display="dynamic" class="m-2">
       <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
       <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button ngbDropdownItem>Jan - Feb</button>
-        <button ngbDropdownItem>Mar - Jul</button>
-        <button ngbDropdownItem>Aug - Dec</button>
+        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" outsideDays="hidden">
+        </ngb-datepicker>
       </div>
     </div>
-    <div ngbDropdown placement="bottom-end" id="dropdownBasic2" class="m-2">
-      <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4" ngbDropdownToggle><i class="mr-3 fas fa-filter"></i>Filter<i class="ml-3 fas fa-angle-down"></i></button>
-      <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden"><i class="mr-3 fas fa-filter" ngbDropdownToggle></i><i class="ml-3 fas fa-angle-down"></i></button>
+
+    <div ngbDropdown placement="bottom-end" display="dynamic" id="dropdownBasic2" class="m-2">
+      <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4 rotate-90" ngbDropdownToggle><i style="transform: rotate(90deg)!important;" class="mr-3 fas fa-sliders-h"></i>Filter<i class="ml-3 fas fa-angle-down"></i></button>
+      <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden"><i class="mr-3 fas fa-sliders-h" ngbDropdownToggle></i><i class="ml-3 fas fa-angle-down"></i></button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
         <button ngbDropdownItem>A - Z</button>
-        <button ngbDropdownItem>Z - A</button>
-        <button ngbDropdownItem>Other</button>
+        <button ngbDropdownItem>Ascending - Descending</button>
+        <button ngbDropdownItem>Something Else Entirely!</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="table-container">
-  <table class="w-full mt-10 rounded-md shadow-md">
-    <thead class="text-center text-gray-600 bg-gray-300 rounded-lg">
-      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by OrderID" [appSort]="orderData" data-order="desc" data-name="orderID" class="p-4 font-normal cursor-pointer customary">Order ID&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Customer Name" container="body" [appSort]="orderData" data-order="desc" data-name="customerName" class="p-4 font-normal cursor-pointer">Customer Name&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Date" container="body" [appSort]="orderData" data-order="desc" data-name="date" class="p-4 font-normal cursor-pointer">Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Amount" container="body" [appSort]="orderData" data-order="desc" data-name="amount" class="p-4 font-normal cursor-pointer">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Fee" container="body" [appSort]="orderData" data-order="desc" data-name="fee" class="p-4 font-normal cursor-pointer">Fee&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Net" container="body" [appSort]="orderData" data-order="desc" data-name="net" class="p-4 font-normal cursor-pointer">Net&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-      <th ngbPopover="Descending to Ascending" triggers="mouseenter:mouseleave" popoverTitle="Sort by Source" container="body" [appSort]="orderData" data-order="desc" data-name="source" class="p-4 font-normal cursor-pointer">Source&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-      <th class="p-4 font-normal cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-    </thead>
-    <ng-container *ngFor="let data of orderData">
-      <tr class="z-40 w-full text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
-        <td class="p-4 font-medium">{{data.orderID}}</td>
-        <td class="p-4 font-thin">{{data.customerName}}</td>
-        <td class="p-4 font-thin">{{data.date}}</td>
-        <td class="p-4 font-thin">{{data.amount}}</td>
-        <td class="p-4 font-thin">{{data.fee}}</td>
-        <td class="p-4 font-medium">{{data.net}}</td>
-        <td class="p-4 font-medium">{{data.source}}</td>
-        <ng-container *ngIf="data.status == 'Purchased'">
-          <td class="p-4 font-thin">
-            <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{data.status}}</span>
-          </td>
-        </ng-container>
-        <ng-container *ngIf="data.status == 'Redeemed'">
-          <td class="p-4 font-thin">
-            <span class="px-5 py-3 badge badge-light-warning rounded-2xl">{{data.status}}</span>
-          </td>
-        </ng-container>
-      </tr>
-    </ng-container>
+<ng-container *ngIf="showData == false">
+  <app-table-skeleton></app-table-skeleton>
+</ng-container>
 
-  </table>
-</div>
+  <div class="table-container">
+    <table class="w-full mt-10 rounded-md shadow-md">
+      <thead class="text-left text-black bg-gray-300 rounded-lg">
+        <th class="p-4 font-base cursor-pointer customary">Voucher ID</th>
+        <th class="p-4 font-base cursor-pointer">Deal&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-base cursor-pointer" [appSort]="ordersData" data-order="desc" data-name="amount">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-base cursor-pointer" [appSort]="ordersData" data-order="desc" data-name="fee">Fee&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-base cursor-pointer" [appSort]="ordersData" data-order="desc" data-name="netAmount">Net&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-base cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-base cursor-pointer">Payment Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+      </thead>
+      <ng-container *ngFor="let data of ordersData; let i = index;">
+        <tr class="z-40 w-full text-left text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
+          <td class="p-4 font-medium">{{data.voucherID}}</td>
+          <td class="p-4">
+            <span class="font-medium">{{data.deal}}</span>
+            <br>
+            <span class="font-light text-sm">{{data.dealSub}}</span>
+          </td>
+          <td class="p-4 font-medium">&euro;&nbsp;{{data.amount}}</td>
+          <td class="p-4 font-medium">&euro;&nbsp;{{data.fee}}</td>
+          <td class="p-4 font-medium">
+            <span class="font-medium">&euro;&nbsp;{{data.net}}</span>
+            <br>
+            <br>
+            <span class="font-light text-sm text-right">{{data.date}}</span>
+          </td>
+          <ng-container *ngIf="data.status == 'Purchased'">
+            <td class="p-4 font-thin">
+              <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{data.status}}</span>
+            </td>
+          </ng-container>
+          <td class="p-4 font-thin">
+            <span class="px-5 py-3 badge badge-secondary rounded-2xl font-thin">{{data.paymentStatus}}</span>
+          </td>
+        </tr>
+      </ng-container>
+
+    </table>
+  </div>
+
+<ng-template #t let-date let-focused="focused">
+  <span class="custom-day"
+        [class.focused]="focused"
+        [class.range]="isRange(date)"
+        [class.faded]="isHovered(date) || isInside(date)"
+        (mouseenter)="hoveredDate = date"
+        (mouseleave)="hoveredDate = null">
+    {{ date.day }}
+  </span>
+</ng-template>
+
+
+<!-- <div class="half-circle"></div> -->
+
 
 

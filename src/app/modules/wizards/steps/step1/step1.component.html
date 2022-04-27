@@ -1,18 +1,38 @@
 <!--Title/ Header-->
-<div class="lg:text-center mb-11">
-  <h1 class="mb-5 text-3xl text-center">Let's set up your deal.</h1>
+<div class="mb-7 lg:text-center">
+  <h1 class="mt-2 mb-3 text-3xl text-center">Let's set up your deal.</h1>
   <div class="text-xl font-thin text-center text-primary-400">First impression matters! Let's start with creating your titles and description.</div>
 </div>
 <!--Card for Creating Deal-->
 <div class="flex justify-center w-full align-middle">
-  <div class="w-full shadow-sm lg:w-3/4 card card-custom">
+  <div class="w-full shadow-sm card card-custom">
     <div class="p-2 card-body" >
-      <form class="form row" [formGroup]="dealForm">
+      <form class="px-6 sm:px-14 md:px-24 form row" [formGroup]="dealForm">
         <!--Form-->
-        <div class="col-xl-7 px-9">
-          <div class="p-0 lg:p-10">
+        <div class="p-0 col-xl-7">
+          <div class="pt-2 sm:pt-4 xl:pt-8 deal-details">
             <div class="pb-5">
-              <label class="mb-3 form-label">Title</label>
+              <label class="block form-label">Select sub-category</label>
+              <div ngbDropdown class="w-full rounded-lg d-inline-block" style="border: 1px solid #F38B41;">
+                <button type="button" class="w-full btn p-3.5 text-xs text-left text-font-gray-600" id="dropdownBasic1"
+                ngbDropdownToggle>{{selectedcategory?.categoryName || '-Select'}}</button>
+                <div class="w-full" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <ng-container *ngFor="let category of categoryList?.data" >
+                    <button ngbDropdownItem (click)="ChangeSelectedCategory(category)">{{category.categoryName}}</button>
+                  </ng-container>
+                </div>
+              </div>
+              <!-- <input appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="subCategory" name="subCategory" placeholder="Select subCategory of your deal"
+              > -->
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'sub-category is required',
+                control: dealForm.controls['subCategory']
+              }">
+            </ng-container>
+            </div>
+            <div class="pb-5">
+              <label class="form-label">Title</label>
               <input appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="title" name="title" placeholder="Enter title of your deal"
               [ngClass]="{
                 'is-invalid': f['title'].invalid && f['title'].touched,
@@ -43,7 +63,7 @@
             </ng-container>
             </div>
             <div class="pb-5">
-              <label class="mb-3 form-label">Subtitle</label>
+              <label class="form-label">Subtitle</label>
               <input appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="subTitle" name="subTitle" placeholder="Enter subtitle of your deal"
               [ngClass]="{
                 'is-invalid': f['subTitle'].invalid && f['subTitle'].touched,
@@ -74,7 +94,7 @@
               </ng-container>
             </div>
             <div class="pb-5">
-              <label class="mb-3 form-label">Description</label>
+              <label class="form-label">Description</label>
               <textarea appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="description" name="description" placeholder="Description" rows="7"
               [ngClass]="{
                 'is-invalid': f['description'].invalid && f['description'].touched,
@@ -107,25 +127,25 @@
           </div>
         </div>
         <!--Upload Images-->
-        <div class="col-xl-5 px-9">
-          <div class="mt-0 lg:mt-10 lg:pl-8">
+        <div class="pl-0 pr-0 col-xl-5 xl:pl-16">
+          <div class="mt-0 lg:mt-8 xl:pl-8">
             <div class="d-flex flex-stack">
               <div class="mr-2">
                 <label class="mb-3 d-flex align-items-center form-label">Upload images</label>
               </div>
               <div>
-                <label class="mb-3 font-light text-gray-400 d-flex align-items-center form-label">{{multiples.length}}/10</label>
+                <label class="mb-3 text-sm font-light text-gray-400 d-flex align-items-center form-label">{{multiples.length}}/10</label>
               </div>
             </div>
 
             <div class="image-input image-input-outline image-upload">
-              <div class="mb-2 image-input-wrapper" style="box-shadow: none; border: 1px solid #F38B41; opacity: 0.8;"></div>
-              <label class="btn btn-xs btn-icon btn-hover-text-primary" style="position: absolute; top: 30px; left: 50px;">
-                <span style="color: rgb(179, 179, 179); font-size: 30px"><img src="../../../../../assets/media/logos/add_deal.svg" class="text-center w-96 h-96"></span>
-                <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)" (click)="onClick($event)" multiple>
+              <div class="w-24 h-24 mb-2 image-input-wrapper" style="box-shadow: none; border: 1px solid #F38B41; opacity: 0.8;"></div>
+              <label class="absolute top-0 w-24 h-24 btn btn-xs btn-icon btn-hover-text-primary">
+                <span class="absolute top-0 flex items-center justify-center w-24 h-24" style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-5 h-5" src="../../../../../assets/media/logos/add_deal.svg"></span>
+                <input class="absolute top-0 w-24 h-24" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)" (click)="onClick($event)" multiple>
               </label>
               <div class="flex flex-col">
-                <span class="mt-5 font-thin text-center text-gray-400">Allowed file types: png, jpg, jpeg</span>
+                <span class="mt-5 text-xs font-thin text-center text-gray-400">Allowed file types: png, jpg, jpeg</span>
                 <!-- <ng-container *ngIf="multiples.length == 0">
                   <span class="mt-2 text-danger">At Least one image is required</span>
                 </ng-container> -->
