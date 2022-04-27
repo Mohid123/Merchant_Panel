@@ -56,7 +56,8 @@ import { FakeAPIService } from './_fake/fake-api.service';
     InlineSVGModule.forRoot(),
     NgbModule,
     SortModule,
-    ReusableModalModule
+    ReusableModalModule,
+    SortModule
   ],
   providers: [
     // {

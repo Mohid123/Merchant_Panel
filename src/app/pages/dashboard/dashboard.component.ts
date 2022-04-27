@@ -1,11 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
-import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +13,68 @@ export class DashboardComponent implements OnInit {
 
   showData: boolean;
   destroy$ = new Subject();
-  topDeals: any;
+  topDeals: any[] = [
+    {
+      title: 'Heavenly Massage',
+      startDate: "3, April 2022",
+      endDate: "16, April 2022",
+      showDetail: false,
+      available: '500',
+      sold: '456',
+      status: 'Active',
+      average: '4.0'
+    },
+    {
+      title: 'Earthly Massage',
+      startDate: "1, April 2022",
+      endDate: "6, April 2022",
+      showDetail: false,
+      available: '768',
+      sold: '156',
+      status: 'Active',
+      average: '3.0'
+    },
+    {
+      title: 'Firey Massage',
+      startDate: "22, April 2022",
+      endDate: "29, April 2022",
+      showDetail: false,
+      available: '34',
+      sold: '12',
+      status: 'Active',
+      average: '4.0'
+    },
+    {
+      title: 'Watery Massage',
+      startDate: "23, April 2022",
+      endDate: "26, April 2022",
+      showDetail: false,
+      available: '123',
+      sold: '45',
+      status: 'Active',
+      average: '2.0'
+    },
+    {
+      title: 'Airy Massage',
+      startDate: "15, April 2022",
+      endDate: "19, April 2022",
+      showDetail: false,
+      available: '65',
+      sold: '12',
+      status: 'Active',
+      average:'1.0'
+    },
+    {
+      title: 'Relaxing Massage',
+      startDate: "14, April 2022",
+      endDate: "18, April 2022",
+      showDetail: false,
+      available: '63',
+      sold: '61',
+      status: 'Active',
+      average: '5.0'
+    },
+  ];
   public title: string;
   public price: string;
   public startDate: string;
@@ -39,64 +97,8 @@ export class DashboardComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.authService.retreiveUserValue();
-    this.getTopDealsByMerchant();
   }
 
-  getTopDealsByMerchant() {
-    this.showData = false;
-    this.dealService.getTopRatedDeals(this.authService.merchantID).subscribe((res: ApiResponse<MainDeal>) => {
-      if(!res.hasErrors()) {
-        this.topDeals = res.data;
-        this.showData = true;
-        this.cf.detectChanges();
-      }
-    })
-  }
-
-  getDealByFilters() {
-    debugger
-    const params: any = {
-      title: this.title,
-      price: this.price,
-      startDate: this.startDate,
-      endDate: this.endDate
-    }
-    this.dealService.getDealFilters(this.offset, this.limit, params)
-    .pipe(take(1))
-    .subscribe((res: ApiResponse<any>) => {
-      if(!res.hasErrors()) {
-        debugger
-        this.filteredData = res.data;
-        console.log(this.filteredData)
-      }
-    })
-  }
-
-  filterByPrice(price: string) {
-    this.offset = 0;
-    this.price = price;
-    this.getDealByFilters();
-  }
-
-  filterByTitle(title: string) {
-    debugger
-    this.offset = 0;
-    this.title = title;
-    this.getDealByFilters();
-  }
-
-  filterByStartDate(startDate: string) {
-    this.offset = 0;
-    this.startDate = startDate;
-    this.getDealByFilters();
-  }
-
-  filterByEndDate(endDate: string) {
-    this.offset = 0;
-    this.endDate = endDate;
-    this.getDealByFilters();
-  }
 
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {

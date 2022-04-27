@@ -7,6 +7,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
+import { SortModule } from '@core/directives/sort/sort.module';
 import { TimeformatePipe } from '@core/pipes/timeformate.pipe';
 // import { SortModule } from '@core/directives/sort/sort.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -67,7 +68,8 @@ FullCalendarModule.registerPlugins([
     MatTableModule,
     NgbPopoverModule,
     NgbModule,
-    ReusableModalModule
+    ReusableModalModule,
+    SortModule
   ],
   entryComponents: [PopoverWrapperComponent],
 })

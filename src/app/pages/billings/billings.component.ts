@@ -1,13 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ReusableModalComponent } from '@components/reusable-modal/reusable-modal/reusable-modal.component';
 import { ModalConfig } from '@core/models/modal.config';
-import { ApiResponse } from '@core/models/response.model';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { BillingsService } from '@pages/services/billings.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
-import { BillingList } from 'src/app/modules/wizards/models/billing-list.model';
 
 @Component({
   selector: 'app-billings',
@@ -29,7 +26,38 @@ export class BillingsComponent implements OnInit {
     closeButtonLabel: "Close"
   }
 
-  public billingsData: BillingList;
+  public billingsData: any[] = [
+    {
+      invoiceNo: '3234635',
+      invoiceDate: "3, April 2022",
+      invoiceAmount: '325,521',
+      status: 'Paid'
+    },
+    {
+      invoiceNo: '3234635',
+      invoiceDate: "3, April 2022",
+      invoiceAmount: '325,521',
+      status: 'Paid'
+    },
+    {
+      invoiceNo: '3234635',
+      invoiceDate: "3, April 2022",
+      invoiceAmount: '325,521',
+      status: 'Paid'
+    },
+    {
+      invoiceNo: '3234635',
+      invoiceDate: "3, April 2022",
+      invoiceAmount: '325,521',
+      status: 'Paid'
+    },
+    {
+      invoiceNo: '3234635',
+      invoiceDate: "3, April 2022",
+      invoiceAmount: '325,521',
+      status: 'Paid'
+    },
+  ];
   showData: boolean;
   offset: number = 0;
   limit: number = 10;
@@ -47,21 +75,9 @@ export class BillingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.retreiveUserValue()
-    this.getBillingsByMerchant();
   }
 
-  getBillingsByMerchant() {
-    this.showData = false;
-    this.billingService.getAllBillingsByMerchantID(this.authService.merchantID, this.offset, this.limit)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res:ApiResponse<BillingList>) => {
-      if(!res.hasErrors()) {
-        this.billingsData = res.data;
-        this.showData = true;
-        this.cf.detectChanges();
-      }
-    })
-  }
+
 
   async openModal() {
     return await this.modal.open();

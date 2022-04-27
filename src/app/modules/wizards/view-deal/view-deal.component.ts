@@ -1,6 +1,5 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
+import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
@@ -26,17 +25,10 @@ export class PopoverWrapperComponent {
   selector: 'app-view-deal',
   templateUrl: './view-deal.component.html',
   styleUrls: ['./view-deal.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
   encapsulation: ViewEncapsulation.None
 })
 
-export class ViewDealComponent implements OnInit {
+export class ViewDealComponent implements OnInit, AfterViewInit {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
 
@@ -54,57 +46,63 @@ export class ViewDealComponent implements OnInit {
   rows = [
     {
       title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
+      startDate: "3, April 2022",
+      endDate: "16, April 2022",
       showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
+      available: '500',
+      sold: '456',
+      status: 'Active',
+      average: '4.0'
     },
     {
-      title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
+      title: 'Earthly Massage',
+      startDate: "1, April 2022",
+      endDate: "6, April 2022",
       showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
+      available: '768',
+      sold: '156',
+      status: 'Active',
+      average: '3.0'
     },
     {
-      title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
+      title: 'Firey Massage',
+      startDate: "22, April 2022",
+      endDate: "29, April 2022",
       showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
+      available: '34',
+      sold: '12',
+      status: 'Active',
+      average: '4.0'
     },
     {
-      title: 'Heavenly Massage',
+      title: 'Watery Massage',
       startDate: "23, April 2022",
       endDate: "26, April 2022",
       showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
+      available: '123',
+      sold: '45',
+      status: 'Active',
+      average: '2.0'
     },
     {
-      title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
+      title: 'Airy Massage',
+      startDate: "15, April 2022",
+      endDate: "19, April 2022",
       showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
+      available: '65',
+      sold: '12',
+      status: 'Active',
+      average:'1.0'
     },
     {
-      title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
+      title: 'Relaxing Massage',
+      startDate: "14, April 2022",
+      endDate: "18, April 2022",
       showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
+      available: '63',
+      sold: '61',
+      status: 'Active',
+      average: '5.0'
     },
   ]
 
@@ -117,8 +115,8 @@ export class ViewDealComponent implements OnInit {
   popoverFactory = this.resolver.resolveComponentFactory(PopoverWrapperComponent);
 
   showDiv = {
-    listView: false,
-    calendarView: true
+    listView: true,
+    calendarView: false
   }
 
   currentEvents: EventApi[] = [];
@@ -153,17 +151,29 @@ export class ViewDealComponent implements OnInit {
 
   newData : any[] = [];
 
+  @ViewChild('fullCalendar') fullCalendar: FullCalendarComponent
+
 
   constructor(
     private conn: ConnectionService,
     private resolver: ComponentFactoryResolver,
     private injector: Injector,
-    private appRef: ApplicationRef) {
+    private appRef: ApplicationRef
+    ) {
   }
 
 
   ngOnInit(): void {
   }
+
+  ngAfterViewInit() {
+    this.fullCalendar.getApi().render();
+  }
+
+  something() {
+    this.fullCalendar.getApi().render();
+  }
+
 
   renderTooltip(event:any) {
     console.log('renderTooltip:',event);

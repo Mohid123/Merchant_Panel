@@ -40,22 +40,21 @@
   <app-table-skeleton></app-table-skeleton>
 </ng-container>
 
-<ng-container *ngIf="showData == true">
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
       <tr class="text-center text-black bg-gray-300 rounded-lg">
-        <th class="p-4 font-semibold cursor-pointer">Invoice #</th>
-        <th class="p-4 font-semibold cursor-pointer" [appSort]="billingsData?.billings" data-order="desc" data-name="transactionDate">Invoice Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-semibold cursor-pointer" [appSort]="billingsData?.billings" data-order="desc" data-name="amount">Invoice Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-semibold cursor-pointer" [appSort]="billingsData" data-order="desc" data-name="invoiceNo">Invoice #</th>
+        <th class="p-4 font-semibold cursor-pointer" [appSort]="billingsData" data-order="desc" data-name="invoiceDate">Invoice Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-semibold cursor-pointer" [appSort]="billingsData" data-order="desc" data-name="invoiceAmount">Invoice Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-semibold cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-semibold cursor-pointer">Action&nbsp;</th>
       </tr>
-      <ng-container *ngFor="let data of billingsData?.billings">
+      <ng-container *ngFor="let data of billingsData">
         <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
-          <td class="p-4 font-medium">{{data.merchantID}}</td>
-          <td class="p-4 font-thin">{{data.transactionDate | date}}</td>
+          <td class="p-4 font-medium">{{data.invoiceNo}}</td>
+          <td class="p-4 font-thin">{{data.invoiceDate}}</td>
           <td class="flex flex-col p-4 font-semibold">
-            <span>{{data.amount}}</span>
+            <span>{{data.invoiceAmount}}</span>
             <span class="text-sm text-gray-600 font-extralight">(Euro)</span>
           </td>
           <ng-container *ngIf="data.status == 'Paid'">
@@ -75,7 +74,6 @@
       </ng-container>
     </table>
   </div>
-</ng-container>
 
 <app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="relative">
