@@ -36,8 +36,18 @@
       <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
       <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t" outsideDays="hidden">
         </ngb-datepicker>
+      </div>
+    </div>
+
+    <div ngbDropdown placement="bottom-end" display="dynamic" id="dropdownBasic2" class="m-2">
+      <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4 rotate-90" ngbDropdownToggle><i style="transform: rotate(90deg)!important;" class="mr-3 fas fa-sliders-h"></i>Filter<i class="ml-3 fas fa-angle-down"></i></button>
+      <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden"><i class="mr-3 fas fa-sliders-h" ngbDropdownToggle></i><i class="ml-3 fas fa-angle-down"></i></button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+        <button ngbDropdownItem>A - Z</button>
+        <button ngbDropdownItem>Ascending - Descending</button>
+        <button ngbDropdownItem>Something Else Entirely!</button>
       </div>
     </div>
   </div>
@@ -47,51 +57,46 @@
   <app-table-skeleton></app-table-skeleton>
 </ng-container>
 
-<ng-container *ngIf="showData == true">
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
-      <thead class="text-center text-black bg-gray-300 rounded-lg">
-        <th class="p-4 font-normal cursor-pointer customary">Voucher ID</th>
-        <th class="p-4 font-normal cursor-pointer">Deal&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer" [appSort]="ordersData?.data" data-order="desc" data-name="amount">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer" [appSort]="ordersData?.data" data-order="desc" data-name="fee">Fee&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer" [appSort]="ordersData?.data" data-order="desc" data-name="netAmount">Net&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer">Payment Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+      <thead class="text-left text-black bg-gray-300 rounded-lg">
+        <th class="p-4 font-base cursor-pointer customary">Voucher ID</th>
+        <th class="p-4 font-base cursor-pointer">Deal&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-base cursor-pointer" [appSort]="ordersData" data-order="desc" data-name="amount">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-base cursor-pointer" [appSort]="ordersData" data-order="desc" data-name="fee">Fee&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-base cursor-pointer" [appSort]="ordersData" data-order="desc" data-name="netAmount">Net&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-base cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-base cursor-pointer">Payment Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
       </thead>
-      <ng-container *ngFor="let data of ordersData?.data; let i = index;">
-        <tr class="z-40 w-full text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
+      <ng-container *ngFor="let data of ordersData; let i = index;">
+        <tr class="z-40 w-full text-left text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
           <td class="p-4 font-medium">{{data.voucherID}}</td>
-          <td class="p-4 font-thin">{{data.dealID}}</td>
-          <td class="p-4 font-thin">{{data.amount}}</td>
-          <td class="p-4 font-thin">{{data.fee}}</td>
-          <td class="p-4 font-medium">{{data.netAmount}}</td>
+          <td class="p-4">
+            <span class="font-medium">{{data.deal}}</span>
+            <br>
+            <span class="font-light text-sm">{{data.dealSub}}</span>
+          </td>
+          <td class="p-4 font-medium">&euro;&nbsp;{{data.amount}}</td>
+          <td class="p-4 font-medium">&euro;&nbsp;{{data.fee}}</td>
+          <td class="p-4 font-medium">
+            <span class="font-medium">&euro;&nbsp;{{data.net}}</span>
+            <br>
+            <br>
+            <span class="font-light text-sm text-right">{{data.date}}</span>
+          </td>
           <ng-container *ngIf="data.status == 'Purchased'">
             <td class="p-4 font-thin">
               <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{data.status}}</span>
             </td>
           </ng-container>
-          <ng-container *ngIf="data.status == 'Redeemed'">
-            <td class="p-4 font-thin">
-              <span class="px-5 py-3 badge badge-light-warning rounded-2xl">{{data.status}}</span>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="data.status == 'Purchased'">
-            <td class="p-4 font-thin">
-              <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{data.status}}</span>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="data.status == 'Redeemed'">
-            <td class="p-4 font-thin">
-              <span class="px-5 py-3 badge badge-light-warning rounded-2xl">{{data.status}}</span>
-            </td>
-          </ng-container>
+          <td class="p-4 font-thin">
+            <span class="px-5 py-3 badge badge-secondary rounded-2xl font-thin">{{data.paymentStatus}}</span>
+          </td>
         </tr>
       </ng-container>
 
     </table>
   </div>
-</ng-container>
 
 <ng-template #t let-date let-focused="focused">
   <span class="custom-day"

@@ -28,6 +28,30 @@ export class ReviewsComponent implements OnInit {
       lowest: 3.0,
       average: 4.0,
       id: '6578906654efg445hy'
+    },
+    {
+      product: 'Earthly Massage',
+      reviews: 67,
+      highest: 5.0,
+      lowest: 3.0,
+      average: 4.0,
+      id: '6578906654efg445hy'
+    },
+    {
+      product: 'Firey Massage',
+      reviews: 47,
+      highest: 5.0,
+      lowest: 3.0,
+      average: 4.0,
+      id: '6578906654efg445hy'
+    },
+    {
+      product: 'Airy Massage',
+      reviews: 67,
+      highest: 5.0,
+      lowest: 3.0,
+      average: 4.0,
+      id: '6578906654efg445hy'
     }
   ];
 

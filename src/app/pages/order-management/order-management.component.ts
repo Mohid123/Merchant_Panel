@@ -1,11 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ApiResponse } from '@core/models/response.model';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { OrdersService } from '@pages/services/orders.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
-import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
 
 @Component({
   selector: 'app-order-management',
@@ -16,7 +13,52 @@ export class OrderManagementComponent implements OnInit {
 
   merchantID: string;
   showData: boolean;
-  ordersData: OrdersList;
+  ordersData: any[] = [
+    {
+      voucherID: '3234635',
+      deal: 'Heavenly Massage',
+      dealSub: "The best deal in town!",
+      amount: '3456',
+      fee: '34',
+      net: '321',
+      status: 'Purchased',
+      paymentStatus: 'Pending',
+      date: '23, April, 2022'
+    },
+    {
+      voucherID: '3234635',
+      deal: 'Heavenly Massage',
+      dealSub: "The best deal in town!",
+      amount: '3456',
+      fee: '34',
+      net: '321',
+      status: 'Purchased',
+      paymentStatus: 'Pending',
+      date: '23, April, 2022'
+    },
+    {
+      voucherID: '3234635',
+      deal: 'Heavenly Massage',
+      dealSub: "The best deal in town!",
+      amount: '3456',
+      fee: '34',
+      net: '321',
+      status: 'Purchased',
+      paymentStatus: 'Pending',
+      date: '23, April, 2022'
+    },
+    {
+      voucherID: '3234635',
+      deal: 'Heavenly Massage',
+      dealSub: "The best deal in town!",
+      amount: '3456',
+      fee: '34',
+      net: '321',
+      status: 'Purchased',
+      paymentStatus: 'Pending',
+      date: '23, April, 2022'
+    },
+  ];
   offset: number = 0;
   limit: number = 10;
   destroy$ = new Subject();
@@ -34,20 +76,9 @@ export class OrderManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.retreiveUserValue();
-    this.getOrdersByMerchant();
   }
 
-  getOrdersByMerchant() {
-    this.showData = false;
-    this.orderService.getAllOrdersByID(this.authService.merchantID, this.offset, this.limit)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res:ApiResponse<OrdersList>) => {
-      debugger
-      this.ordersData = res.data;
-      this.showData = true;
-      this.cf.detectChanges();
-    })
-  }
+
 
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
