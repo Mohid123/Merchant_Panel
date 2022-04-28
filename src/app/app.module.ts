@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReusableModalModule } from '@components/reusable-modal/reusable-modal.module';
@@ -56,7 +56,9 @@ import { FakeAPIService } from './_fake/fake-api.service';
     InlineSVGModule.forRoot(),
     NgbModule,
     SortModule,
-    ReusableModalModule
+    ReusableModalModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     // {

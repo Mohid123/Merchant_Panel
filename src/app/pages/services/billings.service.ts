@@ -4,6 +4,7 @@ import { ApiResponse } from '@core/models/response.model';
 import { ApiService } from '@core/services/api.service';
 import { Observable } from 'rxjs';
 import { BillingList } from 'src/app/modules/wizards/models/billing-list.model';
+import { KYC } from 'src/app/modules/wizards/models/kyc.model';
 
 type billingData = BillingList
 
@@ -16,15 +17,25 @@ export class BillingsService extends ApiService<billingData> {
     super(http)
   }
 
-  getAllBillings(offset: any, limit: any): Observable<ApiResponse<billingData>> {
-    limit = parseInt(limit) < 1 ? 10 : limit;
-    offset = parseInt(offset) < 0 ? 0 : offset;
-    return this.get(`/billing/getAllBillings?offset=${offset}&limit=${limit}`)
+  getAllInvoicesByMerchantID(merchantID: string, offset: any, limit: any, data: {
+    invoiceDate: string;
+    invoiceAmount: string;
+    dateFrom: string;
+    dateTo: string;
+  }): Observable<ApiResponse<billingData>> {
+    const param: any = {
+      offset: offset,
+      limit: limit
+    }
+    if(data.invoiceAmount) param.invoiceAmount = data.invoiceAmount;
+    if(data.invoiceDate) param.invoiceDate = data.invoiceDate;
+    if(data.dateFrom) param.dateFrom = data.dateFrom;
+    if(data.dateTo) param.dateTo = data.dateTo;
+    return this.get(`/invoices/getAllInvoicesByMerchant/${merchantID}`, param);
   }
 
-  getAllBillingsByMerchantID(merchantID:string, offset: any, limit: any): Observable<ApiResponse<billingData>> {
-    limit = parseInt(limit) < 1 ? 10 : limit;
-    offset = parseInt(offset) < 0 ? 0 : offset;
-    return this.get(`/billing/getBillingsByMerchant/${merchantID}?offset=${offset}&limit=${limit}`)
+  completeKYC(payload: KYC): Observable<ApiResponse<any>> {
+   return this.post(`/users/completeKYC`, payload);
   }
+
 }
