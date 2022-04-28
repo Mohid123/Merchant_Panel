@@ -2,7 +2,7 @@
   <div class="mb-3 text-3xl font-semibold text-left lg:mb-0">My Vouchers</div>
   <div class="input-icon">
     <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-gray-400 rounded fas fa-search fa-lg"></i></span>
-    <input placeholder="Search By Voucher ID" type="text" class="pl-12 text-gray-700 bg-gray-200 border-0 form-control">
+  <input appNumbersOnly [formControl]="searchControl" placeholder="Search By Voucher ID" type="text" class="pl-12 text-gray-700 bg-gray-200 border-0 form-control">
    </div>
 </div>
 

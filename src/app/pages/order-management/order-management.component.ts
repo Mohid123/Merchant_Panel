@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { OrdersService } from '@pages/services/orders.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
 
@@ -27,6 +28,8 @@ export class OrderManagementComponent implements OnInit {
   amount: number;
   status: string;
   paymentStatus: string;
+  searchControl = new FormControl();
+  noRecordFound: boolean = false;
 
 
   constructor(
@@ -42,6 +45,15 @@ export class OrderManagementComponent implements OnInit {
   ngOnInit(): void {
     this.authService.retreiveUserValue();
     this.getVouchersByMerchant();
+    this.searchControl.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(1000))
+      .subscribe(newValue => {
+        if (newValue.trim().length == 0 || newValue == "") {
+          this.noRecordFound = false;
+          this.getVouchersByMerchant();
+        } else {
+          this.searchVoucher(newValue);
+        }
+      });
   }
 
   getVouchersByMerchant() {
@@ -97,6 +109,28 @@ export class OrderManagementComponent implements OnInit {
     this.getVouchersByMerchant();
   }
 
+  searchVoucher(voucherID: number) {
+    this.orderService.searchByVoucherID(voucherID)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res:ApiResponse<any>) => {
+      if(!res.hasErrors() && res.data.length  > 0) {
+        debugger
+        if(res.data.length == 0) {
+          debugger
+          this.ordersData = res.data;
+          this.cf.detectChanges();
+          this.noRecordFound = true;
+        }
+        else if(res.data.length > 0){
+          debugger
+          this.ordersData = res.data;
+          this.cf.detectChanges();
+          this.noRecordFound = false;
+        }
+      }
+    })
+  }
+
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
@@ -119,7 +153,6 @@ export class OrderManagementComponent implements OnInit {
   isRange(date: NgbDate) {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
-
 
   ngOnDestroy() {
     this.destroy$.complete();

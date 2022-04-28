@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReusableModalModule } from '@components/reusable-modal/reusable-modal.module';
 import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.module';
+import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
 import { SortModule } from '@core/directives/sort/sort.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -58,7 +59,8 @@ import { FakeAPIService } from './_fake/fake-api.service';
     SortModule,
     ReusableModalModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NumberOnlyModule
   ],
   providers: [
     // {

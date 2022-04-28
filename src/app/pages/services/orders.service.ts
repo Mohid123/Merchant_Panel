@@ -35,4 +35,9 @@ export class OrdersService extends ApiService<OrdersData> {
     if(data.dateTo) param.dateTo = data.dateTo
     return this.get(`/voucher/getAllVouchers/${merchantID}`, param);
   }
+
+
+  searchByVoucherID(voucherID: number): Observable<ApiResponse<any>> {
+   return this.get(`/voucher/searchByVoucherId/${voucherID}`);
+  }
 }
