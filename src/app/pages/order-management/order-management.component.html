@@ -37,12 +37,12 @@
       <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md cursor-pointer xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <ngb-datepicker
-          #dp
-          (dateSelect)="onDateSelection($event)"
-          [displayMonths]="1"
-          [dayTemplate]="t"
-          outsideDays="hidden"
-          [footerTemplate]="footerTemplate">
+        #dp
+        (dateSelect)="onDateSelection($event)"
+        [displayMonths]="1"
+        [dayTemplate]="t"
+        outsideDays="hidden"
+        [footerTemplate]="footerTemplate">
         </ngb-datepicker>
       </div>
     </div>
@@ -111,6 +111,7 @@
     {{ date.day }}
   </span>
 </ng-template>
+
 
 <!--Calendar Footer TEMPLATE-->
 <ng-template #footerTemplate>
