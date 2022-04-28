@@ -51,7 +51,7 @@ export class BillingsComponent implements OnInit {
     private calendar: NgbCalendar
     ) {
       this.fromDate = this.calendar.getToday();
-      this.toDate = this.calendar.getNext(calendar.getToday(), 'd', 0);
+      this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 0);
     }
 
   ngOnInit(): void {
@@ -176,8 +176,8 @@ export class BillingsComponent implements OnInit {
 
   resetFilters() {
     this.offset = 0;
-    this.fromDate = '';
-    this.toDate = '';
+    this.fromDate = this.calendar.getToday();
+    this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 0);
     this.getInvoicesByMerchant();
   }
 

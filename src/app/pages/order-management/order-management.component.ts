@@ -37,10 +37,10 @@ export class OrderManagementComponent implements OnInit {
     private orderService: OrdersService,
     private cf: ChangeDetectorRef,
     private authService: AuthService,
-    calendar: NgbCalendar
+    private calendar: NgbCalendar
     ) {
-      this.fromDate = calendar.getToday();
-      this.toDate = calendar.getNext(calendar.getToday(), 'd', 0);
+      this.fromDate = this.calendar.getToday();
+      this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 0);
     }
 
   ngOnInit(): void {
@@ -168,8 +168,8 @@ export class OrderManagementComponent implements OnInit {
 
   resetFilters() {
     this.offset = 0;
-    this.fromDate = '';
-    this.toDate = '';
+    this.fromDate = this.calendar.getToday();
+    this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 0);
     this.getVouchersByMerchant();
   }
 
