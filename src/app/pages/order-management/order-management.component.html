@@ -32,13 +32,24 @@
     </div>
   </div>
   <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
-    <div ngbDropdown id="dropdownBasic1" display="dynamic" class="m-2">
-      <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
-      <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
+    <div ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
+      <button class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
+      <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md cursor-pointer xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+        <ngb-datepicker
+          #dp
+          (dateSelect)="onDateSelection($event)"
+          [displayMonths]="1"
+          [dayTemplate]="t"
+          outsideDays="hidden"
+          [footerTemplate]="footerTemplate">
         </ngb-datepicker>
       </div>
+    </div>
+
+    <div class="m-2">
+      <button class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4"><i class="mr-3 fas fa-retweet"></i>Reset Filters</button>
+      <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md cursor-pointer xl:hidden"><i class="fas fa-retweet"></i></button>
     </div>
   </div>
 </div>
@@ -53,19 +64,17 @@
       <thead class="text-center text-black bg-gray-300 rounded-lg">
         <th class="p-4 font-normal cursor-pointer customary">Voucher ID</th>
         <th class="p-4 font-normal cursor-pointer">Deal&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer" [appSort]="ordersData?.data" data-order="desc" data-name="amount">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer" [appSort]="ordersData?.data" data-order="desc" data-name="fee">Fee&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer" [appSort]="ordersData?.data" data-order="desc" data-name="netAmount">Net&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal cursor-pointer">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-normal cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-normal cursor-pointer">Payment Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
       </thead>
       <ng-container *ngFor="let data of ordersData?.data; let i = index;">
         <tr class="z-40 w-full text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
+
           <td class="p-4 font-medium">{{data.voucherID}}</td>
-          <td class="p-4 font-thin">{{data.dealID}}</td>
-          <td class="p-4 font-thin">{{data.amount}}</td>
-          <td class="p-4 font-thin">{{data.fee}}</td>
-          <td class="p-4 font-medium">{{data.netAmount}}</td>
+          <td class="p-4 font-thin">{{data.deal}}</td>
+          <td class="p-4 font-thin">&euro;&nbsp;{{data.amount}}</td>
+
           <ng-container *ngIf="data.status == 'Purchased'">
             <td class="p-4 font-thin">
               <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{data.status}}</span>
@@ -76,16 +85,15 @@
               <span class="px-5 py-3 badge badge-light-warning rounded-2xl">{{data.status}}</span>
             </td>
           </ng-container>
-          <ng-container *ngIf="data.status == 'Purchased'">
+          <ng-container *ngIf="data.status == 'Expired'">
             <td class="p-4 font-thin">
-              <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{data.status}}</span>
+              <span class="px-5 py-3 badge badge-light-danger rounded-2xl">{{data.status}}</span>
             </td>
           </ng-container>
-          <ng-container *ngIf="data.status == 'Redeemed'">
-            <td class="p-4 font-thin">
-              <span class="px-5 py-3 badge badge-light-warning rounded-2xl">{{data.status}}</span>
-            </td>
-          </ng-container>
+
+          <td class="p-4 font-thin">
+            <span class="px-5 py-3 badge badge-secondary rounded-2xl">{{data.paymentStatus}}</span>
+          </td>
         </tr>
       </ng-container>
 
@@ -102,6 +110,13 @@
         (mouseleave)="hoveredDate = null">
     {{ date.day }}
   </span>
+</ng-template>
+
+<!--Calendar Footer TEMPLATE-->
+<ng-template #footerTemplate>
+  <hr class="my-0">
+  <button class="m-2 btn btn-primary btn-sm float-start" (click)="filterByDate(fromDate, toDate)">Apply Filter</button>
+  <button class="mt-2 btn btn-secondary btn-sm float-end">Close</button>
 </ng-template>
 
 

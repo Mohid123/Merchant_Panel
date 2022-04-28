@@ -174,7 +174,8 @@ export class BillingsComponent implements OnInit {
   }
 
   ngOnDestroy() {
-
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
 

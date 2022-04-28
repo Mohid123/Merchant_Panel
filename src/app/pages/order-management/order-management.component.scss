@@ -30,6 +30,16 @@
   overflow-x: scroll;
 }
 
+::ng-deep .ngb-dp-weekday {
+  color: aqua!important;
+  font-family: Arial, Helvetica, sans-serif!important;
+  font-style: normal!important;
+}
+
+::ng-deep .form-select {
+  margin-left: 2px;
+}
+
 // .half-circle {
 //   width: 25px;
 //   height: 20px;

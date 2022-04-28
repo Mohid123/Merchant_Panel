@@ -20,9 +20,13 @@ export class OrderManagementComponent implements OnInit {
   offset: number = 0;
   limit: number = 10;
   destroy$ = new Subject();
-  hoveredDate: NgbDate | null = null;
-  fromDate: NgbDate;
-  toDate: NgbDate | null = null;
+  hoveredDate: NgbDate | any = null;
+  fromDate: NgbDate | any;
+  toDate: NgbDate | any = null;
+  deal: string;
+  amount: number;
+  status: string;
+  paymentStatus: string;
 
 
   constructor(
@@ -30,23 +34,67 @@ export class OrderManagementComponent implements OnInit {
     private cf: ChangeDetectorRef,
     private authService: AuthService,
     calendar: NgbCalendar
-    ) { }
+    ) {
+      this.fromDate = calendar.getToday();
+      this.toDate = calendar.getNext(calendar.getToday(), 'd', 0);
+    }
 
   ngOnInit(): void {
     this.authService.retreiveUserValue();
-    this.getOrdersByMerchant();
+    this.getVouchersByMerchant();
   }
 
-  getOrdersByMerchant() {
+  getVouchersByMerchant() {
     this.showData = false;
-    this.orderService.getAllOrdersByID(this.authService.merchantID, this.offset, this.limit)
+    const params: any = {
+      deal: this.deal,
+      amount: this.amount,
+      status: this.status,
+      paymentStatus: this.paymentStatus,
+      dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
+      dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
+    }
+
+    this.orderService.getVouchersByMerchantID(this.authService.merchantID, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
-    .subscribe((res:ApiResponse<OrdersList>) => {
-      debugger
-      this.ordersData = res.data;
-      this.showData = true;
-      this.cf.detectChanges();
+    .subscribe((res: ApiResponse<OrdersList>) => {
+      if(!res.hasErrors()) {
+        this.ordersData = res.data;
+        this.cf.detectChanges();
+        this.showData = true;
+      }
     })
+  }
+
+  filterByDeal(deal: string) {
+    this.offset = 0;
+    this.deal = deal;
+    this.getVouchersByMerchant();
+  }
+
+  filterByAmount(amount: number) {
+    this.offset = 0;
+    this.amount = amount;
+    this.getVouchersByMerchant();
+  }
+
+  filterByStatus(status: string) {
+    this.offset = 0;
+    this.status = status;
+    this.getVouchersByMerchant();
+  }
+
+  filterByPaymentStatus(paymentStatus: string) {
+    this.offset = 0;
+    this.paymentStatus = paymentStatus;
+    this.getVouchersByMerchant();
+  }
+
+  filterByDate(dateFrom: number, dateTo: number) {
+    this.offset = 0;
+    this.fromDate = dateFrom;
+    this.toDate = dateTo;
+    this.getVouchersByMerchant();
   }
 
   onDateSelection(date: NgbDate) {
@@ -71,6 +119,7 @@ export class OrderManagementComponent implements OnInit {
   isRange(date: NgbDate) {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
+
 
   ngOnDestroy() {
     this.destroy$.complete();

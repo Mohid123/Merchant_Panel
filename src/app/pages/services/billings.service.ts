@@ -20,8 +20,8 @@ export class BillingsService extends ApiService<billingData> {
   getAllInvoicesByMerchantID(merchantID: string, offset: any, limit: any, data: {
     invoiceDate: string;
     invoiceAmount: string;
-    dateFrom: string;
-    dateTo: string;
+    dateFrom: number;
+    dateTo: number;
   }): Observable<ApiResponse<billingData>> {
     const param: any = {
       offset: offset,
