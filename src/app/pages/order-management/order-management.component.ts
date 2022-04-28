@@ -166,6 +166,13 @@ export class OrderManagementComponent implements OnInit {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
 
+  resetFilters() {
+    this.offset = 0;
+    this.fromDate = '';
+    this.toDate = '';
+    this.getVouchersByMerchant();
+  }
+
   ngOnDestroy() {
     this.destroy$.complete();
     this.destroy$.unsubscribe();

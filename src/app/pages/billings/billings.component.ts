@@ -48,10 +48,10 @@ export class BillingsComponent implements OnInit {
     private cf: ChangeDetectorRef,
     private authService: AuthService,
     private fb: FormBuilder,
-    calendar: NgbCalendar
+    private calendar: NgbCalendar
     ) {
-      this.fromDate = calendar.getToday();
-      this.toDate = calendar.getNext(calendar.getToday(), 'd', 0);
+      this.fromDate = this.calendar.getToday();
+      this.toDate = this.calendar.getNext(calendar.getToday(), 'd', 0);
     }
 
   ngOnInit(): void {
@@ -171,6 +171,14 @@ export class BillingsComponent implements OnInit {
 
   async closeModal() {
     return await this.modal.close();
+  }
+
+
+  resetFilters() {
+    this.offset = 0;
+    this.fromDate = '';
+    this.toDate = '';
+    this.getInvoicesByMerchant();
   }
 
   ngOnDestroy() {
