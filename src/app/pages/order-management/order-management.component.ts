@@ -30,6 +30,7 @@ export class OrderManagementComponent implements OnInit {
   paymentStatus: string;
   searchControl = new FormControl();
   noRecordFound: boolean = false;
+  statsData: any;
 
 
   constructor(
@@ -127,6 +128,17 @@ export class OrderManagementComponent implements OnInit {
           this.cf.detectChanges();
           this.noRecordFound = false;
         }
+      }
+    })
+  }
+
+  getMerchantStatsForVouchers() {
+    this.orderService.getMerchantStatistics(this.authService.merchantID, this.offset, this.limit)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.statsData = res.data;
+        this.cf.detectChanges();
       }
     })
   }

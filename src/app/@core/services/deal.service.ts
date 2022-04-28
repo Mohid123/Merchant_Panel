@@ -27,21 +27,4 @@ export class DealService extends ApiService<deal> {
   getTopRatedDeals(merchantID: string): Observable<ApiResponse<deal>> {
     return this.get(`/deal/getTopRatedDeals/${merchantID}`);
   }
-
-  getDealFilters(offset: any, limit: any, data: {
-    title: string;
-    price: string;
-    startDate: string;
-    endDate: string;
-  }): Observable<ApiResponse<any>> {
-    const param: any = {
-      offset: offset,
-      limit: limit
-    }
-    if(data.price) param.price = data.price;
-    if(data.title) param.title = data.title;
-    if(data.startDate) param.startDate = data.startDate;
-    if(data.endDate) param.endDate = data.endDate
-    return this.get(`/deal/getDeals`, param);
-  }
 }

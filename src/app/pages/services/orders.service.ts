@@ -40,4 +40,12 @@ export class OrdersService extends ApiService<OrdersData> {
   searchByVoucherID(voucherID: number): Observable<ApiResponse<any>> {
    return this.get(`/voucher/searchByVoucherId/${voucherID}`);
   }
+
+  getMerchantStatistics(merchantID: string, offset: any, limit: any): Observable<ApiResponse<any>> {
+    const param: any = {
+      offset: offset,
+      limit: limit
+    }
+    return this.get(`/deal/getDealsReviewStatsByMerchant/${merchantID}`, param);
+  }
 }
