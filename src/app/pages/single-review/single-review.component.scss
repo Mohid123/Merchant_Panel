@@ -3,6 +3,11 @@
   overflow-x: scroll;
 }
 
+.dropdown-toggle::after {
+  display: none;
+}
+
+
 .circle {
   border-radius: 50%;
   width: 34px;
