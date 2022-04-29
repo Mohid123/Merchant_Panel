@@ -10,6 +10,7 @@ import { NumberOnlyModule } from '@core/directives/number-only/number-only.modul
 import { SortModule } from '@core/directives/sort/sort.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HotToastModule } from '@ngneat/hot-toast';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InlineSVGModule } from 'ng-inline-svg';
@@ -62,7 +63,8 @@ import { FakeAPIService } from './_fake/fake-api.service';
     ReactiveFormsModule,
     FormsModule,
     NumberOnlyModule,
-    PendingSkeletonModule
+    PendingSkeletonModule,
+    HotToastModule.forRoot()
   ],
   providers: [
     // {

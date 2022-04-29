@@ -85,15 +85,13 @@ export class AuthService extends ApiService<AuthApiData> {
     });
   }
 
-  registration(user: RegisterModel): Observable<any> {
+  registration(user: RegisterModel) {
+    console.log('registration api in auth:',);
     this.isLoadingSubject.next(true);
-    return this.authHttpService.register(user).pipe(
-      map(() => {
+    return this.post('/auth/signup',user).pipe(
+      map((user:ApiResponse<SignInResponse>) => {
         this.isLoadingSubject.next(false);
-      }),
-      catchError((err) => {
-        console.error('err', err);
-        return of(undefined);
+        return user;
       }),
       finalize(() => this.isLoadingSubject.next(false))
     );

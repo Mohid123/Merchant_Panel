@@ -105,6 +105,7 @@
       <table class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
 
         <tbody>
+          <ng-container >
           <tr>
             <td class="day">
                 <div class="d-flex flex-column"><a href="#"> Sunday </a></div>
@@ -134,186 +135,8 @@
             </td>
 
           </tr>
+        </ng-container>
 
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Monday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Tuesday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Wednesday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Thursday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Friday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Saturday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <span>-</span>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
 
         </tbody>
       </table>
@@ -330,7 +153,7 @@
   <div class="px-12 card-body" style="background-color: white;">
     <form class="form row">
       <div class="pb-5">
-       <ckeditor [editor]="Editor" [config]="config" formControlName="termsAndCondition" name="termsAndCondition"></ckeditor>
+       <ckeditor [editor]="Editor" [config]="config" name="termsAndCondition"></ckeditor>
       </div>
 
       <div class="mt-6 mb-6 card-title">

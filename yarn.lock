@@ -221,7 +221,7 @@
     "symbol-observable" "4.0.0"
     "uuid" "8.3.2"
 
-"@angular/common@^12.0.0", "@angular/common@^12.0.0 || ^13.0.0-0", "@angular/common@>=10.0.0", "@angular/common@>=8.0.0", "@angular/common@>=9.0.0", "@angular/common@>=9.0.0 <13.0.0", "@angular/common@~12.1.2", "@angular/common@12.1.5", "@angular/common@9 - 13":
+"@angular/common@^12.0.0", "@angular/common@^12.0.0 || ^13.0.0-0", "@angular/common@>= 9.1.13 < 13", "@angular/common@>=10.0.0", "@angular/common@>=8.0.0", "@angular/common@>=9.0.0", "@angular/common@>=9.0.0 <13.0.0", "@angular/common@~12.1.2", "@angular/common@12.1.5", "@angular/common@9 - 13":
   "integrity" "sha512-xs33eMhV79S85nbH5FVmujKY3OoczloW9oOGRe5tCzxsDDv85hadrB8Mbm3qI5WQ99DNk8M2+P0MW6uiyCAWkQ=="
   "resolved" "https://registry.npmjs.org/@angular/common/-/common-12.1.5.tgz"
   "version" "12.1.5"
@@ -255,7 +255,7 @@
   dependencies:
     "tslib" "^2.2.0"
 
-"@angular/core@^12.0.0", "@angular/core@^12.0.0 || ^13.0.0-0", "@angular/core@>=10.0.0", "@angular/core@>=8.0.0", "@angular/core@>=9.0.0", "@angular/core@>=9.0.0 <13.0.0", "@angular/core@~12.1.2", "@angular/core@12.1.5", "@angular/core@9 - 13":
+"@angular/core@^12.0.0", "@angular/core@^12.0.0 || ^13.0.0-0", "@angular/core@>= 9.1.13 < 13", "@angular/core@>=10.0.0", "@angular/core@>=8.0.0", "@angular/core@>=9.0.0", "@angular/core@>=9.0.0 <13.0.0", "@angular/core@~12.1.2", "@angular/core@12.1.5", "@angular/core@9 - 13":
   "integrity" "sha512-okXnhAPxfblAWSe5M/IqrSATi+ul83a9o9PWOTFR/XCVcbx+neE2IwIr1dIDKBKj91b1CFalLS+uOSkN05PNkA=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-12.1.5.tgz"
   "version" "12.1.5"
@@ -1562,44 +1562,44 @@
   "version" "5.15.4"
 
 "@fullcalendar/angular@^5.10.2":
-  "integrity" "sha512-VullPnzbs2eoPZi8JGPvOYEDRx0juOUGXQCMNgAxAylxdhMDi3wt5LV2uirXUIFpjgLHOxha2c9sVU0oqAPhqA=="
-  "resolved" "https://registry.npmjs.org/@fullcalendar/angular/-/angular-5.10.2.tgz"
-  "version" "5.10.2"
+  "integrity" "sha512-jj/VrtDwWkaCeXM30OYWjgvHtC4HUP4KBBcgctcLu2MNJ2t35MMIwGBA22ATOswpa9vjqRxLa6lrWv9W66bXzA=="
+  "resolved" "https://registry.npmjs.org/@fullcalendar/angular/-/angular-5.11.0.tgz"
+  "version" "5.11.0"
   dependencies:
-    "@fullcalendar/core" "~5.10.1"
+    "@fullcalendar/core" "~5.11.0"
     "fast-deep-equal" "^3.1.1"
     "tslib" "^2.0.0"
 
-"@fullcalendar/common@~5.10.1":
-  "integrity" "sha512-EumKIJcQTvQdTs75/9dmeREFgjcRVWzqHJS1Xvlz5mNsmB+w9EINCHETRjChtAQg1WD/lTQyVj4sHsKO7vCMSw=="
-  "resolved" "https://registry.npmjs.org/@fullcalendar/common/-/common-5.10.1.tgz"
-  "version" "5.10.1"
+"@fullcalendar/common@~5.11.0":
+  "integrity" "sha512-gWjbMAnN1u73Oqlgjbyky7i+3bY0hvFSnGT0YBPx44n874AkQa9e9OU12PMLTMOPy0tXPb8DEwRelFQ7CJNbcw=="
+  "resolved" "https://registry.npmjs.org/@fullcalendar/common/-/common-5.11.0.tgz"
+  "version" "5.11.0"
   dependencies:
     "tslib" "^2.1.0"
 
-"@fullcalendar/core@~5.10.1":
-  "integrity" "sha512-8sVuC6ywXV+cxqsqTZaR1hgUqeyjVed20NyZ7lGW9AY0kma1GIEwLgqPS5Q6uVhHyin68lmgecKfJCwhxENE8w=="
-  "resolved" "https://registry.npmjs.org/@fullcalendar/core/-/core-5.10.1.tgz"
-  "version" "5.10.1"
+"@fullcalendar/core@~5.11.0":
+  "integrity" "sha512-cF/d9LuJb/6xw14ms0urv1H4BiA70c4jrufe/EuVzLR6qTDpK92IZ3JK7GVtZtzptfTYZ/NQgDV9YCzIaO9Blw=="
+  "resolved" "https://registry.npmjs.org/@fullcalendar/core/-/core-5.11.0.tgz"
+  "version" "5.11.0"
   dependencies:
-    "@fullcalendar/common" "~5.10.1"
+    "@fullcalendar/common" "~5.11.0"
     "preact" "^10.0.5"
     "tslib" "^2.1.0"
 
 "@fullcalendar/daygrid@^5.10.1":
-  "integrity" "sha512-sfUMP+rew0krsBffgNcWWKhBCiyytGfRKZJoc64E8ohX7VWjPcPZuB1xgO5U4wPLmNkT0rZiHoGeQGTXw1+ZKg=="
-  "resolved" "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-5.10.1.tgz"
-  "version" "5.10.1"
+  "integrity" "sha512-Ybh/dfHn/VL0qOVIRVyJc9I8oYiqqHl6xQONk8xXCe456QbPzAQLsAxpLLJLH+3smWNCfoQgvDKzR9e9XTzLMQ=="
+  "resolved" "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-5.11.0.tgz"
+  "version" "5.11.0"
   dependencies:
-    "@fullcalendar/common" "~5.10.1"
+    "@fullcalendar/common" "~5.11.0"
     "tslib" "^2.1.0"
 
 "@fullcalendar/interaction@^5.10.1":
-  "integrity" "sha512-H1g1QeXg7yXtUcKmVtfg7uzm5R5ElFTvYniiXU+8kJda69IDg7Lee+Y7UDv5dvLb5/HxO86RhPVxRtcOQ8XdXw=="
-  "resolved" "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-5.10.1.tgz"
-  "version" "5.10.1"
+  "integrity" "sha512-9XTI5+ydqrSX+IL3iWgKBURXfnPewn57Tmsv9mJZhiqrUEF7/+qtftLoKEAc8ZdWk/+01aBe67PFL16uPXj2Jg=="
+  "resolved" "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-5.11.0.tgz"
+  "version" "5.11.0"
   dependencies:
-    "@fullcalendar/common" "~5.10.1"
+    "@fullcalendar/common" "~5.11.0"
     "tslib" "^2.1.0"
 
 "@humanwhocodes/config-array@^0.5.0":
@@ -1647,6 +1647,20 @@
   "version" "11.0.0-beta.2"
   dependencies:
     "tslib" "^2.1.0"
+
+"@ngneat/hot-toast@^3.4.3":
+  "integrity" "sha512-VZjk+bGqEpKTi1R0gPuYTDeezVLjqH1g1Ks2EQ3E9UeTVg1lx1RGG0oX1P8uPj/rMBmxPOeE73SUyQNOfcVimw=="
+  "resolved" "https://registry.npmjs.org/@ngneat/hot-toast/-/hot-toast-3.4.3.tgz"
+  "version" "3.4.3"
+  dependencies:
+    "tslib" "^2.0.0"
+
+"@ngneat/overview@^2.0.2":
+  "integrity" "sha512-OV9FRZtCddgNWjGsqFyRtdRo4iMBwEa9KsE4Wy/Ge96b10o6QBMNKj6S4YcfTqbqSWpvZoH0B/3JmkifNGtm8w=="
+  "resolved" "https://registry.npmjs.org/@ngneat/overview/-/overview-2.1.1.tgz"
+  "version" "2.1.1"
+  dependencies:
+    "tslib" "^2.0.0"
 
 "@ngtools/webpack@12.1.4":
   "integrity" "sha512-hXc8dTnRfDB7o1Pd7a07aw0rjGmVLXU28+cTHQJliosgD3obcjfZ4QPA0k97vlQMtqVJawuShRfyiUKrpsJf8Q=="
@@ -7982,9 +7996,9 @@
     "source-map-js" "^0.6.2"
 
 "preact@^10.0.5":
-  "integrity" "sha512-i+LXM6JiVjQXSt2jG2vZZFapGpCuk1fl8o6ii3G84MA3xgj686FKjs4JFDkmUVhtxyq21+4ay74zqPykz9hU6w=="
-  "resolved" "https://registry.npmjs.org/preact/-/preact-10.6.5.tgz"
-  "version" "10.6.5"
+  "integrity" "sha512-MufnRFz39aIhs9AMFisonjzTud1PK1bY+jcJLo6m2T9Uh8AqjD77w11eAAawmjUogoGOnipECq7e/1RClIKsxg=="
+  "resolved" "https://registry.npmjs.org/preact/-/preact-10.7.1.tgz"
+  "version" "10.7.1"
 
 "prelude-ls@^1.2.1":
   "integrity" "sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g=="
