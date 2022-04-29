@@ -44,8 +44,8 @@ export class OrderManagementComponent implements OnInit {
     private calendar: NgbCalendar,
     private billingService: BillingsService
     ) {
-      this.fromDate = this.calendar.getToday();
-      this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 1);
+      this.fromDate = '';
+      this.toDate = '';
     }
 
   ngOnInit(): void {
@@ -145,7 +145,7 @@ export class OrderManagementComponent implements OnInit {
           this.cf.detectChanges();
         }
         else {
-          this.ordersData = res.data;
+          this.ordersData = res;
           this.noRecordFound = false;
           this.cf.detectChanges();
         }
@@ -189,8 +189,8 @@ export class OrderManagementComponent implements OnInit {
 
   resetFilters() {
     this.offset = 0;
-    this.fromDate = this.calendar.getToday();
-    this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 0);
+    this.fromDate = '';
+    this.toDate = '';
     this.getVouchersByMerchant();
   }
 
