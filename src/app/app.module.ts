@@ -61,7 +61,7 @@ import { FakeAPIService } from './_fake/fake-api.service';
     ReusableModalModule,
     ReactiveFormsModule,
     FormsModule,
-    NumberOnlyModule
+    NumberOnlyModule,
     HotToastModule.forRoot(),
   ],
   providers: [
