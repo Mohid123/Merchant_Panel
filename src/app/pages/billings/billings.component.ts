@@ -4,6 +4,7 @@ import { ReusableModalComponent } from '@components/reusable-modal/reusable-moda
 import { ModalConfig } from '@core/models/modal.config';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { HotToastService } from '@ngneat/hot-toast';
 import { BillingsService } from '@pages/services/billings.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -51,7 +52,8 @@ export class BillingsComponent implements OnInit {
     private cf: ChangeDetectorRef,
     private authService: AuthService,
     private fb: FormBuilder,
-    private calendar: NgbCalendar
+    private calendar: NgbCalendar,
+    private toast: HotToastService
     ) {
       this.fromDate = this.calendar.getToday();
       this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 0);
@@ -96,10 +98,30 @@ export class BillingsComponent implements OnInit {
     .pipe((takeUntil(this.destroy$)))
     .subscribe((res:ApiResponse<KYC>) => {
       if(!res.hasErrors()) {
-        alert('Success'); // will replace with toast
+        this.toast.success('KYC Submitted Successfully', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        })
       }
       else {
-        alert('Failed')
+        this.toast.error('Failed to submit KYC', {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          }
+        })
       }
     })
   }
@@ -109,7 +131,7 @@ export class BillingsComponent implements OnInit {
     this.billingService.getMerchantStats(this.authService.merchantID)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<MerchantStats>) => {
-      debugger
+      // debugger
       if(!res.hasErrors()) {
         this.billingStats = res.data;
         this.statsLoading = true;
@@ -126,15 +148,15 @@ export class BillingsComponent implements OnInit {
       dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
     }
-    // debugger
+    debugger
     this.billingService.getAllInvoicesByMerchantID(this.authService.merchantID, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
-      // debugger
+      debugger
       if(!res.hasErrors()) {
         this.billingsData = res.data;
-        this.cf.detectChanges();
         this.showData = true;
+        this.cf.detectChanges();
       }
     })
   }

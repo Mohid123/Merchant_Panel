@@ -33,7 +33,7 @@ export class OrdersService extends ApiService<OrdersData> {
     if(data.paymentStatus) param.paymentStatus = data.paymentStatus;
     if(data.dateFrom) param.dateFrom = data.dateFrom;
     if(data.dateTo) param.dateTo = data.dateTo
-    return this.get(`/voucher/getAllVouchers/${merchantID}`, param);
+    return this.get(`/voucher/getAllVouchersByMerchantID/${merchantID}`, param);
   }
 
 

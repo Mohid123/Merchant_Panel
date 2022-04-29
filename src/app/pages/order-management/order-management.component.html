@@ -2,7 +2,7 @@
   <div class="mb-3 text-3xl font-semibold text-left lg:mb-0">My Vouchers</div>
   <div class="input-icon">
     <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-gray-400 rounded fas fa-search fa-lg"></i></span>
-  <input appNumbersOnly [formControl]="searchControl" placeholder="Search By Voucher ID" type="text" class="pl-12 text-gray-700 bg-gray-200 border-0 form-control">
+    <input [formControl]="searchControl" placeholder="Search By Voucher ID" type="text" class="pl-12 text-gray-700 bg-gray-200 border-0 form-control">
    </div>
 </div>
 
@@ -78,7 +78,7 @@
         <tr class="z-40 w-full text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
 
           <td class="p-4 font-medium">{{data.voucherID}}</td>
-          <td class="p-4 font-thin">{{data.deal}}</td>
+          <td class="p-4 font-thin">{{data.dealName}}</td>
           <td class="p-4 font-thin">&euro;&nbsp;{{data.amount}}</td>
 
           <ng-container *ngIf="data.status == 'Purchased'">
@@ -94,6 +94,11 @@
           <ng-container *ngIf="data.status == 'Expired'">
             <td class="p-4 font-thin">
               <span class="px-5 py-3 badge badge-light-danger rounded-2xl">{{data.status}}</span>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="data.status == 'UnPublished'">
+            <td class="p-4 font-thin">
+              <span class="px-5 py-3 badge badge-light-info rounded-2xl">{{data.status}}</span>
             </td>
           </ng-container>
 

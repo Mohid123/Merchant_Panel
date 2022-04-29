@@ -1,9 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ApiResponse } from '@core/models/response.model';
 import { ReviewsService } from '@pages/services/reviews.service';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
-import { ReviewList } from 'src/app/modules/wizards/models/review-list.model';
+import { Reviews } from './../../modules/wizards/models/reviews.model';
 
 @Component({
   selector: 'app-single-review',
@@ -12,7 +14,7 @@ import { ReviewList } from 'src/app/modules/wizards/models/review-list.model';
 })
 export class SingleReviewComponent implements OnInit {
 
-  public reviewData: ReviewList;
+  public reviewData: Reviews;
   showData: boolean;
   offset: number = 0;
   limit: number = 10;
@@ -27,15 +29,24 @@ export class SingleReviewComponent implements OnInit {
     private authService: AuthService
   ) {
     console.log('this.activatedRoute.snapshot.params:',this.activatedRoute.snapshot.params);
-    this.reviewId = this.activatedRoute.snapshot.params['reviewId'];
    }
 
   ngOnInit(): void {
-    this.authService.retreiveUserValue()
+    this.reviewId = this.activatedRoute.snapshot.params['dealId'];
+    this.authService.retreiveUserValue();
+    this.getReviewsByMerchant();
   }
 
-  getReviewssByMerchant() {
+  getReviewsByMerchant() {
     this.showData = false;
+    this.reviewService.getDealReviews(this.reviewId, this.offset, this.limit)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<Reviews>) => {
+      debugger
+      this.reviewData = res.data;
+      this.showData = true;
+      this.cf.detectChanges();
+    })
   }
 
 

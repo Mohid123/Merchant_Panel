@@ -45,7 +45,7 @@ export class OrderManagementComponent implements OnInit {
     private billingService: BillingsService
     ) {
       this.fromDate = this.calendar.getToday();
-      this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 0);
+      this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 1);
     }
 
   ngOnInit(): void {
@@ -54,7 +54,9 @@ export class OrderManagementComponent implements OnInit {
     this.getMerchantStats();
     this.searchControl.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(1000))
       .subscribe(newValue => {
-        if (newValue.trim().length == 0 || newValue == "") {
+        debugger
+        if (newValue.trim().length == 0 || newValue == null) {
+          debugger
           this.noRecordFound = false;
           this.getVouchersByMerchant();
         } else {
@@ -77,6 +79,7 @@ export class OrderManagementComponent implements OnInit {
     this.orderService.getVouchersByMerchantID(this.authService.merchantID, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<OrdersList>) => {
+      debugger
       if(!res.hasErrors()) {
         this.ordersData = res.data;
         this.showData = true;
@@ -90,7 +93,7 @@ export class OrderManagementComponent implements OnInit {
     this.billingService.getMerchantStats(this.authService.merchantID)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<MerchantStats>) => {
-      debugger
+      // debugger
       if(!res.hasErrors()) {
         this.voucherStats = res.data;
         this.statsLoading = true;
@@ -134,19 +137,17 @@ export class OrderManagementComponent implements OnInit {
     this.orderService.searchByVoucherID(voucherID)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<any>) => {
-      if(!res.hasErrors() && res.data.length  > 0) {
-        debugger
-        if(res.data.length == 0) {
-          debugger
+      debugger
+      if(!res.hasErrors()) {
+        if(!res.data) {
           this.ordersData = res.data;
-          this.cf.detectChanges();
           this.noRecordFound = true;
-        }
-        else if(res.data.length > 0){
-          debugger
-          this.ordersData = res.data;
           this.cf.detectChanges();
+        }
+        else {
+          this.ordersData = res.data;
           this.noRecordFound = false;
+          this.cf.detectChanges();
         }
       }
     })
