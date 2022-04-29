@@ -1,9 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { AuthService } from 'src/app/modules/auth';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ReusableModalComponent } from './../../../components/reusable-modal/reusable-modal/reusable-modal.component';
+import { BusinessHours, initalBusinessHours } from './../../auth/models/business-hours.modal';
 
 @Component({
   selector: 'app-bussiness-details',
@@ -15,6 +17,8 @@ export class BussinessDetailsComponent implements OnInit {
   businessForm: FormGroup;
   config: any;
   public Editor = ClassicEditor
+
+  businessHoursForm: FormGroup;
 
   @ViewChild('companyModal') private companyModal: ReusableModalComponent;
 
@@ -41,11 +45,47 @@ export class BussinessDetailsComponent implements OnInit {
    }
 
 
-  constructor(private cdr: ChangeDetectorRef, private fb: FormBuilder) {
+  constructor(
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef,
+    private fb: FormBuilder,
+  ) {
     const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
-    this.unsubscribe.push(loadingSubscr);
+    this.unsubscribe.push(loadingSubscr);7
+
+    const user = this.authService.currentUserValue;
+    const businessHours = !!user?.businessHours.length ? user?.businessHours : initalBusinessHours;
+    console.log('businessHours:',businessHours);
+    this.businessHoursForm = this.fb.group({
+      id: [user?.id],
+      businessHours: this.fb.array([])
+    });
+
+     businessHours.forEach(businessHour => {
+      this.addBusinessHour(businessHour)
+     })
+
+    console.log('businessHoursForm:',this.businessHoursForm);
+  }
+
+
+
+  get businessHoursFromControl() {
+    return this.businessHoursForm.controls["businessHours"] as FormArray;
+  }
+
+  addBusinessHour(businessHour:BusinessHours) {
+    const businessHoursGroup = this.fb.group({
+      day: [''],
+      firstStartTime: [''],
+      firstEndTime: [''],
+      secondStartTime: [''],
+      secondEndTime: [''],
+    });
+    businessHoursGroup.patchValue(businessHour)
+    this.businessHoursFromControl.push(businessHoursGroup);
   }
 
   ngOnInit(): void {

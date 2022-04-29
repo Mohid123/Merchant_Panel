@@ -6,7 +6,7 @@ export interface User {
   lastName: string;
   phoneNumber: string;
   role: string;
-  businessType: string;
+  businessProfile: string;
   companyName: string;
   streetAddress: string;
   zipCode: number;
@@ -15,7 +15,7 @@ export interface User {
   province: string;
   website_socialAppLink: string;
   googleMapPin: string;
-  businessHours: BusinessHours;
+  businessHours: BusinessHours[];
   aboutStore: string;
   generalTermsAgreements: string;
   profilePicURL: string;
