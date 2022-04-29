@@ -38,4 +38,8 @@ export class BillingsService extends ApiService<billingData> {
    return this.post(`/users/completeKYC`, payload);
   }
 
+  getMerchantStats(merchantID: string): Observable<ApiResponse<any>> {
+    return this.get(`/users/getMerchantStats/${merchantID}`);
+  }
+
 }

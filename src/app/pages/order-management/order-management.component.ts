@@ -2,11 +2,13 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { BillingsService } from '@pages/services/billings.service';
 import { OrdersService } from '@pages/services/orders.service';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
+import { MerchantStats } from './../../modules/wizards/models/merchant-stats.model';
 
 @Component({
   selector: 'app-order-management',
@@ -31,13 +33,16 @@ export class OrderManagementComponent implements OnInit {
   searchControl = new FormControl();
   noRecordFound: boolean = false;
   statsData: any;
+  statsLoading: boolean;
+  voucherStats: MerchantStats
 
 
   constructor(
     private orderService: OrdersService,
     private cf: ChangeDetectorRef,
     private authService: AuthService,
-    private calendar: NgbCalendar
+    private calendar: NgbCalendar,
+    private billingService: BillingsService
     ) {
       this.fromDate = this.calendar.getToday();
       this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 0);
@@ -46,6 +51,7 @@ export class OrderManagementComponent implements OnInit {
   ngOnInit(): void {
     this.authService.retreiveUserValue();
     this.getVouchersByMerchant();
+    this.getMerchantStats();
     this.searchControl.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(1000))
       .subscribe(newValue => {
         if (newValue.trim().length == 0 || newValue == "") {
@@ -73,8 +79,22 @@ export class OrderManagementComponent implements OnInit {
     .subscribe((res: ApiResponse<OrdersList>) => {
       if(!res.hasErrors()) {
         this.ordersData = res.data;
-        this.cf.detectChanges();
         this.showData = true;
+        this.cf.detectChanges();
+      }
+    })
+  }
+
+  getMerchantStats() {
+    this.statsLoading = false;
+    this.billingService.getMerchantStats(this.authService.merchantID)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<MerchantStats>) => {
+      debugger
+      if(!res.hasErrors()) {
+        this.voucherStats = res.data;
+        this.statsLoading = true;
+        this.cf.detectChanges();
       }
     })
   }

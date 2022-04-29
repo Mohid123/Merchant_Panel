@@ -34,13 +34,13 @@
     <div class="row g-0">
       <!-- begin::Col -->
       <div class="px-6 py-8 text-center col bg-light-primary rounded-2 me-7 mb-7">
-        <span class="my-2 text-2xl text-primary d-block">200</span>
+        <span class="my-2 text-2xl text-primary d-block">{{totalStats?.totalDeals}}</span>
         <a  class="text-sm text-primary"> Total Deals </a>
       </div>
       <!-- end::Col -->
       <!-- begin::Col -->
       <div class="px-6 py-8 text-center bg-blue-100 col rounded-2 mb-7">
-        <span class="my-2 text-2xl text-blue-400 d-block">300</span>
+        <span class="my-2 text-2xl text-blue-400 d-block">{{totalStats?.scheduledDeals}}</span>
         <a class="text-sm text-blue-400"> Scheduled Deals </a>
       </div>
       <!-- end::Col -->
@@ -50,13 +50,13 @@
     <div class="row g-0">
       <!-- begin::Col -->
       <div class="px-6 py-8 text-center col bg-light-primary rounded-2 me-7">
-        <span class="my-2 text-2xl text-primary d-block">200</span>
+        <span class="my-2 text-2xl text-primary d-block">{{totalStats?.pendingDeals}}</span>
         <a  class="text-sm text-custom-black-900 text-primary"> Pending Deals </a>
       </div>
       <!-- end::Col -->
       <!-- begin::Col -->
       <div class="px-6 py-8 text-center bg-blue-100 col rounded-2">
-        <span class="my-2 text-2xl text-blue-400 d-block">200</span>
+        <span class="my-2 text-2xl text-blue-400 d-block">{{totalStats?.publishedDeals}}</span>
         <a  class="text-sm text-blue-400"> Sold Deals </a>
       </div>
       <!-- end::Col -->

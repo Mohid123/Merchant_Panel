@@ -1,6 +1,6 @@
-import { Reviews } from "./reviews.model";
+import { SingleReview } from "./single-review.model";
 
 export class ReviewList {
-  data: Reviews[];
+  data: SingleReview[];
   totalCount?: number;
 }

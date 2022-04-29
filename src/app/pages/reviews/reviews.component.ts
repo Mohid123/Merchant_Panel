@@ -1,8 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiResponse } from '@core/models/response.model';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { ReviewList } from './../../modules/wizards/models/review-list.model';
 import { ReviewsService } from './../services/reviews.service';
@@ -20,17 +18,6 @@ export class ReviewsComponent implements OnInit {
   limit: number = 10;
   destroy$ = new Subject();
 
-  reviews = [
-    {
-      product: 'Heavenly Massage',
-      reviews: 57,
-      highest: 5.0,
-      lowest: 3.0,
-      average: 4.0,
-      id: '6578906654efg445hy'
-    }
-  ];
-
   constructor(
     private reviewService: ReviewsService,
     private cf: ChangeDetectorRef,
@@ -45,15 +32,6 @@ export class ReviewsComponent implements OnInit {
 
   getReviewsByMerchant() {
     this.showData = false;
-    this.reviewService.getReviewsByMerchant(this.authService.merchantID, this.offset, this.limit)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res:ApiResponse<ReviewList>) => {
-      if(!res.hasErrors()) {
-        this.reviewsData = res.data;
-        this.showData = true;
-        this.cf.detectChanges();
-      }
-    })
   }
 
 }

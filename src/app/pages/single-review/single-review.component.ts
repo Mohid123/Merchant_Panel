@@ -1,9 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiResponse } from '@core/models/response.model';
 import { ReviewsService } from '@pages/services/reviews.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { ReviewList } from 'src/app/modules/wizards/models/review-list.model';
 
@@ -38,15 +36,6 @@ export class SingleReviewComponent implements OnInit {
 
   getReviewssByMerchant() {
     this.showData = false;
-    this.reviewService.getReviewsByMerchant(this.authService.merchantID, this.offset, this.limit)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res:ApiResponse<ReviewList>) => {
-      if(!res.hasErrors()) {
-        this.reviewData = res.data;
-        this.showData = true;
-        this.cf.detectChanges();
-      }
-    })
   }
 
 

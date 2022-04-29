@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PendingSkeletonModule } from '@components/pending-skeleton/pending-skeleton.module';
 import { ReusableModalModule } from '@components/reusable-modal/reusable-modal.module';
 import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.module';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
@@ -60,7 +61,8 @@ import { FakeAPIService } from './_fake/fake-api.service';
     ReusableModalModule,
     ReactiveFormsModule,
     FormsModule,
-    NumberOnlyModule
+    NumberOnlyModule,
+    PendingSkeletonModule
   ],
   providers: [
     // {

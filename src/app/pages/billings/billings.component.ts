@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { BillingList } from 'src/app/modules/wizards/models/billing-list.model';
 import { KYC } from 'src/app/modules/wizards/models/kyc.model';
+import { MerchantStats } from './../../modules/wizards/models/merchant-stats.model';
 
 @Component({
   selector: 'app-billings',
@@ -42,6 +43,8 @@ export class BillingsComponent implements OnInit {
   invoiceDate: string;
   invoiceAmount: string;
   kycForm: FormGroup;
+  statsLoading: boolean;
+  billingStats: MerchantStats;
 
   constructor(
     private billingService: BillingsService,
@@ -55,7 +58,8 @@ export class BillingsComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.authService.retreiveUserValue()
+    this.authService.retreiveUserValue();
+    this.getMerchantStats();
     this.getInvoicesByMerchant();
     this.initKYCForm();
   }
@@ -100,6 +104,20 @@ export class BillingsComponent implements OnInit {
     })
   }
 
+  getMerchantStats() {
+    this.statsLoading = false;
+    this.billingService.getMerchantStats(this.authService.merchantID)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<MerchantStats>) => {
+      debugger
+      if(!res.hasErrors()) {
+        this.billingStats = res.data;
+        this.statsLoading = true;
+        this.cf.detectChanges();
+      }
+    })
+  }
+
   getInvoicesByMerchant() {
     this.showData = false;
     const params: any = {
@@ -108,11 +126,11 @@ export class BillingsComponent implements OnInit {
       dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
     }
-    debugger
+    // debugger
     this.billingService.getAllInvoicesByMerchantID(this.authService.merchantID, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
-      debugger
+      // debugger
       if(!res.hasErrors()) {
         this.billingsData = res.data;
         this.cf.detectChanges();

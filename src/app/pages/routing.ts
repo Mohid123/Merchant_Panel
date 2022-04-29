@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { PendingSkeletonComponent } from '@components/pending-skeleton/pending-skeleton.component';
 import { TableSkeletonComponent } from '@components/table-skeleton/table-skeleton/table-skeleton.component';
 import { BillingsComponent } from './billings/billings.component';
 import { OrderManagementComponent } from './order-management/order-management.component';
@@ -71,8 +72,12 @@ const Routing: Routes = [
     component: SingleReviewComponent,
   },
   {
-    path: 'single-review',
+    path: 'single-review/:dealId',
     component: SingleReviewComponent
+  },
+  {
+    path: 'pending',
+    component: PendingSkeletonComponent
   },
   {
     path: '',

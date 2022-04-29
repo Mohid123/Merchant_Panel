@@ -27,4 +27,8 @@ export class DealService extends ApiService<deal> {
   getTopRatedDeals(merchantID: string): Observable<ApiResponse<deal>> {
     return this.get(`/deal/getTopRatedDeals/${merchantID}`);
   }
+
+  getSalesStats(): Observable<ApiResponse<any>> {
+    return this.get(`/deal/getSalesStatistics`);
+  }
 }
