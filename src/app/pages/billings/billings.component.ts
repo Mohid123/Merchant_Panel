@@ -43,9 +43,24 @@ export class BillingsComponent implements OnInit {
   toDate: NgbDate | any = null;
   invoiceDate: string;
   invoiceAmount: string;
+  status: string;
   kycForm: FormGroup;
   statsLoading: boolean;
   billingStats: MerchantStats;
+  statusTypes = [
+    {
+      status: 'Paid'
+    },
+    {
+      status: 'UnPaid'
+    },
+    {
+      status: 'Pending'
+    },
+    {
+      status: 'Expired'
+    }
+  ];
 
   constructor(
     private billingService: BillingsService,
@@ -141,13 +156,13 @@ export class BillingsComponent implements OnInit {
 
   getInvoicesByMerchant() {
     this.showData = false;
+    debugger
     const params: any = {
       invoiceDate: this.invoiceDate,
       invoiceAmount: this.invoiceAmount,
       dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
     }
-    debugger
     this.billingService.getAllInvoicesByMerchantID(this.authService.merchantID, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
@@ -189,6 +204,12 @@ export class BillingsComponent implements OnInit {
     this.getInvoicesByMerchant();
   }
 
+  filterByStatus(status: string) {
+    this.offset = 0;
+    this.status = status;
+    this.getInvoicesByMerchant();
+  }
+
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
@@ -227,6 +248,7 @@ export class BillingsComponent implements OnInit {
     this.toDate = '';
     this.invoiceAmount = 'Ascending';
     this.invoiceDate = 'Ascending';
+    this.status = '';
     this.getInvoicesByMerchant();
   }
 

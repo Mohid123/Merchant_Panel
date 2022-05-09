@@ -64,7 +64,16 @@
         <th class="p-4 font-semibold cursor-pointer">Invoice #</th>
         <th class="p-4 font-semibold cursor-pointer" (click)="filterByInvoiceDate('Descending')">Invoice Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-semibold cursor-pointer" (click)="filterByInvoiceAmount('Descending')">Invoice Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-semibold cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <div style="all: unset" ngbDropdown display="dynamic" id="dropdownBasic3">
+          <th ngbDropdownToggle class="p-4 font-semibold cursor-pointer">Payment Status&nbsp; <i class="fas fa-chevron-down fa-xs"></i></th>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+            <ng-container *ngFor="let type of statusTypes">
+              <button ngbDropdownItem (click)="filterByStatus(type.status)">
+                {{type.status}}
+              </button>
+            </ng-container>
+          </div>
+        </div>
         <th class="p-4 font-semibold cursor-pointer">Action&nbsp;</th>
       </tr>
       <ng-container *ngFor="let data of billingsData?.data">
