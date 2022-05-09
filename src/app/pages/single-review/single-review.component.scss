@@ -3,10 +3,14 @@
   overflow-x: scroll;
 }
 
+.dropdown-toggle::after {
+  display: none;
+}
+
 .circle {
   border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  width: 41px;
+  height: 41px;
   background: #E6E9FF;
   border: 1px solid #E6E9FF;
   object-fit: cover;
