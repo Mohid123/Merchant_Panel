@@ -7,4 +7,5 @@ export class SingleReview {
   customerEmail?: string;
   customerName?:	string;
   profilePicURL?:	string;
+  createdAt?: string;
 }

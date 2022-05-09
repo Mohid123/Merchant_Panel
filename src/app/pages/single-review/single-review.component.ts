@@ -14,7 +14,7 @@ import { Reviews } from './../../modules/wizards/models/reviews.model';
 })
 export class SingleReviewComponent implements OnInit {
 
-  public reviewData: Reviews;
+  public reviewData: Reviews | any;
   showData: boolean;
   offset: number = 0;
   limit: number = 10;

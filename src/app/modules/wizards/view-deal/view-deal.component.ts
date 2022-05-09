@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
+import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
@@ -117,8 +117,8 @@ export class ViewDealComponent implements OnInit {
   popoverFactory = this.resolver.resolveComponentFactory(PopoverWrapperComponent);
 
   showDiv = {
-    listView: false,
-    calendarView: true
+    listView: true,
+    calendarView: false
   }
 
   currentEvents: EventApi[] = [];
@@ -152,6 +152,7 @@ export class ViewDealComponent implements OnInit {
   };
 
   newData : any[] = [];
+  @ViewChild('fullCalendar') fullCalendar: FullCalendarComponent
 
 
   constructor(
@@ -214,6 +215,10 @@ export class ViewDealComponent implements OnInit {
       this.showDiv.calendarView = true;
 
     }
+  }
+
+  something() {
+    this.fullCalendar.getApi().render();
   }
 
 

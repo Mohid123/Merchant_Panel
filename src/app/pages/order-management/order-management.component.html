@@ -67,11 +67,18 @@
 <ng-container *ngIf="showData == true">
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
-      <thead class="text-center text-black bg-gray-300 rounded-lg">
+      <thead ngbDropdown display="dynamic" id="dropdownBasic2" class="text-center text-black bg-gray-300 rounded-lg">
         <th class="p-4 font-normal cursor-pointer customary">Voucher ID</th>
-        <th class="p-4 font-normal cursor-pointer">Deal&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal cursor-pointer" (click)="filterByDeal('Descending')">Deal&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-normal cursor-pointer" (click)="filterByAmount('Descending')">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th ngbDropdownToggle class="p-4 font-normal cursor-pointer">Status&nbsp;<i class="fas fa-chevron-down fa-xs"></i></th>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+            <ng-container *ngFor="let type of statusTypes">
+              <button ngbDropdownItem (click)="filterByStatus(type.status)">
+                {{type.status}}
+              </button>
+            </ng-container>
+          </div>
         <th class="p-4 font-normal cursor-pointer">Payment Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
       </thead>
       <ng-container *ngFor="let data of ordersData?.data; let i = index;">
@@ -128,7 +135,7 @@
 <ng-template #footerTemplate>
   <hr class="my-0">
   <button class="m-2 btn btn-primary btn-sm float-start" (click)="filterByDate(fromDate, toDate); myDrop.close();">Apply Filter</button>
-  <button class="mt-2 btn btn-secondary btn-sm float-end" (click)="myDrop.close();">Close</button>
+  <button class="mt-2 mr-1 btn btn-secondary btn-sm float-end" (click)="myDrop.close();">Close</button>
 </ng-template>
 
 

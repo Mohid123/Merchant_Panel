@@ -8,6 +8,7 @@
   <ng-container *ngIf="statsLoading == false">
     <app-pending-skeleton></app-pending-skeleton>
   </ng-container>
+
   <ng-container *ngIf="statsLoading == true">
     <div class="flex flex-col lg:flex-row justify-evenly">
       <div class="flex flex-col mt-4 mr-7">
@@ -28,6 +29,7 @@
       </div>
     </div>
   </ng-container>
+
   <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
     <div #myDrop="ngbDropdown" ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
       <button class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
@@ -60,12 +62,12 @@
     <table class="w-full mt-10 rounded-md shadow-md">
       <tr class="text-center text-black bg-gray-300 rounded-lg">
         <th class="p-4 font-semibold cursor-pointer">Invoice #</th>
-        <th class="p-4 font-semibold cursor-pointer">Invoice Date&nbsp; <i (click)="filterByInvoiceDate(invoiceDate)" class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-semibold cursor-pointer">Invoice Amount&nbsp; <i (click)="filterByInvoiceAmount(invoiceAmount)" class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-semibold cursor-pointer" (click)="filterByInvoiceDate('Descending')">Invoice Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-semibold cursor-pointer" (click)="filterByInvoiceAmount('Descending')">Invoice Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-semibold cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
         <th class="p-4 font-semibold cursor-pointer">Action&nbsp;</th>
       </tr>
-      <ng-container *ngFor="let data of billingsData?.billings">
+      <ng-container *ngFor="let data of billingsData?.data">
         <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
           <td class="p-4 font-medium">{{data.invoiceNo}}</td>
           <td class="p-4 font-thin">{{data.invoiceDate | date}}</td>
@@ -76,6 +78,16 @@
           <ng-container *ngIf="data.status == 'Paid'">
             <td class="p-4 font-thin">
               <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{data.status}}</span>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="data.status == 'Cancelled'">
+            <td class="p-4 font-thin">
+              <span class="px-5 py-3 badge badge-light-danger rounded-2xl">{{data.status}}</span>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="data.status == 'Pending'">
+            <td class="p-4 font-thin">
+              <span class="px-5 py-3 badge badge-light-info rounded-2xl">{{data.status}}</span>
             </td>
           </ng-container>
           <ng-container *ngIf="data.status == 'UnPaid'">

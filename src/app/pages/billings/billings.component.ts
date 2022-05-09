@@ -55,8 +55,8 @@ export class BillingsComponent implements OnInit {
     private calendar: NgbCalendar,
     private toast: HotToastService
     ) {
-      this.fromDate = this.calendar.getToday();
-      this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 0);
+      this.fromDate = '';
+      this.toDate = '';
     }
 
   ngOnInit(): void {
@@ -131,7 +131,6 @@ export class BillingsComponent implements OnInit {
     this.billingService.getMerchantStats(this.authService.merchantID)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<MerchantStats>) => {
-      // debugger
       if(!res.hasErrors()) {
         this.billingStats = res.data;
         this.statsLoading = true;
@@ -152,8 +151,8 @@ export class BillingsComponent implements OnInit {
     this.billingService.getAllInvoicesByMerchantID(this.authService.merchantID, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
-      debugger
       if(!res.hasErrors()) {
+        debugger
         this.billingsData = res.data;
         this.showData = true;
         this.cf.detectChanges();
@@ -162,16 +161,24 @@ export class BillingsComponent implements OnInit {
   }
 
   filterByInvoiceDate(invoiceDate: string) {
-    debugger
     this.offset = 0;
-    this.invoiceDate = invoiceDate;
+    if(this.invoiceAmount == '' || this.invoiceAmount == 'Descending') {
+      this.invoiceDate = 'Ascending'
+    }
+    else {
+      this.invoiceDate = invoiceDate;
+    }
     this.getInvoicesByMerchant();
   }
 
   filterByInvoiceAmount(invoiceAmount: string) {
-    debugger
     this.offset = 0;
-    this.invoiceAmount = invoiceAmount;
+    if(this.invoiceAmount == '' || this.invoiceAmount == 'Descending') {
+      this.invoiceAmount = 'Ascending'
+    }
+    else {
+      this.invoiceAmount = invoiceAmount;
+    }
     this.getInvoicesByMerchant();
   }
 
@@ -216,8 +223,10 @@ export class BillingsComponent implements OnInit {
 
   resetFilters() {
     this.offset = 0;
-    this.fromDate = this.calendar.getToday();
-    this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 0);
+    this.fromDate = '';
+    this.toDate = '';
+    this.invoiceAmount = 'Ascending';
+    this.invoiceDate = 'Ascending';
     this.getInvoicesByMerchant();
   }
 

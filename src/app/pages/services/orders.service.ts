@@ -17,7 +17,7 @@ export class OrdersService extends ApiService<OrdersData> {
 
   getVouchersByMerchantID(merchantID: string, offset: any, limit: any, data: {
     deal: string,
-    amount: number,
+    amount: string,
     status: string,
     paymentStatus: string,
     dateFrom: number,

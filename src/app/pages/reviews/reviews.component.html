@@ -5,28 +5,35 @@
   <span class="text-5xl font-medium text-black">{{reviewsData?.totalDeals}}</span>
 </div>
 
-<div class="table-container">
-  <table class="w-full mt-10 rounded-md shadow-md">
-    <tr class="text-center text-black bg-gray-300 rounded-lg">
-      <th class="p-4 font-semibold cursor-pointer">Products&nbsp;</th>
-      <th class="p-4 font-semibold cursor-pointer">Reviews&nbsp;</th>
-      <th class="p-4 font-semibold cursor-pointer">Highest&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
-      <th class="p-4 font-semibold cursor-pointer">Lowest&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
-      <th class="p-4 font-semibold cursor-pointer">Average&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
-      <th class="p-4 font-semibold cursor-pointer">Action&nbsp;</th>
-    </tr>
-    <ng-container *ngFor="let data of reviewsData?.data">
-      <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
-        <td class="p-4 font-medium">{{data.title}}</td>
-        <td class="p-4 font-thin">{{data.totalReviews}}</td>
-        <td class="p-4 font-thin">{{data.maxRating}}</td>
-        <td class="p-4 font-thin">{{data.minRating}}</td>
-        <td class="p-4 font-thin">{{data.ratingsAverage}}</td>
-        <td class="p-4">
-          <a [routerLink]="['/single-review/', data._id]" class="px-4 py-3 text-sm text-black bg-gray-200 rounded-md hover:bg-yellow-600 hover:text-white">View Review</a>
-        </td>
+<ng-container *ngIf="showData == false">
+  <app-table-skeleton></app-table-skeleton>
+</ng-container>
+
+<ng-container *ngIf="showData == true">
+  <div class="table-container">
+    <table class="w-full mt-10 rounded-md shadow-md">
+      <tr class="text-center text-black bg-gray-300 rounded-lg">
+        <th class="p-4 font-semibold cursor-pointer">Products&nbsp;</th>
+        <th class="p-4 font-semibold cursor-pointer">Reviews&nbsp;</th>
+        <th class="p-4 font-semibold cursor-pointer">Highest&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
+        <th class="p-4 font-semibold cursor-pointer">Lowest&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
+        <th class="p-4 font-semibold cursor-pointer">Average&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
+        <th class="p-4 font-semibold cursor-pointer">Action&nbsp;</th>
       </tr>
-    </ng-container>
-  </table>
-</div>
+      <ng-container *ngFor="let data of reviewsData?.data">
+        <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
+          <td class="p-4 font-medium">{{data.title}}</td>
+          <td class="p-4 font-thin">{{data.totalReviews}}</td>
+          <td class="p-4 font-thin">{{data.maxRating}}</td>
+          <td class="p-4 font-thin">{{data.minRating}}</td>
+          <td class="p-4 font-thin">{{data.ratingsAverage}}</td>
+          <td class="p-4">
+            <a [routerLink]="['/single-review/', data._id]" class="px-4 py-3 text-sm text-black bg-gray-200 rounded-md hover:bg-yellow-600 hover:text-white">View Review</a>
+          </td>
+        </tr>
+      </ng-container>
+    </table>
+  </div>
+
+</ng-container>
 
