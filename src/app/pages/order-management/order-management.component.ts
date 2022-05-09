@@ -49,6 +49,21 @@ export class OrderManagementComponent implements OnInit {
     {
       status: 'Published'
     }
+  ];
+
+  paymentTypes = [
+    {
+      paymentStatus: 'Paid'
+    },
+    {
+      paymentStatus: 'UnPaid'
+    },
+    {
+      paymentStatus: 'Pending'
+    },
+    {
+      paymentStatus: 'Cancelled'
+    }
   ]
 
 

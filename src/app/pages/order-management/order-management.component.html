@@ -79,7 +79,16 @@
               </button>
             </ng-container>
           </div>
-        <th class="p-4 font-normal cursor-pointer">Payment Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+          <div style="all: unset" ngbDropdown display="dynamic" id="dropdownBasic3">
+            <th ngbDropdownToggle class="p-4 font-normal cursor-pointer">Payment Status&nbsp; <i class="fas fa-chevron-down fa-xs"></i></th>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+              <ng-container *ngFor="let type of paymentTypes">
+                <button ngbDropdownItem (click)="filterByPaymentStatus(type.paymentStatus)">
+                  {{type.paymentStatus}}
+                </button>
+              </ng-container>
+            </div>
+          </div>
       </thead>
       <ng-container *ngFor="let data of ordersData?.data; let i = index;">
         <tr class="z-40 w-full text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
