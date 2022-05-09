@@ -27,14 +27,29 @@ export class OrderManagementComponent implements OnInit {
   fromDate: NgbDate | any;
   toDate: NgbDate | any = null;
   deal: string;
-  amount: number;
+  amount: string;
   status: string;
   paymentStatus: string;
   searchControl = new FormControl();
   noRecordFound: boolean = false;
   statsData: any;
   statsLoading: boolean;
-  voucherStats: MerchantStats
+  voucherStats: MerchantStats;
+
+  statusTypes = [
+    {
+      status: 'Purchased'
+    },
+    {
+      status: 'Redeemed'
+    },
+    {
+      status: 'Expired'
+    },
+    {
+      status: 'Published'
+    }
+  ]
 
 
   constructor(
@@ -54,9 +69,7 @@ export class OrderManagementComponent implements OnInit {
     this.getMerchantStats();
     this.searchControl.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(1000))
       .subscribe(newValue => {
-        debugger
         if (newValue.trim().length == 0 || newValue == null) {
-          debugger
           this.noRecordFound = false;
           this.getVouchersByMerchant();
         } else {
@@ -104,17 +117,28 @@ export class OrderManagementComponent implements OnInit {
 
   filterByDeal(deal: string) {
     this.offset = 0;
-    this.deal = deal;
+    if(this.deal == '' || this.deal == 'Descending') {
+      this.deal = 'Ascending'
+    }
+    else {
+      this.deal = deal
+    }
     this.getVouchersByMerchant();
   }
 
-  filterByAmount(amount: number) {
+  filterByAmount(amount: string) {
     this.offset = 0;
-    this.amount = amount;
+    if(this.amount == '' || this.amount == 'Descending') {
+      this.amount = 'Ascending'
+    }
+    else {
+      this.amount = amount;
+    }
     this.getVouchersByMerchant();
   }
 
   filterByStatus(status: string) {
+    debugger
     this.offset = 0;
     this.status = status;
     this.getVouchersByMerchant();
@@ -127,6 +151,7 @@ export class OrderManagementComponent implements OnInit {
   }
 
   filterByDate(dateFrom: number, dateTo: number) {
+    debugger
     this.offset = 0;
     this.fromDate = dateFrom;
     this.toDate = dateTo;
@@ -137,7 +162,6 @@ export class OrderManagementComponent implements OnInit {
     this.orderService.searchByVoucherID(voucherID)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<any>) => {
-      debugger
       if(!res.hasErrors()) {
         if(!res.data) {
           this.ordersData = res.data;
@@ -191,6 +215,10 @@ export class OrderManagementComponent implements OnInit {
     this.offset = 0;
     this.fromDate = '';
     this.toDate = '';
+    this.deal = 'Ascending';
+    this.amount = 'Ascending';
+    this.status = '';
+    this.paymentStatus = '';
     this.getVouchersByMerchant();
   }
 
