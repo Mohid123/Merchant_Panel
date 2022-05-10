@@ -64,7 +64,6 @@ export class SingleReviewComponent implements OnInit {
     this.reviewService.getDealReviews(this.reviewId, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<Reviews>) => {
-      debugger
       this.reviewData = res.data;
       this.showData = true;
       this.cf.detectChanges();
@@ -72,9 +71,14 @@ export class SingleReviewComponent implements OnInit {
   }
 
   filterByRating(rating: number) {
-    debugger
     this.offset = 0;
     this.rating = rating;
+    this.getReviewsByMerchant();
+  }
+
+  resetFilters() {
+    this.offset = 0;
+    this.rating = 0;
     this.getReviewsByMerchant();
   }
 
