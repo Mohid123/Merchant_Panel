@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Category, CategoryList } from './../../../auth/models/category-list.model';
+import { SubCategory, SubCategoryList } from 'src/app/modules/auth/models/subCategory.model';
 import { CategoryService } from './../../../auth/services/category.service';
 import { Image } from './../../models/images.model';
 import { MainDeal } from './../../models/main-deal.model';
@@ -16,12 +16,13 @@ import { ConnectionService } from './../../services/connection.service';
 })
 export class Step1Component implements OnInit, OnDestroy {
 
-  categoryList :CategoryList;
-  selectedcategory: Category;
+  categoryList: SubCategoryList;
+  selectedcategory: SubCategory;
 
-  ChangeSelectedCategory(newSelectedcategory: Category) {
+  ChangeSelectedCategory(newSelectedcategory: SubCategory) {
     this.selectedcategory = newSelectedcategory;
-    this.dealForm.controls['subCategory'].setValue(newSelectedcategory.id);
+    debugger
+    this.dealForm.controls['subCategory'].setValue(newSelectedcategory.subCategoryName);
   }
 
   @Input('updateParentModel') updateParentModel: (
@@ -60,7 +61,7 @@ export class Step1Component implements OnInit, OnDestroy {
   ngOnInit() {
     this.initDealForm();
     this.updateParentModel({}, this.checkForm());
-    this.categoryService.getAllCategories(0,0).pipe(take(1)).subscribe(categoryList => {
+    this.categoryService.getSubCategories(0,0).pipe(take(1)).subscribe(categoryList => {
       if(!categoryList.hasErrors()){
         this.categoryList = categoryList.data;
       }

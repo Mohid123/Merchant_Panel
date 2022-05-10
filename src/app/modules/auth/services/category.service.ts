@@ -25,4 +25,14 @@ export class CategoryService extends ApiService<category> {
       console.log(res);
     }))
   }
+
+  getSubCategories(offset: any, limit: any): Observable<ApiResponse<any>> {
+    const params: any = {
+      offset: offset,
+      limit: limit
+    }
+    return this.get(`/category/getAllSubCategories`, params).pipe(take(1), tap((res: ApiResponse<any>) => {
+      console.log(res);
+    }));
+  }
 }
