@@ -141,7 +141,7 @@ export class ViewDealComponent implements OnInit {
     selectMirror: true,
     dayMaxEvents: true,
     moreLinkClick: 'popover',
-    select: this.handleDateSelect.bind(this),
+    // select: this.handleDateSelect.bind(this),
     eventClick: this.showPopover.bind(this),
     // eventsSet: this.handleEvents.bind(this),
     eventDidMount: this.renderTooltip.bind(this),

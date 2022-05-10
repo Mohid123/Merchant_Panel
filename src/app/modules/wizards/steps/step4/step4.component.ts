@@ -95,7 +95,7 @@ export class Step4Component implements OnInit {
 
     calendarApi.unselect(); // clear date selection
 
-    if (title) {
+    if (title && !calendarApi.getEvents().length) {
       this.data.startDate = selectInfo.startStr;
       this.data.endDate = selectInfo.endStr;
       calendarApi.addEvent({
