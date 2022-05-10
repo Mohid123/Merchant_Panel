@@ -1,10 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
-import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,7 +31,7 @@ export class DashboardComponent implements OnInit {
   getTopDealsByMerchant() {
     this.showData = false;
     this.dealService.getTopRatedDeals(this.authService.merchantID).pipe(takeUntil(this.destroy$))
-    .subscribe((res: ApiResponse<MainDeal>) => {
+    .subscribe((res: any) => {
       if(!res.hasErrors()) {
         this.topDeals = res.data;
         this.showData = true;

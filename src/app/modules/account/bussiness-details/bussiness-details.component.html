@@ -3,34 +3,36 @@
 <div class="mb-5 card mb-xl-10 company-details">
   <div class="py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
     <h3 class="mb-0 fw-bolder">Company Details</h3>
-    <a (click)="openCompanyModal()" class="edit-btn">Edit</a>
+    <!-- <a (click)="openCompanyModal()" class="edit-btn">Edit</a> -->
   </div>
 
   <div class="card-body border-top p-9">
+    <ng-container *ngIf="(authService.currentUser$ |async) as user">
     <div>
       <label class="font-semibold">Company Name</label>
-      <span>Company</span>
+      <span>{{user.companyName}}</span>
     </div>
     <div>
       <label class="font-semibold">Street Address</label>
-      <span>Street Address</span>
+      <span>{{user.streetAddress}}</span>
     </div>
     <div>
       <label class="font-semibold">Zip Code</label>
-      <span>Zip</span>
+      <span>{{user.zipCode}}</span>
     </div>
     <div>
       <label class="font-semibold">City</label>
-      <span>City</span>
+      <span>{{user.city}}</span>
     </div>
     <div>
       <label class="font-semibold">Google Map Pin</label>
-      <span>Google Map Pin</span>
+      <span>{{user.googleMapPin}}</span>
     </div>
     <div>
       <label class="font-semibold">Website/Social Media URL</label>
-      <span>Website/Social Media URL</span>
+      <span>{{user.website_socialAppLink}}</span>
     </div>
+  </ng-container>
   </div>
 </div>
 
@@ -94,29 +96,28 @@
 </ng-template>
 
 
-<div style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
-  <div class="pb-1 cursor-pointer px-9 pt-9 card-header">
-    <div class="m-0 card-title">
-      <h3 class="m-0 fw-bolder">Set Business Hours</h3>
-    </div>
+<div class="card" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
+  <div class="py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
+    <h3 class="m-0 fw-bolder">Set Business Hours</h3>
+    <a *ngIf="!isEditBusinessHours" (click)="editBusinessHours()" class="edit-btn">Edit</a>
   </div>
   <div class="px-10 card-body" style="background-color: white;">
     <div class="table-responsive">
-      <table class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
+      <table [formGroup]="businessHoursForm" class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
 
-        <tbody>
-          <ng-container >
+        <tbody formArrayName="businessHours" *ngIf="businessHoursFromControl">
+          <ng-container *ngFor="let formControls of businessHoursFromControl.controls;let i=index" [formGroupName]="i" >
           <tr>
             <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Sunday </a></div>
+                <div class="d-flex flex-column"><a href="#"> {{ formControls.value.day}} </a></div>
             </td>
             <td class="time">
               <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
+                <input type="time" class="form-control" placeholder="First Start Time" formControlName="firstStartTime" />
               </div>
               <span>-</span>
               <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
+                <input type="time" class="form-control" placeholder="First End Time" formControlName="firstEndTime" />
               </div>
             </td>
             <td class="until">
@@ -124,11 +125,11 @@
             </td>
             <td class="time">
               <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
+                <input type="time" class="form-control" placeholder="Second Start Time" formControlName="secondStartTime" />
               </div>
               <span>-</span>
               <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
+                <input type="time" class="form-control" placeholder="Second End Time" formControlName="secondEndTime" />
               </div>
 
 
@@ -136,10 +137,18 @@
 
           </tr>
         </ng-container>
-
-
         </tbody>
       </table>
+      <div class="justify-between px-0 py-6 border-none card-footer d-flex" *ngIf="isEditBusinessHours">
+        <button class="modal-close-btn"
+        routerLinkActive="active"
+        (click)="isEditBusinessHours = false">Discard</button>
+
+        <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async)" (click)="saveBusinessHours()">
+          <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+        </button>
+
+      </div>
     </div>
   </div>
 </div>

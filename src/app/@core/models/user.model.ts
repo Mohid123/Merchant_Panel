@@ -22,6 +22,8 @@ export interface User {
   profilePicBlurHash: string;
   deletedCheck: boolean;
   status: string;
+  iban: string;
+  bankName: string;
 }
 
 interface BusinessHours {

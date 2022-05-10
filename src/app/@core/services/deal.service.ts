@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { Observable } from 'rxjs';
-import { MainDeal } from './../../modules/wizards/models/main-deal.model';
+import { Deals, MainDeal } from './../../modules/wizards/models/main-deal.model';
 import { ApiService } from './api.service';
 
-type deal = MainDeal
+type deal = MainDeal | Deals
 @Injectable({
   providedIn: 'root'
 })
@@ -30,5 +30,9 @@ export class DealService extends ApiService<deal> {
 
   getSalesStats(): Observable<ApiResponse<any>> {
     return this.get(`/deal/getSalesStatistics`);
+  }
+
+  getDeals(merchantID?:string) :Observable<ApiResponse<deal>> {
+    return this.get(`/deal/getDealsByMerchantID/${merchantID}`);
   }
 }

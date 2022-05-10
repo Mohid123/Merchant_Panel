@@ -1,8 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
+import { DealService } from '@core/services/deal.service';
+import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
+import { AuthService } from 'src/app/modules/auth';
+import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
@@ -121,7 +125,7 @@ export class ViewDealComponent implements OnInit {
     calendarView: false
   }
 
-  currentEvents: EventApi[] = [];
+  currentEvents: any[] = [];
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -142,8 +146,8 @@ export class ViewDealComponent implements OnInit {
     // eventsSet: this.handleEvents.bind(this),
     eventDidMount: this.renderTooltip.bind(this),
     eventWillUnmount: this.destroyTooltip.bind(this),
-    eventMouseEnter: this.showPopover.bind(this),
-    eventMouseLeave: this.hidePopover.bind(this),
+    // eventMouseEnter: this.showPopover.bind(this),
+    // eventMouseLeave: this.hidePopover.bind(this),
     /* you can update a remote database when these fire:
     eventAdd:
     eventChange:
@@ -159,11 +163,26 @@ export class ViewDealComponent implements OnInit {
     private conn: ConnectionService,
     private resolver: ComponentFactoryResolver,
     private injector: Injector,
-    private appRef: ApplicationRef) {
+    private appRef: ApplicationRef,
+    private authService: AuthService,
+    private dealService: DealService,
+  ) {
   }
 
 
   ngOnInit(): void {
+    this.dealService.getDeals(this.authService.currentUserValue?.id).subscribe((res:any)=> {
+      if (!res.hasErrors()) {
+        this.currentEvents = res.data.data;
+        this.calendarOptions.events = res.data.data.map((item:MainDeal) => {
+            return {
+              title:item.title,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+            }
+          })
+      }
+    })
   }
 
   renderTooltip(event:any) {
@@ -255,7 +274,7 @@ export class ViewDealComponent implements OnInit {
   }
 
 
-  handleEvents(events: EventApi[]) {
+  handleEvents(events:any) {
     this.currentEvents = events;
   }
 

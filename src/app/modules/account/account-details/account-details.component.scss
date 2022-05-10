@@ -16,7 +16,12 @@ h3 {
 }
 
 .billing-details {
-  min-height: 389px;
+  min-height: 500px;
+
+  &.edit-modal {
+    height: auto;
+    min-height: unset;
+  }
 }
 
 .contact-details, .billing-details {
@@ -79,10 +84,11 @@ h3 {
 
 @media (min-width: 1024px) {
   .billing-details {
-    height: 450px;
+    height: 540px;
 
     &.edit-modal {
       height: auto;
+      min-height: unset;
     }
   }
 }

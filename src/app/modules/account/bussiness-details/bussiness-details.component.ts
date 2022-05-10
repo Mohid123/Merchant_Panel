@@ -2,10 +2,12 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { exhaustMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ReusableModalComponent } from './../../../components/reusable-modal/reusable-modal/reusable-modal.component';
 import { BusinessHours, initalBusinessHours } from './../../auth/models/business-hours.modal';
+import { UserService } from './../../auth/services/user.service';
 
 @Component({
   selector: 'app-bussiness-details',
@@ -18,7 +20,11 @@ export class BussinessDetailsComponent implements OnInit {
   config: any;
   public Editor = ClassicEditor
 
-  businessHoursForm: FormGroup;
+  isEditBusinessHours: boolean;
+  businessHoursForm: FormGroup = this.fb.group({
+    id: [''],
+    businessHours: this.fb.array( [])
+  });
 
   @ViewChild('companyModal') private companyModal: ReusableModalComponent;
 
@@ -46,9 +52,10 @@ export class BussinessDetailsComponent implements OnInit {
 
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
+    private userService :UserService
   ) {
     const loadingSubscr = this.isLoading$
       .asObservable()
@@ -58,11 +65,7 @@ export class BussinessDetailsComponent implements OnInit {
     const user = this.authService.currentUserValue;
     const businessHours = !!user?.businessHours.length ? user?.businessHours : initalBusinessHours;
     console.log('businessHours:',businessHours);
-    this.businessHoursForm = this.fb.group({
-      id: [user?.id],
-      businessHours: this.fb.array([])
-    });
-
+    this.businessHoursForm.controls['id'].setValue(user?.id);
      businessHours.forEach(businessHour => {
       this.addBusinessHour(businessHour)
      })
@@ -73,6 +76,7 @@ export class BussinessDetailsComponent implements OnInit {
 
 
   get businessHoursFromControl() {
+    console.log('this.businessHoursForm:',this.businessHoursForm);
     return this.businessHoursForm.controls["businessHours"] as FormArray;
   }
 
@@ -86,6 +90,7 @@ export class BussinessDetailsComponent implements OnInit {
     });
     businessHoursGroup.patchValue(businessHour)
     this.businessHoursFromControl.push(businessHoursGroup);
+    console.log('this.businessHoursFromControl:',this.businessHoursFromControl);
   }
 
   ngOnInit(): void {
@@ -180,6 +185,25 @@ export class BussinessDetailsComponent implements OnInit {
 
   toggleMeridian() {
       this.meridian = !this.meridian;
+  }
+
+  editBusinessHours(){
+    this.isEditBusinessHours = true;
+  }
+
+  saveBusinessHours(){
+    this.isLoading$.next(true);
+    this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
+      console.log('asdsad:',res);
+      if(!res.hasErrors()) {
+        return this.userService.getUser(this.businessHoursForm.controls['id'].value);
+      } else {
+        return (res);
+      }
+    })).subscribe(res => {
+      console.log('saveBusinessHours res:',res);
+      this.isLoading$.next(false);
+    });
   }
 
   ngOnDestroy() {
