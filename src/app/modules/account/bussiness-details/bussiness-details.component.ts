@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { exhaustMap } from 'rxjs/operators';
@@ -87,6 +87,7 @@ export class BussinessDetailsComponent implements OnInit {
       firstEndTime: [''],
       secondStartTime: [''],
       secondEndTime: [''],
+      isWorkingDay: true,
     });
     businessHoursGroup.patchValue(businessHour)
     this.businessHoursFromControl.push(businessHoursGroup);
@@ -204,6 +205,11 @@ export class BussinessDetailsComponent implements OnInit {
       console.log('saveBusinessHours res:',res);
       this.isLoading$.next(false);
     });
+  }
+
+  isWorkingDay(formControls:AbstractControl) {
+    formControls.value.isWorkingDay = !formControls.value.isWorkingDay;
+    console.log('sass:',formControls.value.isWorkingDay);
   }
 
   ngOnDestroy() {

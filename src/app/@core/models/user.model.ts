@@ -32,4 +32,5 @@ interface BusinessHours {
   firstEndTime: string;
   secondStartTime: string;
   secondEndTime: string;
+  isWorkingDay: boolean;
 }

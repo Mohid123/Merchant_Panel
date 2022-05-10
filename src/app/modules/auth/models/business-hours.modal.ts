@@ -21,48 +21,55 @@ export const initalBusinessHours =  [
     "firstStartTime": "",
     "firstEndTime": "",
     "secondStartTime": "",
-    "secondEndTime": ""
+    "secondEndTime": "",
+    'isWorkingDay': true
   },
   {
     "day": "TU",
     "firstStartTime": "",
     "firstEndTime": "",
     "secondStartTime": "",
-    "secondEndTime": ""
+    "secondEndTime": "",
+    'isWorkingDay': true
   },
   {
     "day": "WD",
     "firstStartTime": "",
     "firstEndTime": "",
     "secondStartTime": "",
-    "secondEndTime": ""
+    "secondEndTime": "",
+    'isWorkingDay': true
   },
   {
     "day": "TH",
     "firstStartTime": "",
     "firstEndTime": "",
     "secondStartTime": "",
-    "secondEndTime": ""
+    "secondEndTime": "",
+    'isWorkingDay': true
   },
   {
     "day": "FR",
     "firstStartTime": "",
     "firstEndTime": "",
     "secondStartTime": "",
-    "secondEndTime": ""
+    "secondEndTime": "",
+    'isWorkingDay': true
   },
   {
     "day": "SA",
     "firstStartTime": "",
     "firstEndTime": "",
     "secondStartTime": "",
-    "secondEndTime": ""
+    "secondEndTime": "",
+    'isWorkingDay': true
   },
   {
     "day": "SU",
     "firstStartTime": "",
     "firstEndTime": "",
     "secondStartTime": "",
-    "secondEndTime": ""
+    "secondEndTime": "",
+    'isWorkingDay': true
   }
 ]
