@@ -1,10 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DealService } from '@core/services/deal.service';
 import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbDropdown, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
@@ -43,6 +45,7 @@ export class PopoverWrapperComponent {
 export class ViewDealComponent implements OnInit {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
+  @ViewChild('myDrop') myDrop: NgbDropdown
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
@@ -55,62 +58,6 @@ export class ViewDealComponent implements OnInit {
     closeButtonLabel: "Close"
   }
 
-  rows = [
-    {
-      title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
-      showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
-    },
-    {
-      title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
-      showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
-    },
-    {
-      title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
-      showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
-    },
-    {
-      title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
-      showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
-    },
-    {
-      title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
-      showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
-    },
-    {
-      title: 'Heavenly Massage',
-      startDate: "23, April 2022",
-      endDate: "26, April 2022",
-      showDetail: false,
-      available: 768,
-      sold: 456,
-      status: 'Active'
-    },
-  ]
 
   calendarPlugins = [dayGridPlugin];
 
@@ -126,6 +73,17 @@ export class ViewDealComponent implements OnInit {
   }
 
   currentEvents: any;
+  showData: boolean;
+  offset: number = 0;
+  limit: number = 10;
+  hoveredDate: NgbDate | any = null;
+  fromDate: NgbDate | any;
+  toDate: NgbDate | any = null;
+  startDate: string;
+  endDate: string;
+  title: string;
+  price: string;
+  destroy$ = new Subject();
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -166,15 +124,36 @@ export class ViewDealComponent implements OnInit {
     private appRef: ApplicationRef,
     private authService: AuthService,
     private dealService: DealService,
+    private cf: ChangeDetectorRef
   ) {
+      this.fromDate = '';
+      this.toDate = '';
   }
 
 
   ngOnInit(): void {
-    this.dealService.getDeals(this.authService.currentUserValue?.id).subscribe((res:any)=> {
+    this.authService.retreiveUserValue();
+    this.getDealsByMerchantID();
+  }
+
+  getDealsByMerchantID() {
+    debugger
+    this.showData = false;
+    const params: any = {
+      title: this.title,
+      price: this.price,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
+      dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
+    }
+    this.dealService.getDeals(this.authService.merchantID, this.offset, this.limit, params).pipe(takeUntil(this.destroy$)).subscribe((res:any)=> {
+      debugger
       if (!res.hasErrors()) {
         debugger
         this.currentEvents = res.data.data;
+        this.showData = true;
+        this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item:MainDeal) => {
             return {
               title:item.title,
@@ -184,6 +163,84 @@ export class ViewDealComponent implements OnInit {
           })
       }
     })
+  }
+
+  filterByStartDate(startDate: string) {
+    debugger
+    this.offset = 0;
+    if(this.startDate == '' || this.startDate == 'Descending') {
+      this.startDate = 'Ascending'
+    }
+    else {
+      this.startDate = startDate;
+    }
+    this.getDealsByMerchantID();
+  }
+
+  filterByTitle(title: string) {
+    debugger
+    this.offset = 0;
+    if(this.title == '' || this.title == 'Descending') {
+      this.title = 'Ascending'
+    }
+    else {
+      this.title = title;
+    }
+    this.getDealsByMerchantID();
+  }
+
+  filterByDate(startDate: number, endDate: number) {
+    debugger
+    this.offset = 0;
+    this.fromDate = startDate;
+    this.toDate = endDate;
+    this.getDealsByMerchantID();
+  }
+
+  filterByEndDate(endDate: string) {
+    debugger
+    this.offset = 0;
+    if(this.endDate == '' || this.endDate == 'Descending') {
+      this.endDate = 'Ascending'
+    }
+    else {
+      this.endDate = endDate;
+    }
+    this.getDealsByMerchantID();
+  }
+
+  filterByPrice(price: string) {
+    this.offset = 0;
+    if(this.price == '' || this.price == 'Descending') {
+      this.price = 'Ascending'
+    }
+    else {
+      this.price = price;
+    }
+    this.getDealsByMerchantID();
+  }
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
 
   renderTooltip(event:any) {
@@ -286,5 +343,22 @@ export class ViewDealComponent implements OnInit {
   async closeModal() {
     return await this.modal.close();
   }
+
+  resetFilters() {
+    this.offset = 0;
+    this.fromDate = '';
+    this.toDate = '';
+    this.title = 'Ascending';
+    this.startDate = 'Ascending';
+    this.endDate = 'Ascending';
+    this.price = 'Ascending';
+    this.getDealsByMerchantID();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
+  }
+
 
 }

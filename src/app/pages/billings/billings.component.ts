@@ -156,7 +156,6 @@ export class BillingsComponent implements OnInit {
 
   getInvoicesByMerchant() {
     this.showData = false;
-    debugger
     const params: any = {
       invoiceDate: this.invoiceDate,
       invoiceAmount: this.invoiceAmount,
@@ -168,7 +167,6 @@ export class BillingsComponent implements OnInit {
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
       if(!res.hasErrors()) {
-        debugger
         this.billingsData = res.data;
         this.showData = true;
         this.cf.detectChanges();
@@ -178,7 +176,7 @@ export class BillingsComponent implements OnInit {
 
   filterByInvoiceDate(invoiceDate: string) {
     this.offset = 0;
-    if(this.invoiceAmount == '' || this.invoiceAmount == 'Descending') {
+    if(this.invoiceDate == '' || this.invoiceDate == 'Descending') {
       this.invoiceDate = 'Ascending'
     }
     else {
