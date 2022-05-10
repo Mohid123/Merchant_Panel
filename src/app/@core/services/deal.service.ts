@@ -32,7 +32,24 @@ export class DealService extends ApiService<deal> {
     return this.get(`/deal/getSalesStatistics`);
   }
 
-  getDeals(merchantID?:string) :Observable<ApiResponse<deal>> {
-    return this.get(`/deal/getDealsByMerchantID/${merchantID}`);
+  getDeals(merchantID: string, offset: any, limit: any, data: {
+    title: string;
+    price: string;
+    startDate: string;
+    endDate: string;
+    dateFrom: number;
+    dateTo: number;
+  }): Observable<ApiResponse<deal>> {
+    const param: any = {
+      offset: offset,
+      limit: limit
+    }
+    if(data.title) param.title = data.title;
+    if(data.price) param.price = data.price;
+    if(data.startDate) param.startDate = data.startDate;
+    if(data.endDate) param.endDate = data.endDate;
+    if(data.dateFrom) param.dateFrom = data.dateFrom;
+    if(data.dateTo) param.dateTo = data.dateTo;
+    return this.get(`/deal/getDealsByMerchantID/${merchantID}`, param);
   }
 }
