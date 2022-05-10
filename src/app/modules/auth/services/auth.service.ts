@@ -28,6 +28,7 @@ export class AuthService extends ApiService<AuthApiData> {
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<User | null>;
   isLoadingSubject: BehaviorSubject<boolean>;
+  merchantID: string;
 
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;
@@ -84,15 +85,13 @@ export class AuthService extends ApiService<AuthApiData> {
     });
   }
 
-  registration(user: RegisterModel): Observable<any> {
+  registration(user: RegisterModel) {
+    console.log('registration api in auth:',);
     this.isLoadingSubject.next(true);
-    return this.authHttpService.register(user).pipe(
-      map(() => {
+    return this.post('/auth/signup',user).pipe(
+      map((user:ApiResponse<SignInResponse>) => {
         this.isLoadingSubject.next(false);
-      }),
-      catchError((err) => {
-        console.error('err', err);
-        return of(undefined);
+        return user;
       }),
       finalize(() => this.isLoadingSubject.next(false))
     );
@@ -103,5 +102,20 @@ export class AuthService extends ApiService<AuthApiData> {
     return this.authHttpService
       .forgotPassword(email)
       .pipe(finalize(() => this.isLoadingSubject.next(false)));
+  }
+
+  get user(): User| null {
+    return this.currentUserSubject.getValue();
+  }
+
+  retreiveUserValue() {
+    this.currentUser$.subscribe((res: User | any) => {
+      this.merchantID = res.id;
+    })
+  }
+
+  updateUser(user:User) {
+    this.currentUserSubject.next(user);
+    setItem(StorageItem.User, user);
   }
 }

@@ -14,13 +14,29 @@ export class MixedWidget11Component implements OnInit {
   ngOnInit(): void {
     this.chartOptions = getChartOptions(this.chartHeight, this.chartColor);
   }
+
+  // initializeSalesChart() {
+  //   const labelColor = getCSSVariableValue('--bs-gray-400');
+  //   const borderColor = getCSSVariableValue('--bs-gray-300');
+  //   const secondaryColor = getCSSVariableValue('--bs-gray-800');
+  //   const baseColor = getCSSVariableValue('--bs-gray-400');
+
+  //   this.chartOptions = {
+  //     series: [
+  //       {
+  //         name: 'Net Profit',
+  //         data:
+  //       }
+  //     ]
+  //   }
+  // }
 }
 
 function getChartOptions(chartHeight: string, chartColor: string) {
-  const labelColor = getCSSVariableValue('--bs-gray-500');
-  const borderColor = getCSSVariableValue('--bs-gray-200');
-  const secondaryColor = getCSSVariableValue('--bs-gray-300');
-  const baseColor = getCSSVariableValue('--bs-' + chartColor);
+  const labelColor = getCSSVariableValue('--bs-gray-400');
+  const borderColor = getCSSVariableValue('--bs-gray-300');
+  const secondaryColor = getCSSVariableValue('--bs-gray-800');
+  const baseColor = getCSSVariableValue('--bs-gray-400');
 
   return {
     series: [

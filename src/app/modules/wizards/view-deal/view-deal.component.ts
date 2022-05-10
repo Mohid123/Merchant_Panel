@@ -1,10 +1,18 @@
-import { ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { DealService } from '@core/services/deal.service';
+import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbDropdown, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/modules/auth';
+import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
+import { ConnectionService } from './../services/connection.service';
 
 @Component({
   template: `
@@ -24,11 +32,20 @@ export class PopoverWrapperComponent {
   selector: 'app-view-deal',
   templateUrl: './view-deal.component.html',
   styleUrls: ['./view-deal.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
   encapsulation: ViewEncapsulation.None
 })
+
 export class ViewDealComponent implements OnInit {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
+  @ViewChild('myDrop') myDrop: NgbDropdown
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
@@ -41,6 +58,7 @@ export class ViewDealComponent implements OnInit {
     closeButtonLabel: "Close"
   }
 
+
   calendarPlugins = [dayGridPlugin];
 
   @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
@@ -50,11 +68,38 @@ export class ViewDealComponent implements OnInit {
   popoverFactory = this.resolver.resolveComponentFactory(PopoverWrapperComponent);
 
   showDiv = {
-    listView: false,
-    calendarView: true
+    listView: true,
+    calendarView: false
   }
 
-  currentEvents: EventApi[] = [];
+  currentEvents: any;
+  showData: boolean;
+  offset: number = 0;
+  limit: number = 10;
+  hoveredDate: NgbDate | any = null;
+  fromDate: NgbDate | any;
+  toDate: NgbDate | any = null;
+  startDate: string;
+  endDate: string;
+  title: string;
+  price: string;
+  destroy$ = new Subject();
+  status: string;
+
+  statusTypes = [
+    {
+      status: 'Published'
+    },
+    {
+      status: 'Scheduled'
+    },
+    {
+      status: 'In Review'
+    },
+    {
+      status: 'Bounced'
+    }
+  ];
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -70,13 +115,13 @@ export class ViewDealComponent implements OnInit {
     selectMirror: true,
     dayMaxEvents: true,
     moreLinkClick: 'popover',
-    select: this.handleDateSelect.bind(this),
+    // select: this.handleDateSelect.bind(this),
     eventClick: this.showPopover.bind(this),
     // eventsSet: this.handleEvents.bind(this),
     eventDidMount: this.renderTooltip.bind(this),
     eventWillUnmount: this.destroyTooltip.bind(this),
-    eventMouseEnter: this.showPopover.bind(this),
-    eventMouseLeave: this.hidePopover.bind(this),
+    // eventMouseEnter: this.showPopover.bind(this),
+    // eventMouseLeave: this.hidePopover.bind(this),
     /* you can update a remote database when these fire:
     eventAdd:
     eventChange:
@@ -84,17 +129,141 @@ export class ViewDealComponent implements OnInit {
     */
   };
 
+  newData : any[] = [];
+  @ViewChild('fullCalendar') fullCalendar: FullCalendarComponent
 
 
   constructor(
-    private modalService: NgbModal,
+    private conn: ConnectionService,
     private resolver: ComponentFactoryResolver,
     private injector: Injector,
-    private appRef: ApplicationRef) {
+    private appRef: ApplicationRef,
+    private authService: AuthService,
+    private dealService: DealService,
+    private cf: ChangeDetectorRef
+  ) {
+      this.fromDate = '';
+      this.toDate = '';
   }
 
 
   ngOnInit(): void {
+    this.authService.retreiveUserValue();
+    this.getDealsByMerchantID();
+  }
+
+  getDealsByMerchantID() {
+    debugger
+    this.showData = false;
+    const params: any = {
+      title: this.title,
+      status: this.status,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
+      dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
+    }
+    this.dealService.getDeals(this.authService.merchantID, this.offset, this.limit, params).pipe(takeUntil(this.destroy$)).subscribe((res:any)=> {
+      debugger
+      if (!res.hasErrors()) {
+        debugger
+        this.currentEvents = res.data.data;
+        this.showData = true;
+        this.cf.detectChanges();
+        this.calendarOptions.events = res.data.data.map((item:MainDeal) => {
+            return {
+              title:item.title,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+            }
+          })
+      }
+    })
+  }
+
+  filterByStartDate(startDate: string) {
+    debugger
+    this.offset = 0;
+    if(this.startDate == '' || this.startDate == 'Descending') {
+      this.startDate = 'Ascending'
+    }
+    else {
+      this.startDate = startDate;
+    }
+    this.getDealsByMerchantID();
+  }
+
+  filterByTitle(title: string) {
+    debugger
+    this.offset = 0;
+    if(this.title == '' || this.title == 'Descending') {
+      this.title = 'Ascending'
+    }
+    else {
+      this.title = title;
+    }
+    this.getDealsByMerchantID();
+  }
+
+  filterByDate(startDate: number, endDate: number) {
+    debugger
+    this.offset = 0;
+    this.fromDate = startDate;
+    this.toDate = endDate;
+    this.getDealsByMerchantID();
+  }
+
+  filterByEndDate(endDate: string) {
+    debugger
+    this.offset = 0;
+    if(this.endDate == '' || this.endDate == 'Descending') {
+      this.endDate = 'Ascending'
+    }
+    else {
+      this.endDate = endDate;
+    }
+    this.getDealsByMerchantID();
+  }
+
+  filterByPrice(price: string) {
+    this.offset = 0;
+    if(this.price == '' || this.price == 'Descending') {
+      this.price = 'Ascending'
+    }
+    else {
+      this.price = price;
+    }
+    this.getDealsByMerchantID();
+  }
+
+  filterByStatus(status: string) {
+    debugger
+    this.offset = 0;
+    this.status = status;
+    this.getDealsByMerchantID();
+  }
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
 
   renderTooltip(event:any) {
@@ -148,6 +317,10 @@ export class ViewDealComponent implements OnInit {
     }
   }
 
+  something() {
+    this.fullCalendar.getApi().render();
+  }
+
 
   handleWeekendsToggle() {
     const { calendarOptions } = this;
@@ -182,7 +355,7 @@ export class ViewDealComponent implements OnInit {
   }
 
 
-  handleEvents(events: EventApi[]) {
+  handleEvents(events:any) {
     this.currentEvents = events;
   }
 
@@ -193,5 +366,22 @@ export class ViewDealComponent implements OnInit {
   async closeModal() {
     return await this.modal.close();
   }
+
+  resetFilters() {
+    this.offset = 0;
+    this.fromDate = '';
+    this.toDate = '';
+    this.title = 'Ascending';
+    this.startDate = 'Ascending';
+    this.endDate = 'Ascending';
+    this.price = 'Ascending';
+    this.getDealsByMerchantID();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
+  }
+
 
 }

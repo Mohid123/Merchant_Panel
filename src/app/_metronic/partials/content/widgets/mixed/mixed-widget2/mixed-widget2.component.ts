@@ -1,4 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ApiResponse } from '@core/models/response.model';
+import { DealService } from '@core/services/deal.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
 @Component({
   selector: 'app-mixed-widget2',
@@ -9,8 +13,10 @@ export class MixedWidget2Component implements OnInit {
   @Input() strokeColor: string = '';
   @Input() chartHeight: string = '';
   chartOptions: any = {};
+  destroy$ = new Subject();
+  totalStats: any;
 
-  constructor() {}
+  constructor(private dealService: DealService, private cf: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.chartOptions = getChartOptions(
@@ -18,7 +24,20 @@ export class MixedWidget2Component implements OnInit {
       this.chartColor,
       this.strokeColor
     );
+
+    this.getStats()
   }
+
+  getStats() {
+    this.dealService.getSalesStats().pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        debugger
+        this.totalStats = res.data.totalStats;
+        this.cf.detectChanges();
+      }
+    })
+  }
+
 }
 
 function getChartOptions(
@@ -57,7 +76,7 @@ function getChartOptions(
         left: 0,
         blur: 3,
         color: strokeColor,
-        opacity: 0.5,
+        opacity: 0.2,
       },
     },
     plotOptions: {},
@@ -75,7 +94,7 @@ function getChartOptions(
       curve: 'smooth',
       show: true,
       width: 3,
-      colors: [strokeColor],
+      colors: ['#a55901'],
     },
     xaxis: {
       categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],

@@ -1,8 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DashboardComponent } from './dashboard.component';
+import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WidgetsModule } from '../../_metronic/partials';
+import { DashboardComponent } from './dashboard.component';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -15,6 +17,8 @@ import { WidgetsModule } from '../../_metronic/partials';
       },
     ]),
     WidgetsModule,
+    TableSkeletonModule,
+    NgbModule
   ],
 })
 export class DashboardModule {}

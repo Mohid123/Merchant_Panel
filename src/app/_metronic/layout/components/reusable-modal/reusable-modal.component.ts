@@ -20,11 +20,12 @@ export class ReusableModalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  open(content?:any): Promise<boolean> {
+  open(content?:any, windowClass?: string): Promise<boolean> {
     const config: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      centered: true
+      centered: true,
+      windowClass: windowClass || '',
     };
     return new Promise<boolean>(resolve => {
       this.modalRef = this.modalService.open(this.modalContent, config)

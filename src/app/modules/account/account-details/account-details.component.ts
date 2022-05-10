@@ -1,7 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { exhaustMap } from 'rxjs/operators';
+import { AuthService } from 'src/app/modules/auth';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ReusableModalComponent } from './../../../components/reusable-modal/reusable-modal/reusable-modal.component';
+import { UserService } from './../../auth/services/user.service';
 
 @Component({
   selector: 'app-account-details',
@@ -10,6 +14,7 @@ import { ReusableModalComponent } from './../../../components/reusable-modal/reu
 })
 export class AccountDetailsComponent implements OnInit {
 
+  iban = '';
   @ViewChild('contactModal') private contactModal: ReusableModalComponent;
   @ViewChild('billingModal') private billingModal: ReusableModalComponent;
 
@@ -35,7 +40,12 @@ export class AccountDetailsComponent implements OnInit {
   }
 
   private unsubscribe: Subscription[] = [];
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(
+    public authService: AuthService,
+    private cdr: ChangeDetectorRef,
+    private userService: UserService,
+    private toast: HotToastService,
+  ) {
     const loadingSubscr = this.isLoading$
     .asObservable()
     .subscribe((res) => (this.isLoading = res));
@@ -63,12 +73,28 @@ export class AccountDetailsComponent implements OnInit {
     return await this.contactModal.close();
   }
 
-  async openBillingModal() {
+  async openBillingModal(iban:string) {
+    this.iban = iban;
     return await this.billingModal.open();
   }
 
   async closeBillingModal() {
     return await this.billingModal.close();
+  }
+
+  saveBillingDetails() {
+    this.isLoading$.next(true);
+    this.userService.updateIBAN({iban:this.iban}).pipe(exhaustMap((res:any) => {
+      if(!res.hasErrors()) {
+        return this.userService.getUser();
+      } else {
+        return (res);
+      }
+    })).subscribe(res => {
+      this.toast.success('IBAN Updated.')
+      this.isLoading$.next(false);
+      this.billingModal.close();
+    });
   }
 
 }

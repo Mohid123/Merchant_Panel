@@ -1,5 +1,6 @@
 import { AddressModel } from './address.model';
 import { AuthModel } from './auth.model';
+import { BusinessHours } from './business-hours.modal';
 import { SocialNetworksModel } from './social-networks.model';
 
 export class UserModel extends AuthModel {
@@ -22,6 +23,7 @@ export class UserModel extends AuthModel {
   // account information
   language: string;
   timeZone: string;
+  businessHours: BusinessHours[];
   communication: {
     email: boolean;
     sms: boolean;

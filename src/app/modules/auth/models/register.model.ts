@@ -1,28 +1,84 @@
 export class RegisterModel {
-  category: number | null;
+  businessProfile: number | null;
   firstName: string;
   lastName: string;
   email: string;
-  mobile: number | null;
+  phoneNumber: number | null;
   companyName: string;
   streetAddress: string;
-  zip: number | null;
+  zipCode: number | null;
   city: string;
   province: number | null;
-  website: string;
+  website_socialAppLink: string;
+  role: string;
+  status: string;
+  businessHours: any;
 
   setModel(_model: unknown) {
     const model = _model as RegisterModel;
-    this.category = model.category;
+    this.businessProfile = model.businessProfile;
     this.firstName = model.firstName || '';
     this.lastName = model.lastName || '';
     this.email = model.email || '';
-    this.mobile = model.mobile || null;
+    this.phoneNumber = model.phoneNumber || null;
     this.companyName = model.companyName || './assets/media/users/default.jpg';
     this.streetAddress = model.streetAddress || '';
-    this.zip = model.zip || null;
+    this.zipCode = model.zipCode || null;
     this.city = model.city || '';
     this.province = model.province || null;
-    this.website = model.website;
+    this.website_socialAppLink = model.website_socialAppLink;
+    this.role = 'Merchant';
+    this.status= 'Pending';
+    this.businessHours = [
+      {
+        "day": "MN",
+        "firstStartTime": "",
+        "firstEndTime": "",
+        "secondStartTime": "",
+        "secondEndTime": ""
+      },
+      {
+        "day": "TU",
+        "firstStartTime": "",
+        "firstEndTime": "",
+        "secondStartTime": "",
+        "secondEndTime": ""
+      },
+      {
+        "day": "WD",
+        "firstStartTime": "",
+        "firstEndTime": "",
+        "secondStartTime": "",
+        "secondEndTime": ""
+      },
+      {
+        "day": "TH",
+        "firstStartTime": "",
+        "firstEndTime": "",
+        "secondStartTime": "",
+        "secondEndTime": ""
+      },
+      {
+        "day": "FR",
+        "firstStartTime": "",
+        "firstEndTime": "",
+        "secondStartTime": "",
+        "secondEndTime": ""
+      },
+      {
+        "day": "SA",
+        "firstStartTime": "",
+        "firstEndTime": "",
+        "secondStartTime": "",
+        "secondEndTime": ""
+      },
+      {
+        "day": "SU",
+        "firstStartTime": "",
+        "firstEndTime": "",
+        "secondStartTime": "",
+        "secondEndTime": ""
+      }
+    ]
   }
 }

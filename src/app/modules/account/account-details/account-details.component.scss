@@ -16,17 +16,28 @@ h3 {
 }
 
 .billing-details {
-  min-height: 389px;
+  min-height: 500px;
+
+  &.edit-modal {
+    height: auto;
+    min-height: unset;
+  }
 }
 
 .contact-details, .billing-details {
 
   label {
-    @apply text-custom-black-600 w-full;
+    @apply text-custom-black-600 w-full mb-2.5;
   }
 
-  .card-body span {
-    @apply text-custom-black-100 text-xs;
+  .card-body {
+    div {
+      @apply mb-2.5;
+    }
+
+    span {
+      @apply text-custom-black-100 text-xs mb-2.5;
+    }
   }
 }
 
@@ -62,7 +73,7 @@ h3 {
 }
 
 .modal-close-btn {
-  @apply text-xs bg-white rounded-md border-custom-black-100 text-custom-black-600;
+  @apply text-xs bg-white rounded-md border-custom-black-100 text-font-gray-800;
   width: 117px;
   border-width: 1px !important;
 }
@@ -73,10 +84,11 @@ h3 {
 
 @media (min-width: 1024px) {
   .billing-details {
-    height: 450px;
+    height: 540px;
 
     &.edit-modal {
       height: auto;
+      min-height: unset;
     }
   }
 }

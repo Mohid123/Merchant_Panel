@@ -1,5 +1,5 @@
 <ng-container *ngIf="showDiv.calendarView == true">
-  <div class="absolute md:top-28 md:right-6 lg:top-28 lg:right-12 2xl:right-48 right-6 top-28">
+  <div class="absolute md:top-28 md:right-6 lg:top-28 lg:right-12 2xl:right-48 right-6 top-28 setting">
     <div class="moon">
       <span class="ml-2 text-xs">05</span>
     </div>
@@ -10,84 +10,105 @@
 <ng-container *ngIf="showDiv.listView == true">
   <div class="absolute z-40 2xl:right-48 lg:top-32 lg:right-8 md:top-28 md:right-4 right-5 top-28">
     <div class="flex flex-row items-end justify-end w-full mt-5 ml-2 lg:mt-0">
-    <div ngbDropdown placement="bottom-end" display="dynamic" id="dropdownBasic1" class="m-2">
-      <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
-      <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button ngbDropdownItem>Jan - Feb</button>
-        <button ngbDropdownItem>Mar - Jul</button>
-        <button ngbDropdownItem>Aug - Dec</button>
+      <div #myDrop="ngbDropdown" ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
+        <button class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-5 xl:py-3 2xl:px-5 2xl:py-3" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
+        <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md cursor-pointer xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <ngb-datepicker
+            #dp
+            (dateSelect)="onDateSelection($event)"
+            [displayMonths]="1"
+            [dayTemplate]="t"
+            outsideDays="hidden"
+            [footerTemplate]="footerTemplate">
+          </ngb-datepicker>
+        </div>
       </div>
-    </div>
-    <div ngbDropdown placement="bottom-end" display="dynamic" id="dropdownBasic2" class="m-2">
-      <button class="hidden xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3" ngbDropdownToggle><i class="mr-3 fas fa-filter"></i>Filter<i class="ml-3 fas fa-angle-down"></i></button>
-      <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:hidden"><i class="mr-3 fas fa-filter" ngbDropdownToggle></i><i class="ml-3 fas fa-angle-down"></i></button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-        <button ngbDropdownItem>A - Z</button>
-        <button ngbDropdownItem>Ascending - Descending</button>
-        <button ngbDropdownItem>Something</button>
+      <div class="mb-2 mr-3">
+        <button (click)="resetFilters()" class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-5 xl:py-3 2xl:px-5 2xl:py-3"><i class="mr-3 fas fa-retweet"></i>Reset Filters</button>
+        <button (click)="resetFilters()" class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md cursor-pointer xl:hidden"><i class="fas fa-retweet"></i></button>
       </div>
-    </div>
-  </div>
-    <!-- <div class="flex flex-col justify-end w-full mt-2 mb-5 ml-2 xl:flex-row 2xl:flex-row lg:flex-row md:flex-row">
-      <div class="m-2">
-        <a class="px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3 lg:px-4 lg:py-4"><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></a>
-      </div>
-      <div class="m-2">
-        <a class="px-2 py-2 text-gray-500 bg-gray-300 rounded-md xl:px-6 xl:py-3 2xl:px-6 2xl:py-3 lg:px-4 lg:py-3"><i class="mr-3 fas fa-filter"></i>Filter<i class="ml-3 fas fa-angle-down"></i></a>
-      </div>
-    </div> -->
+   </div>
   </div>
 </ng-container>
 
 
-<mat-tab-group [disableRipple]="true" [selectedIndex]="1" (selectedTabChange)="switchTabs($event)">
+<mat-tab-group [disableRipple]="true" [selectedIndex]="0" (selectedTabChange)="switchTabs($event); something();">
   <mat-tab label="List View">
-    <div class="table-container">
-      <table class="w-full mt-10 rounded-md shadow-lg">
-        <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
-          <th class="p-4 font-thin">Deals Title&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-thin">Price&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-thin">Start Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-thin">End Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-thin">Qty&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-thin">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-          <th class="p-4 font-thin">Action&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        </tr>
-        <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
-          <td class="flex flex-row items-center justify-center p-4 font-thin">
-            <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="../../../../../assets/media/books/img-72.jpg">
-            <span class="ml-3">Heavenly Massage</span>
-          </td>
-          <td class="p-4 font-thin">$300</td>
-          <td class="p-4 font-thin">26 April, 2021</td>
-          <td class="p-4 font-thin">26 July, 2021</td>
-          <td class="p-4 font-thin">74</td>
-          <!-- <ng-container *ngIf="status == Active"></ng-container> -->
-          <!-- <td class="p-4 font-thin">
-              <span class="px-5 py-3 badge badge-light-danger rounded-2xl">Pending</span>
-          </td> -->
-          <!-- <ng-container *ngIf="status == Pending"></ng-container> -->
-          <td class="p-4 font-thin">
-            <span class="px-5 py-3 badge badge-light-success rounded-2xl">Active</span>
-          </td>
-          <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
-            <a class="px-1 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md">
-              <i class="p-1 fas fa-pencil-alt"></i>
-            </a>
-            <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md">
-              <i class="p-1 fas fa-trash"></i>
-            </a>
-          </td>
-        </tr>
-      </table>
-    </div>
+    <ng-container *ngIf="showData == false">
+      <app-table-skeleton></app-table-skeleton>
+    </ng-container>
+    <ng-container *ngIf="showData == true">
+      <div class="table-container">
+        <table class="w-full mt-10 rounded-md shadow-lg">
+          <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
+            <th class="p-4 font-semibold text-black cursor-pointer" (click)="filterByTitle('Descending')">Deals Title&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+            <th class="p-4 font-semibold text-black cursor-pointer" (click)="filterByStartDate('Descending')">Start Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+            <th class="p-4 font-semibold text-black cursor-pointer" (click)="filterByEndDate('Descending')">End Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+            <th class="p-4 font-semibold text-black cursor-pointer">Available&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+            <th class="p-4 font-semibold text-black cursor-pointer">Sold&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+            <div style="all: unset" ngbDropdown display="dynamic" id="dropdownBasic3">
+              <th ngbDropdownToggle class="p-4 font-semibold text-black cursor-pointer">Status&nbsp; <i class="fas fa-chevron-down fa-xs"></i></th>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+                <ng-container *ngFor="let type of statusTypes">
+                  <button ngbDropdownItem (click)="filterByStatus(type.status)">
+                    {{type.status}}
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+            <th class="p-4 font-semibold text-black cursor-pointer">Action</th>
+          </tr>
+          <ng-container *ngFor="let event of currentEvents; let index = index">
+            <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
+              <td class="flex flex-row items-center justify-center p-4 font-thin">
+                <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="../../../../../assets/media/books/img-72.jpg">
+                <span class="ml-3">{{event.title}}</span>
+              </td>
+              <td class="p-4 font-thin">{{event.startDate | date}}</td>
+              <td class="p-4 font-thin">{{event.endDate | date}}</td>
+              <td class="p-4 font-thin">{{event.vouchers.length}}</td>
+              <td class="p-4 font-thin">{{event.soldVouchers}}</td>
+              <td class="p-4 font-thin">
+                <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{event.dealStatus}}</span>
+              </td>
+              <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
+                <a class="px-2 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer 2xl:px-3 2xl:py-1">
+                  <i class="p-1 fas fa-ellipsis-h"></i>
+                </a>
+                <a (click)="event.showDetail = !event.showDetail" class="px-2 py-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer 2xl:px-3 2xl:py-1">
+                  <i [ngClass]="event.showDetail ? 'p-1 fas fa-angle-double-up': 'p-1 fas fa-angle-double-down'"></i>
+                </a>
+              </td>
+            </tr>
+            <ng-container *ngFor="let voucher of event?.vouchers">
+              <tr class="rounded-md tid-detail-row"
+               [ngClass]="{'showing': event.showDetail}">
+              <td>
+                <div class="title-deal">{{voucher?.subTitle}}</div>
+              </td>
+              <td>
+                <div class="title-price">Price:&nbsp; <span class="text-green-600">${{voucher?.dealPrice}}</span></div>
+              </td>
+              <td>
+                <div class="title-vouchers">Sold Vouchers:&nbsp; <span class="text-green-600">{{voucher?.soldVouchers}}</span></div>
+              </td>
+              <td>
+                <div class="title-available">Available Vouchers:&nbsp; <span class="text-green-600">{{voucher?.numberOfVouchers}}</span></div>
+                <div class="title-valid">Validity:&nbsp; <span class="font-medium text-gray-600">{{voucher?.voucherValidity}} days after purchase</span></div>
+              </td>
+            </tr>
+            </ng-container>
+          </ng-container>
+        </table>
+      </div>
+    </ng-container>
   </mat-tab>
   <mat-tab label="Calendar View">
     <div class="p-0 mt-5 shadow-sm lg:p-12 card card-custom card-stretch" style="border-top: 16px solid #F38B41;">
       <div class="p-2 rounded lg:p-8 card card-custom card-stretch bg-gray-50">
         <div class="lg:p-6 card card-custom card-stretch">
-          <full-calendar [options]="calendarOptions"></full-calendar>
+          <full-calendar #fullCalendar [options]="calendarOptions"></full-calendar>
         </div>
       </div>
     </div>
@@ -172,3 +193,26 @@
   </div>
 
 </app-reusable-modal>
+
+
+<!--Calendar TEMPLATE-->
+<ng-template #t let-date let-focused="focused">
+  <span class="custom-day"
+        [class.focused]="focused"
+        [class.range]="isRange(date)"
+        [class.faded]="isHovered(date) || isInside(date)"
+        (mouseenter)="hoveredDate = date"
+        (mouseleave)="hoveredDate = null">
+    {{ date.day }}
+  </span>
+</ng-template>
+
+
+<!--Calendar Footer TEMPLATE-->
+<ng-template #footerTemplate>
+  <hr class="my-0">
+  <button class="m-2 btn btn-primary btn-sm float-center" (click)="filterByDate(fromDate, toDate); myDrop.close()">Apply Filter</button>
+  <button class="mt-2 mr-1 btn btn-secondary btn-sm float-end" (click)="myDrop.close()">Close</button>
+</ng-template>
+
+<!-- (click)="myDrop.close();" -->

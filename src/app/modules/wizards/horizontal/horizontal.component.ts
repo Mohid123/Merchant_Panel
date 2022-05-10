@@ -8,7 +8,7 @@ import { MainDeal } from './../models/main-deal.model';
 export class HorizontalComponent implements OnInit {
   formsCount = 5;
   deal$: BehaviorSubject<MainDeal> =
-    new BehaviorSubject<MainDeal>({});
+    new BehaviorSubject<MainDeal>(new MainDeal);
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
   isCurrentFormValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
