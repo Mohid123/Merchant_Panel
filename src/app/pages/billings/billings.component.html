@@ -57,6 +57,7 @@
   <app-table-skeleton></app-table-skeleton>
 </ng-container>
 
+<ng-container *ngIf="showData == true">
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
       <tr class="text-center text-black bg-gray-300 rounded-lg">
@@ -110,6 +111,8 @@
       </ng-container>
     </table>
   </div>
+</ng-container>
+
 
 <app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="relative">

@@ -64,6 +64,7 @@
   <app-table-skeleton></app-table-skeleton>
 </ng-container>
 
+<ng-container *ngIf="showData == true">
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
       <thead ngbDropdown display="dynamic" id="dropdownBasic2" class="text-center text-black bg-gray-300 rounded-lg">
@@ -125,6 +126,7 @@
 
     </table>
   </div>
+</ng-container>
 
 <ng-template #t let-date let-focused="focused">
   <span class="custom-day"

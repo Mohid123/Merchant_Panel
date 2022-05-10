@@ -1,7 +1,7 @@
 <!-- begin::Row -->
 <div class="flex flex-row flex-wrap justify-between mb-5">
   <span class="text-3xl font-semibold text-black">Analytics</span>
-  <!-- <button class="px-6 py-3 text-sm font-thin btn btn-dark" routerLink="/crafted/pages/wizards/horizontal">Create Deal</button> -->
+  <button class="px-6 py-3 text-sm font-thin btn btn-dark" routerLink="/crafted/pages/wizards/horizontal">Create Deal</button>
 </div>
 
 <div class="row gy-5 g-xl-8">
@@ -37,7 +37,7 @@
   <app-table-skeleton></app-table-skeleton>
 </ng-container>
 
-<!-- <ng-container *ngIf="showData == true"> -->
+<ng-container *ngIf="showData == true">
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
       <tr ngbDropdown placement="bottom-end" id="dropdownBasic1" class="text-center text-gray-600 bg-gray-300 rounded-lg">
@@ -51,18 +51,20 @@
       </tr>
       <ng-container *ngFor="let deal of topDeals; let i = index">
         <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
-          <td class="flex flex-row p-4 ml-4 font-thin items-left">
-            <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="https://images.pexels.com/photos/2086748/pexels-photo-2086748.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+          <td class="flex flex-row items-center justify-center p-4 font-thin">
+            <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" [src]="deal.mediaUrl">
             <span class="ml-3">{{deal.title}}</span>
           </td>
-          <td class="p-4 font-thin">{{deal.startDate}}</td>
-          <td class="p-4 font-thin">{{deal.endDate}}</td>
-          <td class="p-4 font-thin">{{deal.available}}</td>
-          <td class="p-4 font-thin">{{deal.sold}}</td>
-          <td class="p-4 font-thin">{{deal.average}}</td>
+          <td class="p-4 font-thin">{{deal.startDate | date}}</td>
+          <td class="p-4 font-thin">{{deal.endDate | date}}</td>
+          <td class="p-4 font-thin">{{deal.ratingsAverage}}</td>
+          <td class="p-4 font-thin">{{deal.maxRating}}</td>
+          <td class="p-4 font-thin">{{deal.minRating}}</td>
+           <ng-container *ngIf="deal.dealStatus == 'In Review'"></ng-container>
            <td class="p-4 font-thin">
             <span class="px-5 py-3 badge badge-light-warning rounded-2xl">Pending</span>
           </td>
+          <!-- <ng-container *ngIf="deal.dealStatus == ''"></ng-container> -->
         </tr>
       </ng-container>
     </table>
