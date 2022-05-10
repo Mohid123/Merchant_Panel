@@ -84,6 +84,22 @@ export class ViewDealComponent implements OnInit {
   title: string;
   price: string;
   destroy$ = new Subject();
+  status: string;
+
+  statusTypes = [
+    {
+      status: 'Published'
+    },
+    {
+      status: 'Scheduled'
+    },
+    {
+      status: 'In Review'
+    },
+    {
+      status: 'Bounced'
+    }
+  ];
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -141,7 +157,7 @@ export class ViewDealComponent implements OnInit {
     this.showData = false;
     const params: any = {
       title: this.title,
-      price: this.price,
+      status: this.status,
       startDate: this.startDate,
       endDate: this.endDate,
       dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
@@ -217,6 +233,13 @@ export class ViewDealComponent implements OnInit {
     else {
       this.price = price;
     }
+    this.getDealsByMerchantID();
+  }
+
+  filterByStatus(status: string) {
+    debugger
+    this.offset = 0;
+    this.status = status;
     this.getDealsByMerchantID();
   }
 

@@ -23,11 +23,14 @@ export class ReviewsService extends ApiService<review> {
     return this.get(`/deal/getDealsReviewStatsByMerchant/${merchantID}`, params);
   }
 
-  getDealReviews(dealID: string, offset: any, limit: any): Observable<ApiResponse<any>> {
+  getDealReviews(dealID: string, offset: any, limit: any, data: {
+    rating: number
+  }): Observable<ApiResponse<any>> {
     const params: any = {
       offset: offset,
       limit: limit
     }
+    if(data.rating) params.rating = data.rating;
     return this.get(`/deal/getDealReviews/${dealID}`, params)
   }
 

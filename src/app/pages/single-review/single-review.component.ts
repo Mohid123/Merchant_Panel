@@ -19,6 +19,25 @@ export class SingleReviewComponent implements OnInit {
   offset: number = 0;
   limit: number = 10;
   destroy$ = new Subject();
+  rating: number;
+
+  ratings = [
+    {
+      value: 1
+    },
+    {
+      value: 2
+    },
+    {
+      value: 3
+    },
+    {
+      value: 4
+    },
+    {
+      value: 5
+    }
+  ]
 
   public reviewId: string;
 
@@ -39,7 +58,10 @@ export class SingleReviewComponent implements OnInit {
 
   getReviewsByMerchant() {
     this.showData = false;
-    this.reviewService.getDealReviews(this.reviewId, this.offset, this.limit)
+    const params: any = {
+      rating: this.rating
+    }
+    this.reviewService.getDealReviews(this.reviewId, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<Reviews>) => {
       debugger
@@ -47,6 +69,13 @@ export class SingleReviewComponent implements OnInit {
       this.showData = true;
       this.cf.detectChanges();
     })
+  }
+
+  filterByRating(rating: number) {
+    debugger
+    this.offset = 0;
+    this.rating = rating;
+    this.getReviewsByMerchant();
   }
 
 

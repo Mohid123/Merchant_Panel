@@ -47,7 +47,16 @@
             <th class="p-4 font-semibold text-black cursor-pointer" (click)="filterByEndDate('Descending')">End Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
             <th class="p-4 font-semibold text-black cursor-pointer">Available&nbsp; <i class="fas fa-sort fa-xs"></i></th>
             <th class="p-4 font-semibold text-black cursor-pointer">Sold&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-            <th class="p-4 font-semibold text-black cursor-pointer">Status&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+            <div style="all: unset" ngbDropdown display="dynamic" id="dropdownBasic3">
+              <th ngbDropdownToggle class="p-4 font-semibold text-black cursor-pointer">Status&nbsp; <i class="fas fa-chevron-down fa-xs"></i></th>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+                <ng-container *ngFor="let type of statusTypes">
+                  <button ngbDropdownItem (click)="filterByStatus(type.status)">
+                    {{type.status}}
+                  </button>
+                </ng-container>
+              </div>
+            </div>
             <th class="p-4 font-semibold text-black cursor-pointer">Action</th>
           </tr>
           <ng-container *ngFor="let event of currentEvents; let index = index">
@@ -64,10 +73,10 @@
                 <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{event.dealStatus}}</span>
               </td>
               <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
-                <a class="px-3 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer">
+                <a class="2xl:px-3 2xl:py-1 xl:px-2 xl:py-1 mr-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer">
                   <i class="p-1 fas fa-ellipsis-h"></i>
                 </a>
-                <a (click)="event.showDetail = !event.showDetail" class="px-3 py-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer">
+                <a (click)="event.showDetail = !event.showDetail" class="2xl:px-3 2xl:py-1 xl:px-2 xl:py-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer">
                   <i [ngClass]="event.showDetail ? 'p-1 fas fa-angle-double-up': 'p-1 fas fa-angle-double-down'"></i>
                 </a>
               </td>
