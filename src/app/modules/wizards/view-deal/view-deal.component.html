@@ -24,7 +24,7 @@
           </ngb-datepicker>
         </div>
       </div>
-      <div class="m-2">
+      <div class="mb-2 mr-3">
         <button (click)="resetFilters()" class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-5 xl:py-3 2xl:px-5 2xl:py-3"><i class="mr-3 fas fa-retweet"></i>Reset Filters</button>
         <button (click)="resetFilters()" class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md cursor-pointer xl:hidden"><i class="fas fa-retweet"></i></button>
       </div>
@@ -73,10 +73,10 @@
                 <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{event.dealStatus}}</span>
               </td>
               <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
-                <a class="2xl:px-3 2xl:py-1 xl:px-2 xl:py-1 mr-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer">
+                <a class="2xl:px-3 2xl:py-1 px-2 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer">
                   <i class="p-1 fas fa-ellipsis-h"></i>
                 </a>
-                <a (click)="event.showDetail = !event.showDetail" class="2xl:px-3 2xl:py-1 xl:px-2 xl:py-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer">
+                <a (click)="event.showDetail = !event.showDetail" class="2xl:px-3 2xl:py-1 px-2 py-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer">
                   <i [ngClass]="event.showDetail ? 'p-1 fas fa-angle-double-up': 'p-1 fas fa-angle-double-down'"></i>
                 </a>
               </td>
