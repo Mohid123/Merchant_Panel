@@ -125,7 +125,7 @@ export class ViewDealComponent implements OnInit {
     calendarView: false
   }
 
-  currentEvents: any[] = [];
+  currentEvents: any;
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -173,6 +173,7 @@ export class ViewDealComponent implements OnInit {
   ngOnInit(): void {
     this.dealService.getDeals(this.authService.currentUserValue?.id).subscribe((res:any)=> {
       if (!res.hasErrors()) {
+        debugger
         this.currentEvents = res.data.data;
         this.calendarOptions.events = res.data.data.map((item:MainDeal) => {
             return {
