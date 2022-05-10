@@ -64,19 +64,19 @@ export class BussinessDetailsComponent implements OnInit {
 
     const user = this.authService.currentUserValue;
     const businessHours = !!user?.businessHours.length ? user?.businessHours : initalBusinessHours;
-    console.log('businessHours:',businessHours);
+    // console.log('businessHours:',businessHours);
     this.businessHoursForm.controls['id'].setValue(user?.id);
      businessHours.forEach(businessHour => {
       this.addBusinessHour(businessHour)
      })
 
-    console.log('businessHoursForm:',this.businessHoursForm);
+    // console.log('businessHoursForm:',this.businessHoursForm);
   }
 
 
 
   get businessHoursFromControl() {
-    console.log('this.businessHoursForm:',this.businessHoursForm);
+    // console.log('this.businessHoursForm:',this.businessHoursForm);
     return this.businessHoursForm.controls["businessHours"] as FormArray;
   }
 
@@ -91,7 +91,7 @@ export class BussinessDetailsComponent implements OnInit {
     });
     businessHoursGroup.patchValue(businessHour)
     this.businessHoursFromControl.push(businessHoursGroup);
-    console.log('this.businessHoursFromControl:',this.businessHoursFromControl);
+    // console.log('this.businessHoursFromControl:',this.businessHoursFromControl);
   }
 
   ngOnInit(): void {
@@ -195,7 +195,7 @@ export class BussinessDetailsComponent implements OnInit {
   saveBusinessHours(){
     this.isLoading$.next(true);
     this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
-      console.log('asdsad:',res);
+      // console.log('asdsad:',res);
       if(!res.hasErrors()) {
         return this.userService.getUser(this.businessHoursForm.controls['id'].value);
       } else {

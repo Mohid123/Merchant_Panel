@@ -58,7 +58,7 @@ export class BillingsComponent implements OnInit {
       status: 'Pending'
     },
     {
-      status: 'Expired'
+      status: 'Cancelled'
     }
   ];
 
@@ -161,7 +161,8 @@ export class BillingsComponent implements OnInit {
       invoiceDate: this.invoiceDate,
       invoiceAmount: this.invoiceAmount,
       dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
-      dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
+      dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime(),
+      status: this.status
     }
     this.billingService.getAllInvoicesByMerchantID(this.authService.merchantID, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
@@ -205,6 +206,7 @@ export class BillingsComponent implements OnInit {
   }
 
   filterByStatus(status: string) {
+    debugger
     this.offset = 0;
     this.status = status;
     this.getInvoicesByMerchant();

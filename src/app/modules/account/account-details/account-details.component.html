@@ -79,7 +79,7 @@
     <a *ngIf="(authService.currentUser$ |async) as user" (click)="openBillingModal(user.iban)" class="edit-btn">Edit</a>
   </div>
 
-  <div class="h-72 py-3 px-9 card-body">
+  <div class="py-3 h-72 px-9 card-body">
     <ng-container *ngIf="(authService.currentUser$ |async) as user">
     <div>
       <label class="text-sm font-semibold">Company Name</label>
@@ -141,7 +141,7 @@
       </div> -->
       <div>
         <label>IBAN</label>
-        <input [(ngModel)]="iban" type="number" class="form-control" placeholder="0214" name="number" />
+        <input [(ngModel)]="iban" type="text" class="form-control" placeholder="ABC0214" name="number" />
       </div>
     </div>
     <div class="justify-between px-0 py-6 border-none card-footer d-flex">

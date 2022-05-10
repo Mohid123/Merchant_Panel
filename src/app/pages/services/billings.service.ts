@@ -22,6 +22,7 @@ export class BillingsService extends ApiService<billingData> {
     invoiceAmount: string;
     dateFrom: number;
     dateTo: number;
+    status: string;
   }): Observable<ApiResponse<billingData>> {
     const param: any = {
       offset: offset,
@@ -29,6 +30,7 @@ export class BillingsService extends ApiService<billingData> {
     }
     if(data.invoiceAmount) param.invoiceAmount = data.invoiceAmount;
     if(data.invoiceDate) param.invoiceDate = data.invoiceDate;
+    if(data.status) param.status = data.status;
     if(data.dateFrom) param.dateFrom = data.dateFrom;
     if(data.dateTo) param.dateTo = data.dateTo;
     return this.get(`/invoices/getAllInvoicesByMerchant/${merchantID}`, param);
