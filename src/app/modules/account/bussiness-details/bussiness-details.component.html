@@ -142,7 +142,7 @@
       <div class="justify-between px-0 py-6 border-none card-footer d-flex" *ngIf="isEditBusinessHours">
         <button class="modal-close-btn"
         routerLinkActive="active"
-        (click)="isEditBusinessHours = false">Discard</button>
+        (click)="isEditBusinessHours = false;businessHoursForm.disable()">Discard</button>
 
         <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async)" (click)="saveBusinessHours()">
           <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
@@ -160,9 +160,9 @@
     </div>
   </div>
   <div class="px-12 card-body" style="background-color: white;">
-    <form class="form row">
+    <form class="form row" [formGroup]="termsForm">
       <div class="pb-5">
-       <ckeditor [editor]="Editor" [config]="config" name="termsAndCondition"></ckeditor>
+       <ckeditor formControlName="generalTermsAgreements" [editor]="Editor" [config]="config" name="termsAndCondition"></ckeditor>
       </div>
 
       <div class="mt-6 mb-6 card-title">
@@ -170,8 +170,13 @@
       </div>
 
       <div class="pb-5">
-        <ckeditor [editor]="Editor" [config]="config"></ckeditor>
+        <ckeditor formControlName="businessProfile" [editor]="Editor" [config]="config"></ckeditor>
        </div>
+
+       <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveTerms()">
+        <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+      </button>
+
     </form>
   </div>
 </div>

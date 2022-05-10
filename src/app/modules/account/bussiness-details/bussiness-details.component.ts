@@ -16,6 +16,10 @@ import { UserService } from './../../auth/services/user.service';
 })
 export class BussinessDetailsComponent implements OnInit {
 
+  termsForm: FormGroup = this.fb.group({
+    generalTermsAgreements: ['',Validators.minLength(40)],
+    businessProfile: ['',Validators.minLength(40)]
+  })
   businessForm: FormGroup;
   config: any;
   public Editor = ClassicEditor
@@ -69,6 +73,11 @@ export class BussinessDetailsComponent implements OnInit {
      businessHours.forEach(businessHour => {
       this.addBusinessHour(businessHour)
      })
+
+     this.businessHoursForm.disable();
+
+     if(user)
+      this.termsForm.patchValue(user);
 
     // console.log('businessHoursForm:',this.businessHoursForm);
   }
@@ -190,6 +199,7 @@ export class BussinessDetailsComponent implements OnInit {
 
   editBusinessHours(){
     this.isEditBusinessHours = true;
+    this.businessHoursForm.enable();
   }
 
   saveBusinessHours(){
@@ -197,19 +207,28 @@ export class BussinessDetailsComponent implements OnInit {
     this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
       // console.log('asdsad:',res);
       if(!res.hasErrors()) {
-        return this.userService.getUser(this.businessHoursForm.controls['id'].value);
+        return this.userService.getUser();
       } else {
         return (res);
       }
-    })).subscribe(res => {
-      console.log('saveBusinessHours res:',res);
+    })).subscribe((res:any) => {
+      this.businessHoursForm.disable();
+      this.isEditBusinessHours = false;
       this.isLoading$.next(false);
     });
   }
 
   isWorkingDay(formControls:AbstractControl) {
     formControls.value.isWorkingDay = !formControls.value.isWorkingDay;
-    console.log('sass:',formControls.value.isWorkingDay);
+  }
+
+  saveTerms() {
+    console.log('thasasa:',this.termsForm.value);
+    this.userService.updateMerchantprofile(this.termsForm.value).pipe(exhaustMap((res:any) => {
+        return (res);
+    })).subscribe((res:any) => {
+      this.isLoading$.next(false);
+    });
   }
 
   ngOnDestroy() {

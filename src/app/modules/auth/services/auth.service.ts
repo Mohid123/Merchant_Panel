@@ -113,4 +113,9 @@ export class AuthService extends ApiService<AuthApiData> {
       this.merchantID = res.id;
     })
   }
+
+  updateUser(user:User) {
+    this.currentUserSubject.next(user);
+    setItem(StorageItem.User, user);
+  }
 }
