@@ -110,6 +110,14 @@
         <div class="lg:p-6 card card-custom card-stretch">
           <full-calendar #fullCalendar [options]="calendarOptions"></full-calendar>
         </div>
+        <div class="h-full lg:p-2 card card-custom card-stretch">
+          <div class="flex items-center pb-3 mt-3 justify-evenly lg:flex-row">
+            <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span style="font-family: Arial, Helvetica, sans-serif" class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7">Published</span></i>
+            <i class="text-green-500 lg:mr-4 fas fa-circle"> <span style="font-family: Arial, Helvetica, sans-serif" class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7">Scheduled</span></i>
+            <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span style="font-family: Arial, Helvetica, sans-serif" class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7">In-Review</span></i>
+            <i class="text-red-500 lg:mr-4 fas fa-circle"> <span style="font-family: Arial, Helvetica, sans-serif" class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base">Bounced</span></i>
+          </div>
+        </div>
       </div>
     </div>
   </mat-tab>
@@ -155,7 +163,7 @@
           <span class="text-sm text-gray-500">Sold Vocuhers: <span class="text-green-500">05</span></span>
         </div>
       </div>
-      <i (click)="closeModal()" class="far fa-times-circle"></i>
+      <i (click)="closeModal()" class="fas fa-times-circle"></i>
     </div>
   </div>
 

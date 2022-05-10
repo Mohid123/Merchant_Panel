@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DealService } from '@core/services/deal.service';
 import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
@@ -32,13 +31,6 @@ export class PopoverWrapperComponent {
   selector: 'app-view-deal',
   templateUrl: './view-deal.component.html',
   styleUrls: ['./view-deal.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
   encapsulation: ViewEncapsulation.None
 })
 
@@ -265,6 +257,11 @@ export class ViewDealComponent implements OnInit {
   isRange(date: NgbDate) {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
+
+  ngAfterViewInit() {
+    this.fullCalendar.getApi().render();
+  }
+
 
   renderTooltip(event:any) {
     console.log('renderTooltip:',event);

@@ -24,8 +24,6 @@ export class DashboardComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.authService.retreiveUserValue();
-    this.getTopDealsByMerchant();
   }
 
   getTopDealsByMerchant() {

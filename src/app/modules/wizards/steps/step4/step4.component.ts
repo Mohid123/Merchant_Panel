@@ -1,8 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
-import { combineLatest, of, Subscription } from 'rxjs';
-import { exhaustMap, take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { MainDeal } from '../../models/main-deal.model';
 import { ModalConfig } from './../../../../@core/models/modal.config';
@@ -152,36 +151,8 @@ export class Step4Component implements OnInit {
   //   );
   // }
 
-  openNew() {
-    const mediaUpload:any = [];
-    if(!!this.images.length) {
-      console.log('have images:',);
-      for (let index = 0; index < this.images.length; index++) {
-        mediaUpload.push(this.mediaService.uploadMedia('deal', this.images[index]));
-      }
-    }
-
-    this.data.mediaUrl = [];
-    combineLatest(mediaUpload)
-        .pipe(
-          take(1),
-          exhaustMap((mainResponse:any) => {
-            mainResponse.forEach((res:any)=> {
-              if (!res.hasErrors()) {
-                console.log('res:',res);
-                this.data.mediaUrl?.push(res.data.url);
-              } else {
-                return of(null);
-              }
-            })
-            return this.dealService.createDeal(this.data);
-          }),
-        )
-      .subscribe(async (res) =>{
-      if(!res.hasErrors()) {
-        return await this.modal.open();
-      }
-    })
+  async openNew() {
+    return await this.modal.open();
   }
 
   async closeModal() {
