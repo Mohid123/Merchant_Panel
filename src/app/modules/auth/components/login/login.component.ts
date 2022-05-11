@@ -14,13 +14,38 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent implements OnInit, OnDestroy {
   // KeenThemes mock, change it to:
   defaultAuth: any = {
-    email: 'admin@gmail.com',
-    password: 'qwertyuiop',
+    email: 'haider@gmail.com',
+    password: 'Qwertyuiop@',
   };
   loginForm: FormGroup;
   hasError: boolean;
   returnUrl: string;
   isLoading$: Observable<boolean>;
+  passwordHide: boolean = true;
+  // validityPass: boolean;
+  inputValue: string;
+
+  // options: NgPasswordValidatorOptions = {
+  //   placement: "bottom",
+  //   "animation-duration": 500,
+  //   shadow: true,
+  //   theme: "pro",
+  //   offset: 8,
+  //   heading: "Password Policy",
+  //   successMessage: "Password is Valid",
+  //   rules: {
+  //     password: {
+  //         type: "range",
+  //         length: 8,
+  //         min: 8,
+  //         max: 100,
+  //     },
+  //     "include-symbol": true,
+  //     "include-number": true,
+  //     "include-lowercase-characters": true,
+  //     "include-uppercase-characters": true,
+  //   }
+  // }
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -36,14 +61,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.authService.currentUserValue) {
       this.router.navigate(['/']);
     }
+    // this.validityPass = false;
   }
 
   ngOnInit(): void {
     this.initForm();
     // get return url from route parameters or default to '/'
-    this.returnUrl =
-      this.route.snapshot.queryParams['returnUrl'.toString()] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'.toString()] || '/';
   }
+
+  // get loginFormControl() {
+  //   return this.loginForm.controls;
+  // }
 
   initForm() {
     this.loginForm = this._formBuilder.group({
@@ -51,16 +80,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.defaultAuth.email,
         Validators.compose([
           Validators.required,
-          Validators.email,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
           Validators.minLength(3),
-          Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+          Validators.maxLength(320),
         ]),
       ],
       password: [
         this.defaultAuth.password,
         Validators.compose([
           Validators.required,
-          Validators.minLength(3),
+          Validators.minLength(8),
           Validators.maxLength(100),
         ]),
       ],
@@ -81,6 +110,20 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       });
     this.unsubscribe.push(loginSubscr);
+  }
+
+  // isValid(str: string) {
+  //   const pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$");
+  //   if (pattern.test(str)) {
+  //     this.validityPass = true;
+  //   }
+  //   else {
+  //     this.validityPass = false;
+  //   }
+  // }
+
+  passwordShowHide(): void {
+    this.passwordHide = !this.passwordHide;
   }
 
   ngOnDestroy() {

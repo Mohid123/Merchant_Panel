@@ -33,7 +33,7 @@
             </div>
             <div class="pb-5">
               <label class="form-label">Title</label>
-              <input appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="title" name="title" placeholder="Enter title of your deal"
+              <input maxlength="16" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="title" name="title" placeholder="Enter title of your deal"
               [ngClass]="{
                 'is-invalid': f['title'].invalid && f['title'].touched,
                 'is-valid': f['title'].valid}">
@@ -50,12 +50,6 @@
               }">
             </ng-container>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message: 'Title cannot exceed 30 characters',
-                control: dealForm.controls['title']
-              }">
-            </ng-container>
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'Only alphabets are allowed',
               control: dealForm.controls['title']
@@ -64,7 +58,7 @@
             </div>
             <div class="pb-5">
               <label class="form-label">Subtitle</label>
-              <input appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="subTitle" name="subTitle" placeholder="Enter subtitle of your deal"
+              <input maxlength="16" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="subTitle" name="subTitle" placeholder="Enter subtitle of your deal"
               [ngClass]="{
                 'is-invalid': f['subTitle'].invalid && f['subTitle'].touched,
                 'is-valid': f['subTitle'].valid}">
@@ -81,12 +75,6 @@
                 }">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'maxlength',
-                  message: 'Subtitle cannot exceed 60 characters',
-                  control: dealForm.controls['subTitle']
-                }">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'pattern',
                 message: 'Only alphabets are allowed',
                 control: dealForm.controls['subTitle']
@@ -95,7 +83,7 @@
             </div>
             <div class="pb-5">
               <label class="form-label">Description</label>
-              <textarea appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="description" name="description" placeholder="Description" rows="7"
+              <textarea maxlength="100" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="description" name="description" placeholder="Description" rows="7"
               [ngClass]="{
                 'is-invalid': f['description'].invalid && f['description'].touched,
                 'is-valid': f['description'].valid}"></textarea>
@@ -107,13 +95,7 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                   validation: 'minlength',
-                  message: 'Description should at least be 20 characters',
-                  control: dealForm.controls['description']
-                }">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'maxlength',
-                  message: 'Description cannot exceed 200 characters',
+                  message: 'Description should at least be 16 characters',
                   control: dealForm.controls['description']
                 }">
               </ng-container>

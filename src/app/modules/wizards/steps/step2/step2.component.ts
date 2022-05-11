@@ -21,30 +21,25 @@ export class Step2Component implements OnInit, OnDestroy {
       60,
       Validators.compose([
       Validators.required,
-      Validators.maxLength(5)
       ]),
     ],
     dealPrice: [
       50,
       Validators.compose([
       Validators.required,
-      Validators.maxLength(5)
       ]),
     ],
     details: [
       '',
       Validators.compose([
       Validators.required,
-      Validators.minLength(14),
-      Validators.maxLength(200),
-      Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
+      Validators.minLength(16)
       ]),
     ],
     numberOfVouchers: [
       0,
       Validators.compose([
       Validators.required,
-      Validators.maxLength(5)
       ])
     ],
     subTitle: [
@@ -52,7 +47,6 @@ export class Step2Component implements OnInit, OnDestroy {
       Validators.compose([
       Validators.required,
       Validators.minLength(3),
-      Validators.maxLength(60),
       Validators.pattern('^[a-zA-Z \-\']+')
         ]),
       ],
