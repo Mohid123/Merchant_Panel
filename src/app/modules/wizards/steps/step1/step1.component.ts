@@ -85,7 +85,6 @@ export class Step1Component implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(30),
           Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
         ]),
       ],
@@ -94,7 +93,6 @@ export class Step1Component implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(60),
           Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
         ]),
       ],
@@ -102,9 +100,7 @@ export class Step1Component implements OnInit, OnDestroy {
         this.deal.description,
         Validators.compose([
           Validators.required,
-          Validators.minLength(20),
-          Validators.maxLength(400),
-          Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
+          Validators.minLength(16)
         ]),
       ],
       mediaUrl: [
