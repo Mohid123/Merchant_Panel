@@ -197,7 +197,7 @@
 <!--Calendar Footer TEMPLATE-->
 <ng-template #footerTemplate>
   <hr class="my-0">
-  <button class="m-2 btn btn-primary btn-sm float-start" (click)="filterByDate(fromDate, toDate); myDrop.close()">Apply Filter</button>
+  <button class="m-2 btn btn-primary btn-sm float-start" [disabled]="!fromDate && !toDate" (click)="filterByDate(fromDate, toDate); myDrop.close()">Apply Filter</button>
   <button class="mt-2 btn btn-secondary btn-sm float-end" (click)="myDrop.close();">Close</button>
 </ng-template>
 
