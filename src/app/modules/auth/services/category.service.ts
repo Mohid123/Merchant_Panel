@@ -31,7 +31,7 @@ export class CategoryService extends ApiService<category> {
       offset: offset,
       limit: limit
     }
-    return this.get(`/category/getAllSubCategories`, params).pipe(take(1), tap((res: ApiResponse<any>) => {
+    return this.get(`/category/getAllSubCategoriesByMerchant`, params).pipe(take(1), tap((res: ApiResponse<any>) => {
       console.log(res);
     }));
   }

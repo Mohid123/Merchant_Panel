@@ -36,8 +36,8 @@ export class BillingsService extends ApiService<billingData> {
     return this.get(`/invoices/getAllInvoicesByMerchant/${merchantID}`, param);
   }
 
-  completeKYC(payload: KYC): Observable<ApiResponse<any>> {
-   return this.post(`/users/completeKYC`, payload);
+  completeKYC(merchantID: string, payload: KYC): Observable<ApiResponse<any>> {
+   return this.post(`/users/completeKYC/${merchantID}`, payload);
   }
 
   getMerchantStats(merchantID: string): Observable<ApiResponse<any>> {
