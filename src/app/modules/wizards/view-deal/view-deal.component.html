@@ -1,5 +1,5 @@
 <ng-container *ngIf="showDiv.calendarView == true">
-  <div class="absolute md:top-28 md:right-6 lg:top-28 lg:right-12 2xl:right-48 right-6 top-28 setting">
+  <div class="absolute md:top-28 md:right-6 lg:top-24 lg:right-12 2xl:right-48 right-6 top-28 setting">
     <div class="moon">
       <span class="ml-2 text-xs">05</span>
     </div>
@@ -8,7 +8,7 @@
 </ng-container>
 
 <ng-container *ngIf="showDiv.listView == true">
-  <div class="absolute z-40 2xl:right-48 lg:top-32 lg:right-8 md:top-28 md:right-4 right-5 top-28">
+  <div class="absolute z-40 2xl:right-48 lg:top-28 lg:right-8 md:top-28 md:right-4 right-5 top-28">
     <div class="flex flex-row items-end justify-end w-full mt-5 ml-2 lg:mt-0">
       <div #myDrop="ngbDropdown" ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
         <button class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-5 xl:py-3 2xl:px-5 2xl:py-3" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
@@ -120,7 +120,7 @@
           <div class="flex items-center justify-evenly lg:flex-row">
             <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Published</span></i>
             <i class="text-green-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Scheduled</span></i>
-            <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">InReview</span></i>
+            <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">In-Review</span></i>
             <i class="text-red-500 lg:mr-4 fas fa-circle"> <span class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base abc">Bounced</span></i>
           </div>
       </div>
@@ -224,7 +224,7 @@
 <!--Calendar Footer TEMPLATE-->
 <ng-template #footerTemplate>
   <hr class="my-0">
-  <button class="m-2 btn btn-primary btn-sm float-center" [disabled]="!fromDate && !toDate" (click)="filterByDate(fromDate, toDate); myDrop.close()">Apply Filter</button>
+  <button class="m-2 btn btn-primary btn-sm float-center" [disabled]="!fromDate || !toDate" (click)="filterByDate(fromDate, toDate); myDrop.close()">Apply Filter</button>
   <button class="mt-2 mr-1 btn btn-secondary btn-sm float-end" (click)="myDrop.close()">Close</button>
 </ng-template>
 
