@@ -1,7 +1,7 @@
 <!--Title/ Header-->
 <div class="mb-7 lg:text-center">
-  <h1 class="mt-2 mb-3 text-3xl text-center">Let's get the numbers right</h1>
-  <div class="text-xl font-thin text-center text-primary-400">Lets make sure our customers realize how exceptional this deal is!</div>
+  <h1 class="md:text-2xl mt-2 mb-3 text-3xl text-center">Let's get the numbers right</h1>
+  <div class="md:text-sm text-xl font-thin text-center text-primary-400">Lets make sure our customers realize how exceptional this deal is!</div>
 </div>
 <!--Card for Viewing Deal-->
 <div class="flex flex-wrap w-full mx-auto" style="max-width: 780px;">
@@ -17,12 +17,12 @@
         <ng-container *ngFor="let image of images; let i = index">
           <ng-container *ngIf="i == 0">
             <div class="w-full mt-2 mb-6 card main-img-container">
-              <img class="card-img-top rounded-bottom" [src]="image">
+              <img class="card-img-top rounded-bottom h-48" [src]="image">
             </div>
           </ng-container>
         </ng-container>
           <!--loop for images goes here-->
-        <div class="flex-row justify-between w-7 h-7 md:w-14 md:h-14 lg:h-6 lg:w-6 xl:w-10 xl:h-10 card">
+        <div class="flex-row justify-between w-7 h-7 card">
           <ng-container *ngFor="let image of images; let i = index;">
             <img class="mr-1 rounded-sm" [src]="image" *ngIf="i > 0">
           </ng-container>
@@ -42,7 +42,7 @@
     </ng-container>
     <ng-container *ngIf="subDeals.length > 0">
       <div class="flex justify-between 2xl:justify-evenly">
-      <div class="w-full font-semibold" style="max-width: 170px;">Add another voucher detail
+      <div class="w-full font-semibold" style="max-width: 200px;">Add another voucher detail
       </div>
       <button type="button" class="justify-center text-yellow-500 fas fa-plus-circle fa-lg" (click)="openNew()" style="cursor: pointer;"></button>
       </div>

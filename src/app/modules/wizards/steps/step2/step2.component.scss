@@ -32,9 +32,9 @@ input[type=number] {
 }
 
 
-  .custom-card-design {
-    margin-right: 12px;
-  }
+.custom-card-design {
+  margin-right: 12px;
+}
 
 .second-card {
   margin-top: 0px!important;
@@ -44,9 +44,21 @@ input[type=number] {
   .custom-card-design {
     margin-right: 0px;
     margin-bottom: 16px;
+    height: 450px;
 
   }
   .second-card {
     max-width: unset;
+    height: 450px;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1366px) {
+  .second-card {
+    height: 450px;
+  }
+
+  .custom-card-design {
+    height: 450px;
   }
 }
