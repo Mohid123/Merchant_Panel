@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
+import * as moment from 'moment';
 import { combineLatest, of, Subscription } from 'rxjs';
 import { exhaustMap, take } from 'rxjs/operators';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
@@ -46,6 +47,9 @@ export class Step4Component implements OnInit {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
+    validRange: {
+      start: moment().format('YYYY-MM-DD')
+    },
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this)
@@ -90,6 +94,9 @@ export class Step4Component implements OnInit {
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {
+    // console.log('moment().isSame(selectInfo.startStr):',moment().isSame(selectInfo.startStr,'day'));
+    // if(!moment().isSame(selectInfo.startStr,'day') && moment().isAfter(selectInfo.startStr)) { return }
+
     const title = "Event Title"
     const calendarApi = selectInfo.view.calendar;
 
