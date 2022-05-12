@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
 import * as moment from 'moment';
 import { combineLatest, of, Subscription } from 'rxjs';
@@ -77,6 +78,7 @@ export class Step4Component implements OnInit {
     private connection: ConnectionService,
     private dealService: DealService,
     private mediaService: MediaService,
+    private router: Router
   ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response
@@ -193,7 +195,9 @@ export class Step4Component implements OnInit {
   }
 
   async closeModal() {
-    return await this.modal.close();
+    return await this.modal.close().then(() => {
+      this.router.navigate(['/crafted/pages/wizards/view-deal'])
+    });
   }
 
   ngOnDestroy() {
