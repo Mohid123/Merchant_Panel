@@ -32,7 +32,7 @@ export class DealService extends ApiService<deal> {
     return this.get(`/deal/getSalesStatistics`);
   }
 
-  getDeals(merchantID: string, offset: any, limit: any, data: {
+  getDeals(page: number, merchantID: string, offset: any, limit: any, data: {
     title: string;
     price: string;
     startDate: string;
@@ -40,8 +40,9 @@ export class DealService extends ApiService<deal> {
     dateFrom: number;
     dateTo: number;
   }): Observable<ApiResponse<deal>> {
+    page--;
     const param: any = {
-      offset: offset,
+      offset: page ? limit * page : 0,
       limit: limit
     }
     if(data.title) param.title = data.title;
