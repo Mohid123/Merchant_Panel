@@ -176,11 +176,11 @@ export class Step4Component implements OnInit {
             })
             return this.dealService.createDeal(this.data);
           }),
-        )
-      .subscribe(async (res) =>{
-      if(!res.hasErrors()) {
-        return await this.modal.open();
-      }
+        ).subscribe(async (res) => {
+          debugger
+        if(!res.hasErrors()) {
+          return await this.modal.open();
+        }
     })
   }
 
