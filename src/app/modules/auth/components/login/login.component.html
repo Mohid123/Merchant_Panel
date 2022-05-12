@@ -17,7 +17,7 @@
         <ng-container *ngIf="hasError">
           <div class="mb-lg-15 alert alert-danger">
             <div class="alert-text font-weight-bold">
-              The login credentials are incorrect
+              Please provide valid login credentials
             </div>
           </div>
         </ng-container>
@@ -51,7 +51,7 @@
         </div>
 
         <div class="mb-7 form-group row">
-          <label class="mb-3 text-xs font-light text-black sm:text-sm form-label">Password</label>
+          <label class="mb-3 text-xs font-light text-black sm:text-sm xl:text-base 2xl:text-lg form-label">Password</label>
 
           <div class="flex flex-row input-group-prepend justify-evenly">
             <input class="form-control form-control-lg form-control-solid"
@@ -69,16 +69,6 @@
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                         validation: 'required',
                         message: 'Password is required',
-                        control: loginForm.controls['password']}">
-          </ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'minlength',
-                        message: 'Password should have at least 8 characters',
-                        control: loginForm.controls['password']}">
-          </ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'maxLength',
-                        message: 'Password should have maximum 100 characters',
                         control: loginForm.controls['password']}">
           </ng-container>
           <div class="w-full text-right mt-7">
