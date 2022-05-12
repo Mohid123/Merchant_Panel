@@ -68,10 +68,10 @@
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
       <thead ngbDropdown display="dynamic" id="dropdownBasic2" class="text-center text-black bg-gray-300 rounded-lg">
-        <th class="p-4 font-normal cursor-pointer customary">Voucher ID</th>
-        <th class="p-4 font-normal cursor-pointer" (click)="filterByDeal('Descending')">Deal&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-normal cursor-pointer" (click)="filterByAmount('Descending')">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th ngbDropdownToggle class="p-4 font-normal cursor-pointer">Status&nbsp;<i class="fas fa-chevron-down fa-xs"></i></th>
+        <th class="p-4 font-semibold cursor-pointer customary">Voucher ID</th>
+        <th class="p-4 font-semibold cursor-pointer" (click)="filterByDeal('Descending')">Deal&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th class="p-4 font-semibold cursor-pointer" (click)="filterByAmount('Descending')">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
+        <th ngbDropdownToggle class="p-4 font-semibold cursor-pointer">Status&nbsp;<i class="fas fa-chevron-down fa-xs"></i></th>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
             <ng-container *ngFor="let type of statusTypes">
               <button ngbDropdownItem (click)="filterByStatus(type.status)">
@@ -80,7 +80,7 @@
             </ng-container>
           </div>
           <div style="all: unset" ngbDropdown display="dynamic" id="dropdownBasic3">
-            <th ngbDropdownToggle class="p-4 font-normal cursor-pointer">Payment Status&nbsp; <i class="fas fa-chevron-down fa-xs"></i></th>
+            <th ngbDropdownToggle class="p-4 font-semibold cursor-pointer">Payment Status&nbsp; <i class="fas fa-chevron-down fa-xs"></i></th>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
               <ng-container *ngFor="let type of paymentTypes">
                 <button ngbDropdownItem (click)="filterByPaymentStatus(type.paymentStatus)">

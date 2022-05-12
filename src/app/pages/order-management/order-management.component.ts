@@ -86,7 +86,9 @@ export class OrderManagementComponent implements OnInit {
     this.getMerchantStats();
     this.searchControl.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(1000))
       .subscribe(newValue => {
+        debugger
         if (newValue.trim().length == 0 || newValue == null) {
+          debugger
           this.noRecordFound = false;
           this.getVouchersByMerchant();
         } else {
@@ -176,18 +178,20 @@ export class OrderManagementComponent implements OnInit {
   }
 
   searchVoucher(voucherID: number) {
+    debugger
     this.orderService.searchByVoucherID(voucherID)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<any>) => {
       if(!res.hasErrors()) {
+        debugger
         if(!res.data) {
           this.ordersData = res.data;
-          this.noRecordFound = true;
+          // this.noRecordFound = true;
           this.cf.detectChanges();
         }
         else {
           this.ordersData = res;
-          this.noRecordFound = false;
+          // this.noRecordFound = false;
           this.cf.detectChanges();
         }
       }
