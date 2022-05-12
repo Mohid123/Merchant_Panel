@@ -47,6 +47,9 @@ export class Step4Component implements OnInit {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
+    validRange: {
+      start: moment().format('YYYY-MM-DD')
+    },
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this)
@@ -91,7 +94,8 @@ export class Step4Component implements OnInit {
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {
-    if(moment(selectInfo.startStr).isBefore(moment())) { return }
+    // console.log('moment().isSame(selectInfo.startStr):',moment().isSame(selectInfo.startStr,'day'));
+    // if(!moment().isSame(selectInfo.startStr,'day') && moment().isAfter(selectInfo.startStr)) { return }
 
     const title = "Event Title"
     const calendarApi = selectInfo.view.calendar;
