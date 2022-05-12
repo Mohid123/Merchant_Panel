@@ -8,9 +8,7 @@ export function GreaterThanValidator(controlName: string, matchingControlName: s
       if (matchingControl.errors && !matchingControl.errors['confirmedValidator']) {
           return;
       }
-      debugger
       if (parseInt(control.value) < parseInt(matchingControl.value)) {
-        debugger
           matchingControl.setErrors({ confirmedValidator: true });
       } else {
           matchingControl.setErrors(null);
