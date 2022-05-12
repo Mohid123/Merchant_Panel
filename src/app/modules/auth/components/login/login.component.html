@@ -111,8 +111,8 @@
 
   <ng-template #formError let-control="control" let-message="message" let-validation="validation">
     <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
-      <div class="text-xs fv-plugins-message-container sm:text-sm">
-        <span class="fv-help-block" role="alert">
+      <div class="text-xs fv-plugins-message-container">
+        <span class="text-xs fv-help-block" role="alert">
           {{ message }}
         </span>
       </div>
