@@ -14,6 +14,11 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        'xl': '1280px',
+        '2xl': '1600px',
+        '3xl': '1920px',
+      },
       colors: {
         'primary-100': '#F7E1AD',
         'primary-400': '#F38B41',
@@ -40,6 +45,7 @@ module.exports = {
         '90px': '90px',
       },
       fontSize: {
+        '4.5xl': '2.5rem',
         '45px': '45px'
       },
       flexGrow: {

@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.defaultAuth.email,
         Validators.compose([
           Validators.required,
-          Validators.email,
+          Validators.pattern(`[a-z0-9._%+-]+@[a-z0-9.-]+\.com$`),
           Validators.minLength(3),
           Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
         ]),
