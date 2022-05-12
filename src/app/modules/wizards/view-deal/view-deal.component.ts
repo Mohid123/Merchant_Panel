@@ -110,6 +110,7 @@ export class ViewDealComponent implements OnInit {
       right: 'today'
     },
     contentHeight: 'auto',
+    firstDay: 1,
     initialView: 'dayGridMonth',
     weekends: true,
     editable: true,
@@ -323,7 +324,6 @@ export class ViewDealComponent implements OnInit {
   }
 
   next():void {
-    debugger
     this.page++;
     this.getDealsByMerchantID();
   }

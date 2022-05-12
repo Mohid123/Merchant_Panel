@@ -111,6 +111,13 @@
       </ng-container>
     </table>
   </div>
+  <div class="flex justify-end pt-4">
+    <ul class="pagination">
+      <li class="page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" class="page-link"><i class="previous"></i></button></li>
+      <li class="page-item disabled"><a class="page-link">{{ page === 1 ? 1 : (page-1) * limit }}-{{ page * limit < billingsData?.totalCount ? (page * limit) : billingsData?.totalCount }}/{{billingsData?.totalCount}}</a></li>
+      <li class="page-item next" [ngClass]="billingsData?.totalCount <= page * limit ? 'disabled': ''"><button [disabled]="billingsData?.totalCount <= page * limit" (click)="next()" class="page-link"><i class="next"></i></button></li>
+    </ul>
+  </div>
 </ng-container>
 
 <app-reusable-modal #modal [modalConfig]="modalConfig">
