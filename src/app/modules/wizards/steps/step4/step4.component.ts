@@ -47,6 +47,7 @@ export class Step4Component implements OnInit {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
+    firstDay: 1,
     validRange: {
       start: moment().format('YYYY-MM-DD')
     },
@@ -79,7 +80,7 @@ export class Step4Component implements OnInit {
   ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response
-      console.log(this.data);
+      // console.log(this.data);
     })
   }
 
@@ -162,7 +163,7 @@ export class Step4Component implements OnInit {
   openNew() {
     const mediaUpload:any = [];
     if(!!this.images.length) {
-      console.log('have images:',);
+      // console.log('have images:',);
       for (let index = 0; index < this.images.length; index++) {
         mediaUpload.push(this.mediaService.uploadMedia('deal', this.images[index]));
       }
@@ -175,7 +176,7 @@ export class Step4Component implements OnInit {
           exhaustMap((mainResponse:any) => {
             mainResponse.forEach((res:any)=> {
               if (!res.hasErrors()) {
-                console.log('res:',res);
+                // console.log('res:',res);
                 this.data.mediaUrl?.push(res.data.url);
               } else {
                 return of(null);

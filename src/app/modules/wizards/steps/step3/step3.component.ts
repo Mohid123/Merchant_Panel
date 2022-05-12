@@ -59,7 +59,7 @@ export class Step3Component implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private connection: ConnectionService) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response
-      console.log(this.data);
+      // console.log(this.data);
     })
   }
 
@@ -80,14 +80,8 @@ export class Step3Component implements OnInit, OnDestroy {
           'underline',
           'highlight',
           'alignment',
-          'numberedList',
-          'bulletedList',
           'indent',
           'outdent',
-          'todoList',
-          'link',
-          'blockQuote',
-          'insertTable',
           'undo',
           'redo'
         ]
@@ -173,7 +167,7 @@ export class Step3Component implements OnInit, OnDestroy {
       const updatedData = {...this.data}
       this.updateParentModel(updatedData, this.checkForm());
       this.connection.sendData(updatedData);
-      console.log(updatedData)
+      // console.log(updatedData)
     });
     this.unsubscribe.push(formChangesSubscr);
   }
@@ -206,6 +200,10 @@ export class Step3Component implements OnInit, OnDestroy {
 
   async closeModal() {
     return await this.modal.close();
+  }
+
+  disableManual(e: any) {
+    e.preventDefault()
   }
 
   ngOnDestroy() {

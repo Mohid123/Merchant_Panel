@@ -117,14 +117,8 @@ export class BussinessDetailsComponent implements OnInit {
           'underline',
           'highlight',
           'alignment',
-          'numberedList',
-          'bulletedList',
           'indent',
           'outdent',
-          'todoList',
-          'link',
-          'blockQuote',
-          'insertTable',
           'undo',
           'redo'
         ]

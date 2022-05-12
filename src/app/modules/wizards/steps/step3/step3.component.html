@@ -1,7 +1,7 @@
 <!--Title/ Header-->
 <div class="lg:text-center mb-13">
-  <h1 class="mb-5 text-3xl text-center">The when, the how and the where.</h1>
-  <div class="text-xl font-thin text-center text-primary-400">Let's make sure all terms are correct before publishing your deal.</div>
+  <h1 class="mt-2 mb-3 text-center 2xl:text-3xl xl:mt-0 md:text-2xl">The when, the how and the where.</h1>
+  <div class="font-thin text-center 2xl:text-xl text-primary-400 md:text-sm">Let's make sure all terms are correct before publishing your deal.</div>
 </div>
 <!--Card for Duration of Deal-->
 <div class="flex justify-center w-full align-middle">
@@ -18,7 +18,7 @@
               <input class="border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
               <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-4 mb-3 input-group date md:w-72" data-provide="datepicker">
-                <input type="date" class="text-sm font-thin form-control" formControlName="voucherStartDate" name="voucherStartDate">
+                <input type="date" (keydown)="disableManual($event)" class="text-sm font-thin form-control" formControlName="voucherStartDate" name="voucherStartDate">
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
@@ -32,7 +32,7 @@
             <label class="mt-1 xl:mt-1 2xl:items-center 2xl:justify-end 2xl:ml-44 form-check form-check-solid">
               <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-3 input-group md:w-72" data-provide="datepicker">
-                <input [min]="form.controls['voucherStartDate'].value" type="date" class="text-sm font-thin form-control" formControlName="voucherEndDate" name="voucherEndDate" id="specialCheck" (click)="disableCheckBox()">
+                <input [min]="form.controls['voucherStartDate'].value" (keydown)="disableManual($event)" type="date" class="text-sm font-thin form-control" formControlName="voucherEndDate" name="voucherEndDate" id="specialCheck" (click)="disableCheckBox()">
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',

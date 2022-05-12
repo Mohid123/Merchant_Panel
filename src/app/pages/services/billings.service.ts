@@ -17,15 +17,16 @@ export class BillingsService extends ApiService<billingData> {
     super(http)
   }
 
-  getAllInvoicesByMerchantID(merchantID: string, offset: any, limit: any, data: {
+  getAllInvoicesByMerchantID(page: number, merchantID: string, offset: any, limit: any, data: {
     invoiceDate: string;
     invoiceAmount: string;
     dateFrom: number;
     dateTo: number;
     status: string;
   }): Observable<ApiResponse<billingData>> {
+    page--;
     const param: any = {
-      offset: offset,
+      offset: page ? limit * page : 0,
       limit: limit
     }
     if(data.invoiceAmount) param.invoiceAmount = data.invoiceAmount;
