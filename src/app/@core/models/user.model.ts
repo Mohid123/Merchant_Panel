@@ -24,6 +24,7 @@ export interface User {
   status: string;
   iban: string;
   bankName: string;
+  newUser: boolean;
 }
 
 interface BusinessHours {

