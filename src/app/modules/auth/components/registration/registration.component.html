@@ -40,12 +40,12 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'minlength',
-                            message: 'First name should have at least 3 latters',
+                            message: 'First name should have at least 3 letters',
                             control: f['firstName']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'maxlength',
-                            message: 'First name should have maximum 30 latters',
+                            message: 'First name should have maximum 30 letters',
                             control: f['firstName']}">
               </ng-container>
             </div>
@@ -64,12 +64,12 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'minlength',
-                            message: 'Last name should have at least 3 latters',
+                            message: 'Last name should have at least 3 letters',
                             control: f['lastName']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'maxlength',
-                            message: 'Last name should have maximum 30 latters',
+                            message: 'Last name should have maximum 30 letters',
                             control: f['lastName']}">
               </ng-container>
             </div>
@@ -94,7 +94,7 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'maxlength',
-                            message: 'Email should have maximum 60 latters',
+                            message: 'Email should have maximum 60 letters',
                             control: f['email']}">
               </ng-container>
             </div>
@@ -116,12 +116,12 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'min',
-                            message: 'Mobile should have 9 latters',
+                            message: 'Mobile should have 9 letters',
                             control: f['phoneNumber']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'max',
-                            message: 'Mobile should have 9 latters',
+                            message: 'Mobile should have 9 letters',
                             control: f['phoneNumber']}">
               </ng-container>
             </div>
@@ -159,12 +159,12 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'minlength',
-                            message: 'Company Name should have at least 3 latters',
+                            message: 'Company Name should have at least 3 letters',
                             control: f['companyName']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'maxlength',
-                            message: 'Company Name should have maximum 30 latters',
+                            message: 'Company Name should have maximum 30 letters',
                             control: f['companyName']}">
               </ng-container>
             </div>
@@ -183,12 +183,12 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'minlength',
-                            message: 'Street Address should have at least 3 latters',
+                            message: 'Street Address should have at least 3 letters',
                             control: f['streetAddress']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'maxlength',
-                            message: 'Street Address should have maximum 100 latters',
+                            message: 'Street Address should have maximum 100 letters',
                             control: f['streetAddress']}">
               </ng-container>
             </div>
@@ -234,12 +234,12 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'min',
-                            message: 'City should have at least 3 latters',
+                            message: 'City should have at least 3 letters',
                             control: f['city']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'max',
-                            message: 'City should have maximum 100 latters',
+                            message: 'City should have maximum 100 letters',
                             control: f['city']}">
               </ng-container>
             </div>
@@ -258,12 +258,12 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'minlength',
-                            message: 'Street Address should have at least 3 latters',
+                            message: 'Street Address should have at least 3 letters',
                             control: f['streetAddress']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'maxlength',
-                            message: 'Street Address should have maximum 100 latters',
+                            message: 'Street Address should have maximum 100 letters',
                             control: f['streetAddress']}">
               </ng-container>
             </div>
@@ -280,22 +280,28 @@
                             message: 'Website is required',
                             control: f['website_socialAppLink']}">
               </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'pattern',
                 message: 'Url is invalid',
                 control: f['website_socialAppLink']}">
-              </ng-container>
+              </ng-container> -->
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'minlength',
-                            message: 'Website should have at least 3 latters',
+                            message: 'Website should have at least 3 letters',
                             control: f['website_socialAppLink']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'maxlength',
-                            message: 'Website should have maximum 100 latters',
+                            message: 'Website should have maximum 100 letters',
                             control: f['website_socialAppLink']}">
               </ng-container>
+
+              <div class="text-xs text-danger"
+                *ngIf="registrationForm.controls['website_socialAppLink']?.errors?.['invalidUrl']">
+                Url is Invalid
             </div>
+
+          </div>
 
             <div class="flex justify-between">
               <button class="h-10 text-white bg-black rounded-lg mt-9 w-28 back" mat-button matStepperPrevious>Back</button>
