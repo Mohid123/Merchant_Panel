@@ -1,5 +1,5 @@
 <ng-container *ngIf="showDiv.calendarView == true">
-  <div class="absolute md:top-28 md:right-6 lg:top-28 lg:right-12 2xl:right-48 right-6 top-28 setting">
+  <div class="absolute md:top-28 md:right-6 lg:top-24 lg:right-12 2xl:right-48 right-6 top-28 setting">
     <div class="moon">
       <span class="ml-2 text-xs">05</span>
     </div>
@@ -8,7 +8,7 @@
 </ng-container>
 
 <ng-container *ngIf="showDiv.listView == true">
-  <div class="absolute z-40 2xl:right-48 lg:top-32 lg:right-8 md:top-28 md:right-4 right-5 top-28">
+  <div class="absolute z-40 2xl:right-48 lg:top-28 lg:right-8 md:top-28 md:right-4 right-5 top-28">
     <div class="flex flex-row items-end justify-end w-full mt-5 ml-2 lg:mt-0">
       <div #myDrop="ngbDropdown" ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
         <button class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-5 xl:py-3 2xl:px-5 2xl:py-3" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
@@ -40,7 +40,7 @@
     </ng-container>
     <ng-container *ngIf="showData == true">
       <div class="table-container">
-        <table class="w-full mt-10 rounded-md shadow-lg">
+        <table class="w-full mt-10 rounded-md shadow-sm">
           <tr class="text-center text-gray-600 bg-gray-300 rounded-lg">
             <th class="p-4 font-semibold text-black cursor-pointer" (click)="filterByTitle('Descending')">Deals Title&nbsp; <i class="fas fa-sort fa-xs"></i></th>
             <th class="p-4 font-semibold text-black cursor-pointer" (click)="filterByStartDate('Descending')">Start Date&nbsp; <i class="fas fa-sort fa-xs"></i></th>
@@ -61,7 +61,7 @@
           </tr>
           <ng-container *ngFor="let event of currentEvents; let index = index">
             <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
-              <td class="flex flex-row items-center justify-center p-4 font-thin">
+              <td class="flex flex-row items-center justify-start p-4 font-thin">
                 <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="../../../../../assets/media/books/img-72.jpg">
                 <span class="ml-3">{{event.title}}</span>
               </td>
@@ -102,22 +102,27 @@
           </ng-container>
         </table>
       </div>
+      <div class="flex justify-end pt-4">
+        <ul class="pagination">
+          <li class="cursor-pointer page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" class="page-link"><i class="previous"></i></button></li>
+          <li class="page-item disabled"><a class="page-link">{{ page === 1 ? 1 : (page-1) * limit }}-{{ page * limit < dealData?.totalDeals ? (page * limit) : dealData?.totalDeals }}/{{dealData?.totalDeals}}</a></li>
+          <li class="cursor-pointer page-item next" [ngClass]="dealData?.totalDeals <= page * limit ? 'disabled': ''"><button [disabled]="dealData?.totalDeals <= page * limit" (click)="next()" class="page-link"><i class="next"></i></button></li>
+        </ul>
+      </div>
     </ng-container>
   </mat-tab>
   <mat-tab label="Calendar View">
-    <div class="p-0 mt-5 shadow-sm lg:p-12 card card-custom card-stretch" style="border-top: 16px solid #F38B41;">
-      <div class="p-2 rounded lg:p-8 card card-custom card-stretch bg-gray-50">
-        <div class="lg:p-6 card card-custom card-stretch">
+    <div class="p-0 mt-5 shadow-sm lg:p-6 card card-custom card-stretch" style="border-top: 16px solid #F38B41;">
+        <div class="lg:p-4 card card-custom card-stretch">
           <full-calendar #fullCalendar [options]="calendarOptions"></full-calendar>
         </div>
-        <div class="h-full lg:p-2 card card-custom card-stretch">
-          <div class="flex items-center pb-3 mt-3 justify-evenly lg:flex-row">
-            <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span style="font-family: Arial, Helvetica, sans-serif" class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7">Published</span></i>
-            <i class="text-green-500 lg:mr-4 fas fa-circle"> <span style="font-family: Arial, Helvetica, sans-serif" class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7">Scheduled</span></i>
-            <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span style="font-family: Arial, Helvetica, sans-serif" class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7">In-Review</span></i>
-            <i class="text-red-500 lg:mr-4 fas fa-circle"> <span style="font-family: Arial, Helvetica, sans-serif" class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base">Bounced</span></i>
+        <div class="h-full lg:p-1 card card-custom card-stretch">
+          <div class="flex items-center justify-evenly lg:flex-row">
+            <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Published</span></i>
+            <i class="text-green-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Scheduled</span></i>
+            <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">In-Review</span></i>
+            <i class="text-red-500 lg:mr-4 fas fa-circle"> <span class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base abc">Bounced</span></i>
           </div>
-        </div>
       </div>
     </div>
   </mat-tab>
@@ -219,7 +224,7 @@
 <!--Calendar Footer TEMPLATE-->
 <ng-template #footerTemplate>
   <hr class="my-0">
-  <button class="m-2 btn btn-primary btn-sm float-center" (click)="filterByDate(fromDate, toDate); myDrop.close()">Apply Filter</button>
+  <button class="m-2 btn btn-primary btn-sm float-center" [disabled]="!fromDate || !toDate" (click)="filterByDate(fromDate, toDate); myDrop.close()">Apply Filter</button>
   <button class="mt-2 mr-1 btn btn-secondary btn-sm float-end" (click)="myDrop.close()">Close</button>
 </ng-template>
 

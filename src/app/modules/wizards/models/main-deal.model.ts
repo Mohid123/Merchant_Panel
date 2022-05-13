@@ -25,5 +25,6 @@ export class MainDeal {
 
 export class Deals {
   data: MainDeal[];
+  totalDeals?: number;
 }
 

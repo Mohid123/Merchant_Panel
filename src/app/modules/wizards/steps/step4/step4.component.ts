@@ -1,12 +1,15 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MediaService } from '@core/services/media.service';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
-import { Subscription } from 'rxjs';
+import * as moment from 'moment';
+import { combineLatest, of, Subscription } from 'rxjs';
+import { exhaustMap, take } from 'rxjs/operators';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { MainDeal } from '../../models/main-deal.model';
 import { ModalConfig } from './../../../../@core/models/modal.config';
 import { DealService } from './../../../../@core/services/deal.service';
-import { MediaService } from './../../../../@core/services/media.service';
 import { ConnectionService } from './../../services/connection.service';
 import { createEventId } from './event-utils';
 
@@ -45,6 +48,10 @@ export class Step4Component implements OnInit {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
+    firstDay: 1,
+    validRange: {
+      start: moment().format('YYYY-MM-DD')
+    },
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this)
@@ -71,10 +78,11 @@ export class Step4Component implements OnInit {
     private connection: ConnectionService,
     private dealService: DealService,
     private mediaService: MediaService,
+    private router: Router
   ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response
-      console.log(this.data);
+      // console.log(this.data);
     })
   }
 
@@ -89,6 +97,9 @@ export class Step4Component implements OnInit {
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {
+    // console.log('moment().isSame(selectInfo.startStr):',moment().isSame(selectInfo.startStr,'day'));
+    // if(!moment().isSame(selectInfo.startStr,'day') && moment().isAfter(selectInfo.startStr)) { return }
+
     const title = "Event Title"
     const calendarApi = selectInfo.view.calendar;
 
@@ -151,12 +162,42 @@ export class Step4Component implements OnInit {
   //   );
   // }
 
-  async openNew() {
-    return await this.modal.open();
+  openNew() {
+    const mediaUpload:any = [];
+    if(!!this.images.length) {
+      // console.log('have images:',);
+      for (let index = 0; index < this.images.length; index++) {
+        mediaUpload.push(this.mediaService.uploadMedia('deal', this.images[index]));
+      }
+    }
+
+    this.data.mediaUrl = [];
+    combineLatest(mediaUpload)
+        .pipe(
+          take(1),
+          exhaustMap((mainResponse:any) => {
+            mainResponse.forEach((res:any)=> {
+              if (!res.hasErrors()) {
+                // console.log('res:',res);
+                this.data.mediaUrl?.push(res.data.url);
+              } else {
+                return of(null);
+              }
+            })
+            return this.dealService.createDeal(this.data);
+          }),
+        ).subscribe(async (res) => {
+          debugger
+        if(!res.hasErrors()) {
+          return await this.modal.open();
+        }
+    })
   }
 
   async closeModal() {
-    return await this.modal.close();
+    return await this.modal.close().then(() => {
+      this.router.navigate(['/crafted/pages/wizards/view-deal'])
+    });
   }
 
   ngOnDestroy() {

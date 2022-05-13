@@ -33,10 +33,11 @@ export class BillingsComponent implements OnInit {
     closeButtonLabel: "Close"
   }
 
-  public billingsData: BillingList;
+  public billingsData: BillingList | any;
   showData: boolean;
+  page: number;
   offset: number = 0;
-  limit: number = 10;
+  limit: number = 7;
   destroy$ = new Subject();
   hoveredDate: NgbDate | any = null;
   fromDate: NgbDate | any;
@@ -70,6 +71,7 @@ export class BillingsComponent implements OnInit {
     private calendar: NgbCalendar,
     private toast: HotToastService
     ) {
+      this.page = 1;
       this.fromDate = '';
       this.toDate = '';
     }
@@ -109,9 +111,10 @@ export class BillingsComponent implements OnInit {
       iban: this.kycForm.value.iban,
       bankName: this.kycForm.value.bankName
     }
-    this.billingService.completeKYC(payload)
+    this.billingService.completeKYC(this.authService.merchantID, payload)
     .pipe((takeUntil(this.destroy$)))
     .subscribe((res:ApiResponse<KYC>) => {
+      debugger
       if(!res.hasErrors()) {
         this.toast.success('KYC Submitted Successfully', {
           style: {
@@ -163,9 +166,10 @@ export class BillingsComponent implements OnInit {
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime(),
       status: this.status
     }
-    this.billingService.getAllInvoicesByMerchantID(this.authService.merchantID, this.offset, this.limit, params)
+    this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.merchantID, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
+      debugger
       if(!res.hasErrors()) {
         this.billingsData = res.data;
         this.showData = true;
@@ -238,9 +242,20 @@ export class BillingsComponent implements OnInit {
   }
 
   async closeModal() {
-    return await this.modal.close();
+    return await this.modal.close().then(() => {
+      this.kycForm.reset();
+    });
   }
 
+  next():void {
+    this.page++;
+    this.getInvoicesByMerchant();
+  }
+
+  previous():void {
+    this.page--;
+    this.getInvoicesByMerchant();
+  }
 
   resetFilters() {
     this.offset = 0;

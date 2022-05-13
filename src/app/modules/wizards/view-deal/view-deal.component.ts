@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
-import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
+import { Deals, MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
@@ -67,7 +67,7 @@ export class ViewDealComponent implements OnInit {
   currentEvents: any;
   showData: boolean;
   offset: number = 0;
-  limit: number = 10;
+  limit: number = 7;
   hoveredDate: NgbDate | any = null;
   fromDate: NgbDate | any;
   toDate: NgbDate | any = null;
@@ -77,6 +77,8 @@ export class ViewDealComponent implements OnInit {
   price: string;
   destroy$ = new Subject();
   status: string;
+  page: number;
+  dealData: Deals | any;
 
   statusTypes = [
     {
@@ -100,6 +102,7 @@ export class ViewDealComponent implements OnInit {
       right: 'today'
     },
     contentHeight: 'auto',
+    firstDay: 1,
     initialView: 'dayGridMonth',
     weekends: true,
     editable: true,
@@ -134,6 +137,7 @@ export class ViewDealComponent implements OnInit {
     private dealService: DealService,
     private cf: ChangeDetectorRef
   ) {
+      this.page = 1
       this.fromDate = '';
       this.toDate = '';
   }
@@ -155,10 +159,13 @@ export class ViewDealComponent implements OnInit {
       dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
     }
-    this.dealService.getDeals(this.authService.merchantID, this.offset, this.limit, params).pipe(takeUntil(this.destroy$)).subscribe((res:any)=> {
+    this.dealService.getDeals(this.page, this.authService.merchantID, this.offset, this.limit, params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: any)=> {
       debugger
       if (!res.hasErrors()) {
         debugger
+        this.dealData = res.data;
         this.currentEvents = res.data.data;
         this.showData = true;
         this.cf.detectChanges();
@@ -174,7 +181,6 @@ export class ViewDealComponent implements OnInit {
   }
 
   filterByStartDate(startDate: string) {
-    debugger
     this.offset = 0;
     if(this.startDate == '' || this.startDate == 'Descending') {
       this.startDate = 'Ascending'
@@ -186,7 +192,6 @@ export class ViewDealComponent implements OnInit {
   }
 
   filterByTitle(title: string) {
-    debugger
     this.offset = 0;
     if(this.title == '' || this.title == 'Descending') {
       this.title = 'Ascending'
@@ -198,7 +203,6 @@ export class ViewDealComponent implements OnInit {
   }
 
   filterByDate(startDate: number, endDate: number) {
-    debugger
     this.offset = 0;
     this.fromDate = startDate;
     this.toDate = endDate;
@@ -206,7 +210,6 @@ export class ViewDealComponent implements OnInit {
   }
 
   filterByEndDate(endDate: string) {
-    debugger
     this.offset = 0;
     if(this.endDate == '' || this.endDate == 'Descending') {
       this.endDate = 'Ascending'
@@ -229,7 +232,6 @@ export class ViewDealComponent implements OnInit {
   }
 
   filterByStatus(status: string) {
-    debugger
     this.offset = 0;
     this.status = status;
     this.getDealsByMerchantID();
@@ -318,6 +320,15 @@ export class ViewDealComponent implements OnInit {
     this.fullCalendar.getApi().render();
   }
 
+  next():void {
+    this.page++;
+    this.getDealsByMerchantID();
+  }
+
+  previous():void {
+    this.page--;
+    this.getDealsByMerchantID();
+  }
 
   handleWeekendsToggle() {
     const { calendarOptions } = this;

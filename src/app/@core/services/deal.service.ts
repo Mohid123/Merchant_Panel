@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Deals, MainDeal } from './../../modules/wizards/models/main-deal.model';
 import { ApiService } from './api.service';
 
@@ -18,10 +19,9 @@ export class DealService extends ApiService<deal> {
   }
 
   createDeal(deal: MainDeal) {
-    console.log('deal:',deal);
-    console.log('deal string:',JSON.stringify(deal));
-
-    return this.post('/deal/createDeal',deal);
+    return this.post('/deal/createDeal',deal).pipe(tap((res: any) => {
+      console.log(res);
+    }));
   }
 
   getTopRatedDeals(merchantID: string): Observable<ApiResponse<deal>> {
@@ -32,7 +32,7 @@ export class DealService extends ApiService<deal> {
     return this.get(`/deal/getSalesStatistics`);
   }
 
-  getDeals(merchantID: string, offset: any, limit: any, data: {
+  getDeals(page: number, merchantID: string, offset: any, limit: any, data: {
     title: string;
     price: string;
     startDate: string;
@@ -40,8 +40,9 @@ export class DealService extends ApiService<deal> {
     dateFrom: number;
     dateTo: number;
   }): Observable<ApiResponse<deal>> {
+    page--;
     const param: any = {
-      offset: offset,
+      offset: page ? limit * page : 0,
       limit: limit
     }
     if(data.title) param.title = data.title;

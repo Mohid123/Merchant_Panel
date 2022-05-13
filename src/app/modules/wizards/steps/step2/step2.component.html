@@ -1,7 +1,7 @@
 <!--Title/ Header-->
 <div class="mb-7 lg:text-center">
-  <h1 class="mt-2 mb-3 text-3xl text-center">Let's get the numbers right</h1>
-  <div class="text-xl font-thin text-center text-primary-400">Lets make sure our customers realize how exceptional this deal is!</div>
+  <h1 class="mt-2 mb-3 text-center 2xl:text-3xl xl:mt-0 md:text-2xl">Let's get the numbers right</h1>
+  <div class="font-thin text-center 2xl:text-xl text-primary-400 md:text-sm">Lets make sure our customers realize how exceptional this deal is!</div>
 </div>
 <!--Card for Viewing Deal-->
 <div class="flex flex-wrap w-full mx-auto" style="max-width: 780px;">
@@ -17,12 +17,12 @@
         <ng-container *ngFor="let image of images; let i = index">
           <ng-container *ngIf="i == 0">
             <div class="w-full mt-2 mb-6 card main-img-container">
-              <img class="card-img-top rounded-bottom" [src]="image">
+              <img class="h-48 card-img-top rounded-bottom" [src]="image">
             </div>
           </ng-container>
         </ng-container>
           <!--loop for images goes here-->
-        <div class="flex-row justify-between w-7 h-7 md:w-14 md:h-14 lg:h-6 lg:w-6 xl:w-10 xl:h-10 card">
+        <div class="flex-row justify-between w-7 h-7 card">
           <ng-container *ngFor="let image of images; let i = index;">
             <img class="mr-1 rounded-sm" [src]="image" *ngIf="i > 0">
           </ng-container>
@@ -42,7 +42,7 @@
     </ng-container>
     <ng-container *ngIf="subDeals.length > 0">
       <div class="flex justify-between 2xl:justify-evenly">
-      <div class="w-full font-semibold" style="max-width: 170px;">Add another voucher detail
+      <div class="w-full font-semibold" style="max-width: 200px;">Add another voucher detail
       </div>
       <button type="button" class="justify-center text-yellow-500 fas fa-plus-circle fa-lg" (click)="openNew()" style="cursor: pointer;"></button>
       </div>
@@ -86,7 +86,7 @@
             <div class="mb-3 form-group">
               <label class="mb-2.5 text-sm">Subtitle</label>
               <div class="input-group">
-               <input appTrim type="text" class="form-control" formControlName="subTitle" name="subTitle"
+               <input maxlength="16" appTrim type="text" class="form-control" formControlName="subTitle" name="subTitle"
                [ngClass]="{
                 'is-invalid': vouchers.controls['subTitle']?.invalid && vouchers.controls['subTitle']?.touched,
                 'is-valid': vouchers.controls['subTitle']?.valid}"
@@ -105,12 +105,6 @@
               }">
             </ng-container>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message: 'Subtitle should not exceed 60 characters',
-                control: vouchers.controls['subTitle']
-              }">
-            </ng-container>
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'Only alphabets are allowed',
               control: vouchers.controls['subTitle']
@@ -122,7 +116,7 @@
               <label class="mb-2.5 text-sm">Original Price</label>
               <div class="input-icon">
                <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
-               <input appNumbersOnly type="text" class="pl-12 form-control" formControlName="originalPrice"
+               <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="originalPrice"
                [ngClass]="{
                 'is-invalid':  vouchers.controls['originalPrice']?.invalid &&  vouchers.controls['originalPrice']?.touched,
                 'is-valid':  vouchers.controls['originalPrice']?.valid}">
@@ -132,12 +126,6 @@
                   control: vouchers.controls['originalPrice']
                 }">
                 </ng-container>
-                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'maxlength',
-                  message: 'Original Price cannot exceed 5 characters',
-                  control: vouchers.controls['originalPrice']
-                }">
-              </ng-container>
               </div>
              </div>
 
@@ -145,7 +133,7 @@
               <label class="mb-2.5 text-sm">Deal Price</label>
               <div class="input-icon">
                <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-danger"></i></span>
-               <input appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+               <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
                [ngClass]="{
                 'is-invalid': vouchers.controls['dealPrice']?.invalid && vouchers.controls['dealPrice']?.touched,
                 'is-valid': vouchers.controls['dealPrice']?.valid}">
@@ -155,23 +143,17 @@
                   control: vouchers.controls['dealPrice']
                 }">
                 </ng-container>
-                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'maxlength',
-                  message: 'Deal Price cannot exceed 5 characters',
-                  control: vouchers.controls['dealPrice']
-                }">
-              </ng-container>
               </div>
-              <div class="text-danger"
+              <div class="text-xs text-danger"
               *ngIf="vouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
                 The deal price cannot exceed the original price
                </div>
              </div>
 
              <div class="form-group">
-              <label class="mt-3 mb-3">Description</label>
+              <label class="mt-3 mb-3 text-sm">Description</label>
               <div class="input-icon">
-               <textarea appTrim class="form-control" rows="5" formControlName="details" name="details"
+               <textarea maxlength="100" appTrim class="form-control" rows="5" formControlName="details" name="details"
                [ngClass]="{
                 'is-invalid': vouchers.controls['details']?.invalid && vouchers.controls['details']?.touched,
                 'is-valid': vouchers.controls['details']?.valid}">
@@ -184,31 +166,19 @@
                 </ng-container>
                 <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                   validation: 'minlength',
-                  message: 'Description should at least be 14 characters',
+                  message: 'Description should at least be 16 characters',
                   control: vouchers.controls['details']
                 }">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message: 'Description should not exceed 200 characters',
-                control: vouchers.controls['details']
-              }">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: 'Only alphabets are allowed',
-                control: vouchers.controls['details']
-              }">
               </ng-container>
              </div>
             </div>
 
              <div class="form-group">
-              <label class="mt-3 mb-3">Number of Available Vouchers</label>
+              <label class="mt-3 mb-3 text-sm">Number of Available Vouchers</label>
               <div class="relative">
                 <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
                   <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-                  <input type="number" class="w-full text-center" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+                  <input maxlength="4" appNumbersOnly type="text" class="w-full text-center" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
                   <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
                 </div>
                 <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -217,12 +187,6 @@
                   control: vouchers.controls['numberOfVouchers']
                 }">
               </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message: 'Vouchers cannot exceed 5 characters',
-                control: vouchers.controls['numberOfVouchers']
-              }">
-             </ng-container>
               </div>
             </div>
           </form>
@@ -238,7 +202,7 @@
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">
   <ng-container *ngIf="control?.hasError(validation) && (control.dirty || control.touched)">
     <div class="fv-plugins-message-container">
-      <div class="fv-help-block">
+      <div class="text-xs fv-help-block">
         {{ message }}
       </div>
     </div>

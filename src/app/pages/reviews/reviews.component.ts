@@ -14,10 +14,11 @@ import { ReviewsService } from './../services/reviews.service';
 })
 export class ReviewsComponent implements OnInit {
 
-  public reviewsData: ReviewList;
+  public reviewsData: ReviewList | any;
   showData: boolean;
   offset: number = 0;
-  limit: number = 10;
+  limit: number = 7;
+  page: number;
   destroy$ = new Subject();
 
   constructor(
@@ -25,7 +26,9 @@ export class ReviewsComponent implements OnInit {
     private cf: ChangeDetectorRef,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute
-  ) { }
+  ) {
+    this.page = 1;
+  }
 
   ngOnInit(): void {
     this.authService.retreiveUserValue();
@@ -34,7 +37,7 @@ export class ReviewsComponent implements OnInit {
 
   getReviewsByMerchant() {
     this.showData = false;
-    this.reviewService.getDealReviewStatsByMerchant(this.authService.merchantID, this.offset, this.limit)
+    this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.merchantID, this.offset, this.limit)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<ReviewList>) => {
       debugger
@@ -44,6 +47,16 @@ export class ReviewsComponent implements OnInit {
         this.cf.detectChanges();
       }
     })
+  }
+
+  next():void {
+    this.page++;
+    this.getReviewsByMerchant();
+  }
+
+  previous():void {
+    this.page--;
+    this.getReviewsByMerchant();
   }
 
 }

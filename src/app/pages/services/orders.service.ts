@@ -15,7 +15,7 @@ export class OrdersService extends ApiService<OrdersData> {
     super(http)
   }
 
-  getVouchersByMerchantID(merchantID: string, offset: any, limit: any, data: {
+  getVouchersByMerchantID(page: number, merchantID: string, offset: any, limit: any, data: {
     deal: string,
     amount: string,
     status: string,
@@ -23,8 +23,9 @@ export class OrdersService extends ApiService<OrdersData> {
     dateFrom: number,
     dateTo: number
     }): Observable<ApiResponse<OrdersData>> {
+    page--;
     const param: any = {
-      offset: offset,
+      offset: page ? limit * page : 0,
       limit: limit
     }
     if(data.deal) param.deal = data.deal;

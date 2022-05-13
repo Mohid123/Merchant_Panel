@@ -19,9 +19,10 @@ export class OrderManagementComponent implements OnInit {
 
   merchantID: string;
   showData: boolean;
-  ordersData: OrdersList;
+  ordersData: OrdersList | any;
   offset: number = 0;
-  limit: number = 10;
+  limit: number = 7;
+  page: number;
   destroy$ = new Subject();
   hoveredDate: NgbDate | any = null;
   fromDate: NgbDate | any;
@@ -74,6 +75,7 @@ export class OrderManagementComponent implements OnInit {
     private calendar: NgbCalendar,
     private billingService: BillingsService
     ) {
+      this.page = 1;
       this.fromDate = '';
       this.toDate = '';
     }
@@ -84,7 +86,9 @@ export class OrderManagementComponent implements OnInit {
     this.getMerchantStats();
     this.searchControl.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(1000))
       .subscribe(newValue => {
+        debugger
         if (newValue.trim().length == 0 || newValue == null) {
+          debugger
           this.noRecordFound = false;
           this.getVouchersByMerchant();
         } else {
@@ -103,8 +107,8 @@ export class OrderManagementComponent implements OnInit {
       dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
     }
-
-    this.orderService.getVouchersByMerchantID(this.authService.merchantID, this.offset, this.limit, params)
+    debugger
+    this.orderService.getVouchersByMerchantID(this.page, this.authService.merchantID, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<OrdersList>) => {
       debugger
@@ -174,18 +178,20 @@ export class OrderManagementComponent implements OnInit {
   }
 
   searchVoucher(voucherID: number) {
+    debugger
     this.orderService.searchByVoucherID(voucherID)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<any>) => {
       if(!res.hasErrors()) {
+        debugger
         if(!res.data) {
           this.ordersData = res.data;
-          this.noRecordFound = true;
+          // this.noRecordFound = true;
           this.cf.detectChanges();
         }
         else {
           this.ordersData = res;
-          this.noRecordFound = false;
+          // this.noRecordFound = false;
           this.cf.detectChanges();
         }
       }
@@ -234,6 +240,16 @@ export class OrderManagementComponent implements OnInit {
     this.amount = 'Ascending';
     this.status = '';
     this.paymentStatus = '';
+    this.getVouchersByMerchant();
+  }
+
+  next():void {
+    this.page++;
+    this.getVouchersByMerchant();
+  }
+
+  previous():void {
+    this.page--;
     this.getVouchersByMerchant();
   }
 
