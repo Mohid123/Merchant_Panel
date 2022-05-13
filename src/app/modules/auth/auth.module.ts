@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
 import { SpaceBetweenModule } from '@core/directives/space-between/space-between.module';
-import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { TranslationModule } from '../i18n/translation.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
@@ -43,8 +42,7 @@ import { SecurityCodeComponent } from './components/security-code/security-code.
     MatStepperModule,
     MatInputModule,
     NumberOnlyModule,
-    SpaceBetweenModule,
-    NgPasswordValidatorModule
+    SpaceBetweenModule
   ],
   providers: [
     {
