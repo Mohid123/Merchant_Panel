@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { HotToastService } from '@ngneat/hot-toast';
 import { Subscription } from 'rxjs';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { ModalConfig } from './../../../../@core/models/modal.config';
@@ -89,7 +90,11 @@ export class Step2Component implements OnInit, OnDestroy {
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder, private connection: ConnectionService) {
+  constructor(
+    private fb: FormBuilder,
+    private connection: ConnectionService,
+    private toast: HotToastService
+    ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;
       this.subDeals = this.data.vouchers ? this.data.vouchers  : [] ;
@@ -111,17 +116,35 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   calculateDiscount() {
-    const dealPrice = Math.round(parseInt(this.voucherFormControl['originalPrice']?.value) - parseInt(this.voucherFormControl['dealPrice']?.value));
-    const discountPrice = Math.round(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));
-    this.voucherFormControl['discountPercentage']?.setValue(discountPrice);
-    if(this.editIndex >= 0) {
-      this.subDeals[this.editIndex] = this.vouchers.value;
-    } else {
-      this.subDeals.push(this.vouchers.value);
+    if(this.voucherFormControl['numberOfVouchers'].value > 0) {
+      const dealPrice = Math.round(parseInt(this.voucherFormControl['originalPrice']?.value) - parseInt(this.voucherFormControl['dealPrice']?.value));
+      const discountPrice = Math.round(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));
+      this.voucherFormControl['discountPercentage']?.setValue(discountPrice);
+      if(this.editIndex >= 0) {
+        this.subDeals[this.editIndex] = this.vouchers.value;
+      } else {
+        this.subDeals.push(this.vouchers.value);
+      }
+      this.data.vouchers = this.subDeals;
+      this.connection.sendData(this.data);
+      this.closeModal();
+      this.vouchers.reset();
     }
-    this.data.vouchers = this.subDeals;
-    this.connection.sendData(this.data);
-    this.vouchers.reset();
+    else {
+      this.voucherFormControl['numberOfVouchers'].setValue(0);
+      this.toast.error('Please select at least one voucher', {
+        style: {
+          border: '1px solid #713200',
+          padding: '16px',
+          color: '#713200',
+        },
+        iconTheme: {
+          primary: '#713200',
+          secondary: '#FFFAEE',
+        }
+      })
+    }
+    return;
   }
 
   deleteDeal(i:any) {

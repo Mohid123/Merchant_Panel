@@ -21,7 +21,6 @@ export class Step1Component implements OnInit, OnDestroy {
 
   ChangeSelectedCategory(newSelectedcategory: SubCategory) {
     this.selectedcategory = newSelectedcategory;
-    debugger
     this.dealForm.controls['subCategory'].setValue(newSelectedcategory.subCategoryName);
   }
 
