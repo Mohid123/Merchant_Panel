@@ -38,7 +38,7 @@ h3 {
 }
 
 .day {
-  @apply pr-7 pl-10;
+  @apply pr-7 pl-10 relative;
   div {
     @apply  w-10 h-10 rounded-full justify-center items-center;
     background-color: #10CB74;
@@ -68,6 +68,7 @@ h3 {
   left: 24px;
   z-index: 1;
   color: #10CB74;
+  font-size: 12px;
   border: none;
   width: 70px;
   text-align: center;
@@ -76,13 +77,14 @@ h3 {
   }
 }
 
-.day:hover + .shope-status {
+.day:hover {
+  .shope-status {
     display: block;
-
+  }
 }
 
 .time {
-  @apply flex w-60 justify-between px-5;
+  @apply flex w-60 justify-between items-center px-5;
 
   div {
     input {
