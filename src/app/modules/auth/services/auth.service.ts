@@ -29,6 +29,7 @@ export class AuthService extends ApiService<AuthApiData> {
   currentUserSubject: BehaviorSubject<User | null>;
   isLoadingSubject: BehaviorSubject<boolean>;
   merchantID: string;
+  newUserCheck: any;
 
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;
@@ -112,6 +113,16 @@ export class AuthService extends ApiService<AuthApiData> {
     this.currentUser$.subscribe((res: User | any) => {
       this.merchantID = res.id;
     })
+  }
+
+  retreiveNewUserCheck() {
+    this.currentUser$.subscribe((res: User | any) => {
+      this.newUserCheck = res.newUser;
+    })
+  }
+
+  setUserPassword(merchantID: string, payload: any): Observable<ApiResponse<any>> {
+    return this.post(`/users/changePassword/${merchantID}`, payload);
   }
 
   updateUser(user:User) {
