@@ -213,6 +213,7 @@ export class BussinessDetailsComponent implements OnInit {
   }
 
   isWorkingDay(formControls:AbstractControl) {
+    if(!this.isEditBusinessHours) return;
     formControls.value.isWorkingDay = !formControls.value.isWorkingDay;
   }
 
