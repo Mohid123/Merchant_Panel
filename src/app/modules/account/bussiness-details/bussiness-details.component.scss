@@ -38,14 +38,14 @@ h3 {
 }
 
 .day {
-  @apply pr-7;
+  @apply pr-7 pl-10;
   div {
     @apply  w-10 h-10 rounded-full justify-center items-center;
-    background-color: #4E5970;
+    background-color: #10CB74;
     cursor: pointer;
 
     &.day-off {
-      background-color: #a9b8d9;
+      background-color: #728A9F;
     }
 
     a {
@@ -54,7 +54,31 @@ h3 {
       overflow: hidden;
       text-transform: uppercase;
     }
+
+
   }
+}
+
+.shope-status {
+  display: none;
+  position:absolute;
+  padding: 0;
+  margin: 0;
+  bottom: -6px;
+  left: 24px;
+  z-index: 1;
+  color: #10CB74;
+  border: none;
+  width: 70px;
+  text-align: center;
+  &.day-off {
+    color: #728A9F;
+  }
+}
+
+.day:hover + .shope-status {
+    display: block;
+
 }
 
 .time {
@@ -110,11 +134,17 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 
 .edit-btn {
-  @apply w-12 text-black self-center py-1 px-0 text-center;
-  background-color: #F2F4F7;
-  font-size: 10px;
+  @apply flex justify-center items-center self-center p-0 rounded-lg;
+  background-color: #0081e914;
+  color: #0081E9;
+  font-size: 14px;
+  width: 78px;
+  height: 36px;
 }
 
+.edit-btn:hover {
+  background-color: #0080e95f;
+}
 ::ng-deep .company-modal {
   width: 463px;
 }
