@@ -101,16 +101,17 @@
     <h3 class="m-0 fw-bolder">Set Business Hours</h3>
     <a *ngIf="!isEditBusinessHours" (click)="editBusinessHours()" class="edit-btn">Edit</a>
   </div>
-  <div class="px-10 card-body" style="background-color: white;">
+  <div class="pr-0 pl-0 card-body" style="background-color: white;">
     <div class="table-responsive">
       <table [formGroup]="businessHoursForm" class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
 
-        <tbody formArrayName="businessHours" *ngIf="businessHoursFromControl">
+        <tbody formArrayName="businessHours" *ngIf="businessHoursFromControl" >
           <ng-container *ngFor="let formControls of businessHoursFromControl.controls;let i=index" [formGroupName]="i" >
-          <tr>
-            <td class="day">
+          <tr class="relative border-0">
+            <td class="day pl-10">
                 <div class="d-flex flex-column" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}"><a (click)="isWorkingDay(formControls)"> {{ formControls.value.day}} </a></div>
-            </td>
+              </td>
+            <p class="shope-status" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}">{{formControls.value.isWorkingDay ? 'Opened' : 'Closed'}}</p>
             <td class="time">
               <div>
                 <input type="time" class="form-control" placeholder="First Start Time" formControlName="firstStartTime" />
@@ -123,7 +124,7 @@
             <td class="until">
               <span class="flex items-center justify-center text-center">Until</span>
             </td>
-            <td class="time">
+            <td class="time pr-10">
               <div>
                 <input type="time" class="form-control" placeholder="Second Start Time" formControlName="secondStartTime" />
               </div>
@@ -139,7 +140,7 @@
         </ng-container>
         </tbody>
       </table>
-      <div class="justify-between px-0 py-6 border-none card-footer d-flex" *ngIf="isEditBusinessHours">
+      <div class="justify-between px-10 py-6 border-none card-footer d-flex" *ngIf="isEditBusinessHours">
         <button class="modal-close-btn"
         routerLinkActive="active"
         (click)="isEditBusinessHours = false;businessHoursForm.disable()">Discard</button>
