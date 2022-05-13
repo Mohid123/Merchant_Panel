@@ -69,9 +69,28 @@
               <td class="p-4 font-thin">{{event.endDate | date}}</td>
               <td class="p-4 font-thin">{{event.vouchers.length}}</td>
               <td class="p-4 font-thin">{{event.soldVouchers}}</td>
-              <td class="p-4 font-thin">
-                <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{event.dealStatus}}</span>
-              </td>
+
+              <ng-container *ngIf="event.dealStatus == 'Published'">
+                <td class="p-4 font-thin">
+                  <span class="px-5 py-3 badge badge-light-success rounded-2xl">{{event.dealStatus}}</span>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="event.dealStatus == 'Scheduled'">
+                <td class="p-4 font-thin">
+                  <span class="px-5 py-3 badge badge-light-primary rounded-2xl">{{event.dealStatus}}</span>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="event.dealStatus == 'In Review'">
+                <td class="p-4 font-thin">
+                  <span class="px-5 py-3 badge badge-light-warning rounded-2xl">{{event.dealStatus}}</span>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="event.dealStatus == 'Bounced'">
+                <td class="p-4 font-thin">
+                  <span class="px-5 py-3 badge badge-light-danger rounded-2xl">{{event.dealStatus}}</span>
+                </td>
+              </ng-container>
+
               <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
                 <a class="px-2 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer 3xl:px-3 3xl:py-1">
                   <i class="p-1 fas fa-ellipsis-h"></i>
@@ -118,10 +137,10 @@
         </div>
         <div class="h-full lg:p-1 card card-custom card-stretch">
           <div class="flex items-center justify-evenly lg:flex-row">
-            <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Published</span></i>
-            <i class="text-green-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Scheduled</span></i>
             <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">In-Review</span></i>
-            <i class="text-red-500 lg:mr-4 fas fa-circle"> <span class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base abc">Bounced</span></i>
+            <i class="text-red-500 lg:mr-4 fas fa-circle"> <span class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base abc">Needs Attention</span></i>
+            <i class="text-green-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Scheduled</span></i>
+            <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Published</span></i>
           </div>
       </div>
     </div>

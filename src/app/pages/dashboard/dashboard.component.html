@@ -70,3 +70,68 @@
     </table>
   </div>
 </ng-container>
+
+<button class="p-2 bg-red-400" (click)="openNew()">Test</button>
+
+
+<app-reusable-modal #modal [modalConfig]="modalConfig">
+  <div class="mt-12 text-center">
+    <h1>Setup a new Password</h1>
+  </div>
+  <form [formGroup]="newPassForm">
+    <div class="flex flex-col items-center justify-center modal-body">
+      <div class="w-3/4 mb-3 form-group">
+        <label class="mb-3">Password</label>
+        <div class="input-group">
+         <input
+          type="{{passwordHide ? 'password' : 'text'}}"
+          formControlName="password"
+          name="password"
+          class="form-control">
+        </div>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Password is required',
+          control: newPassForm.controls['password']}">
+        </ng-container>
+       </div>
+
+       <div class="w-3/4 mb-3 form-group">
+        <label class="mb-3">Confirm Password</label>
+        <div class="input-group">
+          <input type="{{passwordHide ? 'password' : 'text'}}" formControlName="confirmPass" name="confirmPass" class="form-control">
+         </div>
+         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Confirm your password',
+          control: newPassForm.controls['confirmPass']}">
+        </ng-container>
+        <ng-container
+        *ngIf="
+        newPassForm.controls['confirmPass'].errors &&
+        newPassForm.controls['confirmPass'].errors['ConfirmPassword']">
+        <div class="fv-plugins-message-container">
+          <div class="text-xs fv-help-block">
+            Passswords do not match.
+          </div>
+        </div>
+      </ng-container>
+       </div>
+    </div>
+  </form>
+
+  <div class="flex justify-center mb-8">
+    <button [disabled]="newPassForm.invalid || validityPass == false" (click)="resetPassword(); closeModal()" class="px-10 py-2 text-white bg-gray-900 rounded-md">Save</button>
+  </div>
+</app-reusable-modal>
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="text-xs fv-help-block">
+        {{ message }}
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
