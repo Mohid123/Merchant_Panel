@@ -9,12 +9,10 @@
     <div class="card-body">
 
       <div class="flex flex-col">
-
-        <div class="p-2 mb-2 text-lg">Duration</div>
-        <label class="pl-2 mb-6 text-base text-gray-400">When can customers redeem their voucher?</label>
+        <label class="pl-2 mb-6 text-base">When can customers redeem their voucher?</label>
 
         <form class="form" [formGroup]="form">
-          <div class="flex flex-col justify-center w-full align-middle xl:flex-row">
+          <div class="flex flex-col justify-between w-full align-middle xl:flex-row">
 
             <label class="mb-6 form-check form-check-solid">
               <input class="border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
@@ -46,7 +44,7 @@
           </div>
 
           <div class="flex">
-            <label class="mt-8 ml-6 lg:mt-6 lg:ml-5 form-check form-check-solid">
+            <label class="mt-8 lg:mt-6 form-check form-check-solid">
               <input class="mr-2 rounded-full form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
               <span class="form-check-label">Voucher is valid for</span>
               <div class="relative mt-4">
@@ -174,7 +172,7 @@
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">
   <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
     <div class="fv-plugins-message-container">
-      <div class="fv-help-block">
+      <div class="text-xs fv-help-block">
         {{ message }}
       </div>
     </div>

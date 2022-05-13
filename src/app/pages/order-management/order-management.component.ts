@@ -1,5 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Orders } from './../../modules/wizards/models/order.model';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ApiResponse } from '@core/models/response.model';
+import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { BillingsService } from '@pages/services/billings.service';
+import { OrdersService } from '@pages/services/orders.service';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/modules/auth';
+import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
+import { MerchantStats } from './../../modules/wizards/models/merchant-stats.model';
 
 @Component({
   selector: 'app-order-management',
@@ -8,53 +17,229 @@ import { Orders } from './../../modules/wizards/models/order.model';
 })
 export class OrderManagementComponent implements OnInit {
 
-  // DUMMY DATA FOR SORT TESTING
-  public orderData: Array<Orders> = [
+  merchantID: string;
+  showData: boolean;
+  ordersData: OrdersList;
+  offset: number = 0;
+  limit: number = 10;
+  destroy$ = new Subject();
+  hoveredDate: NgbDate | any = null;
+  fromDate: NgbDate | any;
+  toDate: NgbDate | any = null;
+  deal: string;
+  amount: string;
+  status: string;
+  paymentStatus: string;
+  searchControl = new FormControl();
+  noRecordFound: boolean = false;
+  statsData: any;
+  statsLoading: boolean;
+  voucherStats: MerchantStats;
+
+  statusTypes = [
     {
-      orderID: '1',
-      customerName: 'Junaid',
-      date: '20-10-1998',
-      amount: '345',
-      fee: '212',
-      net: '287',
-      source: 'Stripe',
       status: 'Purchased'
     },
     {
-      orderID: '2',
-      customerName: 'Mohid',
-      date: '20-10-2021',
-      amount: '425',
-      fee: '446',
-      net: '987',
-      source: 'Stripe',
       status: 'Redeemed'
     },
     {
-      orderID: '3',
-      customerName: 'Mudassar',
-      date: '20-10-2018',
-      amount: '345',
-      fee: '440',
-      net: '1087',
-      source: 'Stripe',
-      status: 'Purchased'
+      status: 'Expired'
     },
     {
-      orderID: '4',
-      customerName: 'Sameer',
-      date: '20-10-1994',
-      amount: '445',
-      fee: '846',
-      net: '987',
-      source: 'Stripe',
-      status: 'Redeemed'
+      status: 'Published'
+    }
+  ];
+
+  paymentTypes = [
+    {
+      paymentStatus: 'Paid'
+    },
+    {
+      paymentStatus: 'UnPaid'
+    },
+    {
+      paymentStatus: 'Pending'
+    },
+    {
+      paymentStatus: 'Cancelled'
     }
   ]
 
-  constructor() { }
+
+  constructor(
+    private orderService: OrdersService,
+    private cf: ChangeDetectorRef,
+    private authService: AuthService,
+    private calendar: NgbCalendar,
+    private billingService: BillingsService
+    ) {
+      this.fromDate = '';
+      this.toDate = '';
+    }
 
   ngOnInit(): void {
+    this.authService.retreiveUserValue();
+    this.getVouchersByMerchant();
+    this.getMerchantStats();
+    this.searchControl.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(1000))
+      .subscribe(newValue => {
+        if (newValue.trim().length == 0 || newValue == null) {
+          this.noRecordFound = false;
+          this.getVouchersByMerchant();
+        } else {
+          this.searchVoucher(newValue);
+        }
+      });
+  }
+
+  getVouchersByMerchant() {
+    this.showData = false;
+    const params: any = {
+      deal: this.deal,
+      amount: this.amount,
+      status: this.status,
+      paymentStatus: this.paymentStatus,
+      dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
+      dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
+    }
+
+    this.orderService.getVouchersByMerchantID(this.authService.merchantID, this.offset, this.limit, params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<OrdersList>) => {
+      debugger
+      if(!res.hasErrors()) {
+        this.ordersData = res.data;
+        this.showData = true;
+        this.cf.detectChanges();
+      }
+    })
+  }
+
+  getMerchantStats() {
+    this.statsLoading = false;
+    this.billingService.getMerchantStats(this.authService.merchantID)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<MerchantStats>) => {
+      // debugger
+      if(!res.hasErrors()) {
+        this.voucherStats = res.data;
+        this.statsLoading = true;
+        this.cf.detectChanges();
+      }
+    })
+  }
+
+  filterByDeal(deal: string) {
+    this.offset = 0;
+    if(this.deal == '' || this.deal == 'Descending') {
+      this.deal = 'Ascending'
+    }
+    else {
+      this.deal = deal
+    }
+    this.getVouchersByMerchant();
+  }
+
+  filterByAmount(amount: string) {
+    this.offset = 0;
+    if(this.amount == '' || this.amount == 'Descending') {
+      this.amount = 'Ascending'
+    }
+    else {
+      this.amount = amount;
+    }
+    this.getVouchersByMerchant();
+  }
+
+  filterByStatus(status: string) {
+    debugger
+    this.offset = 0;
+    this.status = status;
+    this.getVouchersByMerchant();
+  }
+
+  filterByPaymentStatus(paymentStatus: string) {
+    this.offset = 0;
+    this.paymentStatus = paymentStatus;
+    this.getVouchersByMerchant();
+  }
+
+  filterByDate(dateFrom: number, dateTo: number) {
+    debugger
+    this.offset = 0;
+    this.fromDate = dateFrom;
+    this.toDate = dateTo;
+    this.getVouchersByMerchant();
+  }
+
+  searchVoucher(voucherID: number) {
+    this.orderService.searchByVoucherID(voucherID)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res:ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        if(!res.data) {
+          this.ordersData = res.data;
+          this.noRecordFound = true;
+          this.cf.detectChanges();
+        }
+        else {
+          this.ordersData = res;
+          this.noRecordFound = false;
+          this.cf.detectChanges();
+        }
+      }
+    })
+  }
+
+  getMerchantStatsForVouchers() {
+    this.orderService.getMerchantStatistics(this.authService.merchantID, this.offset, this.limit)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.statsData = res.data;
+        this.cf.detectChanges();
+      }
+    })
+  }
+
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+  }
+
+  resetFilters() {
+    this.offset = 0;
+    this.fromDate = '';
+    this.toDate = '';
+    this.deal = 'Ascending';
+    this.amount = 'Ascending';
+    this.status = '';
+    this.paymentStatus = '';
+    this.getVouchersByMerchant();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
 }

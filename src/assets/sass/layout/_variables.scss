@@ -30,7 +30,9 @@ $header-config: (
 	default: (
 		height: (
 			desktop: 65px,
-			tablet-and-mobile: 55px
+			tablet-and-mobile: 55px,
+      desktop-main: 0px,
+			tablet-and-mobile-main: 15px,
 		),
 		bg-color: if(isDarkMode(),#1E1E2D, $white),
 	),
@@ -39,7 +41,9 @@ $header-config: (
 	fixed: (
 		height: (
 			desktop: 65px,
-			tablet-and-mobile: 55px
+			tablet-and-mobile: 55px,
+      desktop-main: 0px,
+      tablet-and-mobile-main: 15px
 		),
 		z-index: 100,
 		bg-color: if(isDarkMode(), #1E1E2D, $white),

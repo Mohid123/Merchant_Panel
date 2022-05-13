@@ -1,10 +1,15 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
-import { Subscription } from 'rxjs';
+import * as moment from 'moment';
+import { combineLatest, of, Subscription } from 'rxjs';
+import { exhaustMap, take } from 'rxjs/operators';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { MainDeal } from '../../models/main-deal.model';
 import { ModalConfig } from './../../../../@core/models/modal.config';
+import { DealService } from './../../../../@core/services/deal.service';
+import { MediaService } from './../../../../@core/services/media.service';
+import { ConnectionService } from './../../services/connection.service';
 import { createEventId } from './event-utils';
 
 @Component({
@@ -13,6 +18,7 @@ import { createEventId } from './event-utils';
 })
 export class Step4Component implements OnInit {
 
+  @Input() images: Array<any>;
   @ViewChild('modal') private modal: ReusableModalComponent;
 
   public modalConfig: ModalConfig = {
@@ -41,6 +47,9 @@ export class Step4Component implements OnInit {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
+    validRange: {
+      start: moment().format('YYYY-MM-DD')
+    },
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this)
@@ -57,9 +66,22 @@ export class Step4Component implements OnInit {
   form: FormGroup;
   @Input() deal: Partial<MainDeal>;
 
+  reciever: Subscription;
+  data: MainDeal;
+
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private connection: ConnectionService,
+    private dealService: DealService,
+    private mediaService: MediaService,
+  ) {
+    this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
+      this.data = response
+      console.log(this.data);
+    })
+  }
 
   ngOnInit() {
     this.initForm();
@@ -72,12 +94,17 @@ export class Step4Component implements OnInit {
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {
+    // console.log('moment().isSame(selectInfo.startStr):',moment().isSame(selectInfo.startStr,'day'));
+    // if(!moment().isSame(selectInfo.startStr,'day') && moment().isAfter(selectInfo.startStr)) { return }
+
     const title = "Event Title"
     const calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection
 
-    if (title) {
+    if (title && !calendarApi.getEvents().length) {
+      this.data.startDate = selectInfo.startStr;
+      this.data.endDate = selectInfo.endStr;
       calendarApi.addEvent({
         id: createEventId(),
         title,
@@ -91,6 +118,8 @@ export class Step4Component implements OnInit {
   handleEventClick(clickInfo: EventClickArg) {
     if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
       clickInfo.event.remove();
+      this.data.startDate = '';
+      this.data.endDate = '';
     }
   }
 
@@ -130,8 +159,36 @@ export class Step4Component implements OnInit {
   //   );
   // }
 
-  async openNew() {
-    return await this.modal.open();
+  openNew() {
+    const mediaUpload:any = [];
+    if(!!this.images.length) {
+      console.log('have images:',);
+      for (let index = 0; index < this.images.length; index++) {
+        mediaUpload.push(this.mediaService.uploadMedia('deal', this.images[index]));
+      }
+    }
+
+    this.data.mediaUrl = [];
+    combineLatest(mediaUpload)
+        .pipe(
+          take(1),
+          exhaustMap((mainResponse:any) => {
+            mainResponse.forEach((res:any)=> {
+              if (!res.hasErrors()) {
+                console.log('res:',res);
+                this.data.mediaUrl?.push(res.data.url);
+              } else {
+                return of(null);
+              }
+            })
+            return this.dealService.createDeal(this.data);
+          }),
+        ).subscribe(async (res) => {
+          debugger
+        if(!res.hasErrors()) {
+          return await this.modal.open();
+        }
+    })
   }
 
   async closeModal() {
@@ -140,5 +197,6 @@ export class Step4Component implements OnInit {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.reciever.unsubscribe();
   }
 }

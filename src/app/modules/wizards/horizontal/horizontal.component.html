@@ -40,6 +40,7 @@
               class="w-100"
               [updateParentModel]="updateDeal"
               [deal]="deal$.value"
+              [images]="step1.images"
             ></app-step4>
           </ng-container>
 
@@ -48,7 +49,8 @@
           </ng-container>
         </div>
 
-        <div [ngClass]="(currentStep$.value === 1 || currentStep$.value === 4)? 'd-flex justify-content-center mt-10': 'd-flex justify-content-around mt-10'">
+        <div [ngClass]="(currentStep$.value === 1 || currentStep$.value === 4)? 'd-flex justify-content-center': 'd-flex justify-content-around'"
+          class="md:mt-2 2xl:mt-8">
           <div class="mr-2">
             <ng-container *ngIf="currentStep$.value !== 1">
               <button

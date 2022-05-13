@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { HotToastService } from '@ngneat/hot-toast';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { CategoryList } from '../../models/category-list.model';
 import { RegisterModel } from '../../models/register.model';
 import { AuthService } from '../../services/auth.service';
-
+import { CategoryService } from '../../services/category.service';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -13,14 +15,16 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
 
+  categoryData: CategoryList
+
   categories = [
-    { id:1, img: '../../../../../assets/media/icons/spaAndWellness.svg', name:'Spa And Wellness' },
-    { id:2, img: '../../../../../assets/media/icons/accomodation.svg', name:'Accomodation' },
+    { id:2, img: '../../../../../assets/media/icons/accommodation.svg', name:'Accomodation' },
     { id:3, img: '../../../../../assets/media/icons/Dining.svg', name:'Dining' },
-    { id:4, img: '../../../../../assets/media/icons/fashion.svg', name:'Fashion' },
-    { id:5, img: '../../../../../assets/media/icons/HomeAndDeco.svg', name:'Home And Deco' },
-    { id:6, img: '../../../../../assets/media/icons/leisure.svg', name:'Lisure' },
-    { id:7, img: '../../../../../assets/media/icons/others.svg', name:'Others' },
+    { id:4, img: '../../../../../assets/media/icons/athletics.svg', name:'Sports, Adventures & Experiences' },
+    { id:5, img: '../../../../../assets/media/icons/experiences-at-home.svg', name:'Experiences at Home' },
+    { id:1, img: '../../../../../assets/media/icons/spaAndWellness.svg', name:'Spa And Wellness' },
+    { id:6, img: '../../../../../assets/media/icons/personal-dev.svg', name:'Personal Development' },
+    { id:7, img: '../../../../../assets/media/icons/concert-event-tickets.svg', name:'Concerts & Event Tickets' },
   ]
   provincese = [
     { id:1, name:'West-Vlaanderen' },
@@ -37,6 +41,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   registrationSuccess = false;
   isLinear = false;
+  offset: number = 0;
+  limit: number = 7;
+  destroy$ = new Subject();
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -44,7 +51,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   constructor(
     private _formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private categoryService: CategoryService,
+    private cf: ChangeDetectorRef,
+    private toast: HotToastService,
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -55,6 +65,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
+    this.getCategories();
+  }
+
+  getCategories() {
+    // this.categoryService.getAllCategories(this.offset, this.limit)
+    // .pipe(takeUntil(this.destroy$))
+    // .subscribe((res: ApiResponse<CategoryList>) => {
+    //   debugger
+    //   if(!res.hasErrors()) {
+    //     this.categoryData = res.data;
+    //     this.cf.detectChanges();
+    //   }
+    // })
   }
 
   // convenience getter for easy access to form fields
@@ -65,7 +88,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   initForm() {
     this.registrationForm = this._formBuilder.group(
       {
-        category: [null, Validators.required],
+        businessProfile: [null, Validators.required],
         firstName: [
           '',
             Validators.compose([
@@ -90,7 +113,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.maxLength(60),
           ]),
         ],
-        mobile: [
+        phoneNumber: [
           '',
             Validators.compose([
             Validators.required,
@@ -114,7 +137,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.maxLength(100),
           ]),
         ],
-        zip: [
+        zipCode: [
           '',
             Validators.compose([
             Validators.required,
@@ -131,7 +154,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           ]),
         ],
         province: [null, Validators.required],
-        website: [
+        website_socialAppLink: [
           '',
             Validators.compose([
             Validators.required,
@@ -144,8 +167,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    debugger
     console.log('thiasdasd:',this.f['province']);
+    console.log('registrationForm:',this.registrationForm);
     this.hasError = false;
     const result: {
       [key: string]: string;
@@ -158,16 +181,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     const registrationSubscr = this.authService
       .registration(newModel)
       .pipe(first())
-      .subscribe((registerModel: RegisterModel) => {
-        console.log('re:',registerModel);
-        this.registrationSuccess = true; // need to remove in live version or while api intigration
-        if (registerModel) {
-          this.registrationSuccess = true;
+      .subscribe((registerModel) => {
+        if(!registerModel.hasErrors()){
+          this.registrationSuccess = true; // need to remove in live version or while api intigration
         } else {
-          this.hasError = true;
+          console.log('eeeeee:',registerModel.errors);
+          this.toast.error(registerModel.errors[0].error.message);
         }
       });
     this.unsubscribe.push(registrationSubscr);
+  }
+
+  registrationSuccessOk() {
+    this.router.navigate(['auth','login']);
   }
 
   ngOnDestroy() {

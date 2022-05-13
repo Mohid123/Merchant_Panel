@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { ReusableModalModule } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.module';
 import { DropdownMenusModule, WidgetsModule } from '../../_metronic/partials';
@@ -39,7 +40,9 @@ import { SettingsComponent } from './settings/settings.component';
     DropdownMenusModule,
     WidgetsModule,
     ReusableModalModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CKEditorModule,
+    FormsModule
 
 
   ],

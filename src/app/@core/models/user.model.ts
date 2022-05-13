@@ -6,7 +6,7 @@ export interface User {
   lastName: string;
   phoneNumber: string;
   role: string;
-  businessType: string;
+  businessProfile: string;
   companyName: string;
   streetAddress: string;
   zipCode: number;
@@ -15,13 +15,15 @@ export interface User {
   province: string;
   website_socialAppLink: string;
   googleMapPin: string;
-  businessHours: BusinessHours;
+  businessHours: BusinessHours[];
   aboutStore: string;
   generalTermsAgreements: string;
   profilePicURL: string;
   profilePicBlurHash: string;
   deletedCheck: boolean;
   status: string;
+  iban: string;
+  bankName: string;
 }
 
 interface BusinessHours {
@@ -30,4 +32,5 @@ interface BusinessHours {
   firstEndTime: string;
   secondStartTime: string;
   secondEndTime: string;
+  isWorkingDay: boolean;
 }

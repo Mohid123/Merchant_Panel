@@ -1,0 +1,11 @@
+.bussiness-details {
+  width: 100%;
+
+
+}
+
+@media (min-width: 640px) {
+  .bussiness-details {
+    width: calc(100% - 288px) ;
+  }
+}

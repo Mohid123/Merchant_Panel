@@ -1,10 +1,12 @@
 export interface Orders {
-  orderID?: string;
-  customerName?: string;
-  date?: string;
-  amount?: string;
-  fee?: string;
-  net?: string;
-  source?: string;
-  status?: string;
+  voucherID?:	number;
+  dealName?: string;
+  amount?:	number;
+  fee?:	number;
+  net?:	number;
+  status?:	string;
+  paymentStatus?:	string;
+  merchantId?:	string;
+  dealId?:	string;
+  boughtDate?:	string;
 }

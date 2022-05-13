@@ -14,9 +14,14 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        'xl': '1280px',
+        '2xl': '1600px',
+        '3xl': '1920px',
+      },
       colors: {
         'primary-100': '#F7E1AD',
-        'primary-400': '#E9A608',
+        'primary-400': '#F38B41',
         'primary-500': '#E67B00',
         'custom-black' : {
           '100': '#4e5970b3',
@@ -25,6 +30,7 @@ module.exports = {
         },
         'font-gray' : {
           '600': '#9399B2',
+          '800': '#787F9F',
         }
       },
       width: {
@@ -39,6 +45,7 @@ module.exports = {
         '90px': '90px',
       },
       fontSize: {
+        '4.5xl': '2.5rem',
         '45px': '45px'
       },
       flexGrow: {

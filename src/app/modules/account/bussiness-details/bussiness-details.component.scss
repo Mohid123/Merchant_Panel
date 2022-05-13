@@ -38,13 +38,19 @@ h3 {
 }
 
 .day {
+  @apply pr-7;
   div {
     @apply  w-10 h-10 rounded-full justify-center items-center;
     background-color: #4E5970;
+    cursor: pointer;
+
+    &.day-off {
+      background-color: #a9b8d9;
+    }
 
     a {
       color: white;
-      width: 2ch;
+      // width: 2ch;
       overflow: hidden;
       text-transform: uppercase;
     }
@@ -114,7 +120,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .modal-close-btn {
-  @apply text-xs bg-white rounded-md border-custom-black-100 text-custom-black-600;
+  @apply text-xs bg-white rounded-md border-custom-black-100 text-font-gray-800;
   width: 117px;
   border-width: 1px !important;
 }

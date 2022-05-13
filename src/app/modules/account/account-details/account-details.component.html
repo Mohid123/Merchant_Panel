@@ -5,22 +5,24 @@
       <h3 class=""> Max Smith</h3>
     </div>
     <h3 class="mb-5 fw-bolder">Contact Details</h3>
-    <a class="mb-5 edit-btn" (click)="openContactModal()">Edit</a>
+    <!-- <a class="mb-5 edit-btn" (click)="openContactModal()">Edit</a> -->
   </div>
 
   <div class="h-64 py-3 px-9 card-body">
+    <ng-container *ngIf="(authService.currentUser$ |async) as user">
     <div>
       <label class="text-sm font-semibold">Name</label>
-      <span class="text-xs">David Deens</span>
+      <span class="text-xs">{{user.firstName + ' ' + user.lastName }}</span>
     </div>
     <div>
       <label class="text-sm font-semibold">Email</label>
-      <span class="text-xs">david@deen.com</span>
+      <span class="text-xs">{{user.email}}</span>
     </div>
     <div>
       <label class="text-sm font-semibold">Mobile</label>
-      <span class="text-xs">123456789</span>
+      <span class="text-xs">{{user.phoneNumber}}</span>
     </div>
+  </ng-container>
   </div>
 </div>
 
@@ -74,30 +76,36 @@
 <div class="mb-5 card mb-xl-10 billing-details">
   <div class="py-6 mt-5 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
     <h3 class="mb-0 fw-bolder">Billing Details</h3>
-    <a (click)="openBillingModal()" class="edit-btn">Edit</a>
+    <a *ngIf="(authService.currentUser$ |async) as user" (click)="openBillingModal(user.iban)" class="edit-btn">Edit</a>
   </div>
 
-  <div class="h-64 py-3 px-9 card-body">
+  <div class="py-3 h-72 px-9 card-body">
+    <ng-container *ngIf="(authService.currentUser$ |async) as user">
     <div>
       <label class="text-sm font-semibold">Company Name</label>
-      <span class="text-xs">Divideals</span>
+      <span class="text-xs">{{user.companyName}}</span>
     </div>
     <div>
       <label class="text-sm font-semibold">Street Address</label>
-        <span class="text-xs">200, atlantica xyz, FL 2300</span>
-    </div>
-     <div>
-      <label class="text-sm font-semibold">Vat Number</label>
-      <span class="text-xs">456977</span>
-    </div>
-    <div>
-      <label class="text-sm font-semibold">Zip Code</label>
-      <span class="text-xs">0214</span>
+        <span class="text-xs">{{user.streetAddress}}</span>
     </div>
     <div>
       <label class="text-sm font-semibold">City</label>
-      <span class="text-xs">The Hague</span>
+      <span class="text-xs">{{user.city}}</span>
     </div>
+    <div>
+      <label class="text-sm font-semibold">Zip Code</label>
+      <span class="text-xs">{{user.zipCode}}</span>
+    </div>
+     <div>
+      <label class="text-sm font-semibold">Vat Number</label>
+      <span class="text-xs">{{user.vatNumber}}</span>
+    </div>
+     <div>
+      <label class="text-sm font-semibold">IBAN</label>
+      <span class="text-xs">{{user.iban}}</span>
+    </div>
+  </ng-container>
   </div>
 </div>
 
@@ -111,17 +119,13 @@
 
   <form novalidate="" class="form px-16 mx-2.5">
     <div class="px-0 py-3 card-body">
-      <div>
+      <!-- <div>
         <label>Company Name</label>
         <input type="text" class="form-control " placeholder="DavidDels" name="company"/>
       </div>
       <div>
         <label>Street Address</label>
           <input type="text" class="form-control" placeholder="200 E Gaines St, Talahasse" name="address"/>
-      </div>
-       <div>
-        <label>Vat Number</label>
-        <input type="tel" class="form-control" placeholder="0214" name="number" />
       </div>
       <div>
         <label>Zip Code</label>
@@ -131,11 +135,19 @@
         <label>City</label>
         <input type="text" class="form-control" placeholder="The hagues" name="city" />
       </div>
+      <div>
+        <label>Vat Number</label>
+        <input type="tel" class="form-control" placeholder="0214" name="number" />
+      </div> -->
+      <div>
+        <label>IBAN</label>
+        <input [(ngModel)]="iban" type="text" class="form-control" placeholder="ABC0214" name="number" />
+      </div>
     </div>
     <div class="justify-between px-0 py-6 border-none card-footer d-flex">
       <button class="modal-close-btn" (click)="showDiv.billingAddressSettings = false; showDiv.billingAddress = true" routerLinkActive="active">Discard</button>
 
-      <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async)" (click)="saveSettings()">
+      <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async)" (click)="saveBillingDetails()">
         <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
       </button>
 

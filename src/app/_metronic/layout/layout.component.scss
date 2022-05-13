@@ -17,3 +17,9 @@
     transition: opacity 1s ease-in-out;
   }
 }
+
+@media (max-width: 1280px) {
+  .content {
+    padding: 12px;
+  }
+}

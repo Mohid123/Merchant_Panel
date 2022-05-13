@@ -3,34 +3,36 @@
 <div class="mb-5 card mb-xl-10 company-details">
   <div class="py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
     <h3 class="mb-0 fw-bolder">Company Details</h3>
-    <a (click)="openCompanyModal()" class="edit-btn">Edit</a>
+    <!-- <a (click)="openCompanyModal()" class="edit-btn">Edit</a> -->
   </div>
 
   <div class="card-body border-top p-9">
+    <ng-container *ngIf="(authService.currentUser$ |async) as user">
     <div>
       <label class="font-semibold">Company Name</label>
-      <span>Company</span>
+      <span>{{user.companyName}}</span>
     </div>
     <div>
       <label class="font-semibold">Street Address</label>
-      <span>Street Address</span>
+      <span>{{user.streetAddress}}</span>
     </div>
     <div>
-      <label class="font-semibold">Zip</label>
-      <span>Zip</span>
+      <label class="font-semibold">Zip Code</label>
+      <span>{{user.zipCode}}</span>
     </div>
     <div>
       <label class="font-semibold">City</label>
-      <span>City</span>
+      <span>{{user.city}}</span>
     </div>
     <div>
       <label class="font-semibold">Google Map Pin</label>
-      <span>Google Map Pin</span>
+      <span>{{user.googleMapPin}}</span>
     </div>
     <div>
       <label class="font-semibold">Website/Social Media URL</label>
-      <span>Website/Social Media URL</span>
+      <span>{{user.website_socialAppLink}}</span>
     </div>
+  </ng-container>
   </div>
 </div>
 
@@ -45,7 +47,7 @@
       <form novalidate="" class="form px-16 mx-2.5">
         <div class="px-0 py-3 card-body">
           <div>
-            <label>Company</label>
+            <label>Company Name</label>
             <input type="text" class="form-control" placeholder="Company name" name="company" />
           </div>
           <div>
@@ -53,7 +55,7 @@
             <input type="text" class="form-control" placeholder="Company name" name="company" />
           </div>
           <div>
-            <label>Zip</label>
+            <label>Zip Code</label>
             <input type="tel" class="form-control" placeholder="Company name" name="company" />
           </div>
           <div>
@@ -94,27 +96,28 @@
 </ng-template>
 
 
-<div style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
-  <div class="px-20 py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
-    <div class="m-0 card-title">
-      <h3 class="m-0 fw-bolder">Set Bussiness Hours</h3>
-    </div>
+<div class="card" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
+  <div class="py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
+    <h3 class="m-0 fw-bolder">Set Business Hours</h3>
+    <a *ngIf="!isEditBusinessHours" (click)="editBusinessHours()" class="edit-btn">Edit</a>
   </div>
-  <div class="px-12 card-body" style="background-color: white;">
+  <div class="px-10 card-body" style="background-color: white;">
     <div class="table-responsive">
-      <table class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
+      <table [formGroup]="businessHoursForm" class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
 
-        <tbody>
+        <tbody formArrayName="businessHours" *ngIf="businessHoursFromControl">
+          <ng-container *ngFor="let formControls of businessHoursFromControl.controls;let i=index" [formGroupName]="i" >
           <tr>
             <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Sunday </a></div>
+                <div class="d-flex flex-column" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}"><a (click)="isWorkingDay(formControls)"> {{ formControls.value.day}} </a></div>
             </td>
             <td class="time">
               <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
+                <input type="time" class="form-control" placeholder="First Start Time" formControlName="firstStartTime" />
               </div>
+              <span>-</span>
               <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
+                <input type="time" class="form-control" placeholder="First End Time" formControlName="firstEndTime" />
               </div>
             </td>
             <td class="until">
@@ -122,187 +125,30 @@
             </td>
             <td class="time">
               <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
+                <input type="time" class="form-control" placeholder="Second Start Time" formControlName="secondStartTime" />
               </div>
+              <span>-</span>
               <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
+                <input type="time" class="form-control" placeholder="Second End Time" formControlName="secondEndTime" />
               </div>
 
 
             </td>
 
           </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Monday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Tuesday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Wednesday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Thursday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Friday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
-          <tr>
-            <td class="day">
-                <div class="d-flex flex-column"><a href="#"> Saturday </a></div>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-            </td>
-            <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
-            </td>
-            <td class="time">
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-              <div>
-                <input type="time" class="form-control" placeholder="Company name" name="company" />
-              </div>
-
-
-            </td>
-
-          </tr>
-
+        </ng-container>
         </tbody>
       </table>
+      <div class="justify-between px-0 py-6 border-none card-footer d-flex" *ngIf="isEditBusinessHours">
+        <button class="modal-close-btn"
+        routerLinkActive="active"
+        (click)="isEditBusinessHours = false;businessHoursForm.disable()">Discard</button>
+
+        <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async)" (click)="saveBusinessHours()">
+          <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+        </button>
+
+      </div>
     </div>
   </div>
 </div>
@@ -314,9 +160,9 @@
     </div>
   </div>
   <div class="px-12 card-body" style="background-color: white;">
-    <form class="form row" [formGroup]="businessForm">
+    <form class="form row" [formGroup]="termsForm">
       <div class="pb-5">
-       <textarea rows="8" type="text font-weight-light" class="text-sm font-thin form-control" formControlName="businessProfile" name="businessProfile"></textarea>
+       <ckeditor formControlName="generalTermsAgreements" [editor]="Editor" [config]="config" name="termsAndCondition"></ckeditor>
       </div>
 
       <div class="mt-6 mb-6 card-title">
@@ -324,20 +170,13 @@
       </div>
 
       <div class="pb-5">
-        <textarea rows="8" type="text font-weight-light" class="text-sm font-thin form-control" formControlName="businessProfile" name="businessProfile"></textarea>
+        <ckeditor formControlName="businessProfile" [editor]="Editor" [config]="config"></ckeditor>
        </div>
 
-      <!-- <div class="px-6 py-12" style="border: 1px solid #F38B41; border-radius: 12px;">
-        <span class="text-gray-600 font-base text-sm" formControlName="validity" name="validity">Validity: </span> <span class="font-light text-gray-500 text-sm">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
+       <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveTerms()">
+        <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+      </button>
 
-
-        <span class="text-gray-600 font-base text-sm" formControlName="purchase" name="purchase">Purchase: </span> <span class="font-light text-gray-500 text-sm">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
-
-
-        <span class="text-gray-600 font-base text-sm" formControlName="cancellation" name="cancellation">Cancellation: </span> <span class="font-light text-gray-500 text-sm">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
-
-        <span class="text-gray-600 font-base text-sm" formControlName="extraInfo" name="extraInfo">Extra Info: </span> <span class="font-light text-gray-500 text-sm">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</span>
-      </div> -->
     </form>
   </div>
 </div>

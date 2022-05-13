@@ -9,7 +9,7 @@ import { MainDeal } from './../models/main-deal.model';
 export class VerticalComponent implements OnInit {
   formsCount = 5;
   account$: BehaviorSubject<MainDeal> =
-    new BehaviorSubject<MainDeal>({});
+    new BehaviorSubject<MainDeal>(new MainDeal);
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
   isCurrentFormValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false

@@ -7,13 +7,13 @@ import { MainDeal } from './../models/main-deal.model';
 })
 
 export class ConnectionService {
-  private stepData: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>({});
+  private stepData: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
 
-  sendData(data: MainDeal) {
+  sendData(data: any) {
     this.stepData.next(data);
   }
 
-  getData(): Observable<MainDeal> {
+  getData(): Observable<any> {
     return this.stepData.asObservable()
   }
 }
