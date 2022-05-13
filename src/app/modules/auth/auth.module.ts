@@ -32,7 +32,7 @@ import { SecurityCodeComponent } from './components/security-code/security-code.
     ResetPasswordComponent,
   ],
   imports: [
-    CommonModule,
+  CommonModule,
     FormsModule,
     TranslationModule,
     AuthRoutingModule,

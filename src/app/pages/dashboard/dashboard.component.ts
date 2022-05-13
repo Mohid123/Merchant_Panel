@@ -32,7 +32,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   newPassForm: FormGroup;
-
   showData: boolean;
   destroy$ = new Subject();
   topDeals: any;
@@ -43,10 +42,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   validityPass: boolean;
   passwordHide: boolean = true;
 
-   options: NgPasswordValidatorOptions = {
+  options: NgPasswordValidatorOptions = {
     placement: "bottom",
     "animation-duration": 500,
     shadow: true,
+    "z-index": 1200,
     theme: "pro",
     offset: 8,
     heading: "Password Policy",
@@ -63,7 +63,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       "include-lowercase-characters": true,
       "include-uppercase-characters": true,
     }
-  }
+}
 
 
   constructor(
@@ -104,7 +104,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     return this.newPassForm.controls;
   }
 
-
   initPassForm() {
     this.newPassForm = this.fb.group({
       password: [
@@ -130,6 +129,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   passwordShowHide(): void {
     this.passwordHide = !this.passwordHide;
+  }
+
+  isValid(str: string) {
+    const pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$");
+    if (pattern.test(str)) {
+      this.validityPass = true;
+    }
+    else {
+      this.validityPass = false;
+    }
   }
 
   resetPassword() {

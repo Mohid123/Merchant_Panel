@@ -14,6 +14,7 @@ import { HotToastModule } from '@ngneat/hot-toast';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { ClipboardModule } from 'ngx-clipboard';
 import { environment } from 'src/environments/environment';
 import { CoreModule } from './@core/core.module';
@@ -38,7 +39,7 @@ import { FakeAPIService } from './_fake/fake-api.service';
 @NgModule({
   declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent],
   imports: [
-    CoreModule,
+CoreModule,
     BrowserModule,
     FormsModule,
     FullCalendarModule,
@@ -64,7 +65,8 @@ import { FakeAPIService } from './_fake/fake-api.service';
     FormsModule,
     NumberOnlyModule,
     PendingSkeletonModule,
-    HotToastModule.forRoot()
+    HotToastModule.forRoot(),
+    NgPasswordValidatorModule
   ],
   providers: [
     // {

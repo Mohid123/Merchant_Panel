@@ -74,7 +74,7 @@
 <button class="p-2 bg-red-400" (click)="openNew()">Test</button>
 
 
-<app-reusable-modal #modal [modalConfig]="modalConfig">
+<app-reusable-modal #modal [modalConfig]="modalConfig" style="z-index: -1!important;">
   <div class="mt-12 text-center">
     <h1>Setup a new Password</h1>
   </div>
@@ -84,10 +84,14 @@
         <label class="mb-3">Password</label>
         <div class="input-group">
          <input
+          tabindex="-1"
+          class="form-control"
           type="{{passwordHide ? 'password' : 'text'}}"
-          formControlName="password"
           name="password"
-          class="form-control">
+          autocomplete="off"
+          formControlName="password"
+          [NgPasswordValidator]="options"
+          (keyup)="isValid(newPassForm.controls['password']?.value)">
         </div>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'required',
@@ -99,7 +103,12 @@
        <div class="w-3/4 mb-3 form-group">
         <label class="mb-3">Confirm Password</label>
         <div class="input-group">
-          <input type="{{passwordHide ? 'password' : 'text'}}" formControlName="confirmPass" name="confirmPass" class="form-control">
+          <input
+            tabindex="-1"
+            type="{{passwordHide ? 'password' : 'text'}}"
+            formControlName="confirmPass"
+            name="confirmPass"
+            class="form-control">
          </div>
          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'required',
@@ -121,7 +130,7 @@
   </form>
 
   <div class="flex justify-center mb-8">
-    <button [disabled]="newPassForm.invalid || validityPass == false" (click)="resetPassword(); closeModal()" class="px-10 py-2 text-white bg-gray-900 rounded-md">Save</button>
+    <button [ngClass]="newPassForm.invalid || validityPass == false ? 'opacity-50': ''" [disabled]="newPassForm.invalid || validityPass == false" (click)="resetPassword(); closeModal()" class="px-10 py-2 text-white bg-gray-900 rounded-md">Save</button>
   </div>
 </app-reusable-modal>
 
@@ -135,3 +144,4 @@
   </ng-container>
 </ng-template>
 
+<!--<span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>-->

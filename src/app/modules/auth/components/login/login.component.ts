@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthCredentials } from '@core/models/auth-credentials.model';
+import { NgPasswordValidatorOptions } from 'ng-password-validator';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
@@ -26,27 +27,27 @@ export class LoginComponent implements OnInit, OnDestroy {
   // validityPass: boolean;
   inputValue: string;
 
-  // options: NgPasswordValidatorOptions = {
-  //   placement: "bottom",
-  //   "animation-duration": 500,
-  //   shadow: true,
-  //   theme: "pro",
-  //   offset: 8,
-  //   heading: "Password Policy",
-  //   successMessage: "Password is Valid",
-  //   rules: {
-  //     password: {
-  //         type: "range",
-  //         length: 8,
-  //         min: 8,
-  //         max: 100,
-  //     },
-  //     "include-symbol": true,
-  //     "include-number": true,
-  //     "include-lowercase-characters": true,
-  //     "include-uppercase-characters": true,
-  //   }
-  // }
+  options: NgPasswordValidatorOptions = {
+    placement: "bottom",
+    "animation-duration": 500,
+    shadow: true,
+    theme: "pro",
+    offset: 8,
+    heading: "Password Policy",
+    successMessage: "Password is Valid",
+    rules: {
+      password: {
+          type: "range",
+          length: 8,
+          min: 8,
+          max: 100,
+      },
+      "include-symbol": true,
+      "include-number": true,
+      "include-lowercase-characters": true,
+      "include-uppercase-characters": true,
+    }
+  }
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
