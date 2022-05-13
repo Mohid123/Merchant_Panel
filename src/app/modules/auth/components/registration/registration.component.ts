@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+// import { zipCodes } from '@core/utils/belgium-zip-codes';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -25,17 +26,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     { id:1, img: '../../../../../assets/media/icons/spaAndWellness.svg', name:'Spa And Wellness' },
     { id:6, img: '../../../../../assets/media/icons/personal-dev.svg', name:'Personal Development' },
     { id:7, img: '../../../../../assets/media/icons/concert-event-tickets.svg', name:'Concerts & Event Tickets' },
+    { id:8, img: '../../../../../assets/media/icons/pets-care.svg', name:'Pet Treatments' },
   ]
   provincese = [
     { id:1, name:'West-Vlaanderen' },
     { id:2, name:'Oost-Vlaanderen' },
     { id:3, name:'Antwerpen' },
     { id:4, name:'Vlaams-Brabant' },
-    { id:5, name:'Luik' },
+    // { id:5, name:'Luik' },
     { id:6, name:'Limburg' },
-    { id:7, name:'Waals-Brabant' },
+    // { id:7, name:'Waals-Brabant' },
   ]
 
+  // zipCodes = zipCodes;
   registrationForm: FormGroup;
   hasError: boolean;
   isLoading$: Observable<boolean>;
@@ -66,6 +69,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.getCategories();
+    // this.f['zipCode'].valueChanges.subscribe(zip => {
+    //   let zipData = zipCodes[zip];
+    //   if(zipData) {
+    //     console.log('zip data:',zipData);
+    //   }
+    // })
   }
 
   getCategories() {
@@ -93,7 +102,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
             Validators.maxLength(30),
           ]),
         ],
@@ -101,7 +109,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
             Validators.maxLength(30),
           ]),
         ],
@@ -109,7 +116,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.email,
+            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
             Validators.maxLength(60),
           ]),
         ],
@@ -125,7 +132,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
             Validators.maxLength(30),
           ]),
         ],
@@ -133,23 +139,20 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
             Validators.maxLength(100),
           ]),
         ],
         zipCode: [
-          '',
+          '',[
             Validators.compose([
-            Validators.required,
-            Validators.min(100),
-            Validators.max(9999999999),
-          ]),
+            Validators.required],),
+            this.validateZip()
+          ]
         ],
         city: [
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
             Validators.maxLength(100),
           ]),
         ],
@@ -158,7 +161,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
+            Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
             Validators.maxLength(100),
           ]),
         ],
@@ -198,5 +201,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  }
+
+  validateZip(): {[key: string]: any} | null  {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.value && control.value.toString().length !== 4) {
+        return { 'zipInvalid': true };
+      }
+      return null;
+    }
   }
 }
