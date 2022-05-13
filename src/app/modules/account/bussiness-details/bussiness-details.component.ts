@@ -1,8 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { exhaustMap } from 'rxjs/operators';
+import { HotToastService } from '@ngneat/hot-toast';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ReusableModalComponent } from './../../../components/reusable-modal/reusable-modal/reusable-modal.component';
@@ -15,7 +16,7 @@ import { UserService } from './../../auth/services/user.service';
   styleUrls: ['./bussiness-details.component.scss']
 })
 export class BussinessDetailsComponent implements OnInit {
-
+  destroy$ = new Subject();
   termsForm: FormGroup = this.fb.group({
     generalTermsAgreements: ['',Validators.minLength(40)],
     businessProfile: ['',Validators.minLength(40)]
@@ -25,10 +26,7 @@ export class BussinessDetailsComponent implements OnInit {
   public Editor = ClassicEditor
 
   isEditBusinessHours: boolean;
-  businessHoursForm: FormGroup = this.fb.group({
-    id: [''],
-    businessHours: this.fb.array( [])
-  });
+  businessHoursForm: FormGroup;
 
   @ViewChild('companyModal') private companyModal: ReusableModalComponent;
 
@@ -59,25 +57,31 @@ export class BussinessDetailsComponent implements OnInit {
     public authService: AuthService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
-    private userService :UserService
+    private userService :UserService,
+    private toast: HotToastService
   ) {
     const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
     this.unsubscribe.push(loadingSubscr);7
 
-    const user = this.authService.currentUserValue;
-    const businessHours = !!user?.businessHours.length ? user?.businessHours : initalBusinessHours;
-    // console.log('businessHours:',businessHours);
-    this.businessHoursForm.controls['id'].setValue(user?.id);
-     businessHours.forEach(businessHour => {
-      this.addBusinessHour(businessHour)
-     })
+     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe(user=> {
+       this.businessHoursForm = this.fb.group({
+         id: [''],
+         businessHours: this.fb.array( [])
+       });
+      const businessHours = !!user?.businessHours.length ? user?.businessHours : initalBusinessHours;
+      // console.log('businessHours:',businessHours);
+      this.businessHoursForm.controls['id'].setValue(user?.id);
+       businessHours.forEach(businessHour => {
+        this.addBusinessHour(businessHour)
+       })
 
-     this.businessHoursForm.disable();
+       this.businessHoursForm.disable();
 
-     if(user)
-      this.termsForm.patchValue(user);
+       if(user)
+        this.termsForm.patchValue(user);
+    });
 
     // console.log('businessHoursForm:',this.businessHoursForm);
   }
@@ -197,6 +201,7 @@ export class BussinessDetailsComponent implements OnInit {
   }
 
   saveBusinessHours(){
+    if(!this.validateBusinessHours()) {
     this.isLoading$.next(true);
     this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
       // console.log('asdsad:',res);
@@ -210,6 +215,9 @@ export class BussinessDetailsComponent implements OnInit {
       this.isEditBusinessHours = false;
       this.isLoading$.next(false);
     });
+  } else {
+    this.toast.warning('Enter business hours')
+  }
   }
 
   isWorkingDay(formControls:AbstractControl) {
@@ -225,6 +233,20 @@ export class BussinessDetailsComponent implements OnInit {
       this.isLoading$.next(false);
     });
   }
+
+  validateBusinessHours(){
+    let missingHours = true;
+    this.businessHoursForm.value.businessHours.forEach((businessHours:BusinessHours) => {
+      if( businessHours.isWorkingDay &&
+        businessHours.firstStartTime &&
+          businessHours.firstEndTime &&
+          businessHours.secondStartTime &&
+          businessHours.secondEndTime){
+            missingHours = false;
+          }
+    })
+    return missingHours;
+}
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

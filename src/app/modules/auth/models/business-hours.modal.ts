@@ -4,6 +4,7 @@ export class BusinessHours {
   firstEndTime:    string;
   secondStartTime: string;
   secondEndTime:   string;
+  isWorkingDay:   boolean;
 
   constructor(_businessHours: unknown) {
     const businessHours = _businessHours as BusinessHours;
@@ -12,6 +13,7 @@ export class BusinessHours {
     this.firstEndTime = businessHours.firstEndTime;
     this.secondStartTime = businessHours.secondStartTime;
     this.secondEndTime = businessHours.secondEndTime;
+    this.isWorkingDay = businessHours.isWorkingDay;
   }
 }
 

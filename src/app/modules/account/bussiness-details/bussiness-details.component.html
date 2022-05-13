@@ -105,13 +105,13 @@
     <div class="table-responsive">
       <table [formGroup]="businessHoursForm" class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
 
-        <tbody formArrayName="businessHours" *ngIf="businessHoursFromControl" >
+        <tbody class="flex flex-col" formArrayName="businessHours" *ngIf="businessHoursFromControl" >
           <ng-container *ngFor="let formControls of businessHoursFromControl.controls;let i=index" [formGroupName]="i" >
-          <tr class="relative border-0">
+          <tr class="relative flex justify-center items-center border-0">
             <td class="day pl-10">
                 <div class="d-flex flex-column" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}"><a (click)="isWorkingDay(formControls)"> {{ formControls.value.day}} </a></div>
+                <p class="shope-status" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}">{{formControls.value.isWorkingDay ? 'Opened' : 'Closed'}}</p>
               </td>
-            <p class="shope-status" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}">{{formControls.value.isWorkingDay ? 'Opened' : 'Closed'}}</p>
             <td class="time">
               <div>
                 <input type="time" class="form-control" placeholder="First Start Time" formControlName="firstStartTime" />
