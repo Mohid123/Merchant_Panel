@@ -9,6 +9,7 @@ import { CategoryList } from '../../models/category-list.model';
 import { RegisterModel } from '../../models/register.model';
 import { AuthService } from '../../services/auth.service';
 import { CategoryService } from '../../services/category.service';
+import { UrlValidator } from './url.validator';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -161,13 +162,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
+            // Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
             Validators.maxLength(100),
           ]),
         ],
       }
-    );
-  }
+      , {
+        validator: UrlValidator('website_socialAppLink')
+      })
+    }
 
   submit() {
     console.log('thiasdasd:',this.f['province']);
