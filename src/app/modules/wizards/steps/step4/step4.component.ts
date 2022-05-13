@@ -82,12 +82,11 @@ export class Step4Component implements OnInit {
   ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response
-      // console.log(this.data);
+      console.log(this.data);
     })
   }
 
   ngOnInit() {
-    this.initForm();
     this.updateParentModel({}, true);
   }
 
@@ -129,40 +128,8 @@ export class Step4Component implements OnInit {
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
   }
-
-  initForm() {
-    // this.form = this.fb.group({
-    //   nameOnCard: [this.defaultValues.nameOnCard, [Validators.required]],
-    //   cardNumber: [this.defaultValues.cardNumber, [Validators.required]],
-    //   cardExpiryMonth: [
-    //     this.defaultValues.cardExpiryMonth,
-    //     [Validators.required],
-    //   ],
-    //   cardExpiryYear: [
-    //     this.defaultValues.cardExpiryYear,
-    //     [Validators.required],
-    //   ],
-    //   cardCvv: [this.defaultValues.cardCvv, [Validators.required]],
-    //   saveCard: ['1'],
-    // });
-
-    // const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-    //   this.updateParentModel(val, this.checkForm());
-    // });
-    // this.unsubscribe.push(formChangesSubscr);
-  }
-
-  // checkForm() {
-  //   return !(
-  //     this.form.get('nameOnCard')?.hasError('required') ||
-  //     this.form.get('cardNumber')?.hasError('required') ||
-  //     this.form.get('cardExpiryMonth')?.hasError('required') ||
-  //     this.form.get('cardExpiryYear')?.hasError('required') ||
-  //     this.form.get('cardCvv')?.hasError('required')
-  //   );
-  // }
-
   openNew() {
+    debugger
     const mediaUpload:any = [];
     if(!!this.images.length) {
       // console.log('have images:',);
@@ -170,16 +137,21 @@ export class Step4Component implements OnInit {
         mediaUpload.push(this.mediaService.uploadMedia('deal', this.images[index]));
       }
     }
+    debugger
 
     this.data.mediaUrl = [];
+    debugger
     combineLatest(mediaUpload)
         .pipe(
           take(1),
           exhaustMap((mainResponse:any) => {
+            debugger
             mainResponse.forEach((res:any)=> {
+              debugger
               if (!res.hasErrors()) {
                 // console.log('res:',res);
                 this.data.mediaUrl?.push(res.data.url);
+                debugger
               } else {
                 return of(null);
               }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Subscription } from 'rxjs';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
+import { Vouchers } from '../../models/vouchers.model';
 import { ModalConfig } from './../../../../@core/models/modal.config';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
@@ -44,8 +45,8 @@ export class Step3Component implements OnInit, OnDestroy {
     termsAndCondition: '',
     vouchers: [
       {
-        voucherEndDate: Date.toString(),
-        voucherStartDate: Date.toString(),
+        voucherEndDate: '',
+        voucherStartDate: '',
         voucherValidity: 0
       }
     ]
@@ -153,7 +154,7 @@ export class Step3Component implements OnInit, OnDestroy {
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      this.data.vouchers?.forEach((voucher) => {
+      this.data.vouchers?.forEach((voucher: Vouchers) => {
         if (val.voucherValidity) {
           voucher.voucherValidity = val.voucherValidity;
           voucher.voucherStartDate ='';
@@ -164,10 +165,9 @@ export class Step3Component implements OnInit, OnDestroy {
           voucher.voucherEndDate = val.voucherEndDate;
         }
       });
-      const updatedData = {...this.data}
-      this.updateParentModel(updatedData, this.checkForm());
-      this.connection.sendData(updatedData);
-      // console.log(updatedData)
+      this.updateParentModel(this.data, this.checkForm());
+      this.connection.sendData(this.data);
+      console.log(this.data)
     });
     this.unsubscribe.push(formChangesSubscr);
   }

@@ -232,6 +232,7 @@ export class ViewDealComponent implements OnInit {
   }
 
   filterByStatus(status: string) {
+    debugger
     this.offset = 0;
     this.status = status;
     this.getDealsByMerchantID();
@@ -383,6 +384,7 @@ export class ViewDealComponent implements OnInit {
     this.startDate = 'Ascending';
     this.endDate = 'Ascending';
     this.price = 'Ascending';
+    this.status = '';
     this.getDealsByMerchantID();
   }
 

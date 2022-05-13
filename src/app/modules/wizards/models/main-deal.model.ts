@@ -10,7 +10,7 @@ export class MainDeal {
   mediaUrl: string[];
   startDate: string;
   endDate: string;
-  vouchers?: Vouchers[];
+  vouchers?: Vouchers[] | any;
   termsAndCondition: string;
   merchantID: string;
   dealStatus: string;

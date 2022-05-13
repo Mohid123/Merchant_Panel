@@ -18,28 +18,28 @@
               <input class="border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
               <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-4 mb-3 input-group date md:w-72" data-provide="datepicker">
-                <input type="date" (keydown)="disableManual($event)" class="text-sm font-thin form-control" formControlName="voucherStartDate" name="voucherStartDate">
+                <input [(ngModel)]="data.vouchers[0].voucherStartDate" type="date" (keydown)="disableManual($event)" class="text-sm font-thin form-control" formControlName="voucherStartDate" name="voucherStartDate">
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
                 message: 'Start Date is required',
                 control: form.controls['voucherStartDate']
               }">
-            </ng-container>
+              </ng-container>
               <span class="mb-0 text-base tracking-widest text-gray-600"><span class="text-red-600">*</span>Max validity 90 days</span>
             </label>
 
             <label class="mt-1 xl:mt-1 2xl:items-center 2xl:justify-end 2xl:ml-44 form-check form-check-solid">
               <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-3 input-group md:w-72" data-provide="datepicker">
-                <input [min]="form.controls['voucherStartDate'].value" (keydown)="disableManual($event)" type="date" class="text-sm font-thin form-control" formControlName="voucherEndDate" name="voucherEndDate" id="specialCheck" (click)="disableCheckBox()">
+                <input [(ngModel)]="data.vouchers[0].voucherEndDate" [min]="form.controls['voucherStartDate'].value" (keydown)="disableManual($event)" type="date" class="text-sm font-thin form-control" formControlName="voucherEndDate" name="voucherEndDate" (click)="disableCheckBox()">
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
                 message: 'End Date is required',
                 control: form.controls['voucherEndDate']
               }">
-            </ng-container>
+              </ng-container>
             </label>
           </div>
 
@@ -50,7 +50,7 @@
               <div class="relative mt-4">
                 <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
                   <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-                  <input type="number" placeholder="0" class="w-full text-center" formControlName="voucherValidity" name="voucherValidity">
+                  <input appNumbersOnly maxlength="4" [(ngModel)]="data?.vouchers[0].voucherValidity" type="text" placeholder="0" class="w-full text-center" formControlName="voucherValidity" name="voucherValidity">
                   <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
                 </div>
                 <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -58,7 +58,7 @@
                   message: 'Voucher validity date is required',
                   control: form.controls['voucherValidity']
                 }">
-              </ng-container>
+                </ng-container>
               </div>
             </label>
           </div>
@@ -108,7 +108,7 @@
               <p class="flex items-center font-medium text-black">
                 General terms & cancellation policy
               </p>
-              <ckeditor [disabled]="isDisabled" [editor]="Editor" [config]="config" formControlName="termsAndCondition" name="termsAndCondition"></ckeditor>
+              <ckeditor [(ngModel)]="data.termsAndCondition" [disabled]="isDisabled" [editor]="Editor" [config]="config" formControlName="termsAndCondition" name="termsAndCondition"></ckeditor>
             </div>
             <button class="mt-4 btn btn-light btn-active-light-primary" type="button" (click)="toggleDisabled()">{{ isDisabled ? 'Edit' : 'Save Edits' }}</button>
           </div>
