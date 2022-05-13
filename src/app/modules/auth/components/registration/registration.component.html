@@ -197,7 +197,7 @@
               <div class="flex">
                 <div class="mr-3" style="width: 170px;">
                   <label class="mb-1 text-sm form-label">Zip</label>
-                  <input class="form-control form-control-lg form-control-solid" type="number" name="zipCode"
+                  <input (keyup)="matchZipCodeWithCity()" class="form-control form-control-lg form-control-solid" type="number" name="zipCode"
                   autocomplete="off" formControlName="zipCode" [ngClass]="{
                     'is-invalid': f['zipCode'].invalid && f['zipCode'].touched,
                     'is-valid': f['zipCode'].valid}" />

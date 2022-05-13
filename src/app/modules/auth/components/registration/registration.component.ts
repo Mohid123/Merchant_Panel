@@ -1,12 +1,14 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiResponse } from '@core/models/response.model';
 // import { zipCodes } from '@core/utils/belgium-zip-codes';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { debounceTime, first, takeUntil } from 'rxjs/operators';
 import { CategoryList } from '../../models/category-list.model';
 import { RegisterModel } from '../../models/register.model';
+import { ZipCode } from '../../models/zip-code.model';
 import { AuthService } from '../../services/auth.service';
 import { CategoryService } from '../../services/category.service';
 import { UrlValidator } from './url.validator';
@@ -196,6 +198,21 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         }
       });
     this.unsubscribe.push(registrationSubscr);
+  }
+
+  matchZipCodeWithCity() {
+    const zipCode = this.registrationForm.get('zipCode')?.value;
+    if(zipCode) {
+      debugger
+      this.authService.fetchCityByZipCode(zipCode)
+      .pipe(takeUntil(this.destroy$), debounceTime(600))
+      .subscribe((res: ApiResponse<ZipCode>) => {
+        debugger
+        if(!res.hasErrors()) {
+          this.registrationForm.get('city')?.setValue(res.data.city);
+        }
+      })
+    }
   }
 
   registrationSuccessOk() {
