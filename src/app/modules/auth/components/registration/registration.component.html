@@ -272,31 +272,19 @@
                 </div>
             </div>
 
-            <div class="flex flex-wrap mb-5 fv-row province">
+            <div class="flex flex-wrap mb-2 fv-row province">
               <label class="w-full mb-1 text-sm form-label">Province</label>
               <ng-container *ngFor="let province of provincese">
                 <app-category-radio-button class="w-fit" name="province" [ngClass]="{'active' : f['province'].value == province.id}" [value]="province.id">
                   <strong class="text-sm font-normal" style="font-size: 14px;">{{province.name}}</strong>
                 </app-category-radio-button>
               </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'required',
-                            message: 'Street Address is required',
-                            control: f['streetAddress']}">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'minlength',
-                            message: 'Street Address should have at least 3 letters',
-                            control: f['streetAddress']}">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'maxlength',
-                            message: 'Street Address should have maximum 100 letters',
-                            control: f['streetAddress']}">
-              </ng-container>
             </div>
+            <ng-container *ngIf="f['province'].value == null">
+              <div class="text-xs text-danger">Please select a Province</div>
+            </ng-container>
 
-            <div class="mb-5 fv-row">
+            <div class="mt-3 mb-3 fv-row">
               <label class="mb-1 text-sm form-label">Website or social media</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="website_socialAppLink"
               placeholder="Website"
@@ -365,7 +353,7 @@
 
   <ng-template #formError let-control="control" let-message="message" let-validation="validation">
     <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
-      <div class="text-xs fv-plugins-message-container sm:text-sm w-full">
+      <div class="w-full text-xs fv-plugins-message-container sm:text-sm">
         <span class="text-xs fv-help-block" role="alert">
           {{ message }}
         </span>
