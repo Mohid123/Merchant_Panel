@@ -208,18 +208,20 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   matchZipCodeWithCity() {
     this.registrationForm.controls['zipCode']?.valueChanges
-    .pipe(takeUntil(this.destroy$), debounceTime(600)).subscribe((response: string) => {
+    .pipe(takeUntil(this.destroy$), debounceTime(1000)).subscribe((response: string) => {
       if(response) {
         this.authService.fetchCityByZipCode(response)
         .pipe(takeUntil(this.destroy$))
         .subscribe((res: ApiResponse<ZipCode>) => {
-        if(!res.hasErrors()) {
-          this.registrationForm.get('city')?.setValue(res.data?.city);
-        }
+          if(!res.hasErrors()) {
+            this.registrationForm.get('city')?.setValue(res.data?.city);
+            this.registrationForm.controls['city']?.disable();
+          }
       })
     }
-    else {
+    else if(response == '') {
       this.registrationForm.get('city')?.setValue('');
+      this.registrationForm.controls['city']?.enable();
     }
   })
 }
