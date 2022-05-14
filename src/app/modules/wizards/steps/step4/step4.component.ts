@@ -47,7 +47,7 @@ export class Step4Component implements OnInit {
     editable: true,
     selectable: true,
     selectMirror: true,
-    dayMaxEvents: true,
+    dayMaxEvents: 3,
     firstDay: 1,
     validRange: {
       start: moment().format('YYYY-MM-DD')
