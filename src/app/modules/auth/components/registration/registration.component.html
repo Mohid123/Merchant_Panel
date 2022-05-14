@@ -102,7 +102,7 @@
             <div class="mb-5 fv-row">
               <label class="mb-1 text-sm form-label">Mobile</label>
               <div class="flex">
-                <ngx-intl-tel-input style="width: 100% !important;"
+                <!-- <ngx-intl-tel-input style="width: 100% !important;"
                 [cssClass]="'form-control form-control-lg form-control-solid ' +
                  (f['phoneNumber'].invalid && f['phoneNumber'].touched? ' is-invalid ':'') +
                  (f['phoneNumber'].valid ? ' is-valid ':'')"
@@ -114,7 +114,7 @@
                   SearchCountryField.Name
                 ]"
                 [selectFirstCountry]="false"
-                [selectedCountryISO]="CountryISO.Bahrain"
+                [selectedCountryISO]="CountryISO.Belgium"
                 [maxLength]="15"
                 [phoneValidation]="true"
                 [separateDialCode]="true"
@@ -122,12 +122,12 @@
                 name="phone"
                 formControlName="phoneNumber"
               >
-              </ngx-intl-tel-input>
-                <!-- <input class="mr-3 form-control form-control-lg form-control-solid" style="width: 170px;" value="+32" type="text" disabled/>
+              </ngx-intl-tel-input> -->
+                <input class="mr-3 form-control form-control-lg form-control-solid" style="width: 170px;" value="+32" type="text" disabled/>
                 <input class="form-control form-control-lg form-control-solid" type="number" name="phoneNumber"
                 autocomplete="off" formControlName="phoneNumber" [ngClass]="{
                   'is-invalid': f['phoneNumber'].invalid && f['phoneNumber'].touched,
-                  'is-valid': f['phoneNumber'].valid}" /> -->
+                  'is-valid': f['phoneNumber'].valid}" />
                 </div>
 
               <ng-container *ngIf="f['phoneNumber'].touched" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -222,52 +222,54 @@
             <div class="mb-5 fv-row">
               <div class="flex">
                 <div class="mr-3" style="width: 170px;">
-                  <label class="mb-1 text-sm form-label">Zip</label>
-                  <input (keyup)="matchZipCodeWithCity()" class="form-control form-control-lg form-control-solid" type="number" name="zipCode"
-                  autocomplete="off" formControlName="zipCode" [ngClass]="{
-                    'is-invalid': f['zipCode'].invalid && f['zipCode'].touched,
-                    'is-valid': f['zipCode'].valid}" />
+                  <div>
+                    <label class="mb-1 text-sm form-label">Zip</label>
+                    <input (keyup)="matchZipCodeWithCity()" class="form-control form-control-lg form-control-solid" type="number" name="zipCode"
+                    autocomplete="off" formControlName="zipCode" [ngClass]="{
+                      'is-invalid': f['zipCode'].invalid && f['zipCode'].touched,
+                      'is-valid': f['zipCode'].valid}" />
+                  </div>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'Zip is required',
+                    control: f['zipCode']}">
+      </ng-container>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'zipInvalid',
+                    message: 'Incorrect zipcode',
+                    control: f['zipCode']}">
+      </ng-container>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'minLength',
+                    message: 'Incorrect zipcode',
+                    control: f['zipCode']}">
+                    </ng-container>
                 </div>
                 <div class="w-full">
-                  <label class="mb-1 text-sm form-label">City</label>
-                  <input class="form-control form-control-lg form-control-solid" type="text" name="city"
-                  autocomplete="off" formControlName="city" [ngClass]="{
-                    'is-invalid': f['city'].invalid && f['city'].touched,
-                    'is-valid': f['city'].valid}" />
+                    <div>
+                        <label class="mb-1 text-sm form-label">City</label>
+                        <input class="form-control form-control-lg form-control-solid" type="text" name="city"
+                        autocomplete="off" formControlName="city" [ngClass]="{
+                          'is-invalid': f['city'].invalid && f['city'].touched,
+                          'is-valid': f['city'].valid}" />
+                    </div>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                  validation: 'required',
+                                  message: 'City is required',
+                                  control: f['city']}">
+                    </ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                  validation: 'min',
+                                  message: 'City should have at least 3 letters',
+                                  control: f['city']}">
+                    </ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                  validation: 'max',
+                                  message: 'City should have maximum 100 letters',
+                                  control: f['city']}">
+                    </ng-container>
                   </div>
                 </div>
-
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'required',
-                            message: 'Zip is required',
-                            control: f['zipCode']}">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'zipInvalid',
-                            message: 'Incorrect zipcode',
-                            control: f['zipCode']}">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'minLength',
-                            message: 'Incorrect zipcode',
-                            control: f['zipCode']}">
-                            </ng-container>
-
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'required',
-                            message: 'City is required',
-                            control: f['city']}">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'min',
-                            message: 'City should have at least 3 letters',
-                            control: f['city']}">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'max',
-                            message: 'City should have maximum 100 letters',
-                            control: f['city']}">
-              </ng-container>
             </div>
 
             <div class="flex flex-wrap mb-2 fv-row province">
@@ -345,13 +347,13 @@
     <mat-icon class="absolute flex items-center justify-center text-white rounded-full w-9 h-9 -top-4"
     style="background-color: #3DD980;">done</mat-icon>
     <p class="text-base text-center">Congrats! You have successfully completed your application. We will be in touch within 24hrs. Feel free to browse our deal offer and get inspired by other merchants.</p>
-    <button class="h-10 text-white bg-black rounded-lg mt-9 w-28" mat-button (click)="registrationSuccessOk()">Bring me back to the store</button>
+    <button class="h-10 text-white bg-black rounded-lg mt-9 w-60" mat-button (click)="registrationSuccessOk()">Bring me back to the store</button>
   </div>
 </ng-template>
 
   <ng-template #formError let-control="control" let-message="message" let-validation="validation">
     <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
-      <div class="text-xs fv-plugins-message-container sm:text-sm">
+      <div class="text-xs fv-plugins-message-container sm:text-sm w-full">
         <span class="text-xs fv-help-block" role="alert">
           {{ message }}
         </span>
