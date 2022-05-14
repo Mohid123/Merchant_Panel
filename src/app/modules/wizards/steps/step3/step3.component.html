@@ -1,7 +1,7 @@
 <!--Title/ Header-->
 <div class="lg:text-center mb-13">
-  <h1 class="mt-2 mb-3 text-center 2xl:text-3xl xl:mt-0 md:text-2xl">The when, the how and the where.</h1>
-  <div class="font-thin text-center 2xl:text-xl text-primary-400 md:text-sm">Let's make sure all terms are correct before publishing your deal.</div>
+  <h1 class="mt-2 mb-3 text-center 3xl:text-3xl xl:mt-0 md:text-2xl">The when, the how and the where.</h1>
+  <div class="font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">Let's make sure all terms are correct before publishing your deal.</div>
 </div>
 <!--Card for Duration of Deal-->
 <div class="flex justify-center w-full align-middle">
@@ -29,7 +29,7 @@
               <span class="mb-0 text-base tracking-widest text-gray-600"><span class="text-red-600">*</span>Max validity 90 days</span>
             </label>
 
-            <label class="mt-1 xl:mt-1 2xl:items-center 2xl:justify-end 2xl:ml-44 form-check form-check-solid">
+            <label class="mt-1 xl:mt-1 3xl:items-center 3xl:justify-end 3xl:ml-44 form-check form-check-solid">
               <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-3 input-group md:w-72" data-provide="datepicker">
                 <input [(ngModel)]="data.vouchers[0].voucherEndDate" [min]="form.controls['voucherStartDate'].value" (keydown)="disableManual($event)" type="date" class="text-sm font-thin form-control" formControlName="voucherEndDate" name="voucherEndDate" (click)="disableCheckBox()">
