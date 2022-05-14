@@ -207,11 +207,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   matchZipCodeWithCity() {
-    this.registrationForm.controls['zipCode']?.valueChanges
-    .pipe(takeUntil(this.destroy$), debounceTime(1000)).subscribe((response: string) => {
-      if(response) {
-        this.authService.fetchCityByZipCode(response)
-        .pipe(takeUntil(this.destroy$))
+    const zipCode = this.registrationForm.controls['zipCode']?.value;
+      if(zipCode) {
+        this.authService.fetchCityByZipCode(zipCode)
+        .pipe(takeUntil(this.destroy$), debounceTime(400))
         .subscribe((res: ApiResponse<ZipCode>) => {
           if(!res.hasErrors()) {
             this.registrationForm.get('city')?.setValue(res.data?.city);
@@ -219,11 +218,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           }
       })
     }
-    else if(response == '') {
+    else {
       this.registrationForm.get('city')?.setValue('');
       this.registrationForm.controls['city']?.enable();
     }
-  })
+
 }
 
   registrationSuccessOk() {
