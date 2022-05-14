@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Subscription } from 'rxjs';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
-import { Vouchers } from '../../models/vouchers.model';
 import { ModalConfig } from './../../../../@core/models/modal.config';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
@@ -59,8 +58,10 @@ export class Step3Component implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, private connection: ConnectionService) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
-      this.data = response
-      // console.log(this.data);
+      if(response) {
+        this.data = response;
+        //console.log(this.data);
+      }
     })
   }
 
@@ -69,6 +70,7 @@ export class Step3Component implements OnInit, OnDestroy {
     this.updateParentModel({}, this.checkForm());
 
     this.config = {
+      language: 'en',
       toolbar: {
         styles: [
             'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
@@ -122,31 +124,36 @@ export class Step3Component implements OnInit, OnDestroy {
   }
 
   toggleDisabled() {
-    this.isDisabled = !this.isDisabled
+    if(this.form.controls['termsAndCondition']?.disabled) {
+      this.form.controls['termsAndCondition']?.enable();
+    }
+    else {
+      this.form.controls['termsAndCondition']?.disable();
+    }
   }
 
   initDateForm() {
     this.form = this.fb.group({
       voucherStartDate: [
-        '',
+        this.data.vouchers[0]?.voucherStartDate,
         Validators.compose([
           Validators.required
         ])
       ],
       voucherEndDate: [
-        '',
+        this.data.vouchers[0]?.voucherEndDate,
         Validators.compose([
           Validators.required
         ])
       ],
       termsAndCondition: [
-        '',
+        {value: this.data.termsAndCondition, disabled: true},
         Validators.compose([
           Validators.required
         ])
       ],
       voucherValidity: [
-        0,
+        this.data.vouchers[0]?.voucherValidity,
         Validators.compose([
           Validators.required
         ])
@@ -154,7 +161,7 @@ export class Step3Component implements OnInit, OnDestroy {
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      this.data.vouchers?.forEach((voucher: Vouchers) => {
+      this.data.vouchers?.forEach((voucher) => {
         if (val.voucherValidity) {
           voucher.voucherValidity = val.voucherValidity;
           voucher.voucherStartDate ='';
@@ -164,6 +171,7 @@ export class Step3Component implements OnInit, OnDestroy {
           voucher.voucherStartDate = val.voucherStartDate;
           voucher.voucherEndDate = val.voucherEndDate;
         }
+       this.convertToPlain(val.termsAndCondition);
       });
       this.updateParentModel(this.data, this.checkForm());
       this.connection.sendData(this.data);
@@ -205,6 +213,13 @@ export class Step3Component implements OnInit, OnDestroy {
   disableManual(e: any) {
     e.preventDefault()
   }
+
+  convertToPlain(html: any){
+    var tempDivElement = document.createElement("div");
+    tempDivElement.innerHTML = html;
+    return tempDivElement.textContent || tempDivElement.innerText || "";
+}
+
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

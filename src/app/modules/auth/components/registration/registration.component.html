@@ -279,16 +279,13 @@
                   <strong class="text-sm font-normal" style="font-size: 14px;">{{province.name}}</strong>
                 </app-category-radio-button>
               </ng-container>
-              <ng-container *ngIf="f['province'].value == null">
-                <div class="text-xs text-danger">Please select a Province</div>
-              </ng-container>
             </div>
             <ng-container *ngIf="f['province'].value == null">
               <div class="text-xs text-danger">Please select a Province</div>
             </ng-container>
 
-
-            <div class="mt-3 mb-3 fv-row">
+            <div class="mt-3 mb-2 fv-row">
+              <label class="mb-1 text-sm form-label">Website or social media</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="website_socialAppLink"
                 formControlName="website_socialAppLink" autocomplete="off" [ngClass]="{
                 'is-invalid': f['website_socialAppLink'].invalid && f['website_socialAppLink'].touched ,
