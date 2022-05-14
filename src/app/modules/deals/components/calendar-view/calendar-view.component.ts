@@ -54,7 +54,7 @@ export class CalendarViewComponent implements OnInit {
     editable: true,
     selectable: true,
     selectMirror: true,
-    dayMaxEvents: true,
+    dayMaxEvents: 3,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this)
