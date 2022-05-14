@@ -55,7 +55,7 @@
             <ng-container *ngIf="currentStep$.value !== 1">
               <button
                 type="button"
-                class="py-3 text-sm font-thin text-gray-600 bg-gray-100 border border-gray-400 rounded-md px-13"
+                class="py-3 text-sm font-thin text-gray-600 bg-gray-300 border border-gray-500 rounded-md px-13"
                 (click)="prevStep()"
               >
               Back
@@ -85,5 +85,4 @@
   </div>
 </div>
 
-<!--[disabled]="!isCurrentFormValid$.value"
-[disabled]="!isCurrentFormValid$.value"-->
+<!--[disabled]="!isCurrentFormValid$.value || step1.urls.length == 0"-->

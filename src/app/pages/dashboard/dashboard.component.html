@@ -62,7 +62,7 @@
           <td class="p-4 font-thin">{{deal.minRating}}</td>
            <ng-container *ngIf="deal.dealStatus == 'In Review'"></ng-container>
            <td class="p-4 font-thin">
-            <span class="px-5 py-3 badge badge-light-warning rounded-2xl">Pending</span>
+            <span class="px-5 py-3 badge badge-warning rounded-2xl opacity-80">Pending</span>
           </td>
           <!-- <ng-container *ngIf="deal.dealStatus == ''"></ng-container> -->
         </tr>
@@ -83,7 +83,7 @@
       <div class="w-3/4 mb-3 form-group">
         <label class="mb-3">Password</label>
         <div class="flex flex-row input-group-prepend justify-evenly">
-         <span class="mt-3 right-24 absolute cursor-pointer flex items-center" (click)="passwordShowHide()"><i class="p-2 ml-2 text-white bg-blue-600 rounded far fa-eye"></i></span>
+         <span class="absolute flex items-center mt-3 cursor-pointer right-24" (click)="passwordShowHide()"><i class="p-2 ml-2 text-white bg-blue-600 rounded far fa-eye"></i></span>
          <input
           tabindex="-1"
           class="pr-20 form-control"
@@ -104,7 +104,7 @@
        <div class="w-3/4 mb-3 form-group">
         <label class="mb-3">Confirm Password</label>
         <div class="flex flex-row input-group-prepend justify-evenly">
-          <span class="mt-3 right-24 absolute cursor-pointer flex items-center" (click)="passwordShowHide()"><i class="p-2 ml-2 text-white bg-blue-600 rounded far fa-eye"></i></span>
+          <span class="absolute flex items-center mt-3 cursor-pointer right-24" (click)="passwordShowHide()"><i class="p-2 ml-2 text-white bg-blue-600 rounded far fa-eye"></i></span>
           <input
             tabindex="-1"
             type="{{passwordHide ? 'password' : 'text'}}"
