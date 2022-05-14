@@ -202,6 +202,5 @@ export class Step4Component implements OnInit {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
-    this.reciever.unsubscribe();
   }
 }

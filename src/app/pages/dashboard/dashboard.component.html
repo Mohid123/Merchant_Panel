@@ -62,7 +62,7 @@
           <td class="p-4 font-thin">{{deal.minRating}}</td>
            <ng-container *ngIf="deal.dealStatus == 'In Review'"></ng-container>
            <td class="p-4 font-thin">
-            <span class="px-5 py-3 badge badge-light-warning rounded-2xl">Pending</span>
+            <span class="px-5 py-3 badge badge-warning rounded-2xl opacity-80">Pending</span>
           </td>
           <!-- <ng-container *ngIf="deal.dealStatus == ''"></ng-container> -->
         </tr>
@@ -70,3 +70,80 @@
     </table>
   </div>
 </ng-container>
+
+<!-- <button class="p-2 bg-red-400" (click)="openNew()">Test</button> -->
+
+
+<app-reusable-modal #modal [modalConfig]="modalConfig" style="z-index: -1!important;">
+  <div class="mt-12 text-center">
+    <h1>Setup a new Password</h1>
+  </div>
+  <form [formGroup]="newPassForm">
+    <div class="flex flex-col items-center justify-center modal-body">
+      <div class="w-3/4 mb-3 form-group">
+        <label class="mb-3">Password</label>
+        <div class="flex flex-row input-group-prepend justify-evenly">
+         <span class="absolute flex items-center mt-3 cursor-pointer right-24" (click)="passwordShowHide()"><i class="p-2 ml-2 text-white bg-blue-600 rounded far fa-eye"></i></span>
+         <input
+          tabindex="-1"
+          class="pr-20 form-control"
+          type="{{passwordHide ? 'password' : 'text'}}"
+          name="password"
+          autocomplete="off"
+          formControlName="password"
+          [NgPasswordValidator]="options"
+          (keyup)="isValid(newPassForm.controls['password']?.value)">
+        </div>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Password is required',
+          control: newPassForm.controls['password']}">
+        </ng-container>
+       </div>
+
+       <div class="w-3/4 mb-3 form-group">
+        <label class="mb-3">Confirm Password</label>
+        <div class="flex flex-row input-group-prepend justify-evenly">
+          <span class="absolute flex items-center mt-3 cursor-pointer right-24" (click)="passwordShowHide()"><i class="p-2 ml-2 text-white bg-blue-600 rounded far fa-eye"></i></span>
+          <input
+            tabindex="-1"
+            type="{{passwordHide ? 'password' : 'text'}}"
+            formControlName="confirmPass"
+            name="confirmPass"
+            class="pr-20 form-control">
+         </div>
+         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Confirm your password',
+          control: newPassForm.controls['confirmPass']}">
+        </ng-container>
+        <ng-container
+        *ngIf="
+        newPassForm.controls['confirmPass'].errors &&
+        newPassForm.controls['confirmPass'].errors['ConfirmPassword']">
+        <div class="fv-plugins-message-container">
+          <div class="text-xs fv-help-block">
+            Passswords do not match.
+          </div>
+        </div>
+      </ng-container>
+       </div>
+    </div>
+  </form>
+
+  <div class="flex justify-center mb-8">
+    <button [ngClass]="newPassForm.invalid || validityPass == false ? 'opacity-50': ''" [disabled]="newPassForm.invalid || validityPass == false" (click)="resetPassword(); closeModal()" class="px-10 py-2 text-white bg-gray-900 rounded-md">Save</button>
+  </div>
+</app-reusable-modal>
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="text-xs fv-help-block">
+        {{ message }}
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<!--<span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>-->

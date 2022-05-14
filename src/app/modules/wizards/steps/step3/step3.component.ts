@@ -58,8 +58,10 @@ export class Step3Component implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, private connection: ConnectionService) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
-      this.data = response
-      // console.log(this.data);
+      if(response) {
+        this.data = response;
+        //console.log(this.data);
+      }
     })
   }
 
@@ -68,6 +70,7 @@ export class Step3Component implements OnInit, OnDestroy {
     this.updateParentModel({}, this.checkForm());
 
     this.config = {
+      language: 'en',
       toolbar: {
         styles: [
             'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
@@ -121,31 +124,36 @@ export class Step3Component implements OnInit, OnDestroy {
   }
 
   toggleDisabled() {
-    this.isDisabled = !this.isDisabled
+    if(this.form.controls['termsAndCondition']?.disabled) {
+      this.form.controls['termsAndCondition']?.enable();
+    }
+    else {
+      this.form.controls['termsAndCondition']?.disable();
+    }
   }
 
   initDateForm() {
     this.form = this.fb.group({
       voucherStartDate: [
-        '',
+        this.data.vouchers[0]?.voucherStartDate,
         Validators.compose([
           Validators.required
         ])
       ],
       voucherEndDate: [
-        '',
+        this.data.vouchers[0]?.voucherEndDate,
         Validators.compose([
           Validators.required
         ])
       ],
       termsAndCondition: [
-        '',
+        {value: this.data.termsAndCondition, disabled: true},
         Validators.compose([
           Validators.required
         ])
       ],
       voucherValidity: [
-        0,
+        this.data.vouchers[0]?.voucherValidity,
         Validators.compose([
           Validators.required
         ])
@@ -163,6 +171,7 @@ export class Step3Component implements OnInit, OnDestroy {
           voucher.voucherStartDate = val.voucherStartDate;
           voucher.voucherEndDate = val.voucherEndDate;
         }
+       this.convertToPlain(val.termsAndCondition);
       });
       const updatedData = {...this.data}
       this.updateParentModel(updatedData, this.checkForm());
@@ -205,6 +214,13 @@ export class Step3Component implements OnInit, OnDestroy {
   disableManual(e: any) {
     e.preventDefault()
   }
+
+  convertToPlain(html: any){
+    var tempDivElement = document.createElement("div");
+    tempDivElement.innerHTML = html;
+    return tempDivElement.textContent || tempDivElement.innerText || "";
+}
+
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

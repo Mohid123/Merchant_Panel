@@ -11,7 +11,13 @@ textarea.form-control {
 
 .card-custom {
   max-width: 870px;
-  height: 550px;
+  height: 490px;
+}
+
+@media (min-width: 1900px) {
+  .card-custom {
+    height: 510px;
+  }
 }
 
 @media (max-width: 1280px) {
