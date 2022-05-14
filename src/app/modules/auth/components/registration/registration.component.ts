@@ -192,6 +192,24 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.unsubscribe.push(registrationSubscr);
   }
 
+  matchZipCodeWithCity() {
+    const zipCode = this.registrationForm.controls['zipCode']?.value;
+      if(zipCode) {
+        this.authService.fetchCityByZipCode(zipCode)
+        .pipe(takeUntil(this.destroy$), debounceTime(400))
+        .subscribe((res: ApiResponse<ZipCode>) => {
+          if(!res.hasErrors()) {
+            this.registrationForm.get('city')?.setValue(res.data?.city);
+            this.registrationForm.controls['city']?.disable();
+          }
+      })
+    }
+    else {
+      this.registrationForm.get('city')?.setValue('');
+      this.registrationForm.controls['city']?.enable();
+    }
+
+}
   registrationSuccessOk() {
     this.router.navigate(['auth','login']);
   }

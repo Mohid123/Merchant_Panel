@@ -116,7 +116,7 @@ export class ViewDealComponent implements OnInit {
     editable: true,
     selectable: true,
     selectMirror: true,
-    dayMaxEvents: true,
+    dayMaxEvents: 3,
     moreLinkClick: 'popover',
     // select: this.handleDateSelect.bind(this),
     eventClick: this.showPopover.bind(this),
@@ -178,12 +178,41 @@ export class ViewDealComponent implements OnInit {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item:MainDeal) => {
+          if(item.dealStatus == 'In Review') {
             return {
               title:item.title,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#F59E0B',
+              borderColor: '#F59E0B'
             }
-          })
+          }
+          if(item.dealStatus == 'Published') {
+            return {
+              title:item.title,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD')
+            }
+          }
+          if(item.dealStatus == 'Scheduled') {
+            return {
+              title:item.title,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#10B981',
+              borderColor: '#10B981'
+            }
+          }
+          if(item.dealStatus == 'Bounced') {
+            return {
+              title:item.title,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#EF4444',
+              borderColor: '#EF4444'
+            }
+          }
+        })
       }
     })
   }
@@ -393,6 +422,42 @@ export class ViewDealComponent implements OnInit {
     this.destroy$.complete();
     this.destroy$.unsubscribe();
   }
+
+  // if(item.dealStatus == 'In Review') {
+  //   return {
+  //     title:item.title,
+  //     start: moment(item.startDate).format('YYYY-MM-DD'),
+  //     end: moment(item.endDate).format('YYYY-MM-DD'),
+  //     backgroundColor: '#F59E0B',
+  //     borderColor: '#F59E0B'
+  //   }
+  // })
+  // }
+  // if(item.dealStatus == 'Published') {
+  //   return {
+  //     title:item.title,
+  //     start: moment(item.startDate).format('YYYY-MM-DD'),
+  //     end: moment(item.endDate).format('YYYY-MM-DD'),
+  //   }
+  // }
+  // if(item.dealStatus == 'Scheduled') {
+  //   return {
+  //     title:item.title,
+  //     start: moment(item.startDate).format('YYYY-MM-DD'),
+  //     end: moment(item.endDate).format('YYYY-MM-DD'),
+  //     backgroundColor: '#10B981',
+  //     borderColor: '#10B981'
+  //   }
+  // }
+  // if(item.dealStatus == 'Bounced') {
+  //   return {
+  //     title:item.title,
+  //     start: moment(item.startDate).format('YYYY-MM-DD'),
+  //     end: moment(item.endDate).format('YYYY-MM-DD'),
+  //     backgroundColor: '#EF4444',
+  //     borderColor: '#EF4444'
+  //   }
+  // }
 
 
 }
