@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 // import { zipCodes } from '@core/utils/belgium-zip-codes';
 import { HotToastService } from '@ngneat/hot-toast';
+import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, first, takeUntil } from 'rxjs/operators';
 import { CategoryList } from '../../models/category-list.model';
@@ -12,12 +13,17 @@ import { ZipCode } from '../../models/zip-code.model';
 import { AuthService } from '../../services/auth.service';
 import { CategoryService } from '../../services/category.service';
 import { UrlValidator } from './url.validator';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss'],
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
+
+  SearchCountryField = SearchCountryField;
+	CountryISO = CountryISO;
+  PhoneNumberFormat = PhoneNumberFormat;
 
   categoryData: CategoryList
 

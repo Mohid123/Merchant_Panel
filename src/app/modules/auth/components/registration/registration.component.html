@@ -102,16 +102,42 @@
             <div class="mb-5 fv-row">
               <label class="mb-1 text-sm form-label">Mobile</label>
               <div class="flex">
-                <input class="mr-3 form-control form-control-lg form-control-solid" style="width: 170px;" value="+32" type="text" disabled/>
+                <ngx-intl-tel-input style="width: 100% !important;"
+                [cssClass]="'form-control form-control-lg form-control-solid ' +
+                 (f['phoneNumber'].invalid && f['phoneNumber'].touched? ' is-invalid ':'') +
+                 (f['phoneNumber'].valid ? ' is-valid ':'')"
+                [enableAutoCountrySelect]="true"
+                [enablePlaceholder]="true"
+                [searchCountryFlag]="true"
+                [searchCountryField]="[
+                  SearchCountryField.Iso2,
+                  SearchCountryField.Name
+                ]"
+                [selectFirstCountry]="false"
+                [selectedCountryISO]="CountryISO.Bahrain"
+                [maxLength]="15"
+                [phoneValidation]="true"
+                [separateDialCode]="true"
+                [numberFormat]="PhoneNumberFormat.National"
+                name="phone"
+                formControlName="phoneNumber"
+              >
+              </ngx-intl-tel-input>
+                <!-- <input class="mr-3 form-control form-control-lg form-control-solid" style="width: 170px;" value="+32" type="text" disabled/>
                 <input class="form-control form-control-lg form-control-solid" type="number" name="phoneNumber"
                 autocomplete="off" formControlName="phoneNumber" [ngClass]="{
                   'is-invalid': f['phoneNumber'].invalid && f['phoneNumber'].touched,
-                  'is-valid': f['phoneNumber'].valid}" />
+                  'is-valid': f['phoneNumber'].valid}" /> -->
                 </div>
 
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              <ng-container *ngIf="f['phoneNumber'].touched" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'required',
                             message: 'Mobile is required',
+                            control: f['phoneNumber']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'validatePhoneNumber',
+                            message: 'Mobile is invalid',
                             control: f['phoneNumber']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
