@@ -4,22 +4,34 @@
   <div class="font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">And we're good to go!</div>
 </div>
 <!--Stepper with Calendar-->
-<div class="p-2 shadow-sm lg:p-4 card card-custom card-stretch h-3/4" style="border-top: 16px solid #F38B41;">
-  <!-- <div class="rounded lg:p-8 card card-custom card-stretch bg-gray-50"> -->
-    <div class="lg:p-4 card card-custom card-stretch">
-      <button (click)="openNew()" class="absolute top-0 right-0 px-3 py-1 text-center text-white bg-green-400 rounded-sm xl:rounded-md xl:px-10 xl:py-3 3xl:px-10 3xl:py-3 lg:top-6 xl:top-6 3xl:top-6 lg:right-6 xl:right-7 3xl:right-7">Send</button>
-      <full-calendar class="calendar" [options]="calendarOptions"></full-calendar>
-    </div>
-  <!-- </div> -->
-  <div class="h-full lg:p-1 card card-custom card-stretch">
-    <div class="flex items-center justify-evenly lg:flex-row">
-      <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">In-Review</span></i>
-      <i class="text-red-500 lg:mr-4 fas fa-circle"> <span class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base abc">Needs Attention</span></i>
-      <i class="text-green-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Scheduled</span></i>
-      <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Published</span></i>
-    </div>
+<div class="flex justify-center adjust">
+  <!-- <div class="w-3/4 p-2 shadow-sm lg:p-4 card card-custom card-stretch" style="border-top: 16px solid #F38B41;"> -->
+    <!-- <div class="rounded lg:p-8 card card-custom card-stretch bg-gray-50"> -->
+      <div class="w-3/4 lg:p-4 card card-custom card-stretch secondAdjust" style="border-top: 16px solid #F38B41;">
+        <button (click)="openNew()" class="absolute top-0 right-0 px-3 py-1 text-center text-white bg-green-400 rounded-sm xl:rounded-md xl:px-6 xl:py-2 3xl:px-10 3xl:py-3 lg:top-6 xl:top-6 3xl:top-6 lg:right-6 xl:right-7 3xl:right-7">
+          <ng-container *ngIf="uploaded == false">
+            <span class="indicator-progress" [style.display]="'block'">
+              Please wait...
+              <span class="align-middle spinner-border spinner-border-sm ms-2"></span>
+            </span>
+          </ng-container>
+          <ng-container *ngIf="uploaded == true">
+            <span class="indicator-label">Send</span>
+          </ng-container>
+        </button>
+        <full-calendar class="calendar" [options]="calendarOptions"></full-calendar>
+      </div>
+    <!-- </div> -->
+    <!-- <div class="h-full lg:p-2 card card-custom card-stretch">
+      <div class="flex items-center justify-evenly lg:flex-row">
+        <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-sm md:mr-7 abc">In-Review</span></i>
+        <i class="text-red-500 lg:mr-4 fas fa-circle"> <span class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-sm abc">Needs Attention</span></i>
+        <i class="text-green-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-sm md:mr-7 abc">Scheduled</span></i>
+        <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-sm md:mr-7 abc">Published</span></i>
+      </div>
+    </div> -->
   </div>
-</div>
+<!-- </div> -->
 
 <app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="modal-header">
@@ -61,6 +73,16 @@
 
 span {
   font-family: Arial, Helvetica, sans-serif
+}
+
+@media (max-width: 1280px) {
+  .adjust {
+    height: 440px;
+ }
+
+ .secondAdjust {
+    height: 400px;
+ }
 }
 
 </style>

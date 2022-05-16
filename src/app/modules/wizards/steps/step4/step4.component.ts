@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MediaService } from '@core/services/media.service';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/angular';
+import { HotToastService } from '@ngneat/hot-toast';
 import * as moment from 'moment';
 import { combineLatest, of, Subscription } from 'rxjs';
 import { exhaustMap, take } from 'rxjs/operators';
@@ -21,6 +22,7 @@ export class Step4Component implements OnInit {
 
   @Input() images: Array<any>;
   @ViewChild('modal') private modal: ReusableModalComponent;
+  uploaded: boolean;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
@@ -33,7 +35,6 @@ export class Step4Component implements OnInit {
     closeButtonLabel: "Close"
   }
 
-
   currentEvents: EventApi[] = [];
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -41,7 +42,7 @@ export class Step4Component implements OnInit {
       center: 'title',
       right: ''
     },
-    height: "auto",
+    // height: "auto",
     initialView: 'dayGridMonth',
     weekends: true,
     editable: true,
@@ -49,18 +50,15 @@ export class Step4Component implements OnInit {
     selectMirror: true,
     dayMaxEvents: 3,
     firstDay: 1,
+    height: 450,
     validRange: {
       start: moment().format('YYYY-MM-DD')
     },
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this)
-    /* you can update a remote database when these fire:
-    eventAdd:
-    eventChange:
-    eventRemove:
-    */
   };
+
   @Input('updateParentModel') updateParentModel: (
     part: Partial<MainDeal>,
     isFormValid: boolean
@@ -74,16 +72,17 @@ export class Step4Component implements OnInit {
   private unsubscribe: Subscription[] = [];
 
   constructor(
-    private fb: FormBuilder,
     private connection: ConnectionService,
     private dealService: DealService,
     private mediaService: MediaService,
-    private router: Router
+    private router: Router,
+    private cf: ChangeDetectorRef,
+    private toast: HotToastService
   ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response
-      console.log(this.data);
     })
+    this.uploaded = true;
   }
 
   ngOnInit() {
@@ -99,7 +98,7 @@ export class Step4Component implements OnInit {
     // console.log('moment().isSame(selectInfo.startStr):',moment().isSame(selectInfo.startStr,'day'));
     // if(!moment().isSame(selectInfo.startStr,'day') && moment().isAfter(selectInfo.startStr)) { return }
 
-    const title = "Event Title"
+    const title = this.data.title
     const calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection
@@ -127,31 +126,40 @@ export class Step4Component implements OnInit {
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
+    this.cf.detectChanges();
   }
+
   openNew() {
-    debugger
+    this.uploaded = false
+    if(this.currentEvents.length == 0) {
+      this.toast.warning('Please set a date for the deal!', {
+        style: {
+          border: '1px solid #F59E0B',
+          padding: '16px',
+          color: '#F59E0B',
+        },
+        iconTheme: {
+          primary: '#f7ce8c',
+          secondary: '#F59E0B',
+        }
+      })
+      return;
+    }
     const mediaUpload:any = [];
     if(!!this.images.length) {
-      // console.log('have images:',);
       for (let index = 0; index < this.images.length; index++) {
         mediaUpload.push(this.mediaService.uploadMedia('deal', this.images[index]));
       }
     }
-    debugger
 
     this.data.mediaUrl = [];
-    debugger
     combineLatest(mediaUpload)
         .pipe(
           take(1),
           exhaustMap((mainResponse:any) => {
-            debugger
             mainResponse.forEach((res:any)=> {
-              debugger
               if (!res.hasErrors()) {
-                // console.log('res:',res);
                 this.data.mediaUrl?.push(res.data.url);
-                debugger
               } else {
                 return of(null);
               }
@@ -159,8 +167,8 @@ export class Step4Component implements OnInit {
             return this.dealService.createDeal(this.data);
           }),
         ).subscribe(async (res) => {
-          debugger
         if(!res.hasErrors()) {
+          this.uploaded = true;
           return await this.modal.open();
         }
     })
@@ -174,6 +182,5 @@ export class Step4Component implements OnInit {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
-    this.reciever.unsubscribe();
   }
 }

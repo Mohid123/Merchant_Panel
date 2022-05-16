@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { ConnectionService } from '../services/connection.service';
 import { MainDeal } from './../models/main-deal.model';
 @Component({
   selector: 'app-horizontal',
@@ -14,10 +16,15 @@ export class HorizontalComponent implements OnInit {
     false
   );
   private unsubscribe: Subscription[] = [];
+  receiver: Subscription;
+  data: MainDeal
 
-  constructor() {}
+  constructor(private toast: HotToastService, private connection: ConnectionService) {}
 
   ngOnInit(): void {
+    this.receiver = this.connection.getData().subscribe((res: any) => {
+      this.data = res;
+    })
   }
 
   updateDeal = (part: Partial<MainDeal>, isFormValid: boolean) => {
@@ -28,6 +35,19 @@ export class HorizontalComponent implements OnInit {
   };
 
   nextStep() {
+    debugger
+    if(this.currentStep$.value == 2) {
+      if(!this.data.vouchers) {
+        this.toast.warning('Please create at least one voucher for your deal!')
+        return;
+      }
+    }
+    if(this.currentStep$.value == 3) {
+      if(!this.data.termsAndCondition) {
+        this.toast.warning('Please fill in the required fields')
+        return;
+      }
+    }
     const nextStep = this.currentStep$.value + 1;
     if (nextStep > this.formsCount) {
       return;

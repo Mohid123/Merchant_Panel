@@ -15,10 +15,21 @@
           <div class="flex flex-col justify-between w-full align-middle xl:flex-row">
 
             <label class="mb-6 form-check form-check-solid">
-              <input class="border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
+              <input
+              class="border rounded-full form-check-input"
+              type="checkbox"
+              (click)="selectCheckBox(check_box_type.ONE); disableCheckBox();"
+              [checked]="currentlyChecked === check_box_type.ONE || form.get('voucherStartDate')?.value"
+              >
               <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-4 mb-3 input-group date md:w-72" data-provide="datepicker">
-                <input [(ngModel)]="data.vouchers[0].voucherStartDate" type="date" (keydown)="disableManual($event)" class="text-sm font-thin form-control" formControlName="voucherStartDate" name="voucherStartDate">
+                <input
+                type="date"
+                (keydown)="disableManual($event)"
+                class="text-sm font-thin form-control"
+                formControlName="voucherStartDate"
+                name="voucherStartDate"
+                >
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
@@ -32,7 +43,14 @@
             <label class="mt-1 xl:mt-1 3xl:items-center 3xl:justify-end 3xl:ml-44 form-check form-check-solid">
               <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-3 input-group md:w-72" data-provide="datepicker">
-                <input [(ngModel)]="data.vouchers[0].voucherEndDate" [min]="form.controls['voucherStartDate'].value" (keydown)="disableManual($event)" type="date" class="text-sm font-thin form-control" formControlName="voucherEndDate" name="voucherEndDate" (click)="disableCheckBox()">
+                <input
+                [min]="form.controls['voucherStartDate'].value"
+                (keydown)="disableManual($event)"
+                type="date"
+                class="text-sm font-thin form-control"
+                formControlName="voucherEndDate"
+                name="voucherEndDate"
+                >
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
@@ -45,13 +63,18 @@
 
           <div class="flex">
             <label class="mt-8 lg:mt-6 form-check form-check-solid">
-              <input class="mr-2 rounded-full form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
+              <input
+              [checked]="currentlyChecked === check_box_type.TWO || form.get('voucherValidity')?.value"
+              class="mr-2 rounded-full form-check-input"
+              type="checkbox"
+              (click)="selectCheckBox(check_box_type.TWO); disableCheckBox();"
+              >
               <span class="form-check-label">Voucher is valid for</span>
               <div class="relative mt-4">
                 <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
-                  <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-                  <input appNumbersOnly maxlength="4" [(ngModel)]="data?.vouchers[0].voucherValidity" type="text" placeholder="0" class="w-full text-center" formControlName="voucherValidity" name="voucherValidity">
-                  <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+                  <button [disabled]="btnDisable == true" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
+                  <input appNumbersOnly maxlength="4" type="text" placeholder="0" class="w-full text-center" formControlName="voucherValidity" name="voucherValidity">
+                  <button [disabled]="btnDisable == true" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
                 </div>
                 <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                   validation: 'required',
@@ -72,14 +95,14 @@
                       style="width: 30px;">Street Address</span>
                   </td>
                   <td data-field="OrderID" aria-label="64616-103" class="py-3 text-gray-700 datatable-cell"><span
-                      style="width: 108px;">200 E Gaines St, Talahase, FL 32336</span></td>
+                      style="width: 108px;">{{policy.streetAddress}}</span></td>
                   </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-gray-400"
                       style="width: 30px;">Zip Code</span>
                   </td>
                   <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
-                      style="width: 108px;">23235</span>
+                      style="width: 108px;">{{policy.zipCode}}</span>
                   </td>
                 </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
@@ -87,7 +110,7 @@
                       style="width: 30px;">City</span>
                   </td>
                   <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
-                      style="width: 108px;">Ghent</span>
+                      style="width: 108px;">{{policy.city}}</span>
                   </td>
                 </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
@@ -95,12 +118,12 @@
                       style="width: 30px;">Country</span>
                   </td>
                   <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
-                      style="width: 108px;">Belgium</span>
+                      style="width: 108px;">{{policy.province}}</span>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <button class="btn btn-light btn-active-light-primary" type="button" (click)="openNew()">Edit</button>
+            <!-- <button class="btn btn-light btn-active-light-primary" type="button" (click)="openNew()">Edit</button> -->
           </div>
 
           <div class="ml-5">
@@ -108,9 +131,9 @@
               <p class="flex items-center font-medium text-black">
                 General terms & cancellation policy
               </p>
-              <ckeditor [(ngModel)]="data.termsAndCondition" [disabled]="isDisabled" [editor]="Editor" [config]="config" formControlName="termsAndCondition" name="termsAndCondition"></ckeditor>
+              <ckeditor [(ngModel)]="data.termsAndCondition" [editor]="Editor" [config]="config" formControlName="termsAndCondition" name="termsAndCondition"></ckeditor>
             </div>
-            <button class="mt-4 btn btn-light btn-active-light-primary" type="button" (click)="toggleDisabled()">{{ isDisabled ? 'Edit' : 'Save Edits' }}</button>
+            <button class="mt-4 btn btn-light btn-active-light-primary" type="button" (click)="toggleDisabled()">{{ form.controls['termsAndCondition'].disabled ? 'Edit' : 'Save Edits' }}</button>
           </div>
         </form>
       </div>
@@ -128,35 +151,33 @@
         <span class="text-gray-800 fs-6">x</span>
       </button>
     </div>
-    <form class="mt-2 px-7 form">
+    <form [formGroup]="policyForm" class="px-4 mt-2 form">
 
       <div class="mb-3 form-group">
         <label class="mb-3">Street Address</label>
         <div class="input-group">
-         <input type="text" class="form-control" placeholder="" />
+         <input formControlName="streetAddress" type="text" class="form-control">
         </div>
        </div>
 
        <div class="mb-3 form-group">
         <label class="mb-3">Zip Code</label>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="" />
+          <input maxlength="4" formControlName="zipCode" appNumbersOnly type="text" class="form-control">
          </div>
        </div>
 
        <div class="form-group">
         <label class="mb-3">City</label>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="" />
+          <input formControlName="city" type="text" class="form-control">
          </div>
        </div>
-
-
 
        <div class="form-group">
         <label class="mt-3 mb-3">Country</label>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="" />
+          <input formControlName="province" type="text" class="form-control">
          </div>
        </div>
 
@@ -178,6 +199,8 @@
     </div>
   </ng-container>
 </ng-template>
+
+<!-- <span class="text-2xl">{{data.termsAndCondition}}</span> -->
 
 <style>
   input::-webkit-outer-spin-button,
@@ -213,8 +236,6 @@ input::-webkit-datetime-edit-fields-wrapper {
 }
 
 </style>
-
-
 
 
 

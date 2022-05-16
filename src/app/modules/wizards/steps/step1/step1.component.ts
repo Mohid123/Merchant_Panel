@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HotToastService } from '@ngneat/hot-toast';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SubCategory, SubCategoryList } from 'src/app/modules/auth/models/subCategory.model';
@@ -47,14 +48,13 @@ export class Step1Component implements OnInit, OnDestroy {
   control: FormControl
   images = [];
 
-  // @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
-
   constructor(
     private fb: FormBuilder,
     private cf: ChangeDetectorRef,
     private router: Router,
     private connection: ConnectionService,
     private categoryService: CategoryService,
+    private toast: HotToastService
   ) {}
 
   ngOnInit() {
@@ -143,19 +143,41 @@ export class Step1Component implements OnInit, OnDestroy {
           if (this.multiples.length > 10) {
             // If multple events are fired by user
             this.multiples.pop();
+            this.cf.detectChanges();
             this.urls.pop();
-            window.alert('Maximum number of files reached') //temporary alert. will replace with toast
+            this.toast.error('Please select upto 10 images', {
+              style: {
+                border: '1px solid #713200',
+                padding: '16px',
+                color: '#713200',
+              },
+              iconTheme: {
+                primary: '#713200',
+                secondary: '#FFFAEE',
+              }
+            })
           }
         };
       }
     }
     else {
-      window.alert('Please Select upto 10 files')
+      this.toast.error('Please select upto 10 images', {
+        style: {
+          border: '1px solid #713200',
+          padding: '16px',
+          color: '#713200',
+        },
+        iconTheme: {
+          primary: '#713200',
+          secondary: '#FFFAEE',
+        }
+      })
     }
   }
 
   clearImage(i:any) {
     this.multiples.splice(i, 1);
+    this.urls.splice(i, 1);
     this.cf.detectChanges();
   }
 
