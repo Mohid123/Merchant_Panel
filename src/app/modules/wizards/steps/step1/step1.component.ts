@@ -48,8 +48,6 @@ export class Step1Component implements OnInit, OnDestroy {
   control: FormControl
   images = [];
 
-  // @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
-
   constructor(
     private fb: FormBuilder,
     private cf: ChangeDetectorRef,

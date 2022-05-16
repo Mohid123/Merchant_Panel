@@ -15,10 +15,21 @@
           <div class="flex flex-col justify-between w-full align-middle xl:flex-row">
 
             <label class="mb-6 form-check form-check-solid">
-              <input [disabled]="form.controls['voucherValidity'].value" class="border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()" [checked]="form.controls['voucherStartDate'].value">
+              <input
+              class="border rounded-full form-check-input"
+              type="checkbox"
+              (click)="selectCheckBox(check_box_type.ONE); disableCheckBox();"
+              [checked]="currentlyChecked === check_box_type.ONE || form.get('voucherStartDate')?.value"
+              >
               <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-4 mb-3 input-group date md:w-72" data-provide="datepicker">
-                <input type="date" (keydown)="disableManual($event)" class="text-sm font-thin form-control" formControlName="voucherStartDate" name="voucherStartDate">
+                <input
+                type="date"
+                (keydown)="disableManual($event)"
+                class="text-sm font-thin form-control"
+                formControlName="voucherStartDate"
+                name="voucherStartDate"
+                >
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
@@ -32,7 +43,14 @@
             <label class="mt-1 xl:mt-1 3xl:items-center 3xl:justify-end 3xl:ml-44 form-check form-check-solid">
               <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-3 input-group md:w-72" data-provide="datepicker">
-                <input [min]="form.controls['voucherStartDate'].value" (keydown)="disableManual($event)" type="date" class="text-sm font-thin form-control" formControlName="voucherEndDate" name="voucherEndDate" (click)="disableCheckBox()">
+                <input
+                [min]="form.controls['voucherStartDate'].value"
+                (keydown)="disableManual($event)"
+                type="date"
+                class="text-sm font-thin form-control"
+                formControlName="voucherEndDate"
+                name="voucherEndDate"
+                >
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
@@ -45,13 +63,18 @@
 
           <div class="flex">
             <label class="mt-8 lg:mt-6 form-check form-check-solid">
-              <input [disabled]="form.controls['voucherStartDate'].value" [checked]="form.controls['voucherValidity'].value" class="mr-2 rounded-full form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
+              <input
+              [checked]="currentlyChecked === check_box_type.TWO || form.get('voucherValidity')?.value"
+              class="mr-2 rounded-full form-check-input"
+              type="checkbox"
+              (click)="selectCheckBox(check_box_type.TWO); disableCheckBox();"
+              >
               <span class="form-check-label">Voucher is valid for</span>
               <div class="relative mt-4">
                 <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
-                  <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
+                  <button [disabled]="btnDisable == true" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
                   <input appNumbersOnly maxlength="4" type="text" placeholder="0" class="w-full text-center" formControlName="voucherValidity" name="voucherValidity">
-                  <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+                  <button [disabled]="btnDisable == true" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
                 </div>
                 <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                   validation: 'required',
@@ -213,8 +236,6 @@ input::-webkit-datetime-edit-fields-wrapper {
 }
 
 </style>
-
-
 
 
 

@@ -9,11 +9,16 @@ import { ModalConfig } from './../../../../@core/models/modal.config';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
 
+enum CheckBoxType { ONE, TWO, NONE };
+
 @Component({
   selector: 'app-step3',
   templateUrl: './step3.component.html',
 })
 export class Step3Component implements OnInit, OnDestroy {
+
+  check_box_type = CheckBoxType;
+  currentlyChecked: CheckBoxType;
 
   @ViewChild('modal') private modal: ReusableModalComponent;
 
@@ -101,34 +106,30 @@ export class Step3Component implements OnInit, OnDestroy {
     }
   }
 
-  disableCheckBox() {
-    const checkA = document.querySelector<Element | any>('#specialCheck');
-    const checkB = document.querySelector<Element | any>('#specialChecked');
+  selectCheckBox(targetType: CheckBoxType) {
+    if(this.currentlyChecked === targetType) {
+      this.currentlyChecked = CheckBoxType.NONE;
+      return;
+    }
 
-    if(checkA.checked == true) {
-      checkB.disabled = true;
-      this.btnDisable = false;
+    this.currentlyChecked = targetType;
+  }
+
+  disableCheckBox() {
+    if(this.currentlyChecked == this.check_box_type.ONE) {
+      this.btnDisable = true;
       this.form.controls['voucherValidity'].disable();
       this.form.get('voucherValidity')?.setValue(0);
       this.form.controls['voucherStartDate'].enable();
       this.form.controls['voucherEndDate'].enable();
     }
-    else if(checkB.checked == true) {
-      checkA.disabled = true;
-      this.btnDisable = true;
+    else if(this.currentlyChecked == this.check_box_type.TWO) {
+      this.btnDisable = false;
       this.form.controls['voucherValidity'].enable();
       this.form.get('voucherStartDate')?.setValue('');
       this.form.get('voucherEndDate')?.setValue('');
       this.form.controls['voucherStartDate'].disable();
       this.form.controls['voucherEndDate'].disable();
-    }
-    else if(checkA.checked == false || checkB.checked == false) {
-      checkA.disabled = false;
-      checkB.disabled = false;
-      this.btnDisable = false;
-      this.form.controls['voucherValidity'].enable();
-      this.form.controls['voucherStartDate'].enable();
-      this.form.controls['voucherEndDate'].enable();
     }
   }
 
@@ -213,7 +214,6 @@ export class Step3Component implements OnInit, OnDestroy {
       });
       this.updateParentModel(this.data, this.checkForm());
       this.connection.sendData(this.data);
-      console.log(this.data)
     });
     this.unsubscribe.push(formChangesSubscr);
   }
@@ -222,7 +222,8 @@ export class Step3Component implements OnInit, OnDestroy {
     return !(
       this.form.get('voucherStartDate')?.hasError('required') ||
       this.form.get('voucherEndDate')?.hasError('required') ||
-      this.form.get('termsAndCondition')?.hasError('required')
+      this.form.get('termsAndCondition')?.hasError('required') ||
+      this.form.get('voucherValidity')?.hasError('required')
     );
   }
 

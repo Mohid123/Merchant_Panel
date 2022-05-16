@@ -14,7 +14,7 @@
             <div class="3xl:pb-5 md:pb-2">
               <label class="block text-sm form-label">Select sub-category</label>
               <div ngbDropdown class="w-full rounded-lg d-inline-block" style="border: 1px solid #F38B41;">
-                <button type="button" class="w-full btn p-3.5 text-xs text-left text-font-gray-600" id="dropdownBasic1"
+                <button disabled type="button" class="w-full btn p-3.5 text-xs text-left text-font-gray-600" id="dropdownBasic1"
                 ngbDropdownToggle>{{selectedcategory?.subCategoryName || '-Select'}}</button>
                 <div class="w-full" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                   <ng-container *ngFor="let category of categoryList?.data" >
