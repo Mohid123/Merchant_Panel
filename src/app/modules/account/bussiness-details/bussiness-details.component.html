@@ -101,36 +101,39 @@
     <h3 class="m-0 fw-bolder">Set Business Hours</h3>
     <a *ngIf="!isEditBusinessHours" (click)="editBusinessHours()" class="edit-btn">Edit</a>
   </div>
-  <div class="pr-0 pl-0 card-body" style="background-color: white;">
+  <div class="pl-0 pr-0 card-body" style="background-color: white;">
     <div class="table-responsive">
       <table [formGroup]="businessHoursForm" class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
-
-        <tbody class="flex flex-col" formArrayName="businessHours" *ngIf="businessHoursFromControl" >
+        <tbody class="flex flex-col" formArrayName="businessHours" >
           <ng-container *ngFor="let formControls of businessHoursFromControl.controls;let i=index" [formGroupName]="i" >
-          <tr class="relative flex justify-center items-center border-0">
-            <td class="day pl-10">
-                <div class="d-flex flex-column" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}"><a (click)="isWorkingDay(formControls)"> {{ formControls.value.day}} </a></div>
+          <tr class="relative flex items-center justify-center border-0">
+            <td class="pl-10 day">
+                <div class="d-flex flex-column" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}"><a (click)="isWorkingDay(formControls, i)"> {{ formControls.value.day}} </a></div>
                 <p class="shope-status" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}">{{formControls.value.isWorkingDay ? 'Opened' : 'Closed'}}</p>
               </td>
             <td class="time">
               <div>
-                <input type="time" step="1" class="form-control" placeholder="First Start Time" formControlName="firstStartTime" />
+                <input type="time" [format]="24" [ngxTimepicker]="picker1" class="form-control" placeholder="First Start Time" formControlName="firstStartTime" />
+                <ngx-material-timepicker #picker1></ngx-material-timepicker>
               </div>
               <span>-</span>
               <div>
-                <input type="time" step="1" class="form-control" placeholder="First End Time" formControlName="firstEndTime" />
+                <input type="time" [format]="24" [ngxTimepicker]="picker2" class="form-control" placeholder="First End Time" formControlName="firstEndTime" />
+                <ngx-material-timepicker #picker2></ngx-material-timepicker>
               </div>
             </td>
             <td class="until">
               <span class="flex items-center justify-center text-center">Until</span>
             </td>
-            <td class="time pr-10">
+            <td class="pr-10 time">
               <div>
-                <input type="time" step="1" class="form-control" placeholder="Second Start Time" formControlName="secondStartTime" />
+                <input type="time" [format]="24" [ngxTimepicker]="picker3" class="form-control" placeholder="Second Start Time" formControlName="secondStartTime" />
+                <ngx-material-timepicker [format]="24"  #picker3></ngx-material-timepicker>
               </div>
               <span>-</span>
               <div>
-                <input type="time" step="1" class="form-control" placeholder="Second End Time" formControlName="secondEndTime" />
+                <input type="time" [format]="24" [ngxTimepicker]="picker4" class="form-control" placeholder="Second End Time" formControlName="secondEndTime" />
+                <ngx-material-timepicker #picker4></ngx-material-timepicker>
               </div>
 
 
