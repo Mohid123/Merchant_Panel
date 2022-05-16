@@ -37,6 +37,7 @@ export class UserService extends ApiService<AuthApiData> {
   }
 
   updateMerchantprofile(param:any) {
-    return this.post('/users/updateMerchantprofile',{id:this.authService.currentUserValue?.id, ...param})
+    param.id=this.authService.currentUserValue?.id;
+    return this.post('/users/updateMerchantprofile',param)
   }
 }

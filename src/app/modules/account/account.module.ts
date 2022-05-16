@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { ReusableModalModule } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.module';
 import { DropdownMenusModule, WidgetsModule } from '../../_metronic/partials';
 import { AccountComponent } from '../account/account.component';
@@ -42,9 +43,8 @@ import { SettingsComponent } from './settings/settings.component';
     ReusableModalModule,
     ReactiveFormsModule,
     CKEditorModule,
-    FormsModule
-
-
+    FormsModule,
+    NgxMaterialTimepickerModule
   ],
 })
 export class AccountModule {}
