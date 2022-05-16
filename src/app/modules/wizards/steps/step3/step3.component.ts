@@ -114,7 +114,7 @@ export class Step3Component implements OnInit, OnDestroy {
       this.form.controls['voucherEndDate'].enable();
     }
     else if(checkB.checked == true) {
-      checkA.disabled = true;
+      checkA.disabled = false;
       this.btnDisable = true;
       this.form.controls['voucherValidity'].enable();
       this.form.get('voucherStartDate')?.setValue('');
