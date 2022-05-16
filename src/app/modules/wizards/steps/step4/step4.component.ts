@@ -22,6 +22,7 @@ export class Step4Component implements OnInit {
 
   @Input() images: Array<any>;
   @ViewChild('modal') private modal: ReusableModalComponent;
+  uploaded: boolean;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
@@ -41,7 +42,7 @@ export class Step4Component implements OnInit {
       center: 'title',
       right: ''
     },
-    height: "auto",
+    // height: "auto",
     initialView: 'dayGridMonth',
     weekends: true,
     editable: true,
@@ -49,6 +50,7 @@ export class Step4Component implements OnInit {
     selectMirror: true,
     dayMaxEvents: 3,
     firstDay: 1,
+    height: 450,
     validRange: {
       start: moment().format('YYYY-MM-DD')
     },
@@ -79,8 +81,8 @@ export class Step4Component implements OnInit {
   ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response
-      console.log(this.data);
     })
+    this.uploaded = true;
   }
 
   ngOnInit() {
@@ -96,7 +98,7 @@ export class Step4Component implements OnInit {
     // console.log('moment().isSame(selectInfo.startStr):',moment().isSame(selectInfo.startStr,'day'));
     // if(!moment().isSame(selectInfo.startStr,'day') && moment().isAfter(selectInfo.startStr)) { return }
 
-    const title = "Event Title"
+    const title = this.data.title
     const calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection
@@ -128,6 +130,7 @@ export class Step4Component implements OnInit {
   }
 
   openNew() {
+    this.uploaded = false
     if(this.currentEvents.length == 0) {
       this.toast.warning('Please set a date for the deal!', {
         style: {
@@ -165,6 +168,7 @@ export class Step4Component implements OnInit {
           }),
         ).subscribe(async (res) => {
         if(!res.hasErrors()) {
+          this.uploaded = true;
           return await this.modal.open();
         }
     })

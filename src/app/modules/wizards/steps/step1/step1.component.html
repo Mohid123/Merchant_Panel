@@ -83,7 +83,7 @@
             </div>
             <div class="3xl:pb-5 md:pb-2">
               <label class="form-label">Description</label>
-              <textarea maxlength="100" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="description" name="description" placeholder="Description" rows="5"
+              <textarea maxlength="2000" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="description" name="description" placeholder="Description" rows="5"
               [ngClass]="{
                 'is-invalid': f['description'].invalid && f['description'].touched,
                 'is-valid': f['description'].valid}"></textarea>
