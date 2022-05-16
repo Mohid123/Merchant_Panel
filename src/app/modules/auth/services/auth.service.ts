@@ -107,6 +107,10 @@ export class AuthService extends ApiService<AuthApiData> {
       .pipe(finalize(() => this.isLoadingSubject.next(false)));
   }
 
+  checkEmailAlreadyExists(email: string): Observable<ApiResponse<any>> {
+    return this.post(`/auth/isEmailExists`, {email});
+  }
+
   get user(): User| null {
     return this.currentUserSubject.getValue();
   }

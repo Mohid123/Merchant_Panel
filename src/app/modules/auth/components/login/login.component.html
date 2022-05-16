@@ -52,7 +52,7 @@
           <label class="mb-3 text-xs font-light text-black sm:text-sm xl:text-base 3xl:text-lg form-label">Password</label>
 
           <div class="flex flex-row input-group-prepend justify-evenly">
-            <span class="mt-3 right-12 absolute cursor-pointer flex items-center" (click)="passwordShowHide()"><i class="p-2 ml-2 text-white bg-blue-600 rounded far fa-eye"></i></span>
+            <span class="absolute flex items-center mt-3 cursor-pointer right-12" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-2 ml-2 text-white bg-blue-600 rounded"></i></span>
             <input class="pr-20 form-control form-control-lg form-control-solid"
               type="{{passwordHide ? 'password' : 'text'}}"
               name="password"
