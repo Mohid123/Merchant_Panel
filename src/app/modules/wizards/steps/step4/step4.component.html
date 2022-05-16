@@ -5,9 +5,9 @@
 </div>
 <!--Stepper with Calendar-->
 <div class="flex justify-center adjust">
-  <div class="w-3/4 p-2 shadow-sm lg:p-4 card card-custom card-stretch" style="border-top: 16px solid #F38B41;">
+  <!-- <div class="w-3/4 p-2 shadow-sm lg:p-4 card card-custom card-stretch" style="border-top: 16px solid #F38B41;"> -->
     <!-- <div class="rounded lg:p-8 card card-custom card-stretch bg-gray-50"> -->
-      <div class="lg:p-4 card card-custom card-stretch secondAdjust">
+      <div class="w-3/4 lg:p-4 card card-custom card-stretch secondAdjust" style="border-top: 16px solid #F38B41;">
         <button (click)="openNew()" class="absolute top-0 right-0 px-3 py-1 text-center text-white bg-green-400 rounded-sm xl:rounded-md xl:px-6 xl:py-2 3xl:px-10 3xl:py-3 lg:top-6 xl:top-6 3xl:top-6 lg:right-6 xl:right-7 3xl:right-7">
           <ng-container *ngIf="uploaded == false">
             <span class="indicator-progress" [style.display]="'block'">
@@ -31,7 +31,7 @@
       </div>
     </div> -->
   </div>
-</div>
+<!-- </div> -->
 
 <app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="modal-header">
