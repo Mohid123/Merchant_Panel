@@ -75,7 +75,7 @@
             </div>
 
 
-            <div class="mb-5 fv-row">
+            <div class="mb-2 fv-row">
               <label class="mb-1 text-sm form-label">Email</label>
               <input class="form-control form-control-lg form-control-solid" type="email" name="email"
               placeholder="Daviddeens@gmail.com"
@@ -97,38 +97,29 @@
                             message: 'Email should have maximum 60 letters',
                             control: f['email']}">
               </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'emailExists',
+                  message: 'This email is already registered to a user',
+                  control: f['email']}">
+              </ng-container>
             </div>
+            <!-- <div class="text-xs text-danger" *ngIf="registrationForm.controls['email']?.errors?.['emailExists']">
+              This email is already registered to a user
+            </div> -->
 
-            <div class="mb-5 fv-row">
+            <div class="mt-2 mb-3 fv-row">
               <label class="mb-1 text-sm form-label">Mobile</label>
               <div class="flex">
-                <!-- <ngx-intl-tel-input style="width: 100% !important;"
-                [cssClass]="'form-control form-control-lg form-control-solid ' +
-                 (f['phoneNumber'].invalid && f['phoneNumber'].touched? ' is-invalid ':'') +
-                 (f['phoneNumber'].valid ? ' is-valid ':'')"
-                [enableAutoCountrySelect]="true"
-                [enablePlaceholder]="true"
-                [searchCountryFlag]="true"
-                [searchCountryField]="[
-                  SearchCountryField.Iso2,
-                  SearchCountryField.Name
-                ]"
-                [selectFirstCountry]="false"
-                [selectedCountryISO]="CountryISO.Belgium"
-                [maxLength]="15"
-                [phoneValidation]="true"
-                [separateDialCode]="true"
-                [numberFormat]="PhoneNumberFormat.National"
-                name="phone"
-                formControlName="phoneNumber"
-              >
-              </ngx-intl-tel-input> -->
-                <input class="mr-3 form-control form-control-lg form-control-solid" style="width: 170px;" value="+32" type="text" disabled/>
-                <input class="form-control form-control-lg form-control-solid" type="number" name="phoneNumber"
-                autocomplete="off" formControlName="phoneNumber" [ngClass]="{
-                  'is-invalid': f['phoneNumber'].invalid && f['phoneNumber'].touched,
-                  'is-valid': f['phoneNumber'].valid}" />
-                </div>
+                <input
+                  formControlName="phoneNumber"
+                  name="phoneNumber"
+                  maxlength="15"
+                  appNumbersOnly
+                  class="pr-3 form-control form-control-lg form-control-solid" type="text"
+                  ng2TelInput
+                  [ng2TelInputOptions]="{initialCountry: 'be'}"
+                  (countryChange)="onCountryChange($event)">
+              </div>
 
               <ng-container *ngIf="f['phoneNumber'].touched" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'required',
@@ -224,7 +215,7 @@
                 <div class="mr-3" style="width: 170px;">
                   <div>
                     <label class="mb-1 text-sm form-label">Zip</label>
-                    <input (keyup)="matchZipCodeWithCity()" class="form-control form-control-lg form-control-solid" type="number" name="zipCode"
+                    <input maxlength="4" appNumbersOnly class="form-control form-control-lg form-control-solid" type="text" name="zipCode"
                     autocomplete="off" formControlName="zipCode" [ngClass]="{
                       'is-invalid': f['zipCode'].invalid && f['zipCode'].touched,
                       'is-valid': f['zipCode'].valid}" />
@@ -233,13 +224,13 @@
                     validation: 'required',
                     message: 'Zip is required',
                     control: f['zipCode']}">
-      </ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  </ng-container>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                     validation: 'zipInvalid',
                     message: 'Incorrect zipcode',
                     control: f['zipCode']}">
-      </ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  </ng-container>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                     validation: 'minLength',
                     message: 'Incorrect zipcode',
                     control: f['zipCode']}">
@@ -299,6 +290,7 @@
               <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'pattern',
                 message: 'Url is invalid',
+                (keyup)="matchZipCodeWithCity()"
                 control: f['website_socialAppLink']}">
               </ng-container> -->
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{

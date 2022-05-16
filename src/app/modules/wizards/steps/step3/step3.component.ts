@@ -132,6 +132,7 @@ export class Step3Component implements OnInit, OnDestroy {
     }
   }
 
+
   initPolicyForm() {
     this.policyForm = this.fb.group({
       streetAddress: [
@@ -209,7 +210,6 @@ export class Step3Component implements OnInit, OnDestroy {
           voucher.voucherStartDate = val.voucherStartDate;
           voucher.voucherEndDate = val.voucherEndDate;
         }
-       this.convertToPlain(val.termsAndCondition);
       });
       this.updateParentModel(this.data, this.checkForm());
       this.connection.sendData(this.data);
@@ -251,12 +251,6 @@ export class Step3Component implements OnInit, OnDestroy {
 
   disableManual(e: any) {
     e.preventDefault()
-  }
-
-  convertToPlain(html: any){
-    var tempDivElement = document.createElement("div");
-    tempDivElement.innerHTML = html;
-    return tempDivElement.textContent || tempDivElement.innerText || "";
   }
 
 
