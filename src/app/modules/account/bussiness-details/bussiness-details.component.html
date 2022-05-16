@@ -141,7 +141,7 @@
         </ng-container>
         </tbody>
       </table>
-      <div class="justify-between px-10 py-6 border-none card-footer d-flex" *ngIf="isEditBusinessHours">
+      <div class="justify-between px-10 py-6 border-none card-footer d-flex" *ngIf="isEditBusinessHours || (this.isLoading$ | async)">
         <button class="modal-close-btn"
         routerLinkActive="active"
         (click)="isEditBusinessHours = false;businessHoursForm.disable()">Discard</button>

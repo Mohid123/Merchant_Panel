@@ -201,6 +201,8 @@ export class BussinessDetailsComponent implements OnInit {
   }
 
   saveBusinessHours(){
+    this.isEditBusinessHours = false;
+    this.businessHoursForm.disable();
     if(!this.validateBusinessHours()) {
     this.isLoading$.next(true);
     this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
@@ -211,8 +213,6 @@ export class BussinessDetailsComponent implements OnInit {
         return (res);
       }
     })).subscribe((res:any) => {
-      this.businessHoursForm.disable();
-      this.isEditBusinessHours = false;
       this.isLoading$.next(false);
     });
   } else {
@@ -235,10 +235,17 @@ export class BussinessDetailsComponent implements OnInit {
   }
 
   saveTerms() {
-    console.log('thasasa:',this.termsForm.value);
     this.userService.updateMerchantprofile(this.termsForm.value).pipe(exhaustMap((res:any) => {
+      // console.log('asdsad:',res);
+      if(!res.hasErrors()) {
+        this.toast.success('Data saved')
+        return this.userService.getUser();
+      } else {
         return (res);
+      }
     })).subscribe((res:any) => {
+      this.businessHoursForm.disable();
+      this.isEditBusinessHours = false;
       this.isLoading$.next(false);
     });
   }
