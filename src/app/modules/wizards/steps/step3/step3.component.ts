@@ -1,7 +1,9 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Subscription } from 'rxjs';
+import { User } from '@core/models/user.model';
+import { Subject, Subscription } from 'rxjs';
+import { AuthService } from 'src/app/modules/auth';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { ModalConfig } from './../../../../@core/models/modal.config';
 import { MainDeal } from './../../models/main-deal.model';
@@ -39,6 +41,8 @@ export class Step3Component implements OnInit, OnDestroy {
   public isDisabled: boolean = true;
 
   form: FormGroup;
+  policyForm: FormGroup;
+  destroy$ = new Subject();
 
   @Input() deal: Partial<MainDeal> = {
     termsAndCondition: '',
@@ -53,10 +57,12 @@ export class Step3Component implements OnInit, OnDestroy {
 
   reciever: Subscription;
   data: MainDeal;
+  policy: Partial<User>;
+  editIndex: number = -1;
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder, private connection: ConnectionService) {
+  constructor(private fb: FormBuilder, private connection: ConnectionService, private authService: AuthService) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       if(response) {
         this.data = response;
@@ -66,8 +72,11 @@ export class Step3Component implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.authService.retreiveUserPolicy();
     this.initDateForm();
+    this.initPolicyForm();
     this.updateParentModel({}, this.checkForm());
+    this.policy = this.authService.userPolicy;
 
     this.config = {
       language: 'en',
@@ -121,6 +130,35 @@ export class Step3Component implements OnInit, OnDestroy {
       this.form.controls['voucherStartDate'].enable();
       this.form.controls['voucherEndDate'].enable();
     }
+  }
+
+  initPolicyForm() {
+    this.policyForm = this.fb.group({
+      streetAddress: [
+        '',
+        Validators.compose([
+          Validators.required
+        ])
+      ],
+      zipCode: [
+        '',
+        Validators.compose([
+          Validators.required
+        ])
+      ],
+      city: [
+        '',
+        Validators.compose([
+          Validators.required
+        ])
+      ],
+      province: [
+        '',
+        Validators.compose([
+          Validators.required
+        ])
+      ]
+    })
   }
 
   toggleDisabled() {
@@ -203,6 +241,7 @@ export class Step3Component implements OnInit, OnDestroy {
   }
 
   async openNew() {
+    this.policyForm.patchValue(this.policy);
     return await this.modal.open();
   }
 
@@ -218,11 +257,13 @@ export class Step3Component implements OnInit, OnDestroy {
     var tempDivElement = document.createElement("div");
     tempDivElement.innerHTML = html;
     return tempDivElement.textContent || tempDivElement.innerText || "";
-}
+  }
 
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
     this.reciever.unsubscribe();
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 }
