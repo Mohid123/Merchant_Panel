@@ -53,6 +53,7 @@
     "ngx-bootstrap": "^7.1.2",
     "ngx-clipboard": "^14.0.1",
     "ngx-intl-tel-input": "^3.2.0",
+    "ngx-material-timepicker": "^5.5.3",
     "nouislider": "^15.2.0",
     "object-path": "^0.11.5",
     "prism-themes": "^1.8.0",
