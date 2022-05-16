@@ -31,6 +31,7 @@ export class AuthService extends ApiService<AuthApiData> {
   isLoadingSubject: BehaviorSubject<boolean>;
   merchantID: string;
   newUserCheck: any;
+  userPolicy: Partial<User>
 
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;
@@ -113,6 +114,12 @@ export class AuthService extends ApiService<AuthApiData> {
   retreiveUserValue() {
     this.currentUser$.subscribe((res: User | any) => {
       this.merchantID = res.id;
+    })
+  }
+
+  retreiveUserPolicy() {
+    this.currentUser$.subscribe((res: User | any) => {
+      this.userPolicy = res;
     })
   }
 

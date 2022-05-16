@@ -15,7 +15,7 @@
           <div class="flex flex-col justify-between w-full align-middle xl:flex-row">
 
             <label class="mb-6 form-check form-check-solid">
-              <input class="border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()">
+              <input class="border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()" [checked]="form.controls['voucherStartDate'].value">
               <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-4 mb-3 input-group date md:w-72" data-provide="datepicker">
                 <input type="date" (keydown)="disableManual($event)" class="text-sm font-thin form-control" formControlName="voucherStartDate" name="voucherStartDate">
@@ -45,7 +45,7 @@
 
           <div class="flex">
             <label class="mt-8 lg:mt-6 form-check form-check-solid">
-              <input class="mr-2 rounded-full form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
+              <input [checked]="form.controls['voucherValidity'].value" class="mr-2 rounded-full form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
               <span class="form-check-label">Voucher is valid for</span>
               <div class="relative mt-4">
                 <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
@@ -72,14 +72,14 @@
                       style="width: 30px;">Street Address</span>
                   </td>
                   <td data-field="OrderID" aria-label="64616-103" class="py-3 text-gray-700 datatable-cell"><span
-                      style="width: 108px;">200 E Gaines St, Talahase, FL 32336</span></td>
+                      style="width: 108px;">{{policy.streetAddress}}</span></td>
                   </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-gray-400"
                       style="width: 30px;">Zip Code</span>
                   </td>
                   <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
-                      style="width: 108px;">23235</span>
+                      style="width: 108px;">{{policy.zipCode}}</span>
                   </td>
                 </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
@@ -87,7 +87,7 @@
                       style="width: 30px;">City</span>
                   </td>
                   <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
-                      style="width: 108px;">Ghent</span>
+                      style="width: 108px;">{{policy.city}}</span>
                   </td>
                 </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
@@ -95,7 +95,7 @@
                       style="width: 30px;">Country</span>
                   </td>
                   <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-gray-700 datatable-cell"><span
-                      style="width: 108px;">Belgium</span>
+                      style="width: 108px;">{{policy.province}}</span>
                   </td>
                 </tr>
               </tbody>
@@ -128,35 +128,33 @@
         <span class="text-gray-800 fs-6">x</span>
       </button>
     </div>
-    <form class="mt-2 px-7 form">
+    <form [formGroup]="policyForm" class="px-4 mt-2 form">
 
       <div class="mb-3 form-group">
         <label class="mb-3">Street Address</label>
         <div class="input-group">
-         <input type="text" class="form-control" placeholder="" />
+         <input formControlName="streetAddress" type="text" class="form-control">
         </div>
        </div>
 
        <div class="mb-3 form-group">
         <label class="mb-3">Zip Code</label>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="" />
+          <input maxlength="4" formControlName="zipCode" appNumbersOnly type="text" class="form-control">
          </div>
        </div>
 
        <div class="form-group">
         <label class="mb-3">City</label>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="" />
+          <input formControlName="city" type="text" class="form-control">
          </div>
        </div>
-
-
 
        <div class="form-group">
         <label class="mt-3 mb-3">Country</label>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="" />
+          <input formControlName="province" type="text" class="form-control">
          </div>
        </div>
 
