@@ -160,3 +160,21 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .modal-save-btn {
   width: 117px;
 }
+
+
+::ng-deep ngx-material-timepicker-content{
+  --body-background-color: #fff;
+  --primary-font-family: 'Roboto',sans-serif;
+  --button-color: #0081e9 !important;
+  --dial-active-color: #fff;
+  --dial-inactive-color: rgba(255, 255, 255, .5);
+  --dial-background-color: #0081E9 !important;
+  --dial-editable-active-color: #0081E9 !important;
+  --dial-editable-background-color: #fff;
+  --clock-face-time-active-color: #fff;
+  --clock-face-time-inactive-color: #6c6c6c;
+  --clock-face-inner-time-inactive-color: #929292;
+  --clock-face-time-disabled-color: #c5c5c5;
+  --clock-face-background-color: #f0f0f0;
+  --clock-hand-color: #0081E9 !important;
+}
