@@ -114,7 +114,7 @@ export class Step3Component implements OnInit, OnDestroy {
       this.form.controls['voucherEndDate'].enable();
     }
     else if(checkB.checked == true) {
-      checkA.disabled = false;
+      checkA.disabled = true;
       this.btnDisable = true;
       this.form.controls['voucherValidity'].enable();
       this.form.get('voucherStartDate')?.setValue('');
@@ -131,6 +131,7 @@ export class Step3Component implements OnInit, OnDestroy {
       this.form.controls['voucherEndDate'].enable();
     }
   }
+
 
   initPolicyForm() {
     this.policyForm = this.fb.group({
@@ -209,7 +210,6 @@ export class Step3Component implements OnInit, OnDestroy {
           voucher.voucherStartDate = val.voucherStartDate;
           voucher.voucherEndDate = val.voucherEndDate;
         }
-       this.convertToPlain(val.termsAndCondition);
       });
       this.updateParentModel(this.data, this.checkForm());
       this.connection.sendData(this.data);
@@ -251,12 +251,6 @@ export class Step3Component implements OnInit, OnDestroy {
 
   disableManual(e: any) {
     e.preventDefault()
-  }
-
-  convertToPlain(html: any){
-    var tempDivElement = document.createElement("div");
-    tempDivElement.innerHTML = html;
-    return tempDivElement.textContent || tempDivElement.innerText || "";
   }
 
 
