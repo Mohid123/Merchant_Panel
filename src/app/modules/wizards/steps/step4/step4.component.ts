@@ -144,7 +144,7 @@ export class Step4Component implements OnInit {
       })
       return;
     }
-    this.connection.sendBoolean(false);
+    this.connection.disabler = false;
     this.uploaded = false;
     const mediaUpload:any = [];
     if(!!this.images.length) {

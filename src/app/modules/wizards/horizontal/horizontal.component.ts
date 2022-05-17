@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiResponse } from '@core/models/response.model';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ConnectionService } from '../services/connection.service';
@@ -22,7 +21,7 @@ export class HorizontalComponent implements OnInit {
   data: MainDeal;
   booleanData: any;
 
-  constructor(private toast: HotToastService, private connection: ConnectionService) {}
+  constructor(private toast: HotToastService, public connection: ConnectionService) {}
 
   ngOnInit(): void {
     this.receiver = this.connection.getData().subscribe((res: any) => {
@@ -58,10 +57,9 @@ export class HorizontalComponent implements OnInit {
   }
 
   prevStep() {
-    debugger
-    this.connection.getBoolean().subscribe((res: ApiResponse<any>) => {
-      this.booleanData = res;
-    })
+    if(this.currentStep$.value == 4) {
+      this.connection.disabler = false;
+    }
     const prevStep = this.currentStep$.value - 1;
     if (prevStep === 0) {
       return;

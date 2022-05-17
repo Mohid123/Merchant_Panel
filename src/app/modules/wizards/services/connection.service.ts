@@ -8,7 +8,7 @@ import { MainDeal } from './../models/main-deal.model';
 
 export class ConnectionService {
   private stepData: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
-  private disabler: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public disabler: boolean = true;
 
   sendData(data: any) {
     this.stepData.next(data);
@@ -18,11 +18,11 @@ export class ConnectionService {
     return this.stepData.asObservable()
   }
 
-  sendBoolean(data: any) {
-    this.disabler.next(data);
-  }
+  // sendBoolean(data: any) {
+  //   this.disabler.next(data);
+  // }
 
-  getBoolean(): Observable<any> {
-    return this.disabler.asObservable();
-  }
+  // getBoolean(): Observable<any> {
+  //   return this.disabler.asObservable();
+  // }
 }
