@@ -31,13 +31,12 @@ export class ReviewsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.retreiveUserValue();
     this.getReviewsByMerchant();
   }
 
   getReviewsByMerchant() {
     this.showData = false;
-    this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.merchantID, this.offset, this.limit)
+    this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.currentUserValue?.id, this.offset, this.limit)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<ReviewList>) => {
       debugger

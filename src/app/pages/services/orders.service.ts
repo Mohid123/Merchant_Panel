@@ -15,7 +15,7 @@ export class OrdersService extends ApiService<OrdersData> {
     super(http)
   }
 
-  getVouchersByMerchantID(page: number, merchantID: string, offset: any, limit: any, data: {
+  getVouchersByMerchantID(page: number, merchantID: string | any, offset: any, limit: any, data: {
     deal: string,
     amount: string,
     status: string,
@@ -42,7 +42,7 @@ export class OrdersService extends ApiService<OrdersData> {
    return this.get(`/voucher/searchByVoucherId/${voucherID}`);
   }
 
-  getMerchantStatistics(merchantID: string, offset: any, limit: any): Observable<ApiResponse<any>> {
+  getMerchantStatistics(merchantID: string | any, offset: any, limit: any): Observable<ApiResponse<any>> {
     const param: any = {
       offset: offset,
       limit: limit

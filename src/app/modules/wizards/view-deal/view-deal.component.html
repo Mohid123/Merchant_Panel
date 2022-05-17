@@ -123,9 +123,9 @@
       </div>
       <div class="flex justify-end pt-4">
         <ul class="pagination">
-          <li class="cursor-pointer page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" class="page-link"><i class="previous"></i></button></li>
+          <li class="cursor-pointer page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" class="page-link bg-white shadow-sm"><i class="previous"></i></button></li>
           <li class="page-item disabled"><a class="page-link">{{ page === 1 ? 1 : (page-1) * limit }}-{{ page * limit < dealData?.totalDeals ? (page * limit) : dealData?.totalDeals }}/{{dealData?.totalDeals}}</a></li>
-          <li class="cursor-pointer page-item next" [ngClass]="dealData?.totalDeals <= page * limit ? 'disabled': ''"><button [disabled]="dealData?.totalDeals <= page * limit" (click)="next()" class="page-link"><i class="next"></i></button></li>
+          <li class="cursor-pointer page-item next" [ngClass]="dealData?.totalDeals <= page * limit ? 'disabled': ''"><button [disabled]="dealData?.totalDeals <= page * limit" (click)="next()" class="page-link bg-white shadow-sm"><i class="next"></i></button></li>
         </ul>
       </div>
     </ng-container>

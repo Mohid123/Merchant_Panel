@@ -17,7 +17,7 @@ export class BillingsService extends ApiService<billingData> {
     super(http)
   }
 
-  getAllInvoicesByMerchantID(page: number, merchantID: string, offset: any, limit: any, data: {
+  getAllInvoicesByMerchantID(page: number, merchantID: string | any, offset: any, limit: any, data: {
     invoiceDate: string;
     invoiceAmount: string;
     dateFrom: number;
@@ -37,11 +37,11 @@ export class BillingsService extends ApiService<billingData> {
     return this.get(`/invoices/getAllInvoicesByMerchant/${merchantID}`, param);
   }
 
-  completeKYC(merchantID: string, payload: KYC): Observable<ApiResponse<any>> {
+  completeKYC(merchantID: string | any, payload: KYC): Observable<ApiResponse<any>> {
    return this.post(`/users/completeKYC/${merchantID}`, payload);
   }
 
-  getMerchantStats(merchantID: string): Observable<ApiResponse<any>> {
+  getMerchantStats(merchantID: string | any): Observable<ApiResponse<any>> {
     return this.get(`/users/getMerchantStats/${merchantID}`);
   }
 

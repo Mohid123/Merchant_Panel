@@ -25,7 +25,7 @@ export class DealService extends ApiService<deal> {
     }));
   }
 
-  getTopRatedDeals(merchantID: string): Observable<ApiResponse<deal>> {
+  getTopRatedDeals(merchantID: string | any): Observable<ApiResponse<deal>> {
     return this.get(`/deal/getTopRatedDeals/${merchantID}`);
   }
 
@@ -33,7 +33,7 @@ export class DealService extends ApiService<deal> {
     return this.get(`/deal/getSalesStatistics`);
   }
 
-  getDeals(page: number, merchantID: string, offset: any, limit: any, data: {
+  getDeals(page: number, merchantID: string | any, offset: any, limit: any, data: {
     title: string;
     price: string;
     startDate: string;
