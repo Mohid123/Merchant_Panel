@@ -23,7 +23,7 @@
               >
               <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-4 mb-3 input-icon md:w-72">
-                <span class="absolute flex items-center mt-2 ml-1"><i (click)="d.toggle()" class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
+                <span class="absolute flex items-center mt-2 ml-1"><i class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
                 <input
                 placeholder="yyyy-mm-dd"
                 (keydown)="disableManual($event)"
@@ -48,7 +48,7 @@
             <label class="mt-1 xl:mt-1 3xl:items-center 3xl:justify-end 3xl:ml-44 form-check form-check-solid">
               <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-3 input-icon md:w-72">
-                <span class="absolute flex items-center mt-2 ml-1"><i (click)="e.toggle()" class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
+                <span class="absolute flex items-center mt-2 ml-1"><i class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
                 <input
                 placeholder="yyyy-mm-dd"
                 [min]="form.controls['voucherStartDate'].value"
