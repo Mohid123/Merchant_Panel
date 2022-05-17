@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiResponse } from '@core/models/response.model';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ConnectionService } from '../services/connection.service';
@@ -17,7 +18,9 @@ export class HorizontalComponent implements OnInit {
   );
   private unsubscribe: Subscription[] = [];
   receiver: Subscription;
-  data: MainDeal
+  booleanReceiver: Subscription
+  data: MainDeal;
+  booleanData: any;
 
   constructor(private toast: HotToastService, private connection: ConnectionService) {}
 
@@ -35,7 +38,6 @@ export class HorizontalComponent implements OnInit {
   };
 
   nextStep() {
-    debugger
     if(this.currentStep$.value == 2) {
       if(!this.data.vouchers) {
         this.toast.warning('Please create at least one voucher for your deal!')
@@ -56,6 +58,11 @@ export class HorizontalComponent implements OnInit {
   }
 
   prevStep() {
+    if(this.currentStep$.value == 4) {
+      this.connection.getBoolean().subscribe((res: ApiResponse<any>) => {
+        this.booleanData = res;
+      })
+    }
     const prevStep = this.currentStep$.value - 1;
     if (prevStep === 0) {
       return;

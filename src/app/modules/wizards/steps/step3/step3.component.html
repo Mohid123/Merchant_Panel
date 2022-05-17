@@ -22,11 +22,16 @@
               [checked]="currentlyChecked === check_box_type.ONE || form.get('voucherStartDate')?.value"
               >
               <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
-              <div class="flex-auto mt-4 mb-3 input-group date md:w-72" data-provide="datepicker">
+              <div class="flex-auto mt-4 mb-3 input-icon md:w-72">
+                <span class="absolute flex items-center mt-2 ml-1"><i (click)="d.toggle()" class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
                 <input
-                type="date"
+                placeholder="yyyy-mm-dd"
                 (keydown)="disableManual($event)"
-                class="text-sm font-thin form-control"
+                name="dp"
+                ngbDatepicker
+                #d="ngbDatepicker"
+                (click)="d.toggle()"
+                class="pl-12 text-sm font-thin cursor-pointer form-control"
                 formControlName="voucherStartDate"
                 name="voucherStartDate"
                 >
@@ -42,12 +47,17 @@
 
             <label class="mt-1 xl:mt-1 3xl:items-center 3xl:justify-end 3xl:ml-44 form-check form-check-solid">
               <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
-              <div class="flex-auto mt-3 input-group md:w-72" data-provide="datepicker">
+              <div class="flex-auto mt-3 input-icon md:w-72">
+                <span class="absolute flex items-center mt-2 ml-1"><i (click)="e.toggle()" class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
                 <input
+                placeholder="yyyy-mm-dd"
                 [min]="form.controls['voucherStartDate'].value"
                 (keydown)="disableManual($event)"
-                type="date"
-                class="text-sm font-thin form-control"
+                name="dp"
+                ngbDatepicker
+                #e="ngbDatepicker"
+                (click)="e.toggle()"
+                class="pl-12 text-sm font-thin cursor-pointer form-control"
                 formControlName="voucherEndDate"
                 name="voucherEndDate"
                 >
