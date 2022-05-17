@@ -6,6 +6,7 @@ import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { ModalConfig } from './../../../@core/models/modal.config';
+import { User } from './../../../@core/models/user.model';
 import { ReusableModalComponent } from './../../../components/reusable-modal/reusable-modal/reusable-modal.component';
 import { BusinessHours, initalBusinessHours } from './../../auth/models/business-hours.modal';
 import { UserService } from './../../auth/services/user.service';
@@ -52,6 +53,8 @@ export class BussinessDetailsComponent implements OnInit {
     billingAddress: true,
    }
 
+   user: User | null;
+
 
   constructor(
     public authService: AuthService,
@@ -66,24 +69,27 @@ export class BussinessDetailsComponent implements OnInit {
     this.unsubscribe.push(loadingSubscr);7
 
      this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe(user=> {
-       this.businessHoursForm = this.fb.group({
-         id: [''],
-         businessHours: this.fb.array( [])
-       });
-      const businessHours = !!user?.businessHours.length ? user?.businessHours : initalBusinessHours;
-      // console.log('businessHours:',businessHours);
-      this.businessHoursForm.controls['id'].setValue(user?.id);
-       businessHours.forEach(businessHour => {
-        this.addBusinessHour(businessHour)
-       })
-
-       this.businessHoursForm.disable();
+       this.user = user;
+       this.setbusinessHours();
 
        if(user)
         this.termsForm.patchValue(user);
     });
 
     // console.log('businessHoursForm:',this.businessHoursForm);
+  }
+
+  setbusinessHours() {
+    this.businessHoursForm = this.fb.group({
+      id: [''],
+      businessHours: this.fb.array( [])
+    });
+   const businessHours = !!this.user?.businessHours.length ? this.user?.businessHours : initalBusinessHours;
+   // console.log('businessHours:',businessHours);
+   this.businessHoursForm.controls['id'].setValue(this.user?.id);
+    businessHours.forEach(businessHour => {
+     this.addBusinessHour(businessHour)
+    })
   }
 
 
@@ -197,24 +203,30 @@ export class BussinessDetailsComponent implements OnInit {
 
   editBusinessHours(){
     this.isEditBusinessHours = true;
-    this.businessHoursForm.enable();
+  }
+
+  discardBusinessHours() {
+    this.isEditBusinessHours = false;
+    this.setbusinessHours();
   }
 
   saveBusinessHours(){
-    this.isEditBusinessHours = false;
-    this.businessHoursForm.disable();
-    if(!this.validateBusinessHours()) {
-    this.isLoading$.next(true);
-    this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
-      // console.log('asdsad:',res);
-      if(!res.hasErrors()) {
-        return this.userService.getUser();
-      } else {
-        return (res);
-      }
-    })).subscribe((res:any) => {
-      this.isLoading$.next(false);
-    });
+    if(this.validateBusinessHours()) {
+      this.isEditBusinessHours = false;
+      this.isLoading$.next(true);
+      this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
+        // console.log('asdsad:',res);
+        if(!res.hasErrors()) {
+          return this.userService.getUser();
+        } else {
+          return (res);
+        }
+      })).subscribe((res:any) => {
+        this.isLoading$.next(false);
+      },(error=> {
+        this.isLoading$.next(false);
+        this.toast.error('error');
+      }));
   } else {
     this.toast.warning('Enter business hours')
   }
@@ -222,9 +234,9 @@ export class BussinessDetailsComponent implements OnInit {
 
   isWorkingDay(formControls:AbstractControl, index:number) {
     if(!this.isEditBusinessHours) return;
-    formControls.value.isWorkingDay = !formControls.value.isWorkingDay;
+
     if (
-      formControls.value.isWorkingDay &&
+      !formControls.value.isWorkingDay &&
       !formControls.value.firstStartTime &&
       !formControls.value.firstEndTime &&
       !formControls.value.secondStartTime &&
@@ -232,6 +244,8 @@ export class BussinessDetailsComponent implements OnInit {
     ) {
       formControls.patchValue(this.businessHoursFromControl.controls[index - 1].value)
     }
+
+    formControls.value.isWorkingDay = !formControls.value.isWorkingDay;
   }
 
   saveTerms() {
@@ -244,24 +258,30 @@ export class BussinessDetailsComponent implements OnInit {
         return (res);
       }
     })).subscribe((res:any) => {
-      this.businessHoursForm.disable();
       this.isEditBusinessHours = false;
       this.isLoading$.next(false);
-    });
+    },(error=> {
+      this.isLoading$.next(false);
+      this.toast.error('error');
+    }));
   }
 
   validateBusinessHours(){
-    let missingHours = true;
+    let valid = true;
     this.businessHoursForm.value.businessHours.forEach((businessHours:BusinessHours) => {
-      if( businessHours.isWorkingDay &&
-        businessHours.firstStartTime &&
-          businessHours.firstEndTime &&
-          businessHours.secondStartTime &&
-          businessHours.secondEndTime){
-            missingHours = false;
+      console.log('asssss:',businessHours);
+      if(valid && !businessHours.isWorkingDay || (
+          businessHours.firstStartTime.length &&
+          businessHours.firstEndTime.length &&
+          businessHours.secondStartTime.length &&
+          businessHours.secondEndTime.length)){
+            console.log('valid day:',businessHours.day);
+          }
+          else {
+            valid = false;
           }
     })
-    return missingHours;
+    return valid;
 }
 
   ngOnDestroy() {
