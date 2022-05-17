@@ -77,7 +77,6 @@ export class BillingsComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.authService.retreiveUserValue();
     this.getMerchantStats();
     this.getInvoicesByMerchant();
     this.initKYCForm();
@@ -111,7 +110,7 @@ export class BillingsComponent implements OnInit {
       iban: this.kycForm.value.iban,
       bankName: this.kycForm.value.bankName
     }
-    this.billingService.completeKYC(this.authService.merchantID, payload)
+    this.billingService.completeKYC(this.authService.currentUserValue?.id, payload)
     .pipe((takeUntil(this.destroy$)))
     .subscribe((res:ApiResponse<KYC>) => {
       debugger
@@ -146,7 +145,7 @@ export class BillingsComponent implements OnInit {
 
   getMerchantStats() {
     this.statsLoading = false;
-    this.billingService.getMerchantStats(this.authService.merchantID)
+    this.billingService.getMerchantStats(this.authService.currentUserValue?.id)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<MerchantStats>) => {
       if(!res.hasErrors()) {
@@ -166,7 +165,7 @@ export class BillingsComponent implements OnInit {
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime(),
       status: this.status
     }
-    this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.merchantID, this.offset, this.limit, params)
+    this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
       debugger

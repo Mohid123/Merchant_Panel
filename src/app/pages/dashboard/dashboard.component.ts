@@ -81,8 +81,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.reciever = this.passService.getData().subscribe((response: any) => {
       this.oldpPass = response;
     })
-    this.authService.retreiveNewUserCheck();
-    this.authService.retreiveUserValue();
     this.getTopDealsByMerchant();
     this.initPassForm();
   }
@@ -92,7 +90,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   checkNewuser() {
-    if(this.authService.newUserCheck == true) {
+    if(this.authService.currentUserValue?.newUser == true) {
       this.openNew();
     }
     else {
@@ -146,7 +144,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       password: this.oldpPass,
       newPassword: this.newPassForm.value.password
     }
-    this.authService.setUserPassword(this.authService.merchantID, payload)
+    this.authService.setUserPassword(this.authService.currentUserValue?.id, payload)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
@@ -175,7 +173,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   getTopDealsByMerchant() {
     this.showData = false;
-    this.dealService.getTopRatedDeals(this.authService.merchantID).pipe(takeUntil(this.destroy$))
+    this.dealService.getTopRatedDeals(this.authService.currentUserValue?.id).pipe(takeUntil(this.destroy$))
     .subscribe((res: any) => {
       if(!res.hasErrors()) {
         this.topDeals = res.data;

@@ -81,7 +81,7 @@ export class OrderManagementComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.authService.retreiveUserValue();
+    this.authService.currentUserValue?.id;
     this.getVouchersByMerchant();
     this.getMerchantStats();
     this.searchControl.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(1000))
@@ -108,7 +108,7 @@ export class OrderManagementComponent implements OnInit {
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
     }
     debugger
-    this.orderService.getVouchersByMerchantID(this.page, this.authService.merchantID, this.offset, this.limit, params)
+    this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<OrdersList>) => {
       debugger
@@ -122,7 +122,7 @@ export class OrderManagementComponent implements OnInit {
 
   getMerchantStats() {
     this.statsLoading = false;
-    this.billingService.getMerchantStats(this.authService.merchantID)
+    this.billingService.getMerchantStats(this.authService.currentUserValue?.id)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<MerchantStats>) => {
       // debugger
@@ -199,7 +199,7 @@ export class OrderManagementComponent implements OnInit {
   }
 
   getMerchantStatsForVouchers() {
-    this.orderService.getMerchantStatistics(this.authService.merchantID, this.offset, this.limit)
+    this.orderService.getMerchantStatistics(this.authService.currentUserValue?.id, this.offset, this.limit)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {

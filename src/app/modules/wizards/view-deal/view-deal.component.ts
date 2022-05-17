@@ -144,7 +144,6 @@ export class ViewDealComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.authService.retreiveUserValue();
     this.getDealsByMerchantID();
   }
 
@@ -159,7 +158,7 @@ export class ViewDealComponent implements OnInit {
       dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
     }
-    this.dealService.getDeals(this.page, this.authService.merchantID, this.offset, this.limit, params)
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: any)=> {
       debugger
