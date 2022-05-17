@@ -1,13 +1,19 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiResponse } from '@core/models/response.model';
+import { User } from '@core/models/user.model';
+// import { zipCodes } from '@core/utils/belgium-zip-codes';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, first, map, takeUntil } from 'rxjs/operators';
 import { CategoryList } from '../../models/category-list.model';
 import { RegisterModel } from '../../models/register.model';
 import { AuthService } from '../../services/auth.service';
 import { CategoryService } from '../../services/category.service';
+import { ZipCode } from './../../models/zip-code.model';
+import { UrlValidator } from './url.validator';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -25,17 +31,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     { id:1, img: '../../../../../assets/media/icons/spaAndWellness.svg', name:'Spa And Wellness' },
     { id:6, img: '../../../../../assets/media/icons/personal-dev.svg', name:'Personal Development' },
     { id:7, img: '../../../../../assets/media/icons/concert-event-tickets.svg', name:'Concerts & Event Tickets' },
+    { id:8, img: '../../../../../assets/media/icons/pets-care.svg', name:'Pet Treatments' },
   ]
   provincese = [
     { id:1, name:'West-Vlaanderen' },
     { id:2, name:'Oost-Vlaanderen' },
     { id:3, name:'Antwerpen' },
     { id:4, name:'Vlaams-Brabant' },
-    { id:5, name:'Luik' },
+    // { id:5, name:'Luik' },
     { id:6, name:'Limburg' },
-    { id:7, name:'Waals-Brabant' },
+    // { id:7, name:'Waals-Brabant' },
   ]
 
+  // zipCodes = zipCodes;
   registrationForm: FormGroup;
   hasError: boolean;
   isLoading$: Observable<boolean>;
@@ -44,6 +52,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   offset: number = 0;
   limit: number = 7;
   destroy$ = new Subject();
+  countryCode: any;
+  user: User
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -66,6 +76,16 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.getCategories();
+    // this.f['zipCode'].valueChanges.subscribe(zip => {
+    //   let zipData = zipCodes[zip];
+    //   if(zipData) {
+    //     console.log('zip data:',zipData);
+    //   }
+    // })
+  }
+
+  onCountryChange(country: any) {
+    this.countryCode = country.dialCode
   }
 
   getCategories() {
@@ -93,7 +113,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
             Validators.maxLength(30),
           ]),
         ],
@@ -101,7 +120,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
             Validators.maxLength(30),
           ]),
         ],
@@ -109,12 +127,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.email,
+            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
             Validators.maxLength(60),
           ]),
+          this.emailValidator()
         ],
         phoneNumber: [
-          '',
+         '',
             Validators.compose([
             Validators.required,
             Validators.min(100000000),
@@ -125,7 +144,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
             Validators.maxLength(30),
           ]),
         ],
@@ -133,23 +151,20 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
             Validators.maxLength(100),
           ]),
         ],
         zipCode: [
-          '',
+          '',[
             Validators.compose([
-            Validators.required,
-            Validators.min(100),
-            Validators.max(9999999999),
-          ]),
+            Validators.required]),
+            this.validateZip()
+          ]
         ],
         city: [
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
             Validators.maxLength(100),
           ]),
         ],
@@ -158,17 +173,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.minLength(3),
+            // Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'),
             Validators.maxLength(100),
           ]),
         ],
       }
-    );
+      , {
+        validator: UrlValidator('website_socialAppLink'),
+      })
   }
 
   submit() {
-    console.log('thiasdasd:',this.f['province']);
     console.log('registrationForm:',this.registrationForm);
+    debugger
     this.hasError = false;
     const result: {
       [key: string]: string;
@@ -176,6 +193,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     Object.keys(this.f).forEach((key) => {
       result[key] = this.f[key].value;
     });
+    debugger
     const newModel = new RegisterModel();
     newModel.setModel(result);
     const registrationSubscr = this.authService
@@ -200,16 +218,31 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         .subscribe((res: ApiResponse<ZipCode>) => {
           if(!res.hasErrors()) {
             this.registrationForm.get('city')?.setValue(res.data?.city);
-            this.registrationForm.controls['city']?.disable();
           }
       })
     }
     else {
       this.registrationForm.get('city')?.setValue('');
-      this.registrationForm.controls['city']?.enable();
     }
-
 }
+
+
+emailValidator() {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.valueChanges || control.pristine) {
+        return null;
+      }
+      else {
+        this.cf.detectChanges();
+        return this.authService.checkEmailAlreadyExists(control.value).pipe(
+          distinctUntilChanged(),
+          debounceTime(600),
+          map((res: ApiResponse<any>) => (res.data == true ? {emailExists: true} : null))
+        )
+      }
+    };
+}
+
   registrationSuccessOk() {
     this.router.navigate(['auth','login']);
   }
@@ -217,4 +250,28 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
+
+  validateZip(): {[key: string]: any} | null  {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.value && control.value.toString().length !== 4) {
+        return { 'zipInvalid': true };
+      }
+      return null;
+    }
+  }
 }
+
+
+// const payload: Partial<RegisterModel> = {
+//   businessProfile: this.registrationForm.value.businessProfile,
+//   firstName: this.registrationForm.value.firstName,
+//   lastName: this.registrationForm.value.lastName,
+//   email: this.registrationForm.value.email,
+//   phoneNumber: `+${this.countryCode}${this.registrationForm.value.phoneNumber}`,
+//   companyName: this.registrationForm.value.companyName,
+//   streetAddress: this.registrationForm.value.streetAddress,
+//   zipCode: this.registrationForm.value.zipCodes,
+//   city: this.registrationForm.value.city,
+//   province: this.registrationForm.value.province,
+//   website_socialAppLink: this.registrationForm.value.website_socialAppLink,
+// }

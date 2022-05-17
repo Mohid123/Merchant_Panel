@@ -19,6 +19,7 @@ export class DealService extends ApiService<deal> {
   }
 
   createDeal(deal: MainDeal) {
+    debugger
     return this.post('/deal/createDeal',deal).pipe(tap((res: any) => {
       console.log(res);
     }));
@@ -39,6 +40,7 @@ export class DealService extends ApiService<deal> {
     endDate: string;
     dateFrom: number;
     dateTo: number;
+    status: string;
   }): Observable<ApiResponse<deal>> {
     page--;
     const param: any = {
@@ -51,6 +53,7 @@ export class DealService extends ApiService<deal> {
     if(data.endDate) param.endDate = data.endDate;
     if(data.dateFrom) param.dateFrom = data.dateFrom;
     if(data.dateTo) param.dateTo = data.dateTo;
+    if(data.status) param.status = data.status
     return this.get(`/deal/getDealsByMerchantID/${merchantID}`, param);
   }
 }

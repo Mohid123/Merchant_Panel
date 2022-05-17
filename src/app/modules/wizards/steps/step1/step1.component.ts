@@ -22,7 +22,6 @@ export class Step1Component implements OnInit, OnDestroy {
 
   ChangeSelectedCategory(newSelectedcategory: SubCategory) {
     this.selectedcategory = newSelectedcategory;
-    debugger
     this.dealForm.controls['subCategory'].setValue(newSelectedcategory.subCategoryName);
   }
 
@@ -48,8 +47,6 @@ export class Step1Component implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   control: FormControl
   images = [];
-
-  // @Input('valueFromStep1') valueFromStep1: Partial<MainDeal>
 
   constructor(
     private fb: FormBuilder,

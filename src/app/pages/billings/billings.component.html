@@ -32,7 +32,7 @@
 
   <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
     <div #myDrop="ngbDropdown" ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
-      <button class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
+      <button class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 3xl:px-6 3xl:py-4" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
       <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md cursor-pointer xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <ngb-datepicker
@@ -47,7 +47,7 @@
     </div>
 
     <div class="m-2">
-      <button (click)="resetFilters()" class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 2xl:px-6 2xl:py-4"><i class="mr-3 fas fa-retweet"></i>Reset Filters</button>
+      <button (click)="resetFilters()" class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-6 xl:py-4 3xl:px-6 3xl:py-4"><i class="mr-3 fas fa-retweet"></i>Reset Filters</button>
       <button (click)="resetFilters()" class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md cursor-pointer xl:hidden"><i class="fas fa-retweet"></i></button>
     </div>
   </div>
@@ -119,6 +119,7 @@
     </ul>
   </div>
 </ng-container>
+
 
 <app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="relative">

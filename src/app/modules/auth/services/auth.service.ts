@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RegisterModel } from '../models/register.model';
+import { ZipCode } from '../models/zip-code.model';
 import { AuthCredentials } from './../../../@core/models/auth-credentials.model';
 import { ApiResponse } from './../../../@core/models/response.model';
 import { SignInResponse } from './../../../@core/models/sign-in-response';
@@ -104,6 +105,10 @@ export class AuthService extends ApiService<AuthApiData> {
     return this.authHttpService
       .forgotPassword(email)
       .pipe(finalize(() => this.isLoadingSubject.next(false)));
+  }
+
+  checkEmailAlreadyExists(email: string): Observable<ApiResponse<any>> {
+    return this.post(`/auth/isEmailExists`, {email});
   }
 
   get user(): User| null {

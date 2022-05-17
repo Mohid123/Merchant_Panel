@@ -16,7 +16,7 @@ input.form-control {
   background-color: transparent !important;
   border: 0.5px solid #787f9f5e;
   font-size: 14px;
-  padding: 13px 44px 13px 33px;
+  // padding: 13px 44px 13px 33px;
 }
 
 input.form-control:focus {
@@ -114,6 +114,32 @@ button.back {
 
   .mat-step-text-label {
     font-size: 11px
+  }
+
+  .country-dropdown {
+    display: grid !important;
+    width: 100% !important;
+    min-width: 20rem !important;
+    height: 8rem;
+  }
+
+  input#country-search-box,
+  input#country-search-box:active,
+  input#country-search-box:focus-visible {
+    border-radius: 0 !important;
+    border-top: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+ }
+
+  .iti {
+    width: 100% !important;
+    input{
+      border-radius: 0.475rem;
+      background-color: transparent !important;
+      border: 0.5px solid #787f9f5e !important;
+      font-size: 14px !important;
+    }
   }
 }
 

@@ -1,13 +1,13 @@
 <div class="flex justify-center h-full auth-main-con">
   <div
-    class="h-auto px-8 py-2 overflow-hidden 2xl:max-w-2xl lg:max-w-lg xl:max-w-xl lg:h-full login-content flex-row-fluid d-flex flex-column justify-content-center position-relative">
+    class="h-auto px-8 py-2 overflow-hidden 3xl:max-w-2xl lg:max-w-lg xl:max-w-xl lg:h-full login-content flex-row-fluid d-flex flex-column justify-content-center position-relative">
     <div class="d-flex flex-column-fluid flex-center">
       <form class="form w-100" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
         (ngSubmit)="submit()">
         <div class="text-center mb-7">
-          <h1 class="text-dark mb-3 2xl:mb-6 font-medium text-xl sm:text-3xl xl:text-4.5xl 2xl:text-5xl">Welcome to DiviDeals</h1>
-          <h3 class="mb-5 text-xs font-medium 2xl:mb-8 sm:text-xl xl:text-xl 2xl:text-2xl text-primary-400">Merchant Panel</h3>
-          <div class="text-xs font-medium text-font-gray-800 xl:text-xl sm:text-base 2xl:text-2xl">
+          <h1 class="text-dark mb-3 3xl:mb-6 font-medium text-xl sm:text-3xl xl:text-4.5xl 3xl:text-5xl">Welcome to DiviDeals</h1>
+          <h3 class="mb-5 text-xs font-medium 3xl:mb-8 sm:text-xl xl:text-xl 3xl:text-2xl text-primary-400">Merchant Panel</h3>
+          <div class="text-xs font-medium text-font-gray-800 xl:text-xl sm:text-base 3xl:text-2xl">
             New Here?
             <a routerLink="/auth/registration" id="kt_login_signup"
               class="text-black fw-bolder">Apply Now</a>
@@ -23,11 +23,9 @@
         </ng-container>
 
         <div class="mb-5 fv-row">
-          <label class="mb-3 text-xs font-light text-black sm:text-sm xl:text-base 2xl:text-lg form-label">Email</label>
-          <input class="form-control xl:text-xl 2xl:text-2xl form-control-lg form-control-solid" type="email" name="email"
-            formControlName="email" autocomplete="off" [ngClass]="{
-            'is-invalid': loginForm.controls['email'].invalid,
-            'is-valid': loginForm.controls['email'].valid}"/>
+          <label class="mb-3 text-xs font-light text-black sm:text-sm xl:text-base 3xl:text-lg form-label">Email</label>
+          <input class="form-control xl:text-xl 3xl:text-2xl form-control-lg form-control-solid" type="email" name="email"
+            formControlName="email" autocomplete="off"/>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                         validation: 'required',
                         message: 'Email is required',
@@ -51,19 +49,16 @@
         </div>
 
         <div class="mb-7 form-group row">
-          <label class="mb-3 text-xs font-light text-black sm:text-sm xl:text-base 2xl:text-lg form-label">Password</label>
+          <label class="mb-3 text-xs font-light text-black sm:text-sm xl:text-base 3xl:text-lg form-label">Password</label>
 
           <div class="flex flex-row input-group-prepend justify-evenly">
-            <input class="form-control form-control-lg form-control-solid"
+            <span class="absolute flex items-center mt-3 cursor-pointer right-12" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-2 ml-2 text-white bg-blue-600 rounded"></i></span>
+            <input class="pr-20 form-control form-control-lg form-control-solid"
               type="{{passwordHide ? 'password' : 'text'}}"
               name="password"
               autocomplete="off"
               formControlName="password"
-              [ngClass]="{'is-invalid': loginForm.controls['password'].invalid, 'is-valid': loginForm.controls['password'].valid}"
             >
-            <span class="input-group-text" style="cursor: pointer !important; border-color: #adafb1!important;" (click)="passwordShowHide()">
-              <i class="far fa-eye"></i>
-            </span>
           </div>
 
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -72,7 +67,7 @@
                         control: loginForm.controls['password']}">
           </ng-container>
           <div class="w-full text-right mt-7">
-            <a routerLink="/auth/forgot-password" class="text-xs font-light sm:text-sm xl:text-base 2xl:text-lg text-primary-400"
+            <a routerLink="/auth/forgot-password" class="text-xs font-light sm:text-sm xl:text-base 3xl:text-lg text-primary-400"
               id="kt_login_forgot">
               Forgot Password ?
             </a>
@@ -81,7 +76,7 @@
 
         <div class="text-right">
           <button type="submit" id="kt_sign_in_submit"
-            class="mb-5 text-xs text-white bg-black xl:text-sm 2xl:text-base btn hover:btn-primary" [disabled]="loginForm.invalid">
+            class="mb-5 text-xs text-white bg-black xl:text-sm 3xl:text-base btn hover:btn-primary" [disabled]="loginForm.invalid">
             <ng-container *ngIf="isLoading$ | async">
               <span class="indicator-progress" [style.display]="'block'">
                 Please wait...

@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DealService } from '@core/services/deal.service';
 import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
@@ -32,13 +31,6 @@ export class PopoverWrapperComponent {
   selector: 'app-view-deal',
   templateUrl: './view-deal.component.html',
   styleUrls: ['./view-deal.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
   encapsulation: ViewEncapsulation.None
 })
 
@@ -113,16 +105,16 @@ export class ViewDealComponent implements OnInit {
     firstDay: 1,
     initialView: 'dayGridMonth',
     weekends: true,
-    editable: true,
+    editable: false,
     selectable: true,
     selectMirror: true,
     dayMaxEvents: 3,
     moreLinkClick: 'popover',
     // select: this.handleDateSelect.bind(this),
-    eventClick: this.showPopover.bind(this),
+    // eventClick: this.showPopover.bind(this),
     // eventsSet: this.handleEvents.bind(this),
-    eventDidMount: this.renderTooltip.bind(this),
-    eventWillUnmount: this.destroyTooltip.bind(this),
+    // eventDidMount: this.renderTooltip.bind(this),
+    // eventWillUnmount: this.destroyTooltip.bind(this),
     // eventMouseEnter: this.showPopover.bind(this),
     // eventMouseLeave: this.hidePopover.bind(this),
     /* you can update a remote database when these fire:
@@ -269,6 +261,7 @@ export class ViewDealComponent implements OnInit {
   }
 
   filterByStatus(status: string) {
+    debugger
     this.offset = 0;
     this.status = status;
     this.getDealsByMerchantID();
@@ -296,6 +289,11 @@ export class ViewDealComponent implements OnInit {
   isRange(date: NgbDate) {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
+
+  ngAfterViewInit() {
+    this.fullCalendar.getApi().render();
+  }
+
 
   renderTooltip(event:any) {
     console.log('renderTooltip:',event);
@@ -415,6 +413,7 @@ export class ViewDealComponent implements OnInit {
     this.startDate = 'Ascending';
     this.endDate = 'Ascending';
     this.price = 'Ascending';
+    this.status = '';
     this.getDealsByMerchantID();
   }
 

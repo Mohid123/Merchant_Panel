@@ -1,7 +1,7 @@
 <!--Title/ Header-->
 <div class="lg:text-center mb-13">
-  <h1 class="mt-2 mb-3 text-center 2xl:text-3xl xl:mt-0 md:text-2xl">The when, the how and the where.</h1>
-  <div class="font-thin text-center 2xl:text-xl text-primary-400 md:text-sm">Let's make sure all terms are correct before publishing your deal.</div>
+  <h1 class="mt-2 mb-3 text-center 3xl:text-3xl xl:mt-0 md:text-2xl">The when, the how and the where.</h1>
+  <div class="font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">Let's make sure all terms are correct before publishing your deal.</div>
 </div>
 <!--Card for Duration of Deal-->
 <div class="flex justify-center w-full align-middle">
@@ -15,50 +15,73 @@
           <div class="flex flex-col justify-between w-full align-middle xl:flex-row">
 
             <label class="mb-6 form-check form-check-solid">
-              <input class="border rounded-full form-check-input" type="checkbox" id="specialCheck" (click)="disableCheckBox()" [checked]="form.controls['voucherStartDate'].value">
+              <input
+              class="border rounded-full form-check-input"
+              type="checkbox"
+              (click)="selectCheckBox(check_box_type.ONE); disableCheckBox();"
+              [checked]="currentlyChecked === check_box_type.ONE || form.get('voucherStartDate')?.value"
+              >
               <span class="form-check-label"></span> Start Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-4 mb-3 input-group date md:w-72" data-provide="datepicker">
-                <input type="date" (keydown)="disableManual($event)" class="text-sm font-thin form-control" formControlName="voucherStartDate" name="voucherStartDate">
+                <input
+                type="date"
+                (keydown)="disableManual($event)"
+                class="text-sm font-thin form-control"
+                formControlName="voucherStartDate"
+                name="voucherStartDate"
+                >
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
                 message: 'Start Date is required',
                 control: form.controls['voucherStartDate']
               }">
-            </ng-container>
+              </ng-container>
               <span class="mb-0 text-base tracking-widest text-gray-600"><span class="text-red-600">*</span>Max validity 90 days</span>
             </label>
 
-            <label class="mt-1 xl:mt-1 2xl:items-center 2xl:justify-end 2xl:ml-44 form-check form-check-solid">
+            <label class="mt-1 xl:mt-1 3xl:items-center 3xl:justify-end 3xl:ml-44 form-check form-check-solid">
               <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
               <div class="flex-auto mt-3 input-group md:w-72" data-provide="datepicker">
-                <input [min]="form.controls['voucherStartDate'].value" (keydown)="disableManual($event)" type="date" class="text-sm font-thin form-control" formControlName="voucherEndDate" name="voucherEndDate" (click)="disableCheckBox()">
+                <input
+                [min]="form.controls['voucherStartDate'].value"
+                (keydown)="disableManual($event)"
+                type="date"
+                class="text-sm font-thin form-control"
+                formControlName="voucherEndDate"
+                name="voucherEndDate"
+                >
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
                 message: 'End Date is required',
                 control: form.controls['voucherEndDate']
               }">
-            </ng-container>
+              </ng-container>
             </label>
           </div>
 
           <div class="flex">
             <label class="mt-8 lg:mt-6 form-check form-check-solid">
-              <input [checked]="form.controls['voucherValidity'].value" class="mr-2 rounded-full form-check-input" type="checkbox" id="specialChecked" (click)="disableCheckBox()">
+              <input
+              [checked]="currentlyChecked === check_box_type.TWO || form.get('voucherValidity')?.value"
+              class="mr-2 rounded-full form-check-input"
+              type="checkbox"
+              (click)="selectCheckBox(check_box_type.TWO); disableCheckBox();"
+              >
               <span class="form-check-label">Voucher is valid for</span>
               <div class="relative mt-4">
                 <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
-                  <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
+                  <button [disabled]="btnDisable == true" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
                   <input appNumbersOnly maxlength="4" type="text" placeholder="0" class="w-full text-center" formControlName="voucherValidity" name="voucherValidity">
-                  <button [disabled]="btnDisable == false" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+                  <button [disabled]="btnDisable == true" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
                 </div>
                 <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                   validation: 'required',
                   message: 'Voucher validity date is required',
                   control: form.controls['voucherValidity']
                 }">
-              </ng-container>
+                </ng-container>
               </div>
             </label>
           </div>
@@ -100,7 +123,7 @@
                 </tr>
               </tbody>
             </table>
-            <button class="btn btn-light btn-active-light-primary" type="button" (click)="openNew()">Edit</button>
+            <!-- <button class="btn btn-light btn-active-light-primary" type="button" (click)="openNew()">Edit</button> -->
           </div>
 
           <div class="ml-5">
@@ -213,8 +236,6 @@ input::-webkit-datetime-edit-fields-wrapper {
 }
 
 </style>
-
-
 
 
 

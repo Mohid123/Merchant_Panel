@@ -1,5 +1,5 @@
 <ng-container *ngIf="showDiv.calendarView == true">
-  <div class="absolute md:top-28 md:right-6 lg:top-24 lg:right-12 2xl:right-48 right-6 top-28 setting">
+  <div class="absolute md:top-28 md:right-6 lg:top-24 lg:right-12 3xl:right-48 right-6 top-28 setting">
     <div class="moon">
       <span class="ml-2 text-xs">05</span>
     </div>
@@ -8,10 +8,10 @@
 </ng-container>
 
 <ng-container *ngIf="showDiv.listView == true">
-  <div class="absolute z-40 2xl:right-48 lg:top-28 lg:right-8 md:top-28 md:right-4 right-5 top-28">
+  <div class="absolute z-40 3xl:right-48 lg:top-28 lg:right-8 md:top-28 md:right-4 right-5 top-28">
     <div class="flex flex-row items-end justify-end w-full mt-5 ml-2 lg:mt-0">
       <div #myDrop="ngbDropdown" ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
-        <button class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-5 xl:py-3 2xl:px-5 2xl:py-3" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
+        <button class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-5 xl:py-3 3xl:px-5 3xl:py-3" ngbDropdownToggle><i class="mr-3 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 fas fa-angle-down"></i></button>
         <button class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md cursor-pointer xl:hidden" ngbDropdownToggle><i class="far fa-calendar-alt"></i><i class="ml-3 fas fa-angle-down"></i></button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <ngb-datepicker
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="mb-2 mr-3">
-        <button (click)="resetFilters()" class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-5 xl:py-3 2xl:px-5 2xl:py-3"><i class="mr-3 fas fa-retweet"></i>Reset Filters</button>
+        <button (click)="resetFilters()" class="hidden cursor-pointer xl:block xl:text-gray-500 xl:bg-gray-200 xl:rounded-md xl:px-5 xl:py-3 3xl:px-5 3xl:py-3"><i class="mr-3 fas fa-retweet"></i>Reset Filters</button>
         <button (click)="resetFilters()" class="inline-flex px-2 py-2 text-gray-500 bg-gray-300 rounded-md cursor-pointer xl:hidden"><i class="fas fa-retweet"></i></button>
       </div>
    </div>
@@ -62,7 +62,7 @@
           <ng-container *ngFor="let event of currentEvents; let index = index">
             <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
               <td class="flex flex-row items-center justify-start p-4 font-thin">
-                <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 2xl:w-11 2xl:h-11 2xl:rounded-md" src="../../../../../assets/media/books/img-72.jpg">
+                <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 3xl:w-11 3xl:h-11 3xl:rounded-md" src="../../../../../assets/media/books/img-72.jpg">
                 <span class="ml-3">{{event.title}}</span>
               </td>
               <td class="p-4 font-thin">{{event.startDate | date}}</td>
@@ -92,10 +92,10 @@
               </ng-container>
 
               <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
-                <a class="px-2 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer 2xl:px-3 2xl:py-1">
+                <a class="px-2 py-1 mr-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer 3xl:px-3 3xl:py-1">
                   <i class="p-1 fas fa-ellipsis-h"></i>
                 </a>
-                <a (click)="event.showDetail = !event.showDetail" class="px-2 py-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer 2xl:px-3 2xl:py-1">
+                <a (click)="event.showDetail = !event.showDetail" class="px-2 py-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer 3xl:px-3 3xl:py-1">
                   <i [ngClass]="event.showDetail ? 'p-1 fas fa-angle-double-up': 'p-1 fas fa-angle-double-down'"></i>
                 </a>
               </td>
@@ -137,10 +137,10 @@
         </div>
         <div class="h-full lg:p-1 card card-custom card-stretch">
           <div class="flex items-center justify-evenly lg:flex-row">
-            <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Published</span></i>
-            <i class="text-green-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Scheduled</span></i>
             <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">In-Review</span></i>
-            <i class="text-red-500 lg:mr-4 fas fa-circle"> <span class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base abc">Bounced</span></i>
+            <i class="text-red-500 lg:mr-4 fas fa-circle"> <span class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base abc">Needs Attention</span></i>
+            <i class="text-green-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Scheduled</span></i>
+            <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-base md:mr-7 abc">Published</span></i>
           </div>
       </div>
     </div>
@@ -187,7 +187,7 @@
           <span class="text-sm text-gray-500">Sold Vocuhers: <span class="text-green-500">05</span></span>
         </div>
       </div>
-      <i (click)="closeModal()" class="far fa-times-circle"></i>
+      <i (click)="closeModal()" class="fas fa-times-circle"></i>
     </div>
   </div>
 

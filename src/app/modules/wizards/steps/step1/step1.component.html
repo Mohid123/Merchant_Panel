@@ -1,7 +1,7 @@
 <!--Title/ Header-->
 <div class="mb-7 lg:text-center">
-  <h1 class="mt-2 mb-3 text-center 2xl:text-3xl xl:mt-0 md:text-2xl">Let's set up your deal.</h1>
-  <div class="font-thin text-center 2xl:text-xl text-primary-400 md:text-sm">First impression matters! Let's start with creating your titles and description.</div>
+  <h1 class="mt-2 mb-3 text-center 3xl:text-3xl xl:mt-0 md:text-2xl">Let's set up your deal.</h1>
+  <div class="font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">First impression matters! Let's start with creating your titles and description.</div>
 </div>
 <!--Card for Creating Deal-->
 <div class="flex justify-center w-full align-middle">
@@ -10,11 +10,11 @@
       <form class="px-6 sm:px-14 md:px-24 form row" [formGroup]="dealForm">
         <!--Form-->
         <div class="p-0 col-xl-7 col-md-6">
-          <div class="md:pt-2 2xl:pt-6 deal-details">
-            <div class="2xl:pb-5 md:pb-2">
+          <div class="md:pt-2 3xl:pt-6 deal-details">
+            <div class="3xl:pb-5 md:pb-2">
               <label class="block text-sm form-label">Select sub-category</label>
               <div ngbDropdown class="w-full rounded-lg d-inline-block" style="border: 1px solid #F38B41;">
-                <button type="button" class="w-full btn p-3.5 text-xs text-left text-font-gray-600" id="dropdownBasic1"
+                <button disabled type="button" class="w-full btn p-3.5 text-xs text-left text-font-gray-600" id="dropdownBasic1"
                 ngbDropdownToggle>{{selectedcategory?.subCategoryName || '-Select'}}</button>
                 <div class="w-full" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                   <ng-container *ngFor="let category of categoryList?.data" >
@@ -31,7 +31,7 @@
               }">
             </ng-container>
             </div>
-            <div class="2xl:pb-5 md:pb-2">
+            <div class="3xl:pb-5 md:pb-2">
               <label class="form-label">Title</label>
               <input maxlength="16" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="title" name="title" placeholder="Enter title of your deal"
               [ngClass]="{
@@ -56,7 +56,7 @@
               }">
               </ng-container>
             </div>
-            <div class="2xl:pb-5 md:pb-2">
+            <div class="3xl:pb-5 md:pb-2">
               <label class="form-label">Subtitle</label>
               <input maxlength="16" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="subTitle" name="subTitle" placeholder="Enter subtitle of your deal"
               [ngClass]="{
@@ -81,9 +81,9 @@
               }">
               </ng-container>
             </div>
-            <div class="2xl:pb-5 md:pb-2">
+            <div class="3xl:pb-5 md:pb-2">
               <label class="form-label">Description</label>
-              <textarea maxlength="100" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="description" name="description" placeholder="Description" rows="5"
+              <textarea maxlength="2000" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="description" name="description" placeholder="Description" rows="5"
               [ngClass]="{
                 'is-invalid': f['description'].invalid && f['description'].touched,
                 'is-valid': f['description'].valid}"></textarea>
@@ -109,7 +109,7 @@
           </div>
         </div>
         <!--Upload Images-->
-        <div class="pl-0 pr-0 col-xl-5 col-md-6 md:pl-16 2xl:pt-6">
+        <div class="pl-0 pr-0 col-xl-5 col-md-6 md:pl-16 3xl:pt-6">
           <div class="mt-0 lg:mt-2 xl:pl-8">
             <div class="d-flex flex-stack">
               <div class="mr-2">
