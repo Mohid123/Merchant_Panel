@@ -54,8 +54,7 @@
 </div> -->
 
 <!-- CHAT -->
-<div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass">
-  <!-- begin::Menu wrapper -->
+<!-- <div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass">
   <div
     class="btn btn-icon btn-active-light-primary position-relative"
     [ngClass]="toolbarButtonHeightClass"
@@ -70,8 +69,7 @@
       class="top-0 bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle start-50 animation-blink"
     ></span>
   </div>
-  <!-- end::Menu wrapper -->
-</div>
+</div> -->
 
 <!-- Quick links -->
 <!-- <div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass">
@@ -98,7 +96,6 @@
   [ngClass]="toolbarButtonMarginClass"
   id="kt_header_user_menu_toggle"
 >
-  <!-- begin::Toggle -->
   <div
     class="cursor-pointer symbol"
     [ngClass]="toolbarUserAvatarHeightClass"
@@ -109,10 +106,8 @@
   >
     <img src="./assets/media/avatars/300-1.jpg" alt="divideals" />
   </div>
-  <!-- end::Toggle  -->
   <app-user-inner></app-user-inner>
 </div>
-<!-- end::User -->
 
 <ng-container *ngIf="headerLeft === 'menu'">
   <div

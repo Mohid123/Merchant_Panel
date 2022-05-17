@@ -24,27 +24,27 @@
 
         <div class="mb-5 fv-row">
           <label class="mb-3 text-xs font-light text-black sm:text-sm xl:text-base 3xl:text-lg form-label">Email</label>
-          <input class="form-control xl:text-xl 3xl:text-2xl form-control-lg form-control-solid" type="email" name="email"
+          <input class="border-yellow-500 form-control xl:text-xl 3xl:text-2xl form-control-lg form-control-solid" type="email" name="email"
             formControlName="email" autocomplete="off"/>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'required',
-                        message: 'Email is required',
-                        control: loginForm.controls['email']}">
+              validation: 'required',
+              message: 'Email is required',
+              control: loginForm.controls['email']}">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: 'Email is invalid',
-                        control: loginForm.controls['email']}">
+            validation: 'pattern',
+            message: 'Email is invalid',
+            control: loginForm.controls['email']}">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'minLength',
-                        message: 'Email should have at least 3 symbols',
-                        control: loginForm.controls['email']}">
+            validation: 'minLength',
+            message: 'Email should have at least 3 symbols',
+            control: loginForm.controls['email']}">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'maxLength',
-                        message: 'Email should have maximum 360 symbols',
-                        control: loginForm.controls['email']}">
+            validation: 'maxLength',
+            message: 'Email should have maximum 360 symbols',
+            control: loginForm.controls['email']}">
           </ng-container>
         </div>
 
@@ -52,8 +52,8 @@
           <label class="mb-3 text-xs font-light text-black sm:text-sm xl:text-base 3xl:text-lg form-label">Password</label>
 
           <div class="flex flex-row input-group-prepend justify-evenly">
-            <span class="absolute flex items-center mt-3 cursor-pointer right-12" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-2 ml-2 text-white bg-blue-600 rounded"></i></span>
-            <input class="pr-20 form-control form-control-lg form-control-solid"
+            <span class="absolute flex items-center mt-3 cursor-pointer right-12" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-2 ml-2 text-gray-600 bg-white rounded"></i></span>
+            <input class="pr-20 border-yellow-500 form-control form-control-lg form-control-solid"
               type="{{passwordHide ? 'password' : 'text'}}"
               name="password"
               autocomplete="off"
@@ -62,9 +62,9 @@
           </div>
 
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'required',
-                        message: 'Password is required',
-                        control: loginForm.controls['password']}">
+            validation: 'required',
+            message: 'Password is required',
+            control: loginForm.controls['password']}">
           </ng-container>
           <div class="w-full text-right mt-7">
             <a routerLink="/auth/forgot-password" class="text-xs font-light sm:text-sm xl:text-base 3xl:text-lg text-primary-400"

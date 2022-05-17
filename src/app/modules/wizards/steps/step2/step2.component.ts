@@ -109,6 +109,19 @@ export class Step2Component implements OnInit, OnDestroy {
     return this.vouchers.controls;
   }
 
+  updateValue() {
+    const formChangesSubscr = this.vouchers.valueChanges.subscribe((val: MainDeal) => {
+      this.updateParentModel(val, this.checkForm());
+    });
+    this.unsubscribe.push(formChangesSubscr);
+  }
+
+  checkForm() {
+    return !(
+      this.vouchers.valid
+    )
+  }
+
   async edit(index:any) {
     this.editIndex = index;
     this.vouchers.patchValue(this.subDeals[index]);

@@ -8,6 +8,7 @@ import { MainDeal } from './../models/main-deal.model';
 
 export class ConnectionService {
   private stepData: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
+  public disabler: boolean = true;
 
   sendData(data: any) {
     this.stepData.next(data);
