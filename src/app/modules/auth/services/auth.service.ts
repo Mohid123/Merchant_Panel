@@ -129,7 +129,7 @@ export class AuthService extends ApiService<AuthApiData> {
 
   retreiveNewUserCheck() {
     this.currentUser$.subscribe((res: User | any) => {
-      this.newUserCheck = res.newUser;
+      this.newUserCheck = res?.newUser;
     })
   }
 
