@@ -134,7 +134,6 @@ export class Step3Component implements OnInit, OnDestroy {
     }
   }
 
-
   initPolicyForm() {
     this.policyForm = this.fb.group({
       streetAddress: [
@@ -224,7 +223,6 @@ export class Step3Component implements OnInit, OnDestroy {
     return !(
       this.form.get('voucherStartDate')?.hasError('required') ||
       this.form.get('voucherEndDate')?.hasError('required') ||
-      this.form.get('termsAndCondition')?.hasError('required') ||
       this.form.get('voucherValidity')?.hasError('required')
     );
   }

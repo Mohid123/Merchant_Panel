@@ -59,6 +59,7 @@ export class Step1Component implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initDealForm();
+    debugger
     this.updateParentModel({}, this.checkForm());
     this.categoryService.getSubCategories(0,0).pipe(take(1)).subscribe(categoryList => {
       if(!categoryList.hasErrors()){
@@ -119,9 +120,10 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   checkForm() {
-    return !(
-      this.dealForm.valid
-    )
+    return !(this.dealForm.get('title')?.hasError('required') ||
+    this.dealForm.get('subTitle')?.hasError('required') ||
+    this.dealForm.get('description')?.hasError('required') ||
+    this.dealForm.get('description')?.hasError('minlength'))
   }
 
   onSelectFile(event: any) {

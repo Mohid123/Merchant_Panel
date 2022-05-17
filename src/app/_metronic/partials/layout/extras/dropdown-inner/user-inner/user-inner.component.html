@@ -13,7 +13,7 @@
           >
         </div>
         <a class="cursor-pointer fw-bold text-muted text-hover-primary fs-7">
-          {{ _user.email }}
+          {{ _user.email | reduce: 17 }}
         </a>
       </div>
     </div>
