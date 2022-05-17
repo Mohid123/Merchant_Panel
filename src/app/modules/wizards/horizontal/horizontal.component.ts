@@ -33,6 +33,7 @@ export class HorizontalComponent implements OnInit {
     const currentDeal = this.deal$.value;
     const updatedDeal = { ...currentDeal, ...part };
     this.deal$.next(updatedDeal);
+    debugger
     this.isCurrentFormValid$.next(isFormValid);
   };
 

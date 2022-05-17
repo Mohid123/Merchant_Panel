@@ -221,7 +221,6 @@ export class Step3Component implements OnInit, OnDestroy {
     return !(
       this.form.get('voucherStartDate')?.hasError('required') ||
       this.form.get('voucherEndDate')?.hasError('required') ||
-      this.form.get('termsAndCondition')?.hasError('required') ||
       this.form.get('voucherValidity')?.hasError('required')
     );
   }
