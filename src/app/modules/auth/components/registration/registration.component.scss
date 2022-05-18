@@ -12,6 +12,14 @@
   }
 }
 
+h1 {
+  @apply mb-3 text-xl font-medium text-center;
+}
+
+h3 {
+  @apply max-w-xs mx-auto text-xs font-medium text-center;
+}
+
 input.form-control {
   background-color: transparent !important;
   border: 0.5px solid #787f9f5e;
@@ -29,10 +37,10 @@ input.form-control:focus {
   url("../../../../../assets/media/logos/background-bottom-left.png"),
   url("../../../../../assets/media/svg/illustrations/login-visual-5.svg"),
   url("../../../../../assets/media/logos/background-top-right.png");
-  background-position: 0 0, 0 100% ,100% 100% , 100% -20px;
-  background-size: 81px 81px, 130px 36px, 122px 122px, 110px 100px;
+  background-position: 4px 8px, 0 100%, 100% 100%, 100% -20px;
+  background-size: 60px 60px, 130px 36px, 122px 122px, 110px 100px;
   background-repeat: no-repeat;
-  min-height: 900px;
+  // min-height: 900px;
 }
 
 .login-aside {
@@ -77,7 +85,7 @@ button.back {
   }
 
   .mat-horizontal-stepper-header-container {
-    margin-bottom: 36px;
+    margin-bottom: 12px;
   }
 
   .mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:first-child)::before,
@@ -108,12 +116,20 @@ button.back {
     background-color: #FBF0D5 !important;
     color: #F38B41 !important;
     font-size: 12px;
-    height:36px;
-    width: 35px;
+    height:28px;
+    width: 28px;
+  }
+
+  .mat-step-label{
+    padding: 8px 0 0 0;
   }
 
   .mat-step-text-label {
     font-size: 11px
+  }
+
+  .mat-horizontal-content-container {
+    padding: 0;
   }
 
   .country-dropdown {
@@ -141,10 +157,20 @@ button.back {
       font-size: 14px !important;
     }
   }
+
+  @media (min-width:1024px) {
+    .mat-step-icon.mat-step-icon-state-number {
+      height:36px;
+      width: 35px;
+    }
+
+
+
+  }
 }
 
 .categories-step app-category-radio-button {
-  @apply flex justify-center items-start w-32 h-44;
+  @apply flex justify-center items-start w-40 h-40 sm:w-36 sm:h-36 xl:h-40;
   text-align: center;
   border: none !important;
 
@@ -164,6 +190,10 @@ button.back {
   .tabs:hover {
     border: 2px solid #F38B41;
     cursor: pointer;
+  }
+
+  strong {
+    @apply text-xs;
   }
 }
 
@@ -192,7 +222,7 @@ button.back {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .auth-main-con {
     background-position: 53px 0px, 0 100%, calc(100% - 12px) 100%, 100% 0;
     background-size: 162px 169px, 243px 118px, 200px 200px, 230px 240px;
@@ -200,14 +230,14 @@ button.back {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .auth-main-con {
     background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
     background-size: 162px 169px, 243px 118px, 250px 250px, 285px 290px;
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1600px) {
   .auth-main-con {
     background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
     background-size: 169px 169px, 375px 118px ,312px 312px,320px 361px;

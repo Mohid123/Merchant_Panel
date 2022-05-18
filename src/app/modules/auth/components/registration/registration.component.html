@@ -1,31 +1,32 @@
-<div class="flex justify-center h-screen auth-main-con">
+<div class="flex justify-center h-auto auth-main-con 3xl:h-screen">
   <div *ngIf="!registrationSuccess; else RegistrationSuccess"
-    class="max-w-md py-2 overflow-hidden h-fit lg:max-w-lg lg:h-full login-content flex-row-fluid d-flex flex-column justify-content-center position-relative">
-    <div class="w-full px-2 mt-24 d-flex flex-column-fluid flex-center md:mt-0 md:px-0">
+    class="max-w-md pb-2 overflow-hidden h-fit lg:max-w-lg lg:h-full login-content flex-row-fluid d-flex flex-column justify-content-center position-relative">
+    <div class="w-full px-2 mt-14 d-flex flex-column-fluid flex-center sm:mt-0 md:px-0">
       <mat-stepper [linear]="true" labelPosition="bottom" #stepper class="w-full h-full py-6 text-center">
         <!-- #enddocregion label-position -->
         <mat-step>
-          <h1 class="mb-4 text-3xl font-medium text-center sm:text-3xl text-dark">Welcome! First things first.</h1>
-          <h3 class="max-w-xs mx-auto text-xs font-medium text-center mb-7">Let's make sure we understand your company. What describes your business best?"</h3>
-          <form [formGroup]="registrationForm" class="flex flex-row flex-wrap justify-center categories-step">
+          <h1 class="text-dark">Welcome! First things first.</h1>
+          <h3 class="mb-5">Let's make sure we understand your company. What describes your business best?"</h3>
+          <form [formGroup]="registrationForm" class="flex flex-row flex-wrap justify-evenly categories-step">
               <ng-template matStepLabel>Your Market</ng-template>
               <ng-container *ngFor="let category of categories">
-                <app-category-radio-button name="businessType" [value]="category.name" required>
-                  <div class="tabs w-90px h-90px" [ngClass]="{'active' : f['businessType'].value == category.name}">
+              <app-category-radio-button name="businessProfile" [value]="category.name" required>
+                  <div class="tabs w-90px h-90px sm:w-16 sm:h-16 xl:h-90px xl:w-90px" [ngClass]="{'active' : f['businessProfile'].value == category.name}">
+
                     <img [src]="category.img" alt="category.name">
                   </div>
-                  <strong class="font-normal" style="font-size: 11px;">{{category.name}}</strong>
+                  <strong class="font-normal">{{category.name}}</strong>
                 </app-category-radio-button>
               </ng-container>
             </form>
             <button class="h-10 text-white bg-black rounded-lg mt-9 w-28" [disabled]="!f['businessType'].value" mat-button matStepperNext>Next</button>
           </mat-step>
           <mat-step>
-            <h1 class="mb-2 text-3xl font-medium text-center sm:text-3xl text-dark">Let's get to know each other!</h1>
-            <h3 class="max-w-xs mx-auto mb-4 text-xs font-medium text-center">How can we reach out?</h3>
+            <h1 class="text-dark">Let's get to know each other!</h1>
+            <h3 class="">How can we reach out?</h3>
             <form class="text-left form w-100" [formGroup]="registrationForm" novalidate="novalidate">
               <ng-template matStepLabel>Contact Details</ng-template>
-              <h1 class="mb-3 text-xl font-medium text-left text-dark">Your Contact Details</h1>
+              <h1 class="text-dark">Your Contact Details</h1>
             <div class="mb-5 fv-row">
               <label class="mb-1 text-sm form-label">First Name</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="firstName"
@@ -150,8 +151,8 @@
           </form>
           </mat-step>
           <mat-step>
-            <h1 class="mb-2 text-3xl font-medium text-center sm:text-3xl text-dark">Tell us about your business.</h1>
-            <h3 class="max-w-xs mx-auto mb-4 text-xs font-medium text-center">Where can we find you?</h3>
+            <h1 class="text-dark">Tell us about your business.</h1>
+            <h3 class="">Where can we find you?</h3>
             <ng-container *ngIf="hasError">
               <div class="mb-lg-15 alert alert-danger">
                 <div class="alert-text font-weight-bold">
@@ -161,7 +162,7 @@
             </ng-container>
             <form class="text-left form w-100" [formGroup]="registrationForm" novalidate="novalidate">
               <ng-template matStepLabel>Bussiness Details</ng-template>
-              <h1 class="mb-3 text-xl font-medium text-left text-dark">Your Bussiness Details</h1>
+              <h1 class="text-dark">Your Bussiness Details</h1>
             <div class="mb-5 fv-row">
               <label class="mb-1 text-sm form-label">Company Name</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="companyName"
