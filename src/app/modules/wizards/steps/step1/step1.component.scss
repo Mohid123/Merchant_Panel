@@ -31,3 +31,15 @@ textarea.form-control {
     height: 440px;
   }
 }
+
+@media (max-width: 1024px) {
+  .card-custom {
+    height: 460px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-custom {
+    height: 100%;
+  }
+}

@@ -55,7 +55,7 @@
             <ng-container *ngIf="currentStep$.value !== 1">
               <button
                 type="button"
-                class="py-3 text-sm font-thin text-gray-600 bg-gray-300 border border-gray-500 rounded-md px-13"
+                class="py-3 mt-3 text-sm font-thin text-gray-600 bg-gray-300 border border-gray-500 rounded-md md:mt-0 px-13"
                 [disabled]="connection.disabler == false"
                 (click)="prevStep()"
               >
@@ -68,7 +68,7 @@
               <div>
                 <button
                   type="button"
-                  class="py-3 text-sm font-thin border-gray-400 btn btn-dark px-13"
+                  class="py-3 mt-3 text-sm font-thin border-gray-400 btn btn-dark px-13 md:mt-0"
                   [disabled]="!isCurrentFormValid$.value || step1.urls.length == 0"
                   (click)="nextStep()"
                 >

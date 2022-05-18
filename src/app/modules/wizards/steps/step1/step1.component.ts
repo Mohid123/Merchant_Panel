@@ -59,7 +59,6 @@ export class Step1Component implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initDealForm();
-    debugger
     this.updateParentModel({}, this.checkForm());
     this.categoryService.getSubCategories(0,0).pipe(take(1)).subscribe(categoryList => {
       if(!categoryList.hasErrors()){

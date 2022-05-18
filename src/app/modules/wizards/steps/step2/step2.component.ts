@@ -4,6 +4,7 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { Subscription } from 'rxjs';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { ModalConfig } from './../../../../@core/models/modal.config';
+import { AuthService } from './../../../auth/services/auth.service';
 import { GreaterThanValidator } from './../../greater-than.validator';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
@@ -77,7 +78,8 @@ export class Step2Component implements OnInit, OnDestroy {
   ) => void;
 
   reciever: Subscription;
-  data: MainDeal
+  data: MainDeal;
+  address: string | any;
 
   @Input() deal: Partial<MainDeal>
 
@@ -93,7 +95,8 @@ export class Step2Component implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private connection: ConnectionService,
-    private toast: HotToastService
+    private toast: HotToastService,
+    private authService: AuthService
     ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;
@@ -102,7 +105,7 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.updateValue();
+    this.address = this.authService.currentUserValue?.streetAddress
     this.updateParentModel({}, true);
   }
 
