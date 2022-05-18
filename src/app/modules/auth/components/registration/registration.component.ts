@@ -28,7 +28,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     { id:3, img: '../../../../../assets/media/icons/Dining.svg', name:'Dining' },
     { id:4, img: '../../../../../assets/media/icons/athletics.svg', name:'Sports, Adventures & Experiences' },
     { id:5, img: '../../../../../assets/media/icons/experiences-at-home.svg', name:'Experiences at Home' },
-    { id:1, img: '../../../../../assets/media/icons/spaAndWellness.svg', name:'Spa And Wellness' },
+    { id:1, img: '../../../../../assets/media/icons/spaAndWellness.svg', name:'Spa & Holistic Wellness' },
     { id:6, img: '../../../../../assets/media/icons/personal-dev.svg', name:'Personal Development' },
     { id:7, img: '../../../../../assets/media/icons/concert-event-tickets.svg', name:'Concerts & Event Tickets' },
     { id:8, img: '../../../../../assets/media/icons/pets-care.svg', name:'Pet Treatments' },
