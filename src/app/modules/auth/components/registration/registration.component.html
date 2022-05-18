@@ -10,15 +10,15 @@
           <form [formGroup]="registrationForm" class="flex flex-row flex-wrap justify-center categories-step">
               <ng-template matStepLabel>Your Market</ng-template>
               <ng-container *ngFor="let category of categories">
-                <app-category-radio-button name="businessProfile" [value]="category.name" required>
-                  <div class="tabs w-90px h-90px" [ngClass]="{'active' : f['businessProfile'].value == category.name}">
+                <app-category-radio-button name="businessType" [value]="category.name" required>
+                  <div class="tabs w-90px h-90px" [ngClass]="{'active' : f['businessType'].value == category.name}">
                     <img [src]="category.img" alt="category.name">
                   </div>
                   <strong class="font-normal" style="font-size: 11px;">{{category.name}}</strong>
                 </app-category-radio-button>
               </ng-container>
             </form>
-            <button class="h-10 text-white bg-black rounded-lg mt-9 w-28" [disabled]="!f['businessProfile'].value" mat-button matStepperNext>Next</button>
+            <button class="h-10 text-white bg-black rounded-lg mt-9 w-28" [disabled]="!f['businessType'].value" mat-button matStepperNext>Next</button>
           </mat-step>
           <mat-step>
             <h1 class="mb-2 text-3xl font-medium text-center sm:text-3xl text-dark">Let's get to know each other!</h1>

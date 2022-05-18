@@ -172,7 +172,7 @@
       </div>
 
       <div class="pb-5">
-        <ckeditor formControlName="businessProfile" [editor]="Editor" [config]="config"></ckeditor>
+        <ckeditor formControlName="businessType" [editor]="Editor" [config]="config"></ckeditor>
        </div>
 
        <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveTerms()">

@@ -52,7 +52,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   offset: number = 0;
   limit: number = 7;
   destroy$ = new Subject();
-  countryCode: any;
+  countryCode = '32';
   user: User
 
   // private fields
@@ -85,6 +85,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   onCountryChange(country: any) {
+    console.log('country.dialCode:',country.dialCode);
     this.countryCode = country.dialCode
   }
 
@@ -108,7 +109,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   initForm() {
     this.registrationForm = this._formBuilder.group(
       {
-        businessProfile: [null, Validators.required],
+        businessType: [null, Validators.required],
         firstName: [
           '',
             Validators.compose([
@@ -193,9 +194,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     Object.keys(this.f).forEach((key) => {
       result[key] = this.f[key].value;
     });
+
+
     debugger
     const newModel = new RegisterModel();
     newModel.setModel(result);
+    newModel.phoneNumber = '+' + this.countryCode  + newModel.phoneNumber;
     const registrationSubscr = this.authService
       .registration(newModel)
       .pipe(first())
@@ -263,7 +267,7 @@ emailValidator() {
 
 
 // const payload: Partial<RegisterModel> = {
-//   businessProfile: this.registrationForm.value.businessProfile,
+//   businessType: this.registrationForm.value.businessType,
 //   firstName: this.registrationForm.value.firstName,
 //   lastName: this.registrationForm.value.lastName,
 //   email: this.registrationForm.value.email,
