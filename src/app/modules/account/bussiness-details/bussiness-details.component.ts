@@ -243,11 +243,14 @@ export class BussinessDetailsComponent implements OnInit {
       !formControls.value.secondEndTime
     ) {
       let day = formControls.value.day;
+      let isWorkingDay = formControls.value.isWorkingDay;
       formControls.patchValue(this.businessHoursFromControl.controls[index - 1].value)
       formControls.value.day = day;
+      formControls.value.isWorkingDay = isWorkingDay;
     }
 
     formControls.value.isWorkingDay = !formControls.value.isWorkingDay;
+    console.log('formControls.value:',formControls.value);
   }
 
   saveTerms() {
