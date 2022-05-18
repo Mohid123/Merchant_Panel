@@ -126,9 +126,9 @@
     </table>
     <div class="flex justify-end pt-4">
       <ul class="pagination">
-        <li class="page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" class="page-link"><i class="previous"></i></button></li>
+        <li class="page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" class="page-link bg-white shadow-sm"><i class="previous"></i></button></li>
         <li class="page-item disabled"><a class="page-link">{{ page === 1 ? 1 : (page-1) * limit }}-{{ page * limit < ordersData?.totalCount ? (page * limit) : ordersData?.totalCount }}/{{ordersData?.totalCount}}</a></li>
-        <li class="page-item next" [ngClass]="ordersData?.totalCount <= page * limit ? 'disabled': ''"><button [disabled]="ordersData?.totalCount <= page * limit" (click)="next()" class="page-link"><i class="next"></i></button></li>
+        <li class="page-item next" [ngClass]="ordersData?.totalCount <= page * limit ? 'disabled': ''"><button [disabled]="ordersData?.totalCount <= page * limit" (click)="next()" class="page-link bg-white shadow-sm"><i class="next"></i></button></li>
       </ul>
     </div>
   </div>

@@ -52,7 +52,6 @@ export class SingleReviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.reviewId = this.activatedRoute.snapshot.params['dealId'];
-    this.authService.retreiveUserValue();
     this.getReviewsByMerchant();
   }
 
