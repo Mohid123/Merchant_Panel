@@ -72,12 +72,12 @@
 
               <ng-container *ngIf="event.dealStatus == 'Published'">
                 <td class="p-4 font-thin">
-                  <span class="px-5 py-3 badge badge-success rounded-2xl opacity-80">{{event.dealStatus}}</span>
+                  <span class="px-5 py-3 badge rounded-2xl opacity-80" style="background-color: #3B82F6;">{{event.dealStatus}}</span>
                 </td>
               </ng-container>
               <ng-container *ngIf="event.dealStatus == 'Scheduled'">
                 <td class="p-4 font-thin">
-                  <span class="px-5 py-3 badge badge-primary rounded-2xl opacity-80">{{event.dealStatus}}</span>
+                  <span class="px-5 py-3 badge rounded-2xl opacity-80" style="background-color: #10B981;">{{event.dealStatus}}</span>
                 </td>
               </ng-container>
               <ng-container *ngIf="event.dealStatus == 'In Review'">
