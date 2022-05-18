@@ -26,6 +26,7 @@
                 <span class="absolute flex items-center mt-2 ml-1"><i class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
                 <input
                 placeholder="yyyy-mm-dd"
+                [disabled]="currentlyChecked !== check_box_type.ONE"
                 (keydown)="disableManual($event)"
                 name="dp"
                 ngbDatepicker
