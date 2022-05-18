@@ -1,14 +1,14 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalConfig } from '@core/models/modal.config';
-import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { NgPasswordValidatorOptions } from 'ng-password-validator';
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { PasswordService } from './../../modules/auth/services/password-service';
+import { UserService } from './../../modules/auth/services/user.service';
 import { ReusableModalComponent } from './../../_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { ConfirmPasswordValidator } from './password-validator';
 
@@ -72,7 +72,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private cf: ChangeDetectorRef,
     private fb: FormBuilder,
     private toast: HotToastService,
-    private passService: PasswordService
+    private passService: PasswordService,
+    private userService: UserService
     ) {
       this.validityPass = false;
     }
@@ -145,9 +146,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       newPassword: this.newPassForm.value.password
     }
     this.authService.setUserPassword(this.authService.currentUserValue?.id, payload)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res: ApiResponse<any>) => {
+    .pipe(takeUntil(this.destroy$), exhaustMap((res:any) => {
       if(!res.hasErrors()) {
+        return this.userService.getUser();
+      } else {
+        return (res);
+      }
+    }))
+    .subscribe((res: any) => {
+      if(!res.hasErrors()) {
+        this.authService.updateUser(res.data);
         this.toast.success('Password Submitted Successfully', {
           style: {
             border: '1px solid #65a30d',
