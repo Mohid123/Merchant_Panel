@@ -50,7 +50,7 @@ export class Step4Component implements OnInit {
     selectMirror: true,
     dayMaxEvents: 3,
     firstDay: 1,
-    height: 450,
+    height: 'auto',
     validRange: {
       start: moment().format('YYYY-MM-DD')
     },

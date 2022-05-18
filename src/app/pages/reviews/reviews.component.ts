@@ -36,6 +36,7 @@ export class ReviewsComponent implements OnInit {
 
   getReviewsByMerchant() {
     this.showData = false;
+    debugger
     this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.currentUserValue?.id, this.offset, this.limit)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<ReviewList>) => {

@@ -151,7 +151,7 @@
               </p>
               <ckeditor [(ngModel)]="data.termsAndCondition" [editor]="Editor" [config]="config" formControlName="termsAndCondition" name="termsAndCondition"></ckeditor>
             </div>
-            <button class="mt-4 btn btn-light btn-active-light-primary" type="button" (click)="toggleDisabled()">{{ form.controls['termsAndCondition'].disabled ? 'Edit' : 'Save Edits' }}</button>
+            <button class="mt-4 btn-sm md:btn-lg btn btn-light btn-active-light-primary" type="button" (click)="toggleDisabled()">{{ form.controls['termsAndCondition'].disabled ? 'Edit' : 'Save Edits' }}</button>
           </div>
         </form>
       </div>

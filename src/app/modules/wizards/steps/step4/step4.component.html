@@ -1,13 +1,13 @@
 <!--Title-->
-<div class="mb-6 lg:text-center">
-  <h1 class="mt-2 mb-3 text-center 3xl:text-3xl xl:mt-0 md:text-2xl">Let's get this crazy deal scheduled!</h1>
-  <div class="font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">And we're good to go!</div>
+<div class="mb-4 md:mb-6 lg:text-center">
+  <h1 class="mt-2 mb-3 text-sm text-center 3xl:text-3xl xl:mt-0 md:text-2xl">Let's get this crazy deal scheduled!</h1>
+  <div class="text-xs font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">And we're good to go!</div>
 </div>
 <!--Stepper with Calendar-->
 <div class="flex justify-center adjust">
   <!-- <div class="w-3/4 p-2 shadow-sm lg:p-4 card card-custom card-stretch" style="border-top: 16px solid #F38B41;"> -->
     <!-- <div class="rounded lg:p-8 card card-custom card-stretch bg-gray-50"> -->
-      <div class="w-3/4 lg:p-4 card card-custom card-stretch secondAdjust" style="border-top: 16px solid #F38B41;">
+      <div class="w-full md:w-3/4 md:p-2 lg:p-4 card card-custom card-stretch secondAdjust" style="border-top: 16px solid #F38B41;">
         <button (click)="openNew()" class="absolute top-0 right-0 px-3 py-1 text-center text-white bg-green-400 rounded-sm xl:rounded-md xl:px-6 xl:py-2 3xl:px-10 3xl:py-3 lg:top-6 xl:top-6 3xl:top-6 lg:right-6 xl:right-7 3xl:right-7">
           <ng-container *ngIf="uploaded == false">
             <span class="indicator-progress" [style.display]="'block'">
@@ -77,12 +77,26 @@ span {
 
 @media (max-width: 1280px) {
   .adjust {
-    height: 440px;
+    height: 550px;
  }
 
  .secondAdjust {
+    height: 550px;
+ }
+}
+
+@media (max-width: 640px) {
+  .adjust {
     height: 400px;
  }
+
+ .secondAdjust {
+    height: 360px;
+ }
+
+ ::ng-deep .fc .fc-toolbar-title {
+    font-size: 10px!important;
+  }
 }
 
 </style>
