@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { ApiResponse } from '@core/models/response.model';
+import { HotToastService } from '@ngneat/hot-toast';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 enum ErrorStates {
@@ -21,12 +22,18 @@ export class SecurityCodeComponent implements OnInit {
   securityCodeForm: FormGroup;
   errorState: ErrorStates = ErrorStates.NotSubmitted;
   errorStates = ErrorStates;
-  isLoading$: Observable<boolean>;
+  isLoading$: boolean;
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
-    this.isLoading$ = this.authService.isLoading$;
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private cf: ChangeDetectorRef,
+    private toast: HotToastService) {
+
+    this.isLoading$ = false
   }
 
 
@@ -39,23 +46,56 @@ export class SecurityCodeComponent implements OnInit {
       securityCode: [
         '',
         Validators.compose([
-          Validators.required,
-          Validators.minLength(37)
+          Validators.required
         ]),
       ],
     });
   }
 
   submit() {
-    this.errorState = ErrorStates.NotSubmitted;
-    const securitySubscr = this.authService
-      .forgotPassword(this.securityCodeForm.controls['securityCode'].value)
-      .pipe(first())
-      .subscribe((result: boolean) => {
-        this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
-        this.router.navigate(['/auth/reset-password'])
-      });
-    this.unsubscribe.push(securitySubscr);
+    this.isLoading$ = true;
+    const value = this.securityCodeForm.value?.securityCode.replace(/\s/g,'');
+    if(value.length < 6) {
+      this.toast.error('Security code should be 6 characters long', {
+        style: {
+          border: '1px solid #713200',
+          padding: '16px',
+          color: '#713200',
+        },
+        iconTheme: {
+          primary: '#713200',
+          secondary: '#FFFAEE',
+        }
+      })
+    }
+    else {
+      const verifyOTP = this.authService.verifyOtp(parseInt(value)).subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.isLoading$ = false;
+          this.router.navigate(['/auth/reset-password'])
+        }
+        else {
+          this.isLoading$ = false;
+          this.cf.detectChanges();
+          this.toast.error(res.errors[0]?.error?.message, {
+            style: {
+              border: '1px solid #713200',
+              padding: '16px',
+              color: '#713200',
+            },
+            iconTheme: {
+              primary: '#713200',
+              secondary: '#FFFAEE',
+            }
+          })
+        }
+        this.unsubscribe.push(verifyOTP);
+      })
+    }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
 }

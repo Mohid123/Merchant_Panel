@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { getItem, setItem, StorageItem } from '@core/utils';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { catchError, finalize, map } from 'rxjs/operators';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RegisterModel } from '../models/register.model';
 import { ZipCode } from '../models/zip-code.model';
@@ -98,11 +98,14 @@ export class AuthService extends ApiService<AuthApiData> {
     );
   }
 
-  forgotPassword(email: string): Observable<boolean> {
-    this.isLoadingSubject.next(true);
-    return this.authHttpService
-      .forgotPassword(email)
-      .pipe(finalize(() => this.isLoadingSubject.next(false)));
+  forgotPassword(email: string): Observable<ApiResponse<any>> {
+    return this.post(`/auth/sendOtp`, email).pipe(tap((res: any) => {
+      console.log(res)
+    }))
+  }
+
+  verifyOtp(otp: number): Observable<ApiResponse<any>> {
+    return this.post(`/auth/verifyOtp/${otp}`);
   }
 
   checkEmailAlreadyExists(email: string): Observable<ApiResponse<any>> {

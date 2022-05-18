@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { NgPasswordValidatorOptions } from 'ng-password-validator';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { ConfirmedValidator } from './password.validator';
 
@@ -22,15 +22,41 @@ export class ResetPasswordComponent implements OnInit {
   createPasswordForm: FormGroup;
   errorState: ErrorStates = ErrorStates.NotSubmitted;
   errorStates = ErrorStates;
-  isLoading$: Observable<boolean>;
+  isLoading$: boolean;
   private unsubscribe: Subscription[] = [];
+  passwordHide: boolean = true;
+  validityPass: boolean;
+
+  options: NgPasswordValidatorOptions = {
+    placement: "bottom",
+    "animation-duration": 500,
+    shadow: true,
+    "z-index": 1200,
+    theme: "pro",
+    offset: 8,
+    heading: "Password Policy",
+    successMessage: "Password is Valid",
+    rules: {
+      password: {
+          type: "range",
+          length: 8,
+          min: 8,
+          max: 100,
+      },
+      "include-symbol": true,
+      "include-number": true,
+      "include-lowercase-characters": true,
+      "include-uppercase-characters": true,
+    }
+}
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
   ) {
-    this.isLoading$ = this.authService.isLoading$;
+    this.isLoading$ = false;
+    this.validityPass = false;
   }
 
   ngOnInit(): void {
@@ -42,17 +68,13 @@ export class ResetPasswordComponent implements OnInit {
       password: [
         '',
         Validators.compose([
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(16),
+          Validators.required
         ]),
       ],
       confirmPassword: [
         '',
         Validators.compose([
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(16),
+          Validators.required
         ]),
       ],
     }, {
@@ -60,15 +82,21 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
+  passwordShowHide(): void {
+    this.passwordHide = !this.passwordHide;
+  }
+
+  isValid(str: string) {
+    const pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$");
+    if (pattern.test(str)) {
+      this.validityPass = true;
+    }
+    else {
+      this.validityPass = false;
+    }
+  }
+
   submit() {
     this.errorState = ErrorStates.NotSubmitted;
-    const forgotPasswordSubscr = this.authService
-      .forgotPassword(this.createPasswordForm.controls['password'].value)
-      .pipe(first())
-      .subscribe((result: boolean) => {
-        this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
-        this.router.navigate(['/auth/login'])
-      });
-    this.unsubscribe.push(forgotPasswordSubscr);
   }
 }

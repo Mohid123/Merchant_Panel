@@ -10,8 +10,8 @@
           <form [formGroup]="registrationForm" class="flex flex-row flex-wrap justify-evenly categories-step">
               <ng-template matStepLabel>Your Market</ng-template>
               <ng-container *ngFor="let category of categories">
-              <app-category-radio-button name="businessProfile" [value]="category.name" required>
-                  <div class="tabs w-90px h-90px sm:w-16 sm:h-16 xl:h-90px xl:w-90px" [ngClass]="{'active' : f['businessProfile'].value == category.name}">
+              <app-category-radio-button name="businessType" [value]="category.name" required>
+                  <div class="tabs w-90px h-90px sm:w-16 sm:h-16 xl:h-90px xl:w-90px" [ngClass]="{'active' : f['businessType'].value == category.name}">
 
                     <img [src]="category.img" alt="category.name">
                   </div>
