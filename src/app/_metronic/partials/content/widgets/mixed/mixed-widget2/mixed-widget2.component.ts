@@ -31,7 +31,6 @@ export class MixedWidget2Component implements OnInit {
   getStats() {
     this.dealService.getSalesStats().pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
-        debugger
         this.totalStats = res.data.totalStats;
         this.cf.detectChanges();
       }
