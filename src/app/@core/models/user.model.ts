@@ -6,7 +6,7 @@ export interface User {
   lastName: string;
   phoneNumber: string;
   role: string;
-  businessProfile: string;
+  businessType: string;
   companyName: string;
   streetAddress: string;
   zipCode: number;

@@ -20,7 +20,7 @@ export class BussinessDetailsComponent implements OnInit {
   destroy$ = new Subject();
   termsForm: FormGroup = this.fb.group({
     generalTermsAgreements: ['',Validators.minLength(40)],
-    businessProfile: ['',Validators.minLength(40)]
+    businessType: ['',Validators.minLength(40)]
   })
   businessForm: FormGroup;
   config: any;
@@ -138,7 +138,7 @@ export class BussinessDetailsComponent implements OnInit {
 
   initBusinessForm() {
       this.businessForm = this.fb.group({
-        businessProfile: [
+        businessType: [
           '',
           Validators.compose([
             Validators.required,

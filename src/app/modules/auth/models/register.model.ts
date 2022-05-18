@@ -1,9 +1,9 @@
 export class RegisterModel {
-  businessProfile: number | null;
+  businessType: number | null;
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: number | null;
+  phoneNumber: string | null;
   companyName: string;
   streetAddress: string;
   zipCode: number | null;
@@ -16,7 +16,7 @@ export class RegisterModel {
 
   setModel(_model: unknown) {
     const model = _model as RegisterModel;
-    this.businessProfile = model.businessProfile;
+    this.businessType = model.businessType;
     this.firstName = model.firstName || '';
     this.lastName = model.lastName || '';
     this.email = model.email || '';
