@@ -1,18 +1,18 @@
 <!--Title/ Header-->
 <div class="mb-7 lg:text-center">
-  <h1 class="mt-2 mb-3 text-center 3xl:text-3xl xl:mt-0 md:text-2xl">Let's set up your deal.</h1>
-  <div class="font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">First impression matters! Let's start with creating your titles and description.</div>
+  <h1 class="mt-2 mb-3 text-base text-center 3xl:text-3xl xl:mt-0 md:text-2xl">Let's set up your deal.</h1>
+  <div class="text-xs font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">First impression matters! Let's start with creating your titles and description.</div>
 </div>
 <!--Card for Creating Deal-->
 <div class="flex justify-center w-full align-middle">
   <div class="w-full shadow-sm card card-custom">
     <div class="p-2 card-body" >
-      <form class="px-6 sm:px-14 md:px-24 form row" [formGroup]="dealForm">
+      <form class="px-6 md:px-12 xl:px-24 form row" [formGroup]="dealForm">
         <!--Form-->
         <div class="p-0 col-xl-7 col-md-6">
-          <div class="md:pt-2 3xl:pt-6 deal-details">
-            <div class="3xl:pb-5 md:pb-2">
-              <label class="block text-sm form-label">Select sub-category</label>
+          <div class="pt-3 lg:pt-2 3xl:pt-6 deal-details">
+            <div class="pb-3 3xl:pb-5 lg:pb-2">
+              <label class="block text-xs md:text-sm form-label">Select sub-category</label>
               <div ngbDropdown class="w-full rounded-lg d-inline-block" style="border: 1px solid #F38B41;">
                 <button [disabled]="selectedcategory?.subCategoryName == ''" type="button" class="w-full btn p-3.5 text-xs text-left text-font-gray-600" id="dropdownBasic1"
                 ngbDropdownToggle>{{selectedcategory?.subCategoryName || '-Select'}}</button>
@@ -29,10 +29,10 @@
                 message: 'sub-category is required',
                 control: dealForm.controls['subCategory']
               }">
-            </ng-container>
+              </ng-container>
             </div>
-            <div class="3xl:pb-5 md:pb-2">
-              <label class="form-label">Title</label>
+            <div class="pb-3 3xl:pb-5 lg:pb-2">
+              <label class="text-xs form-label md:text-sm">Title</label>
               <input maxlength="16" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="title" name="title" placeholder="Enter title of your deal"
               [ngClass]="{
                 'is-invalid': f['title'].invalid && f['title'].touched,
@@ -56,8 +56,8 @@
               }">
               </ng-container>
             </div>
-            <div class="3xl:pb-5 md:pb-2">
-              <label class="form-label">Subtitle</label>
+            <div class="pb-3 3xl:pb-5 lg:pb-2">
+              <label class="text-xs form-label md:text-sm">Subtitle</label>
               <input maxlength="16" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="subTitle" name="subTitle" placeholder="Enter subtitle of your deal"
               [ngClass]="{
                 'is-invalid': f['subTitle'].invalid && f['subTitle'].touched,
@@ -67,53 +67,53 @@
                   message: 'Deal Subtitle is required',
                   control: dealForm.controls['subTitle']
                 }">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                   validation: 'minlength',
                   message: 'Subtitle should at least be 3 characters',
                   control: dealForm.controls['subTitle']
                 }">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'pattern',
                 message: 'Only alphabets are allowed',
                 control: dealForm.controls['subTitle']
               }">
-              </ng-container>
+                </ng-container>
             </div>
-            <div class="3xl:pb-5 md:pb-2">
-              <label class="form-label">Description</label>
+            <div class="pb-3 3xl:pb-5 lg:pb-2">
+              <label class="text-xs form-label md:text-sm">Description</label>
               <textarea maxlength="2000" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="description" name="description" placeholder="Description" rows="5"
               [ngClass]="{
                 'is-invalid': f['description'].invalid && f['description'].touched,
                 'is-valid': f['description'].valid}"></textarea>
-                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'required',
-                  message: 'A description for the deal is required',
-                  control: dealForm.controls['description']
-                }">
-                </ng-container>
-                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'minlength',
-                  message: 'Description should at least be 16 characters',
-                  control: dealForm.controls['description']
-                }">
-                </ng-container>
-                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: 'Special characters (! / ? * & % @ : #) are not allowed',
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'A description for the deal is required',
                 control: dealForm.controls['description']
               }">
-                </ng-container>
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'minlength',
+                message: 'Description should at least be 16 characters',
+                control: dealForm.controls['description']
+              }">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Special characters (! / ? * & % @ : #) are not allowed',
+              control: dealForm.controls['description']
+            }">
+              </ng-container>
             </div>
           </div>
         </div>
         <!--Upload Images-->
         <div class="pl-0 pr-0 col-xl-5 col-md-6 md:pl-16 3xl:pt-6">
-          <div class="mt-0 lg:mt-2 xl:pl-8">
+          <div class="mt-3 lg:mt-2 xl:pl-8">
             <div class="d-flex flex-stack">
               <div class="mr-2">
-                <label class="mb-3 text-sm d-flex align-items-center form-label">Upload images</label>
+                <label class="mb-3 text-xs d-flex align-items-center form-label md:text-sm">Upload images</label>
               </div>
               <div>
                 <label class="mb-3 text-sm font-light text-gray-400 d-flex align-items-center form-label">{{multiples.length}}/10</label>
