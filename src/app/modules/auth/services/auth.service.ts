@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { getItem, setItem, StorageItem } from '@core/utils';
+import { getItem, removeItem, setItem, StorageItem } from '@core/utils';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -12,7 +12,6 @@ import { ApiResponse } from './../../../@core/models/response.model';
 import { SignInResponse } from './../../../@core/models/sign-in-response';
 import { User } from './../../../@core/models/user.model';
 import { ApiService } from './../../../@core/services/api.service';
-import { AuthHTTPService } from './auth-http';
 
 type AuthApiData = SignInResponse;
 
@@ -29,7 +28,8 @@ export class AuthService extends ApiService<AuthApiData> {
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<User | null>;
   isLoadingSubject: BehaviorSubject<boolean>;
-  userPolicy: Partial<User>
+  userPolicy: Partial<User>;
+  tokenSubject$: BehaviorSubject<string>;
 
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;
@@ -45,7 +45,6 @@ export class AuthService extends ApiService<AuthApiData> {
 
   constructor(
     protected override http: HttpClient,
-    private authHttpService: AuthHTTPService,
     private router: Router
   ) {
     super(http);
@@ -53,6 +52,7 @@ export class AuthService extends ApiService<AuthApiData> {
     this.currentUserSubject = new BehaviorSubject<User | null>(<User>getItem(StorageItem.User));
     this.currentUser$ = this.currentUserSubject.asObservable();
     this.isLoading$ = this.isLoadingSubject.asObservable();
+    this.tokenSubject$ = new BehaviorSubject<string>('');
   }
 
   // public methods
@@ -105,7 +105,13 @@ export class AuthService extends ApiService<AuthApiData> {
   }
 
   verifyOtp(otp: number): Observable<ApiResponse<any>> {
-    return this.post(`/auth/verifyOtp/${otp}`);
+    return this.post(`/auth/verifyOtp/${otp}`).pipe(tap((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        removeItem(StorageItem.JwtToken);
+        setItem(StorageItem.JwtToken, res?.data?.token || null);
+        console.log(getItem(StorageItem.JwtToken))
+      }
+    }));
   }
 
   checkEmailAlreadyExists(email: string): Observable<ApiResponse<any>> {
@@ -128,6 +134,10 @@ export class AuthService extends ApiService<AuthApiData> {
 
   setUserPassword(merchantID: string | any, payload: any): Observable<ApiResponse<any>> {
     return this.post(`/users/changePassword/${merchantID}`, payload);
+  }
+
+  resetPassword(password: string): Observable<ApiResponse<any>> {
+    return this.post(`/users/resetPassword`, { password });
   }
 
   updateUser(user:User) {
