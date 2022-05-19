@@ -279,7 +279,6 @@ export class BussinessDetailsComponent implements OnInit {
   validateBusinessHours(){
     let valid = true;
     this.businessHoursForm.value.businessHours.forEach((businessHours:BusinessHours) => {
-      console.log('asssss:',businessHours);
       if(valid && !businessHours.isWorkingDay || (
           businessHours.firstStartTime.length &&
           businessHours.firstEndTime.length &&
