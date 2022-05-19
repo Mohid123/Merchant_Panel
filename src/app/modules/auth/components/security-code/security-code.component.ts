@@ -54,22 +54,9 @@ export class SecurityCodeComponent implements OnInit {
 
   submit() {
     this.isLoading$ = true;
-    const value = this.securityCodeForm.value?.securityCode.replace(/\s/g,'');
-    if(value.length < 6) {
-      this.toast.error('Security code should be 6 characters long', {
-        style: {
-          border: '1px solid #713200',
-          padding: '16px',
-          color: '#713200',
-        },
-        iconTheme: {
-          primary: '#713200',
-          secondary: '#FFFAEE',
-        }
-      })
-    }
-    else {
-      const verifyOTP = this.authService.verifyOtp(parseInt(value)).subscribe((res: ApiResponse<any>) => {
+    const otpValue = parseInt(this.securityCodeForm.value?.securityCode.replace(/\s/g,''))
+      const verifyOTP = this.authService.verifyOtp(otpValue)
+      .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.isLoading$ = false;
           this.router.navigate(['/auth/reset-password'])
@@ -91,7 +78,6 @@ export class SecurityCodeComponent implements OnInit {
         }
         this.unsubscribe.push(verifyOTP);
       })
-    }
   }
 
   ngOnDestroy() {
