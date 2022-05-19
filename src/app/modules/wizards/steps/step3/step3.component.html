@@ -16,7 +16,7 @@
 
             <label class="mb-6 text-sm md:text-base form-check form-check-solid">
               <input
-              class="border rounded-full"
+              class="border rounded-full form-check-input"
               type="checkbox"
               (click)="selectCheckBox(check_box_type.ONE); disableCheckBox();"
               [checked]="currentlyChecked === check_box_type.ONE || form.get('voucherStartDate')?.value"
