@@ -248,7 +248,8 @@ export class BussinessDetailsComponent implements OnInit {
     ) {
       let day = formControls.value.day;
       let isWorkingDay = formControls.value.isWorkingDay;
-      formControls.patchValue(this.businessHoursFromControl.controls[index - 1].value)
+      if(index > 0)
+        formControls.patchValue(this.businessHoursFromControl.controls[index - 1].value)
       formControls.value.day = day;
       formControls.value.isWorkingDay = isWorkingDay;
     }
