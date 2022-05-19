@@ -59,6 +59,17 @@ export class SecurityCodeComponent implements OnInit {
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.isLoading$ = false;
+          this.toast.success('OTP verified! Please reset your password', {
+            style: {
+              border: '1px solid #65a30d',
+              padding: '16px',
+              color: '#3f6212',
+            },
+            iconTheme: {
+              primary: '#84cc16',
+              secondary: '#064e3b',
+            },
+          })
           this.router.navigate(['/auth/reset-password'])
         }
         else {

@@ -60,6 +60,17 @@ export class ForgotPasswordComponent implements OnInit {
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
         this.isLoading$ = false;
+        this.toast.success('OTP sent! Please check your email', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        })
         this.router.navigate(['/auth/enter-security-code'])
       }
       else {
