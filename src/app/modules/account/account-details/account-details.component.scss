@@ -63,9 +63,16 @@ h3 {
 
 
 .edit-btn {
-  @apply w-12 text-black self-center py-1 px-0 text-center;
-  background-color: #F2F4F7;
-  font-size: 10px;
+  @apply flex justify-center items-center self-center p-0 rounded-lg;
+  background-color: #0081e914;
+  color: #0081E9;
+  font-size: 14px;
+  width: 78px;
+  height: 36px;
+}
+
+.edit-btn:hover {
+  background-color: #0080e95f;
 }
 
 ::ng-deep .contact-modal,.billing-modal{

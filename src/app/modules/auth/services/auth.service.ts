@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { getItem, removeItem, setItem, StorageItem } from '@core/utils';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { catchError, finalize, map, tap } from 'rxjs/operators';
+import { catchError, delay, finalize, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RegisterModel } from '../models/register.model';
 import { ZipCode } from '../models/zip-code.model';
@@ -111,7 +111,7 @@ export class AuthService extends ApiService<AuthApiData> {
         setItem(StorageItem.JwtToken, res?.data?.token || null);
         console.log(getItem(StorageItem.JwtToken))
       }
-    }));
+    }),delay(200));
   }
 
   checkEmailAlreadyExists(email: string): Observable<ApiResponse<any>> {
