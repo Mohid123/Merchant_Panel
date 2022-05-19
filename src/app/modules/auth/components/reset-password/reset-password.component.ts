@@ -104,13 +104,22 @@ export class ResetPasswordComponent implements OnInit {
 
   submit() {
     this.isLoading$ = true;
-    debugger
-    this.authService.resetPassword(this.createPasswordForm.value?.password)
+    this.authService.resetPassword(this.createPasswordForm.controls['password']?.value)
     .pipe(takeUntil(this.unsubscribe))
     .subscribe((res: ApiResponse<any>) => {
-      debugger
       if(!res.hasErrors()) {
         this.isLoading$ = false;
+        this.toast.success('Password successfully reset', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        })
         this.router.navigate(['/auth/login']);
       }
       else {
