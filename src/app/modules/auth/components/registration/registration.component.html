@@ -10,8 +10,9 @@
           <form [formGroup]="registrationForm" class="flex flex-row flex-wrap justify-evenly categories-step">
               <ng-template matStepLabel>Your Market</ng-template>
               <ng-container *ngFor="let category of categories">
-                <app-category-radio-button name="businessProfile" [value]="category.name" required>
-                  <div class="tabs w-90px h-90px sm:w-16 sm:h-16 xl:h-90px xl:w-90px" [ngClass]="{'active' : f['businessProfile'].value == category.name}">
+              <app-category-radio-button name="businessType" [value]="category.name" required>
+                  <div class="tabs w-90px h-90px sm:w-16 sm:h-16 xl:h-90px xl:w-90px" [ngClass]="{'active' : f['businessType'].value == category.name}">
+
                     <img [src]="category.img" alt="category.name">
                   </div>
                   <strong class="font-normal">{{category.name}}</strong>
@@ -278,6 +279,7 @@
             <div class="mt-3 mb-2 fv-row">
               <label class="mb-1 text-sm form-label">Website or social media</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="website_socialAppLink"
+              placeholder="Website"
                 formControlName="website_socialAppLink" autocomplete="off" [ngClass]="{
                 'is-invalid': f['website_socialAppLink'].invalid && f['website_socialAppLink'].touched ,
                 'is-valid': f['website_socialAppLink'].valid}" />
