@@ -131,7 +131,9 @@ export class AuthService extends ApiService<AuthApiData> {
   }
 
   updateUser(user:User) {
-    this.currentUserSubject.next(user);
-    setItem(StorageItem.User, user);
+    if (user) {
+      this.currentUserSubject.next(user);
+      setItem(StorageItem.User, user);
+    }
   }
 }
