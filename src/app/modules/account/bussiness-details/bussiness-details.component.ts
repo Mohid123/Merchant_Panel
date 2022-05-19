@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { exhaustMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { User } from './../../../@core/models/user.model';
@@ -77,6 +77,10 @@ export class BussinessDetailsComponent implements OnInit {
     });
 
     // console.log('businessHoursForm:',this.businessHoursForm);
+
+    this.termsForm.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(200)).subscribe(termsForm=> {
+      this.cdr.detectChanges();
+    })
   }
 
   setbusinessHours() {
