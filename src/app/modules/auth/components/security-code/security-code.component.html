@@ -5,9 +5,9 @@
       <form class="form w-100" [formGroup]="securityCodeForm" novalidate="novalidate" id="kt_login_signin_form"
         (ngSubmit)="submit()">
         <div class="w-full text-center mb-9">
-          <h1 class="mb-5 md:text-3xl font-medium text-dark text-base">Enter Security Code</h1>
-          <div class="w-full px-18 md:px-24 md:py-4 py-2 bg-gray-200">
-            <span class="mb-3 md:text-base text-xs font-normal text-center text-primary-400">We sent a 6-digit code to email@xxx.com. This code will expire after 24 hours.</span>
+          <h1 class="mb-5 text-base font-medium md:text-3xl text-dark">Enter Security Code</h1>
+          <div class="w-full py-2 bg-gray-200 px-18 md:px-24 md:py-4">
+            <span class="mb-3 text-xs font-normal text-center md:text-sm lg:text-base text-primary-400">We sent a 6-digit code to email@xxx.com. This code will expire after 24 hours.</span>
           </div>
         </div>
 
@@ -28,7 +28,6 @@
               type="text"
               class="text-center form-control form-control-lg form-control-solid"
               formControlName="securityCode"
-              placeholder=""
               name="securityCode"
               autocomplete="off"
               [ngClass]="{
@@ -63,7 +62,7 @@
 
           <div class="text-right">
             <button type="submit" id="kt_sign_in_submit"
-              class="py-3 mb-5 text-xs font-thin text-white bg-black px-9 btn border-gray-500" [disabled]="securityCodeForm.invalid">
+              class="py-3 mb-5 text-xs font-thin text-white bg-black border-gray-500 px-9 btn" [disabled]="securityCodeForm.invalid">
               <ng-container *ngIf="isLoading$ == true">
                 <span class="indicator-progress" [style.display]="'block'">
                   Please wait...
@@ -84,7 +83,7 @@
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">
   <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
     <div class="text-xs fv-plugins-message-container">
-      <span class="fv-help-block text-xs">
+      <span class="text-xs fv-help-block">
         {{ message }}
       </span>
     </div>

@@ -54,18 +54,15 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   submit() {
-    debugger
     this.isLoading$ = true;
     this.authService.forgotPassword(this.forgotPasswordForm.value)
     .pipe(takeUntil(this.unsubscribe))
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
-        debugger
         this.isLoading$ = false;
         this.router.navigate(['/auth/enter-security-code'])
       }
       else {
-        debugger
         this.isLoading$ = false;
         this.cf.detectChanges();
         this.toast.error(res.errors[0]?.error?.message, {

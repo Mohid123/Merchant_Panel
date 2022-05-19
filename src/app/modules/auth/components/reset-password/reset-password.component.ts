@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiResponse } from '@core/models/response.model';
+import { HotToastService } from '@ngneat/hot-toast';
 import { NgPasswordValidatorOptions } from 'ng-password-validator';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { ConfirmedValidator } from './password.validator';
 
@@ -23,9 +26,10 @@ export class ResetPasswordComponent implements OnInit {
   errorState: ErrorStates = ErrorStates.NotSubmitted;
   errorStates = ErrorStates;
   isLoading$: boolean;
-  private unsubscribe: Subscription[] = [];
+  private unsubscribe = new Subject();
   passwordHide: boolean = true;
   validityPass: boolean;
+  token: string;
 
   options: NgPasswordValidatorOptions = {
     placement: "bottom",
@@ -53,7 +57,9 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cf: ChangeDetectorRef,
+    private toast: HotToastService
   ) {
     this.isLoading$ = false;
     this.validityPass = false;
@@ -97,6 +103,31 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   submit() {
-    this.errorState = ErrorStates.NotSubmitted;
+    this.isLoading$ = true;
+    debugger
+    this.authService.resetPassword(this.createPasswordForm.value?.password)
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe((res: ApiResponse<any>) => {
+      debugger
+      if(!res.hasErrors()) {
+        this.isLoading$ = false;
+        this.router.navigate(['/auth/login']);
+      }
+      else {
+        this.isLoading$ = false;
+        this.cf.detectChanges();
+        this.toast.error(res.errors[0]?.error?.message, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          }
+        })
+      }
+    })
   }
 }
