@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
 enum ErrorStates {
@@ -49,9 +49,27 @@ export class ForgotPasswordComponent implements OnInit {
           Validators.required,
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
         ]),
+        this.emailValidator()
       ],
     });
   }
+
+
+  emailValidator() {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.valueChanges || control.pristine) {
+        return null;
+      }
+      else {
+        this.cf.detectChanges();
+        return this.authService.checkEmailAlreadyExists(control.value).pipe(
+          distinctUntilChanged(),
+          debounceTime(600),
+          map((res: ApiResponse<any>) => (res.data == true ? {emailExists: true} : null))
+        )
+      }
+    };
+}
 
   submit() {
     this.isLoading$ = true;
