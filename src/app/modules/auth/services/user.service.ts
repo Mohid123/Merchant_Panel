@@ -23,10 +23,8 @@ export class UserService extends ApiService<AuthApiData> {
   getUser() {
     console.log(this.authService.currentUserValue?.id);
     return this.get('/users/getUserById/'+ this.authService.currentUserValue?.id).pipe(tap((res:any)=> {
-      debugger
       if(!res.hasErrors()) {
         this.authService.updateUser(res.data)
-        debugger
       }
     }))
   }
