@@ -65,7 +65,7 @@ export class ForgotPasswordComponent implements OnInit {
         return this.authService.checkEmailAlreadyExists(control.value).pipe(
           distinctUntilChanged(),
           debounceTime(600),
-          map((res: ApiResponse<any>) => (res.data == true ? {emailExists: true} : null))
+          map((res: ApiResponse<any>) => (res.data == false ? {emailExists: true} : null))
         )
       }
     };
