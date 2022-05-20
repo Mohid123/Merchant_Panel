@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { HotToastService } from '@ngneat/hot-toast';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
 enum ErrorStates {
@@ -23,6 +24,7 @@ export class SecurityCodeComponent implements OnInit {
   errorState: ErrorStates = ErrorStates.NotSubmitted;
   errorStates = ErrorStates;
   isLoading$: boolean;
+  destroy$ = new Subject();
 
   private unsubscribe: Subscription[] = [];
 
@@ -39,6 +41,7 @@ export class SecurityCodeComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.authService.emailSubject$.value
   }
 
   initForm() {
@@ -50,6 +53,39 @@ export class SecurityCodeComponent implements OnInit {
         ]),
       ],
     });
+  }
+
+  resendOTP() {
+    this.authService.forgotPassword(this.authService.emailSubject$.value)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.toast.success('OTP has been resent! Please check your email', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        })
+      }
+      else {
+        this.toast.error(res.errors[0]?.error?.message, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          }
+        })
+      }
+    })
   }
 
   submit() {

@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
 import { SpaceBetweenModule } from '@core/directives/space-between/space-between.module';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { TranslationModule } from '../i18n/translation.module';
@@ -33,7 +34,7 @@ import { SecurityCodeComponent } from './components/security-code/security-code.
     ResetPasswordComponent,
   ],
   imports: [
-  CommonModule,
+CommonModule,
     FormsModule,
     TranslationModule,
     AuthRoutingModule,
@@ -46,7 +47,8 @@ import { SecurityCodeComponent } from './components/security-code/security-code.
     NumberOnlyModule,
     SpaceBetweenModule,
     NgPasswordValidatorModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    NgbPopoverModule
   ],
   providers: [
     {

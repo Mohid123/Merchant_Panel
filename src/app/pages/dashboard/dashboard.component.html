@@ -91,14 +91,29 @@
           name="password"
           autocomplete="off"
           formControlName="password"
-          [NgPasswordValidator]="options"
-          (keyup)="isValid(newPassForm.controls['password']?.value)">
+          [ngbPopover]="popContent"
+          [popoverTitle]="popTitle"
+          >
         </div>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'Password is required',
           control: newPassForm.controls['password']}">
         </ng-container>
+
+        <ng-template #popTitle>
+          <div class="">Password should include:</div>
+        </ng-template>
+        <ng-template #popContent>
+          <div class="flex flex-col justify-evenly">
+            <div [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('minlength')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('minlength')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. 8 characters</div>
+            <div [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasCapitalCase')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one uppercase</div>
+            <div [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasSmallCase')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasSmallCase')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one lowercase</div>
+            <div [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasNumber')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasNumber')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one numeric</div>
+            <div [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasSpecialCharacters')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasSpecialCharacters')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one special character (@,*,#,$,%,&)</div>
+          </div>
+          <div *ngIf="newPassForm.controls['password']?.valid" class="mt-2 text-sm text-left text-success">Password is valid</div>
+        </ng-template>
        </div>
 
        <div class="w-3/4 mb-3 form-group">

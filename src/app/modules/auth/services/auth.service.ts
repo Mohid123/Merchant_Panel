@@ -30,6 +30,7 @@ export class AuthService extends ApiService<AuthApiData> {
   isLoadingSubject: BehaviorSubject<boolean>;
   userPolicy: Partial<User>;
   tokenSubject$: BehaviorSubject<string>;
+  emailSubject$: BehaviorSubject<string>;
 
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;
@@ -53,6 +54,8 @@ export class AuthService extends ApiService<AuthApiData> {
     this.currentUser$ = this.currentUserSubject.asObservable();
     this.isLoading$ = this.isLoadingSubject.asObservable();
     this.tokenSubject$ = new BehaviorSubject<string>('');
+    this.emailSubject$ = new BehaviorSubject<string>('');
+
   }
 
   // public methods
@@ -111,6 +114,7 @@ export class AuthService extends ApiService<AuthApiData> {
   }
 
   forgotPassword(email: string): Observable<ApiResponse<any>> {
+    this.emailSubject$.next(email);
     return this.post(`/auth/sendOtp`, email).pipe(tap((res: any) => {
       console.log(res)
     }))
