@@ -13,11 +13,8 @@ import { environment } from 'src/environments/environment';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-  constructor(
-    private   authService :AuthService,
-  ){
+  constructor(private authService: AuthService) { }
 
-  }
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler,
@@ -26,9 +23,16 @@ export class JwtInterceptor implements HttpInterceptor {
     // console.log('JwtInterceptor:',request);
     const isLoggedIn = !!this.authService.currentUserValue;
     const token = this.authService.JwtToken;
-    console.log(token);
     const isApiUrl = request.url.startsWith(environment.apiUrl);
-    if (isLoggedIn && isApiUrl) {
+    if(isLoggedIn == false && this.authService.tokenSubject$.value) {
+      console.log(this.authService.tokenSubject$.value);
+      request = request.clone({
+        setHeaders: {
+          Authorization: `${this.authService.tokenSubject$.value}`,
+        },
+      });
+    }
+    else if (isLoggedIn && isApiUrl) {
       request = request.clone({
         setHeaders: {
           Authorization: `${token}`,
