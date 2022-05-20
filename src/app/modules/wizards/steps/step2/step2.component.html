@@ -178,7 +178,7 @@
           <div class="relative">
             <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
               <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-              <input maxlength="4" appNumbersOnly type="text" class="w-full text-center" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+              <input maxlength="4" appNumbersOnly type="text" class="w-full text-center border-2 border-yellow-500 rounded-sm" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
               <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
