@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { getItem, setItem, StorageItem } from '@core/utils';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { catchError, finalize, map, tap } from 'rxjs/operators';
+import { catchError, exhaustMap, finalize, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RegisterModel } from '../models/register.model';
 import { ZipCode } from '../models/zip-code.model';
@@ -13,7 +13,7 @@ import { SignInResponse } from './../../../@core/models/sign-in-response';
 import { User } from './../../../@core/models/user.model';
 import { ApiService } from './../../../@core/services/api.service';
 
-type AuthApiData = SignInResponse;
+type AuthApiData = SignInResponse | any;
 
 @Injectable({
   providedIn: 'root',
@@ -59,7 +59,7 @@ export class AuthService extends ApiService<AuthApiData> {
   login(params: AuthCredentials) {
     this.isLoadingSubject.next(true);
     return this.post('/auth/login', params).pipe(
-      map((result: ApiResponse<SignInResponse>) => {
+      map((result: ApiResponse<any>) => {
         console.log('result',result);
         if (!result.hasErrors()) {
           setItem(StorageItem.User, result?.data?.user || null);
@@ -67,6 +67,18 @@ export class AuthService extends ApiService<AuthApiData> {
           if(result?.data?.user)
           this.currentUserSubject.next(result?.data?.user);
           return result
+        }
+      }),
+      exhaustMap((res)=>{
+        if (res?.data?.user) {
+          return this.get('/users/getUserById/'+ res.data.user.id)
+        } else {
+          return of(null);
+        }
+      }),
+      tap((res)=> {
+        if(res && !res?.hasErrors()) {
+          this.updateUser(res.data)
         }
       }),
       catchError((err) => {
