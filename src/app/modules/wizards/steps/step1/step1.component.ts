@@ -19,10 +19,17 @@ export class Step1Component implements OnInit, OnDestroy {
 
   categoryList: SubCategoryList;
   selectedcategory: SubCategory;
+  disableCategory: boolean = false;
 
   ChangeSelectedCategory(newSelectedcategory: SubCategory) {
-    this.selectedcategory = newSelectedcategory;
-    this.dealForm.controls['subCategory'].setValue(newSelectedcategory.subCategoryName);
+    if(newSelectedcategory) {
+      this.selectedcategory = newSelectedcategory;
+      this.dealForm.controls['subCategory'].setValue(newSelectedcategory.subCategoryName);
+      this.disableCategory = true;
+    }
+    else {
+      this.disableCategory = false;
+    }
   }
 
   @Input('updateParentModel') updateParentModel: (

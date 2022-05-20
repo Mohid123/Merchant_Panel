@@ -57,9 +57,6 @@ export class HorizontalComponent implements OnInit {
   }
 
   prevStep() {
-    if(this.currentStep$.value == 4) {
-      this.connection.disabler = false;
-    }
     const prevStep = this.currentStep$.value - 1;
     if (prevStep === 0) {
       return;
