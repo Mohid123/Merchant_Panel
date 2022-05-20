@@ -147,7 +147,7 @@
   </form>
 
   <div class="flex justify-center mb-8">
-    <button [ngClass]="newPassForm.invalid || validityPass == false ? 'opacity-50': ''" [disabled]="newPassForm.invalid || validityPass == false" (click)="resetPassword(); closeModal()" class="px-10 py-2 text-white bg-gray-900 rounded-md">Save</button>
+    <button [ngClass]="newPassForm.invalid ? 'opacity-50': ''" [disabled]="newPassForm.invalid" (click)="resetPassword(); closeModal()" class="px-10 py-2 text-white bg-gray-900 rounded-md">Save</button>
   </div>
 </app-reusable-modal>
 
