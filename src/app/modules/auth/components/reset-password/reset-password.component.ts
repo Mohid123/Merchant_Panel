@@ -7,6 +7,7 @@ import { NgPasswordValidatorOptions } from 'ng-password-validator';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
+import { CustomValidators } from './custom-validators';
 import { ConfirmedValidator } from './password.validator';
 
 enum ErrorStates {
@@ -30,6 +31,7 @@ export class ResetPasswordComponent implements OnInit {
   passwordHide: boolean = true;
   validityPass: boolean;
   token: string;
+  showPopup: boolean;
 
   options: NgPasswordValidatorOptions = {
     placement: "bottom",
@@ -63,6 +65,7 @@ export class ResetPasswordComponent implements OnInit {
   ) {
     this.isLoading$ = false;
     this.validityPass = false;
+    this.showPopup = false;
   }
 
   ngOnInit(): void {
@@ -74,6 +77,22 @@ export class ResetPasswordComponent implements OnInit {
       password: [
         '',
         Validators.compose([
+          CustomValidators.patternValidator(/\d/, {
+            hasNumber: true
+          }),
+          CustomValidators.patternValidator(/[A-Z]/, {
+            hasCapitalCase: true
+          }),
+          CustomValidators.patternValidator(/[a-z]/, {
+            hasSmallCase: true
+          }),
+          CustomValidators.patternValidator(
+            /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+            {
+              hasSpecialCharacters: true
+            }
+          ),
+          Validators.minLength(8),
           Validators.required
         ]),
       ],
