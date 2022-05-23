@@ -83,6 +83,19 @@ export class Step3Component implements OnInit, OnDestroy {
     this.updateParentModel({}, this.checkForm());
     this.policy = this.authService.userPolicy;
 
+    if(this.form.get('voucherStartDate')?.value) {
+      this.currentlyChecked = this.check_box_type.ONE
+    }
+
+    if(!this.form.controls['voucherValidity'].value) {
+      this.form.controls['voucherValidity'].disable();
+      this.form.controls['voucherValidity'].setValue(0);
+    }
+
+    if(this.form.get('voucherValidity')?.value) {
+      this.currentlyChecked = this.check_box_type.TWO
+    }
+
     this.config = {
       language: 'en',
       toolbar: {

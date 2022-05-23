@@ -19,7 +19,7 @@
               class="border rounded-full form-check-input"
               type="checkbox"
               (click)="selectCheckBox(check_box_type.ONE); disableCheckBox();"
-              [checked]="currentlyChecked === check_box_type.ONE || form.get('voucherStartDate')?.value"
+              [checked]="currentlyChecked === check_box_type.ONE"
               >
             </label>
 
@@ -82,10 +82,10 @@
           <div class="flex flex-row xl:mr-10">
             <label class="mt-8 text-xs lg:mt-6 form-check form-check-solid md:text-base">
               <input
-              [checked]="currentlyChecked === check_box_type.TWO || form.get('voucherValidity')?.value"
               class="mr-2 rounded-full form-check-input"
               type="checkbox"
               (click)="selectCheckBox(check_box_type.TWO); disableCheckBox();"
+              [checked]="currentlyChecked === check_box_type.TWO"
               >
             </label>
 
@@ -94,7 +94,7 @@
               <!-- <div class="flex flex-col w-4/5 h-8 border-2 border-white rounded-sm md:flex-row md:w-3/5"> [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-yellow-500 text-black'" -->
                 <div class="flex flex-row w-full md:mr-1">
                   <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-7" (click)="handleMinus()">-</button>
-                  <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-yellow-500 text-black'" appNumbersOnly maxlength="3" type="text" style="border-width: 1px;" class="w-1/6 h-5 mt-2 text-xs text-center rounded-md form-control" formControlName="voucherValidity" name="voucherValidity">
+                  <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-yellow-500 text-black'" appNumbersOnly maxlength="3" type="number" style="border-width: 1px;" class="w-1/6 h-5 mt-2 text-xs text-center rounded-md form-control" formControlName="voucherValidity" name="voucherValidity">
                   <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-7" (click)="handlePlus()">+</button>
                   <div class="flex flex-row ml-2 tracking-wider lg:mt-3 2xl:mt-2">
                     <span class="text-sm text-gray-400 2xl:text-base">days after purchase</span>
