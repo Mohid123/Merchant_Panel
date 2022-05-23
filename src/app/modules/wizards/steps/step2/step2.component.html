@@ -6,10 +6,10 @@
 <!--Card for Viewing Deal-->
 <div class="flex flex-wrap w-full mx-auto" style="max-width: 780px;">
   <div class="flex-grow shadow-xl card card-custom card-stretch custom-card-design">
-    <div class="flex flex-wrap flex-shrink w-full p-4 lg:px-11 lg:py-6">
+    <div class="flex flex-wrap flex-shrink p-4 lg:px-11 lg:py-6" style="max-width: 430px;">
       <div class="flex flex-col w-full">
         <label class="w-full mb-2 text-xs font-semibold text-justify md:text-base">{{data.title}}</label>
-        <label class="w-full mb-4 text-xs text-justify text-gray-400 md:text-sm">{{data.subTitle}}</label>
+        <label class="w-full mb-4 text-xs text-justify text-gray-400 md:text-sm">{{data.subTitle | truncate: 50}}</label>
         <div class="w-full text-xs text-gray-700">
           <i class="mr-2 text-green-400 fas fa-map-marker-alt fa-lg"></i>
           {{address}}
