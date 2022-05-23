@@ -27,7 +27,7 @@
               <div class="flex flex-row">
                 <span class="text-xs form-check-label md:text-base"></span> Start Date &nbsp;<span class="text-red-600">*</span>
               </div>
-              <div class="mt-4 mb-3 input-icon 2xl:w-72 md:w-auto">
+              <div class="w-auto mt-4 mb-3 input-icon lg:w-96">
                 <span class="absolute flex items-center mt-2 ml-1"><i (click)="d.toggle()" class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
                 <input
                 placeholder="yyyy-mm-dd"
@@ -50,9 +50,9 @@
               </ng-container>
               <!-- <span class="mb-0 text-xs tracking-widest text-gray-600 md:text-base"><span class="text-red-600">*</span>Max validity 90 days</span> -->
 
-              <label class="mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base" style="padding-left: 0px;">
+              <label class="w-auto mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base lg:w-96" style="padding-left: 0px;">
                 <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
-                <div class="flex-auto mt-3 input-icon 2xl:w-72 md:w-auto">
+                <div class="flex-auto w-auto mt-3 input-icon lg:w-96">
                   <span class="absolute flex items-center mt-2 ml-1"><i (click)="e.toggle()" class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
                   <input
                   [disabled]="currentlyChecked !== check_box_type.ONE"
@@ -63,7 +63,7 @@
                   ngbDatepicker
                   #e="ngbDatepicker"
                   (click)="e.toggle()"
-                  class="pl-12 text-sm font-thin cursor-pointer form-control"
+                  class="w-full pl-12 text-sm font-thin cursor-pointer form-control"
                   formControlName="voucherEndDate"
                   name="voucherEndDate"
                   >
