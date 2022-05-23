@@ -112,6 +112,7 @@ export class BussinessDetailsComponent implements OnInit {
       secondEndTime: [''],
       isWorkingDay: true,
     });
+    businessHoursGroup.disable();
     businessHoursGroup.patchValue(businessHour)
     this.businessHoursFromControl.push(businessHoursGroup);
     // console.log('this.businessHoursFromControl:',this.businessHoursFromControl);
@@ -207,6 +208,11 @@ export class BussinessDetailsComponent implements OnInit {
 
   editBusinessHours(){
     this.isEditBusinessHours = true;
+    for (let i = 0; i < 7; i++) {
+      this.businessHoursFromControl.controls.forEach(control => {
+        control.enable();
+      })
+    }
   }
 
   discardBusinessHours() {
@@ -240,21 +246,18 @@ export class BussinessDetailsComponent implements OnInit {
     if(!this.isEditBusinessHours) return;
 
     if (
+      index > 0 &&
       !formControls.value.isWorkingDay &&
       !formControls.value.firstStartTime &&
       !formControls.value.firstEndTime &&
       !formControls.value.secondStartTime &&
       !formControls.value.secondEndTime
     ) {
-      let day = formControls.value.day;
-      let isWorkingDay = formControls.value.isWorkingDay;
-      if(index > 0)
-        formControls.patchValue(this.businessHoursFromControl.controls[index - 1].value)
-      formControls.value.day = day;
-      formControls.value.isWorkingDay = isWorkingDay;
+      this.businessHoursFromControl.controls[index].value.firstStartTime = this.businessHoursFromControl.controls[index - 1].value.firstStartTime;
+      this.businessHoursFromControl.controls[index].value.firstEndTime = this.businessHoursFromControl.controls[index - 1].value.firstEndTime;
+      this.businessHoursFromControl.controls[index].value.secondStartTime = this.businessHoursFromControl.controls[index - 1].value.secondStartTime;
+      this.businessHoursFromControl.controls[index].value.secondEndTime = this.businessHoursFromControl.controls[index - 1].value.secondEndTime;
     }
-
-    formControls.value.isWorkingDay = !formControls.value.isWorkingDay;
     console.log('formControls.value:',formControls.value);
   }
 

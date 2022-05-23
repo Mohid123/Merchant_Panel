@@ -39,23 +39,16 @@ h3 {
 
 .day {
   @apply pr-7 pl-10 relative;
-  div {
-    @apply  w-10 h-10 rounded-full justify-center items-center;
-    background-color: #10CB74;
+  input {
+    display: none;
+  }
+  label {
+    @apply  w-10 h-10 flex rounded-full justify-center items-center text-white;
+    background-color: #728A9F;
     cursor: pointer;
-
-    &.day-off {
-      background-color: #728A9F;
-    }
-
-    a {
-      color: white;
-      // width: 2ch;
-      overflow: hidden;
-      text-transform: uppercase;
-    }
-
-
+  }
+  input:checked + label {
+    background-color: #10CB74;
   }
 }
 
