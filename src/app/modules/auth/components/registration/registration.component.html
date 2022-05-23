@@ -124,24 +124,24 @@
 
               <ng-container *ngIf="f['phoneNumber'].touched" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'required',
-                            message: 'Mobile is required',
+                            message: 'Phone number is required',
                             control: f['phoneNumber']}">
               </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'validatePhoneNumber',
                             message: 'Mobile is invalid',
                             control: f['phoneNumber']}">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              </ng-container> -->
+              <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'min',
                             message: 'Mobile should have 9 letters',
                             control: f['phoneNumber']}">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              </ng-container> -->
+              <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'max',
                             message: 'Mobile should have 9 letters',
                             control: f['phoneNumber']}">
-              </ng-container>
+              </ng-container> -->
             </div>
 
             <div class="flex justify-between">
