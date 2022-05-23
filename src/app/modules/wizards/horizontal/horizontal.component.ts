@@ -48,12 +48,25 @@ export class HorizontalComponent implements OnInit {
         this.toast.warning('Please fill in the required fields')
         return;
       }
+      if(this.data.vouchers[0]?.voucherStartDate > this.data.vouchers[0]?.voucherEndDate) {
+        this.toast.warning('Start date cannot exceed End date')
+        return;
+      }
+      else {
+        const nextStep = this.currentStep$.value + 1;
+        if (nextStep > this.formsCount) {
+          return;
+        }
+        this.currentStep$.next(nextStep);
+      }
     }
-    const nextStep = this.currentStep$.value + 1;
-    if (nextStep > this.formsCount) {
-      return;
+    else {
+      const nextStep = this.currentStep$.value + 1;
+      if (nextStep > this.formsCount) {
+        return;
+      }
+      this.currentStep$.next(nextStep);
     }
-    this.currentStep$.next(nextStep);
   }
 
   prevStep() {

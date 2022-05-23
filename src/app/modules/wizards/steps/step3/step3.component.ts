@@ -220,8 +220,8 @@ export class Step3Component implements OnInit, OnDestroy {
           voucher.voucherEndDate ='';
         } else {
           voucher.voucherValidity = 0;
-          voucher.voucherStartDate = val.voucherStartDate;
-          voucher.voucherEndDate = val.voucherEndDate;
+          voucher.voucherStartDate = new Date(val.voucherStartDate?.year, val.voucherStartDate?.month - 1, val.voucherStartDate?.day).getTime();
+          voucher.voucherEndDate = new Date(val.voucherEndDate?.year, val.voucherEndDate?.month - 1, val.voucherEndDate?.day).getTime();
         }
       });
       this.updateParentModel(this.data, this.checkForm());

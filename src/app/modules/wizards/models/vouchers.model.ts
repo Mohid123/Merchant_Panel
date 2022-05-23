@@ -6,6 +6,6 @@ export class Vouchers {
   details?: string;
   numberOfVouchers?: number;
   voucherValidity?: number;
-  voucherStartDate?: Date | string;
-  voucherEndDate?: Date | string;
+  voucherStartDate?: Date | any;
+  voucherEndDate?: Date | any;
 }
