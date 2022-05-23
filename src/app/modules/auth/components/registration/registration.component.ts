@@ -136,9 +136,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         phoneNumber: [
          '',
             Validators.compose([
-            Validators.required,
-            Validators.min(100000000),
-            Validators.max(9999999999),
+            Validators.required
           ]),
         ],
         companyName: [
