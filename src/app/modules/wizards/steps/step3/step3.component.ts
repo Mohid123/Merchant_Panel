@@ -228,14 +228,14 @@ export class Step3Component implements OnInit, OnDestroy {
   handleMinus() {
     if(this.form.controls['voucherValidity'].value >= 1) {
       this.form.patchValue({
-        voucherValidity: this.form.controls['voucherValidity'].value - 1
+        voucherValidity: this.form.get('voucherValidity')?.value - 1
       });
     }
   }
 
   handlePlus() {
     this.form.patchValue({
-      voucherValidity: this.form.controls['voucherValidity'].value + 1
+      voucherValidity: this.form.get('voucherValidity')?.value + 1
     });
   }
 

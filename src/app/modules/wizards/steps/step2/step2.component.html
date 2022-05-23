@@ -177,9 +177,9 @@
           <label class="mt-3 mb-3 text-sm">Number of Available Vouchers</label>
           <div class="relative">
             <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
-              <button class="h-full mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-              <input maxlength="4" appNumbersOnly type="text" style="border-width: 1px;" class="w-full text-center border-yellow-500 rounded-md" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
-              <button class="h-full ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+              <button class="w-20 h-full mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md" (click)="handleMinus()">-</button>
+              <input maxlength="4" appNumbersOnly type="text" style="border-width: 1px;" class="w-full text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+              <button class="w-20 h-full ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md" (click)="handlePlus()">+</button>
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',

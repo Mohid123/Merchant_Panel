@@ -91,10 +91,10 @@
 
             <span class="w-40 text-sm mt-7 form-check-label 2xl:text-base">Voucher is valid for</span>
             <div class="relative mt-4">
-              <!-- <div class="flex flex-col w-4/5 h-8 border-2 border-white rounded-sm md:flex-row md:w-3/5"> -->
+              <!-- <div class="flex flex-col w-4/5 h-8 border-2 border-white rounded-sm md:flex-row md:w-3/5"> [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-yellow-500 text-black'" -->
                 <div class="flex flex-row w-full md:mr-1">
                   <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-7" (click)="handleMinus()">-</button>
-                  <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500': 'border-yellow-500'" appNumbersOnly maxlength="3" type="text" style="border-width: 1px;" class="w-1/6 mt-2 text-center rounded-md" formControlName="voucherValidity" name="voucherValidity">
+                  <input appNumbersOnly maxlength="3" type="text" style="border-width: 1px;" class="w-1/6 h-5 mt-2 text-xs text-center rounded-md form-control" formControlName="voucherValidity" name="voucherValidity">
                   <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-7" (click)="handlePlus()">+</button>
                   <div class="flex flex-row ml-2 tracking-wider lg:mt-3 2xl:mt-2">
                     <span class="text-sm text-gray-400 2xl:text-base">days after purchase</span>
