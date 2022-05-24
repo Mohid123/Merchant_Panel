@@ -104,7 +104,7 @@
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <ng-container *ngFor="let rate of ratings">
               <button ngbDropdownItem (click)="filterByRating(rate.value)">
-                {{rate.value}}
+                <img [src]="rate.img">
               </button>
             </ng-container>
             <button class="m-3 btn btn-light-info btn-sm" (click)="resetFilters();">Reset</button>
