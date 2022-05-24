@@ -102,11 +102,14 @@
             </div>
           </th>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <span class="pt-2 pl-3 text-sm font-semibold">Filter by rating</span>
+            <hr class="text-gray-500">
             <ng-container *ngFor="let rate of ratings">
               <button ngbDropdownItem (click)="filterByRating(rate.value)">
                 <img [src]="rate.img">
               </button>
             </ng-container>
+            <hr class="text-gray-500">
             <button class="m-3 btn btn-light-info btn-sm" (click)="resetFilters();">Reset</button>
           </div>
         </div>
