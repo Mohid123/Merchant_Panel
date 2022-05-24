@@ -80,12 +80,12 @@
           </div>
 
           <div class="flex flex-row xl:mr-10">
-            <label class="mt-8 text-xs lg:mt-6 form-check form-check-solid md:text-base">
+            <label class="text-sm mt-7 md:text-base form-check form-check-solid">
               <input
-              class="mr-2 rounded-full form-check-input"
+              class="border rounded-full form-check-input"
               type="checkbox"
               (click)="selectCheckBox(check_box_type.TWO); disableCheckBox();"
-              [checked]="currentlyChecked === check_box_type.TWO"
+              [checked]="currentlyChecked === check_box_type.TWO || form.controls['voucherValidity']?.value"
               >
             </label>
 

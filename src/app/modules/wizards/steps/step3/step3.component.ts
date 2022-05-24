@@ -80,7 +80,7 @@ export class Step3Component implements OnInit, OnDestroy {
     this.authService.retreiveUserPolicy();
     this.initDateForm();
     this.initPolicyForm();
-    this.updateParentModel({}, this.checkForm());
+    this.updateParentModel({}, true);
     this.policy = this.authService.userPolicy;
 
     if(this.form.get('voucherStartDate')?.value) {
@@ -92,9 +92,9 @@ export class Step3Component implements OnInit, OnDestroy {
       this.form.controls['voucherValidity'].setValue(0);
     }
 
-    if(this.form.get('voucherValidity')?.value) {
-      this.currentlyChecked = this.check_box_type.TWO
-    }
+    // if(this.form.get('voucherValidity')?.value) {
+    //   this.currentlyChecked = this.check_box_type.TWO
+    // }
 
     this.config = {
       language: 'en',
@@ -224,18 +224,18 @@ export class Step3Component implements OnInit, OnDestroy {
           voucher.voucherEndDate = val.voucherEndDate;
         }
       });
-      this.updateParentModel(this.data, this.checkForm());
+      this.updateParentModel(this.data, true);
       this.connection.sendData(this.data);
     });
     this.unsubscribe.push(formChangesSubscr);
   }
 
   checkForm() {
-    return !(
-      this.form.get('voucherStartDate')?.hasError('required') ||
-      this.form.get('voucherEndDate')?.hasError('required') ||
-      this.form.get('voucherValidity')?.hasError('required')
-    );
+    // return !(
+    //   this.form.get('voucherStartDate')?.hasError('required') ||
+    //   this.form.get('voucherEndDate')?.hasError('required') ||
+    //   this.form.get('voucherValidity')?.hasError('required')
+    // );
   }
 
   handleMinus() {
