@@ -35,7 +35,9 @@ module.exports = {
         }
       },
       width: {
+        'r22': '22rem',
         '29': '7.25rem',
+        '86px': '86px',
         '90px': '90px',
         '35': '35%',
         '38': '38%',
@@ -47,6 +49,8 @@ module.exports = {
         '90px': '90px',
       },
       fontSize: {
+        'xxs': '0.625rem',
+        'xs2': '0.688rem',
         '4.5xl': '2.5rem',
         '45px': '45px'
       },
