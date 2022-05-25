@@ -29,7 +29,7 @@ input.form-control {
   padding-bottom: 8.5px;
   min-height: 40px;
 
-  @media (min-width:1400px) {
+  @media (min-width:1440px) {
     padding-top: 10px;
     padding-bottom: 10px;
   }
@@ -182,7 +182,7 @@ button.back {
 
     img {
       max-width: 26px;
-      @media (min-width:1400px) {
+      @media (min-width:1440px) {
         max-width: 30px;
       }
       @media (min-width:1600px) {
@@ -248,7 +248,7 @@ button.back {
   }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1440px) {
   .auth-main-con {
     min-height: 900px;
   }
