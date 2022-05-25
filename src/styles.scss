@@ -126,8 +126,8 @@ input[type=number]::-webkit-outer-spin-button {
 @import "~ngx-bootstrap/datepicker/bs-datepicker";
 
 
-@media (min-width:1900px) {
+@media (min-width:2048px) {
   html {
-    font-size: 28px;
+    font-size: 30px !important;
   }
 }
