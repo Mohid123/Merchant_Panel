@@ -2,33 +2,33 @@
   <div *ngIf="!registrationSuccess; else RegistrationSuccess"
     class="max-w-md overflow-hidden h-fit lg:max-w-lg lg:h-full login-content flex-row-fluid d-flex flex-column justify-content-center position-relative">
     <div class="w-full px-2 mt-0 d-flex flex-column-fluid flex-center md:px-0">
-      <mat-stepper [linear]="true" labelPosition="bottom" #stepper class="w-full h-full pb-6 text-center pt-14">
+      <mat-stepper [linear]="true" labelPosition="bottom" #stepper class="w-full h-full pt-8 pb-6 text-center">
         <!-- #enddocregion label-position -->
         <mat-step>
           <h1 class="text-dark">Welcome! First things first.</h1>
           <h3 class="mb-9">Let's make sure we understand your company. What describes your business best?</h3>
-          <form [formGroup]="registrationForm" class="flex flex-row flex-wrap justify-evenly categories-step">
+          <form [formGroup]="registrationForm" class="flex flex-row flex-wrap mx-auto justify-evenly categories-step max-w-sm 2xl:max-w-md">
               <ng-template matStepLabel>Your Market</ng-template>
               <ng-container *ngFor="let category of categories">
-              <app-category-radio-button [customClass]="'w-29'" name="businessType" [value]="category.name" required>
-                  <div class="tabs w-14 h-14" [ngClass]="{'active' : f['businessType'].value == category.name}">
+              <app-category-radio-button [customClass]="'w-29 2xl:w-36'" name="businessType" [value]="category.name" required>
+                  <div class="tabs w-14 h-14 2xl:h-16 2xl:w-16 2xl:mb-2 3xl:h-24 3xl:2-24" [ngClass]="{'active' : f['businessType'].value == category.name}">
 
                     <img [src]="category.img" alt="category.name">
                   </div>
-                  <strong class="text-xs">{{category.name}}</strong>
+                  <strong class="text-xs 2xl:text-sm">{{category.name}}</strong>
                 </app-category-radio-button>
               </ng-container>
             </form>
-            <button class="text-white bg-black rounded-lg h-9 mt-7 w-28" [disabled]="!f['businessType'].value" mat-button matStepperNext>Next</button>
+            <button class="text-white bg-black rounded-lg h-9 mt-7 w-28 2xl:h-10" [disabled]="!f['businessType'].value" mat-button matStepperNext>Next</button>
           </mat-step>
           <mat-step>
             <h1 class="text-dark">Let's get to know each other!</h1>
-            <h3 class="mb-7">How can we reach out?</h3>
+            <h3 class="mb-3">How can we reach out?</h3>
             <form class="text-left form w-100" [formGroup]="registrationForm" novalidate="novalidate">
               <ng-template matStepLabel>Contact Details</ng-template>
               <h2 class="text-left text-dark text-base mb-2.5">Your Contact Details</h2>
-            <div class="h-90px fv-row">
-              <label class="mb-1 text-sm form-label">First Name</label>
+            <div class="h-90px fv-row 2xl:h-28">
+              <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">First Name</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="firstName"
               placeholder="First Name"
                 formControlName="firstName" autocomplete="off" [ngClass]="{
@@ -51,8 +51,8 @@
               </ng-container>
             </div>
 
-            <div class="h-90px fv-row">
-              <label class="mb-1 text-sm form-label">Last Name</label>
+            <div class="h-90px fv-row 2xl:h-28">
+              <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Last Name</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="lastName"
               placeholder="Last Name"
                 formControlName="lastName" autocomplete="off" [ngClass]="{
@@ -76,8 +76,8 @@
             </div>
 
 
-            <div class="h-90px fv-row">
-              <label class="mb-1 text-sm form-label">Email</label>
+            <div class="h-90px fv-row 2xl:h-28">
+              <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Email</label>
               <input class="form-control form-control-lg form-control-solid" type="email" name="email"
               placeholder="Daviddeens@gmail.com"
                 formControlName="email" autocomplete="off" [ngClass]="{
@@ -108,8 +108,8 @@
               This email is already registered to a user
             </div> -->
 
-            <div class="h-90px fv-row">
-              <label class="mb-1 text-sm form-label">Mobile</label>
+            <div class="h-90px fv-row 2xl:h-28">
+              <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Mobile</label>
               <div class="flex">
                 <input
                   formControlName="phoneNumber"
@@ -152,7 +152,7 @@
           </mat-step>
           <mat-step>
             <h1 class="text-dark">Tell us about your business.</h1>
-            <h3 class="mb-7">Where can we find you?</h3>
+            <h3 class="mb-3">Where can we find you?</h3>
             <ng-container *ngIf="hasError">
               <div class="mb-lg-15 alert alert-danger">
                 <div class="alert-text font-weight-bold">
@@ -163,8 +163,8 @@
             <form class="text-left form w-100" [formGroup]="registrationForm" novalidate="novalidate">
               <ng-template matStepLabel>Business Details</ng-template>
               <h1 class="text-left text-dark text-base mb-2.5">Your business details</h1>
-            <div class="h-90px fv-row">
-              <label class="mb-1 text-sm form-label">Company Name</label>
+            <div class="h-86px fv-row 2xl:h-28">
+              <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Company Name</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="companyName"
               placeholder="Company Name"
                 formControlName="companyName" autocomplete="off" [ngClass]="{
@@ -187,8 +187,8 @@
               </ng-container>
             </div>
 
-            <div class="h-90px fv-row">
-              <label class="mb-1 text-sm form-label">Street Address</label>
+            <div class="h-86px fv-row 2xl:h-28">
+              <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Street Address</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="streetAddress"
               placeholder="Street Address"
                 formControlName="streetAddress" autocomplete="off" [ngClass]="{
@@ -211,11 +211,11 @@
               </ng-container>
             </div>
 
-            <div class="h-90px fv-row">
+            <div class="h-86px fv-row 2xl:h-28">
               <div class="flex">
                 <div class="mr-3" style="width: 170px;">
                   <div>
-                    <label class="mb-1 text-sm form-label">Zip</label>
+                    <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Zip</label>
                     <input maxlength="4" appNumbersOnly class="form-control form-control-lg form-control-solid" type="text" name="zipCode"
                     autocomplete="off" formControlName="zipCode" [ngClass]="{
                       'is-invalid': f['zipCode'].invalid && f['zipCode'].touched,
@@ -239,7 +239,7 @@
                 </div>
                 <div class="w-full">
                     <div>
-                        <label class="mb-1 text-sm form-label">City</label>
+                        <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">City</label>
                         <input class="form-control form-control-lg form-control-solid" type="text" name="city"
                         autocomplete="off" formControlName="city" [ngClass]="{
                           'is-invalid': f['city'].invalid && f['city'].touched,
@@ -272,12 +272,12 @@
                 </app-category-radio-button>
               </ng-container>
             </div>
-            <ng-container *ngIf="f['province'].value == null && registrationForm.dirty">
+            <!-- <ng-container *ngIf="f['province'].value == null && registrationForm.dirty">
               <div class="text-xs text-danger">Please select a Province</div>
-            </ng-container>
+            </ng-container> -->
 
-            <div class="mt-3 mb-2 fv-row">
-              <label class="mb-1 text-sm form-label">Website or social media url</label>
+            <div class="mb-2 fv-row 2xl:mt-5">
+              <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Website or social media url</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="website_socialAppLink"
               placeholder="Website"
                 formControlName="website_socialAppLink" autocomplete="off" [ngClass]="{
@@ -313,8 +313,8 @@
           </div>
 
             <div class="flex justify-between">
-              <button class="text-white bg-black rounded-lg h-9 mt-9 w-28 back" mat-button matStepperPrevious>Back</button>
-              <button (click)="submit()" class="h-10 text-white bg-black rounded-lg mt-9 w-28" [disabled]="registrationForm.invalid" mat-button>
+              <button class="mt-0 text-white bg-black rounded-lg h-9 w-28 back 2xl:mt-4" mat-button matStepperPrevious>Back</button>
+              <button (click)="submit()" class="mt-0 text-white bg-black rounded-lg h-19 w-28 2xl:mt-4" [disabled]="registrationForm.invalid" mat-button>
                 <ng-container *ngIf="isLoading$ | async">
                   Loading...
                 </ng-container>
@@ -346,8 +346,8 @@
 
   <ng-template #formError let-control="control" let-message="message" let-validation="validation">
     <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
-      <div style="font-size: 10px;" class="w-full fv-plugins-message-container">
-        <span style="font-size: 10px;" class="fv-help-block" role="alert">
+      <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+        <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
           {{ message }}
         </span>
       </div>

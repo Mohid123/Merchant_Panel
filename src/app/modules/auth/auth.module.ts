@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
 import { SpaceBetweenModule } from '@core/directives/space-between/space-between.module';
@@ -34,7 +35,7 @@ import { SecurityCodeComponent } from './components/security-code/security-code.
     ResetPasswordComponent,
   ],
   imports: [
-CommonModule,
+    CommonModule,
     FormsModule,
     TranslationModule,
     AuthRoutingModule,
@@ -48,7 +49,8 @@ CommonModule,
     SpaceBetweenModule,
     NgPasswordValidatorModule,
     Ng2TelInputModule,
-    NgbPopoverModule
+    NgbPopoverModule,
+    MatSelectModule
   ],
   providers: [
     {

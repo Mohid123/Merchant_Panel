@@ -71,6 +71,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     if (this.authService.currentUserValue) {
       this.router.navigate(['/']);
     }
+
+    this.registrationForm?.valueChanges.subscribe(()=>{
+      console.log('this:',this.registrationForm);
+    })
   }
 
   ngOnInit(): void {
@@ -182,6 +186,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       , {
         validator: UrlValidator('website_socialAppLink'),
       })
+  }
+
+  changeProvince(e:any) {
+    console.log(e.value)
+    this.f['province'].setValue(e.target.value, {
+      onlySelf: true
+    })
   }
 
   submit() {
