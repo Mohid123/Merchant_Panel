@@ -36,7 +36,7 @@ export class DropDownComponent implements ControlValueAccessor {
     this.onTouched();
     this.selected = value.id;
     this.selectedValue = value.name;
-    this.onChanged(value);
+    this.onChanged(value.id);
   }
 
   writeValue(value: string): void {
