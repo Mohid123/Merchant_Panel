@@ -25,6 +25,8 @@ export interface User {
   iban: string;
   bankName: string;
   newUser: boolean;
+  tradeName: string;
+  gallery: Gallery[];
 }
 
 interface BusinessHours {
@@ -35,3 +37,9 @@ interface BusinessHours {
   secondEndTime: string;
   isWorkingDay: boolean;
 }
+
+export interface Gallery {
+  pictureUrl: string,
+  pictureBlurHash: string
+}
+

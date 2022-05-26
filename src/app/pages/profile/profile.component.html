@@ -1,1 +1,288 @@
 <app-test></app-test>
+
+<app-profile-slider [activePane]="isLeftVisible ? 'left' : 'right'">
+  <div class="card" leftPane>
+    <span class="business-header">My DiviDeals profile</span>
+    <span class="secondary-title">How do you want to appear in our DiviDeals?</span>
+    <div class="flex justify-end central">
+      <button [ngClass]="secondLeftVisible == false ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" type="button" class="edit-button" [disabled]="secondLeftVisible == false" (click)="isLeftVisible = false;">Edit</button>
+    </div>
+
+    <table class="datatable-table">
+      <tbody class="datatable-body">
+        <ng-container *ngIf="(authService.currentUser$ |async) as user">
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">Trade name</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.firstName}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">Street address</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.streetAddress}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">Zip code</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.zipCode}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">City</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.city}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">Google map pin</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.phoneNumber}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-24">
+              <span class="spanner">Profile picture</span>
+            </td>
+            <td class="w-0 pb-5 image-input image-input-outline image-upload">
+              <div class="image-input-wrapper small-image">
+                <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
+                  <span class="absolute top-0 flex items-center justify-center w-20 h-20"><img class="object-contain w-14 h-14" src="../../../assets/media/logos/inactive.svg"></span>
+                  <input disabled class="absolute top-0 w-20 h-20 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
+                </label>
+              </div>
+              <div class="flex flex-row mt-3 w-60">
+                <span class="text-xs font-thin text-gray-500">Supported file types png, jpeg</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">Website or social media url</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">www.swagkicks.com</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-52">
+              <span class="mr-20 spanner">Gallery</span>
+            </td>
+            <td class="w-0 pb-5">
+              <div class="flex items-center justify-center align-middle large-image">
+                <span class="absolute cursor-pointer"><img class="object-contain" style="width: 100px; height: 95px;" src="../../../assets/media/logos/inactive.svg"></span>
+                <input disabled class="w-40 h-40 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
+              </div>
+              <span class="text-xs font-thin text-gray-500">Upload maximum 5 images</span>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+  </div>
+
+
+  <div class="card card-right" rightPane>
+    <span class="business-header">My DiviDeals profile</span>
+    <span class="secondary-title">How do you want to appear in our DiviDeals?</span>
+
+    <table class="datatable-table">
+      <tbody class="datatable-body" [formGroup]="profileForm">
+        <tr>
+          <td class="pb-5">
+            <span class="spanner">Trade name</span>
+          </td>
+          <td class="pb-5">
+            <input class="form-control" formControlName="tradeName">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Trade name is required',
+              control: profileForm.controls['tradeName']
+            }">
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-5">
+            <span class="spanner">Street address</span>
+          </td>
+          <td class="pb-5">
+            <input class="form-control" formControlName="streetAddress">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Street address is required',
+              control: profileForm.controls['streetAddress']
+            }">
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-5">
+            <span class="spanner">Zip code</span>
+          </td>
+          <td class="pb-5">
+            <input appNumbersOnly class="form-control" formControlName="zipCode" maxlength="4">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Zip code is required',
+              control: profileForm.controls['zipCode']
+            }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'zipInvalid',
+              message: 'Zip code is invalid',
+              control: profileForm.controls['zipCode']}">
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-5">
+            <span class="spanner">City</span>
+          </td>
+          <td class="pb-4">
+            <input class="form-control" formControlName="city">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'City is required',
+              control: profileForm.controls['city']
+            }">
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-5">
+            <span class="spanner">Google map pin</span>
+          </td>
+          <td class="pb-4">
+            <input class="form-control" formControlName="googleMapPin">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Google map pin required',
+              control: profileForm.controls['googleMapPin']
+            }">
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td class="w-0 pb-24">
+            <span class="spanner">Profile picture</span>
+          </td>
+          <ng-container *ngIf="!url">
+            <td class="w-0 pb-5 image-input image-input-outline image-upload">
+              <div class="object-cover image-input-wrapper small-image">
+                <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
+                  <span class="absolute top-0 flex items-center justify-center w-20 h-20"><img class="object-contain w-14 h-14" src="../../../assets/media/logos/active.svg"></span>
+                  <input class="absolute top-0 w-20 h-20 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectSingle($event)">
+                </label>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="url">
+              <td class="image-input image-input-outline">
+                <img class="object-cover w-90px h-85px" [src]="url">
+                <label class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body" data-kt-image-input-action="change" >
+                  <i class="bi bi-pencil-fill fs-7"></i>
+                  <input (change)="onSelectSingle($event)" type="file" name="avatar" accept=".png, .jpg, .jpeg">
+                  <input type="hidden" name="avatar_remove">
+                </label>
+                <span (click)="clearImage()" class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
+                  <i class="bi bi-x fs-2"></i>
+                </span>
+                <span (click)="clearImage()" class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body" data-kt-image-input-action="remove" data-bs-toggle="tooltip">
+                  <i class="bi bi-x fs-2"></i>
+                </span>
+              </td>
+            </ng-container>
+            <div class="flex flex-row mt-3 w-60">
+              <span class="text-xs font-thin text-gray-500">Supported file types png, jpeg</span>
+            </div>
+          </tr>
+        <tr>
+          <td class="w-0 pb-5">
+            <span class="spanner">Website or social media url</span>
+          </td>
+          <td class="w-0 pb-5">
+            <input class="form-control" formControlName="website_socialAppLink">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Website is required',
+              control: profileForm.controls['website_socialAppLink']
+            }">
+            </ng-container>
+            <div class="text-xs text-danger"
+                *ngIf="profileForm.controls['website_socialAppLink']?.errors?.['invalidUrl']">
+                Url is Invalid
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="w-0 pb-52">
+            <span class="mr-20 spanner">Gallery</span>
+          </td>
+          <td class="w-0 pb-5">
+            <ng-container *ngIf="multiples.length == 0">
+              <div class="flex items-center justify-center align-middle large-image">
+                <span class="absolute cursor-pointer"><img class="object-contain" style="width: 100px; height: 95px;" src="../../../assets/media/logos/active.svg"></span>
+                <input (change)="onSelectFile($event); onClick($event)" class="w-40 h-40 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="multiples.length > 0">
+              <div class="flex m-2 justify-evenly large-image">
+                <ng-container *ngFor="let multiple of multiples">
+                  <div class="flex w-full m-2 image-input image-input-outline">
+                    <img class="object-cover rounded-md w-90px h-85px" [src]="multiple">
+                    <label class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body" data-kt-image-input-action="change" >
+                      <i class="bi bi-pencil fs-7"></i>
+                      <input (change)="onSelectFile($event); onClick($event)" type="file" name="avatar" accept=".png, .jpg, .jpeg">
+                      <input type="hidden" name="avatar_remove">
+                    </label>
+                    <span (click)="clearImage()" class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
+                      <i class="bi bi-x fs-2"></i>
+                    </span>
+                    <span (click)="clearImage()" class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body" data-kt-image-input-action="remove" data-bs-toggle="tooltip">
+                      <i class="bi bi-x fs-2"></i>
+                    </span>
+                  </div>
+                </ng-container>
+                <input (change)="onSelectFile($event); onClick($event)" class="w-40 h-40 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
+              </div>
+            </ng-container>
+            <span class="text-xs font-thin text-gray-500">Upload maximum 5 images</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="flex justify-center mt-5">
+      <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+    </div>
+
+    <div class="flex justify-end pr-20 mt-3 mb-2">
+      <button type="button" class="discard-button" (click)="isLeftVisible = true">Discard</button>
+      <button type="submit" class="save-button">Save</button>
+    </div>
+
+  </div>
+</app-profile-slider>
+
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="ml-2 text-xs fv-help-block">
+        {{ message }}
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

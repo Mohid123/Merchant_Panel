@@ -31,6 +31,7 @@ import { TestComponent } from './pages/test/test.component';
 import { BusinessComponent } from './pages/business/business.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SecurityComponent } from './pages/security/security.component';
+import { ProfileSliderComponent } from './components/profile-slider/profile-slider.component';
 // #fake-end#
 
 // function appInitializer(authService: AuthService) {
@@ -42,7 +43,7 @@ import { SecurityComponent } from './pages/security/security.component';
 // }
 
 @NgModule({
-  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent, SliderComponent, TestComponent, BusinessComponent, ProfileComponent, SecurityComponent],
+  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent, SliderComponent, TestComponent, BusinessComponent, ProfileComponent, SecurityComponent, ProfileSliderComponent],
   imports: [
 CoreModule,
     BrowserModule,
