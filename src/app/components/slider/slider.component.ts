@@ -11,7 +11,7 @@ type PaneType = 'left' | 'right';
   animations: [
     trigger('slide', [
       state('left', style({ transform: 'translateX(0)' })),
-      state('right', style({ transform: 'translateX(-50%)' })),
+      state('right', style({ transform: 'translateX(-50%)', height: 'auto' })),
       transition('* => *', animate(300))
     ])
   ]

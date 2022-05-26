@@ -1,10 +1,11 @@
 .card {
   box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
   border-radius: 7px;
-  margin-left: 113px;
-  margin-right: 113px;
-  max-width: 1047px;
-  height: 450px;
+  margin-left: 90px;
+  margin-right: 90px;
+  max-width: 947px;
+  height: 393px;
+  margin-bottom: 9px;
 }
 
 .central {
@@ -16,7 +17,7 @@
   text-align: center;
   padding-top: 42px;
   font-weight: 600;
-  font-size: 31px;
+  font-size: 28px;
 }
 
 .contact-details {
@@ -32,12 +33,12 @@
   background-color: #EBF5FD;
   color: #0081E9;
   margin-top: 25px;
-  border-radius: 8px;
   margin-right: 80px;
+  border-radius: 8px;
 }
 
 .my-img {
-  width: 1047px;
+  width: 786px!important;
 }
 
 .datatable-table {
@@ -46,28 +47,39 @@
 }
 
 .spanner {
-  font-size: 18px;
+  font-size: 14px;
   color: #90A4B4;
 }
 
 .naming {
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .form-control {
   width: 305px;
   height: 40px;
-  border-color: #90A4B4;
-  font-size: 18px;
+  border-color: #dbe4eb;
+  font-size: 14px;
 }
 
 .card-right {
   box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
   border-radius: 7px;
-  margin-left: 113px;
-  margin-right: 113px;
-  max-width: 1047px;
-  height: 524px;
+  margin-left: 90px;
+  margin-right: 90px;
+  max-width: 947px;
+  min-height: 524px;
+  height: auto;
+}
+
+.card-right-lower {
+  box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
+  border-radius: 7px;
+  margin-left: 90px;
+  margin-right: 90px;
+  max-width: 947px;
+  min-height: 560px;
+  height: auto;
 }
 
 .save-button {
@@ -97,14 +109,15 @@
   .card {
     box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
     border-radius: 7px;
-    margin-left: 113px;
-    margin-right: 113px;
+    margin-left: 90px;
+    margin-right: 90px;
     max-width: 947px;
     height: 393px;
+    margin-bottom: 9px;
   }
 
   .central {
-    max-width: 786px;
+    max-width: 986px;
     height: 36px;
   }
 
@@ -129,7 +142,6 @@
     color: #0081E9;
     margin-top: 25px;
     border-radius: 8px;
-    margin-right: 80px;
   }
 
   .my-img {
@@ -153,17 +165,28 @@
   .form-control {
     width: 305px;
     height: 40px;
-    border-color: #90A4B4;
+    border-color: #dbe4eb;
     font-size: 14px;
   }
 
   .card-right {
     box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
     border-radius: 7px;
-    margin-left: 113px;
-    margin-right: 113px;
+    margin-left: 90px;
+    margin-right: 90px;
     max-width: 947px;
-    height: 524px;
+    min-height: 524px;
+    height: auto;
+  }
+
+  .card-right-lower {
+    box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
+    border-radius: 7px;
+    margin-left: 90px;
+    margin-right: 90px;
+    max-width: 947px;
+    min-height: 560px;
+    height: auto;
   }
 
   .save-button {
@@ -189,7 +212,7 @@
 
 
 @media(max-width: 1024px) {
-  .card {
+  .card-upper {
     box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
     border-radius: 7px;
     margin-left: 113px;
