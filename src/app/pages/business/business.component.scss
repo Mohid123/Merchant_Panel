@@ -1,0 +1,284 @@
+.card {
+  box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
+  border-radius: 7px;
+  margin-left: 113px;
+  margin-right: 113px;
+  max-width: 1047px;
+  height: 450px;
+}
+
+.central {
+  max-width: 986px;
+  height: 36px;
+}
+
+.business-header {
+  text-align: center;
+  padding-top: 42px;
+  font-weight: 600;
+  font-size: 31px;
+}
+
+.contact-details {
+  font-size: 16px;
+  margin-left: 80px;
+  margin-top: 30px;
+  font-weight: 500;
+}
+
+.edit-button {
+  width: 78px;
+  height: 36px;
+  background-color: #EBF5FD;
+  color: #0081E9;
+  margin-top: 25px;
+  border-radius: 8px;
+  margin-right: 80px;
+}
+
+.my-img {
+  width: 1047px;
+}
+
+.datatable-table {
+  margin-left: 94px;
+  margin-top: 40px;
+}
+
+.spanner {
+  font-size: 18px;
+  color: #90A4B4;
+}
+
+.naming {
+  font-size: 18px;
+}
+
+.form-control {
+  width: 305px;
+  height: 40px;
+  border-color: #90A4B4;
+  font-size: 18px;
+}
+
+.card-right {
+  box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
+  border-radius: 7px;
+  margin-left: 113px;
+  margin-right: 113px;
+  max-width: 1047px;
+  height: 524px;
+}
+
+.save-button {
+  color: white;
+  background-color: #0081E9;
+  width: 94px;
+  height: 40px;
+  border-radius: 7px;
+  font-size: 14px;
+}
+
+.discard-button {
+  width: 94px;
+  height: 40px;
+  background-color: #EBF5FD;
+  color: #0081E9;
+  border-radius: 8px;
+  margin-right: 18px;
+  font-size: 14px;
+}
+
+
+
+
+
+@media(max-width: 1366px) {
+  .card {
+    box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
+    border-radius: 7px;
+    margin-left: 113px;
+    margin-right: 113px;
+    max-width: 947px;
+    height: 393px;
+  }
+
+  .central {
+    max-width: 786px;
+    height: 36px;
+  }
+
+  .business-header {
+    text-align: center;
+    padding-top: 42px;
+    font-weight: 600;
+    font-size: 28px;
+  }
+
+  .contact-details {
+    font-size: 16px;
+    margin-left: 80px;
+    margin-top: 30px;
+    font-weight: 500;
+  }
+
+  .edit-button {
+    width: 78px;
+    height: 36px;
+    background-color: #EBF5FD;
+    color: #0081E9;
+    margin-top: 25px;
+    border-radius: 8px;
+    margin-right: 80px;
+  }
+
+  .my-img {
+    width: 786px!important;
+  }
+
+  .datatable-table {
+    margin-left: 94px;
+    margin-top: 40px;
+  }
+
+  .spanner {
+    font-size: 14px;
+    color: #90A4B4;
+  }
+
+  .naming {
+    font-size: 14px;
+  }
+
+  .form-control {
+    width: 305px;
+    height: 40px;
+    border-color: #90A4B4;
+    font-size: 14px;
+  }
+
+  .card-right {
+    box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
+    border-radius: 7px;
+    margin-left: 113px;
+    margin-right: 113px;
+    max-width: 947px;
+    height: 524px;
+  }
+
+  .save-button {
+    color: white;
+    background-color: #0081E9;
+    width: 94px;
+    height: 40px;
+    border-radius: 7px;
+    font-size: 14px;
+  }
+
+  .discard-button {
+    width: 94px;
+    height: 40px;
+    background-color: #EBF5FD;
+    color: #0081E9;
+    border-radius: 8px;
+    margin-right: 18px;
+    font-size: 14px;
+  }
+
+}
+
+
+@media(max-width: 1024px) {
+  .card {
+    box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
+    border-radius: 7px;
+    margin-left: 113px;
+    margin-right: 113px;
+    max-width: 847px;
+    height: 393px;
+  }
+
+  .central {
+    max-width: 686px;
+    height: 36px;
+  }
+
+  .business-header {
+    text-align: center;
+    padding-top: 42px;
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+  .contact-details {
+    font-size: 12px;
+    margin-left: 80px;
+    margin-top: 30px;
+    font-weight: 500;
+  }
+
+  .edit-button {
+    width: 52px;
+    height: 25px;
+    background-color: #EBF5FD;
+    color: #0081E9;
+    margin-top: 25px;
+    border-radius: 8px;
+    margin-right: 80px;
+    font-size: 10px;
+  }
+
+  .my-img {
+    width: 847px;
+  }
+
+  .datatable-table {
+    margin-left: 94px;
+    margin-top: 40px;
+  }
+
+  .spanner {
+    font-size: 10px;
+    color: #90A4B4;
+  }
+
+  .naming {
+    font-size: 10px;
+  }
+
+  .form-control {
+    width: 305px;
+    height: 40px;
+    border-color: #90A4B4;
+    font-size: 10px;
+  }
+
+  .card-right {
+    box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
+    border-radius: 7px;
+    margin-left: 113px;
+    margin-right: 113px;
+    max-width: 847px;
+    height: 524px;
+  }
+
+  .save-button {
+    color: white;
+    background-color: #0081E9;
+    width: 94px;
+    height: 40px;
+    border-radius: 7px;
+    font-size: 10px;
+  }
+
+  .discard-button {
+    width: 94px;
+    height: 40px;
+    background-color: #EBF5FD;
+    color: #0081E9;
+    border-radius: 8px;
+    margin-right: 12px;
+    font-size: 10px;
+  }
+
+}

@@ -26,6 +26,11 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { SingleReviewComponent } from './pages/single-review/single-review.component';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
+import { SliderComponent } from './components/slider/slider.component';
+import { TestComponent } from './pages/test/test.component';
+import { BusinessComponent } from './pages/business/business.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { SecurityComponent } from './pages/security/security.component';
 // #fake-end#
 
 // function appInitializer(authService: AuthService) {
@@ -37,7 +42,7 @@ import { FakeAPIService } from './_fake/fake-api.service';
 // }
 
 @NgModule({
-  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent],
+  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent, SliderComponent, TestComponent, BusinessComponent, ProfileComponent, SecurityComponent],
   imports: [
 CoreModule,
     BrowserModule,

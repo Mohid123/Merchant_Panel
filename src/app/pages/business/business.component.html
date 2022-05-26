@@ -1,0 +1,112 @@
+<app-test></app-test>
+
+<app-slider [activePane]="isLeftVisible ? 'left' : 'right'">
+  <div class="card" leftPane>
+    <span class="business-header">My business details</span>
+    <div class="flex justify-between central">
+      <span class="contact-details">My contact details</span>
+      <button type="button" class="edit-button" (click)="isLeftVisible = false;">Edit</button>
+    </div>
+    <div class="flex justify-center mt-10">
+      <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+    </div>
+
+    <table class="datatable-table">
+      <tbody class="datatable-body">
+        <ng-container *ngIf="(authService.currentUser$ |async) as user">
+          <tr>
+            <td class="pb-4 w-0">
+              <span class="spanner">First Name</span>
+            </td>
+            <td class="pb-4 w-0">
+              <span class="naming">{{user.firstName}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="pb-4 w-0">
+              <span class="spanner">Last Name</span>
+            </td>
+            <td class="pb-4 w-0">
+              <span class="naming">{{user.lastName}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="pb-4 w-0">
+              <span class="spanner">Email</span>
+            </td>
+            <td class="pb-4 w-0">
+              <span class="naming">{{user.email}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="pb-4 w-0">
+              <span class="spanner">Mobile Number</span>
+            </td>
+            <td class="pb-4 w-0">
+              <span class="naming">{{user.phoneNumber}}</span>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+  </div>
+
+
+  <div class="card card-right" rightPane>
+    <span class="business-header">My business details</span>
+    <div class="flex justify-between" style="max-width: 786px; height: 36px;">
+      <span class="contact-details">My contact details</span>
+    </div>
+    <div class="flex justify-center mt-10">
+      <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+    </div>
+
+    <table class="datatable-table">
+      <tbody class="datatable-body" [formGroup]="businessForm">
+        <tr>
+          <td class="pb-4">
+            <span class="spanner">First Name</span>
+          </td>
+          <td class="pb-4">
+            <input class="form-control" placeholder="David" formControlName="firstName">
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-4">
+            <span class="spanner">Last Name</span>
+          </td>
+          <td class="pb-4">
+            <input class="form-control" placeholder="David" formControlName="lastName">
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-4">
+            <span class="spanner">Email</span>
+          </td>
+          <td class="pb-4">
+            <span class="naming pl-3">admin@gmail.com</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-4">
+            <span class="spanner">Mobile Number</span>
+          </td>
+          <td class="pb-4">
+            <input class="form-control" placeholder="David" formControlName="phoneNumber">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="flex justify-center mt-5">
+      <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+    </div>
+
+    <div class="flex justify-end pr-20 mt-3">
+      <button type="button" class="discard-button" (click)="isLeftVisible = true">Discard</button>
+      <button type="submit" class="save-button" (click)="editForm()">Save</button>
+    </div>
+
+  </div>
+</app-slider>
