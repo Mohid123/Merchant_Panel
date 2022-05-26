@@ -46,6 +46,7 @@ module.exports = {
         '65': '65%',
       },
       height: {
+        '86px': '86px',
         '90px': '90px',
       },
       fontSize: {

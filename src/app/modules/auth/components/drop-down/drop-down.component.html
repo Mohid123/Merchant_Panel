@@ -1,0 +1,13 @@
+<div ngbDropdown class="d-inline-block w-full">
+  <button type="button" class="w-full dropdown-toggle dropdown-toggle-split font-thin" id="dropdownBasic1" ngbDropdownToggle>
+    {{selectedValue || 'Select Provance'}}
+  </button>
+  <div class="dropdown-menu w-full" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+    <h4>{{title}}</h4>
+    <div class="h-full overflow-y-auto max-h-28">
+      <ng-container *ngFor="let option of options">
+        <button (click)="selecteOption(option)" [class.selected]="selected == options.id" ngbDropdownItem>{{option.name}}</button>
+      </ng-container>
+    </div>
+  </div>
+</div>

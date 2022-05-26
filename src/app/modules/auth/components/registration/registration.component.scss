@@ -20,7 +20,6 @@ h3 {
   @apply max-w-sm mx-auto text-base font-medium text-center 2xl:text-lg 2xl:max-w-md;
 }
 
-select,
 input.form-control {
   @apply text-xs 2xl:text-base;
   background-color: transparent !important;
@@ -35,7 +34,6 @@ input.form-control {
   }
 }
 
-select,
 input.form-control:focus {
   border-color: #F38B41;
 }
@@ -226,6 +224,10 @@ button.back {
   p {
     max-width: 488px;
   }
+}
+
+.step3 {
+  min-height: 500px;
 }
 
 @media (min-width: 1024px) {

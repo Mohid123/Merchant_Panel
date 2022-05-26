@@ -85,7 +85,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     //   if(zipData) {
     //     console.log('zip data:',zipData);
     //   }
-    // })
+    // })ons
+
+    this.registrationForm.valueChanges.subscribe(()=>{
+      console.log('this.registrationForm:',this.registrationForm);
+    })
   }
 
   onCountryChange(country: any) {
