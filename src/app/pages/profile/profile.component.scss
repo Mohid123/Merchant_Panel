@@ -41,6 +41,7 @@
   color: #0081E9;
   margin-top: 25px;
   border-radius: 8px;
+  margin-right: 80px;
 }
 
 .my-img {
@@ -111,6 +112,181 @@
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%233333335E' stroke-width='2' stroke-dasharray='3%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   border-radius: 10px;
 }
+
+:host {
+  display: block;
+  width: calc(100% - 20px);
+}
+
+@media (min-width: 576px) {
+  :host {
+    width: calc(100% - 32px);
+  }
+}
+
+h3 {
+  @apply text-base;
+}
+
+.edit-btn {
+  @apply w-12 text-black self-center py-1 px-0 text-center;
+  background-color: #F2F4F7;
+  font-size: 10px;
+}
+
+.company-details {
+  .card-body {
+    div {
+      display: flex;
+      padding: 14px 0;
+      align-items: center;
+    }
+  }
+
+  label {
+    @apply text-custom-black-600 text-xs w-44 mr-4;
+  }
+
+  .card-body span {
+    @apply text-custom-black-100 text-xs;
+  }
+}
+
+.day {
+  @apply pr-7 pl-10 relative;
+  input {
+    display: none;
+  }
+  label {
+    @apply  w-10 h-10 flex rounded-full justify-center items-center text-white;
+    background-color: #728A9F;
+    cursor: pointer;
+  }
+  input:checked + label {
+    background-color: #10CB74;
+  }
+}
+
+.shope-status {
+  display: none;
+  position:absolute;
+  padding: 0;
+  margin: 0;
+  bottom: -6px;
+  left: 24px;
+  z-index: 1;
+  color: #10CB74;
+  font-size: 12px;
+  border: none;
+  width: 70px;
+  text-align: center;
+  &.day-off {
+    color: #728A9F;
+  }
+}
+
+.day:hover {
+  .shope-status {
+    display: block;
+  }
+}
+
+.time {
+  @apply flex w-60 justify-between items-center px-5;
+
+  div {
+    input {
+      @apply text-xs border-none rounded-md;
+      width: 90px;
+      background-color: #f0f1f4;
+      color: #787F9F;
+    }
+  }
+}
+
+.until{
+  @apply p-0;
+  font-size: 10px;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+  display:none;
+}
+
+.company-details.edit-modal {
+
+  .card-body {
+    div {
+      display: inline-block;
+      padding: 0;
+      width: 100%;
+    }
+  }
+
+  h3 {
+    @apply text-base;
+  }
+
+  label {
+    @apply text-xs text-left mb-3 w-full;
+  }
+
+  .card-body span {
+    @apply text-custom-black-100 text-xs;
+  }
+
+  .form-control {
+    border-width: 0.5px;
+    margin-bottom: 16px;
+  }
+}
+
+
+.edit-btn {
+  @apply flex justify-center items-center self-center p-0 rounded-lg;
+  background-color: #0081e914;
+  color: #0081E9;
+  font-size: 14px;
+  width: 78px;
+  height: 36px;
+}
+
+.edit-btn:hover {
+  background-color: #0080e95f;
+}
+::ng-deep .company-modal {
+  width: 463px;
+}
+
+.modal-close-btn {
+  @apply text-xs bg-white rounded-md border-custom-black-100 text-font-gray-800;
+  width: 117px;
+  border-width: 1px !important;
+}
+
+.modal-save-btn {
+  width: 117px;
+}
+
+
+::ng-deep ngx-material-timepicker-content{
+  --body-background-color: #fff;
+  --primary-font-family: 'Roboto',sans-serif;
+  --button-color: #0081e9 !important;
+  --dial-active-color: #fff;
+  --dial-inactive-color: rgba(255, 255, 255, .5);
+  --dial-background-color: #0081E9 !important;
+  --dial-editable-active-color: #0081E9 !important;
+  --dial-editable-background-color: #fff;
+  --clock-face-time-active-color: #fff;
+  --clock-face-time-inactive-color: #6c6c6c;
+  --clock-face-inner-time-inactive-color: #929292;
+  --clock-face-time-disabled-color: #c5c5c5;
+  --clock-face-background-color: #f0f0f0;
+  --clock-hand-color: #0081E9 !important;
+}
+
 
 
 
@@ -230,5 +406,180 @@
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%233333335E' stroke-width='2' stroke-dasharray='3%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
     border-radius: 10px;
   }
+
+  :host {
+    display: block;
+    width: calc(100% - 20px);
+  }
+
+  @media (min-width: 576px) {
+    :host {
+      width: calc(100% - 32px);
+    }
+  }
+
+  h3 {
+    @apply text-base;
+  }
+
+  .edit-btn {
+    @apply w-12 text-black self-center py-1 px-0 text-center;
+    background-color: #F2F4F7;
+    font-size: 10px;
+  }
+
+  .company-details {
+    .card-body {
+      div {
+        display: flex;
+        padding: 14px 0;
+        align-items: center;
+      }
+    }
+
+    label {
+      @apply text-custom-black-600 text-xs w-44 mr-4;
+    }
+
+    .card-body span {
+      @apply text-custom-black-100 text-xs;
+    }
+  }
+
+  .day {
+    @apply pr-7 pl-10 relative;
+    input {
+      display: none;
+    }
+    label {
+      @apply  w-10 h-10 flex rounded-full justify-center items-center text-white;
+      background-color: #728A9F;
+      cursor: pointer;
+    }
+    input:checked + label {
+      background-color: #10CB74;
+    }
+  }
+
+  .shope-status {
+    display: none;
+    position:absolute;
+    padding: 0;
+    margin: 0;
+    bottom: -6px;
+    left: 24px;
+    z-index: 1;
+    color: #10CB74;
+    font-size: 12px;
+    border: none;
+    width: 70px;
+    text-align: center;
+    &.day-off {
+      color: #728A9F;
+    }
+  }
+
+  .day:hover {
+    .shope-status {
+      display: block;
+    }
+  }
+
+  .time {
+    @apply flex w-60 justify-between items-center px-5;
+
+    div {
+      input {
+        @apply text-xs border-none rounded-md;
+        width: 90px;
+        background-color: #f0f1f4;
+        color: #787F9F;
+      }
+    }
+  }
+
+  .until{
+    @apply p-0;
+    font-size: 10px;
+  }
+
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    background: none;
+    display:none;
+  }
+
+  .company-details.edit-modal {
+
+    .card-body {
+      div {
+        display: inline-block;
+        padding: 0;
+        width: 100%;
+      }
+    }
+
+    h3 {
+      @apply text-base;
+    }
+
+    label {
+      @apply text-xs text-left mb-3 w-full;
+    }
+
+    .card-body span {
+      @apply text-custom-black-100 text-xs;
+    }
+
+    .form-control {
+      border-width: 0.5px;
+      margin-bottom: 16px;
+    }
+  }
+
+
+  .edit-btn {
+    @apply flex justify-center items-center self-center p-0 rounded-lg;
+    background-color: #0081e914;
+    color: #0081E9;
+    font-size: 14px;
+    width: 78px;
+    height: 36px;
+  }
+
+  .edit-btn:hover {
+    background-color: #0080e95f;
+  }
+  ::ng-deep .company-modal {
+    width: 463px;
+  }
+
+  .modal-close-btn {
+    @apply text-xs bg-white rounded-md border-custom-black-100 text-font-gray-800;
+    width: 117px;
+    border-width: 1px !important;
+  }
+
+  .modal-save-btn {
+    width: 117px;
+  }
+
+
+  ::ng-deep ngx-material-timepicker-content{
+    --body-background-color: #fff;
+    --primary-font-family: 'Roboto',sans-serif;
+    --button-color: #0081e9 !important;
+    --dial-active-color: #fff;
+    --dial-inactive-color: rgba(255, 255, 255, .5);
+    --dial-background-color: #0081E9 !important;
+    --dial-editable-active-color: #0081E9 !important;
+    --dial-editable-background-color: #fff;
+    --clock-face-time-active-color: #fff;
+    --clock-face-time-inactive-color: #6c6c6c;
+    --clock-face-inner-time-inactive-color: #929292;
+    --clock-face-time-disabled-color: #c5c5c5;
+    --clock-face-background-color: #f0f0f0;
+    --clock-hand-color: #0081E9 !important;
+  }
+
 
 }

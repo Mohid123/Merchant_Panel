@@ -16,22 +16,23 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { ClipboardModule } from 'ngx-clipboard';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { environment } from 'src/environments/environment';
 import { CoreModule } from './@core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ProfileSliderComponent } from './components/profile-slider/profile-slider.component';
+import { SliderComponent } from './components/slider/slider.component';
 import { BillingsComponent } from './pages/billings/billings.component';
+import { BusinessComponent } from './pages/business/business.component';
 import { OrderManagementComponent } from './pages/order-management/order-management.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { SecurityComponent } from './pages/security/security.component';
 import { SingleReviewComponent } from './pages/single-review/single-review.component';
+import { TestComponent } from './pages/test/test.component';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
-import { SliderComponent } from './components/slider/slider.component';
-import { TestComponent } from './pages/test/test.component';
-import { BusinessComponent } from './pages/business/business.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { SecurityComponent } from './pages/security/security.component';
-import { ProfileSliderComponent } from './components/profile-slider/profile-slider.component';
 // #fake-end#
 
 // function appInitializer(authService: AuthService) {
@@ -54,6 +55,7 @@ CoreModule,
     HttpClientModule,
     ClipboardModule,
     TableSkeletonModule,
+    NgxMaterialTimepickerModule,
     // #fake-start#
     environment.isMockEnabled
       ? HttpClientInMemoryWebApiModule.forRoot(FakeAPIService, {

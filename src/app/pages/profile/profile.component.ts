@@ -1,9 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { UrlValidator } from 'src/app/modules/auth/components/registration/url.validator';
+import { BusinessHours, initalBusinessHours } from 'src/app/modules/auth/models/business-hours.modal';
+import { UserService } from 'src/app/modules/auth/services/user.service';
 import { Gallery, User } from './../../@core/models/user.model';
 import { AuthService } from './../../modules/auth/services/auth.service';
 
@@ -13,6 +15,12 @@ import { AuthService } from './../../modules/auth/services/auth.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+
+  isEditBusinessHours: boolean;
+  businessHoursForm: FormGroup;
+  businessForm: FormGroup;
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoading: boolean;
 
   secondLeftVisible: boolean = true;
   isLeftVisible: boolean = true;
@@ -71,15 +79,66 @@ export class ProfileComponent implements OnInit {
     validator: UrlValidator('website_socialAppLink'),
   })
 
-  constructor(public authService: AuthService, private fb: FormBuilder, private toast: HotToastService, private cf: ChangeDetectorRef) {
+  constructor(
+    public authService: AuthService,
+    private fb: FormBuilder,
+    private toast: HotToastService,
+    private cf: ChangeDetectorRef,
+    private userService: UserService) {
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
       this.user = user;
+      this.setbusinessHours();
       if(user)
       this.profileForm.patchValue(user);
    });
   }
 
   ngOnInit(): void {
+  }
+
+  initBusinessForm() {
+    this.businessForm = this.fb.group({
+      businessType: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(13),
+          Validators.maxLength(300),
+        ]),
+      ],
+      validity: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(13),
+          Validators.maxLength(300),
+        ]),
+      ],
+      purchase: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(13),
+          Validators.maxLength(300),
+        ]),
+      ],
+      cancellation: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(13),
+          Validators.maxLength(300),
+        ]),
+      ],
+      extraInfo: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(13),
+          Validators.maxLength(300),
+        ]),
+      ],
+    })
   }
 
   onSelectFile(event: any) {
@@ -152,6 +211,93 @@ export class ProfileComponent implements OnInit {
   clearImage() {
     this.url = '';
   }
+
+  get businessHoursFromControl() {
+    // console.log('this.businessHoursForm:',this.businessHoursForm);
+    return this.businessHoursForm.controls["businessHours"] as FormArray;
+  }
+
+  editBusinessHours(){
+    this.isEditBusinessHours = true;
+    for (let i = 0; i < 7; i++) {
+      this.businessHoursFromControl.controls.forEach(control => {
+        control.enable();
+      })
+    }
+  }
+
+  discardBusinessHours() {
+    this.isEditBusinessHours = false;
+    this.setbusinessHours();
+  }
+
+  setbusinessHours() {
+    this.businessHoursForm = this.fb.group({
+      id: [''],
+      businessHours: this.fb.array( [])
+    });
+   const businessHours = !!this.user?.businessHours.length ? this.user?.businessHours : initalBusinessHours;
+   // console.log('businessHours:',businessHours);
+   this.businessHoursForm.controls['id'].setValue(this.user?.id);
+    businessHours.forEach(businessHour => {
+     this.addBusinessHour(businessHour)
+    })
+  }
+
+  addBusinessHour(businessHour:BusinessHours) {
+    const businessHoursGroup = this.fb.group({
+      day: [''],
+      firstStartTime: [''],
+      firstEndTime: [''],
+      secondStartTime: [''],
+      secondEndTime: [''],
+      isWorkingDay: true,
+    });
+    businessHoursGroup.disable();
+    businessHoursGroup.patchValue(businessHour)
+    this.businessHoursFromControl.push(businessHoursGroup);
+    // console.log('this.businessHoursFromControl:',this.businessHoursFromControl);
+  }
+
+  saveBusinessHours(){
+    if(this.validateBusinessHours()) {
+      this.isEditBusinessHours = false;
+      this.isLoading$.next(true);
+      this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
+        // console.log('asdsad:',res);
+        if(!res.hasErrors()) {
+          return this.userService.getUser();
+        } else {
+          return (res);
+        }
+      })).subscribe((res:any) => {
+        this.isLoading$.next(false);
+      },(error=> {
+        this.isLoading$.next(false);
+        this.toast.error('error');
+      }));
+  } else {
+    this.toast.warning('Enter business hours')
+  }
+}
+
+
+  validateBusinessHours(){
+    let valid = true;
+    this.businessHoursForm.value.businessHours.forEach((businessHours:BusinessHours) => {
+      if(valid && !businessHours.isWorkingDay || (
+          businessHours.firstStartTime.length &&
+          businessHours.firstEndTime.length &&
+          businessHours.secondStartTime.length &&
+          businessHours.secondEndTime.length)){
+            console.log('valid day:',businessHours.day);
+          }
+          else {
+            valid = false;
+          }
+    })
+    return valid;
+}
 
   validateZip(): {[key: string]: any} | null  {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
