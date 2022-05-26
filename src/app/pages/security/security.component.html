@@ -1,1 +1,131 @@
 <app-test></app-test>
+
+<div class="card">
+  <span class="main-header">My security</span>
+  <span class="secondary">My password</span>
+  <div class="flex justify-center mt-7">
+    <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+  </div>
+
+  <table class="datatable-table">
+    <tbody class="datatable-body" [formGroup]="passForm">
+      <tr>
+        <td class="pb-4">
+          <span class="spanner">Old password</span>
+        </td>
+        <td class="pb-4">
+          <div class="input-group-prepend">
+            <span class="absolute flex items-center mt-2 cursor-pointer right-52" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
+            <input
+              type="{{passwordHide ? 'password' : 'text'}}"
+              class="pr-14 form-control"
+              formControlName="oldPass">
+           </div>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Old password is required',
+            control: passForm.controls['oldPass']
+          }">
+          </ng-container>
+        </td>
+      </tr>
+      <tr>
+        <td class="pb-4">
+          <span class="spanner">New password</span>
+        </td>
+        <td class="pb-4">
+          <div class="input-group-prepend">
+            <span class="absolute flex items-center mt-2 cursor-pointer right-52" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
+            <input
+              type="{{passwordHide ? 'password' : 'text'}}"
+              class="pr-14 form-control"
+              formControlName="password"
+              [ngbPopover]="popContent"
+              [popoverTitle]="popTitle"
+              placement="bottom-end">
+              <ng-template #popTitle>
+                <div class="">Password should include:</div>
+              </ng-template>
+              <ng-template #popContent>
+                <div class="flex flex-col justify-evenly">
+                  <div [ngClass]="passForm.controls['password']?.hasError('required') || passForm.controls['password']?.hasError('minlength')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="passForm.controls['password']?.hasError('required') || passForm.controls['password']?.hasError('minlength')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. 8 characters</div>
+                  <div [ngClass]="passForm.controls['password']?.hasError('required') || passForm.controls['password']?.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="passForm.controls['password']?.hasError('required') || passForm.controls['password']?.hasError('hasCapitalCase')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one uppercase</div>
+                  <div [ngClass]="passForm.controls['password']?.hasError('required') || passForm.controls['password']?.hasError('hasSmallCase')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="passForm.controls['password']?.hasError('required') || passForm.controls['password']?.hasError('hasSmallCase')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one lowercase</div>
+                  <div [ngClass]="passForm.controls['password']?.hasError('required') || passForm.controls['password']?.hasError('hasNumber')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="passForm.controls['password']?.hasError('required') || passForm.controls['password']?.hasError('hasNumber')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one numeric</div>
+                  <div [ngClass]="passForm.controls['password']?.hasError('required') || passForm.controls['password']?.hasError('hasSpecialCharacters')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="passForm.controls['password']?.hasError('required') || passForm.controls['password']?.hasError('hasSpecialCharacters')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one special character (@,*,#,$,%,&)</div>
+                </div>
+                <div *ngIf="passForm.controls['password']?.valid" class="mt-2 text-sm text-left text-success">Password is valid</div>
+              </ng-template>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="pb-4">
+          <span class="spanner">Confirm new password</span>
+        </td>
+        <td class="pb-4">
+          <div class="input-group-prepend">
+            <span class="absolute flex items-center mt-2 cursor-pointer right-52" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
+            <input
+              type="{{passwordHide ? 'password' : 'text'}}"
+              class="form-control"
+              formControlName="confirmPass">
+           </div>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Confirm your password',
+            control: passForm.controls['confirmPass']
+          }">
+          </ng-container>
+          <div class="text-xs text-danger"
+            *ngIf="passForm.controls['confirmPass']?.errors?.['confirmedValidator']">
+            The Passwords do not match
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="flex justify-end">
+    <button type="button" class="edit-button">Reset</button>
+  </div>
+
+  <span class="secondary">My voucher pincode</span>
+  <div class="flex justify-center mt-5">
+    <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+  </div>
+
+  <table class="datatable-table pb-3">
+    <tbody class="datatable-body">
+      <tr>
+        <td class="pb-4">
+          <span class="spanner">My voucher pincode</span>
+        </td>
+        <td class="pb-4 pl-11">
+          <div class="input-group-prepend">
+            <span class="absolute flex items-center mt-2 cursor-pointer right-52"><i class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye fa-xs"></i></span>
+            <input
+              class="form-control">
+           </div>
+          <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'First name is required',
+            control: businessForm.controls['firstName']
+          }">
+          </ng-container> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="ml-2 text-xs fv-help-block">
+        {{ message }}
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
