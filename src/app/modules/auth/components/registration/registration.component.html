@@ -266,7 +266,7 @@
             <div class="h-86px fv-row 2xl:h-28 province">
               <label class="w-full mb-1 text-sm form-label">Province</label>
                 <app-drop-down [options]="provincese" [title]="'Select Province'" formControlName="province"></app-drop-down>
-                <ng-container *ngIf="f['province'].value == null && registrationForm.dirty">
+                <ng-container *ngIf="f['province'].value == null && f['province'].touched">
                   <div class="text-xs text-danger">Please select a Province</div>
                 </ng-container>
             </div>
@@ -276,7 +276,7 @@
                 <app-drop-down [options]="provincese" formControlName="province"></app-drop-down>
             </div> -->
 
-            <div class="mb-2 fv-row 2xl:mt-5">
+            <div class="h-86px 2xl:h-28 mb-2 fv-row 2xl:mt-5">
               <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Website or social media url</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="website_socialAppLink"
               placeholder="Website"
