@@ -19,7 +19,7 @@ import { UserService } from './../../auth/services/user.service';
 export class BussinessDetailsComponent implements OnInit {
   destroy$ = new Subject();
   termsForm: FormGroup = this.fb.group({
-    generalTermsAgreements: ['',Validators.minLength(40)],
+    aboutUs: ['',Validators.minLength(40)],
     businessType: ['',Validators.minLength(40)]
   })
   businessForm: FormGroup;
