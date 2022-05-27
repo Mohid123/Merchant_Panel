@@ -8,24 +8,24 @@ export interface User {
   role: string;
   businessType: string;
   legalName: string;
+  tradeName: string;
   streetAddress: string;
   zipCode: number;
   city: string;
   vatNumber: number;
+  iban: string;
+  bankName: string;
   province: string;
   website_socialAppLink: string;
   googleMapPin: string;
   businessHours: BusinessHours[];
-  aboutStore: string;
+  finePrint: string;
   aboutUs: string;
   profilePicURL: string;
   profilePicBlurHash: string;
   deletedCheck: boolean;
   status: string;
-  iban: string;
-  bankName: string;
   newUser: boolean;
-  tradeName: string;
   gallery: Gallery[];
 }
 

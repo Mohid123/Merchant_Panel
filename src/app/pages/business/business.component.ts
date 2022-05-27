@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { exhaustMap, takeUntil } from 'rxjs/operators';
+import { UserService } from 'src/app/modules/auth/services/user.service';
 import { User } from './../../@core/models/user.model';
 import { AuthService } from './../../modules/auth/services/auth.service';
 
@@ -74,7 +75,11 @@ export class BusinessComponent implements OnInit {
 
   })
 
-  constructor(public authService: AuthService, private fb: FormBuilder, private toast: HotToastService) {
+  constructor(
+    public authService: AuthService,
+    private fb: FormBuilder,
+    private toast: HotToastService,
+    private userService: UserService) {
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
       this.user = user;
       if(user)
@@ -88,31 +93,51 @@ export class BusinessComponent implements OnInit {
 
   editForm() {
     this.isLeftVisible = true;
-    this.toast.success('Contact details updated', {
-      style: {
-        border: '1px solid #65a30d',
-        padding: '16px',
-        color: '#3f6212',
-      },
-      iconTheme: {
-        primary: '#84cc16',
-        secondary: '#064e3b',
-      },
+    this.userService.updateMerchantprofile(this.businessForm.value)
+    .pipe(exhaustMap((res: any) => {
+      if(!res.hasErrors()) {
+        this.toast.success('Contact details updated', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        })
+        return this.userService.getUser();
+        } else {
+          return (res);
+        }
+    })).subscribe((res: any) => {
+      console.log(res);
     })
   }
 
   editCompanyForm() {
     this.secondLeftVisible = true;
-    this.toast.success('Company details updated', {
-      style: {
-        border: '1px solid #65a30d',
-        padding: '16px',
-        color: '#3f6212',
-      },
-      iconTheme: {
-        primary: '#84cc16',
-        secondary: '#064e3b',
-      },
+    this.userService.updateMerchantprofile(this.companyForm.value)
+    .pipe(exhaustMap((res: any) => {
+      if(!res.hasErrors()) {
+        this.toast.success('Company details updated', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        })
+        return this.userService.getUser();
+        } else {
+          return (res);
+        }
+    })).subscribe((res: any) => {
+      console.log(res);
     })
   }
 

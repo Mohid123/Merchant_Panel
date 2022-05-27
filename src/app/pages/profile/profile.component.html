@@ -16,7 +16,7 @@
               <span class="spanner">Trade name</span>
             </td>
             <td class="w-0 pb-5">
-              <span class="naming">{{user.firstName}}</span>
+              <span class="naming">{{user.tradeName}}</span>
             </td>
           </tr>
           <tr>
@@ -179,7 +179,7 @@
           <td class="w-0 pb-24">
             <span class="spanner">Profile picture</span>
           </td>
-          <ng-container *ngIf="!url">
+          <ng-container *ngIf="!image">
             <td class="w-0 pb-5 image-input image-input-outline image-upload">
               <div class="object-cover image-input-wrapper small-image">
                 <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
@@ -188,9 +188,9 @@
                 </label>
               </div>
             </ng-container>
-            <ng-container *ngIf="url">
+            <ng-container *ngIf="image">
               <td class="image-input image-input-outline">
-                <img class="object-cover w-90px h-85px" [src]="url">
+                <img class="object-cover w-90px h-85px" [src]="image">
                 <label class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body" data-kt-image-input-action="change" >
                   <i class="bi bi-pencil-fill fs-7"></i>
                   <input (change)="onSelectSingle($event)" type="file" name="avatar" accept=".png, .jpg, .jpeg">
@@ -272,7 +272,7 @@
 
     <div class="flex justify-end pb-2 pr-20 mt-3 mb-2 3xl:pr-32">
       <button type="button" class="discard-button" (click)="isLeftVisible = true">Discard</button>
-      <button type="submit" class="save-button">Save</button>
+      <button type="submit" class="save-button" (click)="submitProfileChanges()">Save</button>
     </div>
 
   </div>
@@ -353,7 +353,7 @@
         </div>
 
         <div class="pb-1">
-          <ckeditor formControlName="businessType" [editor]="Editor" [config]="config"></ckeditor>
+          <ckeditor formControlName="finePrint" [editor]="Editor" [config]="config"></ckeditor>
         </div>
 
           <!-- <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveTerms()">

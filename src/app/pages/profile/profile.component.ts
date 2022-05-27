@@ -29,17 +29,18 @@ export class ProfileComponent implements OnInit {
   isLeftVisible: boolean = true;
   user: User | null;
   destroy$ = new Subject();
-  urls: Gallery[] = [];
-  url: string = '';
+  urls: any[] = [];
+  url: any;
+  image: string = '';
   file: any;
   singleFile: any
   multiples: any[] = [];
-  images: any[] = [];
+  images: Gallery[] = [];
   private unsubscribe: Subscription[] = [];
 
   termsForm: FormGroup = this.fb.group({
     aboutUs: ['',Validators.minLength(40)],
-    businessType: ['',Validators.minLength(40)]
+    finePrint: ['',Validators.minLength(40)]
   })
 
   config: any;
@@ -84,8 +85,8 @@ export class ProfileComponent implements OnInit {
       ])
     ],
 
-    profilePicURL: '',
-    gallery: this.urls,
+    profilePicURL: this.image,
+    gallery: this.images
   }
   , {
     validator: UrlValidator('website_socialAppLink'),
@@ -137,9 +138,38 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  submitProfileChanges() {
+    this.isLeftVisible = true;
+    debugger
+    this.profileForm.patchValue({gallery: this.images})
+    this.profileForm.patchValue({profilePicURL: this.image})
+    this.userService.updateMerchantprofile(this.profileForm.value)
+    .pipe(exhaustMap((res: any) => {
+      debugger
+      if(!res.hasErrors()) {
+        this.toast.success('Profile updated', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        })
+        return this.userService.getUser();
+        } else {
+          return (res);
+        }
+    })).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
   initBusinessForm() {
     this.businessForm = this.fb.group({
-      businessType: [
+      finePrint: [
         '',
         Validators.compose([
           Validators.required,
@@ -199,6 +229,7 @@ export class ProfileComponent implements OnInit {
           .subscribe((res: ApiResponse<any>) => {
             if(!res.hasErrors()) {
               this.images.push(res.data?.url);
+              debugger
               this.cf.detectChanges();
               this.urls = [];
               this.cf.detectChanges();
@@ -238,15 +269,28 @@ export class ProfileComponent implements OnInit {
   }
 
   onSelectSingle(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      this.cf.detectChanges();
-      reader.onload = (event: any) => {
-        this.url = event.target.result;
-        this.cf.detectChanges();
+    // if (event.target.files && event.target.files[0]) {
+      this.url = event.target.files && event.target.files.length;
+      if (this.url > 0) {
+        let i: number = 0;
+        for (const singlefile of event.target.files) {
+          var reader = new FileReader();
+          reader.readAsDataURL(singlefile);
+          this.multiples.push(singlefile);
+          this.cf.detectChanges();
+          i++;
+        }
       }
-    }
+      for (let index = 0; index < this.multiples.length; index++) {
+        this.mediaService.uploadMedia('profile-image', this.multiples[index]).subscribe((res: ApiResponse<any>) => {
+          if(!res.hasErrors()) {
+            this.image = res.data?.url;
+            this.cf.detectChanges();
+            this.multiples = [];
+          }
+        })
+      }
+    // }
   }
 
   onClick(event: any) {
@@ -254,7 +298,7 @@ export class ProfileComponent implements OnInit {
   }
 
   clearImage() {
-    this.url = '';
+    this.image = '';
   }
 
   get businessHoursFromControl() {
@@ -324,28 +368,28 @@ export class ProfileComponent implements OnInit {
   } else {
     this.toast.warning('Enter business hours')
   }
-}
+  }
 
-saveTerms() {
-  this.userService.updateMerchantprofile(this.termsForm.value).pipe(exhaustMap((res:any) => {
-    // console.log('asdsad:',res);
-    if(!res.hasErrors()) {
-      this.toast.success('Data saved')
-      return this.userService.getUser();
-    } else {
-      return (res);
-    }
-  })).subscribe((res:any) => {
-    this.isEditBusinessHours = false;
-    this.isLoading$.next(false);
-  },(error=> {
-    this.isLoading$.next(false);
-    this.toast.error('error');
-  }));
-}
+  saveTerms() {
+    this.userService.updateMerchantprofile(this.termsForm.value).pipe(exhaustMap((res:any) => {
+      // console.log('asdsad:',res);
+      if(!res.hasErrors()) {
+        this.toast.success('Data saved')
+        return this.userService.getUser();
+      } else {
+        return (res);
+      }
+    })).subscribe((res:any) => {
+      this.isEditBusinessHours = false;
+      this.isLoading$.next(false);
+    },(error=> {
+      this.isLoading$.next(false);
+      this.toast.error('error');
+    }));
+  }
 
 
-  validateBusinessHours(){
+  validateBusinessHours() {
     let valid = true;
     this.businessHoursForm.value.businessHours.forEach((businessHours:BusinessHours) => {
       if(valid && !businessHours.isWorkingDay || (
@@ -360,7 +404,7 @@ saveTerms() {
           }
     })
     return valid;
-}
+  }
 
   validateZip(): {[key: string]: any} | null  {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
@@ -377,27 +421,3 @@ saveTerms() {
   }
 
 }
-
-
-  // reader.onload = (event) => {
-        //   debugger
-        //   const url = (<FileReader>event.target).result as string;
-        //   this.multiples.push(url);
-        //   this.cf.detectChanges();
-        //   if (this.multiples.length > 5) {
-        //     this.multiples.pop();
-        //     this.cf.detectChanges();
-        //     this.urls.pop();
-        //     this.toast.error('Please select upto 5 images', {
-        //       style: {
-        //         border: '1px solid #713200',
-        //         padding: '16px',
-        //         color: '#713200',
-        //       },
-        //       iconTheme: {
-        //         primary: '#713200',
-        //         secondary: '#FFFAEE',
-        //       }
-        //     })
-        //   }
-        // };

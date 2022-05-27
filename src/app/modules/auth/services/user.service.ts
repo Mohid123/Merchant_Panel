@@ -34,12 +34,11 @@ export class UserService extends ApiService<AuthApiData> {
   }
 
   updateIBAN(merchantID: string | any, iban: string) {
-    debugger
     return this.post(`/users/completeKYC/${merchantID}`, {iban})
   }
 
   updateMerchantprofile(param:any) {
-    param.id=this.authService.currentUserValue?.id;
-    return this.post('/users/updateMerchantprofile',param)
+    const id = this.authService.currentUserValue?.id;
+    return this.post(`/users/updateMerchantprofile/${id}`, param)
   }
 }
