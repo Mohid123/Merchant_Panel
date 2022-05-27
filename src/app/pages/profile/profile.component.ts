@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ApiResponse } from '@core/models/response.model';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
@@ -8,6 +9,7 @@ import { UrlValidator } from 'src/app/modules/auth/components/registration/url.v
 import { BusinessHours, initalBusinessHours } from 'src/app/modules/auth/models/business-hours.modal';
 import { UserService } from 'src/app/modules/auth/services/user.service';
 import { Gallery, User } from './../../@core/models/user.model';
+import { MediaService } from './../../@core/services/media.service';
 import { AuthService } from './../../modules/auth/services/auth.service';
 
 @Component({
@@ -32,7 +34,7 @@ export class ProfileComponent implements OnInit {
   file: any;
   singleFile: any
   multiples: any[] = [];
-  images = [];
+  images: any[] = [];
   private unsubscribe: Subscription[] = [];
 
   termsForm: FormGroup = this.fb.group({
@@ -94,7 +96,8 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private toast: HotToastService,
     private cf: ChangeDetectorRef,
-    private userService: UserService) {
+    private userService: UserService,
+    private mediaService: MediaService) {
 
       const loadingSubscr = this.isLoading$
       .asObservable()
@@ -182,7 +185,6 @@ export class ProfileComponent implements OnInit {
   onSelectFile(event: any) {
     this.file = event.target.files && event.target.files.length;
     if (this.file > 0 && this.file < 6) {
-      // this.images = event.target.files;
       let i: number = 0;
       for (const singlefile of event.target.files) {
         var reader = new FileReader();
@@ -190,29 +192,34 @@ export class ProfileComponent implements OnInit {
         this.urls.push(singlefile);
         this.cf.detectChanges();
         i++;
-        reader.onload = (event) => {
-          const url = (<FileReader>event.target).result as string;
-          this.multiples.push(url);
-          this.cf.detectChanges();
-          // If multple events are fired by user
-          if (this.multiples.length > 5) {
-            // If multple events are fired by user
-            this.multiples.pop();
-            this.cf.detectChanges();
-            this.urls.pop();
-            this.toast.error('Please select upto 5 images', {
-              style: {
-                border: '1px solid #713200',
-                padding: '16px',
-                color: '#713200',
-              },
-              iconTheme: {
-                primary: '#713200',
-                secondary: '#FFFAEE',
+      }
+      if(this.urls.length > 0) {
+        for (let index = 0; index < this.urls.length; index++) {
+          this.mediaService.uploadMedia('profile-images', this.urls[index])
+          .subscribe((res: ApiResponse<any>) => {
+            if(!res.hasErrors()) {
+              this.images.push(res.data?.url);
+              this.cf.detectChanges();
+              this.urls = [];
+              this.cf.detectChanges();
+              if(this.images.length > 5) {
+                this.images.pop();
+                this.cf.detectChanges();
+                this.toast.error('Upto 5 images are allowed', {
+                  style: {
+                    border: '1px solid #713200',
+                    padding: '16px',
+                    color: '#713200',
+                  },
+                  iconTheme: {
+                    primary: '#713200',
+                    secondary: '#FFFAEE',
+                  }
+                })
               }
-            })
-          }
-        };
+            }
+          });
+        }
       }
     }
     else {
@@ -230,12 +237,12 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  onSelectSingle(event: any) { // called each time file input changes
+  onSelectSingle(event: any) {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.readAsDataURL(event.target.files[0]);
       this.cf.detectChanges();
-      reader.onload = (event: any) => { // called once readAsDataURL is completed
+      reader.onload = (event: any) => {
         this.url = event.target.result;
         this.cf.detectChanges();
       }
@@ -370,3 +377,27 @@ saveTerms() {
   }
 
 }
+
+
+  // reader.onload = (event) => {
+        //   debugger
+        //   const url = (<FileReader>event.target).result as string;
+        //   this.multiples.push(url);
+        //   this.cf.detectChanges();
+        //   if (this.multiples.length > 5) {
+        //     this.multiples.pop();
+        //     this.cf.detectChanges();
+        //     this.urls.pop();
+        //     this.toast.error('Please select upto 5 images', {
+        //       style: {
+        //         border: '1px solid #713200',
+        //         padding: '16px',
+        //         color: '#713200',
+        //       },
+        //       iconTheme: {
+        //         primary: '#713200',
+        //         secondary: '#FFFAEE',
+        //       }
+        //     })
+        //   }
+        // };

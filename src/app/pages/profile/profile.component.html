@@ -232,27 +232,27 @@
           </td>
           <td class="w-0 pb-5">
 
-            <ng-container *ngIf="multiples.length == 0">
+            <ng-container *ngIf="images.length == 0">
               <div class="flex items-center justify-center align-middle large-image">
                 <span class="absolute cursor-pointer"><img class="object-contain" style="width: 100px; height: 95px;" src="../../../assets/media/logos/active.svg"></span>
                 <input (change)="onSelectFile($event); onClick($event)" class="w-40 h-40 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
               </div>
             </ng-container>
 
-            <ng-container *ngIf="multiples.length > 0">
+            <ng-container *ngIf="images.length > 0">
               <div class="large-image">
-                <ng-container *ngFor="let multiple of multiples; let i = index">
+                <ng-container *ngFor="let multiple of images; let i = index">
                   <div class="m-1 image-input image-input-outline">
                     <img class="object-cover rounded-md w-80px h-80px" [src]="multiple">
                     <label class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="change" >
                       <i class="bi bi-pencil-fill" style="font-size: 8px;"></i>
-                      <input (change)="onSelectFile($event); onClick($event)" type="file" name="avatar" accept=".png, .jpg, .jpeg">
+                      <input (change)="onSelectFile($event); onClick($event)" type="file" name="avatar" accept=".png, .jpg, .jpeg" multiple>
                       <input type="hidden" name="avatar_remove">
                     </label>
-                    <span (click)="multiples.splice(i, 1)" class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
+                    <span (click)="images.splice(i, 1)" class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
                       <i class="bi bi-x fs-6"></i>
                     </span>
-                    <span (click)="multiples.splice(i, 1)" class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="remove" data-bs-toggle="tooltip">
+                    <span (click)="images.splice(i, 1)" class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="remove" data-bs-toggle="tooltip">
                       <i class="bi bi-x fs-6"></i>
                     </span>
                   </div>
