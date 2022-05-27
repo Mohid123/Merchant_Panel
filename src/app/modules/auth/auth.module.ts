@@ -13,6 +13,7 @@ import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { TranslationModule } from '../i18n/translation.module';
+import { MaxLengthModule } from './../../@core/directives/max-length/max-length.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { CategoryRadioButtonComponent } from './components/category-radio-button/category-radio-button.component';
@@ -53,7 +54,8 @@ import { SecurityCodeComponent } from './components/security-code/security-code.
     Ng2TelInputModule,
     NgbPopoverModule,
     MatSelectModule,
-    NgbModule
+    NgbModule,
+    MaxLengthModule
   ],
   providers: [
     {
