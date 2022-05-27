@@ -199,6 +199,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     })
   }
 
+  onEnter() {
+    if(this.registrationForm.valid) {
+      this.submit();
+    }
+  }
+
   submit() {
     console.log('registrationForm:',this.registrationForm);
     debugger
