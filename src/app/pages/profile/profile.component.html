@@ -242,7 +242,7 @@
             <ng-container *ngIf="multiples.length > 0">
               <div class="large-image">
                 <ng-container *ngFor="let multiple of multiples; let i = index">
-                  <div class="image-input image-input-outline m-1">
+                  <div class="m-1 image-input image-input-outline">
                     <img class="object-cover rounded-md w-80px h-80px" [src]="multiple">
                     <label class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="change" >
                       <i class="bi bi-pencil-fill" style="font-size: 8px;"></i>
@@ -278,13 +278,19 @@
   </div>
 </app-profile-slider>
 
-<div class="card" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
-  <div class="py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
-    <h3 class="flex items-center m-0 fw-bolder">Set Business Hours</h3>
-    <a *ngIf="!isEditBusinessHours" (click)="editBusinessHours()" class="edit-btn">Edit</a>
+<div class="card card-business">
+
+  <div class="py-6 border-0 border-transparent cursor-pointer card-header">
+    <h3 class="flex items-center mt-2 2xl:ml-24 fw-bolder">Set Business Hours</h3>
+    <a *ngIf="!isEditBusinessHours" (click)="editBusinessHours()" class="2xl:mr-24 edit-btn">Edit</a>
   </div>
+
+  <div class="flex justify-center">
+    <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+  </div>
+
   <div class="pl-0 pr-0 card-body" style="background-color: white;">
-    <div class="table-responsive">
+    <div class="max-w-full table-responsive">
       <table [formGroup]="businessHoursForm" class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
         <tbody class="flex flex-col" formArrayName="businessHours" >
           <ng-container *ngFor="let formControls of businessHoursFromControl.controls;let i=index" [formGroupName]="i" >
@@ -330,17 +336,43 @@
         </ng-container>
         </tbody>
       </table>
-      <div class="justify-between px-10 py-6 border-none card-footer d-flex" *ngIf="isEditBusinessHours || (this.isLoading$ | async)">
-        <button class="modal-close-btn"
-        routerLinkActive="active"
-        (click)="discardBusinessHours()">Discard</button>
-
-        <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async)" (click)="saveBusinessHours()">
-          <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
-        </button>
-
-      </div>
     </div>
+
+    <div class="py-2 mb-3 ml-32" style="border-style: none!important;">
+        <h3 class="m-0 font-normal">About us</h3>
+    </div>
+
+    <div class="ml-32 mr-20">
+      <form class="form row" [formGroup]="termsForm">
+        <div class="pb-5">
+          <ckeditor formControlName="generalTermsAgreements" [editor]="Editor" [config]="config" name="termsAndCondition"></ckeditor>
+        </div>
+
+        <div class="py-2">
+          <h3 class="font-normal">Fine print</h3>
+        </div>
+
+        <div class="pb-1">
+          <ckeditor formControlName="businessType" [editor]="Editor" [config]="config"></ckeditor>
+        </div>
+
+          <!-- <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveTerms()">
+          <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+        </button> -->
+
+      </form>
+    </div>
+    <div class="justify-between px-10 py-6 border-none d-flex" *ngIf="isEditBusinessHours || (this.isLoading$ | async)">
+      <button class="modal-close-btn"
+      routerLinkActive="active"
+      (click)="discardBusinessHours()">Discard</button>
+
+      <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveBusinessHours(); saveTerms()">
+        <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+      </button>
+
+    </div>
+
   </div>
 </div>
 

@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { HotToastService } from '@ngneat/hot-toast';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { UrlValidator } from 'src/app/modules/auth/components/registration/url.validator';
 import { BusinessHours, initalBusinessHours } from 'src/app/modules/auth/models/business-hours.modal';
@@ -32,6 +33,15 @@ export class ProfileComponent implements OnInit {
   singleFile: any
   multiples: any[] = [];
   images = [];
+  private unsubscribe: Subscription[] = [];
+
+  termsForm: FormGroup = this.fb.group({
+    generalTermsAgreements: ['',Validators.minLength(40)],
+    businessType: ['',Validators.minLength(40)]
+  })
+
+  config: any;
+  public Editor = ClassicEditor
 
   profileForm: FormGroup = this.fb.group({
     tradeName: ['',
@@ -85,15 +95,43 @@ export class ProfileComponent implements OnInit {
     private toast: HotToastService,
     private cf: ChangeDetectorRef,
     private userService: UserService) {
+
+      const loadingSubscr = this.isLoading$
+      .asObservable()
+      .subscribe((res) => (this.isLoading = res));
+      this.unsubscribe.push(loadingSubscr);
+
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
       this.user = user;
       this.setbusinessHours();
       if(user)
       this.profileForm.patchValue(user);
+      this.termsForm.patchValue(user);
    });
   }
 
   ngOnInit(): void {
+
+    this.config = {
+      toolbar: {
+        styles: [
+            'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
+            ],
+        items: [
+          'heading',
+          'fontSize',
+          'bold',
+          'italic',
+          'underline',
+          'highlight',
+          'alignment',
+          'indent',
+          'outdent',
+          'undo',
+          'redo'
+        ]
+      }
+    }
   }
 
   initBusinessForm() {
@@ -279,6 +317,24 @@ export class ProfileComponent implements OnInit {
   } else {
     this.toast.warning('Enter business hours')
   }
+}
+
+saveTerms() {
+  this.userService.updateMerchantprofile(this.termsForm.value).pipe(exhaustMap((res:any) => {
+    // console.log('asdsad:',res);
+    if(!res.hasErrors()) {
+      this.toast.success('Data saved')
+      return this.userService.getUser();
+    } else {
+      return (res);
+    }
+  })).subscribe((res:any) => {
+    this.isEditBusinessHours = false;
+    this.isLoading$.next(false);
+  },(error=> {
+    this.isLoading$.next(false);
+    this.toast.error('error');
+  }));
 }
 
 

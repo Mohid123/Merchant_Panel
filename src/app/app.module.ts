@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { PendingSkeletonModule } from '@components/pending-skeleton/pending-skeleton.module';
 import { ReusableModalModule } from '@components/reusable-modal/reusable-modal.module';
 import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.module';
@@ -54,6 +55,7 @@ CoreModule,
     TranslateModule.forRoot(),
     HttpClientModule,
     ClipboardModule,
+    CKEditorModule,
     TableSkeletonModule,
     NgxMaterialTimepickerModule,
     // #fake-start#

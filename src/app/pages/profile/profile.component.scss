@@ -5,7 +5,19 @@
   margin-right: 90px;
   max-width: 1247px;
   height: 854px;
+  margin-bottom: 13px;
+}
+
+.card-business {
+  box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
+  border-radius: 7px;
+  margin-left: 90px;
+  margin-right: 90px;
+  max-width: 1247px;
+  height: 1300px;
   margin-bottom: 9px;
+  margin-top: 0px;
+  max-height: 1360px;
 }
 
 .central {
@@ -299,6 +311,17 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     margin-right: 90px;
     max-width: 947px;
     height: 854px;
+    margin-bottom: 9px;
+  }
+
+  .card-business {
+    box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);
+    border-radius: 7px;
+    margin-left: 90px;
+    margin-right: 90px;
+    max-width: 1247px;
+    height: 1184px;
+    max-height: 1400px;
     margin-bottom: 9px;
   }
 

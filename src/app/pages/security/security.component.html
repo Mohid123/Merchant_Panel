@@ -8,14 +8,14 @@
   </div>
 
   <table class="datatable-table">
-    <tbody class="datatable-body" [formGroup]="passForm">
+    <tbody class="w-full datatable-body form-group" [formGroup]="passForm">
       <tr>
         <td class="pb-4">
           <span class="spanner">Old password</span>
         </td>
         <td class="pb-4">
           <div class="input-group-prepend">
-            <span class="absolute flex items-center mt-2 cursor-pointer right-52" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
+            <!-- <span class="absolute flex items-center mt-2 cursor-pointer right-52" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span> -->
             <input
               type="{{passwordHide ? 'password' : 'text'}}"
               class="pr-14 form-control"
@@ -34,8 +34,8 @@
           <span class="spanner">New password</span>
         </td>
         <td class="pb-4">
-          <div class="input-group-prepend">
-            <span class="absolute flex items-center mt-2 cursor-pointer right-52" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
+          <div class="flex flex-row input-group-prepend">
+            <span class="absolute flex items-center mt-2 ml-64 cursor-pointer" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
             <input
               type="{{passwordHide ? 'password' : 'text'}}"
               class="pr-14 form-control"
@@ -64,8 +64,8 @@
           <span class="spanner">Confirm new password</span>
         </td>
         <td class="pb-4">
-          <div class="input-group-prepend">
-            <span class="absolute flex items-center mt-2 cursor-pointer right-52" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
+          <div class="flex flex-row input-group-prepend">
+            <!-- <span class="absolute flex items-center mt-2 cursor-pointer right-52" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span> -->
             <input
               type="{{passwordHide ? 'password' : 'text'}}"
               class="form-control"
@@ -95,17 +95,17 @@
     <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
   </div>
 
-  <table class="datatable-table pb-3">
-    <tbody class="datatable-body">
+  <table class="pb-3 datatable-table">
+    <tbody class="w-full datatable-body form-group">
       <tr>
         <td class="pb-4">
           <span class="spanner">My voucher pincode</span>
         </td>
         <td class="pb-4 pl-11">
-          <div class="input-group-prepend">
-            <span class="absolute flex items-center mt-2 cursor-pointer right-52"><i class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye fa-xs"></i></span>
+          <div class="flex justify-start input-group-prepend">
+            <span class="absolute flex items-center mt-2 ml-64 cursor-pointer"><i class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye fa-xs"></i></span>
             <input
-              class="form-control">
+              class="form-control pr-14">
            </div>
           <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'required',
