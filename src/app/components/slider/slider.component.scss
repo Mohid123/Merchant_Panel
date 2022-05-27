@@ -1,7 +1,14 @@
+// :host {
+//   display: block;
+//   overflow: hidden;
+// }
+
 :host {
   display: block;
+  perspective: 600px;
   overflow: hidden;
 }
+
 
 .panes {
   height: 400px;
@@ -12,3 +19,12 @@
     flex: 1;
   }
 }
+
+.pane1 {
+  transform: none;
+}
+
+.pane2 {
+  transform: rotateY(180deg);
+}
+
