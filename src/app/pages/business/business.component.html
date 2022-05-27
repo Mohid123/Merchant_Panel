@@ -154,7 +154,7 @@
               <span class="spanner">Legal name</span>
             </td>
             <td class="w-0 pb-4">
-              <span class="naming">{{user.companyName}}</span>
+              <span class="naming">{{user.legalName}}</span>
             </td>
           </tr>
           <tr>
@@ -219,11 +219,11 @@
             <span class="spanner">Legal name</span>
           </td>
           <td class="pb-4">
-            <input class="form-control" formControlName="companyName">
+            <input class="form-control" formControlName="legalName">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Legal name is required',
-              control: companyForm.controls['companyName']
+              control: companyForm.controls['legalName']
             }">
             </ng-container>
           </td>

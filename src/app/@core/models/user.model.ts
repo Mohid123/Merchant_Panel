@@ -7,7 +7,7 @@ export interface User {
   phoneNumber: string;
   role: string;
   businessType: string;
-  companyName: string;
+  legalName: string;
   streetAddress: string;
   zipCode: number;
   city: string;
@@ -17,7 +17,7 @@ export interface User {
   googleMapPin: string;
   businessHours: BusinessHours[];
   aboutStore: string;
-  generalTermsAgreements: string;
+  aboutUs: string;
   profilePicURL: string;
   profilePicBlurHash: string;
   deletedCheck: boolean;

@@ -165,25 +165,25 @@
               <h1 class="text-dark">Your business details</h1>
             <div class="mb-5 fv-row">
               <label class="mb-1 text-sm form-label">Company Name</label>
-              <input class="form-control form-control-lg form-control-solid" type="text" name="companyName"
+              <input class="form-control form-control-lg form-control-solid" type="text" name="legalName"
               placeholder="Company Name"
-                formControlName="companyName" autocomplete="off" [ngClass]="{
-                'is-invalid': f['companyName'].invalid && f['companyName'].touched,
-                'is-valid': f['companyName'].valid}" />
+                formControlName="legalName" autocomplete="off" [ngClass]="{
+                'is-invalid': f['legalName'].invalid && f['legalName'].touched,
+                'is-valid': f['legalName'].valid}" />
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'required',
                             message: 'Company Name is required',
-                            control: f['companyName']}">
+                            control: f['legalName']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'minlength',
                             message: 'Company Name should have at least 3 letters',
-                            control: f['companyName']}">
+                            control: f['legalName']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'maxlength',
                             message: 'Company Name should have maximum 30 letters',
-                            control: f['companyName']}">
+                            control: f['legalName']}">
               </ng-container>
             </div>
 

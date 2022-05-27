@@ -87,7 +87,7 @@
   </table>
 
   <div class="flex justify-end">
-    <button type="button" class="edit-button">Reset</button>
+    <button type="submit" class="edit-button" [ngClass]="passForm.invalid ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="passForm.invalid" (click)="submitPassword()">Reset</button>
   </div>
 
   <span class="secondary">My voucher pincode</span>
@@ -103,16 +103,13 @@
         </td>
         <td class="pb-4 pl-11">
           <div class="flex justify-start input-group-prepend">
-            <span class="absolute flex items-center mt-2 ml-64 cursor-pointer"><i class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye fa-xs"></i></span>
+            <span class="absolute flex items-center mt-3 ml-64 cursor-pointer" (click)="showPin()"><i [ngClass]="pinHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye fa-xs"></i></span>
             <input
-              class="form-control pr-14">
+              disabled
+              class="form-control pr-14"
+              type="{{pinHide ? 'password' : 'text'}}"
+              value="asdasdasdad">
            </div>
-          <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'First name is required',
-            control: businessForm.controls['firstName']
-          }">
-          </ng-container> -->
         </td>
       </tr>
     </tbody>

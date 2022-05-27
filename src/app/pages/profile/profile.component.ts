@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
   private unsubscribe: Subscription[] = [];
 
   termsForm: FormGroup = this.fb.group({
-    generalTermsAgreements: ['',Validators.minLength(40)],
+    aboutUs: ['',Validators.minLength(40)],
     businessType: ['',Validators.minLength(40)]
   })
 

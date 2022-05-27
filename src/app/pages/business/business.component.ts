@@ -38,7 +38,7 @@ export class BusinessComponent implements OnInit {
   });
 
   companyForm: FormGroup = this.fb.group({
-    companyName: ['',
+    legalName: ['',
     Validators.compose([
       Validators.required,
     ])],

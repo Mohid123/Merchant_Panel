@@ -139,7 +139,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.required
           ]),
         ],
-        companyName: [
+        legalName: [
           '',
             Validators.compose([
             Validators.required,
@@ -262,18 +262,3 @@ emailValidator() {
     }
   }
 }
-
-
-// const payload: Partial<RegisterModel> = {
-//   businessType: this.registrationForm.value.businessType,
-//   firstName: this.registrationForm.value.firstName,
-//   lastName: this.registrationForm.value.lastName,
-//   email: this.registrationForm.value.email,
-//   phoneNumber: `+${this.countryCode}${this.registrationForm.value.phoneNumber}`,
-//   companyName: this.registrationForm.value.companyName,
-//   streetAddress: this.registrationForm.value.streetAddress,
-//   zipCode: this.registrationForm.value.zipCodes,
-//   city: this.registrationForm.value.city,
-//   province: this.registrationForm.value.province,
-//   website_socialAppLink: this.registrationForm.value.website_socialAppLink,
-// }
