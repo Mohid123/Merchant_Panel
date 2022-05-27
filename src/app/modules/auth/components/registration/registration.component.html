@@ -7,7 +7,7 @@
         <mat-step>
           <h1 class="text-dark">Welcome! First things first.</h1>
           <h3 class="mb-9">Let's make sure we understand your company. What describes your business best?</h3>
-          <form [formGroup]="registrationForm" class="flex flex-row flex-wrap mx-auto justify-evenly categories-step max-w-sm 2xl:max-w-md">
+          <form [formGroup]="registrationForm" class="flex flex-row flex-wrap max-w-sm mx-auto justify-evenly categories-step 2xl:max-w-md">
               <ng-template matStepLabel>Your Market</ng-template>
               <ng-container *ngFor="let category of categories">
               <app-category-radio-button [customClass]="'w-29 2xl:w-36'" name="businessType" [value]="category.name" required>
@@ -19,7 +19,7 @@
                 </app-category-radio-button>
               </ng-container>
             </form>
-            <button class="text-white text-base bg-black rounded-lg h-9 mt-7 w-28 2xl:h-10" [disabled]="!f['businessType'].value" mat-button matStepperNext>Next</button>
+            <button class="text-base text-white bg-black rounded-lg h-9 mt-7 w-28 2xl:h-10" [disabled]="!f['businessType'].value" mat-button matStepperNext>Next</button>
           </mat-step>
           <mat-step>
             <h1 class="text-dark">Let's get to know each other!</h1>
@@ -27,7 +27,7 @@
             <form class="text-left form w-100" [formGroup]="registrationForm" novalidate="novalidate">
               <ng-template matStepLabel>Contact Details</ng-template>
               <h2 class="text-left text-dark text-base mb-2.5">Your Contact Details</h2>
-            <div class="h-90px fv-row 2xl:h-28">
+            <div class="h-90px fv-row 2xl:h-26">
               <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">First Name</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="firstName"
               placeholder="First Name"
@@ -51,7 +51,7 @@
               </ng-container>
             </div>
 
-            <div class="h-90px fv-row 2xl:h-28">
+            <div class="h-90px fv-row 2xl:h-26">
               <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Last Name</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="lastName"
               placeholder="Last Name"
@@ -76,7 +76,7 @@
             </div>
 
 
-            <div class="h-90px fv-row 2xl:h-28">
+            <div class="h-90px fv-row 2xl:h-26">
               <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Email</label>
               <input class="form-control form-control-lg form-control-solid" type="email" name="email"
               placeholder="Daviddeens@gmail.com"
@@ -108,7 +108,7 @@
               This email is already registered to a user
             </div> -->
 
-            <div class="h-90px fv-row 2xl:h-28">
+            <div class="h-90px fv-row 2xl:h-26">
               <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Mobile</label>
               <div class="flex">
                 <input
@@ -163,7 +163,7 @@
             <form class="text-left form step3" [formGroup]="registrationForm" novalidate="novalidate">
               <ng-template matStepLabel>Business Details</ng-template>
               <h1 class="text-left text-dark text-base mb-2.5">Your business details</h1>
-            <div class="h-86px fv-row 2xl:h-28">
+            <div class="h-86px fv-row 2xl:h-26">
               <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Company Name</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="companyName"
               placeholder="Company Name"
@@ -187,7 +187,7 @@
               </ng-container>
             </div>
 
-            <div class="h-86px fv-row 2xl:h-28">
+            <div class="h-86px fv-row 2xl:h-26">
               <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Street Address</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="streetAddress"
               placeholder="Street Address"
@@ -211,7 +211,7 @@
               </ng-container>
             </div>
 
-            <div class="h-86px fv-row 2xl:h-28">
+            <div class="h-86px fv-row 2xl:h-26">
               <div class="flex">
                 <div class="mr-3" style="width: 170px;">
                   <div>
@@ -263,7 +263,7 @@
                   </div>
                 </div>
             </div>
-            <div class="h-86px fv-row 2xl:h-28 province">
+            <div class="h-86px fv-row 2xl:h-26 province">
               <label class="w-full mb-1 text-sm form-label">Province</label>
                 <app-drop-down [options]="provincese" [title]="'Select Province'" formControlName="province"></app-drop-down>
                 <ng-container *ngIf="f['province'].value == null && f['province'].touched">
@@ -276,7 +276,7 @@
                 <app-drop-down [options]="provincese" formControlName="province"></app-drop-down>
             </div> -->
 
-            <div class="h-86px 2xl:h-28 mb-2 fv-row 2xl:mt-5">
+            <div class="mb-2 h-86px 2xl:h-26 fv-row 2xl:mt-5">
               <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Website or social media url</label>
               <input class="form-control form-control-lg form-control-solid" type="text" name="website_socialAppLink"
               placeholder="Website"
@@ -313,8 +313,8 @@
           </div>
 
             <div class="flex justify-between">
-              <button class="mt-0 text-white text-base bg-black rounded-lg h-9 w-28 back 2xl:mt-4" mat-button matStepperPrevious>Back</button>
-              <button (click)="submit()" class="mt-0 text-white text-base bg-black rounded-lg h-19 w-28 2xl:mt-4" [disabled]="registrationForm.invalid" mat-button>
+              <button class="mt-0 text-base text-white bg-black rounded-lg h-9 w-28 back 2xl:mt-4" mat-button matStepperPrevious>Back</button>
+              <button (click)="submit()" class="mt-0 text-base text-white bg-black rounded-lg h-19 w-28 2xl:mt-4" [disabled]="registrationForm.invalid" mat-button>
                 <ng-container *ngIf="isLoading$ | async">
                   Loading...
                 </ng-container>

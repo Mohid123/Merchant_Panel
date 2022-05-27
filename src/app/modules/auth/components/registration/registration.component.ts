@@ -34,12 +34,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     { id:8, img: '../../../../../assets/media/icons/pets-care.svg', name:'Pet Treatments' },
   ]
   provincese = [
-    { id:1, name:'West-Vlaanderen' },
-    { id:2, name:'Oost-Vlaanderen' },
     { id:3, name:'Antwerpen' },
-    { id:4, name:'Vlaams-Brabant' },
-    // { id:5, name:'Luik' },
     { id:6, name:'Limburg' },
+    { id:2, name:'Oost-Vlaanderen' },
+    { id:4, name:'Vlaams-Brabant' },
+    { id:1, name:'West-Vlaanderen' },
+    // { id:5, name:'Luik' },
     // { id:7, name:'Waals-Brabant' },
   ]
 

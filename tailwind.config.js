@@ -46,8 +46,9 @@ module.exports = {
         '65': '65%',
       },
       height: {
-        '86px': '86px',
-        '90px': '90px',
+        '86px': '5.375rem',
+        '86px': '5.375rem',
+        '26': '6.375rem',
       },
       fontSize: {
         'xxs': '0.625rem',

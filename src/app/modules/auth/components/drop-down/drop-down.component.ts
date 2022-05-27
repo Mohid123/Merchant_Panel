@@ -8,16 +8,16 @@ import { ControlContainer, ControlValueAccessor, FormGroupDirective, NG_VALUE_AC
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective
-    }
+      useExisting: FormGroupDirective,
+    },
   ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DropDownComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class DropDownComponent implements ControlValueAccessor {
 
@@ -26,17 +26,24 @@ export class DropDownComponent implements ControlValueAccessor {
   @Input() options: any;
   @Input('value') _value: any;
 
-  selectedValue !: string;
+  selectedValue!: string;
+  isOpen: boolean;
   selected!: string;
   disabled = false;
   private onTouched!: Function;
   private onChanged!: Function;
 
+  checkDropDown(open:boolean) {
+    this.isOpen = open;
+  }
+
   selecteOption(value: any) {
-    this.onTouched();
-    this.selected = value.id;
-    this.selectedValue = value.name;
-    this.onChanged(value.id);
+    if (this.isOpen) {
+      this.onTouched();
+      this.selected = value.name;
+      this.selectedValue = value.name;
+      this.onChanged(value.name);
+    }
   }
 
   writeValue(value: string): void {

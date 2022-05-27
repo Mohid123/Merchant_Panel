@@ -1,12 +1,12 @@
-<div ngbDropdown class="d-inline-block w-full">
-  <button type="button" class="w-full dropdown-toggle dropdown-toggle-split font-thin" id="dropdownBasic1" ngbDropdownToggle>
-    {{selectedValue || 'Select Provance'}}
+<div ngbDropdown (openChange)="checkDropDown($event)" class="w-full d-inline-block" [autoClose]="'outside'" >
+  <button type="button" class="w-full font-thin dropdown-toggle dropdown-toggle-split" id="dropdownBasic1" ngbDropdownToggle>
+    {{selectedValue || 'Select Province'}}
   </button>
-  <div class="dropdown-menu w-full" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+  <div class="w-full dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
     <h4>{{title}}</h4>
     <div class="h-full overflow-y-auto max-h-28">
       <ng-container *ngFor="let option of options">
-        <button (click)="selecteOption(option)" [class.selected]="selected == options.id" ngbDropdownItem>{{option.name}}</button>
+        <button (click)="selecteOption(option)" [class.selected]="selected == options.name" ngbDropdownItem>{{option.name}}</button>
       </ng-container>
     </div>
   </div>
