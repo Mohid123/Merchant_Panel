@@ -116,6 +116,26 @@ export class BusinessComponent implements OnInit {
     })
   }
 
+  discardUpper() {
+    this.isLeftVisible = true;
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.user = user;
+      if(user)
+      this.businessForm.patchValue(user);
+      this.companyForm.patchValue(user)
+   });
+  }
+
+  discardLower() {
+    this.secondLeftVisible = true;
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.user = user;
+      if(user)
+      this.businessForm.patchValue(user);
+      this.companyForm.patchValue(user)
+   });
+  }
+
   editCompanyForm() {
     this.secondLeftVisible = true;
     this.userService.updateMerchantprofile(this.companyForm.value)

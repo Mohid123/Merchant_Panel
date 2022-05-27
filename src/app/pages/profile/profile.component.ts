@@ -76,7 +76,8 @@ export class ProfileComponent implements OnInit {
     googleMapPin: ['',
       Validators.compose([
         Validators.required,
-      ])
+      ]),
+
     ],
 
     website_socialAppLink: ['',
@@ -413,6 +414,10 @@ export class ProfileComponent implements OnInit {
       }
       return null;
     }
+  }
+
+  validateGooglePin() {
+
   }
 
   ngOnDestroy() {

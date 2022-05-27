@@ -69,7 +69,7 @@
             <span class="spanner">First name</span>
           </td>
           <td class="pb-4">
-            <input class="form-control"  formControlName="firstName">
+            <input class="form-control"  formControlName="firstName" maxlength="25">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'First name is required',
@@ -83,7 +83,7 @@
             <span class="spanner">Last name</span>
           </td>
           <td class="pb-4">
-            <input class="form-control"  formControlName="lastName">
+            <input class="form-control"  formControlName="lastName" maxlength="25">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Last name is required',
@@ -128,7 +128,7 @@
     </div>
 
     <div class="flex justify-end pr-20 mt-6 mb-2">
-      <button type="button" class="discard-button" (click)="isLeftVisible = true">Discard</button>
+      <button type="button" class="discard-button" (click)="discardUpper()">Discard</button>
       <button [ngClass]="businessForm.invalid ? 'opacity-50': 'opacity-100'" type="submit" class="save-button" (click)="editForm()" [disabled]="businessForm.invalid">Save</button>
     </div>
 
@@ -219,7 +219,7 @@
             <span class="spanner">Legal name</span>
           </td>
           <td class="pb-4">
-            <input class="form-control" formControlName="legalName">
+            <input class="form-control" formControlName="legalName" maxlength="25">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Legal name is required',
@@ -233,7 +233,7 @@
             <span class="spanner">Street address</span>
           </td>
           <td class="pb-4">
-            <input class="form-control" formControlName="streetAddress">
+            <input class="form-control" formControlName="streetAddress" maxlength="45">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Street address is required',
@@ -266,7 +266,7 @@
             <span class="spanner">City</span>
           </td>
           <td class="pb-4">
-            <input class="form-control" formControlName="city">
+            <input class="form-control" formControlName="city" maxlength="25">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'City is required',
@@ -317,7 +317,7 @@
     </div>
 
     <div class="flex justify-end pr-20 mt-6 mb-2">
-      <button type="button" class="discard-button" (click)="secondLeftVisible = true">Discard</button>
+      <button type="button" class="discard-button" (click)="discardLower()">Discard</button>
       <button [ngClass]="businessForm.invalid ? 'opacity-50': 'opacity-100'" type="submit" class="save-button" (click)="editCompanyForm()" [disabled]="companyForm.invalid">Save</button>
     </div>
 
