@@ -59,7 +59,7 @@
               <div class="image-input-wrapper small-image">
                 <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
                   <span class="absolute top-0 flex items-center justify-center w-20 h-20"><img class="object-contain w-14 h-14" src="../../../assets/media/logos/inactive.svg"></span>
-                  <input disabled class="absolute top-0 w-20 h-20 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
+                  <input disabled class="absolute top-0 w-20 h-20 cursor-not-allowed" type="file" accept=".png, .jpg, .jpeg" multiple>
                 </label>
               </div>
               <div class="flex flex-row mt-3 w-60">
@@ -81,8 +81,8 @@
             </td>
             <td class="w-0 pb-5">
               <div class="flex items-center justify-center align-middle large-image">
-                <span class="absolute cursor-pointer"><img class="object-contain" style="width: 100px; height: 95px;" src="../../../assets/media/logos/inactive.svg"></span>
-                <input disabled class="w-40 h-40 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
+                <span class="absolute cursor-not-allowed"><img class="object-contain" style="width: 100px; height: 95px;" src="../../../assets/media/logos/inactive.svg"></span>
+                <input disabled class="w-40 h-40 cursor-not-allowed" type="file" accept=".png, .jpg, .jpeg" multiple>
               </div>
               <span class="text-xs font-thin text-gray-500">Upload maximum 5 images</span>
             </td>
@@ -270,7 +270,7 @@
       <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
     </div>
 
-    <div class="flex justify-end pr-20 mt-3 mb-2">
+    <div class="flex justify-end pb-2 pr-20 mt-3 mb-2 3xl:pr-32">
       <button type="button" class="discard-button" (click)="isLeftVisible = true">Discard</button>
       <button type="submit" class="save-button">Save</button>
     </div>
