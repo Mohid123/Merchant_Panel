@@ -60,7 +60,8 @@ export class ProfileComponent implements OnInit {
     ],
 
     zipCode: [
-      '',[
+      '',
+      [
         Validators.compose([
         Validators.required]),
         this.validateZip()
@@ -73,11 +74,13 @@ export class ProfileComponent implements OnInit {
       ])
     ],
 
-    googleMapPin: ['',
-      Validators.compose([
-        Validators.required,
-      ]),
-
+    googleMapPin: [
+      '',
+      // [
+      //   Validators.compose([
+      //   Validators.required]),
+      //   this.validateGooglePin()
+      // ]
     ],
 
     website_socialAppLink: ['',
@@ -416,8 +419,17 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  validateGooglePin() {
-
+  validateGooglePin(): {[key: string]: any} | null {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      const http = 'http';
+      const https = 'https';
+      const www = 'www';
+      const pattern = '[a-z]+\\.[a-z]{2,4}$';
+      if(!control.value.startsWith(http) && !control.value.startsWith(https) && !control.value.startsWith(www) || !control.value.match(pattern)) {
+        return { 'invalidPin': true}
+      }
+      return null;
+    }
   }
 
   ngOnDestroy() {

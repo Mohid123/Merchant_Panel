@@ -167,16 +167,17 @@
           </td>
           <td class="pb-4">
             <input class="form-control" formControlName="googleMapPin">
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Google map pin required',
               control: profileForm.controls['googleMapPin']
             }">
-            </ng-container>
-            <div class="text-xs text-danger"
-                *ngIf="profileForm.controls['googleMapPin']?.errors?.['invalidUrl']">
-                Url is Invalid
-            </div>
+            </ng-container> -->
+            <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'invalidPin',
+              message: 'Google map pin is invalid',
+              control: profileForm.controls['googleMapPin']}">
+            </ng-container> -->
           </td>
         </tr>
         <tr>
