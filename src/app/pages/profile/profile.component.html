@@ -302,7 +302,7 @@
 
     <div class="flex justify-end mr-24 border-none" *ngIf="isEditBusinessHours || (this.isLoading$ | async)">
       <button class="discard-button" routerLinkActive="active" (click)="discardBusinessHours()">Discard</button>
-      <button type="button" class="save-button" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveBusinessHours(); saveTerms()">
+      <button type="button" class="save-button" [disabled]="(isLoading$ | async)" (click)="saveBusinessHours(); saveTerms()">
         <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
       </button>
     </div>

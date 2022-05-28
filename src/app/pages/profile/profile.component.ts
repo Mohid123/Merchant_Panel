@@ -335,7 +335,6 @@ export class ProfileComponent implements OnInit {
 
   discardBusinessHours() {
     this.isEditBusinessHours = false;
-    this.setbusinessHours();
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
       this.user = user;
       this.setbusinessHours();
