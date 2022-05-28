@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, HostListener, Input } from '@angular/core';
 import { ControlContainer, ControlValueAccessor, FormGroupDirective, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -44,6 +44,12 @@ export class DropDownComponent implements ControlValueAccessor {
       this.selectedValue = value.name;
       this.onChanged(value.name);
     }
+  }
+
+
+  @HostListener("focusout", ["$event.target.value"])
+  onBlur(value:any) {
+    this.onTouched();
   }
 
   writeValue(value: string): void {

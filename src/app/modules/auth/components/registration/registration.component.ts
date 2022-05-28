@@ -71,10 +71,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     if (this.authService.currentUserValue) {
       this.router.navigate(['/']);
     }
-
-    this.registrationForm?.valueChanges.subscribe(()=>{
-      console.log('this:',this.registrationForm);
-    })
   }
 
   ngOnInit(): void {
@@ -86,10 +82,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     //     console.log('zip data:',zipData);
     //   }
     // })ons
-
-    this.registrationForm.valueChanges.subscribe(()=>{
-      console.log('this.registrationForm:',this.registrationForm);
-    })
   }
 
   onCountryChange(country: any) {
