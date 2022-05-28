@@ -336,6 +336,13 @@ export class ProfileComponent implements OnInit {
   discardBusinessHours() {
     this.isEditBusinessHours = false;
     this.setbusinessHours();
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.user = user;
+      this.setbusinessHours();
+      if(user)
+      this.profileForm.patchValue(user);
+      this.termsForm.patchValue(user);
+    })
   }
 
   setbusinessHours() {
@@ -367,8 +374,11 @@ export class ProfileComponent implements OnInit {
   }
 
   saveBusinessHours(){
-    if(this.validateBusinessHours()) {
+    if(this.termsForm.value.aboutUs == '' || this.termsForm.value.finePrint == '') {
+      return;
+    }
 
+    if(this.validateBusinessHours()) {
       this.isLoading$.next(true);
       this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
         // console.log('asdsad:',res);
@@ -391,22 +401,29 @@ export class ProfileComponent implements OnInit {
   }
 
   saveTerms() {
-    this.userService.updateMerchantprofile(this.termsForm.value).pipe(exhaustMap((res:any) => {
-      // console.log('asdsad:',res);
-      if(!res.hasErrors()) {
-        this.toast.success('Data saved')
-        return this.userService.getUser();
-      } else {
-        return (res);
-      }
-    })).subscribe((res:any) => {
-      this.isLoading$.next(false);
-      this.isEditBusinessHours = false;
-    },(error=> {
-      this.isLoading$.next(false);
-      this.toast.error('error');
-      this.isEditBusinessHours = false;
-    }));
+    if(this.termsForm.value.aboutUs == '' || this.termsForm.value.finePrint == '') {
+      this.toast.error('Please fill in all fields');
+      return;
+    }
+    else {
+      this.userService.updateMerchantprofile(this.termsForm.value).pipe(exhaustMap((res:any) => {
+        // console.log('asdsad:',res);
+        if(!res.hasErrors()) {
+          this.toast.success('Data saved')
+          return this.userService.getUser();
+        } else {
+          return (res);
+        }
+      })).subscribe((res:any) => {
+        this.isLoading$.next(false);
+        this.isEditBusinessHours = false;
+      },(error=> {
+        this.isLoading$.next(false);
+        this.toast.error('error');
+        this.isEditBusinessHours = false;
+      }));
+    }
+
   }
 
   validateBusinessHours() {

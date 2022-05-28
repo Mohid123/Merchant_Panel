@@ -196,17 +196,17 @@
             <ng-container *ngIf="image">
               <td class="image-input image-input-outline">
                 <img class="object-cover border-2 border-gray-500 rounded-md w-85px h-90px" [src]="image">
-                <label class="mt-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="change" >
-                  <i class="bi bi-pencil-fill fs-10" style="color: white;"></i>
-                  <input (change)="onSelectSingle($event)" type="file" name="avatar" accept=".png, .jpg, .jpeg">
+                <label class="z-50 mt-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="change">
+                  <i class="bi bi-x fs-4" style="color: white;"></i>
+                  <input (click)="clearImage()" type="reset" name="avatar" accept=".png, .jpg, .jpeg" multiple>
                   <input type="hidden" name="avatar_remove">
                 </label>
-                <span (click)="clearImage()" class="mb-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
+                <!-- <span (click)="clearImage()" class="mb-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
                   <i class="bi bi-x fs-6" style="color: white;"></i>
                 </span>
                 <span (click)="clearImage()" class="mb-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="remove" data-bs-toggle="tooltip">
                   <i class="bi bi-x fs-6" style="color: white;"></i>
-                </span>
+                </span> -->
               </td>
             </ng-container>
             <div class="flex flex-row mt-3 w-60">
