@@ -15,6 +15,7 @@ import { TranslationModule } from '../i18n/translation.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { CategoryRadioButtonComponent } from './components/category-radio-button/category-radio-button.component';
+import { DropDownComponent } from './components/drop-down/drop-down.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
@@ -32,6 +33,7 @@ import { SecurityCodeComponent } from './components/security-code/security-code.
     CategoryRadioButtonComponent,
     SecurityCodeComponent,
     ResetPasswordComponent,
+    DropDownComponent,
   ],
   imports: [
 CommonModule,

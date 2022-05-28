@@ -61,7 +61,7 @@ import { FakeAPIService } from './_fake/fake-api.service';
     TruncationPipe
   ],
   imports: [
-    CoreModule,
+CoreModule,
     BrowserModule,
     FormsModule,
     FullCalendarModule,

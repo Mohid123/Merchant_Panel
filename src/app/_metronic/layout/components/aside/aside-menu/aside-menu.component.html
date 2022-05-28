@@ -21,12 +21,19 @@
 >
   <span class="menu-link">
     <span class="menu-icon">
-      <span class="svg-icon svg-icon-4" [inlineSVG]="'./assets/media/logos/deals.svg'"></span>
+      <span
+        class="svg-icon svg-icon-4"
+        [inlineSVG]="'./assets/media/logos/deals.svg'">
+      </span>
     </span>
     <span class="menu-title">Deals</span><span class="menu-arrow"></span>
   </span>
-
-  <div class="ml-5 menu-sub menu-sub-accordion">
+  <div class="menu-sub menu-sub-accordion">
+    <div
+      class="ml-5 menu-item menu-accordion"
+      routerLinkActive="here show"
+      data-kt-menu-trigger="click"
+    >
     <div class="mt-5 mb-5 menu-item">
       <a
         class="menu-link without-sub"

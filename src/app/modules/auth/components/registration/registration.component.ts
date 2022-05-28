@@ -34,12 +34,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     { id:8, img: '../../../../../assets/media/icons/pets-care.svg', name:'Pet Treatments' },
   ]
   provincese = [
-    { id:1, name:'West-Vlaanderen' },
-    { id:2, name:'Oost-Vlaanderen' },
     { id:3, name:'Antwerpen' },
-    { id:4, name:'Vlaams-Brabant' },
-    // { id:5, name:'Luik' },
     { id:6, name:'Limburg' },
+    { id:2, name:'Oost-Vlaanderen' },
+    { id:4, name:'Vlaams-Brabant' },
+    { id:1, name:'West-Vlaanderen' },
+    // { id:5, name:'Luik' },
     // { id:7, name:'Waals-Brabant' },
   ]
 
@@ -81,7 +81,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     //   if(zipData) {
     //     console.log('zip data:',zipData);
     //   }
-    // })
+    // })ons
   }
 
   onCountryChange(country: any) {
@@ -128,7 +128,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           '',
             Validators.compose([
             Validators.required,
-            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+            Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$'),
             Validators.maxLength(60),
           ]),
           this.emailValidator()
@@ -180,6 +180,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       , {
         validator: UrlValidator('website_socialAppLink'),
       })
+  }
+
+  changeProvince(e:any) {
+    console.log(e.value)
+    this.f['province'].setValue(e.target.value, {
+      onlySelf: true
+    })
+  }
+
+  onEnter() {
+    if(this.registrationForm.valid) {
+      this.submit();
+    }
   }
 
   submit() {
@@ -262,3 +275,18 @@ emailValidator() {
     }
   }
 }
+
+
+// const payload: Partial<RegisterModel> = {
+//   businessType: this.registrationForm.value.businessType,
+//   firstName: this.registrationForm.value.firstName,
+//   lastName: this.registrationForm.value.lastName,
+//   email: this.registrationForm.value.email,
+//   phoneNumber: `+${this.countryCode}${this.registrationForm.value.phoneNumber}`,
+//   companyName: this.registrationForm.value.companyName,
+//   streetAddress: this.registrationForm.value.streetAddress,
+//   zipCode: this.registrationForm.value.zipCodes,
+//   city: this.registrationForm.value.city,
+//   province: this.registrationForm.value.province,
+//   website_socialAppLink: this.registrationForm.value.website_socialAppLink,
+// }
