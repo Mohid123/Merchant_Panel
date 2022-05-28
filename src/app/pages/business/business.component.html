@@ -290,7 +290,7 @@
             <span class="spanner">Vat number</span>
           </td>
           <td class="pb-4">
-            <input appNumbersOnly maxlength="10" class="form-control" formControlName="vatNumber">
+            <input maxlength="15" class="form-control" formControlName="vatNumber">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Vat number is required',
