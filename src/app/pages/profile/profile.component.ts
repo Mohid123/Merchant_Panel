@@ -316,6 +316,7 @@ export class ProfileComponent implements OnInit {
 
   clearImage() {
     this.image = '';
+    this.profileImage = '';
   }
 
   get businessHoursFromControl() {
