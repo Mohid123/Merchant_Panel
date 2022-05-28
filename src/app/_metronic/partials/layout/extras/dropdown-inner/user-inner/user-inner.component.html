@@ -2,7 +2,12 @@
   <div class="px-3 menu-item">
     <div class="px-3 menu-content d-flex align-items-center">
       <div class="symbol symbol-50px me-5">
-        <img class="object-cover" alt="Logo" [src]="user?.profilePicURL" />
+        <ng-container *ngIf="user?.profilePicURL != ''">
+          <img class="object-cover" alt="Logo" [src]="user?.profilePicURL" />
+        </ng-container>
+        <ng-container *ngIf="user?.profilePicURL == ''">
+          <img class="object-cover" alt="Logo" src="../../../../../../../assets/media/avatars/300-1.jpg" />
+        </ng-container>
       </div>
 
       <div class="d-flex flex-column">

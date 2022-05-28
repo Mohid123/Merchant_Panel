@@ -105,7 +105,12 @@
     data-kt-menu-placement="bottom-end"
     data-kt-menu-flip="bottom"
   >
-    <img class="object-cover" [src]="user?.profilePicURL" alt="divideals" />
+  <ng-container *ngIf="user?.profilePicURL != ''">
+    <img class="object-cover" alt="Logo" [src]="user?.profilePicURL" />
+  </ng-container>
+  <ng-container *ngIf="user?.profilePicURL == ''">
+    <img class="object-cover" alt="Logo" src="../../../../../../../assets/media/avatars/300-1.jpg" />
+  </ng-container>
   </div>
   <!-- end::Toggle  -->
   <app-user-inner></app-user-inner>
