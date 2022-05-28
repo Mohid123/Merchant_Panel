@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
-import { Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { CustomValidators } from 'src/app/modules/auth/components/reset-password/custom-validators';
 import { ConfirmedValidator } from 'src/app/modules/auth/components/reset-password/password.validator';
@@ -21,7 +21,9 @@ export class SecurityComponent implements OnInit {
   oldpPass: string;
   destroy$ = new Subject();
   reciever: Subscription;
-
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoading: boolean;
+  private unsubscribe: Subscription[] = [];
   passForm: FormGroup;
 
   constructor(
@@ -29,7 +31,12 @@ export class SecurityComponent implements OnInit {
     private passService: PasswordService,
     private authService: AuthService,
     private toast: HotToastService,
-    private userService: UserService) { }
+    private userService: UserService) {
+      const loadingSubscr = this.isLoading$
+      .asObservable()
+      .subscribe((res) => (this.isLoading = res));
+      this.unsubscribe.push(loadingSubscr);
+    }
 
   ngOnInit(): void {
     this.initPassForm();
@@ -88,6 +95,7 @@ export class SecurityComponent implements OnInit {
   }
 
   submitPassword() {
+    this.isLoading$.next(true);
     const payload: any = {
       password: this.passForm.value.oldPass,
       newPassword: this.passForm.value.password
@@ -103,6 +111,7 @@ export class SecurityComponent implements OnInit {
     .subscribe((res: any) => {
       if(!res.hasErrors()) {
         this.authService.updateUser(res.data);
+        this.isLoading$.next(false);
         this.toast.success('Password Updated Successfully', {
           style: {
             border: '1px solid #65a30d',

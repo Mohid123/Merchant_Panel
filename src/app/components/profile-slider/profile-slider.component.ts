@@ -11,8 +11,8 @@ type PaneType = 'left' | 'right';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('slide', [
-      state('left', style({ transform: 'translateX(0)' })),
-      state('right', style({ transform: 'translateX(-50%)', height: 'auto' })),
+      state('left', style({ transform: 'none' })),
+      state('right', style({ transform: 'rotateY(180deg)', height: 'auto' })),
       transition('* => *', animate(300))
     ])
   ]

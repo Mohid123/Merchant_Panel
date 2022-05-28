@@ -36,6 +36,8 @@ export class ProfileComponent implements OnInit {
   singleFile: any
   multiples: any[] = [];
   images: Gallery[] = [];
+  galleries: any[] = [];
+  profileImage: any;
   private unsubscribe: Subscription[] = [];
 
   termsForm: FormGroup = this.fb.group({
@@ -115,7 +117,21 @@ export class ProfileComponent implements OnInit {
       if(user)
       this.profileForm.patchValue(user);
       this.termsForm.patchValue(user);
+      this.galleries.push(user.gallery)
+      this.profileImage = user.profilePicURL;
+      console.log(this.profileImage);
    });
+  }
+
+  discardChanges() {
+    this.isLeftVisible = true;
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.user = user;
+      this.setbusinessHours();
+      if(user)
+      this.profileForm.patchValue(user);
+      this.termsForm.patchValue(user);
+    })
   }
 
   ngOnInit(): void {
@@ -144,12 +160,10 @@ export class ProfileComponent implements OnInit {
 
   submitProfileChanges() {
     this.isLeftVisible = true;
-    debugger
     this.profileForm.patchValue({gallery: this.images})
     this.profileForm.patchValue({profilePicURL: this.image})
     this.userService.updateMerchantprofile(this.profileForm.value)
     .pipe(exhaustMap((res: any) => {
-      debugger
       if(!res.hasErrors()) {
         this.toast.success('Profile updated', {
           style: {
@@ -233,7 +247,6 @@ export class ProfileComponent implements OnInit {
           .subscribe((res: ApiResponse<any>) => {
             if(!res.hasErrors()) {
               this.images.push(res.data?.url);
-              debugger
               this.cf.detectChanges();
               this.urls = [];
               this.cf.detectChanges();
@@ -391,7 +404,6 @@ export class ProfileComponent implements OnInit {
       this.toast.error('error');
     }));
   }
-
 
   validateBusinessHours() {
     let valid = true;

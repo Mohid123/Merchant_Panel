@@ -1,5 +1,6 @@
 :host {
   display: block;
+  perspective: 2000px;
   overflow: hidden;
 }
 
@@ -11,4 +12,12 @@
   div {
     flex: 1;
   }
+}
+
+.pane1 {
+  transform: none;
+}
+
+.pane2 {
+  transform: rotateY(180deg);
 }

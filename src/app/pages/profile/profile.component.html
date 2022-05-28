@@ -4,6 +4,7 @@
   <div class="card" leftPane>
     <span class="business-header">My DiviDeals profile</span>
     <span class="secondary-title">How do you want to appear in our DiviDeals?</span>
+
     <div class="flex justify-end central">
       <button [ngClass]="secondLeftVisible == false ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" type="button" class="edit-button" [disabled]="secondLeftVisible == false" (click)="isLeftVisible = false;">Edit</button>
     </div>
@@ -48,7 +49,7 @@
               <span class="spanner">Google map pin</span>
             </td>
             <td class="w-0 pb-5">
-              <span class="naming">{{user.googleMapPin}}</span>
+              <span class="naming">{{user.googleMapPin | truncation: 70}}</span>
             </td>
           </tr>
           <tr>
@@ -72,7 +73,7 @@
               <span class="spanner">Website or social media url</span>
             </td>
             <td class="w-0 pb-5">
-              <span class="naming">{{user.website_socialAppLink}}</span>
+              <span class="naming">{{user.website_socialAppLink | truncation: 70}}</span>
             </td>
           </tr>
           <tr>
@@ -92,7 +93,6 @@
     </table>
 
   </div>
-
 
   <div class="card card-right" rightPane>
     <span class="business-header">My DiviDeals profile</span>
@@ -152,7 +152,7 @@
             <span class="spanner">City</span>
           </td>
           <td class="pb-4">
-            <input class="form-control" formControlName="city" maxlength="15">
+            <input class="form-control" formControlName="city" maxlength="30">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'City is required',
@@ -184,7 +184,7 @@
           <td class="w-0 pb-24">
             <span class="spanner">Profile picture</span>
           </td>
-          <ng-container *ngIf="!image">
+          <ng-container *ngIf="!image || !profileImage">
             <td class="w-0 pb-5 image-input image-input-outline image-upload">
               <div class="object-cover image-input-wrapper small-image">
                 <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
@@ -193,9 +193,9 @@
                 </label>
               </div>
             </ng-container>
-            <ng-container *ngIf="image">
+            <ng-container *ngIf="image || profileImage">
               <td class="image-input image-input-outline">
-                <img class="object-cover w-90px h-85px" [src]="image">
+                <img class="object-cover rounded-md w-85px h-90px" [src]="image || profileImage">
                 <label class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body" data-kt-image-input-action="change" >
                   <i class="bi bi-pencil-fill fs-7"></i>
                   <input (change)="onSelectSingle($event)" type="file" name="avatar" accept=".png, .jpg, .jpeg">
@@ -244,22 +244,30 @@
               </div>
             </ng-container>
 
-            <ng-container *ngIf="images.length > 0">
+            <ng-container *ngIf="images.length > 0 || galleries.length == 0">
               <div class="large-image">
+                <div class="image-input image-input-outline image-upload">
+                  <div class="object-cover image-input-wrapper small-image">
+                    <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
+                      <span class="absolute top-0 flex items-center justify-center w-20 h-20"><img class="object-contain w-14 h-14" src="../../../assets/media/logos/active.svg"></span>
+                      <input class="absolute top-0 w-20 h-20 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event); onClick($event)" multiple>
+                    </label>
+                  </div>
+                </div>
                 <ng-container *ngFor="let multiple of images; let i = index">
                   <div class="m-1 image-input image-input-outline">
                     <img class="object-cover rounded-md w-80px h-80px" [src]="multiple">
-                    <label class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="change" >
-                      <i class="bi bi-pencil-fill" style="font-size: 8px;"></i>
-                      <input (change)="onSelectFile($event); onClick($event)" type="file" name="avatar" accept=".png, .jpg, .jpeg" multiple>
+                    <label class="mt-1 shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="change">
+                      <i class="bi bi-x fs-6"></i>
+                      <input (click)="images.splice(i, 1)" type="reset" name="avatar" accept=".png, .jpg, .jpeg" multiple>
                       <input type="hidden" name="avatar_remove">
                     </label>
-                    <span (click)="images.splice(i, 1)" class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
+                    <!-- <span (click)="images.splice(i, 1)" class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
                       <i class="bi bi-x fs-6"></i>
                     </span>
                     <span (click)="images.splice(i, 1)" class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="remove" data-bs-toggle="tooltip">
                       <i class="bi bi-x fs-6"></i>
-                    </span>
+                    </span> -->
                   </div>
                 </ng-container>
                 <input (change)="onSelectFile($event); onClick($event)" class="w-40 h-40 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
@@ -276,7 +284,7 @@
     </div>
 
     <div class="flex justify-end pb-2 pr-20 mt-3 mb-2 3xl:pr-32">
-      <button type="button" class="discard-button" (click)="isLeftVisible = true">Discard</button>
+      <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
       <button type="submit" class="save-button" (click)="submitProfileChanges()">Save</button>
     </div>
 
@@ -287,7 +295,17 @@
 
   <div class="py-6 border-0 border-transparent cursor-pointer card-header">
     <h3 class="flex items-center mt-2 2xl:ml-24 fw-bolder">Set Business Hours</h3>
-    <a *ngIf="!isEditBusinessHours" (click)="editBusinessHours()" class="2xl:mr-24 edit-btn">Edit</a>
+
+    <ng-container *ngIf="!isEditBusinessHours">
+      <a (click)="editBusinessHours()" class="2xl:mr-24 edit-btn">Edit</a>
+    </ng-container>
+
+    <div class="flex justify-end mr-24 border-none" *ngIf="isEditBusinessHours || (this.isLoading$ | async)">
+      <button class="discard-button" routerLinkActive="active" (click)="discardBusinessHours()">Discard</button>
+      <button type="button" class="save-button" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveBusinessHours(); saveTerms()">
+        <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+      </button>
+    </div>
   </div>
 
   <div class="flex justify-center">
@@ -350,7 +368,7 @@
     <div class="ml-32 mr-20">
       <form class="form row" [formGroup]="termsForm">
         <div class="pb-5">
-          <ckeditor formControlName="aboutUs" [editor]="Editor" [config]="config"></ckeditor>
+          <ckeditor [disabled]="!isEditBusinessHours" formControlName="aboutUs" [editor]="Editor" [config]="config"></ckeditor>
         </div>
 
         <div class="py-2">
@@ -358,7 +376,7 @@
         </div>
 
         <div class="pb-1">
-          <ckeditor formControlName="finePrint" [editor]="Editor" [config]="config"></ckeditor>
+          <ckeditor [disabled]="!isEditBusinessHours" formControlName="finePrint" [editor]="Editor" [config]="config"></ckeditor>
         </div>
 
           <!-- <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveTerms()">
@@ -366,16 +384,6 @@
         </button> -->
 
       </form>
-    </div>
-    <div class="justify-between px-10 py-6 border-none d-flex" *ngIf="isEditBusinessHours || (this.isLoading$ | async)">
-      <button class="modal-close-btn"
-      routerLinkActive="active"
-      (click)="discardBusinessHours()">Discard</button>
-
-      <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveBusinessHours(); saveTerms()">
-        <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
-      </button>
-
     </div>
 
   </div>
@@ -394,7 +402,7 @@
 
 <ng-template #Loading>
   <span clas="indicator-progress" [style.display]="'block'">
-    Please wait...{{ " " }}
+    Saving {{ " " }}
     <span
       class="align-middle spinner-border spinner-border-sm ms-2"
     ></span>

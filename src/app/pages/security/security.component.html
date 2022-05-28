@@ -15,7 +15,7 @@
         </td>
         <td class="pb-4">
           <div class="input-group-prepend">
-            <!-- <span class="absolute flex items-center mt-2 cursor-pointer right-52" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span> -->
+            <span class="absolute flex items-center mt-3 ml-64 cursor-pointer" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye fa-xs"></i></span>
             <input
               type="{{passwordHide ? 'password' : 'text'}}"
               class="pr-14 form-control"
@@ -35,7 +35,7 @@
         </td>
         <td class="pb-4">
           <div class="flex flex-row input-group-prepend">
-            <span class="absolute flex items-center mt-2 ml-64 cursor-pointer" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
+            <span class="absolute flex items-center mt-3 ml-64 cursor-pointer" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye fa-xs"></i></span>
             <input
               type="{{passwordHide ? 'password' : 'text'}}"
               class="pr-14 form-control"
@@ -65,7 +65,7 @@
         </td>
         <td class="pb-4">
           <div class="flex flex-row input-group-prepend">
-            <!-- <span class="absolute flex items-center mt-2 cursor-pointer right-52" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span> -->
+            <span class="absolute flex items-center mt-3 ml-64 cursor-pointer" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye fa-xs"></i></span>
             <input
               type="{{passwordHide ? 'password' : 'text'}}"
               class="form-control"
@@ -87,7 +87,9 @@
   </table>
 
   <div class="flex justify-end">
-    <button type="submit" class="edit-button" [ngClass]="passForm.invalid ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="passForm.invalid" (click)="submitPassword()">Reset</button>
+    <button type="submit" class="edit-button" [ngClass]="passForm.invalid ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="passForm.invalid" (click)="submitPassword()">
+      <ng-container *ngIf="!(isLoading$ | async); else Loading">Reset</ng-container>
+    </button>
   </div>
 
   <span class="secondary">My voucher pincode</span>
@@ -103,7 +105,7 @@
         </td>
         <td class="pb-4 pl-11">
           <div class="flex justify-start input-group-prepend">
-            <span class="absolute flex items-center mt-3 ml-64 cursor-pointer" (click)="showPin()"><i [ngClass]="pinHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-white rounded far fa-eye fa-xs"></i></span>
+            <span class="absolute flex items-center mt-3 ml-64 cursor-pointer" (click)="showPin()"><i [ngClass]="pinHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-gray-200 rounded far fa-eye fa-xs"></i></span>
             <input
               disabled
               class="form-control pr-14"
@@ -126,3 +128,13 @@
     </div>
   </ng-container>
 </ng-template>
+
+<ng-template #Loading>
+  <span class="text-xs" [style.display]="'block'">
+    Saving {{ " " }}
+    <span
+      class="align-middle spinner-border spinner-border-sm ms-1">
+    </span>
+  </span>
+</ng-template>
+

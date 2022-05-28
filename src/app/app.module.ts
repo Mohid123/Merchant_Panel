@@ -13,6 +13,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { TranslateModule } from '@ngx-translate/core';
+import { TruncationPipe } from '@pages/pipe/truncation.pipe';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
@@ -45,9 +46,22 @@ import { FakeAPIService } from './_fake/fake-api.service';
 // }
 
 @NgModule({
-  declarations: [AppComponent, OrderManagementComponent, BillingsComponent, ReviewsComponent, SingleReviewComponent, SliderComponent, TestComponent, BusinessComponent, ProfileComponent, SecurityComponent, ProfileSliderComponent],
+  declarations: [
+    AppComponent,
+    OrderManagementComponent,
+    BillingsComponent,
+    ReviewsComponent,
+    SingleReviewComponent,
+    SliderComponent,
+    TestComponent,
+    BusinessComponent,
+    ProfileComponent,
+    SecurityComponent,
+    ProfileSliderComponent,
+    TruncationPipe
+  ],
   imports: [
-CoreModule,
+    CoreModule,
     BrowserModule,
     FormsModule,
     FullCalendarModule,
