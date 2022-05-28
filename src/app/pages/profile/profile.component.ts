@@ -368,7 +368,7 @@ export class ProfileComponent implements OnInit {
 
   saveBusinessHours(){
     if(this.validateBusinessHours()) {
-      this.isEditBusinessHours = false;
+
       this.isLoading$.next(true);
       this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
         // console.log('asdsad:',res);
@@ -379,9 +379,11 @@ export class ProfileComponent implements OnInit {
         }
       })).subscribe((res:any) => {
         this.isLoading$.next(false);
+        this.isEditBusinessHours = false;
       },(error=> {
         this.isLoading$.next(false);
         this.toast.error('error');
+        this.isEditBusinessHours = false;
       }));
   } else {
     this.toast.warning('Enter business hours')
@@ -398,11 +400,12 @@ export class ProfileComponent implements OnInit {
         return (res);
       }
     })).subscribe((res:any) => {
-      this.isEditBusinessHours = false;
       this.isLoading$.next(false);
+      this.isEditBusinessHours = false;
     },(error=> {
       this.isLoading$.next(false);
       this.toast.error('error');
+      this.isEditBusinessHours = false;
     }));
   }
 
