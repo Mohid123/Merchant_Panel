@@ -184,7 +184,7 @@
           <td class="w-0 pb-24">
             <span class="spanner">Profile picture</span>
           </td>
-          <ng-container *ngIf="!image || !profileImage">
+          <ng-container *ngIf="!image">
             <td class="w-0 pb-5 image-input image-input-outline image-upload">
               <div class="object-cover image-input-wrapper small-image">
                 <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
@@ -193,9 +193,9 @@
                 </label>
               </div>
             </ng-container>
-            <ng-container *ngIf="image || profileImage">
+            <ng-container *ngIf="image">
               <td class="image-input image-input-outline">
-                <img class="object-cover rounded-md w-85px h-90px" [src]="image || profileImage">
+                <img class="object-cover rounded-md w-85px h-90px" [src]="image">
                 <label class="shadow btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body" data-kt-image-input-action="change" >
                   <i class="bi bi-pencil-fill fs-7"></i>
                   <input (change)="onSelectSingle($event)" type="file" name="avatar" accept=".png, .jpg, .jpeg">
