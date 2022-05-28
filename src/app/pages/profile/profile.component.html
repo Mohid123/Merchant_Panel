@@ -6,7 +6,7 @@
     <span class="secondary-title">How do you want to appear in our DiviDeals?</span>
 
     <div class="flex justify-end central">
-      <button [ngClass]="secondLeftVisible == false ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" type="button" class="edit-button" [disabled]="secondLeftVisible == false" (click)="isLeftVisible = false;">Edit</button>
+      <button [ngClass]="isEditBusinessHours ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" type="button" class="edit-button" [disabled]="isEditBusinessHours" (click)="isLeftVisible = false;">Edit</button>
     </div>
 
     <table class="datatable-table">
@@ -297,7 +297,7 @@
     <h3 class="flex items-center mt-2 2xl:ml-24 fw-bolder">Set Business Hours</h3>
 
     <ng-container *ngIf="!isEditBusinessHours">
-      <a (click)="editBusinessHours()" class="2xl:mr-24 edit-btn">Edit</a>
+      <button (click)="editBusinessHours()" [ngClass]="isLeftVisible == false ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="isLeftVisible == false" class="2xl:mr-24 edit-btn">Edit</button>
     </ng-container>
 
     <div class="flex justify-end mr-24 border-none" *ngIf="isEditBusinessHours || (this.isLoading$ | async)">
