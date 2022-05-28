@@ -1,4 +1,4 @@
-<div class="flex justify-center h-auto auth-main-con 3xl:h-screen">
+<div class="flex justify-center h-screen auth-main-con">
   <div *ngIf="!registrationSuccess; else RegistrationSuccess"
     class="max-w-md overflow-hidden h-fit lg:max-w-lg lg:h-full login-content flex-row-fluid d-flex flex-column justify-content-center position-relative">
     <div class="w-full px-2 mt-0 d-flex flex-column-fluid flex-center md:px-0">
@@ -124,7 +124,7 @@
 
               <ng-container *ngIf="f['phoneNumber'].touched" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'required',
-                            message: 'Phone number is required',
+                            message: 'Mobile is required',
                             control: f['phoneNumber']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -136,12 +136,12 @@
                             validation: 'min',
                             message: 'Mobile should have 9 letters',
                             control: f['phoneNumber']}">
-              </ng-container> -->
-              <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'max',
                             message: 'Mobile should have 9 letters',
                             control: f['phoneNumber']}">
-              </ng-container> -->
+              </ng-container>
             </div>
 
             <div class="flex justify-between">
@@ -167,13 +167,13 @@
               <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Company Name</label>
               <input appMaxLength length="30" class="form-control form-control-lg form-control-solid" type="text" name="companyName"
               placeholder="Company Name"
-                formControlName="legalName" autocomplete="off" [ngClass]="{
-                'is-invalid': f['legalName'].invalid && f['legalName'].touched,
-                'is-valid': f['legalName'].valid}" />
+                formControlName="companyName" autocomplete="off" [ngClass]="{
+                'is-invalid': f['companyName'].invalid && f['companyName'].touched,
+                'is-valid': f['companyName'].valid}" />
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'required',
                             message: 'Company Name is required',
-                            control: f['legalName']}">
+                            control: f['companyName']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'minlength',

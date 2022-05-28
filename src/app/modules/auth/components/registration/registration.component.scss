@@ -39,6 +39,7 @@ input.form-control:focus {
 }
 
 .auth-main-con {
+
   background-position: 4px 8px, 0 100%, 100% 100%, 100% -20px;
   background-size: 60px 60px, 130px 36px, 122px 122px, 110px 100px;
   background-repeat: no-repeat;
@@ -162,46 +163,6 @@ button.back {
       background-color: transparent !important;
       border: 0.5px solid #787f9f5e !important;
     }
-  }
-
-  .mat-horizontal-content-container {
-    padding: 0;
-  }
-
-  .country-dropdown {
-    display: grid !important;
-    width: 100% !important;
-    min-width: 20rem !important;
-    height: 8rem;
-  }
-
-  input#country-search-box,
-  input#country-search-box:active,
-  input#country-search-box:focus-visible {
-    border-radius: 0 !important;
-    border-top: 0 !important;
-    border-left: 0 !important;
-    border-right: 0 !important;
- }
-
-  .iti {
-    width: 100% !important;
-    input{
-      border-radius: 0.475rem;
-      background-color: transparent !important;
-      border: 0.5px solid #787f9f5e !important;
-      font-size: 14px !important;
-    }
-  }
-
-  @media (min-width:1024px) {
-    .mat-step-icon.mat-step-icon-state-number {
-      height:36px;
-      width: 35px;
-    }
-
-
-
   }
 }
 
