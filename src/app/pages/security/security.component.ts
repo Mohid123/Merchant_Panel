@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '@core/models/user.model';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
@@ -25,6 +26,7 @@ export class SecurityComponent implements OnInit {
   isLoading: boolean;
   private unsubscribe: Subscription[] = [];
   passForm: FormGroup;
+  user: User;
 
   constructor(
     private fb: FormBuilder,
@@ -36,6 +38,10 @@ export class SecurityComponent implements OnInit {
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
       this.unsubscribe.push(loadingSubscr);
+
+      this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+        this.user = user;
+     });
     }
 
   ngOnInit(): void {

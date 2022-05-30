@@ -26,6 +26,7 @@ export interface User {
   deletedCheck: boolean;
   status: string;
   newUser: boolean;
+  voucherPinCode: number;
   gallery: Gallery[];
 }
 

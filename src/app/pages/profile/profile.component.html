@@ -1,7 +1,7 @@
 <app-test></app-test>
 
-<app-profile-slider [activePane]="isLeftVisible ? 'left' : 'right'">
-  <div class="card" leftPane>
+<!-- <app-profile-slider [activePane]="isLeftVisible ? 'left' : 'right'"> -->
+  <div class="card" *ngIf="isLeftVisible == true">
     <span class="business-header">My DiviDeals profile</span>
     <span class="secondary-title">How do you want to appear in our DiviDeals?</span>
 
@@ -94,9 +94,18 @@
 
   </div>
 
-  <div class="card card-right" rightPane>
+  <div class="card card-right" *ngIf="isLeftVisible == false">
     <span class="business-header">My DiviDeals profile</span>
     <span class="secondary-title">How do you want to appear in our DiviDeals?</span>
+
+    <div class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
+      <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
+      <button type="submit" class="save-button" (click)="submitProfileChanges()">Save</button>
+    </div>
+
+    <div class="flex justify-center mt-2">
+      <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+    </div>
 
     <table class="datatable-table">
       <tbody class="datatable-body" [formGroup]="profileForm">
@@ -279,17 +288,17 @@
       </tbody>
     </table>
 
-    <div class="flex justify-center mt-5">
+    <!-- <div class="flex justify-center mt-5">
       <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
     </div>
 
     <div class="flex justify-end pb-2 pr-20 mt-3 mb-2 3xl:pr-32">
       <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
       <button type="submit" class="save-button" (click)="submitProfileChanges()">Save</button>
-    </div>
+    </div> -->
 
   </div>
-</app-profile-slider>
+<!-- </app-profile-slider> -->
 
 <div class="card card-business">
 
@@ -341,7 +350,7 @@
               </div>
             </td>
             <td class="until">
-              <span class="flex items-center justify-center text-center">Until</span>
+              <span class="flex items-center justify-center text-center">And</span>
             </td>
             <td class="pr-10 time">
               <div>

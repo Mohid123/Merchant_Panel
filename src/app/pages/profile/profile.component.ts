@@ -137,6 +137,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
 
     this.config = {
+      placeholder: 'Type your content here...',
       toolbar: {
         styles: [
             'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
