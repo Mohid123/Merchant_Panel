@@ -155,7 +155,7 @@
        <div class="w-3/4 mb-3 form-group">
         <label class="mb-3">IBAN</label>
         <div class="input-group">
-          <input formControlName="iban" name="iban" type="text" class="form-control"
+          <input maxlength="35" formControlName="iban" name="iban" type="text" class="form-control"
           [ngClass]="{
             'is-invalid': f['iban'].invalid && f['iban'].touched,
             'is-valid': f['iban'].valid}">
@@ -176,6 +176,22 @@
           validation: 'maxlength',
           message: 'IBAN Number cannot exceed 35 characters',
           control: kycForm.controls['iban']
+        }">
+      </ng-container>
+       </div>
+
+       <div class="w-3/4 mb-3 form-group">
+        <label class="mb-3">VAT Number</label>
+        <div class="input-group">
+         <input maxlength="15" formControlName="vatNumber" name="vatNumber" type="text" class="form-control"
+         [ngClass]="{
+          'is-invalid': f['vatNumber'].invalid && f['vatNumber'].touched,
+          'is-valid': f['vatNumber'].valid}">
+        </div>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'VAT Number is required',
+          control: kycForm.controls['vatNumber']
         }">
       </ng-container>
        </div>

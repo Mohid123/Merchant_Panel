@@ -7,8 +7,9 @@ import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BillingsService } from '@pages/services/billings.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
+import { UserService } from 'src/app/modules/auth/services/user.service';
 import { BillingList } from 'src/app/modules/wizards/models/billing-list.model';
 import { KYC } from 'src/app/modules/wizards/models/kyc.model';
 import { MerchantStats } from './../../modules/wizards/models/merchant-stats.model';
@@ -69,7 +70,8 @@ export class BillingsComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private calendar: NgbCalendar,
-    private toast: HotToastService
+    private toast: HotToastService,
+    private userService: UserService
     ) {
       this.page = 1;
       this.fromDate = '';
@@ -101,6 +103,12 @@ export class BillingsComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])
+      ],
+      vatNumber: [
+        '',
+        Validators.compose([
+          Validators.required
+        ])
       ]
     })
   }
@@ -108,12 +116,11 @@ export class BillingsComponent implements OnInit {
   completeKYC() {
     const payload: KYC = {
       iban: this.kycForm.value.iban,
-      bankName: this.kycForm.value.bankName
+      bankName: this.kycForm.value.bankName,
+      vatNumber: this.kycForm.value.vatNumber
     }
     this.billingService.completeKYC(this.authService.currentUserValue?.id, payload)
-    .pipe((takeUntil(this.destroy$)))
-    .subscribe((res:ApiResponse<KYC>) => {
-      debugger
+    .pipe(takeUntil(this.destroy$), exhaustMap((res: any) => {
       if(!res.hasErrors()) {
         this.toast.success('KYC Submitted Successfully', {
           style: {
@@ -126,6 +133,7 @@ export class BillingsComponent implements OnInit {
             secondary: '#064e3b',
           },
         })
+        return this.userService.getUser();
       }
       else {
         this.toast.error('Failed to submit KYC', {
@@ -139,8 +147,10 @@ export class BillingsComponent implements OnInit {
             secondary: '#FFFAEE',
           }
         })
+        return (res);
       }
-    })
+    }))
+    .subscribe()
   }
 
   getMerchantStats() {
