@@ -45,10 +45,17 @@ module.exports = {
         '62': '62%',
         '65': '65%',
       },
+      minWidth: {
+        'lg': '32rem',
+      },
       height: {
         '86px': '5.375rem',
         '86px': '5.375rem',
         '26': '6.375rem',
+        '136': '34rem',
+      },
+      minHeight: {
+        'lg': '32rem',
       },
       fontSize: {
         'xxs': '0.625rem',

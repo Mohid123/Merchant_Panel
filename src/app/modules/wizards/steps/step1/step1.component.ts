@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -16,6 +17,9 @@ import { ConnectionService } from './../../services/connection.service';
   styleUrls: ['./step1.component.scss'],
 })
 export class Step1Component implements OnInit, OnDestroy {
+
+  config: any;
+  public Editor = ClassicEditor
 
   categoryList: SubCategoryList;
   selectedcategory: SubCategory;
@@ -65,6 +69,26 @@ export class Step1Component implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.config = {
+      toolbar: {
+        styles: [
+            'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
+            ],
+        items: [
+          'heading',
+          'fontSize',
+          'bold',
+          'italic',
+          'underline',
+          'highlight',
+          'alignment',
+          'indent',
+          'outdent',
+          'undo',
+          'redo'
+        ]
+      }
+    }
     this.initDealForm();
     this.updateParentModel({}, this.checkForm());
     this.categoryService.getSubCategories(0,0).pipe(take(1)).subscribe(categoryList => {

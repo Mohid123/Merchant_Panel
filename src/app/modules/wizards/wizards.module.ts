@@ -68,7 +68,8 @@ FullCalendarModule.registerPlugins([
     MatTableModule,
     NgbModule,
     ReusableModalModule,
-    TableSkeletonModule
+    TableSkeletonModule,
+    CKEditorModule
   ],
   entryComponents: [PopoverWrapperComponent],
 })
