@@ -17,8 +17,8 @@ module.exports = {
       screens: {
         'xs': '500px',
         'xl': '1280px',
-        '2xl': '1400px',
-        '3xl': '1600px',
+        '2xl': '1600px',
+        '3xl': '1920px',
       },
       colors: {
         'primary-100': '#F7E1AD',
@@ -35,6 +35,9 @@ module.exports = {
         }
       },
       width: {
+        'r22': '22rem',
+        '29': '7.25rem',
+        '86px': '86px',
         '90px': '90px',
         '35': '35%',
         '38': '38%',
@@ -43,9 +46,13 @@ module.exports = {
         '65': '65%',
       },
       height: {
-        '90px': '90px',
+        '86px': '5.375rem',
+        '86px': '5.375rem',
+        '26': '6.375rem',
       },
       fontSize: {
+        'xxs': '0.625rem',
+        'xs2': '0.688rem',
         '4.5xl': '2.5rem',
         '45px': '45px'
       },

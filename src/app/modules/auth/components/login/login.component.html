@@ -27,9 +27,9 @@
           <input class="form-control xl:text-xl 3xl:text-2xl form-control-lg form-control-solid" type="email" name="email"
             formControlName="email" autocomplete="off"/>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'required',
-                        message: 'Email is required',
-                        control: loginForm.controls['email']}">
+              validation: 'required',
+              message: 'Email is required',
+              control: loginForm.controls['email']}">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                         validation: 'pattern',
@@ -37,14 +37,14 @@
                         control: loginForm.controls['email']}">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'minLength',
-                        message: 'Email should have at least 3 symbols',
-                        control: loginForm.controls['email']}">
+            validation: 'minLength',
+            message: 'Email should have at least 3 symbols',
+            control: loginForm.controls['email']}">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'maxLength',
-                        message: 'Email should have maximum 360 symbols',
-                        control: loginForm.controls['email']}">
+            validation: 'maxLength',
+            message: 'Email should have maximum 360 symbols',
+            control: loginForm.controls['email']}">
           </ng-container>
         </div>
 
