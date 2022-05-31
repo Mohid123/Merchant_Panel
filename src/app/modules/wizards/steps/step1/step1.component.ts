@@ -45,7 +45,7 @@ export class Step1Component implements OnInit, OnDestroy {
 
   @Input() deal: Partial<MainDeal> = {
     subCategory:'',
-    title: '',
+    dealHeader: '',
     subTitle: '',
     mediaUrl: [''],
     description: '',
@@ -111,7 +111,7 @@ export class Step1Component implements OnInit, OnDestroy {
         ]),
       ],
       title: [
-        this.deal.title,
+        this.deal.dealHeader,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
