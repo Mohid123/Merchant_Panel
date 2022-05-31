@@ -1,4 +1,4 @@
-<div class="flex flex-row justify-between py-5 border-0 card-header" style="background-color: #E67B00;">
+<div class="flex flex-row justify-between py-5 border-0 card-header" style="background-color: #0081E9;">
   <h3 class="text-white card-title">Sales Statistics</h3>
   <img src="../../../../../../../assets/media/logos/gen025.svg" style="filter: invert(100%);">
 </div>
@@ -9,7 +9,7 @@
   <div
     #chartRef
     class="mixed-widget-2-chart card-rounded-bottom"
-    style="background-color: #E67B00;"
+    style="background-color: #0081E9;"
   >
     <apx-chart
       [series]="chartOptions.series"
@@ -33,15 +33,15 @@
     <!-- begin::Row -->
     <div class="row g-0">
       <!-- begin::Col -->
-      <div class="px-6 py-8 text-center col bg-light-primary rounded-2 me-7 mb-7">
-        <span class="my-2 text-2xl text-primary d-block">{{totalStats?.totalDeals}}</span>
-        <a  class="text-sm text-primary"> Total Deals </a>
+      <div class="px-6 py-8 text-center bg-blue-100 col rounded-2 me-7 mb-7">
+        <a  class="text-base font-semibold text-gray-500"> Total Deals </a>
+        <span class="my-2 text-2xl font-semibold text-blue-500 text-primary d-block">{{totalStats?.totalDeals}}</span>
       </div>
       <!-- end::Col -->
       <!-- begin::Col -->
-      <div class="px-6 py-8 text-center bg-blue-100 col rounded-2 mb-7">
-        <span class="my-2 text-2xl text-blue-400 d-block">{{totalStats?.scheduledDeals}}</span>
-        <a class="text-sm text-blue-400"> Scheduled Deals </a>
+      <div class="px-6 py-8 text-center bg-green-100 col rounded-2 mb-7">
+        <a class="text-base font-semibold text-gray-500"> Scheduled Deals </a>
+        <span class="my-2 text-2xl font-semibold text-green-500 d-block">{{totalStats?.scheduledDeals}}</span>
       </div>
       <!-- end::Col -->
     </div>
@@ -49,15 +49,15 @@
     <!-- begin::Row -->
     <div class="row g-0">
       <!-- begin::Col -->
-      <div class="px-6 py-8 text-center col bg-light-primary rounded-2 me-7">
-        <span class="my-2 text-2xl text-primary d-block">{{totalStats?.pendingDeals}}</span>
-        <a  class="text-sm text-custom-black-900 text-primary"> Pending Deals </a>
+      <div class="px-6 py-8 text-center col rounded-2 me-7" style="background-color: #FFF1D1;">
+        <a  class="text-base font-semibold text-gray-500"> Pending Deals </a>
+        <span class="my-2 text-2xl font-semibold text-yellow-500 d-block">{{totalStats?.pendingDeals}}</span>
       </div>
       <!-- end::Col -->
       <!-- begin::Col -->
-      <div class="px-6 py-8 text-center bg-blue-100 col rounded-2">
-        <span class="my-2 text-2xl text-blue-400 d-block">{{totalStats?.publishedDeals}}</span>
-        <a  class="text-sm text-blue-400"> Sold Deals </a>
+      <div class="px-6 py-8 text-center bg-red-100 col rounded-2">
+        <a  class="text-base font-semibold text-gray-500"> Sold Deals </a>
+        <span class="my-2 text-2xl font-semibold text-red-500 d-block">{{totalStats?.publishedDeals}}</span>
       </div>
       <!-- end::Col -->
     </div>

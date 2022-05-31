@@ -12,7 +12,7 @@
 <ng-container *ngIf="showData == true">
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
-      <tr class="text-center text-black bg-gray-300 rounded-lg">
+      <tr class="text-center text-black bg-blue-100 rounded-lg">
         <th class="flex justify-start pt-4 pb-4 pl-12 pr-4 font-semibold">Products&nbsp;</th>
         <th class="p-4 font-semibold">Reviews&nbsp;</th>
         <th class="p-4 font-semibold">Highest&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
@@ -29,8 +29,8 @@
           <td class="p-4 font-thin">{{data.ratingsAverage}}</td>
           <td class="p-4">
             <button [disabled]="data.totalReviews == 0" [routerLink]="['/single-review/', data._id]"
-            class="px-4 py-3 text-sm text-black bg-gray-200 rounded-md"
-            [ngClass]="data.totalReviews == 0 ? 'opacity-50': 'hover:bg-yellow-600 hover:text-white'">View Review</button>
+            class="px-4 py-3 text-sm text-blue-400 bg-blue-100 rounded-md"
+            [ngClass]="data.totalReviews == 0 ? 'opacity-50': 'hover:bg-blue-600 hover:text-white'">View Review</button>
           </td>
         </tr>
       </ng-container>
@@ -38,9 +38,9 @@
   </div>
   <div class="flex justify-end pt-4">
     <ul class="pagination">
-      <li class="page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" class="page-link bg-white shadow-sm"><i class="previous"></i></button></li>
+      <li class="page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" class="bg-white shadow-sm page-link"><i class="previous"></i></button></li>
       <li class="page-item disabled"><a class="page-link">{{ page === 1 ? 1 : (page-1) * limit }}-{{ page * limit < reviewsData?.totalDeals ? (page * limit) : reviewsData?.totalDeals }}/{{reviewsData?.totalDeals}}</a></li>
-      <li class="page-item next" [ngClass]="reviewsData?.totalDeals <= page * limit ? 'disabled': ''"><button [disabled]="reviewsData?.totalDeals <= page * limit" (click)="next()" class="page-link bg-white shadow-sm"><i class="next"></i></button></li>
+      <li class="page-item next" [ngClass]="reviewsData?.totalDeals <= page * limit ? 'disabled': ''"><button [disabled]="reviewsData?.totalDeals <= page * limit" (click)="next()" class="bg-white shadow-sm page-link"><i class="next"></i></button></li>
     </ul>
   </div>
 </ng-container>

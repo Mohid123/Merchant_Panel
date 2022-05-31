@@ -35,7 +35,7 @@ input.form-control {
 }
 
 input.form-control:focus {
-  border-color: #F38B41;
+  border-color: #7FC0F4;
 }
 
 .auth-main-con {
@@ -58,7 +58,7 @@ input.form-control:focus {
 }
 
 h3 {
-  color: #F38B41;
+  color: #51A9F0;
 }
 
 button.back,
@@ -110,14 +110,14 @@ button.back {
 
   .mat-step-icon {
     color: #FFFFFF;
-    background-color: #F38B41;
+    background-color: #006AC1;
     width: 35px;
     height: 36px;
   }
 
   .mat-step-icon.mat-step-icon-state-number {
-    background-color: #FBF0D5 !important;
-    color: #F38B41 !important;
+    background-color: #D9ECFC !important;
+    color: #006AC1 !important;
     font-size: 1rem;
     height:2.25rem;
     width: 2.24rem;
@@ -192,7 +192,7 @@ button.back {
 
   .tabs.active,
   .tabs:hover {
-    border: 2px solid #F38B41;
+    border: 2px solid #006AC1;
     cursor: pointer;
   }
 
@@ -210,7 +210,7 @@ button.back {
 .province app-category-radio-button.active,
 .province app-category-radio-button:active,
 .province app-category-radio-button:hover {
-  border: 2px solid #F38B41 !important;
+  border: 2px solid #006AC1 !important;
   box-shadow: 0px 5px 15px #787F9F42;;
   cursor: pointer;
 }
@@ -234,9 +234,9 @@ button.back {
   .auth-main-con {
     background-image:
     url("../../../../../assets/media/logos/final_logo.svg"),
-    url("../../../../../assets/media/logos/background-bottom-left.png"),
-    url("../../../../../assets/media/svg/illustrations/login-visual-5.svg"),
-    url("../../../../../assets/media/logos/background-top-right.png");
+    url("../../../../../assets/media/logos/bottom-left.svg"),
+    url("../../../../../assets/media/logos/INVERTED.svg"),
+    url("../../../../../assets/media/logos/MaskGroup.svg");
     background-position: 53px 0px, 0 100%, calc(100% - 12px) 100%, 100% 0;
     background-size: 162px 169px, 243px 118px, 200px 200px, 230px 240px;
     min-height: 720px;
@@ -246,7 +246,7 @@ button.back {
 @media (min-width: 1280px) {
   .auth-main-con {
     background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
-    background-size: 162px 169px, 243px 118px, 250px 250px, 285px 290px;
+    background-size: 162px 169px, 236px 68px, 250px 250px, 285px 290px;
   }
 }
 
@@ -258,7 +258,7 @@ button.back {
 
 @media (min-width: 1920px) {
   .auth-main-con {
-    background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
-    background-size: 169px 169px, 375px 118px ,312px 312px,320px 361px;
+    background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 8px) , 100% 0;
+    background-size: 169px 169px, 375px 110px, 312px 312px, 320px 361px;
   }
 }

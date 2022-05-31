@@ -93,7 +93,7 @@ function getChartOptions(
       curve: 'smooth',
       show: true,
       width: 3,
-      colors: ['#a55901'],
+      colors: ['#003C6D'],
     },
     xaxis: {
       categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],

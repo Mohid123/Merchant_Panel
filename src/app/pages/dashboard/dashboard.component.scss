@@ -7,6 +7,11 @@
   overflow-x: scroll;
 }
 
+input.form-control:focus {
+  border-color: #7FC0F4;
+}
+
+
 
 @media (max-width: 600px ) {
 

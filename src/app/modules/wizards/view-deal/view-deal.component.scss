@@ -4,12 +4,12 @@
 }
 
 .mat-tab-label-active {
-  color: #f38b41!important;
+  color: #0081E9!important;
 }
 
 .mat-tab-label.mat-tab-label-active:after {
   opacity: 1!important;
-  color: #f38b41!important;
+  color: #0081E9!important;
   content: ' ';
   text-decoration: none;
   position: absolute;
@@ -17,7 +17,7 @@
   left: 18%;
   height: 100%;
   margin-left: 25%;
-  border-bottom: solid 6px #f38b41;
+  border-bottom: solid 6px #0081E9;
 }
 
 .moon {
@@ -95,7 +95,7 @@ input::-webkit-datetime-edit-fields-wrapper {
 
 
 .tid-detail-row {
-  border-left: 5px solid #F38B41;
+  border-left: 5px solid #0081E9;
   > td {
     padding: 0;
     border: 0;

@@ -6,8 +6,8 @@
         (ngSubmit)="submit()">
         <div class="text-center mb-7">
           <h1 class="text-dark mb-3 3xl:mb-6 font-medium text-xl sm:text-3xl xl:text-4.5xl 3xl:text-5xl">Welcome to DiviDeals</h1>
-          <h3 class="mb-5 text-xs font-medium 3xl:mb-8 sm:text-xl xl:text-xl 3xl:text-2xl text-primary-400">Merchant Panel</h3>
-          <div class="text-xs font-medium text-font-gray-800 xl:text-xl sm:text-base 3xl:text-2xl">
+          <h3 class="mb-5 text-xs font-medium text-blue-500 3xl:mb-8 sm:text-xl xl:text-xl 3xl:text-xl">Merchant Panel</h3>
+          <div class="text-xs font-medium text-font-gray-800 xl:text-xl sm:text-base 3xl:text-xl">
             New Here?
             <a routerLink="/auth/registration" id="kt_login_signup"
               class="text-black fw-bolder">Apply Now</a>
@@ -67,7 +67,7 @@
                         control: loginForm.controls['password']}">
           </ng-container>
           <div class="w-full text-right mt-7">
-            <a routerLink="/auth/forgot-password" class="text-xs font-light sm:text-sm xl:text-base 3xl:text-lg text-primary-400"
+            <a routerLink="/auth/forgot-password" class="text-xs font-light text-blue-400 sm:text-sm xl:text-base 3xl:text-lg"
               id="kt_login_forgot">
               Forgot Password ?
             </a>
@@ -76,7 +76,7 @@
 
         <div class="text-right">
           <button type="submit" id="kt_sign_in_submit"
-            class="mb-5 text-xs text-white bg-black xl:text-sm 3xl:text-base btn hover:btn-primary" [disabled]="loginForm.invalid">
+            class="mb-5 text-xs text-white bg-blue-500 xl:text-sm 3xl:text-base btn hover:btn-primary" [disabled]="loginForm.invalid">
             <ng-container *ngIf="isLoading$ | async">
               <span class="indicator-progress" [style.display]="'block'">
                 Please wait...
@@ -94,15 +94,15 @@
   </div>
 </div>
 
-  <ng-template #formError let-control="control" let-message="message" let-validation="validation">
-    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
-      <div class="text-xs fv-plugins-message-container">
-        <span class="text-xs fv-help-block" role="alert">
-          {{ message }}
-        </span>
-      </div>
-    </ng-container>
-  </ng-template>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="text-xs fv-plugins-message-container">
+      <span class="text-xs fv-help-block" role="alert">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>
 
   <!--
     || validityPass == false

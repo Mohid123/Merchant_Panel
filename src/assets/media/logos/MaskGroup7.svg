@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="337" height="81" viewBox="0 0 337 81">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_83332" data-name="Path 83332" d="M0,0H337V81H0Z" transform="translate(337 768) rotate(180)" fill="#fff"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#0081e9"/>
+      <stop offset="1" stop-color="#0067bb"/>
+    </linearGradient>
+  </defs>
+  <g id="Mask_Group_7" data-name="Mask Group 7" transform="translate(0 -687)" clip-path="url(#clip-path)">
+    <g id="Group_808" data-name="Group 808" transform="translate(1448 1051) rotate(180)">
+      <path id="Path_83331" data-name="Path 83331" d="M282.86,0c156.219,0,282.86,126.641,282.86,282.86s-126.641,282.86-282.86,282.86S0,439.079,0,282.86,126.641,0,282.86,0Z" transform="translate(1077.991 -204)" fill="url(#linear-gradient)"/>
+      <circle id="Ellipse_312" data-name="Ellipse 312" cx="209.5" cy="209.5" r="209.5" transform="translate(1189 -180)" fill="#fff" opacity="0.08"/>
+      <g id="Ellipse_313" data-name="Ellipse 313" transform="translate(1335 -178)" fill="#fff" stroke="#707070" stroke-width="1" opacity="0.08">
+        <circle cx="142" cy="142" r="142" stroke="none"/>
+        <circle cx="142" cy="142" r="141.5" fill="none"/>
+      </g>
+      <circle id="Ellipse_314" data-name="Ellipse 314" cx="16" cy="16" r="16" transform="translate(1235 34)" fill="#fff" opacity="0.1"/>
+      <circle id="Ellipse_315" data-name="Ellipse 315" cx="13" cy="13" r="13" transform="translate(1329 179)" fill="#fff" opacity="0.1"/>
+      <circle id="Ellipse_316" data-name="Ellipse 316" cx="10" cy="10" r="10" transform="translate(1256 296)" fill="#fff" opacity="0.1"/>
+      <circle id="Ellipse_317" data-name="Ellipse 317" cx="5" cy="5" r="5" transform="translate(1154 110)" fill="#fff" opacity="0.1"/>
+      <circle id="Ellipse_318" data-name="Ellipse 318" cx="15" cy="15" r="15" transform="translate(1141 4)" fill="#fff" opacity="0.1"/>
+      <circle id="Ellipse_319" data-name="Ellipse 319" cx="8" cy="8" r="8" transform="translate(1410 290)" fill="#fff" opacity="0.1"/>
+      <circle id="Ellipse_320" data-name="Ellipse 320" cx="4.5" cy="4.5" r="4.5" transform="translate(1418 96)" fill="#fff" opacity="0.1"/>
+      <ellipse id="Ellipse_321" data-name="Ellipse 321" cx="12" cy="12.5" rx="12" ry="12.5" transform="translate(1398 -13)" fill="#fff" opacity="0.1"/>
+    </g>
+  </g>
+</svg>
