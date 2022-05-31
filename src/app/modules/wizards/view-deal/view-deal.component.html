@@ -92,9 +92,16 @@
               </ng-container>
 
               <td class="flex flex-row justify-center font-thin" class="vertical-align: middle!important;">
-                <a class="px-2 py-1 mr-1 text-gray-500 bg-gray-200 rounded-md cursor-pointer 3xl:px-3 3xl:py-1">
-                  <i class="p-1 fas fa-ellipsis-h"></i>
-                </a>
+                <div style="all: unset" ngbDropdown display="dynamic" id="dropdownBasic3">
+                  <a ngbDropdownToggle class="px-2 py-1 mr-1 text-gray-500 bg-gray-200 rounded-md cursor-pointer 3xl:px-3 3xl:py-1">
+                    <i class="p-1 fas fa-ellipsis-h"></i>
+                  </a>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+                    <button ngbDropdownItem (click)="deleteDeal(event._id)">
+                      Delete
+                    </button>
+                  </div>
+                </div>
                 <a (click)="event.showDetail = !event.showDetail" class="px-2 py-1 text-blue-500 bg-blue-100 rounded-md cursor-pointer 3xl:px-3 3xl:py-1">
                   <i [ngClass]="event.showDetail ? 'p-1 fas fa-angle-double-up text-blue-500': 'p-1 fas fa-angle-double-down text-blue-500'"></i>
                 </a>
