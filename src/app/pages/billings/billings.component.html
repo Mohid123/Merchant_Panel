@@ -205,7 +205,7 @@
 
    <div class="flex mb-8 justify-evenly">
       <button (click)="closeModal()" class="px-10 py-2 text-blue-600 bg-gray-100 rounded-md">Back</button>
-      <button [disabled]="kycForm.invalid" (click)="completeKYC(); closeModal()" [ngClass]="kycForm.invalid? 'opacity-50': 'opacity-100'" class="px-10 py-2 text-white bg-gray-900 rounded-md">Save</button>
+      <button [disabled]="kycForm.invalid" (click)="completeKYC(); closeModal()" [ngClass]="kycForm.invalid? 'opacity-50': 'opacity-100'" class="px-10 py-2 text-white bg-blue-500 rounded-md">Save</button>
     </div>
 
 </app-reusable-modal>

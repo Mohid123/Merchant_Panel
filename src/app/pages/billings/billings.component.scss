@@ -11,6 +11,10 @@
   @apply py-3 text-sm font-thin border-blue-400 bg-blue-500 text-white px-8;
 }
 
+input.form-control:focus {
+  border-color: #7FC0F4;
+}
+
 .image-circle {
   top: 120px;
   left: 184px
