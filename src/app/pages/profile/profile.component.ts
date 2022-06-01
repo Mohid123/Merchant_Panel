@@ -162,7 +162,9 @@ export class ProfileComponent implements OnInit {
   submitProfileChanges() {
     this.isLeftVisible = true;
     this.profileForm.patchValue({gallery: this.images})
-    this.profileForm.patchValue({profilePicURL: this.image})
+    if(this.image) {
+      this.profileForm.patchValue({profilePicURL: this.image})
+    }
     this.userService.updateMerchantprofile(this.profileForm.value)
     .pipe(exhaustMap((res: any) => {
       if(!res.hasErrors()) {
