@@ -5,7 +5,7 @@
     <a routerLink="/dashboard">
       <img
         alt="Logo"
-        class="h-45px logo"
+        class="w-auto h-45px logo"
         src="./assets/media/logos/logo_v2.png"
       />
     </a>
@@ -15,7 +15,7 @@
     <a routerLink="/dashboard">
       <img
         alt="Logo"
-        class="h-35px logo"
+        class="w-auto h-35px logo"
         src="./assets//media/logos/logo-1.svg"
       />
     </a>
@@ -25,9 +25,10 @@
 
   <!-- begin::Aside toggle -->
   <ng-container *ngIf="asideMinimize">
+    <!-- <span [inlineSVG]="'./assets/media/logos/logo-1.svg'" class="svg-icon svg-icon-1"></span> -->
     <div
       id="kt_aside_toggle"
-      class="w-auto px-0 btn btn-icon btn-active-color-primary aside-toggle"
+      class="w-auto pt-3 pl-2 btn btn-icon btn-sm btn-active-color-primary aside-toggle"
       data-kt-toggle="true"
       data-kt-toggle-state="active"
       data-kt-toggle-target="body"
@@ -36,7 +37,8 @@
       <span
         [inlineSVG]="'./assets/media/icons/duotune/arrows/arr079.svg'"
         class="rotate-180 svg-icon svg-icon-1"
-      ></span>
+      >
+      </span>
     </div>
   </ng-container>
   <!-- end::Aside toggler -->

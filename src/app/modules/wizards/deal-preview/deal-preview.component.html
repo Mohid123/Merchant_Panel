@@ -1,0 +1,123 @@
+<div
+  id="kt_engage_demos"
+  class="bg-body"
+  data-kt-drawer="true"
+  data-kt-drawer-name="explore"
+  data-kt-drawer-activate="true"
+  data-kt-drawer-overlay="true"
+  data-kt-drawer-width="{'default': '718px', 'lg': '718px'}"
+  data-kt-drawer-direction="end"
+  data-kt-drawer-toggle="#kt_engage_demos_toggle"
+  data-kt-drawer-close="#kt_engage_demos_close">
+
+
+  <div class="shadow-none card rounded-0 w-100">
+
+    <div class="card-header" id="kt_explore_header">
+      <h3 class="text-blue-500 card-title fw-bolder">Deal Preview</h3>
+
+      <div class="card-toolbar">
+        <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5" id="kt_engage_demos_close">
+          <span
+            [inlineSVG]="'./assets/media/icons/duotune/arrows/arr061.svg'"
+            class="svg-icon svg-icon-2"
+          ></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="main-body">
+      <div class="flex flex-col left-side">
+        <span class="pl-5 text-base font-semibold pt-7">Sauna and scrub massage for 2</span>
+        <span class="pt-1 pl-5 text-base">King Spa and Sauna</span>
+        <span class="pt-2 pl-5 text-xs text-gray-600 take-a-break">Take a break from the hassle and endulge in luxury treatments for 2.</span>
+
+        <div style="max-height: 290px;">
+          <swiper
+          style="--swiper-navigation-color: #fff;--swiper-pagination-color: #fff; --swiper-navigation-size: 20px;"
+          [spaceBetween]="3"
+          [navigation]="true"
+          [thumbs]="{ swiper: thumbsSwiper }"
+          class="mySwiper2">
+
+          <ng-template swiperSlide *ngFor="let image of images; let i = index">
+            <img [src]="image">
+          </ng-template>
+
+        </swiper>
+
+        <swiper
+          (swiper)="thumbsSwiper = $event"
+          [spaceBetween]="0"
+          [slidesPerView]="10"
+          [freeMode]="true"
+          [watchSlidesProgress]="true"
+          class="mySwiper">
+
+          <ng-template swiperSlide *ngFor="let image of images; let i = index">
+            <img [src]="image" class="w-8 h-8 p-0 rounded-sm">
+          </ng-template>
+
+        </swiper>
+        </div>
+
+        <span class="pt-4 pl-5 text-base font-semibold">Highlights</span>
+
+        <span class="pt-3 pl-5 text-sm text-gray-500 lorem">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin interdum orci a velit efficitur, eu varius
+        </span>
+
+        <span class="pt-4 pl-5 text-base font-semibold">About this deal</span>
+
+        <span class="pt-3 pl-5 text-sm text-gray-500 lorem">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin interdum orci a velit efficitur, eu varius mauris pharetra. Suspendisse id gravida nunc, at accumsan mi. In nec fringilla magna. Pellentesque ac ex gravida, dignissim lectus vel, cursus felis. Nullam ac nunc id libero consequat interdum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin interdum orci a velit efficitur, eu varius mauris pharetra. Suspendisse id gravida nunc, at accumsan mi. In nec fringilla magna. Pellentesque ac ex gravida, dignissim lectus vel, cursus felis. Nullam ac nunc id libero consequat interdum.
+        </span>
+
+        <!-- <span class="pt-4 pl-5 text-base font-semibold lorem">Fine print</span>
+
+        <span class="pt-2 pl-5 text-sm text-gray-500 lorem">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin interdum orci a velit efficitur, eu varius mauris pharetra. Suspendisse id gravida nunc, at accumsan mi. In nec fringilla magna. Pellentesque ac ex gravida, dignissim lectus vel, cursus felis. Nullam ac nunc id libero consequat interdum.
+        </span> -->
+
+      </div>
+
+      <ng-container *ngIf="noContent == true">
+        <div class="flex flex-col justify-center align-middle">
+          <div class="w-full">
+            <div class="flex justify-center align-bottom">
+              <img src="../../../../assets/media/logos/box.svg">
+            </div>
+            <div class="flex justify-center ml-6 align-bottom 2xl:ml-0">
+              <span class="h-10 mt-2 text-sm font-thin text-center text-gray-500">Your sub voucher details will appear here.</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="noContent == false">
+        <div class="mt-32 overflow-x-scroll">
+          <span class="w-56 ml-12 text-sm text-center 2xl:ml-6">General spa Admission for One</span>
+          <div class="flex justify-start mt-2 ml-12 font-thin 2xl:ml-7 flex-nowrap">
+            <i class="text-sm text-gray-600 fas fa-dollar-sign">&nbsp;48</i>
+            <i class="ml-3 text-sm text-green-400 fas fa-dollar-sign">&nbsp;32</i>
+            <i style="font-style: normal;" class="mt-1 ml-3 text-xs text-blue-500 fw-bolder">34% off</i>
+          </div>
+          <span class="w-56 ml-12 text-sm font-thin text-center 2xl:ml-6">Number of available vouchers <span class="px-2 py-0.5 text-xs text-white bg-blue-300 rounded-md">141</span></span>
+          <div class="flex justify-end mt-2">
+            <i class="p-1 text-gray-600 bg-gray-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" ></i>
+            <i class="p-1 ml-1 text-gray-600 bg-gray-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
+          </div>
+          <div class="flex justify-center ml-3">
+            <hr class="border-4 text-gray-400 w-full">
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+  </div>
+
+</div>
+
+
+

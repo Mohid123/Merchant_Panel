@@ -14,11 +14,14 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { SwiperModule } from 'swiper/angular';
 import { TrimModule } from './../../@core/directives/trim/trim.module';
 import { TruncatePipe } from './../../@core/pipes/truncate.pipe';
 import { TableSkeletonModule } from './../../components/table-skeleton/table-skeleton.module';
 import { ReusableModalModule } from './../../_metronic/layout/components/reusable-modal/reusable-modal.module';
+import { DealPreviewComponent } from './deal-preview/deal-preview.component';
 import { HorizontalComponent } from './horizontal/horizontal.component';
+import { SideDrawerComponent } from './side-drawer/side-drawer.component';
 import { Step1Component } from './steps/step1/step1.component';
 import { Step2Component } from './steps/step2/step2.component';
 import { Step3Component } from './steps/step3/step3.component';
@@ -48,7 +51,9 @@ FullCalendarModule.registerPlugins([
     ViewDealComponent,
     TruncatePipe,
     TimeformatePipe,
-    PopoverWrapperComponent
+    PopoverWrapperComponent,
+    SideDrawerComponent,
+    DealPreviewComponent
   ],
   imports: [
     CommonModule,
@@ -69,7 +74,8 @@ FullCalendarModule.registerPlugins([
     NgbModule,
     ReusableModalModule,
     TableSkeletonModule,
-    CKEditorModule
+    CKEditorModule,
+    SwiperModule
   ],
   entryComponents: [PopoverWrapperComponent],
 })
