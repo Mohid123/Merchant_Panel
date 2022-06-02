@@ -31,13 +31,13 @@ export class Step2Component implements OnInit, OnDestroy {
       Validators.required,
       ]),
     ],
-    details: [
-      '',
-      Validators.compose([
-      Validators.required,
-      Validators.minLength(16)
-      ]),
-    ],
+    // details: [
+    //   '',
+    //   Validators.compose([
+    //   Validators.required,
+    //   Validators.minLength(16)
+    //   ]),
+    // ],
     numberOfVouchers: [
       0,
       Validators.compose([

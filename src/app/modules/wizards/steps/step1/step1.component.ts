@@ -1,5 +1,4 @@
-import { CdkDragDrop, CdkDragEnter, CdkDragMove, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -18,13 +17,6 @@ import { ConnectionService } from './../../services/connection.service';
   styleUrls: ['./step1.component.scss'],
 })
 export class Step1Component implements OnInit, OnDestroy {
-
-  @ViewChild('dropListContainer') dropListContainer?: ElementRef;
-  dropListReceiverElement?: HTMLElement;
-  dragDropInfo?: {
-    dragIndex: number;
-    dropIndex: number;
-  };
 
   @Output() nextClick = new EventEmitter();
   config: any;
