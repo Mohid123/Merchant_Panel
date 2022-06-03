@@ -18,7 +18,7 @@ textarea,
 input.form-control {
   @apply text-xs 2xl:text-base;
   background-color: transparent !important;
-  border: 0.5px solid #787f9f5e;
+  border: 0.5px solid #787f9f5e !important;
   padding-top: 8.5px;
   padding-bottom: 8.5px;
   min-height: 40px;
@@ -31,7 +31,7 @@ input.form-control {
 textarea:focus,
 #dropdownBasic1.open,
 input.form-control:focus {
-  border-color: #F38B41;
+  border-color: #F38B41 !important;
 }
 
 p,
