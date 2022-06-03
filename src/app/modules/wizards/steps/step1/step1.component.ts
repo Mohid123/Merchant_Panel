@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SubCategory, SubCategoryList } from 'src/app/modules/auth/models/subCategory.model';
 import { CategoryService } from './../../../auth/services/category.service';
-import { Image } from './../../models/images.model';
+import { Media } from './../../models/images.model';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
 
@@ -63,7 +63,9 @@ export class Step1Component implements OnInit, OnDestroy {
 
   file: any;
   multiples: any[] = [];
-  urls: Image[] = [];
+  urls: Media[] = [];
+  videos: any[] = [];
+  videoUrls:Media[] = [];
   private unsubscribe: Subscription[] = [];
   control: FormControl
   images = [];
@@ -144,9 +146,6 @@ export class Step1Component implements OnInit, OnDestroy {
       ],
       mediaUrl: [
         this.urls,
-        Validators.compose([
-          Validators.required
-        ])
       ],
       deletedCheck: false
     })
@@ -165,20 +164,28 @@ export class Step1Component implements OnInit, OnDestroy {
     this.dealForm.get('description')?.hasError('minlength'))
   }
 
-  onSelectFile(event: any) {
+  onSelectFile(event: any,isImages:boolean) {
     this.file = event.target.files && event.target.files.length;
-    if (this.file > 0 && this.file < 11) {
+    if (!isImages || (this.file > 0 && this.file < 11)) {
       this.images = event.target.files;
       let i: number = 0;
       for (const singlefile of event.target.files) {
         var reader = new FileReader();
         reader.readAsDataURL(singlefile);
+        if(isImages) {
         this.urls.push(singlefile);
+        } else {
+          this.videoUrls.push(singlefile);
+        }
         this.cf.detectChanges();
         i++;
         reader.onload = (event) => {
           const url = (<FileReader>event.target).result as string;
-          this.multiples.push(url);
+          if(isImages){
+          this.multiples.push(url);}
+          else {
+            this.videos.push(url)
+          }
           this.cf.detectChanges();
           // If multple events are fired by user
           if (this.multiples.length > 10) {
