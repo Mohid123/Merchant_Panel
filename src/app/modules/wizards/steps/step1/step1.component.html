@@ -140,25 +140,31 @@
     Allow file types are png or jpeg. You can add maximum 10 images
   </p>
 
-  <div class="flex flex-wrap p-4 mt-3 border border-solid rounded-2xl" style="gap: 6px;" data-max-image="10" *ngIf="multiples.length > 0">
-    <ng-container *ngFor="let multiple of multiples; let i = index;">
+  <div #dropListContainer cdkDropListGroup class="flex flex-wrap p-4 border border-solid rounded-2xl md:max-h-40 md:overflow-y-auto 2xl:max-h-full" style="gap: 6px;" data-max-image="10" *ngIf="multiples.length > 0">
+      <div class="relative self-center" *ngFor="let multiple of multiples; let i = index;" cdkDropList [cdkDropListData]="i">
+        <div cdkDrag [cdkDragData]="i" (cdkDragEntered)="dragEntered($event)" (cdkDragMoved)="dragMoved($event)" (cdkDragDropped)="dragDropped($event)">
+          <img [src]="multiple" class="rounded-lg w-14 h-14 2xl:h-20 2xl:w-20">
+        <i class="absolute bg-white rounded-full cursor-pointer -top-1 -right-1 fa fa-times-circle" (click)="clearImage(i)"></i>
+        </div>
+    </div>
+    <!-- <ng-container *ngFor="let multiple of multiples; let i = index;">
       <div class="relative self-center">
         <img [src]="multiple" class="rounded-lg w-14 h-14">
         <i class="absolute bg-white rounded-full cursor-pointer -top-1 -right-1 fa fa-times-circle" (click)="clearImage(i)"></i>
       </div>
-    </ng-container>
-    <div class="relative">
-      <div class="w-16 h-16 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
-      <label class="absolute top-0 w-16 h-16 btn btn-xs btn-icon btn-hover-text-primary">
-        <span class="absolute top-0 flex items-center justify-center w-16 h-16" style="color: rgb(179, 179, 179); font-size: 30px"><img  src="../../../../../assets/media/icons/more-images.svg"></span>
-        <input class="absolute top-0 w-16 h-16 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)" (click)="onClick($event)" multiple>
+    </ng-container> -->
+    <div *ngIf="multiples.length < 10" class="relative">
+      <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
+      <label class="absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
+        <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20" style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"  src="../../../../../assets/media/icons/more-images.svg"></span>
+        <input class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event,true)" (click)="onClick($event)" multiple>
       </label>
     </div>
  </div>
 
 </div>
-<div class="justify-center shadow-sm h-14 card card-custom">
-  <button class="self-center w-24 text-white rounded-lg h-9 bg-primary-500">Next</button>
+<div class="justify-center shadow-sm min-h-14 2xl:h-20 card card-custom">
+  <button [disabled]=" (dealForm.invalid || urls.length == 0)" (click)="nextClick.emit('')" class="self-center w-24 text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Next</button>
 </div>
   </div>
 </div>

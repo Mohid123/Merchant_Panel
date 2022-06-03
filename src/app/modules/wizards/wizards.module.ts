@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -75,6 +76,7 @@ FullCalendarModule.registerPlugins([
     ReusableModalModule,
     TableSkeletonModule,
     CKEditorModule,
+    DragDropModule,
     SwiperModule
   ],
   entryComponents: [PopoverWrapperComponent],
