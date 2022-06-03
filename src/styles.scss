@@ -61,6 +61,26 @@ input[type='file'] {
   }
 }
 
+.ck.ck-toolbar.ck-toolbar_grouping {
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+  background-color: white !important;
+  padding: 0 12px !important;
+}
+
+.ck.ck-editor__main {
+  border: 1px solid #787f9f5e;
+  border-top: none;
+  border-bottom-left-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+}
+
+.ck-editor__editable_inline.ck-blurred {
+  margin: 0 12px;
+  border: none !important;
+  border-top: 0.5px solid #787f9f5e !important;
+}
+
 .ck-editor__top {
   max-width: 900px!important;
   border-radius: 8px!important;
