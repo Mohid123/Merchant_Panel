@@ -230,6 +230,14 @@ button.back {
   min-height: 500px;
 }
 
+.auth-main-con {
+
+  background-position: 4px 8px, 0 100%, 100% 100%, 100% -20px;
+  background-size: 60px 60px, 130px 36px, 122px 122px, 110px 100px;
+  background-repeat: no-repeat;
+  // min-height: 900px;
+}
+
 @media (min-width: 1024px) {
   .auth-main-con {
     background-image:
@@ -259,6 +267,6 @@ button.back {
 @media (min-width: 1920px) {
   .auth-main-con {
     background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 8px) , 100% 0;
-    background-size: 169px 169px, 375px 110px, 312px 312px, 320px 361px;
+    background-size: 169px 169px, 375px 110px, 312px 312px, 317px 301px;
   }
 }

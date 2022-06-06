@@ -1,5 +1,5 @@
 const primaryColors = {
-  light: '#F7E1AD',
+  light: '#93C5FD',
   DEFAULT: '#0081E9',
   dark: '#0081E9',
 };
@@ -21,7 +21,7 @@ module.exports = {
         '3xl': '1920px',
       },
       colors: {
-        'primary-100': '#F7E1AD',
+        'primary-100': '#93C5FD',
         'primary-400': '#F38B41',
         'primary-500': '#0081E9',
         'custom-black' : {

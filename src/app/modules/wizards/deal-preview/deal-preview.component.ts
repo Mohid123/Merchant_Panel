@@ -21,7 +21,7 @@ export class DealPreviewComponent implements OnInit {
     "https://swiperjs.com/demos/images/nature-6.jpg",
     "https://swiperjs.com/demos/images/nature-7.jpg",
     "https://swiperjs.com/demos/images/nature-8.jpg",
-    "https://swiperjs.com/demos/images/nature-9.jpg",
+    "https://images.pexels.com/photos/3493777/pexels-photo-3493777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     "https://swiperjs.com/demos/images/nature-10.jpg"
   ]
 
