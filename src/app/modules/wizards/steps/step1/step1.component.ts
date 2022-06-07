@@ -20,6 +20,8 @@ import { ConnectionService } from './../../services/connection.service';
 export class Step1Component implements OnInit, OnDestroy {
 
   @ViewChild('dropListContainer') dropListContainer?: ElementRef;
+  @ViewChild('rowLayout') rowLayout?: HTMLElement;
+
   dropListReceiverElement?: HTMLElement;
   dragDropInfo?: {
     dragIndex: number;
@@ -179,8 +181,8 @@ export class Step1Component implements OnInit, OnDestroy {
         }
         this.cf.detectChanges();
         i++;
-        reader.onload = (event) => {
-          const url = (<FileReader>event.target).result as string;
+        reader.onload = (fileEvent) => {
+          const url = (<FileReader>fileEvent.target).result as string;
           if(isImages){
           this.multiples.push(url);}
           else {
@@ -204,6 +206,11 @@ export class Step1Component implements OnInit, OnDestroy {
                 secondary: '#FFFAEE',
               }
             })
+          }
+          console.log('this.selectedPlayList.media:',this.multiples);
+          if(event.target.files.length == i) {
+            this.initTable();
+            this.getItemsTable();
           }
         };
       }
@@ -286,5 +293,91 @@ export class Step1Component implements OnInit, OnDestroy {
     this.dropListReceiverElement.style.removeProperty('display');
     this.dropListReceiverElement = undefined;
     this.dragDropInfo = undefined;
+  }
+
+  change: boolean = false;
+  dragIndex: number;
+  itemIndex: number;
+  boxWidth = 60;
+  columnSize: number;
+  itemsTable: any;
+  dragStarted: boolean = false;
+
+
+  onDragStarted(index: number): void {
+    this.dragStarted = true;
+  }
+
+  initTable() {
+    this.itemsTable = this.multiples
+      .filter((_, outerIndex) => outerIndex % this.columnSize == 0) // create outter list of rows
+      .map((
+        _,
+        rowIndex
+      ) =>
+        this.multiples.slice(
+          rowIndex * this.columnSize,
+          rowIndex * this.columnSize + this.columnSize
+        )
+      );
+      this.cf.detectChanges();
+  }
+
+
+  getItemsTable(): number[][] {
+    document.getElementById('drop-list-main')
+    const width  = document.getElementById('drop-list-main')?.clientWidth || 300;
+    console.log('cons:',width);
+    if(width) {
+      const columnSize = Math.floor(width / this.boxWidth);
+      if (columnSize != this.columnSize) {
+        this.columnSize = columnSize;
+        this.initTable();
+      }
+      else {
+        console.log('sss:',);
+      }
+    }
+    return this.itemsTable;
+  }
+
+
+  reorderDroppedItem(event: CdkDragDrop<number[]>, index:number) {
+    this.dragStarted = false;
+
+    this.change = true;
+    if (event.previousContainer.id.includes('DropZone') && event.container.id.includes('DropZone')) {
+      if (index == this.dragIndex) { // if same row
+        moveItemInArray(
+          this.multiples,
+          (this.columnSize * index) + this.itemIndex,
+          (this.columnSize * index) + event.currentIndex
+        );
+        this.resetonDrop();
+      }
+      else { // if different row
+        moveItemInArray(
+          this.multiples,
+          (this.columnSize * this.dragIndex) + this.itemIndex,
+          (this.columnSize * index) + event.currentIndex
+        );
+      }
+      this.resetonDrop();
+    }
+  }
+
+
+  drop() {
+    this.resetonDrop();
+  }
+
+  resetonDrop() {
+    this.dragStarted = false;
+    this.initTable();
+  }
+
+  onDragStartedDropZone(index: number, itemIndex:number) {
+    this.dragIndex = index;
+    this.itemIndex = itemIndex;
   }
 }
