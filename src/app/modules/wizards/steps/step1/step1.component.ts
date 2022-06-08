@@ -123,7 +123,7 @@ export class Step1Component implements OnInit, OnDestroy {
           Validators.required,
         ]),
       ],
-      title: [
+      dealHeader: [
         this.deal.dealHeader,
         Validators.compose([
           Validators.required,
@@ -160,7 +160,7 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   checkForm() {
-    return !(this.dealForm.get('title')?.hasError('required') ||
+    return !(this.dealForm.get('dealHeader')?.hasError('required') ||
     this.dealForm.get('subTitle')?.hasError('required') ||
     this.dealForm.get('description')?.hasError('required') ||
     this.dealForm.get('description')?.hasError('minlength'))

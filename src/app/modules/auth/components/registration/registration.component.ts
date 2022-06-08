@@ -115,6 +115,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.compose([
             Validators.required,
             Validators.maxLength(30),
+            Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
           ]),
         ],
         lastName: [
@@ -122,6 +123,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.compose([
             Validators.required,
             Validators.maxLength(30),
+            Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
           ]),
         ],
         email: [

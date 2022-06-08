@@ -82,6 +82,12 @@
               control: businessForm.controls['firstName']
             }">
             </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Only alpahbets are allowed',
+              control: businessForm.controls['firstName']
+            }">
+            </ng-container>
           </td>
         </tr>
         <tr>
@@ -93,6 +99,12 @@
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Last name is required',
+              control: businessForm.controls['lastName']
+            }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Only alpahbets are allowed',
               control: businessForm.controls['lastName']
             }">
             </ng-container>

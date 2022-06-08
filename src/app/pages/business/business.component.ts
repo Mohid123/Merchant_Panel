@@ -24,11 +24,13 @@ export class BusinessComponent implements OnInit {
     firstName: ['',
     Validators.compose([
       Validators.required,
+      Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
     ])],
 
     lastName: ['',
     Validators.compose([
-      Validators.required
+      Validators.required,
+      Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
     ])],
 
     phoneNumber: ['',

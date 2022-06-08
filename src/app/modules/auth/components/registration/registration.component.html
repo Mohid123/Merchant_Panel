@@ -49,6 +49,11 @@
                             message: 'First name should have maximum 30 letters',
                             control: f['firstName']}">
               </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'pattern',
+                            message: 'Only alpahbets are allowed',
+                            control: f['firstName']}">
+              </ng-container>
             </div>
 
             <div class="h-90px fv-row 2xl:h-26">
@@ -71,6 +76,11 @@
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                             validation: 'maxlength',
                             message: 'Last name should have maximum 30 letters',
+                            control: f['lastName']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'pattern',
+                            message: 'Only alpahbets are allowed',
                             control: f['lastName']}">
               </ng-container>
             </div>

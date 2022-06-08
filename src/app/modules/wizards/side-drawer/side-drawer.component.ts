@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
+import { ConnectionService } from './../services/connection.service';
 
 @Component({
   selector: 'app-side-drawer',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideDrawerComponent implements OnInit {
 
-  constructor() { }
+  data: MainDeal
+  subDeals: any[] = [];
+  images: any[] = [];
+
+  constructor(private conn: ConnectionService) { }
 
   ngOnInit(): void {
+    this.conn.getData().subscribe((res: any) => {
+      this.data = res;
+      this.subDeals = this.data.vouchers ? this.data.vouchers: [];
+      this.images = this.data.mediaUrl ? this.data.mediaUrl: [];
+    })
   }
 
 }

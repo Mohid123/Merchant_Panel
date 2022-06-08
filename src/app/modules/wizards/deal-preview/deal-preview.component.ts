@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from "swiper";
 
 SwiperCore.use([FreeMode, Navigation, Thumbs]);
@@ -10,20 +11,14 @@ SwiperCore.use([FreeMode, Navigation, Thumbs]);
   encapsulation: ViewEncapsulation.None
 })
 export class DealPreviewComponent implements OnInit {
+
+  @Input() mainDeal: MainDeal;
+  @Input() subDeals: any[] = [];
+  @Input() urls: any[] = [];
+
   noContent: boolean = false;
   thumbsSwiper: any;
-  images: any[] = [
-    "https://swiperjs.com/demos/images/nature-1.jpg",
-    "https://swiperjs.com/demos/images/nature-2.jpg",
-    "https://swiperjs.com/demos/images/nature-3.jpg",
-    "https://swiperjs.com/demos/images/nature-4.jpg",
-    "https://swiperjs.com/demos/images/nature-5.jpg",
-    "https://swiperjs.com/demos/images/nature-6.jpg",
-    "https://swiperjs.com/demos/images/nature-7.jpg",
-    "https://swiperjs.com/demos/images/nature-8.jpg",
-    "https://images.pexels.com/photos/3493777/pexels-photo-3493777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://swiperjs.com/demos/images/nature-10.jpg"
-  ]
+  image: string = "https://dividealapi.dividisapp.com/media-upload/mediaFiles/placeholder/10f53b65eabd3cfbf65582cfff4eaf566.svg"
 
   constructor() { }
 

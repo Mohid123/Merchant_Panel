@@ -20,7 +20,7 @@ export class MainDeal {
   ratingsAverage?: number;
   soldVouchers?: number;
   showDetail: string;
-
+  highlights: string;
 }
 
 export class Deals {

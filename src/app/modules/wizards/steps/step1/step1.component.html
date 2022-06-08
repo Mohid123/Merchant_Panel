@@ -32,26 +32,26 @@
         </div>
         <div class="h-90px fv-row 2xl:h-26">
           <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Title</label>
-          <input maxlength="16" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="title" name="title" placeholder="Enter title of your deal"
+          <input maxlength="16" appTrim type="text font-weight-light" class="text-sm font-thin form-control" formControlName="dealHeader" name="dealHeader" placeholder="Enter title of your deal"
           [ngClass]="{
-            'is-invalid': f['title'].invalid && f['title'].touched,
-            'is-valid': f['title'].valid}">
+            'is-invalid': f['dealHeader'].invalid && f['dealHeader'].touched,
+            'is-valid': f['dealHeader'].valid}">
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'required',
             message: 'Deal title is required',
-            control: dealForm.controls['title']
+            control: dealForm.controls['dealHeader']
           }">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'minlength',
               message: 'Title should at least be 3 characters',
-              control: dealForm.controls['title']
+              control: dealForm.controls['dealHeader']
             }">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'pattern',
             message: 'Only alphabets are allowed',
-            control: dealForm.controls['title']
+            control: dealForm.controls['dealHeader']
           }">
           </ng-container>
         </div>
