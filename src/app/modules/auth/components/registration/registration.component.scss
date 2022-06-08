@@ -12,6 +12,8 @@
   }
 }
 
+
+
 h1 {
   @apply mb-2 text-xl font-semibold text-center xl:text-2xl 2xl:text-3xl 3xl:text-4xl;
 }
@@ -63,9 +65,9 @@ h3 {
 
 button.back,
 button:disabled {
-  border: 2px solid #787F9F !important;
-  color: #787F9F !important;
-  background-color: white !important;
+  border: 1px solid #EBF5FD !important;
+  color: #41aaff !important;
+  background-color: #EBF5FD !important;
   cursor: default;
 }
 
@@ -78,6 +80,14 @@ button.back {
   mat-step-header {
     padding: 0;
   }
+  .mat-horizontal-stepper-header-container{
+    width: 506px !important;
+  }
+
+  .mat-stepper-label-position-bottom .mat-horizontal-stepper-header-container {
+    width: fit-content;
+    margin: 0 auto;
+}
 
 .mat-spinner circle, .mat-spinner circle {
   stroke: #2A79FF!important;
@@ -174,25 +184,27 @@ button.back {
   }
 }
 
-.categories-step app-checkbox {
+.categories-step app-category-radio-button {
   @apply flex justify-center items-start h-20;
   text-align: center;
   border: none !important;
 
   .tabs {
-    background-color: #E3FBF1;
+    background-color: #ffffff;
     margin: 0 auto;
-    border-radius: 100px;
+    border-radius: 10px;
+    border: 1px solid #51A9F0;
     justify-content: center;
+    align-items: center;
     display: flex;
 
     img {
-      max-width: 30px;
+      max-width: 24px;
       @media (min-width:1600px) {
-        max-width: 30px;
+        max-width: 24px;
       }
       @media (min-width:1920px) {
-        max-width: 1.875rem;
+        max-width: 1.5rem;
       }
 
     }
@@ -238,6 +250,17 @@ button.back {
   min-height: 500px;
 }
 
+
+.step3::-webkit-scrollbar {
+  display: none;
+}
+
+.step3 {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
 .auth-main-con {
 
   background-position: 4px 8px, 0 100%, 100% 100%, 100% -20px;
@@ -261,8 +284,8 @@ button.back {
 
 @media (min-width: 1280px) {
   .auth-main-con {
-    background-position: 53px 83px, 0 100%, calc(100% - 28px) calc(100% - 18px) , 100% -12px;
-    background-size: 122px 129px, 228px 68px, 250px 250px, 285px 290px;
+    background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
+    background-size: 122px 129px, 236px 68px, 250px 250px, 285px 290px;
   }
 }
 

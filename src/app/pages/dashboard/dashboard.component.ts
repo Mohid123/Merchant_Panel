@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalConfig } from '@core/models/modal.config';
 import { DealService } from '@core/services/deal.service';
@@ -18,7 +18,7 @@ import { ConfirmPasswordValidator } from './password-validator';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
   public modalConfig: ModalConfig = {

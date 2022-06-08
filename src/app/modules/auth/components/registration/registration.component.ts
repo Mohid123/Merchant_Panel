@@ -32,8 +32,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     { id:1, img: '../../../../../assets/media/icons/spa.svg', name:'Spa & Holistic Wellness' },
     { id:6, img: '../../../../../assets/media/icons/Personal-growth.svg', name:'Personal Development' },
     { id:7, img: '../../../../../assets/media/icons/concert-event-tickets.svg', name:'Concerts & Event Tickets' },
-    { id:8, img: '../../../../../assets/media/icons/Pet-treatments.svg', name:'Pet Treatments' },
-    { id:9, img: '../../../../../assets/media/icons/Metaverse.svg', name:'Metaverse' },
+    { id:8, img: '../../../../../assets/media/icons/pets-care.svg', name:'Pet Treatments' },
+    { id:9, img: '../../../../../assets/media/icons/pets-care.svg', name:'Metaverse' },
   ]
   provincese = [
     { id:3, name:'Antwerpen' },
@@ -114,7 +114,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   initForm() {
     this.registrationForm = this._formBuilder.group(
       {
-        businessType: [[], Validators.required],
+        businessType: [null, Validators.required],
         vatNumber: [
           '',
           Validators.compose([
