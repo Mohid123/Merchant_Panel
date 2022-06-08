@@ -58,6 +58,7 @@ module.exports = {
       height: {
         '86px': '5.375rem',
         '86px': '5.375rem',
+        '15': '3.75rem',
         '18': '4.5rem',
         '26': '6.375rem',
         '54': '13.5rem',

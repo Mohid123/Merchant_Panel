@@ -377,7 +377,12 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   onDragStartedDropZone(index: number, itemIndex:number) {
+    this.dragStarted = true;
     this.dragIndex = index;
     this.itemIndex = itemIndex;
+  }
+
+  hasRecivingClass(div:HTMLDivElement) {
+    return div.classList.contains('cdk-drop-list-receiving')
   }
 }

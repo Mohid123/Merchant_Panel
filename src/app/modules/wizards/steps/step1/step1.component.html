@@ -151,21 +151,22 @@
     </div>
     <p  class="self-center m-0 text-sm text-center h w-60">
       Allow file types are png or jpeg. You can add maximum 10 images
+      {{multiples.length >= columnSize && dragStarted | json}}
     </p>
   </div>
 
-  <div #rowLayout id="drop-list-main" cdkDropListGroup class="flex flex-wrap p-4 border border-solid rounded-2xl md:max-h-40 md:overflow-y-auto 2xl:max-h-full" style="gap: 6px;" data-max-image="10" *ngIf="multiples.length > 0">
+  <div #rowLayout id="drop-list-main" cdkDropListGroup class="flex flex-wrap py-4 pl-4 overflow-hidden border border-solid rounded-2xl md:max-h-40 md:overflow-y-auto 2xl:max-h-full" data-max-image="10" *ngIf="multiples.length > 0">
 
     <ng-container *ngIf="multiples && multiples.length>0">
       <div fxLayout="row" *ngFor="let itemsRow of getItemsTable();let j = index" cdkDropList
-        cdkDropListOrientation="horizontal" [id]="'DropZone'+j" [cdkDropListData]="itemsRow"
+        cdkDropListOrientation="horizontal" [id]="'DropZone'+j"   [ngClass]="{' h-15 2xl:h-20 overflow-hidden dropZone_Reorder': true}"  [cdkDropListData]="itemsRow"
         (cdkDropListDropped)="reorderDroppedItem($event,j)">
-        <div *ngFor="let media of itemsRow;let i = index" cdkDrag class="flex gap-1.5"
-          (cdkDragStarted)="onDragStartedDropZone(j,i)"
-          [class.lastindex]="(columnSize-1==i)">
-          <div class="drag-placeholder" *cdkDragPlaceholder></div>
-            <img [src]="media" class="mb-1 mr-1 rounded-lg w-14 h-14 2xl:h-20 2xl:w-20">
-        </div>
+        <ng-container *ngFor="let media of itemsRow;let i = index;last as last">
+          <div cdkDrag  [class.lastindex]="last && dragIndex !=j" (cdkDragStarted)="onDragStartedDropZone(j,i)">
+            <div class="drag-placeholder" [ngStyle]="{'width': last && dragIndex !=j ? '0 !important' : '' }" style="" *cdkDragPlaceholder></div>
+            <img [src]="media" class="m-0.5 rounded-lg w-14 h-14 2xl:h-20 2xl:w-20">
+          </div>
+        </ng-container>
       </div>
     </ng-container>
 
@@ -177,9 +178,9 @@
     </ng-container> -->
     <div *ngIf="multiples.length < 10" class="relative">
       <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
-      <label class="absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
-        <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20" style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"  src="../../../../../assets/media/icons/more-images.svg"></span>
-        <input class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event,true)" (click)="onClick($event)" multiple>
+      <label class="my-0.5 absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
+        <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20 m-0.5" style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"  src="../../../../../assets/media/icons/more-images.svg"></span>
+        <input class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20 m-0.5" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event,true)" (click)="onClick($event)" multiple>
       </label>
     </div>
  </div>
