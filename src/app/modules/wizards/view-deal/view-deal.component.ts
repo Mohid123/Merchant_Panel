@@ -1,4 +1,4 @@
-import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
@@ -36,7 +36,7 @@ export class PopoverWrapperComponent {
   encapsulation: ViewEncapsulation.None
 })
 
-export class ViewDealComponent implements OnInit {
+export class ViewDealComponent implements OnInit, OnDestroy {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
   @ViewChild('myDrop') myDrop: NgbDropdown

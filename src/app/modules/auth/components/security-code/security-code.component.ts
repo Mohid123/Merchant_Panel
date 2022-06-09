@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
@@ -18,7 +18,7 @@ enum ErrorStates {
   templateUrl: './security-code.component.html',
   styleUrls: ['./security-code.component.scss']
 })
-export class SecurityCodeComponent implements OnInit {
+export class SecurityCodeComponent implements OnInit, OnDestroy {
 
   securityCodeForm: FormGroup;
   errorState: ErrorStates = ErrorStates.NotSubmitted;
@@ -92,6 +92,7 @@ export class SecurityCodeComponent implements OnInit {
     this.isLoading$ = true;
     const otpValue = parseInt(this.securityCodeForm.value?.securityCode.replace(/\s/g,''))
       const verifyOTP = this.authService.verifyOtp(otpValue)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.isLoading$ = false;
@@ -128,6 +129,8 @@ export class SecurityCodeComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 

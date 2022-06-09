@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
@@ -18,7 +18,7 @@ enum ErrorStates {
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit, OnDestroy {
   forgotPasswordForm: FormGroup;
   errorState: ErrorStates = ErrorStates.NotSubmitted;
   errorStates = ErrorStates;
@@ -107,5 +107,10 @@ export class ForgotPasswordComponent implements OnInit {
         })
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.complete();
+    this.unsubscribe.unsubscribe();
   }
 }

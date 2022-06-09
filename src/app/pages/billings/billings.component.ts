@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReusableModalComponent } from '@components/reusable-modal/reusable-modal/reusable-modal.component';
 import { ModalConfig } from '@core/models/modal.config';
@@ -19,7 +19,7 @@ import { MerchantStats } from './../../modules/wizards/models/merchant-stats.mod
   templateUrl: './billings.component.html',
   styleUrls: ['./billings.component.scss']
 })
-export class BillingsComponent implements OnInit {
+export class BillingsComponent implements OnInit, OnDestroy {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
 

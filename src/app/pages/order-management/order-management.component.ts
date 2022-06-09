@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import { MerchantStats } from './../../modules/wizards/models/merchant-stats.mod
   templateUrl: './order-management.component.html',
   styleUrls: ['./order-management.component.scss']
 })
-export class OrderManagementComponent implements OnInit {
+export class OrderManagementComponent implements OnInit, OnDestroy {
 
   merchantID: string;
   showData: boolean;

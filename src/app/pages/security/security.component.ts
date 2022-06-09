@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '@core/models/user.model';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -15,7 +15,7 @@ import { UserService } from './../../modules/auth/services/user.service';
   templateUrl: './security.component.html',
   styleUrls: ['./security.component.scss']
 })
-export class SecurityComponent implements OnInit {
+export class SecurityComponent implements OnInit, OnDestroy {
 
   passwordHide: boolean = true;
   pinHide: boolean = true;

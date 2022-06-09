@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Subject } from 'rxjs';
@@ -12,7 +12,7 @@ import { AuthService } from './../../modules/auth/services/auth.service';
   templateUrl: './business.component.html',
   styleUrls: ['./business.component.scss']
 })
-export class BusinessComponent implements OnInit {
+export class BusinessComponent implements OnInit, OnDestroy {
 
   isLeftVisible: boolean = true;
   secondLeftVisible: boolean = true;
@@ -171,6 +171,11 @@ export class BusinessComponent implements OnInit {
       }
       return null;
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
 }
