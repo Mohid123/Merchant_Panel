@@ -17,3 +17,11 @@
     transition: opacity 1s ease-in-out;
   }
 }
+
+@media (max-width:600px) {
+  app-content {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}
+

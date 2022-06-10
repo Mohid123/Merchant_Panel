@@ -1,12 +1,13 @@
 import { CdkDragDrop, CdkDragEnter, CdkDragMove, moveItemInArray } from '@angular/cdk/drag-drop';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { HotToastService } from '@ngneat/hot-toast';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { SubCategory, SubCategoryList } from 'src/app/modules/auth/models/subCategory.model';
+import { Subject, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { CategoryDetail, SubCategory } from './../../../auth/models/categories-detail.model';
 import { CategoryService } from './../../../auth/services/category.service';
 import { Media } from './../../models/images.model';
 import { MainDeal } from './../../models/main-deal.model';
@@ -18,6 +19,7 @@ import { ConnectionService } from './../../services/connection.service';
   styleUrls: ['./step1.component.scss'],
 })
 export class Step1Component implements OnInit, OnDestroy {
+  destroy$ = new Subject();
 
   @ViewChild('dropListContainer') dropListContainer?: ElementRef;
   @ViewChild('rowLayout') rowLayout?: HTMLElement;
@@ -32,7 +34,7 @@ export class Step1Component implements OnInit, OnDestroy {
   config: any;
   public Editor = ClassicEditor
 
-  categoryList: SubCategoryList;
+  categoryList: CategoryDetail[];
   selectedcategory: SubCategory;
   disableCategory: boolean = false;
 
@@ -40,7 +42,6 @@ export class Step1Component implements OnInit, OnDestroy {
     if(newSelectedcategory) {
       this.selectedcategory = newSelectedcategory;
       this.dealForm.controls['subCategory'].setValue(newSelectedcategory.subCategoryName);
-      this.disableCategory = true;
     }
     else {
       this.disableCategory = false;
@@ -59,7 +60,6 @@ export class Step1Component implements OnInit, OnDestroy {
     dealHeader: '',
     subTitle: '',
     mediaUrl: [''],
-    description: '',
     deletedCheck: false
   };
 
@@ -78,8 +78,17 @@ export class Step1Component implements OnInit, OnDestroy {
     private router: Router,
     private connection: ConnectionService,
     private categoryService: CategoryService,
-    private toast: HotToastService
-  ) {}
+    private toast: HotToastService,
+    public breakpointObserver: BreakpointObserver,
+  ) {
+    this.breakpointObserver.observe(['(min-width: 1600px)']).pipe(map((result) => result.matches)).subscribe(res => {
+      if(res) {
+        this.boxWidth = 88;
+      } else {
+        this.boxWidth = 60;
+      }
+    });
+  }
 
   ngOnInit() {
     this.config = {
@@ -104,9 +113,11 @@ export class Step1Component implements OnInit, OnDestroy {
     }
     this.initDealForm();
     this.updateParentModel({}, this.checkForm());
-    this.categoryService.getSubCategories(0,0).pipe(take(1)).subscribe(categoryList => {
-      if(!categoryList.hasErrors()){
-        this.categoryList = categoryList.data;
+    this.categoryService.getAllCategoriesDetail(0,0).pipe(take(1)).subscribe((res) => {
+      if(!res.hasErrors()){
+        const categoryList = res.data.data;
+        console.log('getAllCategoriesDetail:',categoryList);
+        this.categoryList = categoryList;
       }
     })
   }
@@ -139,13 +150,6 @@ export class Step1Component implements OnInit, OnDestroy {
           Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
         ]),
       ],
-      description: [
-        this.deal.description,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(16)
-        ]),
-      ],
       mediaUrl: [
         this.urls,
       ],
@@ -161,9 +165,7 @@ export class Step1Component implements OnInit, OnDestroy {
 
   checkForm() {
     return !(this.dealForm.get('dealHeader')?.hasError('required') ||
-    this.dealForm.get('subTitle')?.hasError('required') ||
-    this.dealForm.get('description')?.hasError('required') ||
-    this.dealForm.get('description')?.hasError('minlength'))
+    this.dealForm.get('subTitle')?.hasError('required'))
   }
 
   onSelectFile(event: any,isImages:boolean) {
@@ -242,6 +244,8 @@ export class Step1Component implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
   dragEntered(event: CdkDragEnter<number>) {

@@ -20,6 +20,7 @@ import { TrimModule } from './../../@core/directives/trim/trim.module';
 import { TruncatePipe } from './../../@core/pipes/truncate.pipe';
 import { TableSkeletonModule } from './../../components/table-skeleton/table-skeleton.module';
 import { ReusableModalModule } from './../../_metronic/layout/components/reusable-modal/reusable-modal.module';
+import { LayoutModule } from './../../_metronic/layout/layout.module';
 import { DealPreviewComponent } from './deal-preview/deal-preview.component';
 import { HorizontalComponent } from './horizontal/horizontal.component';
 import { SideDrawerComponent } from './side-drawer/side-drawer.component';
@@ -77,7 +78,8 @@ FullCalendarModule.registerPlugins([
     TableSkeletonModule,
     CKEditorModule,
     DragDropModule,
-    SwiperModule
+    SwiperModule,
+    LayoutModule,
   ],
   entryComponents: [PopoverWrapperComponent],
 })

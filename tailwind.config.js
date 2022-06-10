@@ -4,6 +4,34 @@ const primaryColors = {
   dark: '#0081E9',
 };
 
+const extendedSize = {
+  unset: 'unset',
+  14: '3.5rem',
+  18: '4.5rem',
+  26: '6.375rem',
+  32.5: '8.12rem',
+  40: '10rem',
+  48: '12rem',
+  50: '12.5rem',
+  54: '13.5rem',
+  60: '15rem',
+  64: '16rem',
+  68: '17rem',
+  70: '17.5rem',
+  72: '18rem',
+  88: '22rem',
+  100: '25rem',
+  116: '29rem',
+  124: '31rem',
+  132: '33rem',
+  136: '34rem',
+  150: '37.5rem',
+  180: '45rem',
+  204: '51rem',
+  216: '54rem',
+  240: '60rem',
+};
+
 module.exports = {
   important: true,
   prefix: '',
@@ -49,6 +77,8 @@ module.exports = {
         '50': '12.5rem',
         '60': '15rem',
         '68': '17rem',
+        '124': '31rem',
+        '128': '32rem',
       },
       minWidth: {
         '48': '12rem',
@@ -56,10 +86,8 @@ module.exports = {
         'lg': '32rem',
       },
       height: {
-        '86px': '5.375rem',
-        '86px': '5.375rem',
-        '15': '3.75rem',
         '18': '4.5rem',
+        '22': '5.5rem',
         '26': '6.375rem',
         '54': '13.5rem',
         '68': '17rem',
@@ -73,6 +101,7 @@ module.exports = {
       minHeight: {
         '14': '3.5rem',
         '18': '4.5rem',
+        '40': '10rem',
         '48': '12rem',
         '64': '16rem',
         '72': '18rem',
