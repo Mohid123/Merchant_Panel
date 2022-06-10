@@ -4,7 +4,7 @@
 <!--Card for Creating Deal-->
 <div class="flex flex-col w-full h-auto gap-2 md:flex-row">
   <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
-      <form class="form row max-w-124 2xl:max-w-128 self-center" [formGroup]="dealForm">
+      <form class="self-center form row max-w-124 2xl:max-w-128" [formGroup]="dealForm">
         <div class="mb-6 lg:text-center">
           <h1 class="mt-2 mb-2 text-lg text-center md:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl">Let's set up your deal.</h1>
           <div class="text-xs font-thin text-center text-primary-400 md:text-sm xl:text-base 3xl:text-lg">First impression matters! Let's make sure your deal stands out in our galleries.</div>
@@ -83,7 +83,7 @@
           }">
             </ng-container>
         </div>
-        <div class="fv-row mb-4">
+        <div class="mb-4 fv-row">
               <label class="mb-4 text-sm 2xl:text-base 2xl:mb-2 form-label">Upload your pictures</label>
               <!-- <label *ngIf="multiples.length > 0" class="mt-1 text-sm text-gray-400 form-label"> Photos {{multiples.length}}/10. You can add maximum 10 images</label> -->
               <div class="rounded-xl min-h-40 pictures-drop-container">
@@ -104,7 +104,7 @@
                 </div>
 
                 <div  cdkDropListGroup class="p-4 overflow-hidden border border-solid rounded-2xl md:max-h-40 md:overflow-y-auto 2xl:max-h-full" data-max-image="10" *ngIf="multiples.length > 0">
-                <div id="drop-list-main" class="flex flex-wrap  w-full h-full" data-max-image="10" *ngIf="multiples.length > 0">
+                <div id="drop-list-main" class="flex flex-wrap w-full h-full" data-max-image="10" *ngIf="multiples.length > 0">
 
                   <ng-container *ngIf="multiples && multiples.length>0">
                     <div fxLayout="row" *ngFor="let itemsRow of getItemsTable();let j = index" cdkDropList
@@ -119,58 +119,6 @@
                     </div>
                   </ng-container>
 
-<<<<<<< HEAD
-</div>
-<div class="px-8 py-5 shadow-sm min-h-64 2xl:h-88 card card-custom 3xl:h-116">
-  <label class="font-medium text-black">Images</label>
-  <label *ngIf="multiples.length > 0" class="mt-1 text-sm text-gray-400 form-label"> Photos {{multiples.length}}/10. You can add maximum 10 images</label>
-  <div *ngIf="multiples.length == 0" class="flex flex-col justify-center h-full">
-    <div class="self-center my-4 image-input image-input-outline image-upload">
-      <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
-      <label class="absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
-        <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20"
-          style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"
-            src="../../../../../assets/media/icons/images.svg"></span>
-        <input class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20" type="file" accept=".png, .jpg, .jpeg"
-          (change)="onSelectFile($event,true)" (click)="onClick($event)" multiple>
-      </label>
-    </div>
-    <p  class="self-center m-0 text-sm text-center h w-60">
-      Allow file types are png or jpeg. You can add maximum 10 images
-      {{multiples.length >= columnSize && dragStarted | json}}
-    </p>
-  </div>
-
-  <div #rowLayout id="drop-list-main" cdkDropListGroup class="flex flex-wrap py-4 pl-4 overflow-hidden border border-solid rounded-2xl md:max-h-40 md:overflow-y-auto 2xl:max-h-full" data-max-image="10" *ngIf="multiples.length > 0">
-
-    <ng-container *ngIf="multiples && multiples.length>0">
-      <div fxLayout="row" *ngFor="let itemsRow of getItemsTable();let j = index" cdkDropList
-        cdkDropListOrientation="horizontal" [id]="'DropZone'+j"   [ngClass]="{' h-15 2xl:h-20 overflow-hidden dropZone_Reorder': true}"  [cdkDropListData]="itemsRow"
-        (cdkDropListDropped)="reorderDroppedItem($event,j)">
-        <ng-container *ngFor="let media of itemsRow;let i = index;last as last">
-          <div cdkDrag  [class.lastindex]="last && dragIndex !=j" (cdkDragStarted)="onDragStartedDropZone(j,i)">
-            <div class="drag-placeholder" [ngStyle]="{'width': last && dragIndex !=j ? '0 !important' : '' }" style="" *cdkDragPlaceholder></div>
-            <img [src]="media" class="m-0.5 rounded-lg w-14 h-14 2xl:h-20 2xl:w-20">
-          </div>
-        </ng-container>
-      </div>
-    </ng-container>
-
-    <!-- <ng-container *ngFor="let multiple of multiples; let i = index;">
-      <div class="relative self-center">
-        <img [src]="multiple" class="rounded-lg w-14 h-14 2xl:h-20 2xl:w-20">
-        <i class="absolute bg-white rounded-full cursor-pointer -top-1 -right-1 fa fa-times-circle" (click)="clearImage(i)"></i>
-      </div>
-    </ng-container> -->
-    <div *ngIf="multiples.length < 10" class="relative">
-      <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
-      <label class="my-0.5 absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
-        <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20 m-0.5" style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"  src="../../../../../assets/media/icons/more-images.svg"></span>
-        <input class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20 m-0.5" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event,true)" (click)="onClick($event)" multiple>
-      </label>
-    </div>
- </div>
-=======
                   <!-- <ng-container *ngFor="let multiple of multiples; let i = index;">
                     <div class="relative self-center">
                       <img [src]="multiple" class="rounded-lg w-14 h-14 2xl:h-20 2xl:w-20">
@@ -179,7 +127,7 @@
                   </ng-container> -->
                   <div *ngIf="multiples.length < 10" class="relative">
                     <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
-                    <label class=" absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
+                    <label class="absolute top-0  w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
                       <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20 m-0.5 ml-1 2xl:m-1 2xl:ml-2" style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"  src="../../../../../assets/media/icons/more-images.svg"></span>
                       <input class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20 m-0.5 ml-1 2xl:m-1 2xl:ml-2" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event,true)" (click)="onClick($event)" multiple>
                     </label>
@@ -218,10 +166,9 @@
         </div>
         </div>
 
->>>>>>> 94833f8 (DIV-191-v2)
 
-        <div class="flex justify-center min-h-14 2xl:h-20 mt-8">
-          <button [disabled]=" (dealForm.invalid || urls.length == 0)" (click)="nextClick.emit('')" class="text-sm w-32 self-center text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & Next</button>
+        <div class="flex justify-center mt-8 min-h-14 2xl:h-20">
+          <button [disabled]=" (dealForm.invalid || urls.length == 0)" (click)="nextClick.emit('')" class="self-center w-32 text-sm text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & Next</button>
         </div>
 
       </form>
