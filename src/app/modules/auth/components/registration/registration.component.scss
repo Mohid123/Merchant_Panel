@@ -166,8 +166,8 @@ button.back {
   }
 }
 
-.categories-step app-category-radio-button {
-  @apply flex justify-center items-start h-28 2xl:h-32 3xl:h-44;
+.categories-step app-checkbox {
+  @apply flex justify-center items-start h-20;
   text-align: center;
   border: none !important;
 
@@ -201,7 +201,7 @@ button.back {
   }
 }
 
-.province app-category-radio-button {
+.province app-category-radio-button{
   @apply flex justify-center items-center h-8 mb-3 px-4 py-2 mr-3 rounded-md;
   text-align: center;
   border: 1px solid #ef9c6580 !important;
@@ -253,8 +253,8 @@ button.back {
 
 @media (min-width: 1280px) {
   .auth-main-con {
-    background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
-    background-size: 162px 169px, 236px 68px, 250px 250px, 285px 290px;
+    background-position: 53px 83px, 0 100%, calc(100% - 28px) calc(100% - 18px) , 100% -12px;
+    background-size: 122px 129px, 228px 68px, 250px 250px, 285px 290px;
   }
 }
 

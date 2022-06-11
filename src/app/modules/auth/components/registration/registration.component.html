@@ -1,9 +1,47 @@
 <div class="flex justify-center h-screen auth-main-con">
   <div *ngIf="!registrationSuccess; else RegistrationSuccess"
-    class="max-w-md overflow-hidden h-fit lg:max-w-lg lg:h-full login-content flex-row-fluid d-flex flex-column justify-content-center position-relative">
-    <div class="w-full px-2 mt-0 d-flex flex-column-fluid flex-center md:px-0">
-      <mat-stepper [linear]="true" labelPosition="bottom" #stepper class="w-full h-full pt-8 pb-6 text-center">
-        <!-- #enddocregion label-position -->
+    class="max-w-full overflow-hidden h-fit lg:h-full login-content flex-row-fluid d-flex flex-column justify-content-center position-relative">
+    <mat-stepper [linear]="true" labelPosition="bottom" #stepper class="absolute w-full h-full pt-8 pb-6 overflow-y-scroll text-center">
+
+      <mat-step>
+        <h2 class="mt-12 text-3xl font-semibold text-center text-dark">Welcome! First things first.</h2>
+        <h3 class="mb-14">Let's make sure we understand your company. What describes your business best?</h3>
+        <form [formGroup]="registrationForm">
+          <ng-template matStepLabel>Your Market</ng-template>
+            <app-custom-checkbox formControlName="businessType" class="flex flex-row flex-wrap justify-center mx-auto lg:w-9/12 2xl:w-6/12 categories-step">
+              <ng-container *ngFor="let category of categories; let i = index">
+               <app-checkbox [customClass]="'w-full ml-2'" [value]="category.name" name="businessType">
+                <div class="tabs w-44 h-18" [ngClass]="{'active' : f['businessType'].value.includes(category.name)}">
+                  <div class="flex flex-row justify-center">
+                    <img [src]="category.img" alt="category.name" class="text-center" [ngClass]="i == 1 || i == 8 ? 'ml-8': ''">
+                  </div>
+                  <div class="flex flex-row flex-wrap justify-center ml-2 w-29" [ngClass]="i == 1 || i == 8 ? 'mr-6 ml-0': 'ml-2'">
+                    <strong class="text-xs text-left 2xl:text-sm" [ngClass]="i == 1 ? 'mr-6': ''">{{category.name}}</strong>
+                  </div>
+                </div>
+               </app-checkbox>
+              </ng-container>
+            </app-custom-checkbox>
+            <!-- <ng-container *ngFor="let category of categories; let i = index">
+            <app-category-radio-button [customClass]="'w-full ml-2'" name="businessType" [value]="category.name" required>
+                <div class="tabs w-44 h-18" [ngClass]="{'active' : f['businessType'].value.includes(category.name)}">
+                  <div class="flex flex-row justify-center">
+                    <img [src]="category.img" alt="category.name" class="text-center" [ngClass]="i == 1 || i == 8 ? 'ml-8': ''">
+                  </div>
+                  <div class="flex flex-row flex-wrap justify-center ml-2 w-29" [ngClass]="i == 1 || i == 8 ? 'mr-6 ml-0': 'ml-2'">
+                    <strong class="text-xs text-left 2xl:text-sm" [ngClass]="i == 1 ? 'mr-6': ''">{{category.name}}</strong>
+                  </div>
+                </div>
+              </app-category-radio-button>
+            </ng-container> -->
+          </form>
+
+          <div *ngIf="registrationForm.controls['businessType'].valueChanges | async as values">
+            <pre>{{ values | json }}</pre>
+          </div>
+          <button class="text-base text-white bg-blue-500 rounded-lg h-9 mt-14 w-28 2xl:h-10" [disabled]="!f['businessType'].value" mat-button matStepperNext>Next</button>
+      </mat-step>
+
         <mat-step>
           <h1 class="text-dark">Welcome! First things first.</h1>
           <h3 class="mb-9">Let's make sure we understand your company. What describes your business best?</h3>
