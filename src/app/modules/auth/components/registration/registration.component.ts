@@ -111,10 +111,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     return this.registrationForm.controls;
   }
 
+  getVal() {
+    console.log(this.registrationForm.controls['businessType']?.value)
+  }
+
   initForm() {
     this.registrationForm = this._formBuilder.group(
       {
-        businessType: [null, Validators.required],
+        businessType: [[], Validators.required],
         vatNumber: [
           '',
           Validators.compose([

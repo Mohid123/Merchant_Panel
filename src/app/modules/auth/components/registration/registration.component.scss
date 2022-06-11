@@ -184,7 +184,7 @@ button.back {
   }
 }
 
-.categories-step app-category-radio-button {
+.categories-step app-checkbox {
   @apply flex justify-center items-start h-20;
   text-align: center;
   border: none !important;
@@ -284,8 +284,8 @@ button.back {
 
 @media (min-width: 1280px) {
   .auth-main-con {
-    background-position: 53px 83px, 0 100% ,calc(100% - 28px) calc(100% - 18px) , 100% 0;
-    background-size: 122px 129px, 236px 68px, 250px 250px, 285px 290px;
+    background-position: 53px 83px, 0 100%, calc(100% - 28px) calc(100% - 18px) , 100% -12px;
+    background-size: 122px 129px, 228px 68px, 250px 250px, 285px 290px;
   }
 }
 

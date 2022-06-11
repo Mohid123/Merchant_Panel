@@ -26,6 +26,8 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SecurityCodeComponent } from './components/security-code/security-code.component';
+import { CustomCheckboxComponent } from './components/custom-checkbox/custom-checkbox.component';
+import { CheckboxComponent } from './components/custom-checkbox/checkbox/checkbox.component';
 
 @NgModule({
   declarations: [
