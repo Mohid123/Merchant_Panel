@@ -104,12 +104,12 @@ export class BillingsComponent implements OnInit, OnDestroy {
           Validators.required
         ])
       ],
-      vatNumber: [
-        '',
-        Validators.compose([
-          Validators.required
-        ])
-      ]
+      // vatNumber: [
+      //   '',
+      //   Validators.compose([
+      //     Validators.required
+      //   ])
+      // ]
     })
   }
 
@@ -117,7 +117,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
     const payload: KYC = {
       iban: this.kycForm.value.iban,
       bankName: this.kycForm.value.bankName,
-      vatNumber: this.kycForm.value.vatNumber
+      // vatNumber: this.kycForm.value.vatNumber
     }
     this.billingService.completeKYC(this.authService.currentUserValue?.id, payload)
     .pipe(takeUntil(this.destroy$), exhaustMap((res: any) => {
