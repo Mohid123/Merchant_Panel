@@ -12,6 +12,7 @@ import { ApiResponse } from './../../../@core/models/response.model';
 import { SignInResponse } from './../../../@core/models/sign-in-response';
 import { User } from './../../../@core/models/user.model';
 import { ApiService } from './../../../@core/services/api.service';
+import { VatResponse } from './../models/vatResponse.model';
 
 type AuthApiData = SignInResponse | any;
 
@@ -144,6 +145,10 @@ export class AuthService extends ApiService<AuthApiData> {
 
   fetchCityByZipCode(zipCode: string): Observable<ApiResponse<ZipCode | any>> {
     return this.get(`/utils/getCity/${zipCode}`);
+  }
+
+  fetchCompanyByVatNumber(vatNumber: string): Observable<ApiResponse<VatResponse | any>> {
+    return this.post(`/utils/validateVatNumber/${vatNumber}`);
   }
 
   setUserPassword(merchantID: string | any, payload: any): Observable<ApiResponse<any>> {

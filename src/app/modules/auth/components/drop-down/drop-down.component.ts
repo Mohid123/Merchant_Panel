@@ -26,7 +26,7 @@ export class DropDownComponent implements ControlValueAccessor {
   @Input() options: any;
   @Input('value') _value: any;
 
-  selectedValue!: string;
+  @Input() selectedValue!: string;
   isOpen: boolean;
   selected!: string;
   disabled = false;
@@ -40,9 +40,9 @@ export class DropDownComponent implements ControlValueAccessor {
   selecteOption(value: any) {
     if (this.isOpen) {
       this.onTouched();
-      this.selected = value.name;
-      this.selectedValue = value.name;
-      this.onChanged(value.name);
+      this.selected = value.name || value;
+      this.selectedValue = value.name || value;
+      this.onChanged(value.name || value);
     }
   }
 

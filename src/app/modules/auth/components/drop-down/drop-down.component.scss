@@ -2,6 +2,10 @@
   width: 100%;
 }
 
+.dropdown-toggle::after {
+  display: none;
+}
+
 button {
   @apply text-xs 2xl:text-base rounded-lg;
   background-color: transparent !important;
