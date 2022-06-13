@@ -235,6 +235,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             this.cities.push(res.data.city);
             this.cf.detectChanges();
           }
+          else {
+            this.cities = [];
+            this.cf.detectChanges();
+          }
       })
     }
     else {

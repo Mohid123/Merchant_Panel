@@ -206,9 +206,12 @@ button.back {
     }
   }
 
-  .tabs.active,
-  .tabs:hover {
+  .tabs.active {
     border: 2px solid #006AC1;
+    cursor: pointer;
+  }
+
+  .tabs:hover {
     cursor: pointer;
   }
 
