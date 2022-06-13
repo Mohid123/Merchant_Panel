@@ -32,8 +32,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     { id:1, img: '../../../../../assets/media/icons/spa.svg', name:'Spa & Holistic Wellness' },
     { id:6, img: '../../../../../assets/media/icons/Personal-growth.svg', name:'Personal Development' },
     { id:7, img: '../../../../../assets/media/icons/concert-event-tickets.svg', name:'Concerts & Event Tickets' },
-    { id:8, img: '../../../../../assets/media/icons/pets-care.svg', name:'Pet Treatments' },
-    { id:9, img: '../../../../../assets/media/icons/pets-care.svg', name:'Metaverse' },
+    { id:8, img: '../../../../../assets/media/icons/Pet-treatments.svg', name:'Pet Treatments' },
+    { id:9, img: '../../../../../assets/media/icons/Metaverse.svg', name:'Metaverse' },
   ]
   provincese = [
     { id:3, name:'Antwerpen' },
@@ -109,10 +109,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   // convenience getter for easy access to form fields
   get f() {
     return this.registrationForm.controls;
-  }
-
-  getVal() {
-    console.log(this.registrationForm.controls['businessType']?.value)
   }
 
   initForm() {
