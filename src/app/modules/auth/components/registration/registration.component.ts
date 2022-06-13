@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { User } from '@core/models/user.model';
 // import { zipCodes } from '@core/utils/belgium-zip-codes';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { debounceTime, delay, distinctUntilChanged, first, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, first, map, takeUntil } from 'rxjs/operators';
 import { CategoryList } from '../../models/category-list.model';
 import { RegisterModel } from '../../models/register.model';
 import { VatResponse } from '../../models/vatResponse.model';
@@ -58,7 +58,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   countryCode = '32';
   user: User
-  fetchingName: boolean = false;
+  fetchingName: boolean;
+  vatControl = new FormControl();
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -81,12 +82,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.getCategories();
-    // this.f['zipCode'].valueChanges.subscribe(zip => {
-    //   let zipData = zipCodes[zip];
-    //   if(zipData) {
-    //     console.log('zip data:',zipData);
-    //   }
-    // })ons
+    this.f['vatNumber'].valueChanges.pipe(takeUntil(this.destroy$), debounceTime(1000))
+    .subscribe(value => {
+      if(value != '' || value.length > 0) {
+        this.matchCompanywithVatNumber();
+      }
+      else {
+        this.registrationForm.controls['legalName']?.setValue('');
+      }
+    })
   }
 
   onCountryChange(country: any) {
@@ -244,14 +248,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     else {
       this.cities = [];
     }
-}
+  }
 
 matchCompanywithVatNumber() {
   this.fetchingName = true;
+  this.cf.detectChanges();
   const vatNumber = this.registrationForm.controls['vatNumber']?.value;
   if(vatNumber) {
     this.authService.fetchCompanyByVatNumber(vatNumber)
-    .pipe(takeUntil(this.destroy$), delay(400))
+    .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<VatResponse>) => {
       if(!res.hasErrors() && res.data != null) {
         this.registrationForm.controls['legalName']?.setValue(res.data?.name);

@@ -3,7 +3,7 @@
     class="max-w-full overflow-hidden h-fit lg:h-full login-content flex-row-fluid d-flex flex-column justify-content-center position-relative">
     <mat-stepper [linear]="true" labelPosition="bottom" #stepper class="absolute w-full h-full pt-8 pb-6 overflow-y-scroll text-center">
 
-      <mat-step>
+      <mat-step [completed]="f['businessType'].value.length > 0">
         <h2 class="mt-12 text-3xl font-semibold text-center text-dark">Welcome! First things first.</h2>
         <h3 class="mb-4">Let's make sure we understand your company. What describes your business best?</h3>
         <span class="text-base font-thin" style="color: #7094B2;">Select max. 3</span>
@@ -28,7 +28,7 @@
           <button class="text-base text-white bg-blue-500 rounded-lg h-9 mt-14 w-28 2xl:h-10" [disabled]="f['businessType'].value.length == 0" mat-button matStepperNext>Next</button>
       </mat-step>
 
-        <mat-step>
+        <mat-step [completed]="f['firstName'].valid && f['lastName'].valid && f['email'].valid && f['phoneNumber'].valid">
           <h2 class="mt-12 text-3xl font-semibold text-center text-dark">Let's get to know each other!</h2>
           <h3 class="mb-8">How can we reach out?</h3>
           <form class="w-4/12 mx-auto text-left 3xl:w-3/12 form" [formGroup]="registrationForm" novalidate="novalidate">
@@ -168,7 +168,7 @@
         </form>
         </mat-step>
 
-        <mat-step>
+        <mat-step [completed]="registrationForm.valid">
           <h2 class="mt-12 text-3xl font-semibold text-center text-dark">Tell us about your business.</h2>
           <h3 class="mb-8">Where can we find you?</h3>
           <ng-container *ngIf="hasError">
@@ -184,7 +184,7 @@
 
             <div class="h-90px fv-row 2xl:h-26">
               <label class="mb-1 text-sm text-gray-400 2xl:text-base font-extralight 2xl:mb-2 form-label">VAT number</label>
-              <input (keyup)="matchCompanywithVatNumber()" maxlength="16" class="form-control form-control-lg form-control-solid" type="text" name="vatNumber"
+              <input maxlength="16" class="form-control form-control-lg form-control-solid" type="text" name="vatNumber"
                 placeholder="VAT number"
                 formControlName="vatNumber" autocomplete="off" [ngClass]="{
                 'is-invalid': f['vatNumber'].invalid && f['vatNumber'].touched,
@@ -199,7 +199,7 @@
             <div class="h-90px fv-row 2xl:h-26">
               <label class="mb-1 text-sm text-gray-400 2xl:text-base font-extralight 2xl:mb-2 form-label">Company Name</label>
                <div class="flex flex-row input-group-prepend">
-                <span class="absolute flex items-center xl:pl-2 1.5xl:pl-16 2xl:pl-20 3xl:pl-14 mt-2.5 2xl:mt-3 cursor-pointer ml-96 spin">
+                <span class="absolute flex items-center xl:pl-2 1.5xl:pl-14 2xl:pl-20 3xl:pl-14 mt-2.5 2xl:mt-3 cursor-pointer ml-96 spin">
                   <mat-spinner *ngIf="fetchingName == true" [diameter]="25"></mat-spinner>
                 </span>
                 <input appMaxLength length="30" class="form-control form-control-lg form-control-solid" type="text" name="companyName"
