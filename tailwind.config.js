@@ -51,7 +51,7 @@ module.exports = {
       },
       colors: {
         'primary-100': '#93C5FD',
-        'primary-400': '#F38B41',
+        'primary-400': '#0081E9',
         'primary-500': '#0081E9',
         'custom-black' : {
           '100': '#4e5970b3',
