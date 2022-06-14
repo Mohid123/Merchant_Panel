@@ -4,6 +4,8 @@ import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestro
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ApiResponse } from '@core/models/response.model';
+import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Subject, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -80,6 +82,7 @@ export class Step1Component implements OnInit, OnDestroy {
     private categoryService: CategoryService,
     private toast: HotToastService,
     public breakpointObserver: BreakpointObserver,
+    private mediaService: MediaService
   ) {
     this.breakpointObserver.observe(['(min-width: 1600px)']).pipe(map((result) => result.matches)).subscribe(res => {
       if(res) {
@@ -155,10 +158,11 @@ export class Step1Component implements OnInit, OnDestroy {
       ],
       deletedCheck: false
     })
+
     const formChangesSubscr = this.dealForm.valueChanges.subscribe((val: MainDeal) => {
       this.updateParentModel(val, this.checkForm());
       this.connection.sendData(val)
-      // console.log(val);
+      console.log(val);
     });
     this.unsubscribe.push(formChangesSubscr);
   }
@@ -169,7 +173,6 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   onSelectFile(event: any,isImages:boolean) {
-    console.log('event',event);
     const files = event.target? event.target.files : event;
     this.file = files && files.length;
     if (!isImages || (this.file > 0 && this.file < 11)) {
@@ -179,18 +182,14 @@ export class Step1Component implements OnInit, OnDestroy {
         var reader = new FileReader();
         reader.readAsDataURL(singlefile);
         if(isImages) {
-        this.urls.push(singlefile);
-        } else {
-          this.videoUrls.push(singlefile);
+          this.urls.push(singlefile);
         }
         this.cf.detectChanges();
         i++;
         reader.onload = (fileEvent) => {
           const url = (<FileReader>fileEvent.target).result as string;
           if(isImages){
-          this.multiples.push(url);}
-          else {
-            this.videos.push(url)
+            this.multiples.push(url);
           }
           this.cf.detectChanges();
           // If multple events are fired by user
@@ -211,7 +210,7 @@ export class Step1Component implements OnInit, OnDestroy {
               }
             })
           }
-          console.log('this.selectedPlayList.media:',this.multiples);
+          // console.log('this.selectedPlayList.media:',this.multiples);
           if(files.length == i) {
             this.initTable();
             this.getItemsTable();
@@ -221,6 +220,52 @@ export class Step1Component implements OnInit, OnDestroy {
     }
     else {
       this.toast.error('Please select upto 10 images', {
+        style: {
+          border: '1px solid #713200',
+          padding: '16px',
+          color: '#713200',
+        },
+        iconTheme: {
+          primary: '#713200',
+          secondary: '#FFFAEE',
+        }
+      })
+    }
+  }
+
+
+  onSelectVideo(event: any) {
+    const files = event.target? event.target.files : event;
+    this.file = files && files.length;
+    if (this.file > 0 && this.file < 2) {
+      let i: number = 0;
+      for (const singlefile of files) {
+        var reader = new FileReader();
+        reader.readAsDataURL(singlefile);
+        this.videoUrls.push(singlefile);
+        this.cf.detectChanges();
+        i++;
+      }
+      if(this.videoUrls.length > 0) {
+        for(let i = 0; i < this.videoUrls.length; i++) {
+          this.mediaService.uploadMedia('video', this.videoUrls[i])
+          .subscribe((res: ApiResponse<any>) => {
+            if(!res.hasErrors()) {
+              this.videos.push(res.data?.url);
+              this.urls.push(res.data?.url);
+              this.cf.detectChanges();
+              this.videoUrls = [];
+            }
+          })
+        }
+      }
+      if(files.length == i) {
+        this.initTable();
+        this.getItemsTable();
+      }
+    }
+    else {
+      this.toast.error('Please select one video only!', {
         style: {
           border: '1px solid #713200',
           padding: '16px',

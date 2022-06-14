@@ -144,16 +144,16 @@
           <label class="mb-4 text-sm 2xl:text-base 2xl:mb-2 form-label">Upload your Video</label>
           <div class="rounded-xl min-h-40 video-container">
 
-          <div (files)="onSelectFile($event,false)" appDragAnDropUpload *ngIf="!videos || videos.length == 0" class="flex flex-col justify-center h-full">
+          <div (files)="onSelectVideo($event)" appDragAnDropUpload *ngIf="!videos || videos.length == 0" class="flex flex-col justify-center h-full">
             <div class="self-center my-4 image-input image-input-outline image-upload">
               <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none; opacity: 0.8;">
               </div>
               <label class="absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
                 <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20"
                   style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"
-                    src="../../../../../assets/media/icons/video-play.svg"></span>
+                  src="../../../../../assets/media/icons/video-play.svg"></span>
                 <input #videoInput class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20" type="file"
-                  accept="video/mp4 , .FLV">
+                  accept="video/mp4 , .FLV" (change)="onSelectVideo($event)" (click)="onClick($event)">
               </label>
             </div>
             <ng-container *ngIf="!videos || videos.length == 0">
