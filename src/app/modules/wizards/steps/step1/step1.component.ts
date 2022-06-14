@@ -169,11 +169,13 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   onSelectFile(event: any,isImages:boolean) {
-    this.file = event.target.files && event.target.files.length;
+    console.log('event',event);
+    const files = event.target? event.target.files : event;
+    this.file = files && files.length;
     if (!isImages || (this.file > 0 && this.file < 11)) {
-      this.images = event.target.files;
+      this.images = files;
       let i: number = 0;
-      for (const singlefile of event.target.files) {
+      for (const singlefile of files) {
         var reader = new FileReader();
         reader.readAsDataURL(singlefile);
         if(isImages) {
@@ -210,7 +212,7 @@ export class Step1Component implements OnInit, OnDestroy {
             })
           }
           console.log('this.selectedPlayList.media:',this.multiples);
-          if(event.target.files.length == i) {
+          if(files.length == i) {
             this.initTable();
             this.getItemsTable();
           }
@@ -232,9 +234,15 @@ export class Step1Component implements OnInit, OnDestroy {
     }
   }
 
-  clearImage(i:any) {
+  clearImage(j:any,i:any) {
+    if(j==0) {
     this.multiples.splice(i, 1);
     this.urls.splice(i, 1);
+  } else {
+    this.multiples.splice((j*this.columnSize)+i, 1);
+    this.urls.splice((j*this.columnSize)+i, 1);
+    }
+    this.getItemsTable(true);
     this.cf.detectChanges();
   }
 
@@ -328,13 +336,13 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
 
-  getItemsTable(): number[][] {
+  getItemsTable(forceReset?:any): number[][] {
     document.getElementById('drop-list-main')
     const width  = document.getElementById('drop-list-main')?.clientWidth || 300;
     console.log('cons:',width);
     if(width) {
       const columnSize = Math.floor(width / this.boxWidth);
-      if (columnSize != this.columnSize) {
+      if (forceReset || columnSize != this.columnSize) {
         this.columnSize = columnSize;
         this.initTable();
       }

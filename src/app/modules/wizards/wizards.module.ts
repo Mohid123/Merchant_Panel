@@ -16,6 +16,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { SwiperModule } from 'swiper/angular';
+import { DragAnDropUploadModule } from './../../@core/directives/drag-an-drop-upload/drag-an-drop-upload.module';
 import { TrimModule } from './../../@core/directives/trim/trim.module';
 import { TruncatePipe } from './../../@core/pipes/truncate.pipe';
 import { TableSkeletonModule } from './../../components/table-skeleton/table-skeleton.module';
@@ -80,6 +81,7 @@ FullCalendarModule.registerPlugins([
     DragDropModule,
     SwiperModule,
     LayoutModule,
+    DragAnDropUploadModule,
   ],
   entryComponents: [PopoverWrapperComponent],
 })

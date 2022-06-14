@@ -136,12 +136,16 @@ label {
 
 .dropdown-menu {
   font-size: 14px;
-  background: #FFFFFF 0% 0% no-repeat padding-box;
+  background: #FFFFFF;
   box-shadow: 0px 0px 6px #00000029;
   border-radius: 8px;
   padding: 24px;
-  max-height: 25rem;
+  max-height: 26rem;
   overflow-y: auto;
+
+  label {
+    width: 100%;
+  }
 
   button {
     padding: 8px 24px;
