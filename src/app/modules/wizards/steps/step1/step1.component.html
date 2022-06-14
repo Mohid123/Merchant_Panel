@@ -144,7 +144,7 @@
           <label class="mb-4 text-sm 2xl:text-base 2xl:mb-2 form-label">Upload your Video</label>
           <div class="rounded-xl min-h-40 video-container">
 
-          <div (files)="onSelectVideo($event)" appDragAnDropUpload *ngIf="!videos || videos.length == 0" class="flex flex-col justify-center h-full">
+          <div (files)="onSelectVideo($event)" appDragAnDropUpload *ngIf="(!videos || videos.length == 0) && loadingVideo == false" class="flex flex-col justify-center h-full">
             <div class="self-center my-4 image-input image-input-outline image-upload">
               <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none; opacity: 0.8;">
               </div>
@@ -156,7 +156,7 @@
                   accept="video/mp4 , .FLV" (change)="onSelectVideo($event)" (click)="onClick($event)">
               </label>
             </div>
-            <ng-container *ngIf="!videos || videos.length == 0">
+            <ng-container *ngIf="(!videos || videos.length == 0) && loadingVideo == false">
               <p class="self-center m-0 text-sm text-center h w-60">
                 Drag and Drop or <a  class="underline s text-primary-500" (click)="videoInput.click()">Browse</a>
               </p>
@@ -166,11 +166,19 @@
             </ng-container>
           </div>
 
-          <ng-container *ngFor="let video of videos; let i = index;">
-            <div class="relative self-center">
-              <video [src]="video" class="rounded-lg w-14 h-14 2xl:h-20 2xl:w-20"></video>
-              <!-- <i class="absolute bg-white rounded-full cursor-pointer -top-1 -right-1 fa fa-times-circle" (click)="clearImage(i)"></i> -->
-            </div>
+          <ng-container *ngIf="loadingVideo == false">
+            <ng-container *ngFor="let video of videos; let i = index;">
+              <div class="relative self-center">
+                <video [src]="video" class="rounded-lg w-14 h-14 2xl:h-20 2xl:w-20"></video>
+                <!-- <i class="absolute bg-white rounded-full cursor-pointer -top-1 -right-1 fa fa-times-circle" (click)="clearVideo(i)"></i> -->
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="loadingVideo == true">
+            <span class="flex align-middle items-center m-2 bg-gray-200 p-4 rounded-md w-14">
+              <mat-spinner [diameter]="20"></mat-spinner>
+            </span>
           </ng-container>
         </div>
         </div>

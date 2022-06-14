@@ -163,3 +163,7 @@ label {
     color: #0081E9;
   }
 }
+
+::ng-deep .mat-spinner circle, .mat-spinner circle {
+  stroke: #2A79FF!important;
+}

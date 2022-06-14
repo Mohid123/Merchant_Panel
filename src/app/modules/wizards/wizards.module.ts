@@ -10,6 +10,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
 import { TimeformatePipe } from '@core/pipes/timeformate.pipe';
 // import { SortModule } from '@core/directives/sort/sort.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -65,6 +66,7 @@ FullCalendarModule.registerPlugins([
     InlineSVGModule,
     NgbPopoverModule,
     FullCalendarModule,
+    MatProgressSpinnerModule,
     FormsModule,
     CKEditorModule,
     TrimModule,

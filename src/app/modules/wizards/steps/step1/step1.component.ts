@@ -66,6 +66,7 @@ export class Step1Component implements OnInit, OnDestroy {
   };
 
   file: any;
+  loadingVideo: boolean = false;
   multiples: any[] = [];
   urls: Media[] = [];
   videos: any[] = [];
@@ -238,6 +239,8 @@ export class Step1Component implements OnInit, OnDestroy {
     const files = event.target? event.target.files : event;
     this.file = files && files.length;
     if (this.file > 0 && this.file < 2) {
+      this.loadingVideo = true;
+      this.cf.detectChanges();
       let i: number = 0;
       for (const singlefile of files) {
         var reader = new FileReader();
@@ -255,16 +258,20 @@ export class Step1Component implements OnInit, OnDestroy {
               this.urls.push(res.data?.url);
               this.cf.detectChanges();
               this.videoUrls = [];
+              this.loadingVideo = false;
+              this.cf.detectChanges();
             }
           })
         }
-      }
-      if(files.length == i) {
-        this.initTable();
-        this.getItemsTable();
+        if(files.length == i) {
+          this.initTable();
+          this.getItemsTable();
+        }
       }
     }
     else {
+      this.loadingVideo = false;
+      this.cf.detectChanges();
       this.toast.error('Please select one video only!', {
         style: {
           border: '1px solid #713200',
@@ -289,6 +296,10 @@ export class Step1Component implements OnInit, OnDestroy {
     }
     this.getItemsTable(true);
     this.cf.detectChanges();
+  }
+
+  clearVideo(i: any) {
+    this.videos.splice(i, 1);
   }
 
   onClick(event: any) {
