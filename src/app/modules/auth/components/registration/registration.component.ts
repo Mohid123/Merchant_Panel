@@ -82,6 +82,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.getCategories();
+
     this.f['vatNumber'].valueChanges.pipe(takeUntil(this.destroy$), debounceTime(1000))
     .subscribe(value => {
       if(value != '' || value.length > 0) {
@@ -89,6 +90,17 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       }
       else {
         this.registrationForm.controls['legalName']?.setValue('');
+      }
+    });
+
+    this.f['zipCode'].valueChanges.pipe(takeUntil(this.destroy$), debounceTime(1000))
+    .subscribe(value => {
+      if(value != '' || value.length > 0) {
+        this.matchZipCodeWithCity()
+      }
+      else {
+        this.cities = [];
+        this.cf.detectChanges();
       }
     })
   }

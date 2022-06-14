@@ -249,7 +249,7 @@
 
             <div class="h-90px fv-row 2xl:h-26">
               <label class="mb-1 text-sm text-gray-400 font-extralight 2xl:text-base 2xl:mb-2 form-label">Zip</label>
-              <input (keyup)="matchZipCodeWithCity()" placeholder="Zip code" appMaxLength length="30" maxlength="4" appNumbersOnly class="form-control form-control-lg form-control-solid" type="text" name="zipCode"
+              <input placeholder="Zip code" appMaxLength length="30" maxlength="4" appNumbersOnly class="form-control form-control-lg form-control-solid" type="text" name="zipCode"
                autocomplete="off" formControlName="zipCode" [ngClass]="{
                 'is-invalid': f['zipCode'].invalid && f['zipCode'].touched,
                 'is-valid': f['zipCode'].valid}" />
