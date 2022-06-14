@@ -312,6 +312,8 @@ emailValidator() {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
   validateZip(): {[key: string]: any} | null  {
