@@ -93,7 +93,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.f['zipCode'].valueChanges.pipe(takeUntil(this.destroy$), debounceTime(1000))
+    this.f['zipCode'].valueChanges.pipe(takeUntil(this.destroy$))
     .subscribe(value => {
       if(value != '' || value.length > 0) {
         this.matchZipCodeWithCity()
