@@ -89,12 +89,12 @@
               <div (files)="onSelectFile($event,true)" appDragAnDropUpload class="rounded-xl min-h-40 pictures-drop-container">
                 <div *ngIf="multiples.length == 0" class="flex flex-col justify-center h-full">
                   <div class="self-center my-4 image-input image-input-outline image-upload">
-                    <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
-                    <label class="absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
-                      <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20"
-                        style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"
+                    <div class="w-14 h-14 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
+                    <label class="absolute top-0 w-14 h-14 btn btn-xs btn-icon btn-hover-text-primary">
+                      <span class="absolute top-0 flex items-center justify-center w-14 h-14 "
+                        style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 "
                           src="../../../../../assets/media/icons/images.svg"></span>
-                      <input #imgInput class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20" type="file" accept=".png, .jpg, .jpeg"
+                      <input #imgInput class="absolute top-0 cursor-pointer w-14 h-14 " type="file" accept=".png, .jpg, .jpeg"
                         (change)="onSelectFile($event,true)" multiple>
                     </label>
                   </div>
@@ -146,13 +146,13 @@
 
           <div (files)="onSelectVideo($event)" appDragAnDropUpload *ngIf="(!videos || videos.length == 0) && loadingVideo == false" class="flex flex-col justify-center h-full">
             <div class="self-center my-4 image-input image-input-outline image-upload">
-              <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none; opacity: 0.8;">
+              <div class="w-14 h-14 image-input-wrapper" style="box-shadow: none; opacity: 0.8;">
               </div>
-              <label class="absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
-                <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20"
-                  style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"
+              <label class="absolute top-0 w-14 h-14 btn btn-xs btn-icon btn-hover-text-primary">
+                <span class="absolute top-0 flex items-center justify-center w-14 h-14 "
+                  style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 "
                   src="../../../../../assets/media/icons/video-play.svg"></span>
-                <input #videoInput class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20" type="file"
+                <input #videoInput class="absolute top-0 cursor-pointer w-14 h-14 " type="file"
                   accept="video/mp4 , .FLV" (change)="onSelectVideo($event)" (click)="onClick($event)">
               </label>
             </div>
@@ -168,15 +168,15 @@
 
           <ng-container *ngIf="loadingVideo == false">
             <ng-container *ngFor="let video of videos; let i = index;">
-              <div class="relative m-4 self-center">
-                <video [src]="video" class="rounded-lg object-cover w-36 h-22 2xl:h-26 2xl:w-52"></video>
+              <div class="relative self-center m-4">
+                <video [src]="video" class="object-cover rounded-lg w-36 h-22 2xl:h-26 2xl:w-52"></video>
                 <!-- <i class="absolute bg-white rounded-full cursor-pointer -top-1 -right-1 fa fa-times-circle" (click)="clearVideo(i)"></i> -->
               </div>
             </ng-container>
           </ng-container>
 
           <ng-container *ngIf="loadingVideo == true">
-            <span class="flex align-middle items-center m-2 bg-gray-200 p-4 rounded-md w-14">
+            <span class="flex items-center p-4 m-2 align-middle bg-gray-200 rounded-md w-14">
               <mat-spinner [diameter]="20"></mat-spinner>
             </span>
           </ng-container>
@@ -194,8 +194,10 @@
 
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">
   <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
       <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
         {{ message }}
       </span>
+    </div>
   </ng-container>
 </ng-template>
