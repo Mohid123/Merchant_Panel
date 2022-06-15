@@ -163,7 +163,6 @@ export class Step1Component implements OnInit, OnDestroy {
     const formChangesSubscr = this.dealForm.valueChanges.subscribe((val: MainDeal) => {
       this.updateParentModel(val, this.checkForm());
       this.connection.sendData(val)
-      console.log(val);
     });
     this.unsubscribe.push(formChangesSubscr);
   }

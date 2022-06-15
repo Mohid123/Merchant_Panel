@@ -45,13 +45,13 @@
             control: dealForm.controls['dealHeader']
           }">
           </ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          <ng-container *ngIf="f['dealHeader']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'minlength',
               message: 'Title should at least be 3 characters',
               control: dealForm.controls['dealHeader']
             }">
           </ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          <ng-container *ngIf="!f['dealHeader']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'pattern',
             message: 'Only alphabets are allowed',
             control: dealForm.controls['dealHeader']
@@ -70,13 +70,13 @@
               control: dealForm.controls['subTitle']
             }">
             </ng-container>
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            <ng-container *ngIf="f['subTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'minlength',
               message: 'Subtitle should at least be 3 characters',
               control: dealForm.controls['subTitle']
             }">
             </ng-container>
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            <ng-container *ngIf="!f['subTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'pattern',
             message: 'Only alphabets are allowed',
             control: dealForm.controls['subTitle']
@@ -168,8 +168,8 @@
 
           <ng-container *ngIf="loadingVideo == false">
             <ng-container *ngFor="let video of videos; let i = index;">
-              <div class="relative self-center">
-                <video [src]="video" class="rounded-lg w-14 h-14 2xl:h-20 2xl:w-20"></video>
+              <div class="relative m-4 self-center">
+                <video [src]="video" class="rounded-lg object-cover w-36 h-22 2xl:h-26 2xl:w-52"></video>
                 <!-- <i class="absolute bg-white rounded-full cursor-pointer -top-1 -right-1 fa fa-times-circle" (click)="clearVideo(i)"></i> -->
               </div>
             </ng-container>
