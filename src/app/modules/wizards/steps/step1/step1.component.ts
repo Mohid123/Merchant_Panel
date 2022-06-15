@@ -239,6 +239,22 @@ export class Step1Component implements OnInit, OnDestroy {
     this.file = files && files.length;
     if (this.file > 0 && this.file < 2) {
       this.loadingVideo = true;
+      if(+(files[0].size / 1048576).toFixed(2) > 10) {
+        this.toast.error('You can upload maximum 10mb file.', {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          }
+        });
+        this.loadingVideo = false;
+        this.cf.detectChanges();
+        return;
+      }
       this.cf.detectChanges();
       let i: number = 0;
       for (const singlefile of files) {
