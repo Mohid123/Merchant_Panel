@@ -176,9 +176,11 @@
           </ng-container>
 
           <ng-container *ngIf="loadingVideo == true">
-            <span class="flex items-center p-4 m-2 align-middle bg-gray-200 rounded-md w-14">
-              <mat-spinner [diameter]="20"></mat-spinner>
-            </span>
+            <div class="relative self-center m-4" style="width: fit-content;">
+              <span class="flex items-center justify-center p-4 m-2 align-middle bg-gray-200 rounded-lg w-36 h-22 2xl:h-26 2xl:w-52">
+                <mat-spinner [diameter]="30"></mat-spinner>
+              </span>
+            </div>
           </ng-container>
         </div>
         </div>
