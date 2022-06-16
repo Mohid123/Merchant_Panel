@@ -57,21 +57,31 @@
             class="mySwiper2">
 
             <ng-template swiperSlide *ngFor="let url of urls; let i = index">
-              <img [src]="url">
+              <ng-container *ngIf="i == 0">
+                <video [src]="url" controls class="rounded-sm"></video>
+              </ng-container>
+              <ng-container *ngIf="i > 0">
+                <img [src]="url">
+              </ng-container>
             </ng-template>
 
             </swiper>
 
             <swiper
               (swiper)="thumbsSwiper = $event"
-              [spaceBetween]="0"
+              [spaceBetween]="2"
               [slidesPerView]="10"
               [freeMode]="true"
               [watchSlidesProgress]="true"
               class="mySwiper">
 
               <ng-template swiperSlide *ngFor="let url of urls; let i = index">
-                <img [src]="url" class="w-8 h-8 p-0 rounded-sm">
+                <ng-container *ngIf="i == 0">
+                  <video [src]="url" class="w-8 p-0 rounded-sm h-7"></video>
+                </ng-container>
+                <ng-container *ngIf="i > 0">
+                  <img [src]="url" class="w-8 p-0 rounded-sm h-7">
+                </ng-container>
               </ng-template>
 
             </swiper>

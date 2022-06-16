@@ -4,14 +4,12 @@ import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestro
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { ApiResponse } from '@core/models/response.model';
 import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Subject, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CategoryDetail, SubCategory } from './../../../auth/models/categories-detail.model';
 import { CategoryService } from './../../../auth/services/category.service';
-import { Media } from './../../models/images.model';
 import { MainDeal } from './../../models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
 
@@ -68,9 +66,10 @@ export class Step1Component implements OnInit, OnDestroy {
   file: any;
   loadingVideo: boolean = false;
   multiples: any[] = [];
-  urls: Media[] = [];
+  urls: any[] = [];
+  url: any;
   videos: any[] = [];
-  videoUrls:Media[] = [];
+  videoUrls: any[] = [];
   private unsubscribe: Subscription[] = [];
   control: FormControl
   images = [];
@@ -181,15 +180,16 @@ export class Step1Component implements OnInit, OnDestroy {
       for (const singlefile of files) {
         var reader = new FileReader();
         reader.readAsDataURL(singlefile);
-        if(isImages) {
-          this.urls.push(singlefile);
-        }
+        // if(isImages) {
+        //   this.urls.push(singlefile);
+        // }
         this.cf.detectChanges();
         i++;
         reader.onload = (fileEvent) => {
           const url = (<FileReader>fileEvent.target).result as string;
           if(isImages){
             this.multiples.push(url);
+            this.urls.push(url);
           }
           this.cf.detectChanges();
           // If multple events are fired by user
@@ -235,59 +235,9 @@ export class Step1Component implements OnInit, OnDestroy {
 
 
   onSelectVideo(event: any) {
-    const files = event.target? event.target.files : event;
-    this.file = files && files.length;
-    if (this.file > 0 && this.file < 2) {
-      this.loadingVideo = true;
-      if(+(files[0].size / 1048576).toFixed(2) > 10) {
-        this.toast.error('You can upload maximum 10mb file.', {
-          style: {
-            border: '1px solid #713200',
-            padding: '16px',
-            color: '#713200',
-          },
-          iconTheme: {
-            primary: '#713200',
-            secondary: '#FFFAEE',
-          }
-        });
-        this.loadingVideo = false;
-        this.cf.detectChanges();
-        return;
-      }
-      this.cf.detectChanges();
-      let i: number = 0;
-      for (const singlefile of files) {
-        var reader = new FileReader();
-        reader.readAsDataURL(singlefile);
-        this.videoUrls.push(singlefile);
-        this.cf.detectChanges();
-        i++;
-      }
-      if(this.videoUrls.length > 0) {
-        for(let i = 0; i < this.videoUrls.length; i++) {
-          this.mediaService.uploadMedia('video', this.videoUrls[i])
-          .subscribe((res: ApiResponse<any>) => {
-            if(!res.hasErrors()) {
-              this.videos.push(res.data?.url);
-              this.urls.push(res.data?.url);
-              this.cf.detectChanges();
-              this.videoUrls = [];
-              this.loadingVideo = false;
-              this.cf.detectChanges();
-            }
-          })
-        }
-        if(files.length == i) {
-          this.initTable();
-          this.getItemsTable();
-        }
-      }
-    }
-    else {
-      this.loadingVideo = false;
-      this.cf.detectChanges();
-      this.toast.error('Please select one video only!', {
+    this.file = event.target.files && event.target.files[0];
+    if(+(this.file.size / 1048576).toFixed(2) > 10) {
+      this.toast.error('You can upload maximum 10mb file.', {
         style: {
           border: '1px solid #713200',
           padding: '16px',
@@ -297,9 +247,91 @@ export class Step1Component implements OnInit, OnDestroy {
           primary: '#713200',
           secondary: '#FFFAEE',
         }
-      })
+      });
+      this.loadingVideo = false;
+      this.cf.detectChanges();
+      return;
+    }
+    if (this.file) {
+      var reader = new FileReader();
+      reader.readAsDataURL(this.file);
+      reader.onload = (event) => {
+        this.url = (<FileReader>event.target).result as string;
+        this.urls.unshift(this.url);
+        this.cf.detectChanges();
+      };
+      event.target.value = "";
     }
   }
+
+
+  // onSelectVideo(event: any) {
+  //   const files = event.target? event.target.files : event;
+  //   this.file = files && files.length;
+  //   if (this.file > 0 && this.file < 2) {
+  //     this.loadingVideo = true;
+  //     if(+(files[0].size / 1048576).toFixed(2) > 10) {
+  //       this.toast.error('You can upload maximum 10mb file.', {
+  //         style: {
+  //           border: '1px solid #713200',
+  //           padding: '16px',
+  //           color: '#713200',
+  //         },
+  //         iconTheme: {
+  //           primary: '#713200',
+  //           secondary: '#FFFAEE',
+  //         }
+  //       });
+  //       this.loadingVideo = false;
+  //       this.cf.detectChanges();
+  //       return;
+  //     }
+  //     this.cf.detectChanges();
+  //     let i: number = 0;
+  //     for (const singlefile of files) {
+  //       var reader = new FileReader();
+  //       reader.readAsDataURL(singlefile);
+  //       this.videos.push(singlefile);
+  //       this.urls.unshift(singlefile);
+  //       this.cf.detectChanges();
+  //       i++;
+  //     }
+  //     // if(this.videoUrls.length > 0) {
+  //     //   for(let i = 0; i < this.videoUrls.length; i++) {
+  //     //     this.mediaService.uploadMedia('video', this.videoUrls[i])
+  //     //     .subscribe((res: ApiResponse<any>) => {
+  //     //       if(!res.hasErrors()) {
+  //     //         this.videos.unshift(res.data?.url);
+  //     //         this.urls.unshift(res.data?.url);
+  //     //         this.cf.detectChanges();
+  //     //         this.videoUrls = [];
+  //     //         this.loadingVideo = false;
+  //     //         this.cf.detectChanges();
+  //     //       }
+  //     //     })
+  //     //   }
+  //     //   if(files.length == i) {
+  //     //     this.initTable();
+  //     //     this.getItemsTable();
+  //     //   }
+  //     // }
+  //   }
+  //   else {
+  //     this.loadingVideo = false;
+  //     this.cf.detectChanges();
+  //     this.toast.error('Please select one video only!', {
+  //       style: {
+  //         border: '1px solid #713200',
+  //         padding: '16px',
+  //         color: '#713200',
+  //       },
+  //       iconTheme: {
+  //         primary: '#713200',
+  //         secondary: '#FFFAEE',
+  //       }
+  //     })
+  //   }
+  // }
 
   clearImage(j:any,i:any) {
     if(j==0) {
@@ -313,8 +345,8 @@ export class Step1Component implements OnInit, OnDestroy {
     this.cf.detectChanges();
   }
 
-  clearVideo(i: any) {
-    this.videos.splice(i, 1);
+  clearVideo() {
+    this.url = '';
   }
 
   onClick(event: any) {
@@ -410,7 +442,7 @@ export class Step1Component implements OnInit, OnDestroy {
   getItemsTable(forceReset?:any): number[][] {
     document.getElementById('drop-list-main')
     const width  = document.getElementById('drop-list-main')?.clientWidth || 300;
-    console.log('cons:',width);
+    // console.log('cons:',width);
     if(width) {
       const columnSize = Math.floor(width / this.boxWidth);
       if (forceReset || columnSize != this.columnSize) {

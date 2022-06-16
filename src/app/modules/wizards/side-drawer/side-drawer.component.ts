@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { ConnectionService } from './../services/connection.service';
 
@@ -13,7 +13,7 @@ export class SideDrawerComponent implements OnInit {
   subDeals: any[] = [];
   images: any[] = [];
 
-  constructor(private conn: ConnectionService) { }
+  constructor(private conn: ConnectionService, private cf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.conn.getData().subscribe((res: any) => {

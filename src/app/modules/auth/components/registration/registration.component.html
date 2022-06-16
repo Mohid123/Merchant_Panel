@@ -198,8 +198,8 @@
 
             <div class="h-90px fv-row 2xl:h-26">
               <label class="mb-1 text-sm text-gray-400 2xl:text-base font-extralight 2xl:mb-2 form-label">Company Name</label>
-               <div class="flex flex-row input-group-prepend">
-                <span class="absolute flex items-center xl:pl-2 1.5xl:pl-14 2xl:pl-20 3xl:pl-14 mt-2.5 2xl:mt-3 cursor-pointer ml-96 spin">
+               <div class="flex flex-row relative input-group-prepend">
+                <span class="absolute flex items-center mt-2.5 2xl:mt-3 right-3 cursor-pointer">
                   <mat-spinner *ngIf="fetchingName == true" [diameter]="25"></mat-spinner>
                 </span>
                 <input appMaxLength length="30" class="form-control form-control-lg form-control-solid" type="text" name="companyName"

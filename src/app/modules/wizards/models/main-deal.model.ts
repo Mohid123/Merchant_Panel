@@ -7,7 +7,7 @@ export class MainDeal {
   subTitle: string;
   description: string | any;
   categoryType: string;
-  mediaUrl: string[];
+  mediaUrl: any[];
   startDate: string;
   endDate: string;
   vouchers: Vouchers[];
