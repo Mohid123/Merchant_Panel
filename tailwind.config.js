@@ -80,6 +80,7 @@ module.exports = {
         '68': '17rem',
         '124': '31rem',
         '128': '32rem',
+        '135': '33.75rem',
       },
       minWidth: {
         '48': '12rem',

@@ -2,6 +2,11 @@
   width: 390px;
 }
 
+.main-con {
+  height: 100%;
+  min-height: calc(100vh - 92px) !important;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -78,6 +83,28 @@ p,
 label {
   color: #728A9F;
 }
+
+.voucher-container {
+  @apply px-9 py-6 mt-3;
+  background-image: url('/assets/media/bg-img.svg');
+  background-repeat: no-repeat;
+  width: 542px;
+  height: 132px;
+ }
+
+ .action-btn {
+  @apply p-1 text-gray-400 bg-white cursor-pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ }
+
+ .add-more-voucher {
+   align-items: center;
+   border-bottom: dashed 1px;
+ }
 
 @media (max-width: 1100px) {
   .custom-card-design {

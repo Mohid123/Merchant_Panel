@@ -25,6 +25,8 @@
               [updateParentModel]="updateDeal"
               [deal]="deal$.value"
               [images]="step1.multiples"
+              (nextClick)="nextStep()"
+              (prevClick)="prevStep()"
             ></app-step2>
           </ng-container>
 
