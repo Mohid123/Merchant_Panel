@@ -240,10 +240,10 @@
           <div class="form-group">
           <label class="mt-3 mb-3 text-sm">Number of Available Vouchers</label>
           <div class="relative">
-            <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
-              <button class="w-20 h-full mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md" (click)="handleMinus()">-</button>
-              <input maxlength="4" appNumbersOnly type="text" style="border-width: 1px;" class="w-full text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
-              <button class="w-20 h-full ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md" (click)="handlePlus()">+</button>
+            <div class="flex items-center justify-between h-8 border-2 border-white rounded-sm w-28">
+              <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="handleMinus()">-</button>
+              <input maxlength="4" appNumbersOnly type="text" style="min-height:25px !important"  class="w-12 py-0.5 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+              <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="handlePlus()">+</button>
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
@@ -257,7 +257,7 @@
     </div>
   </div>
 
-  <div class="modal-footer">
+  <div class="border-none modal-footer">
     <button type="button" class="self-center w-24 h-10 text-xs text-white rounded-lg 2xl:h-12 bg-primary-400" (click)="calculateDiscount()" [disabled]="vouchers.invalid">Save</button>
   </div>
 </app-reusable-modal>
