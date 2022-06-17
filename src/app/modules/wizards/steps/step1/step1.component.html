@@ -2,7 +2,7 @@
 <!--Card for Creating Deal-->
 <div class="flex flex-col w-full h-auto gap-2 md:flex-row">
   <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
-      <form class="self-center form row max-w-124 2xl:max-w-128" [formGroup]="dealForm">
+      <form class="self-center form row max-w-124 2xl:max-w-128 3xl:max-w-135" [formGroup]="dealForm">
         <div class="mb-6 lg:text-center">
           <h1 class="mt-2 mb-2 text-lg text-center md:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl">Let's set up your deal.</h1>
           <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base 3xl:text-lg">First impression matters! Let's make sure your deal stands out in our galleries.</div>
@@ -17,7 +17,7 @@
               <ng-container *ngFor="let category of categoryList" >
                 <label>{{category.categoryName}}</label>
                 <ng-container *ngFor="let subCategory of category.subCategories" >
-                  <button ngbDropdownItem [class.selected]="selectedcategory?.subCategoryName == subCategory.subCategoryName" (click)="ChangeSelectedCategory(subCategory)">{{subCategory.subCategoryName}}</button>
+                  <button ngbDropdownItem [class.selected]="selectedcategory?._id == subCategory._id" (click)="ChangeSelectedCategory(subCategory)">{{subCategory.subCategoryName}}</button>
                 </ng-container>
               </ng-container>
             </div>
@@ -97,7 +97,7 @@
                     </label>
                   </div>
                   <p  class="self-center m-0 text-sm text-center h w-60">
-                    Drag and drop or <a  class="underline s text-primary-500" (click)="imgInput.click()">Browse</a>
+                    Drag and Drop or <a  class="underline cursor-pointer text-primary-500" (click)="imgInput.click()">Browse</a>
                   </p>
                   <p  class="self-center m-0 mt-3 text-xs text-center text-gray-500">
                     Allowed file types are png or jpeg. You can add maximum 10 images
@@ -156,7 +156,7 @@
             </div>
             <ng-container *ngIf="!url && loadingVideo == false">
               <p class="self-center m-0 text-sm text-center h w-60">
-                Drag and drop or <a  class="underline s text-primary-500" (click)="videoInput.click()">Browse</a>
+                Drag and Drop or <a  class="underline cursor-pointer text-primary-500" (click)="videoInput.click()">Browse</a>
               </p>
               <p class="self-center m-0 mt-3 text-xs text-center text-gray-500">
                 Allowed file types are MP4 or FLV. You can upload maximum 10mb file.

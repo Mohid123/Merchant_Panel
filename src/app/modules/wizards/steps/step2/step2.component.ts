@@ -23,13 +23,13 @@ export class Step2Component implements OnInit, OnDestroy {
   editIndex:number = -1;
   vouchers = this.fb.group({
     originalPrice: [
-      60,
+      '',
       Validators.compose([
       Validators.required,
       ]),
     ],
     dealPrice: [
-      50,
+      '',
       Validators.compose([
       Validators.required,
       ]),
@@ -176,6 +176,10 @@ export class Step2Component implements OnInit, OnDestroy {
     this.subDeals.splice(i, 1);
     this.data.vouchers = this.subDeals;
     this.connection.sendData(this.data);
+    if(this.subDeals.length == 0) {
+      this.addVoucher = true;
+      this.editIndex = -1;
+    }
     // this.vouchers.removeAt(i);
   }
 
@@ -202,6 +206,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   addMoreVoucher(){
     this.addVoucher = true;
+    this.editIndex = -1;
   }
 
   cancleVoucher() {
