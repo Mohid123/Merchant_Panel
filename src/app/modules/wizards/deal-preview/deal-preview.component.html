@@ -77,10 +77,10 @@
 
               <ng-template swiperSlide *ngFor="let url of urls; let i = index">
                 <ng-container *ngIf="i == 0">
-                  <video [src]="url" class="w-8 p-0 rounded-sm h-8"></video>
+                  <video [src]="url" class="w-8 h-8 p-0 rounded-sm"></video>
                 </ng-container>
                 <ng-container *ngIf="i > 0">
-                  <img [src]="url" class="w-8 p-0 rounded-sm h-8">
+                  <img [src]="url" class="w-8 h-8 p-0 rounded-sm">
                 </ng-container>
               </ng-template>
 
@@ -122,10 +122,10 @@
         <div class="flex flex-col justify-center ml-5 align-middle">
           <div class="w-full">
             <div class="flex justify-center align-bottom">
-              <img src="../../../../assets/media/logos/box.svg">
+              <img src="../../../../assets/media/logos/box.svg" class="w-2/5 h-2/5">
             </div>
             <div class="flex justify-center ml-6 align-bottom 2xl:ml-0">
-              <span class="h-10 mt-2 text-sm font-thin text-center text-gray-500">Your sub voucher details will appear here.</span>
+              <span class="h-10 mt-2 text-xs font-thin text-center text-gray-500">Your sub voucher details will appear here.</span>
             </div>
           </div>
         </div>

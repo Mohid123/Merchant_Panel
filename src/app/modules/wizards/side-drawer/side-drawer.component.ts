@@ -12,6 +12,7 @@ export class SideDrawerComponent implements OnInit {
   data: MainDeal
   subDeals: any[] = [];
   images: any[] = [];
+  format: any;
 
   constructor(private conn: ConnectionService, private cf: ChangeDetectorRef) { }
 
@@ -20,6 +21,15 @@ export class SideDrawerComponent implements OnInit {
       this.data = res;
       this.subDeals = this.data.vouchers ? this.data.vouchers: [];
       this.images = this.data.mediaUrl ? this.data.mediaUrl: [];
+      for (let i = 0; i < this.images.length; i++) {
+        let mimeType = this.images[i].match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)[i];
+        if(mimeType == 'video/mp4' || mimeType == 'video/flv') {
+          this.format = 'video'
+        }
+        else {
+          this.format = 'image'
+        }
+      }
     })
   }
 
