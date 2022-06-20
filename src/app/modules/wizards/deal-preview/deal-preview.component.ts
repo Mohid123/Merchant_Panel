@@ -12,7 +12,7 @@ SwiperCore.use([FreeMode, Navigation, Thumbs]);
   encapsulation: ViewEncapsulation.None,
 })
 export class DealPreviewComponent implements OnInit {
-  @Input() mainDeal: MainDeal;
+  mainDeal: MainDeal;
   @Input() urls: any[] = [];
 
   noContent: boolean = false;
@@ -20,7 +20,6 @@ export class DealPreviewComponent implements OnInit {
   image: string =
     'https://dividealapi.dividisapp.com/media-upload/mediaFiles/placeholder/10f53b65eabd3cfbf65582cfff4eaf566.svg';
 
-  data: MainDeal;
   subDeals: any[] = [];
   isImg: any;
 
@@ -28,9 +27,9 @@ export class DealPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.conn.getData().subscribe((res: any) => {
-      this.data = res;
-      this.subDeals = this.data.vouchers ? this.data.vouchers : [];
-      this.urls = this.data.mediaUrl ? this.data.mediaUrl : [];
+      this.mainDeal = res;
+      this.subDeals = this.mainDeal.vouchers ? this.mainDeal.vouchers : [];
+      this.urls = this.mainDeal.mediaUrl ? this.mainDeal.mediaUrl : [];
       this.cf.detectChanges();
       if(this.urls && this.urls[0])
         this.isImg = !!(this.urls[0] as string).startsWith('data:image');

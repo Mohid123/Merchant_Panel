@@ -29,10 +29,7 @@ export class Step2Component implements OnInit, OnDestroy {
       ]),
     ],
     dealPrice: [
-      '',
-      Validators.compose([
-      Validators.required,
-      ]),
+      ''
     ],
     // details: [
     //   '',
@@ -52,7 +49,7 @@ export class Step2Component implements OnInit, OnDestroy {
       Validators.compose([
       Validators.required,
       Validators.minLength(3),
-      Validators.pattern('^[a-zA-Z \-\']+')
+      Validators.pattern('^[a-zA-Z0-9 \-\']+')
         ]),
       ],
     discountPercentage: [
