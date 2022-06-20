@@ -1,17 +1,17 @@
 <!--Title/ Header-->
 <!--Card for Creating Deal-->
-<div class="flex flex-col w-full h-auto gap-2 md:flex-row">
+<div class="flex flex-col w-full h-auto gap-2 mt-9 md:flex-row">
   <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
-      <form class="self-center form row max-w-124 2xl:max-w-128 3xl:max-w-135" [formGroup]="dealForm">
-        <div class="mb-6 lg:text-center">
-          <h1 class="mt-2 mb-2 text-lg text-center md:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl">Let's set up your deal.</h1>
+      <form class="self-center form max-w-124 2xl:max-w-128 3xl:max-w-135" [formGroup]="dealForm">
+        <div class="mb-9 lg:text-center">
+          <h1 class="mt-1 mb-2.5 text-lg text-center md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl">Let's set up your deal.</h1>
           <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base 3xl:text-lg">First impression matters! Let's make sure your deal stands out in our galleries.</div>
         </div>
         <!--Form-->
-        <div class="h-90px fv-row 2xl:h-26">
-          <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Where should this deal appear?</label>
+        <div class="h-24 fv-row 2xl:h-26">
+          <label class="form-label">Where should this deal appear?</label>
           <div #myDrop="ngbDropdown" ngbDropdown class="w-full rounded-lg d-inline-block">
-            <button [disabled]="disableCategory == true" type="button" class="w-full text-xs text-left btn text-font-gray-600" [class.open]="myDrop.isOpen()" id="dropdownBasic1"
+            <button [disabled]="disableCategory == true" type="button" class="w-full px-4 text-xs text-left btn text-font-gray-600" [class.open]="myDrop.isOpen()" id="dropdownBasic1"
             ngbDropdownToggle>{{selectedcategory?.subCategoryName || '-Select'}}</button>
             <div class="w-full dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
               <ng-container *ngFor="let category of categoryList" >
@@ -31,8 +31,8 @@
           }">
           </ng-container>
         </div>
-        <div class="h-90px fv-row 2xl:h-26">
-          <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Deal header</label>
+        <div class="h-24 fv-row 2xl:h-26">
+          <label class="form-label">Deal header</label>
           <input maxlength="16" appTrim type="text " class="text-sm font-thin form-control" formControlName="dealHeader" name="dealHeader" placeholder="Enter title of your deal"
           [ngClass]="{
             'is-invalid': f['dealHeader'].invalid && f['dealHeader'].touched,
@@ -56,8 +56,8 @@
           }">
           </ng-container>
         </div>
-        <div class="h-90px fv-row 2xl:h-26">
-          <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Deal sub-header</label>
+        <div class="h-24 fv-row 2xl:h-26">
+          <label class="form-label">Deal sub-header</label>
           <input maxlength="150" appTrim type="text " class="text-sm font-thin form-control" formControlName="subTitle" name="subTitle" placeholder="Enter subtitle of your deal"
           [ngClass]="{
             'is-invalid': f['subTitle'].invalid && f['subTitle'].touched,
@@ -82,25 +82,25 @@
             </ng-container>
         </div>
         <div class="mb-4 fv-row">
-              <label class="mb-4 text-sm 2xl:text-base 2xl:mb-2 form-label">Upload your pictures</label>
+              <label class="mb-4 text-sm 2xl:text-base form-label">Upload your pictures</label>
               <!-- <label *ngIf="multiples.length > 0" class="mt-1 text-sm text-gray-400 form-label"> Photos {{multiples.length}}/10. You can add maximum 10 images</label> -->
-              <div (files)="onSelectFile($event,true)" appDragAnDropUpload class="rounded-xl min-h-40 pictures-drop-container">
+              <div (files)="onSelectFile($event,true)" appDragAnDropUpload class="rounded-xl min-h-43 pictures-drop-container">
                 <div *ngIf="multiples.length == 0" class="flex flex-col justify-center h-full">
-                  <div class="self-center my-4 image-input image-input-outline image-upload">
-                    <div class="w-14 h-14 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
-                    <label class="absolute top-0 w-14 h-14 btn btn-xs btn-icon btn-hover-text-primary">
-                      <span class="absolute top-0 flex items-center justify-center w-14 h-14 "
-                        style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 "
+                  <div class="self-center mt-6 mb-3 image-input image-input-outline image-upload">
+                    <div class="w-18 h-18 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
+                    <label class="absolute top-0 w-18 h-18 btn btn-xs btn-icon btn-hover-text-primary">
+                      <span class="absolute top-0 flex items-center justify-center w-18 h-18 "
+                        style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-18 h-18 "
                           src="../../../../../assets/media/icons/images.svg"></span>
-                      <input #imgInput class="absolute top-0 cursor-pointer w-14 h-14 " type="file" accept=".png, .jpg, .jpeg"
+                      <input #imgInput class="absolute top-0 cursor-pointer w-18 h-18 " type="file" accept=".png, .jpg, .jpeg"
                         (change)="onSelectFile($event,true)" multiple>
                     </label>
                   </div>
                   <p  class="self-center m-0 text-sm text-center h w-60">
                     Drag and Drop or <a  class="underline cursor-pointer text-primary-500" (click)="imgInput.click()">Browse</a>
                   </p>
-                  <p  class="self-center m-0 mt-3 text-xs text-center text-gray-500">
-                    Allowed file types are png or jpeg. You can add maximum 10 images
+                  <p  class="self-center m-0 mt-2 text-xs text-center text-gray-500">
+                    Allowed file types are Png or Jpeg. You can add maximum 10 images
                   </p>
                 </div>
 
@@ -140,17 +140,17 @@
         </div>
         <div class="fv-row">
           <label class="mb-4 text-sm 2xl:text-base 2xl:mb-2 form-label">Upload your Video</label>
-          <div class="rounded-xl min-h-40 video-container">
+          <div class="rounded-xl min-h-43 video-container">
 
           <div (files)="onSelectVideo($event)" appDragAnDropUpload *ngIf="!url && loadingVideo == false" class="flex flex-col justify-center h-full">
-            <div class="self-center my-4 image-input image-input-outline image-upload">
-              <div class="w-14 h-14 image-input-wrapper" style="box-shadow: none; opacity: 0.8;">
+            <div class="self-center mt-6 mb-3 image-input image-input-outline image-upload">
+              <div class="w-18 h-18 image-input-wrapper" style="box-shadow: none; opacity: 0.8;">
               </div>
-              <label class="absolute top-0 w-14 h-14 btn btn-xs btn-icon btn-hover-text-primary">
-                <span class="absolute top-0 flex items-center justify-center w-14 h-14 "
-                  style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 "
+              <label class="absolute top-0 w-18 h-18 btn btn-xs btn-icon btn-hover-text-primary">
+                <span class="absolute top-0 flex items-center justify-center w-18 h-18 "
+                  style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-18 h-18 "
                   src="../../../../../assets/media/icons/video-play.svg"></span>
-                <input #videoInput class="absolute top-0 cursor-pointer w-14 h-14 " type="file"
+                <input #videoInput class="absolute top-0 cursor-pointer w-18 h-18 " type="file"
                   accept="video/mp4 , .FLV" (change)="onSelectVideo($event)" (click)="onClick($event)">
               </label>
             </div>
@@ -158,7 +158,7 @@
               <p class="self-center m-0 text-sm text-center h w-60">
                 Drag and Drop or <a  class="underline cursor-pointer text-primary-500" (click)="videoInput.click()">Browse</a>
               </p>
-              <p class="self-center m-0 mt-3 text-xs text-center text-gray-500">
+              <p class="self-center m-0 mt-2 text-xs text-center text-gray-500">
                 Allowed file types are MP4 or FLV. You can upload maximum 10mb file.
               </p>
             </ng-container>

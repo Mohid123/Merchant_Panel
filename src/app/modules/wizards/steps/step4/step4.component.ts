@@ -177,7 +177,7 @@ export class Step4Component implements OnInit {
 
   async closeModal() {
     return await this.modal.close().then(() => {
-      this.router.navigate(['/crafted/pages/wizards/view-deal'])
+      this.router.navigate(['/deals/view-deal'])
     });
   }
 

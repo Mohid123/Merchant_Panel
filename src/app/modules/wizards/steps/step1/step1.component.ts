@@ -215,6 +215,7 @@ export class Step1Component implements OnInit, OnDestroy {
             this.initTable();
             this.getItemsTable();
           }
+          this.dealForm.controls['mediaUrl'].setValue(this.urls);
         };
       }
     }

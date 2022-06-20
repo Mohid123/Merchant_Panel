@@ -15,18 +15,6 @@ const Routing: Routes = [
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path: 'deals',
-    loadChildren: () =>
-      import('../modules/deals/deals.module').then(
-        (m) => m.DealsModule
-      ),
-  },
-  {
-    path: 'builder',
-    loadChildren: () =>
-      import('./builder/builder.module').then((m) => m.BuilderModule),
-  },
-  {
     path: 'crafted/pages/profile',
     loadChildren: () =>
       import('../modules/profile/profile.module').then((m) => m.ProfileModule),
@@ -37,9 +25,9 @@ const Routing: Routes = [
       import('../modules/account/account.module').then((m) => m.AccountModule),
   },
   {
-    path: 'crafted/pages/wizards',
+    path: 'deals',
     loadChildren: () =>
-      import('../modules/wizards/wizards.module').then((m) => m.WizardsModule),
+      import('../modules/wizards/deals.module').then((m) => m.DealsModule),
   },
   {
     path: 'crafted/widgets',
