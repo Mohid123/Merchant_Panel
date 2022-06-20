@@ -2,8 +2,11 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { User } from '@core/models/user.model';
+import { HotToastService } from '@ngneat/hot-toast';
 import { Subject, Subscription } from 'rxjs';
+import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
+import { UserService } from 'src/app/modules/auth/services/user.service';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { ModalConfig } from '../../../../@core/models/modal.config';
 import { MainDeal } from '../../models/main-deal.model';
@@ -33,7 +36,7 @@ export class Step4Component implements OnInit, OnDestroy {
     closeButtonLabel: "Close"
   }
 
-  btnDisable: boolean = true;
+  btnDisable: boolean;
   editable: boolean = false
 
   @Output() nextClick = new EventEmitter();
@@ -70,7 +73,12 @@ export class Step4Component implements OnInit, OnDestroy {
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder, private connection: ConnectionService, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private connection: ConnectionService,
+    private authService: AuthService,
+    private userService: UserService,
+    private toast: HotToastService) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       if(response) {
         this.data = response;
@@ -80,11 +88,14 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.authService.retreiveUserPolicy();
     this.initDateForm();
     this.initPolicyForm();
     this.updateParentModel({}, true);
-    this.policy = this.authService.userPolicy;
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.policy = user;
+      if(user)
+      this.policyForm.patchValue(user);
+   });
 
     if(this.form.get('voucherStartDate')?.value) {
       this.currentlyChecked = this.check_box_type.ONE
@@ -92,7 +103,8 @@ export class Step4Component implements OnInit, OnDestroy {
 
     if(!this.form.controls['voucherValidity'].value) {
       this.form.controls['voucherValidity'].disable();
-      this.form.controls['voucherValidity'].setValue(0);
+      this.btnDisable = true;
+      this.form.controls['voucherValidity'].setValue('');
     }
 
     // if(this.form.get('voucherValidity')?.value) {
@@ -131,11 +143,10 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   disableCheckBox() {
-
     if(this.currentlyChecked == this.check_box_type.ONE) {
       this.btnDisable = true;
       this.form.controls['voucherValidity'].disable();
-      this.form.get('voucherValidity')?.setValue(0);
+      this.form.get('voucherValidity')?.setValue('');
       this.form.controls['voucherStartDate'].enable();
       this.form.controls['voucherEndDate'].enable();
     }
@@ -267,6 +278,41 @@ export class Step4Component implements OnInit, OnDestroy {
 
   disableManual(e: any) {
     e.preventDefault()
+  }
+
+  editPolicyForm() {
+    this.editable = true;
+    this.userService.updateMerchantprofile(this.policyForm.value)
+    .pipe(exhaustMap((res: any) => {
+      if(!res.hasErrors()) {
+        this.toast.success('Data updated', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        });
+        this.editable = false;
+        return this.userService.getUser();
+        } else {
+          return (res);
+        }
+    })).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
+  discardLower() {
+    this.editable = false;
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.policy = user;
+      if(user)
+      this.policyForm.patchValue(user);
+   });
   }
 
 

@@ -1,14 +1,14 @@
 <div class="flex flex-col w-full h-auto gap-2 mt-9 md:flex-row">
   <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
       <!--title-->
-      <form class="self-center form max-w-124 2xl:max-w-128 3xl:max-w-135" [formGroup]="form">
+      <form class="self-center form max-w-135" [formGroup]="form">
         <div class="mb-9 lg:text-center">
           <h1 class="mt-1 mb-2.5 text-lg text-center md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl">Almost there.</h1>
           <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base 3xl:text-lg">Let's finish off with the last details.</div>
         </div>
         <!--form-->
         <div class="flex flex-col justify-center align-start">
-          <label class="mb-6 form-label">When can the customer redeem their voucher?</label>
+          <label class="mb-6 mr-2 form-label">When can the customer redeem their voucher?</label>
             <div class="flex flex-row justify-center w-full align-middle">
 
               <label class="mb-6 text-sm md:text-base form-check form-check-solid">
@@ -21,12 +21,12 @@
                 >
               </label>
 
-              <div class="flex flex-col justify-start align-top xl:mr-20">
+              <div class="flex flex-col justify-start align-top xl:mr-28 3xl:mr-32">
                 <div class="flex flex-row">
                   <span class="text-xs form-check-label"></span> Start Date &nbsp;<span class="text-black">*</span>
                 </div>
-                <div class="w-auto mt-4 mb-3 input-icon lg:w-96">
-                  <span class="absolute flex items-center mt-2 ml-1"><i (click)="d.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+                <div class="w-auto mt-2 mb-3 input-icon lg:w-96">
+                  <span class="absolute flex items-center mt-2 ml-1"><i (click)="c.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
                   <input
                     placeholder="yyyy-mm-dd"
                     [disabled]="currentlyChecked !== check_box_type.ONE"
@@ -34,8 +34,8 @@
                     [ngClass]="form.controls['voucherStartDate'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'"
                     name="dp"
                     ngbDatepicker
-                    #d="ngbDatepicker"
-                    (click)="d.toggle()"
+                    #c="ngbDatepicker"
+                    (click)="c.toggle()"
                     class="w-full pl-12 text-sm font-thin cursor-pointer lg:w-11/12 form-control"
                     formControlName="voucherStartDate"
                     name="voucherStartDate"
@@ -50,7 +50,7 @@
 
                 <label class="w-auto mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base lg:w-96" style="padding-left: 0px;">
                   <span class="text-xs form-check-label"></span> End Date &nbsp;<span class="text-black">*</span>
-                  <div class="flex-auto w-auto mt-3 input-icon lg:w-96">
+                  <div class="flex-auto w-auto mt-2 input-icon lg:w-96">
                     <span class="absolute flex items-center mt-2 ml-1"><i (click)="e.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
                     <input
                     [disabled]="currentlyChecked !== check_box_type.ONE"
@@ -91,111 +91,155 @@
               <span class="w-56 text-sm mt-7 form-check-label xl:text-base">Voucher is valid for</span>
               <div class="relative mt-4">
                 <div class="flex flex-col w-full h-8 border-2 border-white rounded-sm md:flex-row">
-                  <div class="flex flex-row w-full md:mr-1">
-                    <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-                    <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'" appNumbersOnly maxlength="3" type="number" style="border-width: 1px;" class="w-1/6 h-5 mt-2 text-xs text-center rounded-md form-control" formControlName="voucherValidity" name="voucherValidity">
+                  <div class="flex flex-row w-full">
+                    <button [disabled]="btnDisable == true" class="h-full mt-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
+                    <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'" appNumbersOnly maxlength="3" placeholder="0" type="text" style="border-width: 1px;" class="w-3/12 mt-2 text-xs text-center rounded-md h-7 form-control" formControlName="voucherValidity" name="voucherValidity">
                     <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
                     <div class="flex flex-row w-full ml-2 tracking-wider lg:mt-2">
                       <span class="text-sm xl:text-base">days after purchase</span>
                     </div>
                   </div>
-                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'required',
-                  message: 'Voucher validity date is required',
-                  control: form.controls['voucherValidity']
-                }">
-                </ng-container>
               </div>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Voucher validity date is required',
+                control: form.controls['voucherValidity']
+              }">
+              </ng-container>
              </div>
            </div>
-
-           <div class="pb-10 mt-10">
-            <label class="mb-3 form-label">Where can the customer redeem their vouchers?</label>
-
-            <ng-container *ngIf="editable == false">
-              <table class="datatable-table" style="display: block;">
-                <tbody class="datatable-body" style="padding: 20px;">
-                  <tr data-row="0" class="datatable-row" style="left: 0px;">
-                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="1"><span class="text-xs text-gray-400 md:text-base"
-                        style="width: 30px;">Street Address</span>
-                    </td>
-                    <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
-                      <span
-                        style="width: 108px;">{{policy.streetAddress}}
-                      </span>
-                    </td>
-                    </tr>
-                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
-                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
-                        style="width: 30px;">Zip Code</span>
-                    </td>
-                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
-                        style="width: 108px;">{{policy.zipCode}}</span>
-                    </td>
-                  </tr>
-                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
-                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
-                        style="width: 30px;">City</span>
-                    </td>
-                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
-                        style="width: 108px;">{{policy.city}}</span>
-                    </td>
-                  </tr>
-                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
-                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
-                        style="width: 30px;">Province</span>
-                    </td>
-                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
-                        style="width: 108px;">{{policy.province}}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </ng-container>
-
-            <ng-container *ngIf="editable == true">
-              <table class="datatable-table" style="display: block;">
-                <tbody class="datatable-body" style="padding: 20px;">
-                  <tr data-row="0" class="datatable-row" style="left: 0px;">
-                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="1"><span class="text-xs text-gray-400 md:text-base"
-                        style="width: 30px;">Street Address</span>
-                    </td>
-                    <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
-                      <input class="form-control" formControlName="streetAddress" maxlength="25">
-                    </td>
-                    </tr>
-                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
-                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
-                        style="width: 30px;">Zip Code</span>
-                    </td>
-                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
-                        style="width: 108px;">{{policy.zipCode}}</span>
-                    </td>
-                  </tr>
-                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
-                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
-                        style="width: 30px;">City</span>
-                    </td>
-                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
-                        style="width: 108px;">{{policy.city}}</span>
-                    </td>
-                  </tr>
-                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
-                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
-                        style="width: 30px;">Province</span>
-                    </td>
-                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
-                        style="width: 108px;">{{policy.province}}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </ng-container>
-          </div>
         </div>
       </form>
 
-      <div class="flex mt-6 justify-evenly min-h-14 2xl:h-20">
+      <form class="self-center form max-w-180" [formGroup]="policyForm">
+        <div class="pb-10 mt-10">
+          <div class="flex flex-row justify-between w-full mb-3">
+            <label class="form-label">Where can the customer redeem their voucher?</label>
+            <ng-container *ngIf="editable == false">
+              <button type="button" class="ml-12 edit-button" (click)="editable = true">Edit</button>
+            </ng-container>
+
+            <ng-container *ngIf="editable == true">
+              <button type="button" class="w-20 ml-12 text-gray-600 bg-gray-200 rounded-md h-9" (click)="discardLower()">Cancel</button>
+              <button [ngClass]="policyForm.invalid ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" type="button" class="ml-2 edit-button" (click)="editPolicyForm()" [disabled]="policyForm.invalid">Save</button>
+            </ng-container>
+          </div>
+
+          <ng-container *ngIf="editable == false">
+            <table class="datatable-table" style="display: block;">
+              <tbody class="datatable-body" style="padding: 20px;">
+                <tr data-row="0" class="datatable-row" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="1">
+                    <span class="text-xs text-gray-400 md:text-base"
+                      style="width: 30px;">Street Address</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                    <span
+                      style="width: 108px;">{{policy.streetAddress}}
+                    </span>
+                  </td>
+                  </tr>
+                <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
+                    <span class="text-xs text-gray-400 md:text-base"
+                      style="width: 30px;">Zip Code</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                      style="width: 108px;">{{policy.zipCode}}</span>
+                  </td>
+                </tr>
+                <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
+                    <span class="text-xs text-gray-400 md:text-base"
+                      style="width: 30px;">City</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                      style="width: 108px;">{{policy.city}}</span>
+                  </td>
+                </tr>
+                <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
+                    <span class="text-xs text-gray-400 md:text-base"
+                      style="width: 30px;">Province</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                      style="width: 108px;">{{policy.province}}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+
+          <ng-container *ngIf="editable == true">
+            <table class="datatable-table" style="display: block;">
+              <tbody class="datatable-body" style="padding: 20px;">
+                <tr data-row="0" class="datatable-row" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="1">
+                    <span class="text-xs text-gray-400 md:text-base"
+                      style="width: 30px;">Street Address</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                    <input class="form-control" formControlName="streetAddress" maxlength="25">
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Street address is required',
+                      control: policyForm.controls['streetAddress']
+                    }">
+                    </ng-container>
+                  </td>
+                  </tr>
+                <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
+                    <span class="text-xs text-gray-400 md:text-base"
+                      style="width: 30px;">Zip Code</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                    <input class="form-control" formControlName="zipCode" maxlength="4">
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Zip code is required',
+                      control: policyForm.controls['zipCode']
+                    }">
+                    </ng-container>
+                  </td>
+                </tr>
+                <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
+                    <span class="text-xs text-gray-400 md:text-base"
+                      style="width: 30px;">City</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                    <input class="form-control" formControlName="city" maxlength="45">
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'City is required',
+                      control: policyForm.controls['city']
+                    }">
+                    </ng-container>
+                  </td>
+                </tr>
+                <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                  <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
+                    <span class="text-xs text-gray-400 md:text-base"
+                      style="width: 30px;">Province</span>
+                  </td>
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                    <input class="form-control" formControlName="province" maxlength="45">
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Province required',
+                      control: policyForm.controls['province']
+                    }">
+                    </ng-container>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+        </div>
+      </form>
+
+      <div class="flex justify-evenly min-h-14 2xl:h-20">
         <button (click)="prevClick.emit('')" class="self-center w-24 h-10 text-xs text-gray-600 bg-gray-300 rounded-lg 2xl:h-12">Back</button>
         <button (click)="nextClick.emit('')" class="self-center w-32 h-10 text-xs text-white rounded-lg 2xl:h-12 bg-primary-400">Save & next</button>
       </div>
@@ -253,6 +297,14 @@ input::-webkit-datetime-edit-fields-wrapper {
   color: rgb(69, 87, 219)!important;
   font-family: Arial, Helvetica, sans-serif!important;
   font-style: normal!important;
+}
+
+.edit-button {
+  width: 78px;
+  height: 36px;
+  background-color: #EBF5FD;
+  color: #0081E9;
+  border-radius: 8px;
 }
 
 </style>
