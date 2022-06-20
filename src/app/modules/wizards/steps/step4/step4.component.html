@@ -21,7 +21,7 @@
                 >
               </label>
 
-              <div class="flex flex-col justify-start align-top xl:mr-28 3xl:mr-32">
+              <div class="flex flex-col justify-start align-top xl:mr-28">
                 <div class="flex flex-row">
                   <span class="text-xs form-check-label"></span> Start Date &nbsp;<span class="text-black">*</span>
                 </div>
@@ -36,7 +36,8 @@
                     ngbDatepicker
                     #c="ngbDatepicker"
                     (click)="c.toggle()"
-                    class="w-full pl-12 text-sm font-thin cursor-pointer lg:w-11/12 form-control"
+                    style="width: 20.983rem;"
+                    class="pl-12 text-sm font-thin cursor-pointer form-control"
                     formControlName="voucherStartDate"
                     name="voucherStartDate"
                   >
@@ -51,7 +52,7 @@
                 <label class="w-auto mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base lg:w-96" style="padding-left: 0px;">
                   <span class="text-xs form-check-label"></span> End Date &nbsp;<span class="text-black">*</span>
                   <div class="flex-auto w-auto mt-2 input-icon lg:w-96">
-                    <span class="absolute flex items-center mt-2 ml-1"><i (click)="e.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+                    <span class="absolute flex items-center mt-2 ml-1"><i #dPicker (click)="d.toggle(); openDatePicker()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
                     <input
                     [disabled]="currentlyChecked !== check_box_type.ONE"
                     placeholder="yyyy-mm-dd"
@@ -60,9 +61,10 @@
                     [ngClass]="form.controls['voucherStartDate'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'"
                     name="dp"
                     ngbDatepicker
-                    #e="ngbDatepicker"
-                    (click)="e.toggle()"
-                    class="w-full pl-12 text-sm font-thin cursor-pointer lg:w-11/12 form-control"
+                    #d="ngbDatepicker"
+                    (click)="d.toggle()"
+                    style="width: 20.983rem;"
+                    class="pl-12 text-sm font-thin cursor-pointer form-control"
                     formControlName="voucherEndDate"
                     name="voucherEndDate"
                     >
@@ -93,10 +95,10 @@
                 <div class="flex flex-col w-full h-8 border-2 border-white rounded-sm md:flex-row">
                   <div class="flex flex-row w-full">
                     <button [disabled]="btnDisable == true" class="h-full mt-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-                    <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'" appNumbersOnly maxlength="3" placeholder="0" type="text" style="border-width: 1px;" class="w-3/12 mt-2 text-xs text-center rounded-md h-7 form-control" formControlName="voucherValidity" name="voucherValidity">
+                    <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'" placeholder="0" appNumbersOnly type="text" style="border-width: 1px;" class="w-3/12 mt-2 text-xs text-center rounded-md h-7 form-control" formControlName="voucherValidity" name="voucherValidity">
                     <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
                     <div class="flex flex-row w-full ml-2 tracking-wider lg:mt-2">
-                      <span class="text-sm xl:text-base">days after purchase</span>
+                      <span class="ml-2 text-sm xl:text-base">days after purchase</span>
                     </div>
                   </div>
               </div>

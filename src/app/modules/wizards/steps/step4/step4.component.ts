@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { User } from '@core/models/user.model';
+import { NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
@@ -24,6 +25,7 @@ export class Step4Component implements OnInit, OnDestroy {
   currentlyChecked: CheckBoxType;
 
   @ViewChild('modal') private modal: ReusableModalComponent;
+  @ViewChild('dPicker') public dPicker: NgbInputDatepicker;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
@@ -78,7 +80,8 @@ export class Step4Component implements OnInit, OnDestroy {
     private connection: ConnectionService,
     private authService: AuthService,
     private userService: UserService,
-    private toast: HotToastService) {
+    private toast: HotToastService,
+    private cf: ChangeDetectorRef) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       if(response) {
         this.data = response;
@@ -103,8 +106,10 @@ export class Step4Component implements OnInit, OnDestroy {
 
     if(!this.form.controls['voucherValidity'].value) {
       this.form.controls['voucherValidity'].disable();
+      this.cf.detectChanges();
       this.btnDisable = true;
-      this.form.controls['voucherValidity'].setValue('');
+      this.form.controls['voucherValidity'].setValue(0);
+      this.cf.detectChanges();
     }
 
     // if(this.form.get('voucherValidity')?.value) {
@@ -142,11 +147,16 @@ export class Step4Component implements OnInit, OnDestroy {
     this.currentlyChecked = targetType;
   }
 
+  openDatePicker() {
+    this.dPicker.open();
+  }
+
+
   disableCheckBox() {
     if(this.currentlyChecked == this.check_box_type.ONE) {
       this.btnDisable = true;
       this.form.controls['voucherValidity'].disable();
-      this.form.get('voucherValidity')?.setValue('');
+      this.form.get('voucherValidity')?.setValue(0);
       this.form.controls['voucherStartDate'].enable();
       this.form.controls['voucherEndDate'].enable();
     }
@@ -256,14 +266,14 @@ export class Step4Component implements OnInit, OnDestroy {
   handleMinus() {
     if(this.form.controls['voucherValidity'].value >= 1) {
       this.form.patchValue({
-        voucherValidity: this.form.get('voucherValidity')?.value - 1
+        voucherValidity: parseInt(this.form.get('voucherValidity')?.value) - 1
       });
     }
   }
 
   handlePlus() {
     this.form.patchValue({
-      voucherValidity: this.form.get('voucherValidity')?.value + 1
+      voucherValidity: parseInt(this.form.get('voucherValidity')?.value) + 1
     });
   }
 
