@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Subscription } from 'rxjs';
@@ -17,27 +17,30 @@ import { ConnectionService } from './../../services/connection.service';
 })
 export class Step2Component implements OnInit, OnDestroy {
 
+  @Output() nextClick = new EventEmitter();
+  @Output() prevClick = new EventEmitter();
+  addVoucher = true;
   editIndex:number = -1;
   vouchers = this.fb.group({
     originalPrice: [
-      60,
+      '',
       Validators.compose([
       Validators.required,
       ]),
     ],
     dealPrice: [
-      50,
-      Validators.compose([
-      Validators.required,
-      ]),
-    ],
-    details: [
       '',
       Validators.compose([
       Validators.required,
-      Validators.minLength(16)
       ]),
     ],
+    // details: [
+    //   '',
+    //   Validators.compose([
+    //   Validators.required,
+    //   Validators.minLength(16)
+    //   ]),
+    // ],
     numberOfVouchers: [
       0,
       Validators.compose([
@@ -101,6 +104,9 @@ export class Step2Component implements OnInit, OnDestroy {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;
       this.subDeals = this.data.vouchers ? this.data.vouchers  : [] ;
+      if(this.subDeals.length > 0) {
+        this.addVoucher = false;
+      }
     })
   }
 
@@ -141,11 +147,13 @@ export class Step2Component implements OnInit, OnDestroy {
         this.subDeals[this.editIndex] = this.vouchers.value;
       } else {
         this.subDeals.push(this.vouchers.value);
+        console.log('subDeals:',this.subDeals);
       }
       this.data.vouchers = this.subDeals;
       this.connection.sendData(this.data);
       this.closeModal();
       this.vouchers.reset();
+      this.addVoucher = false;
     }
     else {
       this.voucherFormControl['numberOfVouchers'].setValue(0);
@@ -168,6 +176,10 @@ export class Step2Component implements OnInit, OnDestroy {
     this.subDeals.splice(i, 1);
     this.data.vouchers = this.subDeals;
     this.connection.sendData(this.data);
+    if(this.subDeals.length == 0) {
+      this.addVoucher = true;
+      this.editIndex = -1;
+    }
     // this.vouchers.removeAt(i);
   }
 
@@ -190,6 +202,15 @@ export class Step2Component implements OnInit, OnDestroy {
 
   async closeModal() {
     return await this.modal.close();
+  }
+
+  addMoreVoucher(){
+    this.addVoucher = true;
+    this.editIndex = -1;
+  }
+
+  cancleVoucher() {
+    this.addVoucher = false;
   }
 
   ngOnDestroy() {

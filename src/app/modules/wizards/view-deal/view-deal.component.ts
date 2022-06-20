@@ -1,8 +1,10 @@
-import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { NgbDate, NgbDropdown, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { HotToastService } from '@ngneat/hot-toast';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -34,7 +36,7 @@ export class PopoverWrapperComponent {
   encapsulation: ViewEncapsulation.None
 })
 
-export class ViewDealComponent implements OnInit {
+export class ViewDealComponent implements OnInit, OnDestroy {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
   @ViewChild('myDrop') myDrop: NgbDropdown
@@ -135,7 +137,8 @@ export class ViewDealComponent implements OnInit {
     private appRef: ApplicationRef,
     private authService: AuthService,
     private dealService: DealService,
-    private cf: ChangeDetectorRef
+    private cf: ChangeDetectorRef,
+    private toast: HotToastService
   ) {
       this.page = 1
       this.fromDate = '';
@@ -148,7 +151,6 @@ export class ViewDealComponent implements OnInit {
   }
 
   getDealsByMerchantID() {
-    debugger
     this.showData = false;
     const params: any = {
       title: this.title,
@@ -161,9 +163,7 @@ export class ViewDealComponent implements OnInit {
     this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: any)=> {
-      debugger
       if (!res.hasErrors()) {
-        debugger
         this.dealData = res.data;
         this.currentEvents = res.data.data;
         this.showData = true;
@@ -171,7 +171,7 @@ export class ViewDealComponent implements OnInit {
         this.calendarOptions.events = res.data.data.map((item:MainDeal) => {
           if(item.dealStatus == 'In Review') {
             return {
-              title:item.title,
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#F59E0B',
@@ -180,14 +180,14 @@ export class ViewDealComponent implements OnInit {
           }
           if(item.dealStatus == 'Published') {
             return {
-              title:item.title,
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD')
             }
           }
           if(item.dealStatus == 'Scheduled') {
             return {
-              title:item.title,
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
@@ -196,7 +196,7 @@ export class ViewDealComponent implements OnInit {
           }
           if(item.dealStatus == 'Bounced') {
             return {
-              title:item.title,
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#EF4444',
@@ -204,6 +204,17 @@ export class ViewDealComponent implements OnInit {
             }
           }
         })
+      }
+    })
+  }
+
+  deleteDeal(dealID: string) {
+    this.dealService.deleteDeal(dealID)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.getDealsByMerchantID();
+        this.toast.success('Deal removed')
       }
     })
   }
@@ -420,42 +431,6 @@ export class ViewDealComponent implements OnInit {
     this.destroy$.complete();
     this.destroy$.unsubscribe();
   }
-
-  // if(item.dealStatus == 'In Review') {
-  //   return {
-  //     title:item.title,
-  //     start: moment(item.startDate).format('YYYY-MM-DD'),
-  //     end: moment(item.endDate).format('YYYY-MM-DD'),
-  //     backgroundColor: '#F59E0B',
-  //     borderColor: '#F59E0B'
-  //   }
-  // })
-  // }
-  // if(item.dealStatus == 'Published') {
-  //   return {
-  //     title:item.title,
-  //     start: moment(item.startDate).format('YYYY-MM-DD'),
-  //     end: moment(item.endDate).format('YYYY-MM-DD'),
-  //   }
-  // }
-  // if(item.dealStatus == 'Scheduled') {
-  //   return {
-  //     title:item.title,
-  //     start: moment(item.startDate).format('YYYY-MM-DD'),
-  //     end: moment(item.endDate).format('YYYY-MM-DD'),
-  //     backgroundColor: '#10B981',
-  //     borderColor: '#10B981'
-  //   }
-  // }
-  // if(item.dealStatus == 'Bounced') {
-  //   return {
-  //     title:item.title,
-  //     start: moment(item.startDate).format('YYYY-MM-DD'),
-  //     end: moment(item.endDate).format('YYYY-MM-DD'),
-  //     backgroundColor: '#EF4444',
-  //     borderColor: '#EF4444'
-  //   }
-  // }
 
 
 }

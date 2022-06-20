@@ -8,7 +8,11 @@
 }
 
 .KYC {
-  @apply py-3 text-sm font-thin border-gray-400 bg-black text-white px-8;
+  @apply py-3 text-sm font-thin border-blue-400 bg-blue-500 text-white px-8;
+}
+
+input.form-control:focus {
+  border-color: #7FC0F4;
 }
 
 .image-circle {
@@ -77,7 +81,7 @@
 }
 
 ::ng-deep .ngb-dp-weekday {
-  color: aqua!important;
+  color: #4185F9!important;
   font-family: Arial, Helvetica, sans-serif!important;
   font-style: normal!important;
 }

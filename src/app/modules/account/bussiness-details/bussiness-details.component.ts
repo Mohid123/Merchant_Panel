@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { exhaustMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { User } from './../../../@core/models/user.model';
@@ -19,7 +19,7 @@ import { UserService } from './../../auth/services/user.service';
 export class BussinessDetailsComponent implements OnInit {
   destroy$ = new Subject();
   termsForm: FormGroup = this.fb.group({
-    generalTermsAgreements: ['',Validators.minLength(40)],
+    aboutUs: ['',Validators.minLength(40)],
     businessType: ['',Validators.minLength(40)]
   })
   businessForm: FormGroup;
@@ -77,6 +77,10 @@ export class BussinessDetailsComponent implements OnInit {
     });
 
     // console.log('businessHoursForm:',this.businessHoursForm);
+
+    this.termsForm.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(200)).subscribe(termsForm=> {
+      this.cdr.detectChanges();
+    })
   }
 
   setbusinessHours() {
@@ -108,6 +112,7 @@ export class BussinessDetailsComponent implements OnInit {
       secondEndTime: [''],
       isWorkingDay: true,
     });
+    businessHoursGroup.disable();
     businessHoursGroup.patchValue(businessHour)
     this.businessHoursFromControl.push(businessHoursGroup);
     // console.log('this.businessHoursFromControl:',this.businessHoursFromControl);
@@ -203,6 +208,11 @@ export class BussinessDetailsComponent implements OnInit {
 
   editBusinessHours(){
     this.isEditBusinessHours = true;
+    for (let i = 0; i < 7; i++) {
+      this.businessHoursFromControl.controls.forEach(control => {
+        control.enable();
+      })
+    }
   }
 
   discardBusinessHours() {
@@ -236,20 +246,18 @@ export class BussinessDetailsComponent implements OnInit {
     if(!this.isEditBusinessHours) return;
 
     if (
+      index > 0 &&
       !formControls.value.isWorkingDay &&
       !formControls.value.firstStartTime &&
       !formControls.value.firstEndTime &&
       !formControls.value.secondStartTime &&
       !formControls.value.secondEndTime
     ) {
-      let day = formControls.value.day;
-      let isWorkingDay = formControls.value.isWorkingDay;
-      formControls.patchValue(this.businessHoursFromControl.controls[index - 1].value)
-      formControls.value.day = day;
-      formControls.value.isWorkingDay = isWorkingDay;
+      this.businessHoursFromControl.controls[index].value.firstStartTime = this.businessHoursFromControl.controls[index - 1].value.firstStartTime;
+      this.businessHoursFromControl.controls[index].value.firstEndTime = this.businessHoursFromControl.controls[index - 1].value.firstEndTime;
+      this.businessHoursFromControl.controls[index].value.secondStartTime = this.businessHoursFromControl.controls[index - 1].value.secondStartTime;
+      this.businessHoursFromControl.controls[index].value.secondEndTime = this.businessHoursFromControl.controls[index - 1].value.secondEndTime;
     }
-
-    formControls.value.isWorkingDay = !formControls.value.isWorkingDay;
     console.log('formControls.value:',formControls.value);
   }
 
@@ -274,7 +282,6 @@ export class BussinessDetailsComponent implements OnInit {
   validateBusinessHours(){
     let valid = true;
     this.businessHoursForm.value.businessHours.forEach((businessHours:BusinessHours) => {
-      console.log('asssss:',businessHours);
       if(valid && !businessHours.isWorkingDay || (
           businessHours.firstStartTime.length &&
           businessHours.firstEndTime.length &&

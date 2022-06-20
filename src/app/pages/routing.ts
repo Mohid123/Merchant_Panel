@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
-import { PendingSkeletonComponent } from '@components/pending-skeleton/pending-skeleton.component';
 import { TableSkeletonComponent } from '@components/table-skeleton/table-skeleton/table-skeleton.component';
 import { BillingsComponent } from './billings/billings.component';
+import { BusinessComponent } from './business/business.component';
 import { OrderManagementComponent } from './order-management/order-management.component';
+import { ProfileComponent } from './profile/profile.component';
 import { ReviewsComponent } from './reviews/reviews.component';
+import { SecurityComponent } from './security/security.component';
 import { SingleReviewComponent } from './single-review/single-review.component';
 
 const Routing: Routes = [
@@ -51,6 +53,7 @@ const Routing: Routes = [
     loadChildren: () =>
       import('../modules/apps/chat/chat.module').then((m) => m.ChatModule),
   },
+
   {
     path: 'order-management',
     component: OrderManagementComponent
@@ -76,8 +79,16 @@ const Routing: Routes = [
     component: SingleReviewComponent
   },
   {
-    path: 'pending',
-    component: PendingSkeletonComponent
+    path: 'business-page',
+    component: BusinessComponent
+  },
+  {
+    path: 'profile-page',
+    component: ProfileComponent
+  },
+  {
+    path: 'security-page',
+    component: SecurityComponent
   },
   {
     path: '',

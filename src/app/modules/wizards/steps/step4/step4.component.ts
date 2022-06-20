@@ -98,7 +98,7 @@ export class Step4Component implements OnInit {
     // console.log('moment().isSame(selectInfo.startStr):',moment().isSame(selectInfo.startStr,'day'));
     // if(!moment().isSame(selectInfo.startStr,'day') && moment().isAfter(selectInfo.startStr)) { return }
 
-    const title = this.data.title
+    const title = this.data.dealHeader
     const calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection

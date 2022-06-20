@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="79" height="80" viewBox="0 0 79 80">
+  <defs>
+    <filter id="Rectangle_1076" x="0" y="0" width="79" height="80" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#9bb3c8" flood-opacity="0.431"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_1060" data-name="Group 1060" transform="translate(-329 -483)">
+    <g transform="matrix(1, 0, 0, 1, 329, 483)" filter="url(#Rectangle_1076)">
+      <rect id="Rectangle_1076-2" data-name="Rectangle 1076" width="61" height="62" rx="11" transform="translate(9 9)" fill="#fff"/>
+    </g>
+    <g id="picture" transform="matrix(0.966, 0.259, -0.259, 0.966, 358.077, 504.946)">
+      <path id="Path_83391" data-name="Path 83391" d="M13.654,12.737a3.685,3.685,0,0,0-5.213,0l-8.4,8.4a6.131,6.131,0,0,0,6.1,5.68h17.2A6.1,6.1,0,0,0,26.712,25.8Z" transform="translate(0.009 2.663)" fill="#8fc7f5"/>
+      <circle id="Ellipse_358" data-name="Ellipse 358" cx="2.5" cy="2.5" r="2.5" transform="translate(20 5)" fill="#8fc7f5"/>
+      <path id="Path_83392" data-name="Path 83392" d="M23.34,0H6.142A6.15,6.15,0,0,0,0,6.142V20.375l6.712-6.712a6.142,6.142,0,0,1,8.687,0L28.459,26.722a6.1,6.1,0,0,0,1.023-3.382V6.142A6.15,6.15,0,0,0,23.34,0Z" fill="none" stroke="#8fc7f5" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

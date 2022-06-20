@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { User } from '@core/models/user.model';
@@ -9,6 +9,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, first, map, takeUntil } from 'rxjs/operators';
 import { CategoryList } from '../../models/category-list.model';
 import { RegisterModel } from '../../models/register.model';
+import { VatResponse } from '../../models/vatResponse.model';
 import { AuthService } from '../../services/auth.service';
 import { CategoryService } from '../../services/category.service';
 import { ZipCode } from './../../models/zip-code.model';
@@ -21,27 +22,30 @@ import { UrlValidator } from './url.validator';
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
 
-  categoryData: CategoryList
+  categoryData: CategoryList;
 
   categories = [
-    { id:2, img: '../../../../../assets/media/icons/accommodation.svg', name:'Accomodation' },
-    { id:3, img: '../../../../../assets/media/icons/Dining.svg', name:'Dining' },
-    { id:4, img: '../../../../../assets/media/icons/athletics.svg', name:'Sports, Adventures & Experiences' },
-    { id:5, img: '../../../../../assets/media/icons/experiences-at-home.svg', name:'Experiences at Home' },
-    { id:1, img: '../../../../../assets/media/icons/spaAndWellness.svg', name:'Spa & Holistic Wellness' },
-    { id:6, img: '../../../../../assets/media/icons/personal-dev.svg', name:'Personal Development' },
+    { id:2, img: '../../../../../assets/media/icons/Accomodations.svg', name:'Accommodation' },
+    { id:3, img: '../../../../../assets/media/icons/Dinings.svg', name:'Dining' },
+    { id:4, img: '../../../../../assets/media/icons/sports.svg', name:'Sports, Adventures & Experiences' },
+    { id:5, img: '../../../../../assets/media/icons/experience.svg', name:'Experiences at Home' },
+    { id:1, img: '../../../../../assets/media/icons/spa.svg', name:'Spa & Holistic Wellness' },
+    { id:6, img: '../../../../../assets/media/icons/Personal-growth.svg', name:'Personal Development' },
     { id:7, img: '../../../../../assets/media/icons/concert-event-tickets.svg', name:'Concerts & Event Tickets' },
-    { id:8, img: '../../../../../assets/media/icons/pets-care.svg', name:'Pet Treatments' },
+    { id:8, img: '../../../../../assets/media/icons/Pet-treatments.svg', name:'Pet Treatments' },
+    { id:9, img: '../../../../../assets/media/icons/Metaverse.svg', name:'Metaverse' },
   ]
   provincese = [
-    { id:1, name:'West-Vlaanderen' },
-    { id:2, name:'Oost-Vlaanderen' },
     { id:3, name:'Antwerpen' },
-    { id:4, name:'Vlaams-Brabant' },
-    // { id:5, name:'Luik' },
     { id:6, name:'Limburg' },
+    { id:2, name:'Oost-Vlaanderen' },
+    { id:4, name:'Vlaams-Brabant' },
+    { id:1, name:'West-Vlaanderen' },
+    // { id:5, name:'Luik' },
     // { id:7, name:'Waals-Brabant' },
   ]
+
+  cities: any = [];
 
   // zipCodes = zipCodes;
   registrationForm: FormGroup;
@@ -54,6 +58,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   countryCode = '32';
   user: User
+  fetchingName: boolean;
+  vatControl = new FormControl();
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -76,12 +82,27 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.getCategories();
-    // this.f['zipCode'].valueChanges.subscribe(zip => {
-    //   let zipData = zipCodes[zip];
-    //   if(zipData) {
-    //     console.log('zip data:',zipData);
-    //   }
-    // })
+
+    this.f['vatNumber'].valueChanges.pipe(takeUntil(this.destroy$), debounceTime(1000))
+    .subscribe(value => {
+      if(value != '' || value.length > 0) {
+        this.matchCompanywithVatNumber();
+      }
+      else {
+        this.registrationForm.controls['legalName']?.setValue('');
+      }
+    });
+
+    this.f['zipCode'].valueChanges.pipe(takeUntil(this.destroy$))
+    .subscribe(value => {
+      if(value != '' || value.length > 0) {
+        this.matchZipCodeWithCity()
+      }
+      else {
+        this.cities = [];
+        this.cf.detectChanges();
+      }
+    })
   }
 
   onCountryChange(country: any) {
@@ -109,12 +130,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   initForm() {
     this.registrationForm = this._formBuilder.group(
       {
-        businessType: [null, Validators.required],
+        businessType: [[], Validators.required],
+        vatNumber: [
+          '',
+          Validators.compose([
+            Validators.required,
+          ])
+        ],
         firstName: [
           '',
             Validators.compose([
             Validators.required,
             Validators.maxLength(30),
+            Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
           ]),
         ],
         lastName: [
@@ -122,13 +150,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.compose([
             Validators.required,
             Validators.maxLength(30),
+            Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
           ]),
         ],
         email: [
           '',
             Validators.compose([
             Validators.required,
-            Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+            Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$'),
             Validators.maxLength(60),
           ]),
           this.emailValidator()
@@ -136,18 +165,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         phoneNumber: [
          '',
             Validators.compose([
-            Validators.required,
-            Validators.min(100000000),
-            Validators.max(9999999999),
+            Validators.required
           ]),
         ],
-        companyName: [
-          '',
-            Validators.compose([
-            Validators.required,
-            Validators.maxLength(30),
-          ]),
-        ],
+        legalName: {value: '', disabled: true},
         streetAddress: [
           '',
             Validators.compose([
@@ -162,13 +183,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             this.validateZip()
           ]
         ],
-        city: [
-          '',
-            Validators.compose([
-            Validators.required,
-            Validators.maxLength(100),
-          ]),
-        ],
+        city: [null, Validators.required],
         province: [null, Validators.required],
         website_socialAppLink: [
           '',
@@ -184,6 +199,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       })
   }
 
+  changeProvince(e:any) {
+    console.log(e.value)
+    this.f['province'].setValue(e.target.value, {
+      onlySelf: true
+    })
+  }
+
+  onEnter() {
+    if(this.registrationForm.valid) {
+      this.submit();
+    }
+  }
+
   submit() {
     console.log('registrationForm:',this.registrationForm);
     debugger
@@ -194,7 +222,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     Object.keys(this.f).forEach((key) => {
       result[key] = this.f[key].value;
     });
-
 
     debugger
     const newModel = new RegisterModel();
@@ -218,16 +245,48 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     const zipCode = this.registrationForm.controls['zipCode']?.value;
       if(zipCode) {
         this.authService.fetchCityByZipCode(zipCode)
-        .pipe(takeUntil(this.destroy$), debounceTime(400))
+        .pipe(takeUntil(this.destroy$))
         .subscribe((res: ApiResponse<ZipCode>) => {
-          if(!res.hasErrors()) {
-            this.registrationForm.get('city')?.setValue(res.data?.city);
+          if(!res.hasErrors() && res.data != null) {
+            this.cities.push(res.data.city);
+            this.cf.detectChanges();
+          }
+          else {
+            this.cities = [];
+            this.cf.detectChanges();
           }
       })
     }
     else {
-      this.registrationForm.get('city')?.setValue('');
+      this.cities = [];
     }
+  }
+
+matchCompanywithVatNumber() {
+  this.fetchingName = true;
+  this.cf.detectChanges();
+  const vatNumber = this.registrationForm.controls['vatNumber']?.value;
+  if(vatNumber) {
+    this.authService.fetchCompanyByVatNumber(vatNumber)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<VatResponse>) => {
+      if(!res.hasErrors() && res.data != null) {
+        this.registrationForm.controls['legalName']?.setValue(res.data?.name);
+        this.fetchingName = false;
+        this.cf.detectChanges();
+      }
+      else {
+        this.registrationForm.controls['legalName']?.setValue('');
+        this.fetchingName = false;
+        this.cf.detectChanges();
+      }
+    })
+  }
+  else {
+    this.registrationForm.controls['legalName']?.setValue('');
+    this.fetchingName = false;
+    this.cf.detectChanges();
+  }
 }
 
 
@@ -253,6 +312,8 @@ emailValidator() {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
   validateZip(): {[key: string]: any} | null  {

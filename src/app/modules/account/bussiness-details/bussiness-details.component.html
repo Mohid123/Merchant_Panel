@@ -1,9 +1,9 @@
-<h1 class="text-3xl mb-3.5">My DiviDeals Profile</h1>
+<!-- <h1 class="text-3xl mb-3.5">My DiviDeals Profile</h1>
 <p class="mb-5 text-font-gray-600">How do you want to appear in our DiviDeals?</p>
 <div class="mb-5 card mb-xl-10 company-details">
   <div class="py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
     <h3 class="mb-0 fw-bolder">Company Details</h3>
-    <!-- <a (click)="openCompanyModal()" class="edit-btn">Edit</a> -->
+    <a (click)="openCompanyModal()" class="edit-btn">Edit</a>
   </div>
 
   <div class="card-body border-top p-9">
@@ -98,7 +98,7 @@
 
 <div class="card" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
   <div class="py-6 cursor-pointer card-header" style="border-bottom:1px dashed #dddddd !important;">
-    <h3 class="m-0 fw-bolder">Set Business Hours</h3>
+    <h3 class="flex items-center m-0 fw-bolder">Set Business Hours</h3>
     <a *ngIf="!isEditBusinessHours" (click)="editBusinessHours()" class="edit-btn">Edit</a>
   </div>
   <div class="pl-0 pr-0 card-body" style="background-color: white;">
@@ -108,7 +108,14 @@
           <ng-container *ngFor="let formControls of businessHoursFromControl.controls;let i=index" [formGroupName]="i" >
           <tr class="relative flex items-center justify-center border-0">
             <td class="pl-10 day">
-                <div class="d-flex flex-column" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}"><a (click)="isWorkingDay(formControls, i)"> {{ formControls.value.day}} </a></div>
+                <div class="d-flex flex-column">
+                    <input type="checkbox" formControlName="isWorkingDay" [id]="formControls.value.day">
+                    <label [for]="formControls.value.day">
+                      <div>
+                        {{formControls.value.day}}
+                      </div>
+                    </label>
+                </div>
                 <p class="shope-status" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}">{{formControls.value.isWorkingDay ? 'Opened' : 'Closed'}}</p>
               </td>
             <td class="time">
@@ -182,4 +189,4 @@
     </form>
   </div>
 </div>
-
+ -->

@@ -1,0 +1,21 @@
+// :host {
+//   display: block;
+//   overflow: hidden;
+// }
+
+:host {
+  display: block;
+  overflow: hidden;
+}
+
+
+.panes {
+  height: 400px;
+  width: 200%;
+
+  display: flex;
+  div {
+    flex: 1;
+  }
+}
+

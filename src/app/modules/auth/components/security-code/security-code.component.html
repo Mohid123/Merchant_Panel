@@ -5,29 +5,29 @@
       <form class="form w-100" [formGroup]="securityCodeForm" novalidate="novalidate" id="kt_login_signin_form"
         (ngSubmit)="submit()">
         <div class="w-full text-center mb-9">
-          <h1 class="mb-5 text-3xl font-medium text-dark">Enter Security Code</h1>
-          <div class="w-full px-24 py-4 bg-gray-200">
-            <span class="mb-3 text-base font-normal text-center text-primary-400">We sent a 6-digit code to email@xxx.com. This code will expire after 24 hours.</span>
+          <h1 class="mb-5 text-base font-semibold text-black md:text-4xl">Enter security code</h1>
+          <div class="w-full py-2 bg-gray-200 px-18 md:px-24 md:py-4">
+            <span class="mb-3 text-xs font-normal text-center text-gray-600 md:text-sm lg:text-base">We sent a 6-digit code to email@xxx.com. This code will expire after 24 hours.</span>
           </div>
         </div>
 
-        <ng-container *ngIf="errorState === errorStates.HasError">
+        <!-- <ng-container *ngIf="errorState === errorStates.HasError">
           <div class="mb-lg-15 alert alert-danger">
             <div class="alert-text font-weight-bold">
               Sorry, looks like there are some errors detected, please try again.
             </div>
           </div>
-        </ng-container>
+        </ng-container> -->
 
         <div class="flex justify-center">
           <div class="w-full mb-10 lg:w-4/6">
             <input
               appNumbersOnly
               appSpaceBetween
+              maxlength="40"
               type="text"
               class="text-center form-control form-control-lg form-control-solid"
               formControlName="securityCode"
-              placeholder=""
               name="securityCode"
               autocomplete="off"
               [ngClass]="{
@@ -35,8 +35,8 @@
                 'is-valid': securityCodeForm.controls['securityCode'].valid
               }"
             />
-            <div class="flex justify-end">
-              <span class="justify-end text-xs font-thin text-right text-gray-600">Didn't recieve a code? <a class="text-xs font-thin text-yellow-600 cursor-pointer">Resend</a></span>
+            <div class="flex justify-end mt-2">
+              <span class="justify-end text-xs font-normal text-right text-gray-600">Didn't recieve a code? <a (click)="resendOTP()" class="text-xs font-normal text-blue-500 cursor-pointer">Resend</a></span>
             </div>
 
             <ng-container
@@ -46,37 +46,30 @@
                 message: 'Security Code is required',
                 control: securityCodeForm.controls['securityCode']
               }"
-            ></ng-container>
-            <ng-container
-              [ngTemplateOutlet]="formError"
-              [ngTemplateOutletContext]="{
-                validation: 'minlength',
-                message: 'Security Code should be at least 6 characters',
-                control: securityCodeForm.controls['securityCode']
-              }"
-            ></ng-container>
+            >
+          </ng-container>
           </div>
         </div>
 
         <div class="flex flex-row justify-between lg:justify-around">
           <div class="mr-8 text-left">
-            <button type="submit" id="kt_sign_in_submit"
+            <button type="button" id="kt_sign_in_submit"
               routerLink="/auth/login"
-              class="py-3 mb-5 text-xs font-thin text-gray-600 bg-white border border-gray-500 px-9 btn">
+              class="py-3 mb-5 text-xs font-normal text-blue-500 bg-blue-100 px-9 btn">
               <span class="indicator-label">Cancel</span>
             </button>
           </div>
 
           <div class="text-right">
             <button type="submit" id="kt_sign_in_submit"
-              class="py-3 mb-5 text-xs font-thin text-white bg-black px-9 btn border-gray-500" [disabled]="securityCodeForm.invalid">
-              <ng-container *ngIf="isLoading$ | async">
+              class="py-3 mb-5 text-xs font-normal text-white bg-blue-500 border-blue-500 px-9 btn" [disabled]="securityCodeForm.invalid">
+              <ng-container *ngIf="isLoading$ == true">
                 <span class="indicator-progress" [style.display]="'block'">
                   Please wait...
                   <span class="align-middle spinner-border spinner-border-sm ms-2"></span>
                 </span>
               </ng-container>
-              <ng-container *ngIf="!(isLoading$ | async)">
+              <ng-container *ngIf="isLoading$ == false">
                 <span class="indicator-label">Submit</span>
               </ng-container>
             </button>
@@ -89,8 +82,8 @@
 
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">
   <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
-    <div class="text-xs fv-plugins-message-container sm:text-sm">
-      <span class="fv-help-block">
+    <div class="text-xs fv-plugins-message-container">
+      <span class="text-xs fv-help-block">
         {{ message }}
       </span>
     </div>

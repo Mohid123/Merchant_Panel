@@ -18,8 +18,10 @@
   }
 }
 
-@media (max-width: 1280px) {
-  .content {
-    padding: 12px;
+@media (max-width:600px) {
+  app-content {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
   }
 }
+

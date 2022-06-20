@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,16 +10,22 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
 import { TimeformatePipe } from '@core/pipes/timeformate.pipe';
 // import { SortModule } from '@core/directives/sort/sort.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { SwiperModule } from 'swiper/angular';
+import { DragAnDropUploadModule } from './../../@core/directives/drag-an-drop-upload/drag-an-drop-upload.module';
 import { TrimModule } from './../../@core/directives/trim/trim.module';
 import { TruncatePipe } from './../../@core/pipes/truncate.pipe';
 import { TableSkeletonModule } from './../../components/table-skeleton/table-skeleton.module';
 import { ReusableModalModule } from './../../_metronic/layout/components/reusable-modal/reusable-modal.module';
+import { LayoutModule } from './../../_metronic/layout/layout.module';
+import { DealPreviewComponent } from './deal-preview/deal-preview.component';
 import { HorizontalComponent } from './horizontal/horizontal.component';
+import { SideDrawerComponent } from './side-drawer/side-drawer.component';
 import { Step1Component } from './steps/step1/step1.component';
 import { Step2Component } from './steps/step2/step2.component';
 import { Step3Component } from './steps/step3/step3.component';
@@ -48,7 +55,9 @@ FullCalendarModule.registerPlugins([
     ViewDealComponent,
     TruncatePipe,
     TimeformatePipe,
-    PopoverWrapperComponent
+    PopoverWrapperComponent,
+    SideDrawerComponent,
+    DealPreviewComponent
   ],
   imports: [
     CommonModule,
@@ -57,6 +66,7 @@ FullCalendarModule.registerPlugins([
     InlineSVGModule,
     NgbPopoverModule,
     FullCalendarModule,
+    MatProgressSpinnerModule,
     FormsModule,
     CKEditorModule,
     TrimModule,
@@ -68,7 +78,12 @@ FullCalendarModule.registerPlugins([
     MatTableModule,
     NgbModule,
     ReusableModalModule,
-    TableSkeletonModule
+    TableSkeletonModule,
+    CKEditorModule,
+    DragDropModule,
+    SwiperModule,
+    LayoutModule,
+    DragAnDropUploadModule,
   ],
   entryComponents: [PopoverWrapperComponent],
 })

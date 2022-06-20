@@ -1,0 +1,187 @@
+<div
+  id="kt_engage_demos"
+  class="bg-body"
+  data-kt-drawer="true"
+  data-kt-drawer-name="explore"
+  data-kt-drawer-activate="true"
+  data-kt-drawer-overlay="true"
+  data-kt-drawer-width="{'default': '718px', 'lg': '718px'}"
+  data-kt-drawer-direction="end"
+  data-kt-drawer-toggle="#kt_engage_demos_toggle"
+  data-kt-drawer-close="#kt_engage_demos_close">
+
+
+  <div class="shadow-none card rounded-0 w-100">
+
+    <div class="card-header" id="kt_explore_header">
+      <h3 class="text-blue-500 card-title fw-bolder">Deal Preview</h3>
+
+      <div class="card-toolbar">
+        <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5" id="kt_engage_demos_close">
+          <span
+            [inlineSVG]="'./assets/media/icons/duotune/arrows/arr061.svg'"
+            class="svg-icon svg-icon-2"
+          ></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="main-body">
+      <div class="flex flex-col left-side">
+        <ng-container *ngIf="!mainDeal.dealHeader">
+          <span class="pl-5 text-base font-semibold pt-7">Deal title</span>
+        </ng-container>
+        <ng-container *ngIf="mainDeal.dealHeader">
+          <span class="pl-5 text-base font-semibold pt-7">{{mainDeal?.dealHeader}}</span>
+        </ng-container>
+        <ng-container *ngIf="!mainDeal?.subTitle">
+          <span class="pt-1 pl-5 text-base">Deal subtitle</span>
+        </ng-container>
+        <ng-container *ngIf="mainDeal?.subTitle">
+          <span class="pt-1 pl-5 text-base">{{mainDeal?.subTitle}}</span>
+        </ng-container>
+
+        <ng-container *ngIf="urls.length == 0">
+          <div style="max-height: 290px; margin-left: 20px; margin-top: 20px;">
+            <img [src]="image" class="object-cover rounded-md" style="border: 1px solid #bcc9dd; width: 362px; height: 280px;">
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="urls.length > 0">
+          <div style="max-height: 290px;">
+            <swiper
+            style="--swiper-navigation-color: #fff;--swiper-pagination-color: #fff; --swiper-navigation-size: 20px;"
+            [spaceBetween]="3"
+            [navigation]="true"
+            [thumbs]="{ swiper: thumbsSwiper }"
+            class="mySwiper2">
+
+            <ng-template swiperSlide *ngFor="let url of urls; let i = index">
+              <ng-container *ngIf="i == 0">
+                <video [src]="url" controls class="rounded-sm"></video>
+              </ng-container>
+              <ng-container *ngIf="i > 0">
+                <img [src]="url">
+              </ng-container>
+            </ng-template>
+
+            </swiper>
+
+            <swiper
+              (swiper)="thumbsSwiper = $event"
+              [spaceBetween]="2"
+              [slidesPerView]="10"
+              [freeMode]="true"
+              [watchSlidesProgress]="true"
+              class="mySwiper">
+
+              <ng-template swiperSlide *ngFor="let url of urls; let i = index">
+                <ng-container *ngIf="i == 0">
+                  <video [src]="url" class="w-8 p-0 rounded-sm h-8"></video>
+                </ng-container>
+                <ng-container *ngIf="i > 0">
+                  <img [src]="url" class="w-8 p-0 rounded-sm h-8">
+                </ng-container>
+              </ng-template>
+
+            </swiper>
+          </div>
+        </ng-container>
+
+        <span class="pt-4 pl-5 text-base font-semibold">Highlights</span>
+
+        <ng-container *ngIf="!mainDeal.highlights">
+          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem">
+            Your deal highlights...
+          </span>
+        </ng-container>
+
+        <ng-container *ngIf="mainDeal.highlights">
+          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem">
+            {{mainDeal.highlights}}
+          </span>
+        </ng-container>
+
+
+        <span class="pt-4 pl-5 text-base font-semibold">About this deal</span>
+
+        <ng-container *ngIf="!mainDeal.description">
+          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem">
+            Your deal description...
+          </span>
+        </ng-container>
+
+        <ng-container *ngIf="mainDeal.description">
+          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem">
+            {{mainDeal.description}}
+          </span>
+        </ng-container>
+      </div>
+
+      <ng-container *ngIf="subDeals.length == 0">
+        <div class="flex flex-col justify-center ml-5 align-middle">
+          <div class="w-full">
+            <div class="flex justify-center align-bottom">
+              <img src="../../../../assets/media/logos/box.svg">
+            </div>
+            <div class="flex justify-center ml-6 align-bottom 2xl:ml-0">
+              <span class="h-10 mt-2 text-sm font-thin text-center text-gray-500">Your sub voucher details will appear here.</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- <ng-container *ngIf="subDeals.length == 0">
+        <div class="mt-24 overflow-x-scroll">
+          <div class="flex flex-wrap w-full">
+            <span class="w-56 ml-8 text-sm text-left 2xl:ml-6">Vocuher title</span>
+          </div>
+
+          <div class="flex justify-start mt-2 ml-8 font-thin 2xl:ml-7 flex-nowrap">
+            <i class="text-sm text-gray-600 fas fa-dollar-sign">&nbsp;0</i>
+            <i class="ml-3 text-sm text-green-400 fas fa-dollar-sign">&nbsp;0</i>
+            <i style="font-style: normal;" class="mt-1 ml-3 text-xs text-blue-500 fw-bolder">0% off</i>
+          </div>
+          <span class="w-56 ml-8 text-sm font-thin text-center 2xl:ml-6">Number of available vouchers <span class="px-2 py-0.5 text-xs text-white bg-blue-300 rounded-md">141</span></span>
+          <div class="flex justify-end mt-2">
+            <i class="p-1 text-gray-600 bg-gray-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" ></i>
+            <i class="p-1 ml-1 text-gray-600 bg-gray-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
+          </div>
+          <div class="flex justify-center ml-3">
+            <hr class="w-full text-gray-400 border-4">
+          </div>
+        </div>
+      </ng-container> -->
+
+      <ng-container *ngIf="subDeals.length > 0">
+        <div class="flex flex-col mt-24">
+          <ng-container *ngFor="let subDeal of subDeals; let i = index">
+            <div class="overflow-x-scroll">
+              <div class="flex flex-wrap w-full">
+                <span class="w-56 ml-8 text-sm text-left 2xl:ml-6">{{subDeal?.subTitle}}</span>
+              </div>
+              <div class="flex justify-start mt-2 ml-8 font-thin 2xl:ml-7 flex-nowrap">
+                <i class="text-sm text-gray-600 fas fa-euro-sign">&nbsp;{{subDeal?.originalPrice}}</i>
+                <i class="ml-3 text-sm text-green-400 fas fa-euro-sign">&nbsp;{{subDeal?.dealPrice}}</i>
+                <i style="font-style: normal;" class="mt-1 ml-3 text-xs text-blue-500 fw-bolder">{{subDeal?.discountPercentage}}% off</i>
+              </div>
+              <span class="w-56 ml-8 text-sm font-thin text-center 2xl:ml-6">Number of available vouchers <span class="px-2 py-0.5 text-xs text-white bg-blue-300 rounded-md">{{subDeal?.numberOfVouchers}}</span></span>
+              <div class="flex justify-end mt-2">
+                <i class="p-1 text-gray-600 bg-gray-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" ></i>
+                <i class="p-1 ml-1 text-gray-600 bg-gray-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>
+              </div>
+              <div class="flex justify-center ml-3">
+                <hr class="w-full text-gray-400 border-4">
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+
+  </div>
+
+</div>
+
+
+

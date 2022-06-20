@@ -1,0 +1,33 @@
+<ul>
+  <div class="flex flex-row justify-start">
+    <li class="first">
+      <a [ngClass]="router.url == '/business-page' ? '': 'text-gray-600'" routerLinkActive='activated' routerLink="/business-page">My business details</a>
+      <div class="flex justify-center">
+        <hr [ngClass]="router.url == '/business-page' ? 'block': 'hidden'" class="horizontal">
+      </div>
+    </li>
+
+    <li class="first" style="margin-left: 26px;">
+      <a [ngClass]="router.url == '/profile-page' ? '': 'text-gray-600'" routerLinkActive='activated' routerLink="/profile-page">My DiviDeals profile</a>
+      <div class="flex justify-center">
+        <hr [ngClass]="router.url == '/profile-page' ? 'block': 'hidden'" class="horizontal">
+      </div>
+    </li>
+
+    <li class="first" style="margin-left: 26px;">
+      <a [ngClass]="router.url == '/security-page' ? '': 'text-gray-600'" routerLinkActive='activated' routerLink="/security-page">My security</a>
+      <div class="pl-7">
+        <hr [ngClass]="router.url == '/security-page' ? 'block': 'hidden'" class="horizontal">
+      </div>
+    </li>
+  </div>
+</ul>
+
+
+<!-- <app-slider [activePane]="isLeftVisible ? 'left' : 'right'">
+  <div class="p-12 text-2xl bg-blue-400 border-4 border-pink-600" style="transform: scale(1)" leftPane>LEFT</div>
+  <div class="p-12 text-2xl text-white bg-red-400 border-4 border-yellow-600" rightPane>RIGHT</div>
+</app-slider>
+
+<button (click)="isLeftVisible = !isLeftVisible">Toggle panes</button> -->
+<!--isLeftVisible = false-->

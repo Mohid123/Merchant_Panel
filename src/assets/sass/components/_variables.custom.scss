@@ -6,9 +6,9 @@
 
 // Theme colors
 // Primary
-$primary:       									#E9A608 !default; // Bootstrap variable
-$primary-active:    								#E67B00 !default; // Custom variable
-$primary-light:    								    if(isDarkMode(), #212E48, #F7E1AD) !default; // Custom variable
+$primary:       									#0081E9 !default; // Bootstrap variable
+$primary-active:    								#0081E9 !default; // Custom variable
+$primary-light:    								    if(isDarkMode(), #212E48, #93C5FD) !default; // Custom variable
 $primary-inverse:  									#FFFFFF;
 
 // Success

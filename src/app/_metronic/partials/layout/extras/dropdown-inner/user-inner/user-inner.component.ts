@@ -1,5 +1,6 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../../../../../modules/auth';
 import { TranslationService } from '../../../../../../modules/i18n';
 import { User } from './../../../../../../@core/models/user.model';
@@ -17,15 +18,21 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   user$: Observable<User | null>;
   langs = languages;
   private unsubscribe: Subscription[] = [];
+  destroy$ = new Subject();
+  user: User | null;
 
   constructor(
     private auth: AuthService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.user$ = this.auth.currentUserSubject.asObservable();
     this.setLanguage(this.translationService.getSelectedLanguage());
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.user = user;
+   });
   }
 
   logout() {
@@ -52,6 +59,8 @@ export class UserInnerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 }
 

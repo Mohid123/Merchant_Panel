@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { ApiResponse } from '@core/models/response.model';
+import { HotToastService } from '@ngneat/hot-toast';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
 enum ErrorStates {
@@ -16,22 +18,30 @@ enum ErrorStates {
   templateUrl: './security-code.component.html',
   styleUrls: ['./security-code.component.scss']
 })
-export class SecurityCodeComponent implements OnInit {
+export class SecurityCodeComponent implements OnInit, OnDestroy {
 
   securityCodeForm: FormGroup;
   errorState: ErrorStates = ErrorStates.NotSubmitted;
   errorStates = ErrorStates;
-  isLoading$: Observable<boolean>;
+  isLoading$: boolean;
+  destroy$ = new Subject();
 
   private unsubscribe: Subscription[] = [];
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
-    this.isLoading$ = this.authService.isLoading$;
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private cf: ChangeDetectorRef,
+    private toast: HotToastService) {
+
+    this.isLoading$ = false
   }
 
 
   ngOnInit(): void {
     this.initForm();
+    this.authService.emailSubject$.value
   }
 
   initForm() {
@@ -39,23 +49,89 @@ export class SecurityCodeComponent implements OnInit {
       securityCode: [
         '',
         Validators.compose([
-          Validators.required,
-          Validators.minLength(37)
+          Validators.required
         ]),
       ],
     });
   }
 
+  resendOTP() {
+    this.authService.forgotPassword(this.authService.emailSubject$.value)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.toast.success('OTP has been resent! Please check your email', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        })
+      }
+      else {
+        this.toast.error(res.errors[0]?.error?.message, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          }
+        })
+      }
+    })
+  }
+
   submit() {
-    this.errorState = ErrorStates.NotSubmitted;
-    const securitySubscr = this.authService
-      .forgotPassword(this.securityCodeForm.controls['securityCode'].value)
-      .pipe(first())
-      .subscribe((result: boolean) => {
-        this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
-        this.router.navigate(['/auth/reset-password'])
-      });
-    this.unsubscribe.push(securitySubscr);
+    this.isLoading$ = true;
+    const otpValue = parseInt(this.securityCodeForm.value?.securityCode.replace(/\s/g,''))
+      const verifyOTP = this.authService.verifyOtp(otpValue)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.isLoading$ = false;
+          this.toast.success('OTP verified! Please reset your password', {
+            style: {
+              border: '1px solid #65a30d',
+              padding: '16px',
+              color: '#3f6212',
+            },
+            iconTheme: {
+              primary: '#84cc16',
+              secondary: '#064e3b',
+            },
+          })
+          this.router.navigate(['/auth/reset-password'])
+        }
+        else {
+          this.isLoading$ = false;
+          this.cf.detectChanges();
+          this.toast.error(res.errors[0]?.error?.message, {
+            style: {
+              border: '1px solid #713200',
+              padding: '16px',
+              color: '#713200',
+            },
+            iconTheme: {
+              primary: '#713200',
+              secondary: '#FFFAEE',
+            }
+          })
+        }
+        this.unsubscribe.push(verifyOTP);
+      })
+  }
+
+  ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
 }

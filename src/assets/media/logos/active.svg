@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="98" viewBox="0 0 100 98">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1455" data-name="Rectangle 1455" width="100" height="98" transform="translate(6997 9072)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_17" data-name="Mask Group 17" transform="translate(-6997 -9072)" clip-path="url(#clip-path)">
+    <g id="Group_1917" data-name="Group 1917">
+      <ellipse id="Ellipse_471" data-name="Ellipse 471" cx="50" cy="49" rx="50" ry="49" transform="translate(6997 9072)" fill="#9bb3c8" opacity="0.18"/>
+      <g id="Group_1901" data-name="Group 1901" transform="translate(7025.28 9095.104)">
+        <g id="Rectangle_1070" data-name="Rectangle 1070" transform="matrix(0.966, -0.259, 0.259, 0.966, 0, 6.537)" fill="none" stroke="rgba(77,164,235,0.53)" stroke-width="2">
+          <rect width="25.258" height="40.487" rx="5" stroke="none"/>
+          <rect x="1" y="1" width="23.258" height="38.487" rx="4" fill="none"/>
+        </g>
+        <rect id="Rectangle_1069" data-name="Rectangle 1069" width="27.178" height="39.722" rx="5" transform="matrix(0.999, 0.035, -0.035, 0.999, 14.577, 8.771)" fill="#4da4eb"/>
+        <path id="Icon_ionic-ios-add" data-name="Icon ionic-ios-add" d="M12.021,5.612H7.208V.8a.8.8,0,0,0-1.6,0V5.612H.8a.8.8,0,0,0,0,1.6H5.612v4.814a.8.8,0,0,0,1.6,0V7.208h4.814a.8.8,0,0,0,0-1.6Z" transform="translate(22.075 22.357) rotate(3)" fill="#fff" stroke="#fff" stroke-width="0.5" opacity="0.85"/>
+      </g>
+    </g>
+  </g>
+</svg>

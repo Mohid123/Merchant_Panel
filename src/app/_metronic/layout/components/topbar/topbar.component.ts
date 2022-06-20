@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '@core/models/user.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AuthService } from 'src/app/modules/auth';
 import { LayoutService } from '../../core/layout.service';
 
 @Component({
@@ -12,10 +16,15 @@ export class TopbarComponent implements OnInit {
   toolbarUserAvatarHeightClass = 'symbol-30px symbol-md-40px';
   toolbarButtonIconSizeClass = 'svg-icon-1';
   headerLeft: string = 'menu';
+  destroy$ = new Subject();
+  user: User | null;
 
-  constructor(private layout: LayoutService) {}
+  constructor(private layout: LayoutService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.headerLeft = this.layout.getProp('header.left') as string;
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.user = user;
+   });
   }
 }

@@ -21,9 +21,10 @@ export class UserService extends ApiService<AuthApiData> {
   }
 
   getUser() {
+    console.log(this.authService.currentUserValue?.id);
     return this.get('/users/getUserById/'+ this.authService.currentUserValue?.id).pipe(tap((res:any)=> {
       if(!res.hasErrors()) {
-        this.authService.updateUser(res.data[0])
+        this.authService.updateUser(res.data)
       }
     }))
   }
@@ -32,12 +33,12 @@ export class UserService extends ApiService<AuthApiData> {
     return this.post('/users/updateBusinessHours',{id:this.authService.currentUserValue?.id ,...params})
   }
 
-  updateIBAN(param : {iban:string}) {
-    return this.post('/users/completeKYC',{id:this.authService.currentUserValue?.id, ...param})
+  updateIBAN(merchantID: string | any, iban: string) {
+    return this.post(`/users/completeKYC/${merchantID}`, {iban})
   }
 
   updateMerchantprofile(param:any) {
-    param.id=this.authService.currentUserValue?.id;
-    return this.post('/users/updateMerchantprofile',param)
+    const id = this.authService.currentUserValue?.id;
+    return this.post(`/users/updateMerchantprofile/${id}`, param)
   }
 }

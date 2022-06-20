@@ -56,4 +56,10 @@ export class DealService extends ApiService<deal> {
     if(data.status) param.status = data.status
     return this.get(`/deal/getDealsByMerchantID/${merchantID}`, param);
   }
+
+  deleteDeal(dealID: string): Observable<ApiResponse<any>> {
+    return this.post(`/deal/deleteDeal/${dealID}`).pipe(tap((res: any) => {
+      console.log(res);
+    }))
+  }
 }

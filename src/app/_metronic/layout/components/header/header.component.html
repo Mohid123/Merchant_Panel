@@ -22,16 +22,16 @@
   <!-- end::Aside mobile toggle -->
 
   <!-- begin::Logo -->
-  <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-    <a routerLink="/dashboard" class="d-lg-none">
-    </a>
-  </div>
   <!-- end::Logo -->
 
   <!-- begin::Wrapper -->
   <div
-    class="d-flex align-items-stretch justify-content-between flex-lg-grow-1"
+    class="w-full d-flex self-center align-items-stretch justify-content-between flex-lg-grow-1"
   >
+  <div class="self-center flex flex-row gap-3 ml-3 text-gray-600">
+    <img src="/assets/media/icons/save.svg">
+    Saving...
+  </div>
     <ng-container *ngIf="headerLeft === 'menu'">
       <div class="d-flex align-items-stretch" id="kt_header_nav">
         <div

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LayoutService } from '../../core/layout.service';
 
 @Component({
   selector: 'app-footer',
@@ -7,12 +6,12 @@ import { LayoutService } from '../../core/layout.service';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit {
-  footerContainerCssClasses: string = '';
-  currentDateStr: string = new Date().getFullYear().toString();
-  constructor(private layout: LayoutService) {}
+  // footerContainerCssClasses: string = '';
+  // currentDateStr: string = new Date().getFullYear().toString();
+  // constructor(private layout: LayoutService) {}
 
   ngOnInit(): void {
-    this.footerContainerCssClasses =
-      this.layout.getStringCSSClasses('footerContainer');
-  }
+  //   this.footerContainerCssClasses =
+  //     this.layout.getStringCSSClasses('footerContainer');
+   }
 }

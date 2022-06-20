@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { Subject } from 'rxjs';
@@ -12,7 +12,7 @@ import { ReviewsService } from './../services/reviews.service';
   templateUrl: './reviews.component.html',
   styleUrls: ['./reviews.component.scss']
 })
-export class ReviewsComponent implements OnInit {
+export class ReviewsComponent implements OnInit, OnDestroy {
 
   public reviewsData: ReviewList | any;
   showData: boolean;
@@ -57,6 +57,11 @@ export class ReviewsComponent implements OnInit {
   previous():void {
     this.page--;
     this.getReviewsByMerchant();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
 }

@@ -1,75 +1,143 @@
-<!--Title/ Header-->
-<div class="mb-7 lg:text-center">
-  <h1 class="mt-2 mb-3 text-base text-center 3xl:text-3xl xl:mt-0 md:text-2xl">Let's get the numbers right</h1>
-  <div class="text-xs font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">Lets make sure our customers realize how exceptional this deal is!</div>
-</div>
 <!--Card for Viewing Deal-->
-<div class="flex flex-wrap w-full mx-auto" style="max-width: 780px;">
-  <div class="flex-grow shadow-xl card card-custom card-stretch custom-card-design">
-    <div class="flex flex-wrap flex-shrink w-full p-4 lg:px-11 lg:py-6">
-      <div class="flex flex-col w-full">
-        <label class="w-full mb-2 text-xs font-semibold text-justify md:text-base">{{data.title}}</label>
-        <label class="w-full mb-4 text-xs text-justify text-gray-400 md:text-sm">{{data.subTitle}}</label>
-        <div class="w-full text-xs text-gray-700">
-          <i class="mr-2 text-green-400 fas fa-map-marker-alt fa-lg"></i>
-          {{address}}
+<div class="flex flex-col-reverse w-full gap-2 main-con md:h-136 md:flex-row">
+  <div class="w-full p-6 overflow-y-auto shadow-sm md:p-4 xl:p-6 add-voucher card card-custom">
+    <div class="flex flex-col self-center p-0 modal-body max-w-135">
+      <!--Title/ Header-->
+        <div class="mb-6 lg:text-center">
+          <h1 class="mt-2 mb-2 text-lg text-center md:text-xl xl:mt-4 xl:text-2xl 3xl:text-3xl">Let's create your vouchers.</h1>
+          <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base 3xl:text-lg">Now is the time to set up the variations of the deal you're offering.</div>
         </div>
-        <ng-container *ngFor="let image of images; let i = index">
-          <ng-container *ngIf="i == 0">
-            <div class="w-full mt-2 mb-6 card main-img-container">
-              <img class="object-contain h-40 xl:h-48 card-img-top rounded-bottom" [src]="image">
+      <div>
+        <div class="flex flex-col 3xl:justify-evenly">
+          <ng-container *ngIf="subDeals.length > 0">
+            <div class="">
+              <div class="voucher-container" *ngFor="let singleDeal of subDeals;let i = index">
+                <div class="mb-3 text-base font-medium text-justify lg:text-base lg:justify-start">{{singleDeal?.subTitle}}</div>
+                <div class="mb-2">
+                  <i class="mr-3 text-base text-gray-600 fas fa-euro-sign lg:text-base">{{singleDeal?.originalPrice}}</i>
+                  <i class="mr-3 text-base text-green-400 fas fa-euro-sign lg:text-base">{{singleDeal?.dealPrice}}</i>
+                  <i style="font-style: normal;" class="text-sm text-primary-400 lg:text-base fw-bolder">{{singleDeal?.discountPercentage}}% off</i>
+                </div>
+                <div class="flex justify-between">
+                  <div class="flex justify-between">
+                    <p class="text-sm text-gray-900 ">
+                      Number of available vouchers
+                    </p>
+                    <span class="bg-primary-100 rounded-md ml-4 h-6 text-primary-400 text-xs px-2.5 py-1">
+                      {{singleDeal?.numberOfVouchers}}
+                    </span>
+                  </div>
+                  <div class="flex">
+                    <i class="mr-2 fas fa-pencil-alt fa-xs rounded-circle action-btn"
+                      (click)="edit(i)"></i>
+                    <i class="fas fa-trash fa-xs rounded-circle action-btn"
+                      (click)="deleteDeal(i)"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-end justify-center h-8 add-more-voucher">
+                <a *ngIf="!addVoucher" class="cursor-pointer text-primery-400" (click)="addMoreVoucher()">+ Add more voucher</a>
+              </div>
+              <svg *ngIf="subDeals.length > 0" width="100%" height="25px">
+                <line height="0.5px" x1="0" y1="13" x2="100%" y2="13" style="stroke-dasharray: 6, 6;stroke: #9BB3C8;stroke-width: 0.5px;"></line>
+             </svg>
             </div>
           </ng-container>
-        </ng-container>
-          <!--loop for images goes here-->
-        <div class="flex-row justify-between w-7 h-7 card">
-          <ng-container *ngFor="let image of images; let i = index;">
-            <img class="mr-1 rounded-sm" [src]="image" *ngIf="i > 0">
-          </ng-container>
         </div>
-        <div class="mt-3 text-sm text-black form-label fw-bolder md:text-base">Description</div>
-        <p class="w-full mr-6 text-justify text-gray-400 fs-8">{{data.description | truncate: 80}}</p>
+        <form *ngIf="addVoucher || subDeals.length == 0" class="mt-4 form" [formGroup]="vouchers">
+          <div class="h-90px fv-row 2xl:h-26">
+            <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Voucher type</label>
+              <input maxlength="16" appTrim type="text" class="form-control" formControlName="subTitle" name="subTitle"
+              [ngClass]="{
+              'is-invalid': vouchers.controls['subTitle']?.invalid && vouchers.controls['subTitle']?.touched,
+              'is-valid': vouchers.controls['subTitle']?.valid}">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Deal Subtitle is required',
+              control: vouchers.controls['subTitle']
+            }">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'minlength',
+              message: 'Subtitle should at least be 3 characters',
+              control: vouchers.controls['subTitle']
+            }">
+          </ng-container>
+          <ng-container *ngIf="!vouchers.controls['subTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'pattern',
+            message: 'Only alphabets are allowed',
+            control: vouchers.controls['subTitle']
+          }">
+          </ng-container>
+          </div>
+
+          <div class="h-90px fv-row 2xl:h-26">
+            <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Original Price</label>
+              <span class="absolute flex items-center h-9 "><i style="font-size:10px;" class="p-2 ml-2 text-white bg-gray-500 rounded fas fa-euro-sign fa-lg"></i></span>
+              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="originalPrice"
+              [ngClass]="{
+              'is-invalid':  vouchers.controls['originalPrice']?.invalid &&  vouchers.controls['originalPrice']?.touched,
+              'is-valid':  vouchers.controls['originalPrice']?.valid}">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Original Price is required',
+                control: vouchers.controls['originalPrice']
+              }">
+              </ng-container>
+            </div>
+
+            <div class="h-90px fv-row 2xl:h-26">
+            <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Deal Price</label>
+              <span class="absolute flex items-center h-9"><i style="font-size:10px;" class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
+              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+              [ngClass]="{
+              'is-invalid': vouchers.controls['dealPrice']?.invalid && vouchers.controls['dealPrice']?.touched,
+              'is-valid': vouchers.controls['dealPrice']?.valid}">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Deal Price is required',
+                control: vouchers.controls['dealPrice']
+              }">
+              </ng-container>
+            <div class="text-xs text-danger"
+            *ngIf="vouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
+              The deal price cannot grater then the original price
+              </div>
+            </div>
+
+            <div class="h-90px fv-row 2xl:h-26">
+            <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Number of Available Vouchers</label>
+              <div class="flex items-center justify-between h-8 border-2 border-white rounded-sm w-28">
+                <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="handleMinus()">-</button>
+                <input maxlength="4" appNumbersOnly type="text" style="min-height:25px !important"  class="w-12 py-0.5 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+                <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="handlePlus()">+</button>
+              </div>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Please specify number of vouchers',
+                control: vouchers.controls['numberOfVouchers']
+              }">
+            </ng-container>
+            <svg *ngIf="subDeals.length == 0" width="100%" height="25px">
+              <line height="0.5px" x1="0" y1="13" x2="100%" y2="13" style="stroke-dasharray: 6, 6;stroke: #9BB3C8;stroke-width: 0.5px;"></line>
+           </svg>
+          </div>
+          <div class="flex justify-between">
+            <button *ngIf="subDeals.length == 0 " type="button" class="self-center w-24 h-10 p-0 text-xs text-gray-600 bg-gray-300 rounded-lg" (click)="prevClick.emit('')">Back</button>
+            <button *ngIf="subDeals.length > 0 " type="button" class="self-center w-24 h-10 p-0 text-xs text-gray-600 bg-gray-300 rounded-lg" (click)="cancleVoucher()">Cancel</button>
+            <button type="button" class="self-center w-24 h-10 p-0 text-white rounded-lg bg-primary-400" (click)="calculateDiscount()" [disabled]="vouchers.invalid">Add</button>
+          </div>
+
+        </form>
+        <div *ngIf="!addVoucher" class="flex justify-between mt-8 min-h-14 2xl:h-20">
+          <button (click)="prevClick.emit('')" class="self-center w-24 h-10 text-xs text-gray-600 bg-gray-300 rounded-lg 2xl:h-12">Back</button>
+          <button [disabled]="subDeals.length == 0" (click)="nextClick.emit('')" class="self-center w-32 h-10 text-xs text-white rounded-lg 2xl:h-12 bg-primary-400">Save & next</button>
+        </div>
       </div>
     </div>
   </div>
-  <div class="flex-wrap p-6 mt-3 shadow-sm xl:mt-0 card card-custom card-stretch second-card">
-    <ng-container *ngIf="subDeals.length == 0">
-      <div class="flex justify-between 3xl:justify-evenly">
-        <div class="w-full text-sm font-semibold md:text-base">Provide your voucher details.
-        </div>
-        <button type="button" class="justify-center text-yellow-500 fas fa-plus-circle fa-lg" (click)="openNew()" style="cursor: pointer;"></button>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="subDeals.length > 0">
-      <div class="flex justify-between 3xl:justify-evenly">
-      <div class="w-full text-sm font-semibold md:text-base" style="max-width: 200px;">Add another voucher detail
-      </div>
-      <button type="button" class="justify-center text-yellow-500 fas fa-plus-circle fa-lg" (click)="openNew()" style="cursor: pointer;"></button>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="subDeals.length == 0">
-      <div class="flex justify-center pb-4 align-middle mt-11">
-        <img src="../../../../../assets/media/logos/giftbox.svg" class="opacity-20 lg:w-28 lg:h-28 w-14 h-14">
-      </div>
-    </ng-container>
-    <ng-container *ngIf="subDeals.length > 0">
-      <div class="pt-6 lg:h-72 lg:overflow-x-scroll">
-        <ng-container *ngFor="let singleDeal of subDeals;let i = index">
-          <div class="text-sm font-thin text-justify lg:text-base lg:justify-start">{{singleDeal?.subTitle}}</div>
-          <div class="flex items-center justify-between mb-3 font-thin flex-nowrap">
-            <i class="text-xs text-gray-600 line-through fas fa-dollar-sign lg:text-base">{{singleDeal?.originalPrice}}</i>
-            <i class="text-xs text-green-400 fas fa-dollar-sign lg:text-base">{{singleDeal?.dealPrice}}</i>
-            <i style="font-style: normal;" class="text-xs text-red-500 lg:text-base fw-bolder">{{singleDeal?.discountPercentage}}% off</i>
-            <div>
-              <i class="p-2 mb-1 mr-2 text-yellow-600 bg-yellow-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" (click)="edit(i)"></i>
-              <i class="p-2 text-red-700 bg-red-300 cursor-pointer fas fa-trash fa-xs rounded-circle" (click)="deleteDeal(i)"></i>
-            </div>
-          </div>
-        </ng-container>
-      </div>
-    </ng-container>
-  </div>
 </div>
+
 
 <!--Create Deal Modal-->
 
@@ -104,7 +172,7 @@
             control: vouchers.controls['subTitle']
           }">
         </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        <ng-container *ngIf="!vouchers.controls['subTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'pattern',
           message: 'Only alphabets are allowed',
           control: vouchers.controls['subTitle']
@@ -112,10 +180,9 @@
         </ng-container>
         </div>
 
-        <div class="mb-3 form-group">
-          <label class="mb-2.5 text-sm">Original Price</label>
-          <div class="input-icon">
-            <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
+        <div class="h-90px fv-row 2xl:h-26">
+          <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Original Price</label>
+            <span class="absolute flex items-center h-9 "><i style="font-size:10px;" class="p-2 ml-2 text-white bg-gray-500 rounded fas fa-euro-sign fa-lg"></i></span>
             <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="originalPrice"
             [ngClass]="{
             'is-invalid':  vouchers.controls['originalPrice']?.invalid &&  vouchers.controls['originalPrice']?.touched,
@@ -127,30 +194,27 @@
             }">
             </ng-container>
           </div>
-          </div>
 
-          <div class="form-group">
-          <label class="mb-2.5 text-sm">Deal Price</label>
-          <div class="input-icon">
-            <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-danger"></i></span>
-            <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
-            [ngClass]="{
-            'is-invalid': vouchers.controls['dealPrice']?.invalid && vouchers.controls['dealPrice']?.touched,
-            'is-valid': vouchers.controls['dealPrice']?.valid}">
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'Deal Price is required',
-              control: vouchers.controls['dealPrice']
-            }">
-            </ng-container>
-          </div>
-          <div class="text-xs text-danger"
-          *ngIf="vouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
-            The deal price cannot exceed the original price
+          <div class="h-90px fv-row 2xl:h-26">
+            <label class="mb-1 text-sm 2xl:text-base 2xl:mb-2 form-label">Deal Price</label>
+              <span class="absolute flex items-center h-9"><i style="font-size:10px;" class="p-2 ml-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
+              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+              [ngClass]="{
+              'is-invalid': vouchers.controls['dealPrice']?.invalid && vouchers.controls['dealPrice']?.touched,
+              'is-valid': vouchers.controls['dealPrice']?.valid}">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Deal Price is required',
+                control: vouchers.controls['dealPrice']
+              }">
+              </ng-container>
+            <div class="text-xs text-danger"
+            *ngIf="vouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
+              The deal price cannot grater then the original price
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
+          <!-- <div class="form-group">
           <label class="mt-3 mb-3 text-sm">Description</label>
           <div class="input-icon">
             <textarea maxlength="100" appTrim class="form-control" rows="5" formControlName="details" name="details"
@@ -171,15 +235,15 @@
             }">
           </ng-container>
           </div>
-        </div>
+        </div> -->
 
           <div class="form-group">
           <label class="mt-3 mb-3 text-sm">Number of Available Vouchers</label>
           <div class="relative">
             <div class="flex w-2/5 h-8 border-2 border-white rounded-sm">
-              <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-              <input maxlength="4" appNumbersOnly type="text" class="w-full text-center" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
-              <button class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+              <button class="w-20 h-full mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md" (click)="handleMinus()">-</button>
+              <input maxlength="4" appNumbersOnly type="text" style="border-width: 1px;" class="w-full text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+              <button class="w-20 h-full ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md" (click)="handlePlus()">+</button>
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
@@ -194,7 +258,7 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="text-white btn btn-dark" (click)="calculateDiscount()" [disabled]="vouchers.invalid">Save</button>
+    <button type="button" class="self-center w-24 h-10 text-xs text-white rounded-lg 2xl:h-12 bg-primary-400" (click)="calculateDiscount()" [disabled]="vouchers.invalid">Save</button>
   </div>
 </app-reusable-modal>
 

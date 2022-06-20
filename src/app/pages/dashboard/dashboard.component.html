@@ -1,7 +1,7 @@
 <!-- begin::Row -->
 <div class="flex flex-row flex-wrap justify-between mb-5">
   <span class="text-3xl font-semibold text-black">Analytics</span>
-  <button class="px-6 py-3 text-sm font-thin btn btn-dark" routerLink="/crafted/pages/wizards/horizontal">Create Deal</button>
+  <button data-kt-menu-trigger="click" class="px-6 py-3 text-sm font-thin text-white bg-blue-500 btn" [routerLink]="['/crafted/pages/wizards/horizontal']">Create a Deal</button>
 </div>
 
 <div class="row gy-5 g-xl-8">
@@ -40,7 +40,7 @@
 <ng-container *ngIf="showData == true">
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
-      <tr ngbDropdown placement="bottom-end" id="dropdownBasic1" class="text-center text-gray-600 bg-gray-300 rounded-lg">
+      <tr ngbDropdown placement="bottom-end" id="dropdownBasic1" class="text-center text-gray-600 bg-blue-100 rounded-lg">
         <th class="p-4 font-semibold text-black">Deals Title</th>
         <th class="p-4 font-semibold text-black">Start Date</th>
         <th class="p-4 font-semibold text-black">End Date</th>
@@ -53,7 +53,7 @@
         <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
           <td class="flex flex-row items-center justify-start p-4 font-thin">
             <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 3xl:w-11 3xl:h-11 3xl:rounded-md" [src]="deal.mediaUrl">
-            <span class="ml-3">{{deal.title}}</span>
+            <span class="ml-3">{{deal.dealHeader}}</span>
           </td>
           <td class="p-4 font-thin">{{deal.startDate | date}}</td>
           <td class="p-4 font-thin">{{deal.endDate | date}}</td>
@@ -62,7 +62,7 @@
           <td class="p-4 font-thin">{{deal.minRating}}</td>
            <ng-container *ngIf="deal.dealStatus == 'In Review'"></ng-container>
            <td class="p-4 font-thin">
-            <span class="px-5 py-3 badge badge-warning rounded-2xl opacity-80">Pending</span>
+            <span class="px-4 py-3 bg-yellow-500 badge rounded-2xl opacity-80">Pending</span>
           </td>
           <!-- <ng-container *ngIf="deal.dealStatus == ''"></ng-container> -->
         </tr>
@@ -83,7 +83,7 @@
       <div class="w-3/4 mb-3 form-group">
         <label class="mb-3">Password</label>
         <div class="flex flex-row input-group-prepend justify-evenly">
-         <span class="absolute flex items-center mt-3 cursor-pointer right-24" (click)="passwordShowHide()"><i class="p-2 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
+         <span class="absolute flex items-center mt-3 cursor-pointer right-24" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-2 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
          <input
           tabindex="-1"
           class="pr-20 form-control"
@@ -91,20 +91,36 @@
           name="password"
           autocomplete="off"
           formControlName="password"
-          [NgPasswordValidator]="options"
-          (keyup)="isValid(newPassForm.controls['password']?.value)">
+          [ngbPopover]="popContent"
+          [popoverTitle]="popTitle"
+          placement="bottom-right"
+          >
         </div>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'Password is required',
           control: newPassForm.controls['password']}">
         </ng-container>
+
+        <ng-template #popTitle>
+          <div class="">Password should include:</div>
+        </ng-template>
+        <ng-template #popContent>
+          <div class="flex flex-col justify-evenly">
+            <div [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('minlength')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('minlength')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. 8 characters</div>
+            <div [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasCapitalCase')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one uppercase</div>
+            <div [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasSmallCase')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasSmallCase')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one lowercase</div>
+            <div [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasNumber')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasNumber')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one numeric</div>
+            <div [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasSpecialCharacters')  ? 'text-danger' : 'text-success'" class="text-left"><i class="pr-2" [ngClass]="newPassForm.controls['password']?.hasError('required') || newPassForm.controls['password']?.hasError('hasSpecialCharacters')  ? 'far fa-times-circle fa-sm text-danger' : 'far fa-check-circle fa-sm text-success'"></i>min. one special character (@,*,#,$,%,&)</div>
+          </div>
+          <div *ngIf="newPassForm.controls['password']?.valid" class="mt-2 text-sm text-left text-success">Password is valid</div>
+        </ng-template>
        </div>
 
        <div class="w-3/4 mb-3 form-group">
         <label class="mb-3">Confirm Password</label>
         <div class="flex flex-row input-group-prepend justify-evenly">
-          <span class="absolute flex items-center mt-3 cursor-pointer right-24" (click)="passwordShowHide()"><i class="p-2 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
+          <span class="absolute flex items-center mt-3 cursor-pointer right-24" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-2 ml-2 text-gray-600 bg-white rounded far fa-eye"></i></span>
           <input
             tabindex="-1"
             type="{{passwordHide ? 'password' : 'text'}}"
@@ -132,7 +148,7 @@
   </form>
 
   <div class="flex justify-center mb-8">
-    <button [ngClass]="newPassForm.invalid || validityPass == false ? 'opacity-50': ''" [disabled]="newPassForm.invalid || validityPass == false" (click)="resetPassword(); closeModal()" class="px-10 py-2 text-white bg-gray-900 rounded-md">Save</button>
+    <button [ngClass]="newPassForm.invalid ? 'opacity-50': ''" [disabled]="newPassForm.invalid" (click)="resetPassword(); closeModal()" class="px-10 py-2 text-white bg-blue-500 rounded-md">Save</button>
   </div>
 </app-reusable-modal>
 

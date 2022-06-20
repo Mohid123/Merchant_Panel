@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalConfig } from '@core/models/modal.config';
 import { DealService } from '@core/services/deal.service';
@@ -7,6 +7,7 @@ import { NgPasswordValidatorOptions } from 'ng-password-validator';
 import { Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
+import { CustomValidators } from './../../modules/auth/components/reset-password/custom-validators';
 import { PasswordService } from './../../modules/auth/services/password-service';
 import { UserService } from './../../modules/auth/services/user.service';
 import { ReusableModalComponent } from './../../_metronic/layout/components/reusable-modal/reusable-modal.component';
@@ -17,7 +18,7 @@ import { ConfirmPasswordValidator } from './password-validator';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
   public modalConfig: ModalConfig = {
@@ -108,6 +109,22 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       password: [
         '',
         Validators.compose([
+          CustomValidators.patternValidator(/\d/, {
+            hasNumber: true
+          }),
+          CustomValidators.patternValidator(/[A-Z]/, {
+            hasCapitalCase: true
+          }),
+          CustomValidators.patternValidator(/[a-z]/, {
+            hasSmallCase: true
+          }),
+          CustomValidators.patternValidator(
+            /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+            {
+              hasSpecialCharacters: true
+            }
+          ),
+          Validators.minLength(8),
           Validators.required
         ])
       ],

@@ -1,0 +1,420 @@
+<app-test></app-test>
+
+<!-- <app-profile-slider [activePane]="isLeftVisible ? 'left' : 'right'"> -->
+  <div class="card" *ngIf="isLeftVisible == true">
+    <span class="business-header">My DiviDeals profile</span>
+    <span class="secondary-title">How do you want to appear in our DiviDeals?</span>
+
+    <div class="flex justify-end central">
+      <button [ngClass]="isEditBusinessHours ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" type="button" class="edit-button" [disabled]="isEditBusinessHours" (click)="isLeftVisible = false;">Edit</button>
+    </div>
+
+    <table class="datatable-table">
+      <tbody class="datatable-body">
+        <ng-container *ngIf="(authService.currentUser$ |async) as user">
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">Trade name</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.tradeName}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">Street address</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.streetAddress}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">Zip code</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.zipCode}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">City</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.city}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">Google map pin</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.googleMapPin | truncation: 70}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-24">
+              <span class="spanner">Profile picture</span>
+            </td>
+            <td class="w-0 pb-5 image-input image-input-outline image-upload">
+              <div class="image-input-wrapper smaller-image">
+                <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
+                  <span class="absolute top-0 flex items-center justify-center w-20 h-20"><img class="object-contain w-14 h-14" src="../../../assets/media/logos/inactive.svg"></span>
+                  <input disabled class="absolute top-0 w-20 h-20 cursor-not-allowed" type="file" accept=".png, .jpg, .jpeg" multiple>
+                </label>
+              </div>
+              <div class="flex flex-row mt-3 w-60">
+                <span class="text-xs font-thin text-gray-500">Supported file types png, jpeg</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-5">
+              <span class="spanner">Website or social media url</span>
+            </td>
+            <td class="w-0 pb-5">
+              <span class="naming">{{user.website_socialAppLink | truncation: 70}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="w-0 pb-52">
+              <span class="mr-20 spanner">Gallery</span>
+            </td>
+            <td class="w-0 pb-5">
+              <div class="flex items-center justify-center align-middle large-image">
+                <span class="absolute cursor-not-allowed"><img class="object-contain" style="width: 100px; height: 95px;" src="../../../assets/media/logos/inactive.svg"></span>
+                <input disabled class="w-40 h-40 cursor-not-allowed" type="file" accept=".png, .jpg, .jpeg" multiple>
+              </div>
+              <span class="text-xs font-thin text-gray-500">Upload maximum 5 images</span>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="card card-right" *ngIf="isLeftVisible == false">
+    <span class="business-header">My DiviDeals profile</span>
+    <span class="secondary-title">How do you want to appear in our DiviDeals?</span>
+
+    <div class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
+      <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
+      <button type="submit" class="save-button" (click)="submitProfileChanges()">Save</button>
+    </div>
+
+    <div class="flex justify-center mt-2">
+      <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+    </div>
+
+    <table class="datatable-table">
+      <tbody class="datatable-body" [formGroup]="profileForm">
+        <tr>
+          <td class="pb-5">
+            <span class="spanner">Trade name</span>
+          </td>
+          <td class="pb-5">
+            <input class="form-control" formControlName="tradeName" maxlength="35">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Trade name is required',
+              control: profileForm.controls['tradeName']
+            }">
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-5">
+            <span class="spanner">Street address</span>
+          </td>
+          <td class="pb-5">
+            <input class="form-control" formControlName="streetAddress" maxlength="45">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Street address is required',
+              control: profileForm.controls['streetAddress']
+            }">
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-5">
+            <span class="spanner">Zip code</span>
+          </td>
+          <td class="pb-5">
+            <input appNumbersOnly class="form-control" formControlName="zipCode" maxlength="4">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Zip code is required',
+              control: profileForm.controls['zipCode']
+            }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'zipInvalid',
+              message: 'Zip code is invalid',
+              control: profileForm.controls['zipCode']}">
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-5">
+            <span class="spanner">City</span>
+          </td>
+          <td class="pb-4">
+            <input class="form-control" formControlName="city" maxlength="30">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'City is required',
+              control: profileForm.controls['city']
+            }">
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td class="pb-5">
+            <span class="spanner">Google map pin</span>
+          </td>
+          <td class="pb-4">
+            <input class="form-control" formControlName="googleMapPin">
+            <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Google map pin required',
+              control: profileForm.controls['googleMapPin']
+            }">
+            </ng-container> -->
+            <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'invalidPin',
+              message: 'Google map pin is invalid',
+              control: profileForm.controls['googleMapPin']}">
+            </ng-container> -->
+          </td>
+        </tr>
+        <tr>
+          <td class="w-0 pb-24">
+            <span class="spanner">Profile picture</span>
+          </td>
+          <ng-container *ngIf="!image">
+            <td class="w-0 pb-5 image-input image-input-outline image-upload">
+              <div class="object-cover image-input-wrapper smaller-image">
+                <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
+                  <span class="absolute top-0 flex items-center justify-center w-20 h-20"><img class="object-contain w-14 h-14" src="../../../assets/media/logos/active.svg"></span>
+                  <input class="absolute top-0 w-20 h-20 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectSingle($event)">
+                </label>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="image">
+              <td class="image-input image-input-outline">
+                <img class="object-cover border-2 border-gray-500 rounded-md w-85px h-90px" [src]="image">
+                <label class="z-50 mt-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="change">
+                  <i class="bi bi-x fs-4" style="color: white;"></i>
+                  <input (click)="clearImage()" type="reset" name="avatar" accept=".png, .jpg, .jpeg" multiple>
+                  <input type="hidden" name="avatar_remove">
+                </label>
+                <!-- <span (click)="clearImage()" class="mb-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
+                  <i class="bi bi-x fs-6" style="color: white;"></i>
+                </span>
+                <span (click)="clearImage()" class="mb-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="remove" data-bs-toggle="tooltip">
+                  <i class="bi bi-x fs-6" style="color: white;"></i>
+                </span> -->
+              </td>
+            </ng-container>
+            <div class="flex flex-row mt-3 w-60">
+              <span class="text-xs font-thin text-gray-500">Supported file types png, jpeg</span>
+            </div>
+          </tr>
+        <tr>
+          <td class="w-0 pb-5">
+            <span class="spanner">Website or social media url</span>
+          </td>
+          <td class="w-0 pb-5">
+            <input class="form-control" formControlName="website_socialAppLink">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Website is required',
+              control: profileForm.controls['website_socialAppLink']
+            }">
+            </ng-container>
+            <div class="text-xs text-danger"
+                *ngIf="profileForm.controls['website_socialAppLink']?.errors?.['invalidUrl']">
+                Url is Invalid
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="w-0 pb-52">
+            <span class="mr-20 spanner">Gallery</span>
+          </td>
+          <td class="w-0 pb-5">
+
+            <ng-container *ngIf="images.length == 0">
+              <div class="flex items-center justify-center align-middle large-image">
+                <span class="absolute cursor-pointer"><img class="object-contain" style="width: 100px; height: 95px;" src="../../../assets/media/logos/active.svg"></span>
+                <input (change)="onSelectFile($event); onClick($event)" class="w-40 h-40 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="images.length > 0">
+              <div class="large-image">
+                <ng-container *ngFor="let multiple of images; let i = index">
+                  <div class="m-1 image-input image-input-outline">
+                    <img class="object-cover border-2 border-gray-600 rounded-md w-80px h-80px" [src]="multiple">
+                    <label class="z-50 mt-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px" data-kt-image-input-action="change">
+                      <i class="bi bi-x fs-6" style="color: white;"></i>
+                      <input (click)="images.splice(i, 1)" type="reset" name="avatar" accept=".png, .jpg, .jpeg" multiple>
+                      <input type="hidden" name="avatar_remove">
+                    </label>
+                    <!-- <span (click)="images.splice(i, 1)" class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
+                      <i class="bi bi-x fs-6"></i>
+                    </span>
+                    <span (click)="images.splice(i, 1)" class="shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px bg-body" data-kt-image-input-action="remove" data-bs-toggle="tooltip">
+                      <i class="bi bi-x fs-6"></i>
+                    </span> -->
+                  </div>
+                </ng-container>
+                <div class="image-input image-input-outline image-upload">
+                  <div class="object-cover small-image image-input-wrapper ml-1">
+                    <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
+                      <span class="absolute top-0 flex items-center justify-center w-20 h-20"><img class="object-contain w-14 h-14" src="../../../assets/media/logos/active.svg"></span>
+                      <input class="absolute top-0 w-20 h-20 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event); onClick($event)" multiple>
+                    </label>
+                  </div>
+                </div>
+                <input (change)="onSelectFile($event); onClick($event)" class="w-40 h-40 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
+              </div>
+            </ng-container>
+            <span class="text-xs font-thin text-gray-500">Upload maximum 5 images</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- <div class="flex justify-center mt-5">
+      <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+    </div>
+
+    <div class="flex justify-end pb-2 pr-20 mt-3 mb-2 3xl:pr-32">
+      <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
+      <button type="submit" class="save-button" (click)="submitProfileChanges()">Save</button>
+    </div> -->
+
+  </div>
+<!-- </app-profile-slider> -->
+
+<div class="card card-business">
+
+  <div class="py-6 border-0 border-transparent cursor-pointer card-header">
+    <h3 class="flex items-center mt-2 2xl:ml-24 fw-bolder">Set Business Hours</h3>
+
+    <ng-container *ngIf="!isEditBusinessHours">
+      <button (click)="editBusinessHours()" [ngClass]="isLeftVisible == false ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="isLeftVisible == false" class="2xl:mr-24 edit-btn">Edit</button>
+    </ng-container>
+
+    <div class="flex justify-end mr-24 border-none" *ngIf="isEditBusinessHours || (this.isLoading$ | async)">
+      <button class="discard-button" routerLinkActive="active" (click)="discardBusinessHours()">Discard</button>
+      <button type="button" class="save-button" [disabled]="(isLoading$ | async)" (click)="saveBusinessHours(); saveTerms()">
+        <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+      </button>
+    </div>
+  </div>
+
+  <div class="flex justify-center">
+    <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
+  </div>
+
+  <div class="pl-0 pr-0 card-body" style="background-color: white;">
+    <div class="max-w-full table-responsive">
+      <table [formGroup]="businessHoursForm" class="table align-middle table-row-dashed table-row-gray-300 gs-0 gy-4">
+        <tbody class="flex flex-col" formArrayName="businessHours" >
+          <ng-container *ngFor="let formControls of businessHoursFromControl.controls;let i=index" [formGroupName]="i" >
+          <tr class="relative flex items-center justify-center border-0">
+            <td class="pl-10 day">
+                <div class="d-flex flex-column">
+                    <input type="checkbox" formControlName="isWorkingDay" [id]="formControls.value.day">
+                    <label [for]="formControls.value.day">
+                      <div>
+                        {{formControls.value.day}}
+                      </div>
+                    </label>
+                </div>
+                <p class="shope-status" [ngClass]="{'day-off' : !formControls.value.isWorkingDay}">{{formControls.value.isWorkingDay ? 'Opened' : 'Closed'}}</p>
+              </td>
+            <td class="time">
+              <div>
+                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker1" class="form-control" placeholder="First Start Time" formControlName="firstStartTime" />
+                <ngx-material-timepicker #picker1></ngx-material-timepicker>
+              </div>
+              <span>-</span>
+              <div>
+                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker2" class="form-control" placeholder="First End Time" formControlName="firstEndTime" />
+                <ngx-material-timepicker #picker2></ngx-material-timepicker>
+              </div>
+            </td>
+            <td class="until">
+              <span class="flex items-center justify-center text-center">And</span>
+            </td>
+            <td class="pr-10 time">
+              <div>
+                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker3" class="form-control" placeholder="Second Start Time" formControlName="secondStartTime" />
+                <ngx-material-timepicker [format]="24"  #picker3></ngx-material-timepicker>
+              </div>
+              <span>-</span>
+              <div>
+                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker4" class="form-control" placeholder="Second End Time" formControlName="secondEndTime" />
+                <ngx-material-timepicker #picker4></ngx-material-timepicker>
+              </div>
+            </td>
+
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="py-2 mb-3 ml-32" style="border-style: none!important;">
+        <h3 class="m-0 font-normal">About us</h3>
+    </div>
+
+    <div class="ml-32 mr-20">
+      <form class="form row" [formGroup]="termsForm">
+        <div class="pb-5">
+          <ckeditor [disabled]="!isEditBusinessHours" formControlName="aboutUs" [editor]="Editor" [config]="config"></ckeditor>
+        </div>
+
+        <div class="py-2">
+          <h3 class="font-normal">Fine print</h3>
+        </div>
+
+        <div class="pb-1">
+          <ckeditor [disabled]="!isEditBusinessHours" formControlName="finePrint" [editor]="Editor" [config]="config"></ckeditor>
+        </div>
+
+          <!-- <button type="button" class="text-xs rounded-md modal-save-btn btn btn-dark" [disabled]="(isLoading$ | async) || termsForm.invalid" (click)="saveTerms()">
+          <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
+        </button> -->
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="ml-2 text-xs fv-help-block">
+        {{ message }}
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #Loading>
+  <span clas="indicator-progress" [style.display]="'block'">
+    Saving {{ " " }}
+    <span
+      class="align-middle spinner-border spinner-border-sm ms-2"
+    ></span>
+  </span>
+</ng-template>
+

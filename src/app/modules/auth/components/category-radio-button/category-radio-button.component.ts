@@ -22,6 +22,7 @@ import { ControlContainer, ControlValueAccessor, FormGroupDirective, NG_VALUE_AC
 export class CategoryRadioButtonComponent  implements ControlValueAccessor {
 
 
+  @Input() customClass: string;
   @Input() name: string;
   @Input('value') _value: any;
 

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { getItem, setItem, StorageItem } from '@core/utils';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { catchError, finalize, map } from 'rxjs/operators';
+import { catchError, exhaustMap, finalize, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RegisterModel } from '../models/register.model';
 import { ZipCode } from '../models/zip-code.model';
@@ -12,9 +12,9 @@ import { ApiResponse } from './../../../@core/models/response.model';
 import { SignInResponse } from './../../../@core/models/sign-in-response';
 import { User } from './../../../@core/models/user.model';
 import { ApiService } from './../../../@core/services/api.service';
-import { AuthHTTPService } from './auth-http';
+import { VatResponse } from './../models/vatResponse.model';
 
-type AuthApiData = SignInResponse;
+type AuthApiData = SignInResponse | any;
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,9 @@ export class AuthService extends ApiService<AuthApiData> {
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<User | null>;
   isLoadingSubject: BehaviorSubject<boolean>;
-  userPolicy: Partial<User>
+  userPolicy: Partial<User>;
+  tokenSubject$: BehaviorSubject<string>;
+  emailSubject$: BehaviorSubject<string>;
 
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;
@@ -45,7 +47,6 @@ export class AuthService extends ApiService<AuthApiData> {
 
   constructor(
     protected override http: HttpClient,
-    private authHttpService: AuthHTTPService,
     private router: Router
   ) {
     super(http);
@@ -53,13 +54,16 @@ export class AuthService extends ApiService<AuthApiData> {
     this.currentUserSubject = new BehaviorSubject<User | null>(<User>getItem(StorageItem.User));
     this.currentUser$ = this.currentUserSubject.asObservable();
     this.isLoading$ = this.isLoadingSubject.asObservable();
+    this.tokenSubject$ = new BehaviorSubject<string>('');
+    this.emailSubject$ = new BehaviorSubject<string>('');
+
   }
 
   // public methods
   login(params: AuthCredentials) {
     this.isLoadingSubject.next(true);
     return this.post('/auth/login', params).pipe(
-      map((result: ApiResponse<SignInResponse>) => {
+      map((result: ApiResponse<any>) => {
         console.log('result',result);
         if (!result.hasErrors()) {
           setItem(StorageItem.User, result?.data?.user || null);
@@ -67,6 +71,18 @@ export class AuthService extends ApiService<AuthApiData> {
           if(result?.data?.user)
           this.currentUserSubject.next(result?.data?.user);
           return result
+        }
+      }),
+      exhaustMap((res)=>{
+        if (res?.data?.user) {
+          return this.get('/users/getUserById/'+ res.data.user.id)
+        } else {
+          return of(null);
+        }
+      }),
+      tap((res)=> {
+        if(res && !res?.hasErrors()) {
+          this.updateUser(res.data)
         }
       }),
       catchError((err) => {
@@ -98,11 +114,19 @@ export class AuthService extends ApiService<AuthApiData> {
     );
   }
 
-  forgotPassword(email: string): Observable<boolean> {
-    this.isLoadingSubject.next(true);
-    return this.authHttpService
-      .forgotPassword(email)
-      .pipe(finalize(() => this.isLoadingSubject.next(false)));
+  forgotPassword(email: string): Observable<ApiResponse<any>> {
+    this.emailSubject$.next(email);
+    return this.post(`/auth/sendOtp`, email).pipe(tap((res: any) => {
+      console.log(res)
+    }))
+  }
+
+  verifyOtp(otp: number): Observable<ApiResponse<any>> {
+    return this.post(`/auth/verifyOtp/${otp}`).pipe(tap((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.tokenSubject$.next(res?.data?.token);
+      }
+    }));
   }
 
   checkEmailAlreadyExists(email: string): Observable<ApiResponse<any>> {
@@ -123,12 +147,22 @@ export class AuthService extends ApiService<AuthApiData> {
     return this.get(`/utils/getCity/${zipCode}`);
   }
 
+  fetchCompanyByVatNumber(vatNumber: string): Observable<ApiResponse<VatResponse | any>> {
+    return this.post(`/utils/validateVatNumber/${vatNumber}`);
+  }
+
   setUserPassword(merchantID: string | any, payload: any): Observable<ApiResponse<any>> {
     return this.post(`/users/changePassword/${merchantID}`, payload);
   }
 
+  resetPassword(password: string): Observable<ApiResponse<any>> {
+    return this.post(`/users/resetPassword`, { password });
+  }
+
   updateUser(user:User) {
-    this.currentUserSubject.next(user);
-    setItem(StorageItem.User, user);
+    if (user) {
+      this.currentUserSubject.next(user);
+      setItem(StorageItem.User, user);
+    }
   }
 }

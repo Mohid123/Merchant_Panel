@@ -8,22 +8,27 @@
   <div class="w-full lg:w-3/4 card card-custom card-stretch" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
     <div class="p-3 md:p-9 card-body">
 
-      <div class="flex flex-col">
+      <div class="flex flex-col ml-5">
         <label class="mb-6 text-xs md:text-base">When can customers redeem their voucher?</label>
 
         <form class="form" [formGroup]="form">
-          <div class="flex flex-col justify-between w-full align-middle xl:flex-row">
+          <div class="flex flex-row justify-start w-full align-middle">
 
             <label class="mb-6 text-sm md:text-base form-check form-check-solid">
               <input
               class="border rounded-full form-check-input"
               type="checkbox"
               (click)="selectCheckBox(check_box_type.ONE); disableCheckBox();"
-              [checked]="currentlyChecked === check_box_type.ONE || form.get('voucherStartDate')?.value"
+              [checked]="currentlyChecked === check_box_type.ONE"
               >
-              <span class="text-xs form-check-label md:text-base"></span> Start Date &nbsp;<span class="text-red-600">*</span>
-              <div class="flex-auto mt-4 mb-3 input-icon md:w-72">
-                <span class="absolute flex items-center mt-2 ml-1"><i class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
+            </label>
+
+            <div class="flex flex-col justify-start align-top xl:mr-10">
+              <div class="flex flex-row">
+                <span class="text-xs form-check-label md:text-base"></span> Start Date &nbsp;<span class="text-red-600">*</span>
+              </div>
+              <div class="w-auto mt-4 mb-3 input-icon lg:w-96">
+                <span class="absolute flex items-center mt-2 ml-1"><i (click)="d.toggle()" class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
                 <input
                 placeholder="yyyy-mm-dd"
                 [disabled]="currentlyChecked !== check_box_type.ONE"
@@ -43,67 +48,72 @@
                 control: form.controls['voucherStartDate']
               }">
               </ng-container>
-              <span class="mb-0 text-xs tracking-widest text-gray-600 md:text-base"><span class="text-red-600">*</span>Max validity 90 days</span>
-            </label>
+              <!-- <span class="mb-0 text-xs tracking-widest text-gray-600 md:text-base"><span class="text-red-600">*</span>Max validity 90 days</span> -->
 
-            <label class="mt-1 text-sm xl:mt-1 3xl:items-center 3xl:justify-end 3xl:ml-44 form-check form-check-solid md:text-base">
-              <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
-              <div class="flex-auto mt-3 input-icon md:w-72">
-                <span class="absolute flex items-center mt-2 ml-1"><i class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
-                <input
-                placeholder="yyyy-mm-dd"
-                [disabled]="currentlyChecked !== check_box_type.ONE"
-                [minDate]="form.controls['voucherStartDate'].value"
-                (keydown)="disableManual($event)"
-                name="dp"
-                ngbDatepicker
-                #e="ngbDatepicker"
-                (click)="e.toggle()"
-                class="pl-12 text-sm font-thin cursor-pointer form-control"
-                formControlName="voucherEndDate"
-                name="voucherEndDate"
-                >
-              </div>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'required',
-                message: 'End Date is required',
-                control: form.controls['voucherEndDate']
-              }">
-              </ng-container>
-            </label>
-          </div>
-
-          <div class="flex">
-            <label class="mt-8 text-xs lg:mt-6 form-check form-check-solid md:text-base">
-              <input
-              [checked]="currentlyChecked === check_box_type.TWO || form.get('voucherValidity')?.value"
-              class="mr-2 rounded-full form-check-input"
-              type="checkbox"
-              (click)="selectCheckBox(check_box_type.TWO); disableCheckBox();"
-              >
-              <span class="form-check-label">Voucher is valid for</span>
-              <div class="relative mt-4">
-                <div class="flex flex-col w-4/5 h-8 border-2 border-white rounded-sm md:flex-row md:w-3/5">
-                  <div class="flex flex-row w-full md:w-2/5 md:mr-1">
-                    <button [disabled]="btnDisable == true" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
-                    <input appNumbersOnly maxlength="4" type="text" placeholder="0" class="w-full text-center" formControlName="voucherValidity" name="voucherValidity">
-                    <button [disabled]="btnDisable == true" class="h-full text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
-                  </div>
-                  <div class="flex flex-row w-full mt-1 md:w-3/5">
-                    <span class="text-xs text-gray-400 md:text-base">days after purchase</span>
-                  </div>
+              <label class="w-auto mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base lg:w-96" style="padding-left: 0px;">
+                <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
+                <div class="flex-auto w-auto mt-3 input-icon lg:w-96">
+                  <span class="absolute flex items-center mt-2 ml-1"><i (click)="e.toggle()" class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
+                  <input
+                  [disabled]="currentlyChecked !== check_box_type.ONE"
+                  placeholder="yyyy-mm-dd"
+                  [minDate]="form.controls['voucherStartDate'].value"
+                  (keydown)="disableManual($event)"
+                  name="dp"
+                  ngbDatepicker
+                  #e="ngbDatepicker"
+                  (click)="e.toggle()"
+                  class="w-full pl-12 text-sm font-thin cursor-pointer form-control"
+                  formControlName="voucherEndDate"
+                  name="voucherEndDate"
+                  >
                 </div>
                 <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                   validation: 'required',
-                  message: 'Voucher validity date is required',
-                  control: form.controls['voucherValidity']
+                  message: 'End Date is required',
+                  control: form.controls['voucherEndDate']
                 }">
                 </ng-container>
-              </div>
-            </label>
+              </label>
+            </div>
+
           </div>
 
-          <div class="pb-10 mt-8 ml-5">
+          <div class="flex flex-row xl:mr-10">
+            <label class="text-sm mt-7 md:text-base form-check form-check-solid">
+              <input
+              class="border rounded-full form-check-input"
+              type="checkbox"
+              (click)="selectCheckBox(check_box_type.TWO); disableCheckBox();"
+              [checked]="currentlyChecked === check_box_type.TWO || form.controls['voucherValidity']?.value"
+              >
+            </label>
+
+            <span class="w-40 text-sm mt-7 form-check-label 2xl:text-base">Voucher is valid for</span>
+            <div class="relative mt-4">
+              <!-- <div class="flex flex-col w-4/5 h-8 border-2 border-white rounded-sm md:flex-row md:w-3/5"> [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-yellow-500 text-black'" -->
+                <div class="flex flex-row w-full md:mr-1">
+                  <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-7" (click)="handleMinus()">-</button>
+                  <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-yellow-500 text-black'" appNumbersOnly maxlength="3" type="number" style="border-width: 1px;" class="w-1/6 h-5 mt-2 text-xs text-center rounded-md form-control" formControlName="voucherValidity" name="voucherValidity">
+                  <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-7" (click)="handlePlus()">+</button>
+                  <div class="flex flex-row ml-2 tracking-wider lg:mt-3 2xl:mt-2">
+                    <span class="text-sm text-gray-400 2xl:text-base">days after purchase</span>
+                  </div>
+                </div>
+                <!-- <div class="flex flex-row w-full mt-1 md:w-3/5">
+                  <span class="text-xs text-gray-400 md:text-base">days after purchase</span>
+                </div> -->
+              <!-- </div> -->
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Voucher validity date is required',
+                control: form.controls['voucherValidity']
+              }">
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="pb-10 mt-8">
             <label class="w-full mb-3 text-xs md:text-base">Where can customers redeem their vouchers?</label>
             <table class="datatable-table" style="display: block;">
               <tbody class="datatable-body" style="padding: 20px;">
@@ -135,7 +145,7 @@
                 </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
-                      style="width: 30px;">Country</span>
+                      style="width: 30px;">Province</span>
                   </td>
                   <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
                       style="width: 108px;">{{policy.province}}</span>
@@ -145,10 +155,9 @@
             </table>
             <!-- <button class="btn btn-light btn-active-light-primary" type="button" (click)="openNew()">Edit</button> -->
           </div>
-
-          <div class="ml-5">
+          <div>
             <div class="mr-2">
-              <p class="flex items-center text-xs text-black md:font-medium">
+              <p class="flex items-center text-xs text-black md:font-medium lg:text-base">
                 General terms & cancellation policy
               </p>
               <ckeditor [(ngModel)]="data.termsAndCondition" [editor]="Editor" [config]="config" formControlName="termsAndCondition" name="termsAndCondition"></ckeditor>
@@ -253,6 +262,12 @@ input::-webkit-datetime-edit {
 input::-webkit-datetime-edit-fields-wrapper {
   position: relative;
   left: 20px;
+}
+
+::ng-deep .ngb-dp-weekday {
+  color: rgb(255, 187, 0)!important;
+  font-family: Arial, Helvetica, sans-serif!important;
+  font-style: normal!important;
 }
 
 </style>

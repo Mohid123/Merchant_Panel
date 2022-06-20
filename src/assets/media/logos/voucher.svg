@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="13.934" height="18.579" viewBox="0 0 13.934 18.579">
+  <g id="Group_1960" data-name="Group 1960" transform="translate(7177 188)">
+    <path id="ticket" d="M6.1,14.167H3v5.419H8.419v-.774a1.548,1.548,0,1,1,3.1,0v.774h5.419V14.167H6.1Z" transform="translate(-7180 -189.006)" fill="rgba(72,166,241,0.5)"/>
+    <path id="ticket-2" data-name="ticket" d="M16.934,11.612V2.322A2.322,2.322,0,0,0,14.612,0h-3.1V.774a1.548,1.548,0,1,1-3.1,0V0h-3.1A2.322,2.322,0,0,0,3,2.322v9.29H6.1V13.16h7.741V11.612ZM11.515,13.16h-3.1V11.612h3.1Z" transform="translate(-7180 -188)" fill="#48a6f1"/>
+  </g>
+</svg>

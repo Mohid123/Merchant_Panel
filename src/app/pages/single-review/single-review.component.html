@@ -89,7 +89,7 @@
 <ng-container *ngIf="showData == true">
   <div class="table-container">
     <table class="w-full mt-10 rounded-md shadow-md">
-      <tr class="text-gray-600 bg-gray-300 rounded-lg">
+      <tr class="text-gray-800 bg-blue-100 rounded-lg">
         <div style="all: unset" ngbDropdown display="dynamic" id="dropdownBasic1">
           <th class="p-4 font-semibold cursor-pointer">
             <div class="inline-flex">
@@ -102,12 +102,15 @@
             </div>
           </th>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <span class="pt-2 pl-3 text-sm font-semibold">Filter by rating</span>
+            <hr class="text-gray-500">
             <ng-container *ngFor="let rate of ratings">
               <button ngbDropdownItem (click)="filterByRating(rate.value)">
-                {{rate.value}}
+                <img [src]="rate.img">
               </button>
             </ng-container>
-            <button class="m-3 btn btn-light-info btn-sm" (click)="resetFilters();">Reset</button>
+            <hr class="text-gray-500">
+            <button class="m-3 text-blue-400 bg-blue-100 btn hover:bg-blue-600 hover:text-white btn-sm" (click)="resetFilters();">Reset</button>
           </div>
         </div>
         <th class="p-4 font-semibold cursor-pointer">Author Name</th>
@@ -148,7 +151,7 @@
               <span class="mt-2 ml-2 text-sm text-black font-base">{{data.customerName}}</span>
             </div>
           </td>
-          <td class="p-4 text-sm font-medium text-gray-600">{{reviewData?.title}}</td>
+          <td class="p-4 text-sm font-medium text-gray-600">{{reviewData?.dealHeader}}</td>
           <td class="p-4" style="width: 40%;">
             <span class="text-sm font-medium">On {{data.createdAt | date}} at {{data.createdAt | date:'shortTime'}}</span>
             <br>

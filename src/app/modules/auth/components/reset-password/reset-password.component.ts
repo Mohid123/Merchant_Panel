@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { ApiResponse } from '@core/models/response.model';
+import { HotToastService } from '@ngneat/hot-toast';
+import { NgPasswordValidatorOptions } from 'ng-password-validator';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
+import { CustomValidators } from './custom-validators';
 import { ConfirmedValidator } from './password.validator';
 
 enum ErrorStates {
@@ -17,20 +21,51 @@ enum ErrorStates {
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   createPasswordForm: FormGroup;
   errorState: ErrorStates = ErrorStates.NotSubmitted;
   errorStates = ErrorStates;
-  isLoading$: Observable<boolean>;
-  private unsubscribe: Subscription[] = [];
+  isLoading$: boolean;
+  private unsubscribe = new Subject();
+  passwordHide: boolean = true;
+  validityPass: boolean;
+  token: string;
+  showPopup: boolean;
+
+  options: NgPasswordValidatorOptions = {
+    placement: "bottom",
+    "animation-duration": 500,
+    shadow: true,
+    "z-index": 1200,
+    theme: "pro",
+    offset: 8,
+    heading: "Password Policy",
+    successMessage: "Password is Valid",
+    rules: {
+      password: {
+          type: "range",
+          length: 8,
+          min: 8,
+          max: 100,
+      },
+      "include-symbol": true,
+      "include-number": true,
+      "include-lowercase-characters": true,
+      "include-uppercase-characters": true,
+    }
+}
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cf: ChangeDetectorRef,
+    private toast: HotToastService
   ) {
-    this.isLoading$ = this.authService.isLoading$;
+    this.isLoading$ = false;
+    this.validityPass = false;
+    this.showPopup = false;
   }
 
   ngOnInit(): void {
@@ -42,17 +77,29 @@ export class ResetPasswordComponent implements OnInit {
       password: [
         '',
         Validators.compose([
-          Validators.required,
+          CustomValidators.patternValidator(/\d/, {
+            hasNumber: true
+          }),
+          CustomValidators.patternValidator(/[A-Z]/, {
+            hasCapitalCase: true
+          }),
+          CustomValidators.patternValidator(/[a-z]/, {
+            hasSmallCase: true
+          }),
+          CustomValidators.patternValidator(
+            /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+            {
+              hasSpecialCharacters: true
+            }
+          ),
           Validators.minLength(8),
-          Validators.maxLength(16),
+          Validators.required
         ]),
       ],
       confirmPassword: [
         '',
         Validators.compose([
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(16),
+          Validators.required
         ]),
       ],
     }, {
@@ -60,15 +107,61 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
+  passwordShowHide(): void {
+    this.passwordHide = !this.passwordHide;
+  }
+
+  isValid(str: string) {
+    const pattern = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*.,?]).+$");
+    if (pattern.test(str)) {
+      this.validityPass = true;
+    }
+    else {
+      this.validityPass = false;
+    }
+  }
+
   submit() {
-    this.errorState = ErrorStates.NotSubmitted;
-    const forgotPasswordSubscr = this.authService
-      .forgotPassword(this.createPasswordForm.controls['password'].value)
-      .pipe(first())
-      .subscribe((result: boolean) => {
-        this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
-        this.router.navigate(['/auth/login'])
-      });
-    this.unsubscribe.push(forgotPasswordSubscr);
+    this.isLoading$ = true;
+    this.authService.resetPassword(this.createPasswordForm.controls['password']?.value)
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.isLoading$ = false;
+        this.toast.success('Password successfully reset', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        })
+        this.router.navigate(['/auth/login']);
+      }
+      else {
+        this.isLoading$ = false;
+        this.cf.detectChanges();
+        this.toast.error(res.errors[0]?.error?.message, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          }
+        })
+      }
+    })
+  }
+  ngOnDestroy() {
+    this.unsubscribe.complete();
+    this.unsubscribe.unsubscribe();
   }
 }
+
+

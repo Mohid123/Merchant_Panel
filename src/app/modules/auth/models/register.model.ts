@@ -4,7 +4,7 @@ export class RegisterModel {
   lastName: string;
   email: string;
   phoneNumber: string | null;
-  companyName: string;
+  legalName: string;
   streetAddress: string;
   zipCode: number | null;
   city: string;
@@ -21,7 +21,7 @@ export class RegisterModel {
     this.lastName = model.lastName || '';
     this.email = model.email || '';
     this.phoneNumber = model.phoneNumber || null;
-    this.companyName = model.companyName || './assets/media/users/default.jpg';
+    this.legalName = model.legalName || './assets/media/users/default.jpg';
     this.streetAddress = model.streetAddress || '';
     this.zipCode = model.zipCode || null;
     this.city = model.city || '';

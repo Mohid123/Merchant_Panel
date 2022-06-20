@@ -12,7 +12,7 @@ export class UserModel extends AuthModel {
   pic: string;
   roles: number[] = [];
   occupation: string;
-  companyName: string;
+  legalName: string;
   phone: string;
   address?: AddressModel;
   socialNetworks?: SocialNetworksModel;
@@ -60,7 +60,7 @@ export class UserModel extends AuthModel {
     this.pic = user.pic || './assets/media/users/default.jpg';
     this.roles = user.roles || [];
     this.occupation = user.occupation || '';
-    this.companyName = user.companyName || '';
+    this.legalName = user.legalName || '';
     this.phone = user.phone || '';
     this.address = user.address;
     this.socialNetworks = user.socialNetworks;

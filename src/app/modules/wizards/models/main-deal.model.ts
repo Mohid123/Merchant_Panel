@@ -3,11 +3,11 @@ import { Vouchers } from "./vouchers.model";
 export class MainDeal {
   id: string;
   subCategory: string;
-  title: string;
+  dealHeader: string;
   subTitle: string;
   description: string | any;
   categoryType: string;
-  mediaUrl: string[];
+  mediaUrl: any[];
   startDate: string;
   endDate: string;
   vouchers: Vouchers[];
@@ -20,7 +20,7 @@ export class MainDeal {
   ratingsAverage?: number;
   soldVouchers?: number;
   showDetail: string;
-
+  highlights: string;
 }
 
 export class Deals {

@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ReducePipe implements PipeTransform {
 
   transform(value: string, maxLength: number) {
-    if(value.length > 14) {
+    if(value.length > 18) {
       return value.substring(0, maxLength) + '...';
     }
     else {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { ReviewsService } from '@pages/services/reviews.service';
@@ -12,7 +12,7 @@ import { Reviews } from './../../modules/wizards/models/reviews.model';
   templateUrl: './single-review.component.html',
   styleUrls: ['./single-review.component.scss']
 })
-export class SingleReviewComponent implements OnInit {
+export class SingleReviewComponent implements OnInit, OnDestroy {
 
   public reviewData: Reviews | any;
   showData: boolean;
@@ -23,19 +23,24 @@ export class SingleReviewComponent implements OnInit {
 
   ratings = [
     {
-      value: 1
+      value: 1,
+      img: '../../../assets/media/logos/1.svg'
     },
     {
-      value: 2
+      value: 2,
+      img: '../../../assets/media/logos/2.svg'
     },
     {
-      value: 3
+      value: 3,
+      img: '../../../assets/media/logos/3.svg'
     },
     {
-      value: 4
+      value: 4,
+      img: '../../../assets/media/logos/4.svg'
     },
     {
-      value: 5
+      value: 5,
+      img: '../../../assets/media/logos/5.svg'
     }
   ]
 
@@ -70,6 +75,7 @@ export class SingleReviewComponent implements OnInit {
   }
 
   filterByRating(rating: number) {
+    debugger
     this.offset = 0;
     this.rating = rating;
     this.getReviewsByMerchant();
@@ -79,6 +85,11 @@ export class SingleReviewComponent implements OnInit {
     this.offset = 0;
     this.rating = 0;
     this.getReviewsByMerchant();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
 

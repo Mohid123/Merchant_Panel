@@ -96,7 +96,6 @@
   [ngClass]="toolbarButtonMarginClass"
   id="kt_header_user_menu_toggle"
 >
-  <!-- begin::Toggle -->
   <div
     class="cursor-pointer symbol"
     [ngClass]="toolbarUserAvatarHeightClass"
@@ -105,12 +104,15 @@
     data-kt-menu-placement="bottom-end"
     data-kt-menu-flip="bottom"
   >
-    <img src="./assets/media/avatars/300-1.jpg" alt="divideals" />
+  <ng-container *ngIf="user?.profilePicURL != ''">
+    <img class="object-cover" alt="Logo" [src]="user?.profilePicURL" />
+  </ng-container>
+  <ng-container *ngIf="user?.profilePicURL == ''">
+    <img class="object-cover" alt="Logo" src="../../../../../../../assets/media/avatars/300-1.jpg" />
+  </ng-container>
   </div>
-  <!-- end::Toggle  -->
   <app-user-inner></app-user-inner>
 </div>
-<!-- end::User -->
 
 <ng-container *ngIf="headerLeft === 'menu'">
   <div

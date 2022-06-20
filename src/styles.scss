@@ -61,18 +61,38 @@ input[type='file'] {
   }
 }
 
+.ck.ck-toolbar.ck-toolbar_grouping {
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+  background-color: white !important;
+  padding: 0 12px !important;
+}
+
+.ck.ck-editor__main {
+  border: 1px solid #787f9f5e;
+  border-top: none;
+  border-bottom-left-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+}
+
+.ck-editor__editable_inline.ck-blurred {
+  margin: 0 12px;
+  border: none !important;
+  border-top: 0.5px solid #787f9f5e !important;
+}
+
 .ck-editor__top {
-  max-width: 600px!important;
+  max-width: 900px!important;
   border-radius: 8px!important;
-  border-top: #F38B41!important;
-  border-left: #F38B41!important;
-  border-right: #F38B41!important;
+  border-top: #0081E9!important;
+  border-left: #0081E9!important;
+  border-right: #0081E9!important;
 }
 
 .ck-editor__editable_inline {
-  max-width: 600px;
-  min-height: 300px;
-  border: 1px solid #F38B41!important;
+  max-width: 900px;
+  min-height: 200px;
+  border: 1px solid #0081E9!important;
 }
 
 .fc .fc-toolbar-title {
@@ -124,3 +144,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* Importing Datepicker SCSS file. */
 @import "~ngx-bootstrap/datepicker/bs-datepicker";
+
+
+@media (min-width:2560px) {
+  html {
+    font-size: 24px !important;
+  }
+}
