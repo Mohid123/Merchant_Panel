@@ -27,7 +27,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   categories = [
     { id:2, img: '../../../../../assets/media/icons/Accomodations.svg', name:'Accommodation' },
     { id:3, img: '../../../../../assets/media/icons/Dinings.svg', name:'Dining' },
-    { id:4, img: '../../../../../assets/media/icons/sports.svg', name:'Sports, Adventures & Experiences' },
+    { id:4, img: '../../../../../assets/media/icons/sports.svg', name:'Sports and Adventures' },
     { id:5, img: '../../../../../assets/media/icons/experience.svg', name:'Experiences at Home' },
     { id:1, img: '../../../../../assets/media/icons/spa.svg', name:'Spa & Holistic Wellness' },
     { id:6, img: '../../../../../assets/media/icons/Personal-growth.svg', name:'Personal Development' },
