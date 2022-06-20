@@ -248,6 +248,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe((res: ApiResponse<ZipCode>) => {
           if(!res.hasErrors() && res.data != null) {
+            console.log(res.data);
             this.cities.push(res.data.city);
             this.cf.detectChanges();
           }

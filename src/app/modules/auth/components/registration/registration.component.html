@@ -198,7 +198,7 @@
 
             <div class="h-90px fv-row 2xl:h-26">
               <label class="mb-1 text-sm text-gray-400 2xl:text-base font-extralight 2xl:mb-2 form-label">Company Name</label>
-               <div class="flex flex-row relative input-group-prepend">
+               <div class="relative flex flex-row input-group-prepend">
                 <span class="absolute flex items-center mt-2.5 2xl:mt-3 right-3 cursor-pointer">
                   <mat-spinner *ngIf="fetchingName == true" [diameter]="25"></mat-spinner>
                 </span>
@@ -390,7 +390,7 @@
                 Loading...
               </ng-container>
               <ng-container *ngIf="!(isLoading$ | async)">
-                Next
+                Send
               </ng-container>
             </button>
           </div>
