@@ -1,10 +1,10 @@
 <!--Title/ Header-->
-<div class="mb-6 lg:text-center md:mb-13">
+<!-- <div class="mb-6 lg:text-center md:mb-13">
   <h1 class="mt-2 mb-3 text-sm text-center 3xl:text-3xl xl:mt-0 md:text-2xl">The when, the how and the where.</h1>
   <div class="text-xs font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">Let's make sure all terms are correct before publishing your deal.</div>
-</div>
+</div> -->
 <!--Card for Duration of Deal-->
-<div class="flex justify-center w-full align-middle">
+<!-- <div class="flex justify-center w-full align-middle">
   <div class="w-full lg:w-3/4 card card-custom card-stretch" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%);">
     <div class="p-3 md:p-9 card-body">
 
@@ -47,9 +47,9 @@
                 message: 'Start Date is required',
                 control: form.controls['voucherStartDate']
               }">
-              </ng-container>
+              </ng-container> -->
               <!-- <span class="mb-0 text-xs tracking-widest text-gray-600 md:text-base"><span class="text-red-600">*</span>Max validity 90 days</span> -->
-
+<!--
               <label class="w-auto mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base lg:w-96" style="padding-left: 0px;">
                 <span class="form-check-label"></span> End Date &nbsp;<span class="text-red-600">*</span>
                 <div class="flex-auto w-auto mt-3 input-icon lg:w-96">
@@ -90,30 +90,30 @@
             </label>
 
             <span class="w-40 text-sm mt-7 form-check-label 2xl:text-base">Voucher is valid for</span>
-            <div class="relative mt-4">
+            <div class="relative mt-4"> -->
               <!-- <div class="flex flex-col w-4/5 h-8 border-2 border-white rounded-sm md:flex-row md:w-3/5"> [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-yellow-500 text-black'" -->
-                <div class="flex flex-row w-full md:mr-1">
+                <!-- <div class="flex flex-row w-full md:mr-1">
                   <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-7" (click)="handleMinus()">-</button>
                   <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-yellow-500 text-black'" appNumbersOnly maxlength="3" type="number" style="border-width: 1px;" class="w-1/6 h-5 mt-2 text-xs text-center rounded-md form-control" formControlName="voucherValidity" name="voucherValidity">
                   <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-7" (click)="handlePlus()">+</button>
                   <div class="flex flex-row ml-2 tracking-wider lg:mt-3 2xl:mt-2">
                     <span class="text-sm text-gray-400 2xl:text-base">days after purchase</span>
                   </div>
-                </div>
+                </div> -->
                 <!-- <div class="flex flex-row w-full mt-1 md:w-3/5">
                   <span class="text-xs text-gray-400 md:text-base">days after purchase</span>
                 </div> -->
               <!-- </div> -->
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
                 message: 'Voucher validity date is required',
                 control: form.controls['voucherValidity']
               }">
               </ng-container>
             </div>
-          </div>
+          </div> -->
 
-          <div class="pb-10 mt-8">
+          <!-- <div class="pb-10 mt-8">
             <label class="w-full mb-3 text-xs md:text-base">Where can customers redeem their vouchers?</label>
             <table class="datatable-table" style="display: block;">
               <tbody class="datatable-body" style="padding: 20px;">
@@ -152,9 +152,9 @@
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </table> -->
             <!-- <button class="btn btn-light btn-active-light-primary" type="button" (click)="openNew()">Edit</button> -->
-          </div>
+          <!-- </div>
           <div>
             <div class="mr-2">
               <p class="flex items-center text-xs text-black md:font-medium lg:text-base">
@@ -168,11 +168,11 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
 <!--Edit Modal-->
-<app-reusable-modal #modal [modalConfig]="modalConfig">
+<!-- <app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="modal-body">
     <div class="p-0 m-0 d-flex justify-content-end">
       <button class="p-3 btn btn-sm btn-icon btn-bg-light btn-active-color-primary" (click)="closeModal()"
@@ -217,9 +217,9 @@
     <button type="button" class="text-white btn btn-dark" (click)="closeModal()">Save</button>
   </div>
 
-</app-reusable-modal>
+</app-reusable-modal> -->
 
-<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+<!-- <ng-template #formError let-control="control" let-message="message" let-validation="validation">
   <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
     <div class="fv-plugins-message-container">
       <div class="text-xs fv-help-block">
@@ -227,11 +227,11 @@
       </div>
     </div>
   </ng-container>
-</ng-template>
+</ng-template> -->
 
 <!-- <span class="text-2xl">{{data.termsAndCondition}}</span> -->
 
-<style>
+<!-- <style>
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -270,7 +270,7 @@ input::-webkit-datetime-edit-fields-wrapper {
   font-style: normal!important;
 }
 
-</style>
+</style> -->
 
 
 

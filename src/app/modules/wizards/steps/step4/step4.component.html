@@ -1,102 +1,265 @@
-<!--Title-->
-<div class="mb-4 md:mb-6 lg:text-center">
-  <h1 class="mt-2 mb-3 text-sm text-center 3xl:text-3xl xl:mt-0 md:text-2xl">Let's get this crazy deal scheduled!</h1>
-  <div class="text-xs font-thin text-center 3xl:text-xl text-primary-400 md:text-sm">And we're good to go!</div>
-</div>
-<!--Stepper with Calendar-->
-<div class="flex justify-center adjust">
-  <!-- <div class="w-3/4 p-2 shadow-sm lg:p-4 card card-custom card-stretch" style="border-top: 16px solid #F38B41;"> -->
-    <!-- <div class="rounded lg:p-8 card card-custom card-stretch bg-gray-50"> -->
-      <div class="w-full md:w-3/4 md:p-2 lg:p-4 card card-custom card-stretch secondAdjust" style="border-top: 16px solid #F38B41;">
-        <button (click)="openNew()" class="absolute top-0 right-0 px-3 py-1 text-center text-white bg-green-400 rounded-sm xl:rounded-md xl:px-6 xl:py-2 3xl:px-10 3xl:py-3 lg:top-6 xl:top-6 3xl:top-6 lg:right-6 xl:right-7 3xl:right-7">
-          <ng-container *ngIf="uploaded == false">
-            <span class="indicator-progress" [style.display]="'block'">
-              Please wait...
-              <span class="align-middle spinner-border spinner-border-sm ms-2"></span>
-            </span>
-          </ng-container>
-          <ng-container *ngIf="uploaded == true">
-            <span class="indicator-label">Send</span>
-          </ng-container>
-        </button>
-        <full-calendar class="calendar" [options]="calendarOptions"></full-calendar>
-      </div>
-    <!-- </div> -->
-    <!-- <div class="h-full lg:p-2 card card-custom card-stretch">
-      <div class="flex items-center justify-evenly lg:flex-row">
-        <i class="text-yellow-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-sm md:mr-7 abc">In-Review</span></i>
-        <i class="text-red-500 lg:mr-4 fas fa-circle"> <span class="ml-1 text-xs font-thin text-gray-700 lg:ml-2 lg:text-sm abc">Needs Attention</span></i>
-        <i class="text-green-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-sm md:mr-7 abc">Scheduled</span></i>
-        <i class="text-blue-500 lg:mr-4 fas fa-circle"> <span class="ml-1 mr-2 text-xs font-thin text-gray-700 lg:ml-2 lg:text-sm md:mr-7 abc">Published</span></i>
-      </div>
-    </div> -->
-  </div>
-<!-- </div> -->
+<div class="flex flex-col w-full h-auto gap-2 mt-9 md:flex-row">
+  <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
+      <!--title-->
+      <form class="self-center form max-w-124 2xl:max-w-128 3xl:max-w-135" [formGroup]="form">
+        <div class="mb-9 lg:text-center">
+          <h1 class="mt-1 mb-2.5 text-lg text-center md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl">Almost there.</h1>
+          <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base 3xl:text-lg">Let's finish off with the last details.</div>
+        </div>
+        <!--form-->
+        <div class="flex flex-col justify-center align-start">
+          <label class="mb-6 form-label">When can the customer redeem their voucher?</label>
+            <div class="flex flex-row justify-center w-full align-middle">
 
-<app-reusable-modal #modal [modalConfig]="modalConfig">
-  <div class="modal-header">
-    <img src="../../../../../assets/media/icons/tick_mark.svg" class="absolute w-12 h-12 left-56 -top-7">
+              <label class="mb-6 text-sm md:text-base form-check form-check-solid">
+                <input
+                class="w-4 h-4 mt-1 rounded-full form-check-input"
+                style="border: 1px solid black;"
+                type="checkbox"
+                (click)="selectCheckBox(check_box_type.ONE); disableCheckBox();"
+                [checked]="currentlyChecked === check_box_type.ONE"
+                >
+              </label>
+
+              <div class="flex flex-col justify-start align-top xl:mr-20">
+                <div class="flex flex-row">
+                  <span class="text-xs form-check-label"></span> Start Date &nbsp;<span class="text-black">*</span>
+                </div>
+                <div class="w-auto mt-4 mb-3 input-icon lg:w-96">
+                  <span class="absolute flex items-center mt-2 ml-1"><i (click)="d.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+                  <input
+                    placeholder="yyyy-mm-dd"
+                    [disabled]="currentlyChecked !== check_box_type.ONE"
+                    (keydown)="disableManual($event)"
+                    [ngClass]="form.controls['voucherStartDate'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'"
+                    name="dp"
+                    ngbDatepicker
+                    #d="ngbDatepicker"
+                    (click)="d.toggle()"
+                    class="w-full pl-12 text-sm font-thin cursor-pointer lg:w-11/12 form-control"
+                    formControlName="voucherStartDate"
+                    name="voucherStartDate"
+                  >
+                </div>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'Start Date is required',
+                  control: form.controls['voucherStartDate']
+                }">
+                </ng-container>
+
+                <label class="w-auto mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base lg:w-96" style="padding-left: 0px;">
+                  <span class="text-xs form-check-label"></span> End Date &nbsp;<span class="text-black">*</span>
+                  <div class="flex-auto w-auto mt-3 input-icon lg:w-96">
+                    <span class="absolute flex items-center mt-2 ml-1"><i (click)="e.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+                    <input
+                    [disabled]="currentlyChecked !== check_box_type.ONE"
+                    placeholder="yyyy-mm-dd"
+                    [minDate]="form.controls['voucherStartDate'].value"
+                    (keydown)="disableManual($event)"
+                    [ngClass]="form.controls['voucherStartDate'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'"
+                    name="dp"
+                    ngbDatepicker
+                    #e="ngbDatepicker"
+                    (click)="e.toggle()"
+                    class="w-full pl-12 text-sm font-thin cursor-pointer lg:w-11/12 form-control"
+                    formControlName="voucherEndDate"
+                    name="voucherEndDate"
+                    >
+                  </div>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'End Date is required',
+                    control: form.controls['voucherEndDate']
+                  }">
+                  </ng-container>
+                </label>
+              </div>
+            </div>
+
+            <div class="flex flex-row justify-center w-full align-middle xl:mr-20">
+              <label class="text-sm mt-7 md:text-base form-check form-check-solid">
+                <input
+                class="w-4 h-4 mt-1 rounded-full form-check-input"
+                type="checkbox"
+                style="border: 1px solid black;"
+                (click)="selectCheckBox(check_box_type.TWO); disableCheckBox();"
+                [checked]="currentlyChecked === check_box_type.TWO || form.controls['voucherValidity']?.value"
+                >
+              </label>
+
+              <span class="w-56 text-sm mt-7 form-check-label xl:text-base">Voucher is valid for</span>
+              <div class="relative mt-4">
+                <div class="flex flex-col w-full h-8 border-2 border-white rounded-sm md:flex-row">
+                  <div class="flex flex-row w-full md:mr-1">
+                    <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
+                    <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'" appNumbersOnly maxlength="3" type="number" style="border-width: 1px;" class="w-1/6 h-5 mt-2 text-xs text-center rounded-md form-control" formControlName="voucherValidity" name="voucherValidity">
+                    <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+                    <div class="flex flex-row w-full ml-2 tracking-wider lg:mt-2">
+                      <span class="text-sm xl:text-base">days after purchase</span>
+                    </div>
+                  </div>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'Voucher validity date is required',
+                  control: form.controls['voucherValidity']
+                }">
+                </ng-container>
+              </div>
+             </div>
+           </div>
+
+           <div class="pb-10 mt-10">
+            <label class="mb-3 form-label">Where can the customer redeem their vouchers?</label>
+
+            <ng-container *ngIf="editable == false">
+              <table class="datatable-table" style="display: block;">
+                <tbody class="datatable-body" style="padding: 20px;">
+                  <tr data-row="0" class="datatable-row" style="left: 0px;">
+                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="1"><span class="text-xs text-gray-400 md:text-base"
+                        style="width: 30px;">Street Address</span>
+                    </td>
+                    <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                      <span
+                        style="width: 108px;">{{policy.streetAddress}}
+                      </span>
+                    </td>
+                    </tr>
+                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
+                        style="width: 30px;">Zip Code</span>
+                    </td>
+                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                        style="width: 108px;">{{policy.zipCode}}</span>
+                    </td>
+                  </tr>
+                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
+                        style="width: 30px;">City</span>
+                    </td>
+                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                        style="width: 108px;">{{policy.city}}</span>
+                    </td>
+                  </tr>
+                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
+                        style="width: 30px;">Province</span>
+                    </td>
+                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                        style="width: 108px;">{{policy.province}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-container>
+
+            <ng-container *ngIf="editable == true">
+              <table class="datatable-table" style="display: block;">
+                <tbody class="datatable-body" style="padding: 20px;">
+                  <tr data-row="0" class="datatable-row" style="left: 0px;">
+                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="1"><span class="text-xs text-gray-400 md:text-base"
+                        style="width: 30px;">Street Address</span>
+                    </td>
+                    <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                      <input class="form-control" formControlName="streetAddress" maxlength="25">
+                    </td>
+                    </tr>
+                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
+                        style="width: 30px;">Zip Code</span>
+                    </td>
+                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                        style="width: 108px;">{{policy.zipCode}}</span>
+                    </td>
+                  </tr>
+                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
+                        style="width: 30px;">City</span>
+                    </td>
+                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                        style="width: 108px;">{{policy.city}}</span>
+                    </td>
+                  </tr>
+                  <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
+                    <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2"><span class="text-xs text-gray-400 md:text-base"
+                        style="width: 30px;">Province</span>
+                    </td>
+                    <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                        style="width: 108px;">{{policy.province}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-container>
+          </div>
+        </div>
+      </form>
+
+      <div class="flex mt-6 justify-evenly min-h-14 2xl:h-20">
+        <button (click)="prevClick.emit('')" class="self-center w-24 h-10 text-xs text-gray-600 bg-gray-300 rounded-lg 2xl:h-12">Back</button>
+        <button (click)="nextClick.emit('')" class="self-center w-32 h-10 text-xs text-white rounded-lg 2xl:h-12 bg-primary-400">Save & next</button>
+      </div>
   </div>
-  <div class="p-6 text-center modal-body">
-    <div class="flex flex-col">
-      <span class="mb-8">Your deal has successfully been sent for review. We will process this within <strong>24hrs</strong>.</span>
-      <div class="flex justify-center">
-        <button [routerLink]="['/crafted/pages/wizards/view-deal']" (click)="closeModal()" class="px-12 py-2 text-white bg-gray-900 rounded-md">OK</button>
+</div>
+
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="text-xs fv-help-block">
+        {{ message }}
       </div>
     </div>
-  </div>
+  </ng-container>
+</ng-template>
 
-</app-reusable-modal>
+<!-- <span class="text-2xl">{{data.termsAndCondition}}</span> -->
 
 <style>
- ::ng-deep .fc .fc-toolbar-title {
-    margin-right: 60px!important;
-    font-weight: 500;
-    font-size: 19px!important;
-    color: #4E5970;
-  }
-
-::ng-deep .fc .fc-today-button {
-    text-transform: capitalize!important;
-    background: rgba(245, 240, 240, 0.884)!important;
-    color: black!important;
-    border: 1px solid white!important;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-::ng-deep .fc .fc-prev-button {
-  background: black!important;
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
-::ng-deep .fc .fc-next-button {
-  background: black!important;
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  color: rgba(0, 0, 0, 0);
+  opacity: 1;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding-left: 10px;
+  background-image: url('../../../../../assets/media/icons/calendar.svg');
+  filter: invert(0);
+  cursor: pointer!important;
 }
 
-span {
-  font-family: Arial, Helvetica, sans-serif
+input::-webkit-datetime-edit {
+  position: relative;
+  left: 20px;
 }
 
-@media (max-width: 1280px) {
-  .adjust {
-    height: 550px;
- }
-
- .secondAdjust {
-    height: 550px;
- }
+input::-webkit-datetime-edit-fields-wrapper {
+  position: relative;
+  left: 20px;
 }
 
-@media (max-width: 640px) {
-  .adjust {
-    height: 400px;
- }
-
- .secondAdjust {
-    height: 360px;
- }
-
- ::ng-deep .fc .fc-toolbar-title {
-    font-size: 10px!important;
-  }
+::ng-deep .ngb-dp-weekday {
+  color: rgb(69, 87, 219)!important;
+  font-family: Arial, Helvetica, sans-serif!important;
+  font-style: normal!important;
 }
 
 </style>
+
+
+
+
+
+
+
