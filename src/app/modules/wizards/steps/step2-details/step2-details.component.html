@@ -34,12 +34,12 @@
         </ng-container>
       </div>
 
-      <div class="h-64 fv-row">
+      <div class="h-72 fv-row">
         <label class="form-label">About this deal</label>
-        <textarea maxlength="2000" appTrim type="text font-weight-light" style="height: 12.5rem;" class="text-sm font-thin form-control" formControlName="aboutDeal" name="aboutDeal" placeholder="aboutDeal" rows="5"
+        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" appTrim type="text font-weight-light" class="p-0 border-none text-sm font-thin form-control" formControlName="aboutDeal" name="aboutDeal" placeholder="aboutDeal" rows="5"
         [ngClass]="{
           'is-invalid': f['aboutDeal'].invalid && f['aboutDeal'].touched,
-          'is-valid': f['aboutDeal'].valid}"></textarea>
+          'is-valid': f['aboutDeal'].valid}"></ckeditor>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'About this deal is required',
@@ -59,12 +59,12 @@
       }">
         </ng-container>
       </div>
-      <div class="h-64 fv-row">
+      <div class="h-72 fv-row">
         <label class="form-label">Read more</label>
-        <textarea maxlength="2000" appTrim type="text font-weight-light" style="height: 12.5rem;" class="text-sm font-thin form-control" formControlName="readMore" name="readMore" placeholder="readMore" rows="5"
+        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" appTrim type="text font-weight-light" class="p-0 border-none text-sm font-thin form-control" formControlName="readMore" name="readMore" placeholder="readMore" rows="5"
         [ngClass]="{
           'is-invalid': f['readMore'].invalid && f['readMore'].touched,
-          'is-valid': f['readMore'].valid}"></textarea>
+          'is-valid': f['readMore'].valid}"></ckeditor>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'Read more is required',
@@ -84,21 +84,21 @@
       }">
         </ng-container>
       </div>
-      <div class="h-64 fv-row">
+      <div class="h-72 fv-row">
         <label class="form-label">Fine prints</label>
-        <textarea maxlength="2000" appTrim type="text font-weight-light" style="height: 12.5rem;" class="text-sm font-thin form-control" formControlName="finePrints" name="finePrints" placeholder="finePrints" rows="5"
+        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" appTrim type="text font-weight-light" class="p-0 border-none text-sm font-thin form-control" formControlName="finePrints" name="finePrints" placeholder="finePrints" rows="5"
         [ngClass]="{
           'is-invalid': f['finePrints'].invalid && f['finePrints'].touched,
-          'is-valid': f['finePrints'].valid}"></textarea>
+          'is-valid': f['finePrints'].valid}"></ckeditor>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'required',
-          message: 'Read more is required',
+          message: 'Fine prints is required',
           control: dealForm.controls['finePrints']
         }">
         </ng-container>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'minlength',
-          message: 'Read more should at least be 16 characters',
+          message: 'Fine prints should at least be 16 characters',
           control: dealForm.controls['finePrints']
         }">
         </ng-container>

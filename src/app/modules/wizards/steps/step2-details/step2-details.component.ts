@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
@@ -11,6 +12,9 @@ import { ConnectionService } from './../../services/connection.service';
   styleUrls: ['./step2-details.component.scss']
 })
 export class Step2DetailsComponent implements OnInit, OnDestroy  {
+
+  config: any;
+  public Editor = ClassicEditor
 
   data: MainDeal;
   destroy$ = new Subject();
@@ -31,6 +35,27 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
   ngOnInit(): void {
     this.initDealForm();
+    this.config = {
+      placeholder: 'Type your content here...',
+      toolbar: {
+        styles: [
+            'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
+            ],
+        items: [
+          'heading',
+          'fontSize',
+          'bold',
+          'italic',
+          'underline',
+          'highlight',
+          'alignment',
+          'indent',
+          'outdent',
+          'undo',
+          'redo'
+        ]
+      }
+    }
   }
 
   get f() {
