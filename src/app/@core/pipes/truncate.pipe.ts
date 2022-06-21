@@ -5,8 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class TruncatePipe implements PipeTransform {
 
-  transform(value: string, maxLength: number) {
-    if(value.length > 14) {
+  transform(value: string | any, maxLength: number) {
+    if(value.length > 50) {
       return value.substring(0, maxLength) + '...';
     }
     else {

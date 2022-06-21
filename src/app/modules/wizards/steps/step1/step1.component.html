@@ -33,7 +33,7 @@
         </div>
         <div class="h-24 fv-row 2xl:h-26">
           <label class="form-label">Deal header</label>
-          <input maxlength="16" appTrim type="text " class="text-sm font-thin form-control" formControlName="dealHeader" name="dealHeader" placeholder="Enter title of your deal"
+          <input maxlength="140" appTrim type="text " class="text-sm font-thin form-control" formControlName="dealHeader" name="dealHeader" placeholder="Enter title of your deal"
           [ngClass]="{
             'is-invalid': f['dealHeader'].invalid && f['dealHeader'].touched,
             'is-valid': f['dealHeader'].valid}">
@@ -73,12 +73,6 @@
               message: 'Subtitle should at least be 3 characters',
               control: dealForm.controls['subTitle']
             }">
-            </ng-container>
-            <ng-container *ngIf="!f['subTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'pattern',
-            message: 'Only alphabets are allowed',
-            control: dealForm.controls['subTitle']
-          }">
             </ng-container>
         </div>
         <div class="mb-4 fv-row">

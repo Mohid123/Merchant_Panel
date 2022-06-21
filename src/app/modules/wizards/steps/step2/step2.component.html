@@ -49,7 +49,7 @@
         <form *ngIf="addVoucher || subDeals.length == 0" class="mt-4 form" [formGroup]="vouchers">
           <div class="h-24 fv-row 2xl:h-26">
             <label class="form-label">Voucher type</label>
-              <input maxlength="16" appTrim type="text" class="form-control" formControlName="subTitle" name="subTitle"
+              <input maxlength="140" appTrim type="text" class="form-control" formControlName="subTitle" name="subTitle"
               [ngClass]="{
               'is-invalid': vouchers.controls['subTitle']?.invalid && vouchers.controls['subTitle']?.touched,
               'is-valid': vouchers.controls['subTitle']?.valid}">

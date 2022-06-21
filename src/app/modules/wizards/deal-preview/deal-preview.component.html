@@ -32,13 +32,13 @@
           <span class="pl-5 text-base font-semibold pt-7">Deal title</span>
         </ng-container>
         <ng-container *ngIf="mainDeal?.dealHeader">
-          <span class="pl-5 text-base font-semibold pt-7">{{mainDeal?.dealHeader}}</span>
+          <span class="pl-5 text-base font-semibold pt-7">{{mainDeal?.dealHeader | truncate: 43}}</span>
         </ng-container>
         <ng-container *ngIf="!mainDeal?.subTitle">
           <span class="pt-1 pl-5 text-base">Deal subtitle</span>
         </ng-container>
         <ng-container *ngIf="mainDeal?.subTitle">
-          <span class="pt-1 pl-5 text-base">{{mainDeal?.subTitle}}</span>
+          <span class="pt-1 pl-5 text-base">{{mainDeal?.subTitle | truncate: 43}}</span>
         </ng-container>
 
         <ng-container *ngIf="urls.length == 0">
