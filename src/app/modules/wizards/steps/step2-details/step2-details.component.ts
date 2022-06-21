@@ -11,6 +11,8 @@ import { ConnectionService } from './../../services/connection.service';
   styleUrls: ['./step2-details.component.scss']
 })
 export class Step2DetailsComponent implements OnInit, OnDestroy  {
+
+  data: MainDeal;
   destroy$ = new Subject();
   @Output() nextClick = new EventEmitter();
   @Output() prevClick = new EventEmitter();
@@ -71,9 +73,14 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       ],
     })
 
-    const formChangesSubscr = this.dealForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: MainDeal) => {
+    this.connection.getData().pipe(takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
+      this.data = response;
+    })
+
+    this.dealForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: MainDeal) => {
+
       this.updateParentModel(val, this.checkForm());
-      this.connection.sendData(val)
+      this.connection.sendData({...this.data,...val})
     });
   }
 
