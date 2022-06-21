@@ -211,28 +211,13 @@ export class Step4Component implements OnInit, OnDestroy {
   initDateForm() {
     this.form = this.fb.group({
       voucherStartDate: [
-        this.data.vouchers[0]?.voucherStartDate,
-        Validators.compose([
-          Validators.required
-        ])
+        this.data.vouchers[0]?.voucherStartDate
       ],
       voucherEndDate: [
-        this.data.vouchers[0]?.voucherEndDate,
-        Validators.compose([
-          Validators.required
-        ])
-      ],
-      termsAndCondition: [
-        {value: this.data.termsAndCondition, disabled: true},
-        Validators.compose([
-          Validators.required
-        ])
+        this.data.vouchers[0]?.voucherEndDate
       ],
       voucherValidity: [
-        this.data.vouchers[0]?.voucherValidity,
-        Validators.compose([
-          Validators.required
-        ])
+        this.data.vouchers[0]?.voucherValidity
       ]
     });
 

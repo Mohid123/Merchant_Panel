@@ -15,7 +15,7 @@ import { TimeformatePipe } from '@core/pipes/timeformate.pipe';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { SwiperModule } from 'swiper/angular';
 import { DragAnDropUploadModule } from '../../@core/directives/drag-an-drop-upload/drag-an-drop-upload.module';
@@ -25,6 +25,7 @@ import { TableSkeletonModule } from '../../components/table-skeleton/table-skele
 import { ReusableModalModule } from '../../_metronic/layout/components/reusable-modal/reusable-modal.module';
 import { LayoutModule } from '../../_metronic/layout/layout.module';
 import { CreateDealComponent } from './create-deal/create-deal.component';
+import { DateParserFormatter } from './date-parser-formatter';
 import { DealPreviewComponent } from './deal-preview/deal-preview.component';
 import { DealsRoutingModule } from './deals-routing.module';
 import { SideDrawerComponent } from './side-drawer/side-drawer.component';
@@ -88,5 +89,8 @@ FullCalendarModule.registerPlugins([
     DragAnDropUploadModule
   ],
   entryComponents: [PopoverWrapperComponent],
+  providers: [
+    { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
+  ],
 })
 export class DealsModule {}

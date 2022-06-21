@@ -28,7 +28,7 @@
                 <div class="w-auto mt-2 mb-3 input-icon lg:w-96">
                   <span class="absolute flex items-center mt-2 ml-1"><i (click)="c.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
                   <input
-                    placeholder="yyyy-mm-dd"
+                    placeholder="dd-mm-yyyy"
                     [disabled]="currentlyChecked !== check_box_type.ONE"
                     (keydown)="disableManual($event)"
                     name="dp"
@@ -39,14 +39,9 @@
                     class="pl-12 text-sm font-thin border-gray-400 cursor-pointer form-control"
                     formControlName="voucherStartDate"
                     name="voucherStartDate"
+                    [container]="'body'"
                   >
                 </div>
-                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'required',
-                  message: 'Start Date is required',
-                  control: form.controls['voucherStartDate']
-                }">
-                </ng-container>
 
                 <label class="w-auto mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base lg:w-96" style="padding-left: 0px;">
                   <span class="text-sm font-medium form-check-label">End Date</span>&nbsp;<span class="text-black">*</span>
@@ -54,7 +49,7 @@
                     <span class="absolute flex items-center mt-2 ml-1"><i #dPicker (click)="d.toggle(); openDatePicker()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
                     <input
                     [disabled]="currentlyChecked !== check_box_type.ONE"
-                    placeholder="yyyy-mm-dd"
+                    placeholder="dd-mm-yyyy"
                     [minDate]="form.controls['voucherStartDate'].value"
                     (keydown)="disableManual($event)"
                     name="dp"
@@ -65,14 +60,9 @@
                     class="pl-12 text-sm font-thin border-gray-400 cursor-pointer form-control"
                     formControlName="voucherEndDate"
                     name="voucherEndDate"
+                    [container]="'body'"
                     >
                   </div>
-                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                    validation: 'required',
-                    message: 'End Date is required',
-                    control: form.controls['voucherEndDate']
-                  }">
-                  </ng-container>
                 </label>
               </div>
             </div>
@@ -92,20 +82,14 @@
               <div class="relative mt-4">
                 <!-- <div class="flex flex-col w-full h-8 border-2 border-white rounded-sm md:flex-row"> -->
                   <div class="flex flex-row w-full">
-                    <button [disabled]="btnDisable == true" class="h-full mt-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14 hover:bg-blue-400" (click)="handleMinus()">-</button>
+                    <button [disabled]="btnDisable == true" class="h-full mt-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
                     <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'" maxlength="3" placeholder="0" appNumbersOnly type="text" style="border-width: 1px;" class="w-3/12 mt-2 text-xs text-center rounded-md h-7 form-control" formControlName="voucherValidity" name="voucherValidity">
-                    <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14 hover:bg-blue-400" (click)="handlePlus()">+</button>
+                    <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
                     <div class="flex flex-row w-full ml-2 tracking-wider lg:mt-2">
                       <span class="mt-1 ml-2 text-sm font-medium">days after purchase</span>
                     </div>
                   <!-- </div> -->
               </div>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'required',
-                message: 'Voucher validity date is required',
-                control: form.controls['voucherValidity']
-              }">
-              </ng-container>
              </div>
            </div>
         </div>

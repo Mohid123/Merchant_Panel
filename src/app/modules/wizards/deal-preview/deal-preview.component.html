@@ -13,11 +13,11 @@
 
   <div class="shadow-none card rounded-0 w-100">
 
-    <div class="card-header" id="kt_explore_header">
-      <h3 class="text-blue-500 card-title fw-bolder">Deal Preview</h3>
+    <div class="flex justify-end card-header" id="kt_explore_header">
+      <!-- <h3 class="text-blue-500 card-title fw-bolder">Deal Preview</h3> -->
 
       <div class="card-toolbar">
-        <button type="button" class="btn btn-sm btn-icon btn-active-light-primary me-n5" id="kt_engage_demos_close">
+        <button type="button" class="bg-gray-300 rounded-full btn btn-sm btn-icon me-n5" id="kt_engage_demos_close">
           <span
             [inlineSVG]="'./assets/media/icons/duotune/arrows/arr061.svg'"
             class="svg-icon svg-icon-2"
@@ -32,13 +32,13 @@
           <span class="pl-5 text-base font-semibold pt-7">Deal title</span>
         </ng-container>
         <ng-container *ngIf="mainDeal?.dealHeader">
-          <span class="pl-5 text-base font-semibold pt-7">{{mainDeal?.dealHeader | truncate: 43}}</span>
+          <span class="pl-5 text-base font-semibold pt-7" style="width: 23.838rem;">{{mainDeal?.dealHeader}}</span>
         </ng-container>
         <ng-container *ngIf="!mainDeal?.subTitle">
           <span class="pt-1 pl-5 text-base">Deal subtitle</span>
         </ng-container>
         <ng-container *ngIf="mainDeal?.subTitle">
-          <span class="pt-1 pl-5 text-base">{{mainDeal?.subTitle | truncate: 43}}</span>
+          <span class="pt-1 pl-5 text-base" style="width: 23.838rem;">{{mainDeal?.subTitle}}</span>
         </ng-container>
 
         <ng-container *ngIf="urls.length == 0">
@@ -97,7 +97,7 @@
         </ng-container>
 
         <ng-container *ngIf="mainDeal?.highlights">
-          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem">
+          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem" style="width: 23.838rem;">
             {{mainDeal?.highlights}}
           </span>
         </ng-container>
@@ -112,7 +112,7 @@
         </ng-container>
 
         <ng-container *ngIf="mainDeal?.description">
-          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem">
+          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem" style="width: 23.838rem;">
             {{mainDeal?.description}}
           </span>
         </ng-container>
