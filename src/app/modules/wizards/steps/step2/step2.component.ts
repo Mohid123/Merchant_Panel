@@ -39,12 +39,8 @@ export class Step2Component implements OnInit, OnDestroy {
     ],
     subTitle: [
       '',
-      Validators.compose([
-      Validators.required,
-      Validators.minLength(3),
-      Validators.pattern('^[a-zA-Z0-9 \-\']+')
-        ]),
-      ],
+      Validators.required
+    ],
     discountPercentage: [
       0
     ]
