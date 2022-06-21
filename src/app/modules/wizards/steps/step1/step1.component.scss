@@ -6,6 +6,7 @@
   right: 8px;
   top: 16px;
   position: absolute;
+  display: none;
 }
 
 textarea.form-control {
@@ -16,17 +17,12 @@ textarea.form-control {
 textarea,
 #dropdownBasic1,
 input.form-control {
-  @apply text-xs 2xl:text-base;
+  @apply text-xs lg:text-sm 2xl:text-base min-h-11;
   background-color: transparent !important;
   border: 0.5px solid #787f9f5e !important;
-  padding-top: 8.5px;
-  padding-bottom: 8.5px;
-  min-height: 40px;
-
-  @media (min-width:1600px) {
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
+  padding-top: 13px;
+  padding-bottom: 13px;
+  border-radius: 5px;
 }
 textarea:focus,
 #dropdownBasic1.open,
@@ -36,6 +32,7 @@ input.form-control:focus {
 
 p,
 label {
+  @apply mb-2 font-normal text-sm 2xl:text-base 2xl:mb-2;
   color: #728A9F;
 }
 

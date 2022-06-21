@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { MainDeal } from '../models/main-deal.model';
 import { ConnectionService } from '../services/connection.service';
-import { MainDeal } from './../models/main-deal.model';
 @Component({
-  selector: 'app-horizontal',
-  templateUrl: './horizontal.component.html',
+  selector: 'app-create-deal',
+  templateUrl: './create-deal.component.html',
 })
-export class HorizontalComponent implements OnInit {
+export class CreateDealComponent implements OnInit {
   formsCount = 5;
   deal$: BehaviorSubject<MainDeal> =
     new BehaviorSubject<MainDeal>(new MainDeal);

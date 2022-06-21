@@ -14,12 +14,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { TranslateModule } from '@ngx-translate/core';
 import { TruncationPipe } from '@pages/pipe/truncation.pipe';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { environment } from 'src/environments/environment';
 import { CoreModule } from './@core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,17 +31,6 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { SecurityComponent } from './pages/security/security.component';
 import { SingleReviewComponent } from './pages/single-review/single-review.component';
 import { TestComponent } from './pages/test/test.component';
-// #fake-start#
-import { FakeAPIService } from './_fake/fake-api.service';
-// #fake-end#
-
-// function appInitializer(authService: AuthService) {
-//   return () => {
-//     return new Promise((resolve) => {
-//       authService.getUserByToken().subscribe().add(resolve);
-//     });
-//   };
-// }
 
 @NgModule({
   declarations: [
@@ -72,14 +59,6 @@ CoreModule,
     CKEditorModule,
     TableSkeletonModule,
     NgxMaterialTimepickerModule,
-    // #fake-start#
-    environment.isMockEnabled
-      ? HttpClientInMemoryWebApiModule.forRoot(FakeAPIService, {
-          passThruUnknownUrl: true,
-          dataEncapsulation: false,
-        })
-      : [],
-    // #fake-end#
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,

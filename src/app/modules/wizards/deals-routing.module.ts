@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HorizontalComponent } from './horizontal/horizontal.component';
+import { CreateDealComponent } from './create-deal/create-deal.component';
 import { VerticalComponent } from './vertical/vertical.component';
 import { ViewDealComponent } from './view-deal/view-deal.component';
 import { WizardsComponent } from './wizards.component';
@@ -11,8 +11,8 @@ const routes: Routes = [
     component: WizardsComponent,
     children: [
       {
-        path: 'horizontal',
-        component: HorizontalComponent,
+        path: 'create-deal',
+        component: CreateDealComponent,
       },
       {
         path: 'vertical',
@@ -32,4 +32,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class WizardsRoutingModule {}
+export class DealsRoutingModule {}

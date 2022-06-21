@@ -215,6 +215,7 @@ export class Step1Component implements OnInit, OnDestroy {
             this.initTable();
             this.getItemsTable();
           }
+          this.dealForm.controls['mediaUrl'].setValue(this.urls);
         };
       }
     }
@@ -263,75 +264,6 @@ export class Step1Component implements OnInit, OnDestroy {
       event.target.value = "";
     }
   }
-
-
-  // onSelectVideo(event: any) {
-  //   const files = event.target? event.target.files : event;
-  //   this.file = files && files.length;
-  //   if (this.file > 0 && this.file < 2) {
-  //     this.loadingVideo = true;
-  //     if(+(files[0].size / 1048576).toFixed(2) > 10) {
-  //       this.toast.error('You can upload maximum 10mb file.', {
-  //         style: {
-  //           border: '1px solid #713200',
-  //           padding: '16px',
-  //           color: '#713200',
-  //         },
-  //         iconTheme: {
-  //           primary: '#713200',
-  //           secondary: '#FFFAEE',
-  //         }
-  //       });
-  //       this.loadingVideo = false;
-  //       this.cf.detectChanges();
-  //       return;
-  //     }
-  //     this.cf.detectChanges();
-  //     let i: number = 0;
-  //     for (const singlefile of files) {
-  //       var reader = new FileReader();
-  //       reader.readAsDataURL(singlefile);
-  //       this.videos.push(singlefile);
-  //       this.urls.unshift(singlefile);
-  //       this.cf.detectChanges();
-  //       i++;
-  //     }
-  //     // if(this.videoUrls.length > 0) {
-  //     //   for(let i = 0; i < this.videoUrls.length; i++) {
-  //     //     this.mediaService.uploadMedia('video', this.videoUrls[i])
-  //     //     .subscribe((res: ApiResponse<any>) => {
-  //     //       if(!res.hasErrors()) {
-  //     //         this.videos.unshift(res.data?.url);
-  //     //         this.urls.unshift(res.data?.url);
-  //     //         this.cf.detectChanges();
-  //     //         this.videoUrls = [];
-  //     //         this.loadingVideo = false;
-  //     //         this.cf.detectChanges();
-  //     //       }
-  //     //     })
-  //     //   }
-  //     //   if(files.length == i) {
-  //     //     this.initTable();
-  //     //     this.getItemsTable();
-  //     //   }
-  //     // }
-  //   }
-  //   else {
-  //     this.loadingVideo = false;
-  //     this.cf.detectChanges();
-  //     this.toast.error('Please select one video only!', {
-  //       style: {
-  //         border: '1px solid #713200',
-  //         padding: '16px',
-  //         color: '#713200',
-  //       },
-  //       iconTheme: {
-  //         primary: '#713200',
-  //         secondary: '#FFFAEE',
-  //       }
-  //     })
-  //   }
-  // }
 
   clearImage(j:any,i:any) {
     if(j==0) {
