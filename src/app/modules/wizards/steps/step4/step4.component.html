@@ -23,7 +23,7 @@
 
               <div class="flex flex-col justify-start align-top xl:mr-28 xl:pr-2">
                 <div class="flex flex-row">
-                  <span class="text-xs form-check-label"></span> Start Date &nbsp;<span class="text-black">*</span>
+                  <span class="text-sm mt-0.5 font-medium form-check-label">Start Date</span> &nbsp;<span class="text-black">*</span>
                 </div>
                 <div class="w-auto mt-2 mb-3 input-icon lg:w-96">
                   <span class="absolute flex items-center mt-2 ml-1"><i (click)="c.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
@@ -49,7 +49,7 @@
                 </ng-container>
 
                 <label class="w-auto mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base lg:w-96" style="padding-left: 0px;">
-                  <span class="text-xs form-check-label"></span> End Date &nbsp;<span class="text-black">*</span>
+                  <span class="text-sm font-medium form-check-label">End Date</span>&nbsp;<span class="text-black">*</span>
                   <div class="flex-auto w-auto mt-2 input-icon lg:w-96">
                     <span class="absolute flex items-center mt-2 ml-1"><i #dPicker (click)="d.toggle(); openDatePicker()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
                     <input
@@ -88,17 +88,17 @@
                 >
               </label>
 
-              <span class="w-56 text-sm mt-7 form-check-label xl:text-base">Voucher is valid for</span>
+              <span class="w-48 text-sm font-medium form-check-label" style="margin-top: 1.8rem;">Voucher is valid for</span>
               <div class="relative mt-4">
-                <div class="flex flex-col w-full h-8 border-2 border-white rounded-sm md:flex-row">
+                <!-- <div class="flex flex-col w-full h-8 border-2 border-white rounded-sm md:flex-row"> -->
                   <div class="flex flex-row w-full">
                     <button [disabled]="btnDisable == true" class="h-full mt-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14 hover:bg-blue-400" (click)="handleMinus()">-</button>
                     <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'" maxlength="3" placeholder="0" appNumbersOnly type="text" style="border-width: 1px;" class="w-3/12 mt-2 text-xs text-center rounded-md h-7 form-control" formControlName="voucherValidity" name="voucherValidity">
                     <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14 hover:bg-blue-400" (click)="handlePlus()">+</button>
                     <div class="flex flex-row w-full ml-2 tracking-wider lg:mt-2">
-                      <span class="ml-2 text-sm xl:text-base">days after purchase</span>
+                      <span class="mt-1 ml-2 text-sm font-medium">days after purchase</span>
                     </div>
-                  </div>
+                  <!-- </div> -->
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',
@@ -116,7 +116,7 @@
           <div class="flex flex-row justify-between w-full mb-3">
             <label class="form-label">Where can the customer redeem their voucher?</label>
             <ng-container *ngIf="editable == false">
-              <button type="button" class="ml-12 text-xs font-medium edit-button hover:bg-blue-500 hover:text-white" (click)="editable = true">Edit</button>
+              <button type="button" class="ml-12 text-xs hover:bg-blue-500 hover:text-white edit-button" (click)="editable = true">Edit</button>
             </ng-container>
 
             <ng-container *ngIf="editable == true">
@@ -130,39 +130,42 @@
               <tbody class="datatable-body" style="padding: 20px;">
                 <tr data-row="0" class="datatable-row" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="1">
-                    <span class="text-xs text-gray-400 md:text-base"
+                    <span class="text-xs text-gray-400 md:text-sm"
                       style="width: 30px;">Street Address</span>
                   </td>
-                  <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
-                    <span
+                  <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-sm">
+                    <span class="font-medium"
                       style="width: 108px;">{{policy.streetAddress}}
                     </span>
                   </td>
                   </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
-                    <span class="text-xs text-gray-400 md:text-base"
+                    <span class="text-xs text-gray-400 md:text-sm"
                       style="width: 30px;">Zip Code</span>
                   </td>
-                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-sm">
+                    <span class="font-medium"
                       style="width: 108px;">{{policy.zipCode}}</span>
                   </td>
                 </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
-                    <span class="text-xs text-gray-400 md:text-base"
+                    <span class="text-xs text-gray-400 md:text-sm"
                       style="width: 30px;">City</span>
                   </td>
-                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-sm">
+                    <span class="font-medium"
                       style="width: 108px;">{{policy.city}}</span>
                   </td>
                 </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
-                    <span class="text-xs text-gray-400 md:text-base"
+                    <span class="text-xs text-gray-400 md:text-sm"
                       style="width: 30px;">Province</span>
                   </td>
-                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base"><span
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-sm">
+                    <span class="font-medium"
                       style="width: 108px;">{{policy.province}}</span>
                   </td>
                 </tr>
@@ -175,10 +178,10 @@
               <tbody class="datatable-body" style="padding: 20px;">
                 <tr data-row="0" class="datatable-row" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="1">
-                    <span class="text-xs text-gray-400 md:text-base"
+                    <span class="text-xs text-gray-400 md:text-sm"
                       style="width: 30px;">Street Address</span>
                   </td>
-                  <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                  <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-sm">
                     <input class="p-2 text-sm border-gray-400 form-control" formControlName="streetAddress" maxlength="25">
                     <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                       validation: 'required',
@@ -190,10 +193,10 @@
                   </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
-                    <span class="text-xs text-gray-400 md:text-base"
+                    <span class="text-xs text-gray-400 md:text-sm"
                       style="width: 30px;">Zip Code</span>
                   </td>
-                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-sm">
                     <input class="p-2 text-sm border-gray-400 form-control" formControlName="zipCode" maxlength="4">
                     <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                       validation: 'required',
@@ -205,10 +208,10 @@
                 </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
-                    <span class="text-xs text-gray-400 md:text-base"
+                    <span class="text-xs text-gray-400 md:text-sm"
                       style="width: 30px;">City</span>
                   </td>
-                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-sm">
                     <input class="p-2 text-sm border-gray-400 form-control" formControlName="city" maxlength="45">
                     <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                       validation: 'required',
@@ -220,10 +223,10 @@
                 </tr>
                 <tr data-row="1" class="datatable-row datatable-row-even" style="left: 0px;">
                   <td class="py-3 pr-12 datatable-cell-sorted datatable-cell-center datatable-cell" aria-label="2">
-                    <span class="text-xs text-gray-400 md:text-base"
+                    <span class="text-xs text-gray-400 md:text-sm"
                       style="width: 30px;">Province</span>
                   </td>
-                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-base">
+                  <td data-field="OrderID" aria-label="54868-3377" class="py-3 text-xs text-gray-700 datatable-cell md:text-sm">
                     <input class="p-2 text-sm border-gray-400 form-control" formControlName="province" maxlength="45">
                     <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                       validation: 'required',
