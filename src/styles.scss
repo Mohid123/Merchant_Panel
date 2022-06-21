@@ -95,6 +95,16 @@ input[type='file'] {
   border: 1px solid #0081E9!important;
 }
 
+.ck.ck-content {
+  max-height: 12.5rem;
+  border-bottom-left-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+}
+
+.ck.ck-sticky-panel .ck-sticky-panel__content_sticky {
+  position: initial !important;
+}
+
 .fc .fc-toolbar-title {
   margin-right: 60px!important;
   font-weight: 500;

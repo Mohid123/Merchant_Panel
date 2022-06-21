@@ -105,15 +105,15 @@
 
         <span class="pt-4 pl-5 text-base font-semibold">About this deal</span>
 
-        <ng-container *ngIf="!mainDeal?.description">
+        <ng-container *ngIf="!mainDeal?.aboutThisDeal">
           <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem">
-            Your deal description...
+            About this deal...
           </span>
         </ng-container>
 
-        <ng-container *ngIf="mainDeal?.description">
+        <ng-container *ngIf="mainDeal?.aboutThisDeal">
           <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem" style="width: 23.838rem;">
-            {{mainDeal?.description}}
+            {{mainDeal?.aboutThisDeal}}
           </span>
         </ng-container>
       </div>
