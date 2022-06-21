@@ -8,7 +8,7 @@ import { ConnectionService } from '../services/connection.service';
   templateUrl: './create-deal.component.html',
 })
 export class CreateDealComponent implements OnInit {
-  formsCount = 5;
+  formsCount = 6;
   deal$: BehaviorSubject<MainDeal> =
     new BehaviorSubject<MainDeal>(new MainDeal);
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
@@ -43,7 +43,7 @@ export class CreateDealComponent implements OnInit {
         return;
       }
     }
-    if(this.currentStep$.value == 3) {
+    if(this.currentStep$.value == 4) {
       if(new Date(this.data.vouchers[0]?.voucherStartDate?.year, this.data.vouchers[0]?.voucherStartDate?.month - 1, this.data.vouchers[0]?.voucherStartDate?.day).getTime() > new Date(this.data.vouchers[0]?.voucherEndDate?.year, this.data.vouchers[0]?.voucherEndDate?.month - 1, this.data.vouchers[0]?.voucherEndDate?.day).getTime()) {
         this.toast.warning('Start date cannot exceed End date')
         return;

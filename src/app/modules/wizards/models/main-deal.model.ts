@@ -21,6 +21,9 @@ export class MainDeal {
   soldVouchers?: number;
   showDetail: string;
   highlights: string;
+  aboutThisDeal: string;
+  readMore: string;
+  finePrints: string;
 }
 
 export class Deals {

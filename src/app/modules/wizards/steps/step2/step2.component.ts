@@ -31,13 +31,6 @@ export class Step2Component implements OnInit, OnDestroy {
     dealPrice: [
       ''
     ],
-    // details: [
-    //   '',
-    //   Validators.compose([
-    //   Validators.required,
-    //   Validators.minLength(16)
-    //   ]),
-    // ],
     numberOfVouchers: [
       0,
       Validators.compose([
@@ -96,7 +89,7 @@ export class Step2Component implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private connection: ConnectionService,
     private toast: HotToastService,
-    private authService: AuthService
+    private authService: AuthService,
     ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { Step2DetailsComponent } from './steps/step2-details/step2-details.component';
 // import { SortModule } from '@core/directives/sort/sort.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
@@ -52,12 +53,13 @@ FullCalendarModule.registerPlugins([
     Step3Component,
     Step4Component,
     Step5Component,
+    Step2DetailsComponent,
     ViewDealComponent,
     TruncatePipe,
     TimeformatePipe,
     PopoverWrapperComponent,
     SideDrawerComponent,
-    DealPreviewComponent
+    DealPreviewComponent,
   ],
   imports: [
     CommonModule,
@@ -83,7 +85,7 @@ FullCalendarModule.registerPlugins([
     DragDropModule,
     SwiperModule,
     LayoutModule,
-    DragAnDropUploadModule,
+    DragAnDropUploadModule
   ],
   entryComponents: [PopoverWrapperComponent],
 })

@@ -1,0 +1,26 @@
+textarea.form-control {
+  min-height: 96px;
+  height: 96px;
+}
+
+textarea,
+#dropdownBasic1,
+input.form-control {
+  @apply text-xs lg:text-sm 2xl:text-base min-h-11;
+  background-color: transparent !important;
+  border: 0.5px solid #787f9f5e !important;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  border-radius: 5px;
+}
+textarea:focus,
+#dropdownBasic1.open,
+input.form-control:focus {
+  border-color: #0081E9 !important;
+}
+
+p,
+label {
+  @apply mb-2 font-normal text-sm 2xl:text-base 2xl:mb-2;
+  color: #728A9F;
+}

@@ -1,0 +1,130 @@
+<!--Title/ Header-->
+<!--Card for Creating Deal-->
+<div class="flex flex-col w-full h-auto gap-2 mt-9 md:flex-row">
+  <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
+    <form class="self-center form max-w-124 2xl:max-w-128 3xl:max-w-135" [formGroup]="dealForm">
+      <div class="mb-9 lg:text-center">
+        <h1 class="mt-1 mb-2.5 text-lg text-center md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl">Give us the details of your deal.</h1>
+        <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base 3xl:text-lg">Make sure the customer understands the details of your offer(s).</div>
+      </div>
+      <!--Form-->
+      <div class="h-24 fv-row 2xl:h-26">
+        <label class="form-label">Highlights</label>
+        <input maxlength="16" appTrim type="text " class="text-sm font-thin form-control" formControlName="highlights" name="highlights" placeholder="Enter title of your deal"
+        [ngClass]="{
+          'is-invalid': f['highlights'].invalid && f['highlights'].touched,
+          'is-valid': f['highlights'].valid}">
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Highlights is required',
+          control: dealForm.controls['highlights']
+        }">
+        </ng-container>
+        <ng-container *ngIf="f['highlights']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'Highlights should at least be 3 characters',
+            control: dealForm.controls['highlights']
+          }">
+        </ng-container>
+        <ng-container *ngIf="!f['highlights']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'Only alphabets are allowed',
+          control: dealForm.controls['highlights']
+        }">
+        </ng-container>
+      </div>
+
+      <div class="h-64 fv-row">
+        <label class="form-label">About this deal</label>
+        <textarea maxlength="2000" appTrim type="text font-weight-light" style="height: 12.5rem;" class="text-sm font-thin form-control" formControlName="aboutDeal" name="aboutDeal" placeholder="aboutDeal" rows="5"
+        [ngClass]="{
+          'is-invalid': f['aboutDeal'].invalid && f['aboutDeal'].touched,
+          'is-valid': f['aboutDeal'].valid}"></textarea>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'About this deal is required',
+          control: dealForm.controls['aboutDeal']
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'minlength',
+          message: 'About this deal should at least be 16 characters',
+          control: dealForm.controls['aboutDeal']
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'Special characters (! / ? * & % @ : #) are not allowed',
+        control: dealForm.controls['aboutDeal']
+      }">
+        </ng-container>
+      </div>
+      <div class="h-64 fv-row">
+        <label class="form-label">Read more</label>
+        <textarea maxlength="2000" appTrim type="text font-weight-light" style="height: 12.5rem;" class="text-sm font-thin form-control" formControlName="readMore" name="readMore" placeholder="readMore" rows="5"
+        [ngClass]="{
+          'is-invalid': f['readMore'].invalid && f['readMore'].touched,
+          'is-valid': f['readMore'].valid}"></textarea>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Read more is required',
+          control: dealForm.controls['readMore']
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'minlength',
+          message: 'Read more should at least be 16 characters',
+          control: dealForm.controls['readMore']
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'Special characters (! / ? * & % @ : #) are not allowed',
+        control: dealForm.controls['readMore']
+      }">
+        </ng-container>
+      </div>
+      <div class="h-64 fv-row">
+        <label class="form-label">Fine prints</label>
+        <textarea maxlength="2000" appTrim type="text font-weight-light" style="height: 12.5rem;" class="text-sm font-thin form-control" formControlName="finePrints" name="finePrints" placeholder="finePrints" rows="5"
+        [ngClass]="{
+          'is-invalid': f['finePrints'].invalid && f['finePrints'].touched,
+          'is-valid': f['finePrints'].valid}"></textarea>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Read more is required',
+          control: dealForm.controls['finePrints']
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'minlength',
+          message: 'Read more should at least be 16 characters',
+          control: dealForm.controls['finePrints']
+        }">
+        </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'Special characters (! / ? * & % @ : #) are not allowed',
+        control: dealForm.controls['finePrints']
+      }">
+        </ng-container>
+      </div>
+
+      <div class="flex justify-between mt-8 min-h-14 2xl:h-20">
+        <button type="button" class="self-center w-32 text-sm h-9 2xl:h-12  text-gray-600 bg-gray-300 rounded-lg" (click)="prevClick.emit('')">Back</button>
+        <button [disabled]=" (dealForm.invalid)" (click)="nextClick.emit('')" class="self-center w-32 text-sm text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & next</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+      <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>
