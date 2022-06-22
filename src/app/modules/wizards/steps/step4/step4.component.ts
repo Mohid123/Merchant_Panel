@@ -193,7 +193,8 @@ export class Step4Component implements OnInit, OnDestroy {
       province: [
         '',
         Validators.compose([
-          Validators.required
+          Validators.required,
+          Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
         ])
       ]
     })
@@ -235,7 +236,6 @@ export class Step4Component implements OnInit, OnDestroy {
       });
       this.updateParentModel(this.data, true);
       this.connection.sendData(this.data);
-      console.log(this.data)
     });
     this.unsubscribe.push(formChangesSubscr);
   }

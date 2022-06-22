@@ -214,7 +214,13 @@
                     <input class="p-2 text-sm border-gray-400 form-control" formControlName="province" maxlength="45">
                     <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                       validation: 'required',
-                      message: 'Province required',
+                      message: 'Province is required',
+                      control: policyForm.controls['province']
+                    }">
+                    </ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'pattern',
+                      message: 'Only alphabets are allowed',
                       control: policyForm.controls['province']
                     }">
                     </ng-container>
