@@ -26,7 +26,7 @@
           > -->
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'required',
-            message: 'sub-category is required',
+            message: 'Category is required',
             control: dealForm.controls['subCategory']
           }">
           </ng-container>
@@ -39,13 +39,13 @@
             'is-valid': f['dealHeader'].valid}">
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'required',
-            message: 'Deal title is required',
+            message: 'Deal header is required',
             control: dealForm.controls['dealHeader']
           }">
           </ng-container>
           <ng-container *ngIf="f['dealHeader']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'minlength',
-              message: 'Title should at least be 3 characters',
+              message: 'Deal header should at least be 3 characters',
               control: dealForm.controls['dealHeader']
             }">
           </ng-container>
@@ -64,13 +64,13 @@
             'is-valid': f['subTitle'].valid}">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
-              message: 'Deal Subtitle is required',
+              message: 'Deal sub-header is required',
               control: dealForm.controls['subTitle']
             }">
             </ng-container>
             <ng-container *ngIf="f['subTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'minlength',
-              message: 'Subtitle should at least be 3 characters',
+              message: 'Deal sub-header should at least be 3 characters',
               control: dealForm.controls['subTitle']
             }">
             </ng-container>
@@ -131,6 +131,13 @@
                </div>
                </div>
               </div>
+              <ng-container *ngIf="submitClick && this.urls.length == 0">
+                <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                  <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                    At least one image is required
+                  </span>
+                </div>
+              </ng-container>
         </div>
         <div class="fv-row">
           <label class="mb-4 text-sm 2xl:text-base 2xl:mb-2 form-label">Upload your video</label>
@@ -179,7 +186,7 @@
 
 
         <div class="flex justify-center mt-8 min-h-14 2xl:h-20">
-          <button [disabled]=" (dealForm.invalid || urls.length == 0)" (click)="nextClick.emit('')" class="self-center w-32 text-sm text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & next</button>
+          <button (click)="next()" class="self-center w-32 text-sm text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & next</button>
         </div>
 
       </form>

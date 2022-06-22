@@ -69,7 +69,7 @@ input[type='file'] {
 }
 
 .ck.ck-editor__main {
-  border: 0.5px solid #787f9f5e;
+  border: 1px solid #787f9f5e;
   border-top: none;
   border-bottom-left-radius: 12px !important;
   border-bottom-right-radius: 12px !important;
@@ -92,7 +92,7 @@ input[type='file'] {
 .ck-editor__editable_inline {
   max-width: 900px;
   min-height: 200px;
-  border: 1px solid #0081E9!important;
+  border: 0.5px solid #0081E9!important;
 }
 
 .ck.ck-content {

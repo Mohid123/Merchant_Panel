@@ -4,7 +4,7 @@
   <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
     <form class="self-center form max-w-124 2xl:max-w-128 3xl:max-w-135" [formGroup]="dealForm">
       <div class="mb-9 lg:text-center">
-        <h1 class="mt-1 mb-2.5 text-lg text-center text-black md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl">Give us the details of your deal.</h1>
+        <h1 class="mt-1 mb-2.5 text-lg text-center text-black md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl">Give us the details of your deal.</h1>
         <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base">Make sure the customer understands the details of your offer(s).</div>
       </div>
       <!--Form-->
@@ -36,7 +36,7 @@
 
       <div class="h-72 fv-row">
         <label class="form-label">About this deal</label>
-        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" appTrim type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutThisDeal" name="aboutThisDeal" placeholder="aboutThisDeal" rows="5"
+        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutThisDeal" name="aboutThisDeal" placeholder="aboutThisDeal" rows="5"
         [ngClass]="{
           'is-invalid': f['aboutThisDeal'].invalid && f['aboutThisDeal'].touched,
           'is-valid': f['aboutThisDeal'].valid}"></ckeditor>
@@ -61,7 +61,7 @@
       </div>
       <div class="h-72 fv-row">
         <label class="form-label">Read more</label>
-        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" appTrim type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="readMore" name="readMore" placeholder="readMore" rows="5"
+        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="readMore" name="readMore" placeholder="readMore" rows="5"
         [ngClass]="{
           'is-invalid': f['readMore'].invalid && f['readMore'].touched,
           'is-valid': f['readMore'].valid}"></ckeditor>
@@ -86,19 +86,19 @@
       </div>
       <div class="h-72 fv-row">
         <label class="form-label">The fine print</label>
-        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" appTrim type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="finePrints" name="finePrints" placeholder="finePrints" rows="5"
+        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="finePrints" name="finePrints" placeholder="finePrints" rows="5"
         [ngClass]="{
           'is-invalid': f['finePrints'].invalid && f['finePrints'].touched,
           'is-valid': f['finePrints'].valid}"></ckeditor>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'required',
-          message: 'Fine prints is required',
+          message: 'The fine prints is required',
           control: dealForm.controls['finePrints']
         }">
         </ng-container>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'minlength',
-          message: 'Fine prints should at least be 16 characters',
+          message: 'The fine prints should at least be 16 characters',
           control: dealForm.controls['finePrints']
         }">
         </ng-container>
@@ -112,7 +112,7 @@
 
       <div class="flex justify-between mt-8 min-h-14 2xl:h-20">
         <button type="button" class="self-center w-32 text-sm text-gray-600 bg-gray-300 rounded-lg h-9 2xl:h-12" (click)="prevClick.emit('')">Back</button>
-        <button [disabled]=" (dealForm.invalid)" (click)="nextClick.emit('')" class="self-center w-32 text-sm text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & next</button>
+        <button (click)="next()" class="self-center w-32 text-sm text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & next</button>
       </div>
 
     </form>

@@ -115,6 +115,34 @@
           <span [innerHTML]="mainDeal?.aboutThisDeal" class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem" style="width: 23.838rem;">
           </span>
         </ng-container>
+
+
+        <span class="pt-4 pl-5 text-base font-semibold">Read more</span>
+
+        <ng-container *ngIf="!mainDeal?.readMore">
+          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem">
+            Read more...
+          </span>
+        </ng-container>
+
+        <ng-container *ngIf="mainDeal?.readMore">
+          <span [innerHTML]="mainDeal?.readMore" class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem" style="width: 23.838rem;">
+          </span>
+        </ng-container>
+
+
+        <span class="pt-4 pl-5 text-base font-semibold">The fine print</span>
+
+        <ng-container *ngIf="!mainDeal?.finePrints">
+          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem">
+            The fine prints...
+          </span>
+        </ng-container>
+
+        <ng-container *ngIf="mainDeal?.finePrints">
+          <span [innerHTML]="mainDeal?.finePrints" class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem" style="width: 23.838rem;">
+          </span>
+        </ng-container>
       </div>
 
       <ng-container *ngIf="subDeals.length == 0">

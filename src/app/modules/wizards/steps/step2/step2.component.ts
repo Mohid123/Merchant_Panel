@@ -125,6 +125,10 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   calculateDiscount() {
+    if(this.vouchers.invalid) {
+      this.vouchers.markAllAsTouched();
+      return;
+    }
     if(this.voucherFormControl['numberOfVouchers'].value > 0) {
       const dealPrice = Math.round(parseInt(this.voucherFormControl['originalPrice']?.value) - parseInt(this.voucherFormControl['dealPrice']?.value));
       const discountPrice = Math.round(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));

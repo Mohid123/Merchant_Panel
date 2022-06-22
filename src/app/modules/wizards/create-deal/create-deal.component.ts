@@ -24,6 +24,7 @@ export class CreateDealComponent implements OnInit {
   constructor(private toast: HotToastService, public connection: ConnectionService) {}
 
   ngOnInit(): void {
+    this.connection.sendData(new MainDeal);
     this.receiver = this.connection.getData().subscribe((res: any) => {
       this.data = res;
     })

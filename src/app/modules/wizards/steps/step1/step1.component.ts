@@ -37,6 +37,7 @@ export class Step1Component implements OnInit, OnDestroy {
   categoryList: CategoryDetail[];
   selectedcategory: SubCategory;
   disableCategory: boolean = false;
+  submitClick: boolean = false;
 
   ChangeSelectedCategory(newSelectedcategory: SubCategory) {
     if(newSelectedcategory) {
@@ -400,6 +401,11 @@ export class Step1Component implements OnInit, OnDestroy {
           (this.columnSize * index) + this.itemIndex,
           (this.columnSize * index) + event.currentIndex
         );
+        moveItemInArray(
+          this.urls,
+          (this.columnSize * index) + this.itemIndex,
+          (this.columnSize * index) + event.currentIndex
+        );
         this.resetonDrop();
       }
       else { // if different row
@@ -408,7 +414,13 @@ export class Step1Component implements OnInit, OnDestroy {
           (this.columnSize * this.dragIndex) + this.itemIndex,
           (this.columnSize * index) + event.currentIndex
         );
+        moveItemInArray(
+          this.urls,
+          (this.columnSize * this.dragIndex) + this.itemIndex,
+          (this.columnSize * index) + event.currentIndex
+        );
       }
+      this.dealForm.controls['mediaUrl'].setValue(this.urls);
       this.resetonDrop();
     }
   }
@@ -421,6 +433,10 @@ export class Step1Component implements OnInit, OnDestroy {
   resetonDrop() {
     this.dragStarted = false;
     this.initTable();
+    this.dealForm.valueChanges.subscribe((val: MainDeal) => {
+      this.updateParentModel(val, this.checkForm());
+      this.connection.sendData(val)
+    });
   }
 
   onDragStartedDropZone(index: number, itemIndex:number) {
@@ -431,5 +447,14 @@ export class Step1Component implements OnInit, OnDestroy {
 
   hasRecivingClass(div:HTMLDivElement) {
     return div.classList.contains('cdk-drop-list-receiving')
+  }
+
+  next() {
+    if(this.dealForm.invalid || this.urls.length == 0) {
+     this.dealForm.markAllAsTouched();
+     this.submitClick = true;
+    }else {
+      this.nextClick.emit('');
+    }
   }
 }

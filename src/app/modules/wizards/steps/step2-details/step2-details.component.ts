@@ -107,6 +107,14 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     });
   }
 
+  next() {
+    if(this.dealForm.invalid) {
+     this.dealForm.markAllAsTouched();
+    }else {
+      this.nextClick.emit('');
+    }
+  }
+
   ngOnDestroy() {
     this.destroy$.complete();
     this.destroy$.unsubscribe();
