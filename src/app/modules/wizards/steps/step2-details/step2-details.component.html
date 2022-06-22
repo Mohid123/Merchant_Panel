@@ -4,13 +4,13 @@
   <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
     <form class="self-center form max-w-124 2xl:max-w-128 3xl:max-w-135" [formGroup]="dealForm">
       <div class="mb-9 lg:text-center">
-        <h1 class="mt-1 mb-2.5 text-lg text-center md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl">Give us the details of your deal.</h1>
-        <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base 3xl:text-lg">Make sure the customer understands the details of your offer(s).</div>
+        <h1 class="mt-1 mb-2.5 text-lg text-center text-black md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl">Give us the details of your deal.</h1>
+        <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base">Make sure the customer understands the details of your offer(s).</div>
       </div>
       <!--Form-->
       <div class="h-24 fv-row 2xl:h-26">
         <label class="form-label">Highlights</label>
-        <input maxlength="140" appTrim type="text " class="text-sm font-thin form-control" formControlName="highlights" name="highlights" placeholder="Enter title of your deal"
+        <input appMaxLength maxlength="140" appTrim type="text " class="text-sm font-thin form-control" formControlName="highlights" name="highlights" placeholder="Enter title of your deal"
         [ngClass]="{
           'is-invalid': f['highlights'].invalid && f['highlights'].touched,
           'is-valid': f['highlights'].valid}">
@@ -36,26 +36,26 @@
 
       <div class="h-72 fv-row">
         <label class="form-label">About this deal</label>
-        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" appTrim type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutDeal" name="aboutDeal" placeholder="aboutDeal" rows="5"
+        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" appTrim type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutThisDeal" name="aboutThisDeal" placeholder="aboutThisDeal" rows="5"
         [ngClass]="{
-          'is-invalid': f['aboutDeal'].invalid && f['aboutDeal'].touched,
-          'is-valid': f['aboutDeal'].valid}"></ckeditor>
+          'is-invalid': f['aboutThisDeal'].invalid && f['aboutThisDeal'].touched,
+          'is-valid': f['aboutThisDeal'].valid}"></ckeditor>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'About this deal is required',
-          control: dealForm.controls['aboutDeal']
+          control: dealForm.controls['aboutThisDeal']
         }">
         </ng-container>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'minlength',
           message: 'About this deal should at least be 16 characters',
-          control: dealForm.controls['aboutDeal']
+          control: dealForm.controls['aboutThisDeal']
         }">
         </ng-container>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
         validation: 'pattern',
         message: 'Special characters (! / ? * & % @ : #) are not allowed',
-        control: dealForm.controls['aboutDeal']
+        control: dealForm.controls['aboutThisDeal']
       }">
         </ng-container>
       </div>

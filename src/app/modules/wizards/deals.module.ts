@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MaxLengthModule } from './../../@core/directives/max-length/max-length.module';
 import { Step2DetailsComponent } from './steps/step2-details/step2-details.component';
 // import { SortModule } from '@core/directives/sort/sort.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -86,7 +87,8 @@ FullCalendarModule.registerPlugins([
     DragDropModule,
     SwiperModule,
     LayoutModule,
-    DragAnDropUploadModule
+    DragAnDropUploadModule,
+    MaxLengthModule,
   ],
   entryComponents: [PopoverWrapperComponent],
   providers: [

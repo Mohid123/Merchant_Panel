@@ -75,7 +75,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
           Validators.required,
         ]),
       ],
-      aboutDeal: [
+      aboutThisDeal: [
         this.deal.aboutThisDeal,
         Validators.compose([
           Validators.required,

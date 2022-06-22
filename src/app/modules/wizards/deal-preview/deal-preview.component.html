@@ -112,8 +112,7 @@
         </ng-container>
 
         <ng-container *ngIf="mainDeal?.aboutThisDeal">
-          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem" style="width: 23.838rem;">
-            {{mainDeal?.aboutThisDeal}}
+          <span [innerHTML]="mainDeal?.aboutThisDeal" class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem" style="width: 23.838rem;">
           </span>
         </ng-container>
       </div>
@@ -161,8 +160,10 @@
               </div>
               <div class="flex justify-start mt-2 ml-6 font-thin 2xl:ml-7 flex-nowrap">
                 <i class="text-sm text-gray-600 fas fa-euro-sign">&nbsp;{{subDeal?.originalPrice}}</i>
-                <i class="ml-3 text-sm text-green-400 fas fa-euro-sign">&nbsp;{{subDeal?.dealPrice}}</i>
-                <i style="font-style: normal;" class="mt-1 ml-3 text-xs text-blue-500 fw-bolder">{{subDeal?.discountPercentage}}% off</i>
+                <ng-container *ngIf="subDeal?.dealPrice > 0">
+                  <i class="ml-3 text-sm text-green-400 fas fa-euro-sign">&nbsp;{{subDeal?.dealPrice}}</i>
+                  <i style="font-style: normal;" class="mt-1 ml-3 text-xs text-blue-500 fw-bolder">{{subDeal?.discountPercentage}}% off</i>
+                </ng-container>
               </div>
               <span class="w-56 ml-5 text-sm font-thin text-center 2xl:ml-5">Number of available vouchers <span class="px-2 py-0.5 text-xs text-blue-500 bg-blue-200 rounded-md">{{subDeal?.numberOfVouchers}}</span></span>
               <!-- <div class="flex justify-end mt-2">

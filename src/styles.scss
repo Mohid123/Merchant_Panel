@@ -69,7 +69,7 @@ input[type='file'] {
 }
 
 .ck.ck-editor__main {
-  border: 1px solid #787f9f5e;
+  border: 0.5px solid #787f9f5e;
   border-top: none;
   border-bottom-left-radius: 12px !important;
   border-bottom-right-radius: 12px !important;
@@ -97,8 +97,8 @@ input[type='file'] {
 
 .ck.ck-content {
   max-height: 12.5rem;
-  border-bottom-left-radius: 12px !important;
-  border-bottom-right-radius: 12px !important;
+  border-bottom-left-radius: 11px !important;
+  border-bottom-right-radius: 11px !important;
 }
 
 .ck.ck-sticky-panel .ck-sticky-panel__content_sticky {
