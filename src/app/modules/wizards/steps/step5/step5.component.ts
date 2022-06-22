@@ -23,7 +23,9 @@ export class Step5Component implements OnInit, AfterViewInit {
   @ViewChild('fullCalendar') fullCalendar: FullCalendarComponent;
   @Input() images: Array<any>;
   @ViewChild('modal') private modal: ReusableModalComponent;
+  @ViewChild('modal2') private modal2: ReusableModalComponent;
   uploaded: boolean;
+  yesClick: boolean = false;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
@@ -69,6 +71,7 @@ export class Step5Component implements OnInit, AfterViewInit {
 
   reciever: Subscription;
   data: MainDeal;
+  clickInfo: any;
 
   private unsubscribe: Subscription[] = [];
 
@@ -122,12 +125,23 @@ export class Step5Component implements OnInit, AfterViewInit {
     }
   }
 
-  handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
+  yesClickTrue() {
+    this.yesClick = true;
+    if(this.yesClick == true) {
+      this.clickInfo.remove();
       this.data.startDate = '';
       this.data.endDate = '';
+      this.modal2.close();
     }
+  }
+
+  closeSecondModal() {
+    this.modal2.close();
+  }
+
+  handleEventClick(clickInfo: EventClickArg) {
+    this.clickInfo = clickInfo.event;
+    return this.modal2.open();
   }
 
   handleEvents(events: EventApi[]) {

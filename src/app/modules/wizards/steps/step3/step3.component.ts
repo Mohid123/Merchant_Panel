@@ -110,8 +110,6 @@ export class Step3Component implements OnInit, OnDestroy {
           'underline',
           'highlight',
           'alignment',
-          'indent',
-          'outdent',
           'undo',
           'redo'
         ]
