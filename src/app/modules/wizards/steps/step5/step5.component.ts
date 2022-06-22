@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import { HotToastService } from '@ngneat/hot-toast';
 import * as moment from 'moment';
-import { combineLatest, of, Subscription } from 'rxjs';
-import { exhaustMap, take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { MainDeal } from '../../models/main-deal.model';
 import { createEventId } from '../step4/event-utils';
@@ -150,53 +149,53 @@ export class Step5Component implements OnInit, AfterViewInit {
   }
 
   openNew() {
-    if(this.currentEvents.length == 0) {
-      this.toast.warning('Please set a date for the deal!', {
-        style: {
-          border: '1px solid #F59E0B',
-          padding: '16px',
-          color: '#F59E0B',
-        },
-        iconTheme: {
-          primary: '#f7ce8c',
-          secondary: '#F59E0B',
-        }
-      })
-      return;
-    }
-    this.connection.disabler = false;
-    this.uploaded = false
-    debugger
-    const mediaUpload:any = [];
-    if(!!this.images.length) {
-      for (let index = 0; index < this.images.length; index++) {
-        mediaUpload.push(this.mediaService.uploadMedia('deal', this.images[index]));
-      }
-    }
-    debugger
+    // if(this.currentEvents.length == 0) {
+    //   this.toast.warning('Please set a date for the deal!', {
+    //     style: {
+    //       border: '1px solid #F59E0B',
+    //       padding: '16px',
+    //       color: '#F59E0B',
+    //     },
+    //     iconTheme: {
+    //       primary: '#f7ce8c',
+    //       secondary: '#F59E0B',
+    //     }
+    //   })
+    //   return;
+    // }
+    // this.connection.disabler = false;
+    // this.uploaded = false
+    // debugger
+    // const mediaUpload:any = [];
+    // if(!!this.images.length) {
+    //   for (let index = 0; index < this.images.length; index++) {
+    //     mediaUpload.push(this.mediaService.uploadMedia('deal', this.images[index]));
+    //   }
+    // }
+    // debugger
 
-    this.data.mediaUrl = [];
-    combineLatest(mediaUpload)
-        .pipe(
-          take(1),
-          exhaustMap((mainResponse:any) => {
-            debugger
-            mainResponse.forEach((res:any)=> {
-              if (!res.hasErrors()) {
-                this.data.mediaUrl?.push(res.data.url);
-              } else {
-                return of(null);
-              }
-            })
-            return this.dealService.createDeal(this.data);
-          }),
-        ).subscribe(async (res) => {
-          debugger
-        if(!res.hasErrors()) {
-          this.uploaded = true;
-          return await this.modal.open();
-        }
-    })
+    // this.data.mediaUrl = [];
+    // combineLatest(mediaUpload)
+    //     .pipe(
+    //       take(1),
+    //       exhaustMap((mainResponse:any) => {
+    //         debugger
+    //         mainResponse.forEach((res:any)=> {
+    //           if (!res.hasErrors()) {
+    //             this.data.mediaUrl?.push(res.data.url);
+    //           } else {
+    //             return of(null);
+    //           }
+    //         })
+    //         return this.dealService.createDeal(this.data);
+    //       }),
+    //     ).subscribe(async (res) => {
+    //       debugger
+    //     if(!res.hasErrors()) {
+    //       this.uploaded = true;
+          return this.modal.open();
+    //     }
+    // })
   }
 
   async closeModal() {
