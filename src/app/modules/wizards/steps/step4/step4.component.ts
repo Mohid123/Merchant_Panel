@@ -67,6 +67,7 @@ export class Step4Component implements OnInit, OnDestroy {
       }
     ]
   };
+  disabled: boolean = false;
 
   reciever: Subscription;
   data: MainDeal;
@@ -130,8 +131,6 @@ export class Step4Component implements OnInit, OnDestroy {
           'underline',
           'highlight',
           'alignment',
-          'indent',
-          'outdent',
           'undo',
           'redo'
         ]
@@ -277,6 +276,7 @@ export class Step4Component implements OnInit, OnDestroy {
 
   editPolicyForm() {
     this.editable = true;
+    this.disabled = true;
     this.userService.updateMerchantprofile(this.policyForm.value)
     .pipe(exhaustMap((res: any) => {
       if(!res.hasErrors()) {
@@ -297,6 +297,7 @@ export class Step4Component implements OnInit, OnDestroy {
           return (res);
         }
     })).subscribe((res: any) => {
+      this.disabled = false;
       console.log(res);
     })
   }
