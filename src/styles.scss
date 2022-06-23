@@ -40,15 +40,15 @@ input::-webkit-file-upload-button {
   display: none;
 }
 ::-webkit-input-placeholder { /* Edge */
-  @apply text-font-gray-800 text-sm;
+  color: #414950;
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  @apply text-font-gray-800 text-sm;
+  color: #414950;
 }
 
 ::placeholder {
-  @apply text-font-gray-800 text-sm;
+  color: #414950;
 }
 
 input[type='file'] {

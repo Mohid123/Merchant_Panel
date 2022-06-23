@@ -195,6 +195,7 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   addMoreVoucher(){
+    this.vouchers.reset()
     this.addVoucher = true;
     this.editIndex = -1;
   }
