@@ -46,7 +46,35 @@ export class Step2Component implements OnInit, OnDestroy {
     ]
     }, {
       validator: GreaterThanValidator('originalPrice', 'dealPrice')
-    })
+    });
+
+
+  editVouchers = this.fb.group({
+    originalPrice: [
+      '',
+      Validators.compose([
+      Validators.required,
+      ]),
+    ],
+    dealPrice: [
+      ''
+    ],
+    numberOfVouchers: [
+      0,
+      Validators.compose([
+      Validators.required,
+      ])
+    ],
+    subTitle: [
+      '',
+      Validators.required
+    ],
+    discountPercentage: [
+      0
+    ]
+    }, {
+      validator: GreaterThanValidator('originalPrice', 'dealPrice')
+  })
 
   @ViewChild('modal') private modal: ReusableModalComponent;
 
@@ -89,7 +117,7 @@ export class Step2Component implements OnInit, OnDestroy {
     ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;
-      this.subDeals = this.data.vouchers ? this.data.vouchers  : [] ;
+      this.subDeals = this.data.vouchers ? this.data.vouchers  : [];
       if(this.subDeals.length > 0) {
         this.addVoucher = false;
       }
@@ -120,8 +148,46 @@ export class Step2Component implements OnInit, OnDestroy {
 
   async edit(index:any) {
     this.editIndex = index;
-    this.vouchers.patchValue(this.subDeals[index]);
+    this.editVouchers.patchValue(this.subDeals[index]);
     await this.modal.open();
+  }
+
+  editVoucher() {
+    if(this.editVouchers.invalid) {
+      this.editVouchers.markAllAsTouched();
+      return;
+    }
+    if(this.editVouchers.controls['numberOfVouchers'].value > 0) {
+      const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
+      const discountPrice = Math.round(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
+      this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
+      if(this.editIndex >= 0) {
+        this.subDeals[this.editIndex] = this.editVouchers.value;
+      } else {
+        this.subDeals.push(this.editVouchers.value);
+      }
+      this.data.vouchers = this.subDeals;
+      this.newData.vouchers = this.subDeals;
+      this.connection.sendData(this.data);
+      this.closeModal();
+      this.editVouchers.reset();
+      this.addVoucher = false;
+    }
+    else {
+      this.editVouchers.controls['numberOfVouchers'].setValue(0);
+      this.toast.error('Please select at least one voucher', {
+        style: {
+          border: '1px solid #713200',
+          padding: '16px',
+          color: '#713200',
+        },
+        iconTheme: {
+          primary: '#713200',
+          secondary: '#FFFAEE',
+        }
+      })
+    }
+    return;
   }
 
   calculateDiscount() {
@@ -143,7 +209,7 @@ export class Step2Component implements OnInit, OnDestroy {
       this.connection.sendData(this.data);
       this.closeModal();
       this.vouchers.reset();
-      this.addVoucher = false;
+      //this.addVoucher = false;
     }
     else {
       this.voucherFormControl['numberOfVouchers'].setValue(0);
@@ -173,6 +239,20 @@ export class Step2Component implements OnInit, OnDestroy {
     // this.vouchers.removeAt(i);
   }
 
+  editHandlePlus() {
+    this.editVouchers.patchValue({
+      numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) + 1
+    });
+  }
+
+  editHandleMinus() {
+    if(this.editVouchers.controls['numberOfVouchers'].value >= 1) {
+      this.editVouchers.patchValue({
+        numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) - 1
+      });
+    }
+  }
+
   handleMinus() {
     const numOfVoucher = this.voucherFormControl['numberOfVouchers'].value;
     if(numOfVoucher > 0)
@@ -194,8 +274,8 @@ export class Step2Component implements OnInit, OnDestroy {
     return await this.modal.close();
   }
 
-  addMoreVoucher(){
-    this.vouchers.reset()
+  addMoreVoucher() {
+    this.vouchers.reset();
     this.addVoucher = true;
     this.editIndex = -1;
   }

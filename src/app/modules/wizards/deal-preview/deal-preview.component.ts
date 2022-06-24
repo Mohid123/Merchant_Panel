@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from 'swiper';
 import { ConnectionService } from './../services/connection.service';
@@ -22,17 +22,27 @@ export class DealPreviewComponent implements OnInit {
 
   subDeals: any[] = [];
   isImg: any;
+  video: any[] = [];
+  loading: boolean = true;
+  @ViewChild('swipe') swipe: any;
 
   constructor(private conn: ConnectionService, private cf: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.conn.getData().subscribe((res: any) => {
+      this.loading = true;
       this.mainDeal = res;
       this.subDeals = this.mainDeal.vouchers ? this.mainDeal.vouchers : [];
-      this.urls = this.mainDeal.mediaUrl ? this.mainDeal.mediaUrl : [];
-      if(this.urls && this.urls[0])
-        this.isImg = !!(this.urls[0] as string).startsWith('data:image');
+      this.urls = this.mainDeal.mediaUrl ? this.mainDeal.mediaUrl.filter(img => img.startsWith('data:image')) : [];
+      this.video = this.mainDeal.mediaUrl ? this.mainDeal.mediaUrl.filter(img => !img.startsWith('data:image')) : [];
       this.cf.detectChanges();
+
+      // if(this.urls && this.urls[0])
+      //   this.isImg = !!(this.urls[0] as string).startsWith('data:image');
+      // this.cf.detectChanges();
+      console.log(this.urls)
+      console.log(this.video)
+      this.loading = false;
     });
   }
 }

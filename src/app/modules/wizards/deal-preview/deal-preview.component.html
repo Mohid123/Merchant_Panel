@@ -47,22 +47,21 @@
           </div>
         </ng-container>
 
-        <ng-container *ngIf="urls.length > 0">
+        <ng-container *ngIf="urls.length > 0 || video.length > 0">
           <div style="max-height: 290px;">
-            <swiper
+            <swiper #swipe
             style="--swiper-navigation-color: #fff;--swiper-pagination-color: #fff; --swiper-navigation-size: 20px;"
             [spaceBetween]="3"
             [navigation]="true"
             [thumbs]="{ swiper: thumbsSwiper }"
             class="mySwiper2">
 
+            <ng-template swiperSlide *ngIf="video.length > 0">
+              <video [src]="video[0]" controls class="rounded-sm"></video>
+            </ng-template>
+
             <ng-template swiperSlide *ngFor="let url of urls; let i = index">
-              <ng-container *ngIf="i == 0  && !isImg; else img">
-                <video [src]="url" controls class="rounded-sm"></video>
-              </ng-container>
-              <ng-template #img>
-                <img [src]="url">
-              </ng-template>
+              <img [src]="url">
             </ng-template>
 
             </swiper>
@@ -75,14 +74,14 @@
               [watchSlidesProgress]="true"
               class="mySwiper">
 
-              <ng-template swiperSlide *ngFor="let url of urls; let i = index">
-                <ng-container *ngIf="i == 0 && !isImg;else img2">
-                  <video [src]="url" class="w-8 h-8 p-0 rounded-sm"></video>
-                </ng-container>
-                <ng-template #img2>
-                  <img [src]="url" class="w-8 h-8 p-0 rounded-sm">
-                </ng-template>
+              <ng-template swiperSlide *ngIf="video.length > 0">
+                <video [src]="video[0]" controls class="w-8 h-8 p-0 rounded-sm"></video>
               </ng-template>
+
+              <ng-template swiperSlide *ngFor="let url of urls; let i = index">
+                <img [src]="url" class="w-8 h-8 p-0 rounded-sm">
+              </ng-template>
+
 
             </swiper>
           </div>
@@ -178,7 +177,17 @@
             <hr class="w-full text-gray-400 border-4">
           </div>
         </div>
-      </ng-container> -->
+      </ng-container>
+
+       <ng-container *ngIf="video">
+              <ng-template swiperSlide>
+                <video [src]="video" controls class="rounded-sm"></video>
+              </ng-template>
+            </ng-container>
+
+            <ng-template swiperSlide *ngFor="let url of urls; let i = index">
+              <img [src]="url">
+            </ng-template> -->
 
       <ng-container *ngIf="subDeals.length > 0">
         <div class="flex flex-col mt-24 overflow-x-scroll">

@@ -191,6 +191,7 @@ export class Step1Component implements OnInit, OnDestroy {
           if(isImages){
             this.multiples.push(url);
             this.urls.push(url);
+            this.cf.detectChanges();
           }
           this.cf.detectChanges();
           // If multple events are fired by user
@@ -217,6 +218,7 @@ export class Step1Component implements OnInit, OnDestroy {
             this.getItemsTable();
           }
           this.dealForm.controls['mediaUrl'].setValue(this.urls);
+          this.cf.detectChanges();
         };
       }
     }
@@ -255,10 +257,14 @@ export class Step1Component implements OnInit, OnDestroy {
       return;
     }
     if (this.file) {
+      this.temporaryVideo = this.file;
+      this.media.push(this.temporaryVideo)
+      this.cf.detectChanges();
       var reader = new FileReader();
       reader.readAsDataURL(this.file);
       reader.onload = (event) => {
         this.url = (<FileReader>event.target).result as string;
+        this.connection.sendVideoValue(this.url);
         this.urls.unshift(this.url);
         this.dealForm.controls['mediaUrl'].setValue(this.urls);
         this.cf.detectChanges();

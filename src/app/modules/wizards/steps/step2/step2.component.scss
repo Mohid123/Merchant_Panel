@@ -74,8 +74,9 @@ label {
 
 .voucher-container {
   @apply pl-9 px-5 py-5 mt-3 ;
-  padding: 15px;
-  background: transparent linear-gradient(100deg, #CCEBFF 0%, #E2E8FE 100%) 0% 0% no-repeat padding-box;
+  padding: 25px;
+  background: linear-gradient(#CCEBFF 0 0) center/calc(100% - 11.10px) calc(100% - 11.10px) no-repeat,
+  radial-gradient(farthest-side,#CCEBFF 98%,#ffffff) 0 0/12px 12px round;
   width: 100%;
   min-height: 132px;
  }
