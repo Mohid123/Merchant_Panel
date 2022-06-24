@@ -93,7 +93,7 @@
             <label class="form-label">Number of available vouchers</label>
               <div class="flex items-center mb-1.5 justify-between h-8 border-2 border-white rounded-sm w-28">
                 <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="handleMinus()">-</button>
-                <input maxlength="4" appNumbersOnly type="text" style="height: 24px !important;min-height: unset;" class="w-12 py-0.5 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+                <input maxlength="4" appNumbersOnly type="text" style="height: 24px !important;min-height: unset;" class="w-12 py-0.5 px-0 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
                 <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="handlePlus()">+</button>
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -187,7 +187,7 @@
           <label class="form-label">Number of available vouchers</label>
             <div class="flex items-center justify-between h-8 border-2 border-white rounded-sm w-28">
               <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="handleMinus()">-</button>
-              <input maxlength="4" appNumbersOnly type="text" style="height: 24px !important;min-height: unset;" class="w-12 py-0.5 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+              <input maxlength="4" appNumbersOnly type="text" style="height: 24px !important;min-height: unset;" class="w-12 py-0.5 px-0 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
               <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="handlePlus()">+</button>
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
