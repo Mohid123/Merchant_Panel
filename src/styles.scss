@@ -17,7 +17,7 @@
 
 
 input[type=date] {
-  color: #B5B5C3 ;
+  color: #414950 ;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -103,6 +103,10 @@ input[type='file'] {
 
 .ck.ck-sticky-panel .ck-sticky-panel__content_sticky {
   position: initial !important;
+}
+
+.ck.ck-sticky-panel__placeholder {
+  display: none !important;
 }
 
 .fc .fc-toolbar-title {

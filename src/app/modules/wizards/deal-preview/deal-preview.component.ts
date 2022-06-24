@@ -30,9 +30,9 @@ export class DealPreviewComponent implements OnInit {
       this.mainDeal = res;
       this.subDeals = this.mainDeal.vouchers ? this.mainDeal.vouchers : [];
       this.urls = this.mainDeal.mediaUrl ? this.mainDeal.mediaUrl : [];
-      this.cf.detectChanges();
       if(this.urls && this.urls[0])
         this.isImg = !!(this.urls[0] as string).startsWith('data:image');
+      this.cf.detectChanges();
     });
   }
 }

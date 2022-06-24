@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Subject } from 'rxjs';
@@ -29,6 +29,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   dealForm: FormGroup;
 
   constructor(
+    private cf: ChangeDetectorRef,
     private fb: FormBuilder,
     private connection: ConnectionService,
   ) { }
@@ -84,7 +85,6 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         this.deal.readMore,
         Validators.compose([
           Validators.required,
-          Validators.minLength(16),
         ]),
       ],
       finePrints: [
@@ -101,7 +101,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     })
 
     this.dealForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: MainDeal) => {
-
+      this.cf.detectChanges();
       this.updateParentModel(val, this.checkForm());
       this.connection.sendData({...this.data,...val})
     });
@@ -113,6 +113,14 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     }else {
       this.nextClick.emit('');
     }
+  }
+
+  textLength (body:string) {
+    var regex = /(<([^>]+)>)/ig;
+    var result = body?.replace(regex, "");
+    console.log('body:',body);
+    console.log('result:',result);
+    return result?.length;
   }
 
   ngOnDestroy() {

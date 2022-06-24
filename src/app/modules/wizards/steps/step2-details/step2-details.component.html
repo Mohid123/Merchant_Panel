@@ -36,78 +36,90 @@
 
       <div class="h-72 fv-row">
         <label class="form-label">About this deal</label>
-        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutThisDeal" name="aboutThisDeal" placeholder="aboutThisDeal" rows="5"
+        <ckeditor [editor]="Editor" (focus)="f['aboutThisDeal'].markAsTouched()" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutThisDeal" name="aboutThisDeal" placeholder="aboutThisDeal" rows="5"
         [ngClass]="{
           'is-invalid': f['aboutThisDeal'].invalid && f['aboutThisDeal'].touched,
           'is-valid': f['aboutThisDeal'].valid}"></ckeditor>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'About this deal is required',
-          control: dealForm.controls['aboutThisDeal']
-        }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'About this deal should at least be 16 characters',
-          control: dealForm.controls['aboutThisDeal']
-        }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-        validation: 'pattern',
-        message: 'Special characters (! / ? * & % @ : #) are not allowed',
-        control: dealForm.controls['aboutThisDeal']
-      }">
-        </ng-container>
+          <ng-container *ngIf="(dealForm.controls['aboutThisDeal'].dirty || dealForm.controls['aboutThisDeal'].touched)">
+            <ng-container *ngIf="dealForm.controls['aboutThisDeal'].value ==null || dealForm.controls['aboutThisDeal'].value == ''">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  About this deal is required
+                </span>
+              </div>
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Special characters (! / ? * & % @ : #) are not allowed',
+              control: dealForm.controls['aboutThisDeal']
+            }">
+              </ng-container>
+            <ng-container *ngIf="dealForm.controls['aboutThisDeal'].value !== null && dealForm.controls['aboutThisDeal'].value !== '' && textLength(dealForm.controls['aboutThisDeal'].value) < 16">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  About this deal should at least be 16 characters
+                </span>
+              </div>
+            </ng-container>
+          </ng-container>
       </div>
       <div class="h-72 fv-row">
         <label class="form-label">Read more</label>
-        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="readMore" name="readMore" placeholder="readMore" rows="5"
+        <ckeditor (focus)="f['readMore'].markAsTouched()" [editor]="Editor" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="readMore" name="readMore" placeholder="readMore" rows="5"
         [ngClass]="{
           'is-invalid': f['readMore'].invalid && f['readMore'].touched,
           'is-valid': f['readMore'].valid}"></ckeditor>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'Read more is required',
-          control: dealForm.controls['readMore']
-        }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'Read more should at least be 16 characters',
-          control: dealForm.controls['readMore']
-        }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-        validation: 'pattern',
-        message: 'Special characters (! / ? * & % @ : #) are not allowed',
-        control: dealForm.controls['readMore']
-      }">
-        </ng-container>
+          <ng-container *ngIf="(dealForm.controls['readMore'].dirty || dealForm.controls['readMore'].touched)">
+            <ng-container *ngIf="dealForm.controls['readMore'].value ==null || dealForm.controls['readMore'].value == ''">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  Read more is required
+                </span>
+              </div>
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Special characters (! / ? * & % @ : #) are not allowed',
+              control: dealForm.controls['readMore']
+            }">
+              </ng-container>
+            <ng-container *ngIf="dealForm.controls['readMore'].value !== null && dealForm.controls['readMore'].value !== '' && textLength(dealForm.controls['readMore'].value) < 16">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  Read more should at least be 16 characters
+                </span>
+              </div>
+            </ng-container>
+          </ng-container>
       </div>
       <div class="h-72 fv-row">
         <label class="form-label">The fine print</label>
-        <ckeditor [editor]="Editor" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="finePrints" name="finePrints" placeholder="finePrints" rows="5"
+        <ckeditor (focus)="f['finePrints'].markAsTouched()" [editor]="Editor" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="finePrints" name="finePrints" placeholder="finePrints" rows="5"
         [ngClass]="{
           'is-invalid': f['finePrints'].invalid && f['finePrints'].touched,
           'is-valid': f['finePrints'].valid}"></ckeditor>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'The fine prints is required',
-          control: dealForm.controls['finePrints']
-        }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'The fine prints should at least be 16 characters',
-          control: dealForm.controls['finePrints']
-        }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-        validation: 'pattern',
-        message: 'Special characters (! / ? * & % @ : #) are not allowed',
-        control: dealForm.controls['finePrints']
-      }">
-        </ng-container>
+          <ng-container *ngIf="(dealForm.controls['finePrints'].dirty || dealForm.controls['finePrints'].touched)">
+            <ng-container *ngIf="dealForm.controls['finePrints'].value ==null || dealForm.controls['finePrints'].value == ''">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  The fine print is required
+                </span>
+              </div>
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Special characters (! / ? * & % @ : #) are not allowed',
+              control: dealForm.controls['finePrints']
+            }">
+              </ng-container>
+            <ng-container *ngIf="dealForm.controls['finePrints'].value !== null && dealForm.controls['finePrints'].value !== '' && textLength(dealForm.controls['finePrints'].value) < 16">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  The fine print should at least be 16 characters
+                </span>
+              </div>
+            </ng-container>
+          </ng-container>
       </div>
 
       <div class="flex justify-between mt-8 min-h-14 2xl:h-20">

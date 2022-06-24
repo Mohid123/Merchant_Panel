@@ -151,7 +151,7 @@ export class Step1Component implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.pattern('^[a-zA-Z0-9 \-\']+')
+          Validators.pattern('^[a-zA-Z0-9\. \-\']+')
         ]),
       ],
       mediaUrl: [
@@ -260,6 +260,7 @@ export class Step1Component implements OnInit, OnDestroy {
       reader.onload = (event) => {
         this.url = (<FileReader>event.target).result as string;
         this.urls.unshift(this.url);
+        this.dealForm.controls['mediaUrl'].setValue(this.urls);
         this.cf.detectChanges();
       };
       event.target.value = "";
@@ -280,6 +281,8 @@ export class Step1Component implements OnInit, OnDestroy {
 
   clearVideo() {
     this.url = '';
+    this.urls.splice(0, 1);
+    this.dealForm.controls['mediaUrl'].setValue(this.urls);
   }
 
   onClick(event: any) {

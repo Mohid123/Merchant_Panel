@@ -79,7 +79,10 @@
             <div class="h-24 fv-row 2xl:h-26">
             <label class="form-label">Deal price</label>
               <span class="absolute flex items-center h-11"><i style="font-size:12px;" class="px-2.5 py-2 ml-2 xl:mt-1.5 2xl:mt-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
-              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice">
+              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+              [ngClass]="{
+                'is-invalid': vouchers.controls['dealPrice']?.invalid && vouchers.controls['dealPrice']?.touched,
+                'is-valid': vouchers.controls['dealPrice']?.valid && vouchers.controls['dealPrice']?.value !== ''}">
             <div class="text-xs text-danger"
             *ngIf="vouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
                 The deal price cannot be greater than the original price
@@ -104,15 +107,15 @@
            </svg>
           </div>
           <div class="flex justify-between">
-            <button *ngIf="subDeals.length == 0 " type="button" class="self-center w-24 h-10 p-0 text-xs text-gray-600 bg-gray-300 rounded-lg" (click)="prevClick.emit('')">Back</button>
-            <button *ngIf="subDeals.length > 0 " type="button" class="self-center w-24 h-10 p-0 text-xs text-gray-600 bg-gray-300 rounded-lg" (click)="cancleVoucher()">Cancel</button>
+            <button *ngIf="subDeals.length == 0 " type="button" class="self-center w-24 h-10 p-0 text-sm text-gray-600 bg-gray-300 rounded-lg" (click)="prevClick.emit('')">Back</button>
+            <button *ngIf="subDeals.length > 0 " type="button" class="self-center w-24 h-10 p-0 text-sm text-gray-600 bg-gray-300 rounded-lg" (click)="cancleVoucher()">Cancel</button>
             <button type="button" class="self-center w-24 h-10 p-0 text-white rounded-lg bg-primary-400" (click)="calculateDiscount()">Add</button>
           </div>
 
         </form>
         <div *ngIf="!addVoucher" class="flex justify-between mt-8 min-h-14 2xl:h-20">
-          <button (click)="prevClick.emit('')" class="self-center w-24 h-10 text-xs text-gray-600 bg-gray-300 rounded-lg 2xl:h-12">Back</button>
-          <button [disabled]="subDeals.length == 0" (click)="nextClick.emit('')" class="self-center w-32 h-10 text-xs text-white rounded-lg 2xl:h-12 bg-primary-400">Save & next</button>
+          <button (click)="prevClick.emit('')" class="self-center w-24 h-10 text-sm text-gray-600 bg-gray-300 rounded-lg">Back</button>
+          <button [disabled]="subDeals.length == 0" (click)="nextClick.emit('')" class="self-center w-32 h-10 text-sm text-white rounded-lg bg-primary-400">Save & next</button>
         </div>
       </div>
     </div>
@@ -167,7 +170,7 @@
             <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
             [ngClass]="{
             'is-invalid': vouchers.controls['dealPrice']?.invalid && vouchers.controls['dealPrice']?.touched,
-            'is-valid': vouchers.controls['dealPrice']?.valid}">
+            'is-valid': vouchers.controls['dealPrice']?.valid && vouchers.controls['dealPrice']?.value !== ''}">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Deal Price is required',
@@ -202,7 +205,7 @@
   </div>
 
   <div class="border-none modal-footer">
-    <button type="button" class="self-center w-24 h-10 text-xs text-white rounded-lg 2xl:h-12 bg-primary-400" (click)="calculateDiscount()" [disabled]="vouchers.invalid">Save</button>
+    <button type="button" class="self-center w-24 h-10 text-sm text-white rounded-lg bg-primary-400" (click)="calculateDiscount()" [disabled]="vouchers.invalid">Save</button>
   </div>
 </app-reusable-modal>
 

@@ -74,6 +74,12 @@
               control: dealForm.controls['subTitle']
             }">
             </ng-container>
+            <ng-container *ngIf="!f['subTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Only alphabets numbers and dot are allowed',
+              control: dealForm.controls['subTitle']
+            }">
+            </ng-container>
         </div>
         <div class="mb-4 fv-row">
               <label class="mb-4 text-sm 2xl:text-base form-label">Upload your pictures</label>
