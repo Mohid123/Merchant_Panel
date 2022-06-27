@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ApiResponse } from '@core/models/response.model';
 import { User } from '@core/models/user.model';
+import { DealService } from '@core/services/deal.service';
 import { NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Subject, Subscription } from 'rxjs';
@@ -70,7 +72,9 @@ export class Step4Component implements OnInit, OnDestroy {
   disabled: boolean = false;
 
   reciever: Subscription;
+  secondReciever: Subscription;
   data: MainDeal;
+  newData: MainDeal;
   policy: Partial<User>;
   editIndex: number = -1;
 
@@ -82,11 +86,17 @@ export class Step4Component implements OnInit, OnDestroy {
     private authService: AuthService,
     private userService: UserService,
     private toast: HotToastService,
-    private cf: ChangeDetectorRef) {
+    private cf: ChangeDetectorRef,
+    private dealService: DealService) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       if(response) {
         this.data = response;
-        //console.log(this.data);
+      }
+    })
+
+    this.secondReciever = this.connection.getSaveAndNext().subscribe((response: any) => {
+      if(response) {
+        this.newData = response;
       }
     })
   }
@@ -113,10 +123,6 @@ export class Step4Component implements OnInit, OnDestroy {
       this.cf.detectChanges();
     }
 
-    // if(this.form.get('voucherValidity')?.value) {
-    //   this.currentlyChecked = this.check_box_type.TWO
-    // }
-
     this.config = {
       language: 'en',
       toolbar: {
@@ -136,6 +142,7 @@ export class Step4Component implements OnInit, OnDestroy {
         ]
       }
     }
+
   }
 
   selectCheckBox(targetType: CheckBoxType) {
@@ -149,7 +156,6 @@ export class Step4Component implements OnInit, OnDestroy {
   openDatePicker() {
     this.dPicker.open();
   }
-
 
   disableCheckBox() {
     if(this.currentlyChecked == this.check_box_type.ONE) {
@@ -311,6 +317,30 @@ export class Step4Component implements OnInit, OnDestroy {
    });
   }
 
+  sendDraftData() {
+    this.nextClick.emit('');
+    this.newData.pageNumber = 4;
+    this.newData.vouchers?.forEach((voucher) => {
+      if (this.form.get('voucherValidity')?.value) {
+        voucher.voucherValidity = this.form.get('voucherValidity')?.value;
+        voucher.voucherStartDate = '';
+        voucher.voucherEndDate = '';
+      } else {
+        voucher.voucherValidity = 0;
+        voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.year).getTime();
+        voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
+      }
+    });
+
+    const payload = this.newData;
+    this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.connection.isSaving.next(false);
+        this.connection.sendSaveAndNext(res.data);
+      }
+    })
+  }
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

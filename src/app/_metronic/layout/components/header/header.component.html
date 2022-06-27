@@ -26,12 +26,20 @@
 
   <!-- begin::Wrapper -->
   <div
-    class="w-full d-flex self-center align-items-stretch justify-content-between flex-lg-grow-1"
+    class="self-center w-full d-flex align-items-stretch justify-content-between flex-lg-grow-1"
   >
-  <div class="self-center flex flex-row gap-3 ml-3 text-gray-600">
-    <img src="/assets/media/icons/save.svg">
-    Saving...
-  </div>
+  <ng-container *ngIf="conn.isSaving.value == true">
+    <div class="flex flex-row self-center gap-3 ml-3 text-gray-600">
+      <img src="/assets/media/icons/save.svg">
+      Saving...
+    </div>
+  </ng-container>
+  <ng-container *ngIf="conn.isSaving.value == false">
+    <div #access class="flex flex-row self-center gap-3 ml-3 text-gray-600">
+      <img src="/assets/media/icons/sync.svg">
+      Saved to database
+    </div>
+  </ng-container>
     <ng-container *ngIf="headerLeft === 'menu'">
       <div class="d-flex align-items-stretch" id="kt_header_nav">
         <div

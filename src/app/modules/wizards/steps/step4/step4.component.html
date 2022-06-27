@@ -82,9 +82,9 @@
               <div class="relative mt-4">
                 <!-- <div class="flex flex-col w-full h-8 border-2 border-white rounded-sm md:flex-row"> -->
                   <div class="flex flex-row w-full">
-                    <button [disabled]="btnDisable == true" class="h-full mt-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handleMinus()">-</button>
+                    <button [disabled]="btnDisable == true" class="h-full mt-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14 hover:bg-blue-300 hover:text-gray-600" (click)="handleMinus()">-</button>
                     <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'" maxlength="3" placeholder="0" appNumbersOnly type="text" style="border-width: 1px;" class="w-3/12 mt-2 text-xs text-center rounded-md h-7 form-control" formControlName="voucherValidity" name="voucherValidity">
-                    <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14" (click)="handlePlus()">+</button>
+                    <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14 hover:bg-blue-300 hover:text-gray-600" (click)="handlePlus()">+</button>
                     <div class="flex flex-row w-full ml-2 tracking-wider lg:mt-2">
                       <span class="mt-1 ml-2 text-sm font-medium">days after purchase</span>
                     </div>
@@ -100,7 +100,7 @@
           <div class="flex flex-row justify-between w-full mb-3">
             <label class="form-label">Where can the customer redeem their voucher?</label>
             <ng-container *ngIf="editable == false">
-              <button type="button" class="ml-12 text-xs hover:bg-blue-500 hover:text-white edit-button" (click)="editable = true">Edit</button>
+              <button type="button" class="ml-12 text-xs font-medium edit-button hover:bg-blue-500 hover:text-white" (click)="editable = true">Edit</button>
             </ng-container>
 
             <ng-container *ngIf="editable == true">
@@ -234,7 +234,7 @@
 
       <div class="flex justify-evenly min-h-14 3xl:mr-0 2xl:h-20">
         <button (click)="prevClick.emit('')" class="self-center w-24 h-10 text-xs text-gray-600 bg-gray-300 rounded-lg xl:mr-28 1.5xl:mr-12 2xl:mr-0 2xl:ml-6 2xl:h-12">Back</button>
-        <button (click)="nextClick.emit('')" class="self-center w-32 h-10 text-xs text-white rounded-lg 2xl:h-12 bg-primary-400">Save & next</button>
+        <button (click)="sendDraftData()" class="self-center w-32 h-10 text-xs text-white rounded-lg 2xl:h-12 bg-primary-400">Save & next</button>
       </div>
   </div>
 </div>

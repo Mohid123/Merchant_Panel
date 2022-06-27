@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Subject } from 'rxjs';
+import { ApiResponse } from '@core/models/response.model';
+import { DealService } from '@core/services/deal.service';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { ConnectionService } from './../../services/connection.service';
@@ -17,6 +19,8 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   public Editor = ClassicEditor;
 
   data: MainDeal;
+  newData: MainDeal;
+  reciever: Subscription;
   destroy$ = new Subject();
   @Output() nextClick = new EventEmitter();
   @Output() prevClick = new EventEmitter();
@@ -32,6 +36,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     private cf: ChangeDetectorRef,
     private fb: FormBuilder,
     private connection: ConnectionService,
+    private dealService: DealService
   ) { }
 
   ngOnInit(): void {
@@ -55,6 +60,10 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         ]
       }
     }
+
+    this.reciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
+      this.newData = response;
+    })
   }
 
   get f() {
@@ -112,7 +121,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   next() {
     if(this.dealForm.invalid) {
      this.dealForm.markAllAsTouched();
-    }else {
+    } else {
       this.nextClick.emit('');
     }
   }
@@ -123,9 +132,21 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     return result?.length;
   }
 
+  sendDraftData() {
+    this.newData.pageNumber = 3;
+    const payload = {...this.newData, ...this.dealForm.value};
+    this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.connection.isSaving.next(false);
+        this.connection.sendSaveAndNext(res.data);
+      }
+    })
+  }
+
   ngOnDestroy() {
     this.destroy$.complete();
     this.destroy$.unsubscribe();
+    this.reciever.unsubscribe();
   }
 
 

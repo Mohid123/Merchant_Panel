@@ -1,10 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiResponse } from '@core/models/response.model';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import { HotToastService } from '@ngneat/hot-toast';
 import * as moment from 'moment';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { MainDeal } from '../../models/main-deal.model';
 import { createEventId } from '../step4/event-utils';
@@ -69,8 +71,11 @@ export class Step5Component implements OnInit, AfterViewInit {
   @Input() deal: Partial<MainDeal>;
 
   reciever: Subscription;
+  secondReciever: Subscription;
   data: MainDeal;
+  newData: MainDeal;
   clickInfo: any;
+  destroy$ = new Subject();
 
   private unsubscribe: Subscription[] = [];
 
@@ -84,9 +89,12 @@ export class Step5Component implements OnInit, AfterViewInit {
       this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
         this.data = response;
         this.images = this.data.mediaUrl;
-        console.log(this.images);
       })
       this.uploaded = true;
+
+      this.secondReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
+        this.newData = response;
+      })
     }
 
   ngOnInit() {
@@ -114,6 +122,8 @@ export class Step5Component implements OnInit, AfterViewInit {
     if (title && !calendarApi.getEvents().length) {
       this.data.startDate = selectInfo.startStr;
       this.data.endDate = selectInfo.endStr;
+      this.newData.startDate = selectInfo.startStr;
+      this.newData.endDate = selectInfo.endStr;
       calendarApi.addEvent({
         id: createEventId(),
         title,
@@ -149,53 +159,37 @@ export class Step5Component implements OnInit, AfterViewInit {
   }
 
   openNew() {
-    // if(this.currentEvents.length == 0) {
-    //   this.toast.warning('Please set a date for the deal!', {
-    //     style: {
-    //       border: '1px solid #F59E0B',
-    //       padding: '16px',
-    //       color: '#F59E0B',
-    //     },
-    //     iconTheme: {
-    //       primary: '#f7ce8c',
-    //       secondary: '#F59E0B',
-    //     }
-    //   })
-    //   return;
-    // }
-    // this.connection.disabler = false;
-    // this.uploaded = false
-    // debugger
-    // const mediaUpload:any = [];
-    // if(!!this.images.length) {
-    //   for (let index = 0; index < this.images.length; index++) {
-    //     mediaUpload.push(this.mediaService.uploadMedia('deal', this.images[index]));
-    //   }
-    // }
-    // debugger
+    if(this.currentEvents.length == 0) {
+      this.toast.warning('Please set a date for the deal!', {
+        style: {
+          border: '1px solid #F59E0B',
+          padding: '16px',
+          color: '#F59E0B',
+        },
+        iconTheme: {
+          primary: '#f7ce8c',
+          secondary: '#F59E0B',
+        }
+      })
+      return;
+    }
+    this.connection.disabler = false;
+    this.uploaded = false;
+    this.newData.pageNumber = 5;
+    this.newData.dealStatus = 'In Review';
+    const payload = this.newData;
+    debugger
+    this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.connection.isSaving.next(false);
+        this.connection.sendSaveAndNext(res.data);
+        this.uploaded = true;
+        this.connection.currentStep$.next(1);
+        return this.modal.open();
+      }
+    })
 
-    // this.data.mediaUrl = [];
-    // combineLatest(mediaUpload)
-    //     .pipe(
-    //       take(1),
-    //       exhaustMap((mainResponse:any) => {
-    //         debugger
-    //         mainResponse.forEach((res:any)=> {
-    //           if (!res.hasErrors()) {
-    //             this.data.mediaUrl?.push(res.data.url);
-    //           } else {
-    //             return of(null);
-    //           }
-    //         })
-    //         return this.dealService.createDeal(this.data);
-    //       }),
-    //     ).subscribe(async (res) => {
-    //       debugger
-    //     if(!res.hasErrors()) {
-    //       this.uploaded = true;
-          return this.modal.open();
-    //     }
-    // })
   }
 
   async closeModal() {
@@ -206,5 +200,7 @@ export class Step5Component implements OnInit, AfterViewInit {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.secondReciever.unsubscribe();
+    this.reciever.unsubscribe();
   }
 }
