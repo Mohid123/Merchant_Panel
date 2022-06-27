@@ -2,7 +2,7 @@
 <!--Card for Creating Deal-->
 <div class="flex flex-col w-full h-auto gap-2 mt-9 md:flex-row">
   <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
-    <form class="self-center form max-w-124 2xl:max-w-128 3xl:max-w-135" [formGroup]="dealForm">
+    <form class="self-center form w-128 max-w-128" [formGroup]="dealForm">
       <div class="mb-9 lg:text-center">
         <h1 class="mt-1 mb-2.5 text-lg text-center text-black md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl">Give us the details of your deal.</h1>
         <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base">Make sure the customer understands the details of your offer(s).</div>
@@ -36,12 +36,12 @@
 
       <div class="h-72 fv-row">
         <label class="form-label">About this deal</label>
-        <ckeditor [editor]="Editor" (focus)="f['aboutThisDeal'].markAsTouched()" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutThisDeal" name="aboutThisDeal" placeholder="aboutThisDeal" rows="5"
+        <ckeditor [editor]="Editor" (focus)="f['aboutThisDeal'].markAsTouched()" [config]="config" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutThisDeal" name="aboutThisDeal" placeholder="aboutThisDeal" rows="5"
         [ngClass]="{
           'is-invalid': f['aboutThisDeal'].invalid && f['aboutThisDeal'].touched,
           'is-valid': f['aboutThisDeal'].valid}"></ckeditor>
           <ng-container *ngIf="(dealForm.controls['aboutThisDeal'].dirty || dealForm.controls['aboutThisDeal'].touched)">
-            <ng-container *ngIf="dealForm.controls['aboutThisDeal'].value ==null || dealForm.controls['aboutThisDeal'].value == ''">
+            <ng-container *ngIf="dealForm.controls['aboutThisDeal'].value == null || dealForm.controls['aboutThisDeal'].value == ''">
               <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
                 <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
                   About this deal is required
@@ -57,7 +57,14 @@
             <ng-container *ngIf="dealForm.controls['aboutThisDeal'].value !== null && dealForm.controls['aboutThisDeal'].value !== '' && textLength(dealForm.controls['aboutThisDeal'].value) < 16">
               <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
                 <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
-                  About this deal should at least be 16 characters
+                  About this deal should be at least be 16 characters
+                </span>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="dealForm.controls['aboutThisDeal'].value !== null && dealForm.controls['aboutThisDeal'].value !== '' && textLength(dealForm.controls['aboutThisDeal'].value) > 2000">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  Upto 2000 characters are allowed
                 </span>
               </div>
             </ng-container>
@@ -90,6 +97,13 @@
                 </span>
               </div>
             </ng-container>
+            <ng-container *ngIf="dealForm.controls['readMore'].value !== null && dealForm.controls['readMore'].value !== '' && textLength(dealForm.controls['readMore'].value) > 2000">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  Upto 2000 characters are allowed
+                </span>
+              </div>
+            </ng-container>
           </ng-container>
       </div>
       <div class="h-72 fv-row">
@@ -116,6 +130,13 @@
               <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
                 <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
                   The fine print should at least be 16 characters
+                </span>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="dealForm.controls['finePrints'].value !== null && dealForm.controls['finePrints'].value !== '' && textLength(dealForm.controls['finePrints'].value) > 2000">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  Upto 2000 characters are allowed
                 </span>
               </div>
             </ng-container>

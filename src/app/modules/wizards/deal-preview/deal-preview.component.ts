@@ -40,8 +40,8 @@ export class DealPreviewComponent implements OnInit {
       // if(this.urls && this.urls[0])
       //   this.isImg = !!(this.urls[0] as string).startsWith('data:image');
       // this.cf.detectChanges();
-      console.log(this.urls)
-      console.log(this.video)
+      // console.log(this.urls)
+      // console.log(this.video)
       this.loading = false;
     });
   }

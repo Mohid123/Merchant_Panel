@@ -130,6 +130,44 @@ export class Step1Component implements OnInit, OnDestroy {
     return this.dealForm.controls;
   }
 
+  saveDraftOne() {
+    const payload: any = {
+      subCategory: this.dealForm.get('subCategory')?.value,
+      dealHeader: this.dealForm.get('dealHeader')?.value,
+      subTitle: this.dealForm.get('subTitle')?.value,
+      mediaUrl: [],
+      deletedCheck: false,
+      pageNumber: 1
+    }
+    const mediaUpload:any = [];
+    if(!!this.media.length) {
+      for (let index = 0; index < this.media.length; index++) {
+        mediaUpload.push(this.mediaService.uploadMedia('deal', this.media[index]));
+      }
+    }
+    payload.mediaUrl = [];
+    combineLatest(mediaUpload)
+      .pipe(
+        take(1),
+        exhaustMap((mainResponse:any) => {
+          mainResponse.forEach((res:any)=> {
+            if (!res.hasErrors()) {
+              payload.mediaUrl?.push(res.data.url);
+            } else {
+              return of(null);
+            }
+          })
+          // this.connection.sendSaveAndNext(payload); // to be sent at the end with last api call
+          return this.dealService.createDeal(payload);
+        })
+      ).subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.connection.isSaving.next(false);
+          this.connection.sendSaveAndNext(res.data);
+        }
+    })
+  }
+
   initDealForm() {
     this.dealForm = this.fb.group({
       subCategory: [

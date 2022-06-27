@@ -14,7 +14,7 @@ import { ConnectionService } from './../../services/connection.service';
 export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
   config: any;
-  public Editor = ClassicEditor
+  public Editor = ClassicEditor;
 
   data: MainDeal;
   destroy$ = new Subject();
@@ -78,7 +78,8 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         this.deal.aboutThisDeal,
         Validators.compose([
           Validators.required,
-          Validators.minLength(16)
+          Validators.minLength(16),
+          Validators.maxLength(2000)
         ]),
       ],
       readMore: [
@@ -92,6 +93,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         Validators.compose([
           Validators.required,
           Validators.minLength(16),
+          Validators.maxLength(2000)
         ]),
       ],
     })
@@ -118,8 +120,6 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   textLength (body:string) {
     var regex = /(<([^>]+)>)/ig;
     var result = body?.replace(regex, "");
-    console.log('body:',body);
-    console.log('result:',result);
     return result?.length;
   }
 

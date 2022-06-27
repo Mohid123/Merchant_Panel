@@ -175,7 +175,7 @@
             'is-valid': editVouchers.controls['dealPrice']?.valid && vouchers.controls['dealPrice']?.value != '' && vouchers.controls['dealPrice']?.value != null}">
           <div class="text-xs text-danger"
           *ngIf="editVouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
-            The deal price cannot greater than the original price
+          The deal price cannot be greater than the original price
             </div>
           </div>
 

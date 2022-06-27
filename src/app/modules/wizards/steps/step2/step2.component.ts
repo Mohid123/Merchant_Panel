@@ -122,6 +122,11 @@ export class Step2Component implements OnInit, OnDestroy {
         this.addVoucher = false;
       }
     })
+
+    this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
+      this.newData = response;
+      console.log(this.newData);
+    })
   }
 
   ngOnInit() {
@@ -282,6 +287,21 @@ export class Step2Component implements OnInit, OnDestroy {
 
   cancleVoucher() {
     this.addVoucher = false;
+  }
+
+  saveSecondDraft() {
+    this.nextClick.emit('');
+    this.newData.pageNumber = 2;
+    const payload = this.newData;
+    console.log(payload);
+    if(payload) {
+      return this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.connection.isSaving.next(false);
+          this.connection.sendSaveAndNext(res.data);
+        }
+      })
+    }
   }
 
   ngOnDestroy() {

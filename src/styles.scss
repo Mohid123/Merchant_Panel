@@ -90,13 +90,14 @@ input[type='file'] {
 }
 
 .ck-editor__editable_inline {
-  max-width: 900px;
+  max-width: 900px!important;
   min-height: 200px;
   border: 0.5px solid #0081E9!important;
 }
 
 .ck.ck-content {
   max-height: 12.5rem;
+  max-width: 900px!important;
   border-bottom-left-radius: 11px !important;
   border-bottom-right-radius: 11px !important;
 }
