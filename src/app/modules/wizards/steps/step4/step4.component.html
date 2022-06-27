@@ -166,7 +166,7 @@
                       style="width: 30px;">Street Address</span>
                   </td>
                   <td data-field="OrderID" aria-label="64616-103" class="py-3 text-xs text-gray-700 datatable-cell md:text-sm">
-                    <input class="p-2 text-sm border-gray-400 form-control" formControlName="streetAddress" maxlength="25">
+                    <input class="p-2 text-sm border-gray-400 form-control" formControlName="streetAddress" maxlength="100">
                     <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                       validation: 'required',
                       message: 'Street address is required',
