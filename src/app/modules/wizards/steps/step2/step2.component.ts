@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ApiResponse } from '@core/models/response.model';
+import { DealService } from '@core/services/deal.service';
 import { HotToastService } from '@ngneat/hot-toast';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { ModalConfig } from './../../../../@core/models/modal.config';
 import { AuthService } from './../../../auth/services/auth.service';
@@ -95,8 +98,11 @@ export class Step2Component implements OnInit, OnDestroy {
   ) => void;
 
   reciever: Subscription;
+  dataReciever: Subscription
   data: MainDeal;
+  newData: MainDeal;
   address: string | any;
+  destroy$ = new Subject();
 
   @Input() deal: Partial<MainDeal>
 
@@ -114,6 +120,7 @@ export class Step2Component implements OnInit, OnDestroy {
     private connection: ConnectionService,
     private toast: HotToastService,
     private authService: AuthService,
+    private dealService: DealService
     ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;
@@ -208,10 +215,11 @@ export class Step2Component implements OnInit, OnDestroy {
         this.subDeals[this.editIndex] = this.vouchers.value;
       } else {
         this.subDeals.push(this.vouchers.value);
-        console.log('subDeals:',this.subDeals);
       }
       this.data.vouchers = this.subDeals;
+      this.newData.vouchers = this.subDeals;
       this.connection.sendData(this.data);
+      console.log(this.newData);
       this.closeModal();
       this.vouchers.reset();
       //this.addVoucher = false;
@@ -307,5 +315,8 @@ export class Step2Component implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
     this.reciever.unsubscribe();
+    this.dataReciever.unsubscribe();
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 }

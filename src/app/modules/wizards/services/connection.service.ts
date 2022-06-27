@@ -8,6 +8,7 @@ import { MainDeal } from './../models/main-deal.model';
 
 export class ConnectionService {
   private stepData: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
+  private saveAndNextData: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
   public disabler: boolean = true;
   public isSaving: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
@@ -29,11 +30,11 @@ export class ConnectionService {
     this.saveAndNextData.next(data);
   }
 
-  // sendBoolean(data: any) {
-  //   this.disabler.next(data);
-  // }
+  getSaveAndNext(): Observable<any> {
+    return this.saveAndNextData.asObservable();
+  }
 
-  // getBoolean(): Observable<any> {
-  //   return this.disabler.asObservable();
-  // }
+  getData(): Observable<any> {
+    return this.stepData.asObservable();
+  }
 }

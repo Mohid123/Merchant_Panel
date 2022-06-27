@@ -24,6 +24,7 @@ export class MainDeal {
   aboutThisDeal: string;
   readMore: string;
   finePrints: string;
+  pageNumber: number;
 }
 
 export class Deals {

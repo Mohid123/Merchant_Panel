@@ -4,10 +4,12 @@ import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestro
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ApiResponse } from '@core/models/response.model';
+import { DealService } from '@core/services/deal.service';
 import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
-import { Subject, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { combineLatest, of, Subject, Subscription } from 'rxjs';
+import { exhaustMap, map, take } from 'rxjs/operators';
 import { CategoryDetail, SubCategory } from './../../../auth/models/categories-detail.model';
 import { CategoryService } from './../../../auth/services/category.service';
 import { MainDeal } from './../../models/main-deal.model';
@@ -29,6 +31,8 @@ export class Step1Component implements OnInit, OnDestroy {
     dragIndex: number;
     dropIndex: number;
   };
+
+  data: MainDeal;
 
   @Output() nextClick = new EventEmitter();
   config: any;
@@ -73,7 +77,9 @@ export class Step1Component implements OnInit, OnDestroy {
   videoUrls: any[] = [];
   private unsubscribe: Subscription[] = [];
   control: FormControl
-  images = [];
+  images: any[] = [];
+  media: any[] = [];
+  temporaryVideo: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -83,7 +89,8 @@ export class Step1Component implements OnInit, OnDestroy {
     private categoryService: CategoryService,
     private toast: HotToastService,
     public breakpointObserver: BreakpointObserver,
-    private mediaService: MediaService
+    private mediaService: MediaService,
+    private dealService: DealService
   ) {
     this.breakpointObserver.observe(['(min-width: 1600px)']).pipe(map((result) => result.matches)).subscribe(res => {
       if(res) {
@@ -120,7 +127,6 @@ export class Step1Component implements OnInit, OnDestroy {
     this.categoryService.getAllCategoriesDetail(0,0).pipe(take(1)).subscribe((res) => {
       if(!res.hasErrors()){
         const categoryList = res.data.data;
-        console.log('getAllCategoriesDetail:',categoryList);
         this.categoryList = categoryList;
       }
     })
@@ -215,13 +221,17 @@ export class Step1Component implements OnInit, OnDestroy {
     this.file = files && files.length;
     if (!isImages || (this.file > 0 && this.file < 11)) {
       this.images = files;
+      this.media.push(...this.images);
+      console.log(this.media);
       let i: number = 0;
       for (const singlefile of files) {
         var reader = new FileReader();
         reader.readAsDataURL(singlefile);
         // if(isImages) {
-        //   this.urls.push(singlefile);
+        //   this.images.push(singlefile);
+        //   console.log(this.images);
         // }
+        // console.log(this.images);
         this.cf.detectChanges();
         i++;
         reader.onload = (fileEvent) => {
@@ -301,6 +311,7 @@ export class Step1Component implements OnInit, OnDestroy {
       var reader = new FileReader();
       reader.readAsDataURL(this.file);
       reader.onload = (event) => {
+        this.images
         this.url = (<FileReader>event.target).result as string;
         this.connection.sendVideoValue(this.url);
         this.urls.unshift(this.url);
