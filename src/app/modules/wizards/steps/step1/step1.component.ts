@@ -137,6 +137,7 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   saveDraftOne() {
+    this.connection.isSaving.next(true);
     const payload: any = {
       subCategory: this.dealForm.get('subCategory')?.value,
       dealHeader: this.dealForm.get('dealHeader')?.value,

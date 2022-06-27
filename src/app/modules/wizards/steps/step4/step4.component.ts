@@ -318,6 +318,7 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   sendDraftData() {
+    this.connection.isSaving.next(true);
     this.nextClick.emit('');
     this.newData.pageNumber = 4;
     this.newData.vouchers?.forEach((voucher) => {

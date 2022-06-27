@@ -298,6 +298,7 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   saveSecondDraft() {
+    this.connection.isSaving.next(true);
     this.nextClick.emit('');
     this.newData.pageNumber = 2;
     const payload = this.newData;

@@ -133,6 +133,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   }
 
   sendDraftData() {
+    this.connection.isSaving.next(true);
     this.newData.pageNumber = 3;
     const payload = {...this.newData, ...this.dealForm.value};
     this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
