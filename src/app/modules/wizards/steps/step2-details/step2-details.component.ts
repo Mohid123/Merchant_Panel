@@ -17,6 +17,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
   config: any;
   public Editor = ClassicEditor;
+  public temporary: number;
 
   data: MainDeal;
   newData: MainDeal;
