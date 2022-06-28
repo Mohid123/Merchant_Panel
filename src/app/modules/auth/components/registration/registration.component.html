@@ -11,7 +11,7 @@
           <ng-template matStepLabel>Your Market</ng-template>
             <app-custom-checkbox formControlName="businessType" class="flex flex-row flex-wrap justify-center mx-auto lg:w-9/12 2xl:w-6/12 categories-step">
               <ng-container *ngFor="let category of categories; let i = index">
-               <app-checkbox [customClass]="'w-full md:ml-2 2xl:ml-3'" [value]="category.name" name="businessType">
+               <app-checkbox tooltipClass="my-custom-class" placement="bottom" [ngbTooltip]="i == 8 ? 'Coming soon': ''" [disabled]="category.disabled == true" [customClass]="'w-full md:ml-2 2xl:ml-3'" [value]="category.name" name="businessType">
                 <div class="tabs w-44 h-18" [ngClass]="{'active' : f['businessType'].value.includes(category.name)}">
                   <div class="flex flex-row justify-center">
                     <img [src]="category.img" alt="category.name" class="text-center" [ngClass]="i == 1 || i == 8 ? 'ml-8': ''">
@@ -190,9 +190,14 @@
                 'is-invalid': f['vatNumber'].invalid && f['vatNumber'].touched,
                 'is-valid': f['vatNumber'].valid}" />
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'required',
-                            message: 'VAT number is required',
-                            control: f['vatNumber']}">
+                validation: 'required',
+                message: 'VAT number is required',
+                control: f['vatNumber']}">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: 'Special characters are not allowed',
+                control: f['vatNumber']}">
               </ng-container>
             </div>
 

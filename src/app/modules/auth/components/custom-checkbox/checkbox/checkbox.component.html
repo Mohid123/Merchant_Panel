@@ -1,4 +1,4 @@
 <label *ngIf="name && value" [class]="customClass">
-  <input #myInput class="form-control" (click)="customCheckbox.toggleValue(value)" [checked]="customCheckbox.isSelected(value)" type="checkbox" [name]="name" [value]="value">
+  <input [disabled]="disabled" #myInput class="form-control" (click)="customCheckbox.toggleValue(value)" [checked]="customCheckbox.isSelected(value)" type="checkbox" [name]="name" [value]="value">
   <ng-content></ng-content>
 </label>

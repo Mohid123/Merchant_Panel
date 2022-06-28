@@ -50,7 +50,7 @@ export class CustomCheckboxComponent implements ControlValueAccessor {
       ];
     }
     else if(this.value.length > 2) {
-      this.myInput.nativeElement.disabled();
+      this.myInput?.nativeElement.disabled();
     }
     else {
       this.value = [...this.value, selectedValue];

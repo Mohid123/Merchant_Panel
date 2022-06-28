@@ -1,5 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -27,72 +27,11 @@ export class Step2Component implements OnInit, OnDestroy {
   @Output() prevClick = new EventEmitter();
   addVoucher = true;
   editIndex:number = -1;
-  vouchers = this.fb.group({
-    originalPrice: [
-      '',
-      Validators.compose([
-      Validators.required,
-      ]),
-    ],
-    dealPrice: [
-      ''
-    ],
-    numberOfVouchers: [
-      0,
-      Validators.compose([
-      Validators.required,
-      ])
-    ],
-    subTitle: [
-      '',
-      Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9]+')
-      ])
-    ],
-    discountPercentage: [
-      0
-    ]
-    }, {
-      validator: GreaterThanValidator('originalPrice', 'dealPrice')
-  });
 
   selectedIndex: any;
 
-
-  editVouchers = this.fb.group({
-    originalPrice: [
-      '',
-      Validators.compose([
-      Validators.required,
-      ]),
-    ],
-    dealPrice: [
-      ''
-    ],
-    numberOfVouchers: [
-      0,
-      Validators.compose([
-      Validators.required,
-      ])
-    ],
-    subTitle: [
-      '',
-      Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9]+')
-      ])
-    ],
-    discountPercentage: [
-      0
-    ]
-    }, {
-      validator: GreaterThanValidator('originalPrice', 'dealPrice')
-  })
-
   @ViewChild('modal') private modal: ReusableModalComponent;
   @ViewChild('modal2') private modal2: ReusableModalComponent;
-  @ViewChild('remove') private remove: ElementRef;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
@@ -117,6 +56,8 @@ export class Step2Component implements OnInit, OnDestroy {
   address: string | any;
   destroy$ = new Subject();
   singleVoucher: Vouchers;
+  vouchers: FormGroup;
+  editVouchers: FormGroup;
 
   @Input() deal: Partial<MainDeal>
 
@@ -150,8 +91,76 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initVouchers();
+    this.initEditVouchers();
     this.address = this.authService.currentUserValue?.streetAddress
     this.updateParentModel({}, true);
+  }
+
+  initVouchers() {
+    this.vouchers = this.fb.group({
+      originalPrice: [
+        '',
+        Validators.compose([
+        Validators.required,
+        ]),
+      ],
+      dealPrice: [
+        ''
+      ],
+      numberOfVouchers: [
+       '0',
+        Validators.compose([
+        Validators.required,
+        Validators.min(1)
+        ])
+      ],
+      subTitle: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9 ]+')
+        ])
+      ],
+      discountPercentage: [
+        0
+      ]
+      }, {
+        validator: GreaterThanValidator('originalPrice', 'dealPrice')
+    });
+  }
+
+  initEditVouchers() {
+    this.editVouchers = this.fb.group({
+      originalPrice: [
+        '',
+        Validators.compose([
+        Validators.required,
+        ]),
+      ],
+      dealPrice: [
+        ''
+      ],
+      numberOfVouchers: [
+        '0',
+        Validators.compose([
+        Validators.required,
+        Validators.min(1)
+        ])
+      ],
+      subTitle: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9 ]+')
+        ])
+      ],
+      discountPercentage: [
+        0
+      ]
+      }, {
+        validator: GreaterThanValidator('originalPrice', 'dealPrice')
+    })
   }
 
   get voucherFormControl() {
@@ -182,37 +191,28 @@ export class Step2Component implements OnInit, OnDestroy {
       this.editVouchers.markAllAsTouched();
       return;
     }
-    if(this.editVouchers.controls['numberOfVouchers'].value > 0) {
+    if(parseInt(this.editVouchers.controls['dealPrice']?.value) >= 0) {
       const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
-      const discountPrice = Math.round(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
+      const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
       this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
-      if(this.editIndex >= 0) {
-        this.subDeals[this.editIndex] = this.editVouchers.value;
-      } else {
-        this.subDeals.push(this.editVouchers.value);
-      }
-      this.data.vouchers = this.subDeals;
-      this.newData.vouchers = this.subDeals;
-      this.connection.sendData(this.data);
-      this.closeModal();
-      this.editVouchers.reset();
-      this.addVoucher = false;
     }
     else {
-      this.editVouchers.controls['numberOfVouchers'].setValue(0);
-      this.toast.error('Please select at least one voucher', {
-        style: {
-          border: '1px solid #713200',
-          padding: '16px',
-          color: '#713200',
-        },
-        iconTheme: {
-          primary: '#713200',
-          secondary: '#FFFAEE',
-        }
-      })
+      this.editVouchers.controls['dealPrice']?.setValue('0');
+      const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
+      const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
+      this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
     }
-    return;
+    if(this.editIndex >= 0) {
+      this.subDeals[this.editIndex] = this.editVouchers.value;
+    } else {
+      this.subDeals.push(this.editVouchers.value);
+    }
+    this.data.vouchers = this.subDeals;
+    this.newData.vouchers = this.subDeals;
+    this.connection.sendData(this.data);
+    this.closeModal();
+    this.editVouchers.reset();
+    this.addVoucher = false;
   }
 
   calculateDiscount() {
@@ -220,38 +220,30 @@ export class Step2Component implements OnInit, OnDestroy {
       this.vouchers.markAllAsTouched();
       return;
     }
-    if(this.voucherFormControl['numberOfVouchers'].value > 0) {
+    if (parseInt(this.vouchers.controls['dealPrice']?.value) >= 0) {
       const dealPrice = Math.round(parseInt(this.voucherFormControl['originalPrice']?.value) - parseInt(this.voucherFormControl['dealPrice']?.value));
-      const discountPrice = Math.round(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));
-      this.voucherFormControl['discountPercentage']?.setValue(discountPrice);
-      if(this.editIndex >= 0) {
-        this.subDeals[this.editIndex] = this.vouchers.value;
-      } else {
-        this.subDeals.push(this.vouchers.value);
-      }
-      this.data.vouchers = this.subDeals;
-      this.newData.vouchers = this.subDeals;
-      this.connection.sendData(this.data);
-      this.closeModal();
-      this.vouchers.reset();
-      this.removed = true;
-      //this.addVoucher = false;
+      const discountPrice = Math.floor(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));
+      this.vouchers.controls['discountPercentage']?.setValue(discountPrice);
     }
     else {
-      this.voucherFormControl['numberOfVouchers'].setValue(0);
-      this.toast.error('Please select at least one voucher', {
-        style: {
-          border: '1px solid #713200',
-          padding: '16px',
-          color: '#713200',
-        },
-        iconTheme: {
-          primary: '#713200',
-          secondary: '#FFFAEE',
-        }
-      })
+      this.vouchers.controls['dealPrice']?.setValue('0');
+      const dealPrice = Math.round(parseInt(this.voucherFormControl['originalPrice']?.value) - parseInt(this.voucherFormControl['dealPrice']?.value));
+      const discountPrice = Math.floor(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));
+      this.vouchers.controls['discountPercentage']?.setValue(discountPrice);
     }
-    return;
+    if(this.editIndex >= 0) {
+      this.subDeals[this.editIndex] = this.vouchers.value;
+    } else {
+      this.subDeals.push(this.vouchers.value);
+    }
+    this.data.vouchers = this.subDeals;
+    this.newData.vouchers = this.subDeals;
+    this.connection.sendData(this.data);
+    this.closeModal();
+    this.vouchers.reset();
+    this.vouchers.get('numberOfVouchers')?.setValue('0');
+    this.removed = true;
+    //this.addVoucher = false;
   }
 
   deleteDeal() {
@@ -260,10 +252,10 @@ export class Step2Component implements OnInit, OnDestroy {
     this.connection.sendData(this.data);
     if(this.subDeals.length == 0) {
       this.addVoucher = true;
+      this.initVouchers();
       this.editIndex = -1;
     }
     this.modal2.close();
-    // this.vouchers.removeAt(i);
   }
 
   async showDeletePopoup(index: any) {
@@ -290,14 +282,17 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   handleMinus() {
-    const numOfVoucher = this.voucherFormControl['numberOfVouchers'].value;
-    if(numOfVoucher > 0)
-      this.voucherFormControl['numberOfVouchers'].patchValue(numOfVoucher-1);
+    if(this.vouchers.controls['numberOfVouchers'].value >= 1) {
+      this.vouchers.patchValue({
+        numberOfVouchers: parseInt(this.vouchers.get('numberOfVouchers')?.value) - 1
+      });
+    }
   }
 
   handlePlus() {
-    const numOfVoucher = this.voucherFormControl['numberOfVouchers'].value;
-    this.voucherFormControl['numberOfVouchers'].patchValue(numOfVoucher+1);
+    this.vouchers.patchValue({
+      numberOfVouchers: parseInt(this.vouchers.get('numberOfVouchers')?.value) + 1
+    });
   }
 
   async openNew() {
@@ -312,6 +307,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   addMoreVoucher() {
     this.vouchers.reset();
+    this.vouchers.get('numberOfVouchers')?.setValue('0');
     this.addVoucher = true;
     this.editIndex = -1;
   }
@@ -333,6 +329,10 @@ export class Step2Component implements OnInit, OnDestroy {
         }
       })
     }
+  }
+
+  convertToInteger(value: any) {
+    return parseInt(value);
   }
 
   ngOnDestroy() {

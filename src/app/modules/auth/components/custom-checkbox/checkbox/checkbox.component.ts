@@ -11,6 +11,7 @@ export class CheckboxComponent  {
   @Input() value: string;
   @Input() customClass: string;
   @Input() name: string;
+  @Input() disabled: any;
 
   constructor(@Host() public customCheckbox: CustomCheckboxComponent) { }
 
