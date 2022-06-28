@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
@@ -25,6 +25,7 @@ export class Step5Component implements OnInit, AfterViewInit {
   @Input() images: Array<any>;
   @ViewChild('modal') private modal: ReusableModalComponent;
   @ViewChild('modal2') private modal2: ReusableModalComponent;
+  @Output() prevClick = new EventEmitter();
   uploaded: boolean;
   yesClick: boolean = false;
 
@@ -178,7 +179,6 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.newData.pageNumber = 5;
     this.newData.dealStatus = 'In Review';
     const payload = this.newData;
-    debugger
     this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {

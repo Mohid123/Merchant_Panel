@@ -11,13 +11,16 @@
         <div class="flex flex-col 3xl:justify-evenly">
           <ng-container *ngIf="subDeals.length > 0">
             <div class="mt-5">
-              <div class="voucher-container" *ngFor="let singleDeal of subDeals;let i = index">
+              <div class="voucher-container" *ngFor="let singleDeal of subDeals; let i = index">
                 <div class="mb-3 text-base font-medium text-justify lg:text-base lg:justify-start">{{singleDeal?.subTitle}}</div>
                 <div class="mb-1.5 flex items-center">
                   <i style="font-size: 12px; line-height: 24px; color:#4E5970" class="fas fa-euro-sign"></i><i style="font-style: normal; font-weight: 500; color:#4E5970" class="ml-1 mr-3 text-base">{{singleDeal?.originalPrice}}</i>
-                  <ng-container *ngIf="singleDeal?.dealPrice > 0">
+                  <ng-container *ngIf="singleDeal?.dealPrice < singleDeal?.originalPrice">
                     <i style="font-size: 12px; color:#08A80D; line-height: 24px;" class="fas fa-euro-sign"></i><i style="font-style: normal; font-weight: 500; color: #08A80D;" class="ml-1 mr-3 text-base">{{singleDeal?.dealPrice}}</i>
-                    <i style="font-style: normal;" class="text-sm text-primary-400">{{singleDeal?.discountPercentage}}% off</i>
+                    <i style="font-style: normal;" class="text-sm font-semibold text-primary-400">{{singleDeal?.discountPercentage}}% off</i>
+                  </ng-container>
+                  <ng-container *ngIf="singleDeal?.dealPrice == singleDeal?.originalPrice">
+                    <i style="font-size: 12px; color:#08A80D; line-height: 24px;" class="fas fa-euro-sign"></i><i style="font-style: normal; font-weight: 500; color: #08A80D;" class="ml-1 mr-3 text-base">{{singleDeal?.dealPrice}}</i>
                   </ng-container>
                 </div>
                 <div class="flex justify-between">
@@ -25,7 +28,7 @@
                     <p class="text-sm" style="color:#414950">
                       Number of available vouchers
                     </p>
-                    <span class="bg-primary-50 rounded-md ml-4 h-6 text-primary-400 text-xs px-2.5 py-1">
+                    <span class="bg-primary-50 font-semibold rounded-md ml-4 h-6 text-primary-400 text-xs px-2.5 py-1">
                       {{singleDeal?.numberOfVouchers}}
                     </span>
                   </div>
@@ -34,7 +37,7 @@
                       (click)="edit(i)">
                     </i>
                     <i class="fas fa-trash fa-xs rounded-circle action-btn"
-                      (click)="deleteDeal(i)">
+                      (click)="showDeletePopoup(i)">
                     </i>
                 </div>
               </div>
@@ -58,6 +61,12 @@
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Voucher type is required',
+              control: vouchers.controls['subTitle']
+              }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Special characters are not allowed',
               control: vouchers.controls['subTitle']
               }">
             </ng-container>
@@ -85,8 +94,8 @@
               [ngClass]="{
                 'is-invalid': vouchers.controls['dealPrice']?.invalid && vouchers.controls['dealPrice']?.touched,
                 'is-valid': vouchers.controls['dealPrice']?.valid && vouchers.controls['dealPrice']?.value != '' && vouchers.controls['dealPrice']?.value != null}">
-            <div class="text-xs text-danger"
-             *ngIf="vouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
+                <div class="text-xs text-danger"
+                *ngIf="vouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
                 The deal price cannot be greater than the original price
               </div>
             </div>
@@ -167,17 +176,17 @@
           </div>
 
           <div class="h-24 fv-row 2xl:h-26">
-          <label class="form-label">Deal price</label>
-            <span class="absolute flex items-center h-11"><i style="font-size:12px;" class="px-2.5 py-2 ml-2 xl:mt-1.5 2xl:mt-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
-            <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
-            [ngClass]="{
-            'is-invalid': editVouchers.controls['dealPrice']?.invalid && editVouchers.controls['dealPrice']?.touched,
-            'is-valid': editVouchers.controls['dealPrice']?.valid && vouchers.controls['dealPrice']?.value != '' && vouchers.controls['dealPrice']?.value != null}">
-          <div class="text-xs text-danger"
-          *ngIf="editVouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
-          The deal price cannot be greater than the original price
+            <label class="form-label">Deal price</label>
+              <span class="absolute flex items-center h-11"><i style="font-size:12px;" class="px-2.5 py-2 ml-2 xl:mt-1.5 2xl:mt-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
+              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+              [ngClass]="{
+                'is-invalid': vouchers.controls['dealPrice']?.invalid && vouchers.controls['dealPrice']?.touched,
+                'is-valid': vouchers.controls['dealPrice']?.valid}">
+                <div class="text-xs text-danger"
+                *ngIf="vouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
+                The deal price cannot be greater than the original price
+              </div>
             </div>
-          </div>
 
           <div class="h-24 fv-row 2xl:h-26">
           <label class="form-label">Number of available vouchers</label>
@@ -202,6 +211,21 @@
 
   <div class="border-none modal-footer">
     <button type="button" class="self-center w-24 h-10 text-sm text-white rounded-lg bg-primary-400" (click)="editVoucher()" [disabled]="editVouchers.invalid">Save</button>
+  </div>
+</app-reusable-modal>
+
+<app-reusable-modal #modal2 [modalConfig]="modalConfig">
+  <div class="relative modal-header">
+    <img src="../../../../../assets/media/icons/cross-modal.svg" class="absolute w-12 h-12 left-56 -top-7">
+  </div>
+  <div class="p-6 text-center modal-body">
+    <div class="flex flex-col">
+      <span class="mb-8">Are you sure you want to delete the voucher <strong>{{singleVoucher?.subTitle}}</strong>.</span>
+      <div class="flex justify-evenly">
+        <button (click)="deleteDeal()" class="px-8 py-2 text-white bg-gray-900 rounded-md">Yes</button>
+        <button (click)="closeSecondModal()" class="px-8 py-2 text-gray-600 bg-gray-300 rounded-md">Cancel</button>
+      </div>
+    </div>
   </div>
 </app-reusable-modal>
 

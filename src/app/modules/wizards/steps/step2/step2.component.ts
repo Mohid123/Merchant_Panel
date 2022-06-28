@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
@@ -10,6 +10,7 @@ import { ModalConfig } from './../../../../@core/models/modal.config';
 import { AuthService } from './../../../auth/services/auth.service';
 import { GreaterThanValidator } from './../../greater-than.validator';
 import { MainDeal } from './../../models/main-deal.model';
+import { Vouchers } from './../../models/vouchers.model';
 import { ConnectionService } from './../../services/connection.service';
 ;
 
@@ -19,6 +20,8 @@ import { ConnectionService } from './../../services/connection.service';
   styleUrls: ['./step2.component.scss'],
 })
 export class Step2Component implements OnInit, OnDestroy {
+
+  removed: boolean = false;
 
   @Output() nextClick = new EventEmitter();
   @Output() prevClick = new EventEmitter();
@@ -42,14 +45,19 @@ export class Step2Component implements OnInit, OnDestroy {
     ],
     subTitle: [
       '',
-      Validators.required
+      Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9]+')
+      ])
     ],
     discountPercentage: [
       0
     ]
     }, {
       validator: GreaterThanValidator('originalPrice', 'dealPrice')
-    });
+  });
+
+  selectedIndex: any;
 
 
   editVouchers = this.fb.group({
@@ -70,7 +78,10 @@ export class Step2Component implements OnInit, OnDestroy {
     ],
     subTitle: [
       '',
-      Validators.required
+      Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9]+')
+      ])
     ],
     discountPercentage: [
       0
@@ -80,6 +91,8 @@ export class Step2Component implements OnInit, OnDestroy {
   })
 
   @ViewChild('modal') private modal: ReusableModalComponent;
+  @ViewChild('modal2') private modal2: ReusableModalComponent;
+  @ViewChild('remove') private remove: ElementRef;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
@@ -103,6 +116,7 @@ export class Step2Component implements OnInit, OnDestroy {
   newData: MainDeal;
   address: string | any;
   destroy$ = new Subject();
+  singleVoucher: Vouchers;
 
   @Input() deal: Partial<MainDeal>
 
@@ -132,7 +146,6 @@ export class Step2Component implements OnInit, OnDestroy {
 
     this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
-      console.log(this.newData);
     })
   }
 
@@ -219,9 +232,9 @@ export class Step2Component implements OnInit, OnDestroy {
       this.data.vouchers = this.subDeals;
       this.newData.vouchers = this.subDeals;
       this.connection.sendData(this.data);
-      console.log(this.newData);
       this.closeModal();
       this.vouchers.reset();
+      this.removed = true;
       //this.addVoucher = false;
     }
     else {
@@ -241,15 +254,25 @@ export class Step2Component implements OnInit, OnDestroy {
     return;
   }
 
-  deleteDeal(i:any) {
-    this.subDeals.splice(i, 1);
+  deleteDeal() {
+    this.subDeals.splice(this.selectedIndex, 1);
     this.data.vouchers = this.subDeals;
     this.connection.sendData(this.data);
     if(this.subDeals.length == 0) {
       this.addVoucher = true;
       this.editIndex = -1;
     }
+    this.modal2.close();
     // this.vouchers.removeAt(i);
+  }
+
+  async showDeletePopoup(index: any) {
+    this.selectedIndex = index;
+    return await this.modal2.open();
+  }
+
+  async closeSecondModal() {
+    return await this.modal2.close();
   }
 
   editHandlePlus() {
@@ -302,7 +325,6 @@ export class Step2Component implements OnInit, OnDestroy {
     this.nextClick.emit('');
     this.newData.pageNumber = 2;
     const payload = this.newData;
-    console.log(payload);
     if(payload) {
       return this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {

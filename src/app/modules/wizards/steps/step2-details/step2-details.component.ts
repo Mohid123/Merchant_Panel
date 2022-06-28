@@ -45,8 +45,8 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       placeholder: 'Type your content here...',
       toolbar: {
         styles: [
-            'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
-            ],
+          'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
+          ],
         items: [
           'heading',
           'fontSize',
@@ -149,6 +149,5 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     this.destroy$.unsubscribe();
     this.reciever.unsubscribe();
   }
-
 
 }

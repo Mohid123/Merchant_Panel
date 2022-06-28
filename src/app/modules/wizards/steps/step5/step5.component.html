@@ -8,6 +8,7 @@
 
     <div class="w-full p-0 mt-4 lg:p-4 card card-custom card-stretch" style="border-top: 16px solid #0081E9;">
       <div class="relative bg-gray-200 lg:p-4 card card-custom card-stretch">
+        <button *ngIf="uploaded == true" (click)="prevClick.emit('')" class="absolute py-3 text-xs text-white rounded-md px-9 top-5 right-32" style="background-color: black">Back</button>
         <button class="absolute py-3 text-xs text-white rounded-md px-9 top-5 right-5" style="background-color: #55C987;" (click)="openNew()">
           <ng-container *ngIf="uploaded == false">
             <span class="indicator-progress" [style.display]="'block'">

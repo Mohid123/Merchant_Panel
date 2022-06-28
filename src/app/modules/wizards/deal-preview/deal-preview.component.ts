@@ -1,6 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from 'swiper';
+import { SwiperComponent } from 'swiper/angular';
+import { VideoProcessingService } from '../services/video-to-img.service';
 import { ConnectionService } from './../services/connection.service';
 
 SwiperCore.use([FreeMode, Navigation, Thumbs]);
@@ -11,11 +15,12 @@ SwiperCore.use([FreeMode, Navigation, Thumbs]);
   styleUrls: ['./deal-preview.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class DealPreviewComponent implements OnInit {
+export class DealPreviewComponent implements OnInit, OnDestroy {
   mainDeal: MainDeal;
   @Input() urls: any[] = [];
 
   noContent: boolean = false;
+  @ViewChild('swipe') swipe: SwiperComponent;
   thumbsSwiper: any;
   image: string =
     'https://dividealapi.dividisapp.com/media-upload/mediaFiles/placeholder/10f53b65eabd3cfbf65582cfff4eaf566.svg';
@@ -23,26 +28,25 @@ export class DealPreviewComponent implements OnInit {
   subDeals: any[] = [];
   isImg: any;
   video: any[] = [];
-  loading: boolean = true;
-  @ViewChild('swipe') swipe: any;
+  images: any[] = [];
+  videoType: any;
+  unsubscribe = new Subject();
 
-  constructor(private conn: ConnectionService, private cf: ChangeDetectorRef) {}
+  constructor(private conn: ConnectionService, private cf: ChangeDetectorRef, private videoService: VideoProcessingService) {}
 
   ngOnInit(): void {
-    this.conn.getData().subscribe((res: any) => {
-      this.loading = true;
+    this.conn.getData().pipe(takeUntil(this.unsubscribe)).subscribe((res: any) => {
       this.mainDeal = res;
       this.subDeals = this.mainDeal.vouchers ? this.mainDeal.vouchers : [];
       this.urls = this.mainDeal.mediaUrl ? this.mainDeal.mediaUrl.filter(img => img.startsWith('data:image')) : [];
-      this.video = this.mainDeal.mediaUrl ? this.mainDeal.mediaUrl.filter(img => !img.startsWith('data:image')) : [];
       this.cf.detectChanges();
-
-      // if(this.urls && this.urls[0])
-      //   this.isImg = !!(this.urls[0] as string).startsWith('data:image');
-      // this.cf.detectChanges();
-      // console.log(this.urls)
-      // console.log(this.video)
-      this.loading = false;
     });
   }
+
+
+  ngOnDestroy() {
+    this.unsubscribe.complete();
+    this.unsubscribe.unsubscribe();
+  }
+
 }

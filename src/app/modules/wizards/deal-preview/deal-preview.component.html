@@ -56,9 +56,9 @@
             [thumbs]="{ swiper: thumbsSwiper }"
             class="mySwiper2">
 
-            <ng-template swiperSlide *ngIf="video.length > 0">
-              <video [src]="video[0]" controls class="rounded-sm"></video>
-            </ng-template>
+            <!-- <ng-template swiperSlide *ngIf="video.length > 0">
+              <img [src]="video[0]">
+            </ng-template> -->
 
             <ng-template swiperSlide *ngFor="let url of urls; let i = index">
               <img [src]="url">
@@ -74,9 +74,9 @@
               [watchSlidesProgress]="true"
               class="mySwiper">
 
-              <ng-template swiperSlide *ngIf="video.length > 0">
-                <video [src]="video[0]" controls class="w-8 h-8 p-0 rounded-sm"></video>
-              </ng-template>
+              <!-- <ng-template swiperSlide *ngIf="video.length > 0">
+                <img [src]="video[0]" class="w-8 h-8 p-0 rounded-sm">
+              </ng-template> -->
 
               <ng-template swiperSlide *ngFor="let url of urls; let i = index">
                 <img [src]="url" class="w-8 h-8 p-0 rounded-sm">

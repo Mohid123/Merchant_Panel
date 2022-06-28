@@ -10,6 +10,7 @@ import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { combineLatest, of, Subject, Subscription } from 'rxjs';
 import { exhaustMap, map, take } from 'rxjs/operators';
+import { VideoProcessingService } from '../../services/video-to-img.service';
 import { CategoryDetail, SubCategory } from './../../../auth/models/categories-detail.model';
 import { CategoryService } from './../../../auth/services/category.service';
 import { MainDeal } from './../../models/main-deal.model';
@@ -79,7 +80,7 @@ export class Step1Component implements OnInit, OnDestroy {
   control: FormControl
   images: any[] = [];
   media: any[] = [];
-  temporaryVideo: any[] = [];
+  temporaryVideo: any;
 
   constructor(
     private fb: FormBuilder,
@@ -90,7 +91,8 @@ export class Step1Component implements OnInit, OnDestroy {
     private toast: HotToastService,
     public breakpointObserver: BreakpointObserver,
     private mediaService: MediaService,
-    private dealService: DealService
+    private dealService: DealService,
+    private videoService: VideoProcessingService
   ) {
     this.breakpointObserver.observe(['(min-width: 1600px)']).pipe(map((result) => result.matches)).subscribe(res => {
       if(res) {
@@ -188,7 +190,7 @@ export class Step1Component implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.pattern('^[a-zA-Z0-9 \-\']+')
+          Validators.pattern('^[a-zA-Z0-9]+')
         ]),
       ],
       subTitle: [
@@ -196,7 +198,7 @@ export class Step1Component implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.pattern('^[a-zA-Z0-9\. \-\']+')
+          Validators.pattern('^[a-zA-Z0-9.]+')
         ]),
       ],
       mediaUrl: [
@@ -312,11 +314,7 @@ export class Step1Component implements OnInit, OnDestroy {
       var reader = new FileReader();
       reader.readAsDataURL(this.file);
       reader.onload = (event) => {
-        this.images
         this.url = (<FileReader>event.target).result as string;
-        this.connection.sendVideoValue(this.url);
-        this.urls.unshift(this.url);
-        this.dealForm.controls['mediaUrl'].setValue(this.urls);
         this.cf.detectChanges();
       };
       event.target.value = "";
@@ -327,11 +325,14 @@ export class Step1Component implements OnInit, OnDestroy {
     if(j==0) {
     this.multiples.splice(i, 1);
     this.urls.splice(i, 1);
+    this.dealForm.controls['mediaUrl'].setValue(this.urls);
   } else {
     this.multiples.splice((j*this.columnSize)+i, 1);
     this.urls.splice((j*this.columnSize)+i, 1);
+    this.dealForm.controls['mediaUrl'].setValue(this.urls);
     }
     this.getItemsTable(true);
+    this.dealForm.controls['mediaUrl'].setValue(this.urls);
     this.cf.detectChanges();
   }
 

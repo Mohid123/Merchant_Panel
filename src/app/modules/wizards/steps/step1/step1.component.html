@@ -51,7 +51,7 @@
           </ng-container>
           <ng-container *ngIf="!f['dealHeader']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'pattern',
-            message: 'Only alphabets are allowed',
+            message: 'Special characters are not allowed',
             control: dealForm.controls['dealHeader']
           }">
           </ng-container>

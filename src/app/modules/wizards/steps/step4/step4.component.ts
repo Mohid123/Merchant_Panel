@@ -111,8 +111,12 @@ export class Step4Component implements OnInit, OnDestroy {
       this.policyForm.patchValue(user);
    });
 
-    if(this.form.get('voucherStartDate')?.value) {
+    if(this.form.get('voucherStartDate')?.value && this.form.get('voucherEndDate')?.value) {
       this.currentlyChecked = this.check_box_type.ONE
+    }
+    else {
+      this.form.get('voucherStartDate')?.setValue('')
+      this.form.get('voucherEndDate')?.setValue('')
     }
 
     if(!this.form.controls['voucherValidity'].value) {
