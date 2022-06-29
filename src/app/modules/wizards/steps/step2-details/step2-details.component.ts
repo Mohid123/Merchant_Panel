@@ -71,11 +71,6 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     return this.dealForm.controls;
   }
 
-  checkForm() {
-    return !(this.dealForm.get('dealHeader')?.hasError('required') ||
-    this.dealForm.get('subTitle')?.hasError('required'))
-  }
-
   initDealForm() {
     this.dealForm = this.fb.group({
       highlights: [
@@ -88,7 +83,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       aboutThisDeal: [
         this.deal.aboutThisDeal,
         Validators.compose([
-          Validators.required,
+          Validators.required
         ]),
       ],
       readMore: [
@@ -132,7 +127,13 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
   sendDraftData() {
     debugger
-    if(this.dealForm.invalid) {
+    if(this.dealForm.invalid
+     || this.textLength(this.dealForm.get('aboutThisDeal')?.value) > 2000
+     || this.textLength(this.dealForm.get('aboutThisDeal')?.value) < 16
+     || this.textLength(this.dealForm.get('readMore')?.value) > 2000
+     || this.textLength(this.dealForm.get('readMore')?.value) < 16
+     || this.textLength(this.dealForm.get('finePrints')?.value) > 2000
+     || this.textLength(this.dealForm.get('finePrints')?.value) < 16 ) {
       this.dealForm.markAllAsTouched();
      }
      else {
