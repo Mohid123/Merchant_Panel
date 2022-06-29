@@ -42,6 +42,12 @@
                     [container]="'body'"
                   >
                 </div>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'Start date for the voucher is required',
+                  control: form.controls['voucherStartDate']
+                }">
+                </ng-container>
 
                 <label class="w-auto mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base lg:w-96" style="padding-left: 0px;">
                   <span class="text-sm font-medium form-check-label">End Date</span>&nbsp;<span class="text-black">*</span>
@@ -63,6 +69,12 @@
                     [container]="'body'"
                     >
                   </div>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'End date for the vocuher is required',
+                    control: form.controls['voucherEndDate']
+                  }">
+                  </ng-container>
                 </label>
               </div>
             </div>
@@ -90,6 +102,18 @@
                     </div>
                   <!-- </div> -->
               </div>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Please specify validity period',
+                control: form.controls['voucherValidity']
+              }">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'min',
+                message: 'Please specify validity period',
+                control: form.controls['voucherValidity']
+              }">
+              </ng-container>
              </div>
            </div>
         </div>

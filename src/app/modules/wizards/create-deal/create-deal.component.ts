@@ -49,10 +49,11 @@ export class CreateDealComponent implements OnInit {
         this.toast.warning('Start date cannot exceed End date')
         return;
       }
-      if(!(this.data.vouchers[0]?.voucherStartDate && this.data.vouchers[0]?.voucherEndDate) && !this.data.vouchers[0]?.voucherValidity) {
-        this.toast.warning('Please specify the voucher validity period')
-        return;
-      }
+      // if(!(this.data.vouchers[0]?.voucherStartDate && this.data.vouchers[0]?.voucherEndDate) && !this.data.vouchers[0]?.voucherValidity) {
+      //   this.toast.warning('Please specify the voucher validity period');
+      //   this.connection.isSaving.next(false);
+      //   return;
+      // }
       else {
         const nextStep = this.currentStep$.value + 1;
         if (nextStep > this.formsCount) {

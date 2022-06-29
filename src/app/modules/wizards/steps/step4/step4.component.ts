@@ -221,13 +221,23 @@ export class Step4Component implements OnInit, OnDestroy {
   initDateForm() {
     this.form = this.fb.group({
       voucherStartDate: [
-        this.data.vouchers[0]?.voucherStartDate
+        this.data.vouchers[0]?.voucherStartDate,
+        Validators.compose([
+          Validators.required
+        ])
       ],
       voucherEndDate: [
-        this.data.vouchers[0]?.voucherEndDate
+        this.data.vouchers[0]?.voucherEndDate,
+        Validators.compose([
+          Validators.required
+        ])
       ],
       voucherValidity: [
-        this.data.vouchers[0]?.voucherValidity
+        this.data.vouchers[0]?.voucherValidity,
+        Validators.compose([
+          Validators.required,
+          Validators.min(1)
+        ])
       ]
     });
 
@@ -250,11 +260,11 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   checkForm() {
-    // return !(
-    //   this.form.get('voucherStartDate')?.hasError('required') ||
-    //   this.form.get('voucherEndDate')?.hasError('required') ||
-    //   this.form.get('voucherValidity')?.hasError('required')
-    // );
+    return !(
+      this.form.get('voucherStartDate')?.hasError('required') ||
+      this.form.get('voucherEndDate')?.hasError('required') ||
+      this.form.get('voucherValidity')?.hasError('required')
+    );
   }
 
   handleMinus() {
@@ -322,6 +332,11 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   sendDraftData() {
+    debugger
+    if(!this.checkForm()) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.connection.isSaving.next(true);
     this.nextClick.emit('');
     this.newData.pageNumber = 4;

@@ -10,10 +10,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
 import { SpaceBetweenModule } from '@core/directives/space-between/space-between.module';
-import { NgbDropdownModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { TranslationModule } from '../i18n/translation.module';
+import { MaxLengthModule } from './../../@core/directives/max-length/max-length.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { CategoryRadioButtonComponent } from './components/category-radio-button/category-radio-button.component';
@@ -58,7 +59,9 @@ import { SecurityCodeComponent } from './components/security-code/security-code.
     NgPasswordValidatorModule,
     Ng2TelInputModule,
     NgbPopoverModule,
-    NgbDropdownModule
+    MatSelectModule,
+    NgbModule,
+    MaxLengthModule
   ],
   providers: [
     {
