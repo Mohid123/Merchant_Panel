@@ -328,6 +328,7 @@ export class Step2Component implements OnInit, OnDestroy {
     this.connection.isSaving.next(true);
     this.nextClick.emit('');
     this.newData.pageNumber = 2;
+    debugger
     const payload = this.newData;
     if(payload) {
       return this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {

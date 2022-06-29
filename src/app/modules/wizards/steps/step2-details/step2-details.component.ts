@@ -89,22 +89,18 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         this.deal.aboutThisDeal,
         Validators.compose([
           Validators.required,
-          Validators.minLength(16),
-          Validators.maxLength(2000)
         ]),
       ],
       readMore: [
         this.deal.readMore,
         Validators.compose([
-          Validators.required,
+          Validators.required
         ]),
       ],
       finePrints: [
         this.deal.finePrints,
         Validators.compose([
-          Validators.required,
-          Validators.minLength(16),
-          Validators.maxLength(2000)
+          Validators.required
         ]),
       ],
     })
@@ -115,7 +111,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
     this.dealForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: MainDeal) => {
       this.cf.detectChanges();
-      this.updateParentModel(val, this.checkForm());
+      this.updateParentModel(val, true);
       this.connection.sendData({...this.data,...val})
     });
   }
@@ -135,15 +131,22 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   }
 
   sendDraftData() {
-    this.connection.isSaving.next(true);
-    this.newData.pageNumber = 3;
-    const payload = {...this.newData, ...this.dealForm.value};
-    this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
-      if(!res.hasErrors()) {
-        this.connection.isSaving.next(false);
-        this.connection.sendSaveAndNext(res.data);
-      }
-    })
+    debugger
+    if(this.dealForm.invalid) {
+      this.dealForm.markAllAsTouched();
+     }
+     else {
+      this.nextClick.emit('');
+      this.connection.isSaving.next(true);
+      this.newData.pageNumber = 3;
+      const payload = {...this.newData, ...this.dealForm.value};
+      this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.connection.isSaving.next(false);
+          this.connection.sendSaveAndNext(res.data);
+        }
+      })
+     }
   }
 
   ngOnDestroy() {
