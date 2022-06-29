@@ -17,7 +17,12 @@
               <ng-container *ngFor="let category of categoryList" >
                 <label>{{category.categoryName}}</label>
                 <ng-container *ngFor="let subCategory of category.subCategories" >
-                  <button ngbDropdownItem [class.selected]="selectedcategory?._id == subCategory._id" (click)="ChangeSelectedCategory(subCategory)">{{subCategory.subCategoryName}}</button>
+                  <ng-container *ngIf="subCategory.subCategoryName == 'Metaverse(Coming soon)'; else notDisabled">
+                    <button [disabled]="true" ngbDropdownItem [class.selected]="selectedcategory?._id == subCategory._id">{{subCategory.subCategoryName}}</button>
+                  </ng-container>
+                  <ng-template #notDisabled>
+                    <button type="button" ngbDropdownItem [class.selected]="selectedcategory?._id == subCategory._id" (click)="ChangeSelectedCategory(subCategory)">{{subCategory.subCategoryName}}</button>
+                  </ng-template>
                 </ng-container>
               </ng-container>
             </div>

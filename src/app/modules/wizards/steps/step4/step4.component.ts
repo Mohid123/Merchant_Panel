@@ -4,7 +4,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ApiResponse } from '@core/models/response.model';
 import { User } from '@core/models/user.model';
 import { DealService } from '@core/services/deal.service';
-import { NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
@@ -23,6 +23,7 @@ enum CheckBoxType { ONE, TWO, NONE };
 })
 export class Step4Component implements OnInit, OnDestroy {
 
+  minDate: NgbDateStruct;
   check_box_type = CheckBoxType;
   currentlyChecked: CheckBoxType;
 
@@ -88,6 +89,9 @@ export class Step4Component implements OnInit, OnDestroy {
     private toast: HotToastService,
     private cf: ChangeDetectorRef,
     private dealService: DealService) {
+      const current = new Date();
+      this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate()}
+
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       if(response) {
         this.data = response;

@@ -42,6 +42,7 @@ export class Step1Component implements OnInit, OnDestroy {
   categoryList: CategoryDetail[];
   selectedcategory: SubCategory;
   disableCategory: boolean = false;
+  metaDisable: boolean = false;
   submitClick: boolean = false;
 
   ChangeSelectedCategory(newSelectedcategory: SubCategory) {

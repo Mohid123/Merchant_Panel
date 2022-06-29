@@ -28,14 +28,15 @@
         </ng-container>
         <ng-container *ngIf="!f['highlights']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'pattern',
-          message: 'Only alphabets are allowed',
+          message: 'Special characters are not allowed',
           control: dealForm.controls['highlights']
         }">
         </ng-container>
       </div>
 
-      <div class="h-72 fv-row">
+      <div class="relative h-72 fv-row">
         <label class="form-label">About this deal</label>
+        <span [ngClass]="textLength(dealForm.controls['aboutThisDeal']?.value) > 2000 ? 'text-red-500': 'text-black'" class="absolute z-50 text-xs top-10 right-4">{{textLength(dealForm.controls['aboutThisDeal']?.value)}}/2000</span>
         <ckeditor [editor]="Editor" (focus)="f['aboutThisDeal'].markAsTouched()" [config]="config" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutThisDeal" name="aboutThisDeal" placeholder="aboutThisDeal" rows="5"
         [ngClass]="{
           'is-invalid': f['aboutThisDeal'].invalid && f['aboutThisDeal'].touched,
@@ -50,7 +51,7 @@
             </ng-container>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'pattern',
-              message: 'Special characters (! / ? * & % @ : #) are not allowed',
+              message: 'Special characters are not allowed',
               control: dealForm.controls['aboutThisDeal']
             }">
               </ng-container>
@@ -70,8 +71,10 @@
             </ng-container>
           </ng-container>
       </div>
-      <div class="h-72 fv-row">
+
+      <div class="relative h-72 fv-row">
         <label class="form-label">Read more</label>
+        <span [ngClass]="textLength(dealForm.controls['readMore']?.value) > 2000 ? 'text-red-500': 'text-black'" class="absolute z-50 text-xs top-10 right-4">{{textLength(dealForm.controls['readMore']?.value)}}/2000</span>
         <ckeditor (focus)="f['readMore'].markAsTouched()" [editor]="Editor" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="readMore" name="readMore" placeholder="readMore" rows="5"
         [ngClass]="{
           'is-invalid': f['readMore'].invalid && f['readMore'].touched,
@@ -106,8 +109,10 @@
             </ng-container>
           </ng-container>
       </div>
-      <div class="h-72 fv-row">
+
+      <div class="relative h-72 fv-row">
         <label class="form-label">The fine print</label>
+        <span [ngClass]="textLength(dealForm.controls['finePrints']?.value) > 2000 ? 'text-red-500': 'text-black'" class="absolute z-50 text-xs top-10 right-4">{{textLength(dealForm.controls['finePrints']?.value)}}/2000</span>
         <ckeditor (focus)="f['finePrints'].markAsTouched()" [editor]="Editor" [config]="config" maxlength="2000" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="finePrints" name="finePrints" placeholder="finePrints" rows="5"
         [ngClass]="{
           'is-invalid': f['finePrints'].invalid && f['finePrints'].touched,
