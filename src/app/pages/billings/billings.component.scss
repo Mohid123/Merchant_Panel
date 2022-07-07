@@ -15,38 +15,6 @@ input.form-control:focus {
   border-color: #7FC0F4;
 }
 
-.image-circle {
-  top: 120px;
-  left: 184px
-}
-
-@media (max-width: 360px) {
-  .image-circle {
-    top: 54px;
-    left: 106px;
-  }
-}
-
-@media (min-width: 390px) and (max-width: 400px) {
-  .image-circle {
-    top: 80px;
-    left: 123px;
-  }
-}
-
-@media (min-width: 401px) and (max-width: 430px) {
-  .image-circle {
-    top: 80px;
-    left: 133px;
-  }
-}
-
-@media (min-width: 430px) and (max-width: 460px) {
-  .image-circle {
-    top: 95px;
-    left: 150px;
-  }
-}
 
 @media (max-width: 600px) {
 
@@ -65,6 +33,7 @@ input.form-control:focus {
   display: inline-block;
   height: 2rem;
   width: 2rem;
+  color: #728A9F !important;
 }
 
 .custom-day.focused {
@@ -80,12 +49,133 @@ input.form-control:focus {
   background-color: rgba(2, 117, 216, 0.5);
 }
 
+ngb-datepicker {
+  border: none !important;
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+  box-shadow: 0px 0px 15px #00000029 !important;
+  border-radius: 7px !important;
+}
+
+.ngb-dp-content.ngb-dp-months {
+  padding: 20px 20px 16px 20px !important;
+}
+
+::ng-deep .ngb-dp-header {
+  padding-top: 1.75rem !important;
+  background: white !important;
+}
+::ng-deep .ngb-dp-arrow {
+  align-items: center !important;
+}
+::ng-deep .btn.btn-link.ngb-dp-arrow-btn {
+  width: 1.625rem !important;
+  height: 1.625rem !important;
+  background-color: #E2F1FC !important;
+  padding: 0 !important;
+  border-radius: 50px !important;
+  margin: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+::ng-deep .ngb-dp-navigation-chevron {
+  width: 0.625rem !important;
+  height: 0.625rem !important;
+}
+::ng-deep .ngb-dp-weekdays {
+  @apply mt-5;
+  border: none !important;
+  background: white !important;
+}
 ::ng-deep .ngb-dp-weekday {
-  color: #4185F9!important;
-  font-family: Arial, Helvetica, sans-serif!important;
-  font-style: normal!important;
+  color: #0081E9 !important;
+  font: normal normal normal 12px/17px Open Sans !important;
 }
 
 ::ng-deep .form-select {
   margin-left: 2px;
+  border-color: #9BB3C8;
+  color: #728A9F !important;
+  border-radius: 5px;
+}
+
+button.disabled {
+  box-shadow: none !important;
+}
+
+
+.reset-button {
+
+  width: 113px;
+  height: 40px;
+  background-color: #D9E7FE;
+  border-radius: 8px;
+}
+
+.statistics {
+  span {
+    color: #728A9F;
+    font-weight: 500;
+  }
+}
+
+th {
+  @apply font-semibold inline-block;
+  color: #545A60;
+}
+
+td {
+  @apply text-sm2;
+  color: #515151;
+}
+
+tr {
+  // width: clac(100% - 2rem);
+}
+
+.active {
+  background: #CCE6FB !important;
+  color:#0081E9 !important;
+  font-weight: 600!important
+}
+
+.page-item .page-link {
+  @apply h-7 w-7 text-xs;
+  padding: 0!important;
+  min-width: unset !important;
+}
+
+.icon-btn {
+  @apply flex items-center justify-center h-7 w-7 rounded-md;
+  background-color: #F2F4F7;
+}
+
+
+input.form-control {
+  @apply text-xs 2xl:text-base;
+  background-color: transparent !important;
+  border: 0.5px solid #787f9f5e;
+  padding-top: 8.5px;
+  padding-bottom: 8.5px;
+  min-height: 40px;
+
+  @media (min-width:1600px) {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+input.form-control:focus {
+  border-color: #7FC0F4;
+}
+
+.kyc-form {
+  label {
+    @apply text-sm mb-1.5 font-normal;
+    color: #728A9F;
+  }
+}
+
+::ng-deep .kyc-modal {
+  width: 463px !important;
 }

@@ -86,9 +86,9 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.getMerchantStats();
     this.searchControl.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(1000))
       .subscribe(newValue => {
-        debugger
+
         if (newValue.trim().length == 0 || newValue == null) {
-          debugger
+
           this.noRecordFound = false;
           this.getVouchersByMerchant();
         } else {
@@ -107,11 +107,11 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
       dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
     }
-    debugger
+
     this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<OrdersList>) => {
-      debugger
+
       if(!res.hasErrors()) {
         this.ordersData = res.data;
         this.showData = true;
@@ -125,7 +125,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.billingService.getMerchantStats(this.authService.currentUserValue?.id)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<MerchantStats>) => {
-      // debugger
+      //
       if(!res.hasErrors()) {
         this.voucherStats = res.data;
         this.statsLoading = true;
@@ -157,7 +157,6 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   }
 
   filterByStatus(status: string) {
-    debugger
     this.offset = 0;
     this.status = status;
     this.getVouchersByMerchant();
@@ -170,7 +169,6 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   }
 
   filterByDate(dateFrom: number, dateTo: number) {
-    debugger
     this.offset = 0;
     this.fromDate = dateFrom;
     this.toDate = dateTo;
@@ -178,12 +176,10 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   }
 
   searchVoucher(voucherID: number) {
-    debugger
     this.orderService.searchByVoucherID(voucherID)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<any>) => {
       if(!res.hasErrors()) {
-        debugger
         if(!res.data) {
           this.ordersData = res.data;
           // this.noRecordFound = true;

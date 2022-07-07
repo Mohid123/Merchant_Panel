@@ -1,0 +1,43 @@
+.dropdown {
+  color: #7E8299
+}
+
+button {
+  @apply h-6 mb-2 p-0;
+  color: #7E8299;
+}
+
+textarea,
+#dropdownBasic1,
+input.form-control {
+  @apply text-sm h-9;
+  background-color: transparent !important;
+  border: 0.5px solid #7E8299D6 !important;
+  border-radius: 5px;
+}
+textarea:focus,
+#dropdownBasic1.open,
+input.form-control:focus {
+  border-color: #0081E9 !important;
+}
+
+.options label {
+  @apply text-sm font-normal;
+  color: #7E8299;
+}
+
+
+.apply {
+  color: white;
+  background: #0081E9 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  height: 30px;
+  width: 50%;
+}
+
+.clear {
+  background: #ECECEC 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  width: 50%;
+  height: 30px;
+}

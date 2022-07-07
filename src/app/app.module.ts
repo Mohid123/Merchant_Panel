@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { FiltersModule } from '@components/filters/filters.module';
 import { PendingSkeletonModule } from '@components/pending-skeleton/pending-skeleton.module';
 import { ReusableModalModule } from '@components/reusable-modal/reusable-modal.module';
 import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.module';
@@ -48,7 +49,8 @@ import { TestComponent } from './pages/test/test.component';
     TruncationPipe
   ],
   imports: [
-CoreModule,
+    CoreModule,
+    FiltersModule,
     BrowserModule,
     FormsModule,
     FullCalendarModule,

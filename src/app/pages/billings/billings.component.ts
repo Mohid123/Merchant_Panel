@@ -98,6 +98,12 @@ export class BillingsComponent implements OnInit, OnDestroy {
           Validators.maxLength(35)
         ])
       ],
+      accountHolder: [
+        '',
+        Validators.compose([
+          Validators.required
+        ])
+      ],
       bankName: [
         '',
         Validators.compose([
@@ -178,7 +184,6 @@ export class BillingsComponent implements OnInit, OnDestroy {
     this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
-      debugger
       if(!res.hasErrors()) {
         this.billingsData = res.data;
         this.showData = true;
@@ -217,7 +222,6 @@ export class BillingsComponent implements OnInit, OnDestroy {
   }
 
   filterByStatus(status: string) {
-    debugger
     this.offset = 0;
     this.status = status;
     this.getInvoicesByMerchant();

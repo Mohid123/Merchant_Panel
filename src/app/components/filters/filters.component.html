@@ -1,0 +1,51 @@
+<div style="all: unset" ngbDropdown [open]="isOpen" display="dynamic" id="dropdown">
+  <button class="m-0" (click)="open()">
+    <i
+    [style.background]='isOpen ? "#CCE6FB":"#F5F8FA"'
+    [style.color]='isOpen ? "#0081E9":"#7E8299"'
+    style="font-size: 10px !important;" class="filter" [class.active]="isOpen" class="p-1 fas fa-filter"></i>
+  </button>
+  <div class="dropdown" ngbDropdownMenu aria-labelledby="dropdown">
+    <div class="px-4 py-2 dropdown-container min-w-50">
+      <ng-container *ngIf="sort">
+        <button class="text-sm" ngbDropdownItem (click)="filterBySort()">
+        Sort A <i class="fas fa-long-arrow-alt-right"></i> Z
+      </button>
+      <button class="text-sm" ngbDropdownItem (click)="filterBySort()">
+        Sort Z <i class="fas fa-long-arrow-alt-right"></i> A
+      </button>
+    </ng-container>
+    <ng-container *ngIf="search">
+      <div class="search">
+        <div class="mb-3 fv-row">
+          <label for="" class="my-1 text-sm font-medium" style="color: #414950;">Search By {{searchBy}}</label>
+          <input  [formControl]="searchControl"  maxlength="100" appTrim type="text " class="text-base font-normal text-black form-control">
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="options">
+      <div class="flex flex-col options checkbox">
+        <ng-container *ngFor="let option of optionsList">
+          <label class="h-6 mb-2 checkbox checkbox-square">
+          <input type="checkbox" name="options" class="mr-2.5">
+          <span></span>{{option.value}}
+        </label>
+        </ng-container>
+      </div>
+    </ng-container>
+    <div class="flex justify-between gap-3">
+      <button class="text-sm apply">
+        <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
+      </button>
+      <button class="clear">
+        Clear
+      </button>
+    </div>
+    <!-- <ng-container *ngFor="let type of paymentTypes">
+      <button ngbDropdownItem (click)="filterByPaymentStatus(type.paymentStatus)">
+        {{type.paymentStatus}}
+      </button>
+    </ng-container> -->
+  </div>
+  </div>
+</div>

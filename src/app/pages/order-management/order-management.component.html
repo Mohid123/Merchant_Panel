@@ -1,44 +1,44 @@
-<div class="flex flex-row flex-wrap justify-between">
+<!-- <div class="flex flex-row flex-wrap justify-between">
   <div class="mb-3 text-3xl font-semibold text-left lg:mb-0">My Vouchers</div>
   <div class="input-icon">
     <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-blue-400 rounded fas fa-search fa-lg"></i></span>
     <input [formControl]="searchControl" placeholder="Search By Voucher ID" type="text" class="pl-12 text-blue-500 bg-blue-100 border-0 form-control">
    </div>
-</div>
+</div> -->
 
 
-<div class="flex flex-col justify-center lg:flex-row lg:justify-between">
+<div class="flex flex-col justify-center mt-4 lg:flex-row lg:justify-between">
   <ng-container *ngIf="statsLoading == false">
     <app-pending-skeleton></app-pending-skeleton>
   </ng-container>
   <ng-container *ngIf="statsLoading == true">
     <div class="flex flex-col lg:flex-row justify-evenly">
-      <div class="flex flex-col mt-4 mr-7">
+      <!-- <div class="flex flex-col mt-4 mr-7">
         <span class="mb-4 text-lg text-gray-500 font-base">Total Sales</span>
         <span class="text-5xl font-medium text-black">{{voucherStats?.totalVoucherSales}}</span>
-      </div>
-      <div class="flex flex-row">
-        <div class="h-20 py-1 pl-1 pr-12 mr-5 text-center bg-white md:pl-2 lg:h-16 mt-9 w-38p">
-          <span class="mb-2 text-xs text-gray-500">Redeemed</span>
+      </div> -->
+      <div class="flex flex-row states statistics">
+        <div style="padding: 0.875rem;" class="w-40 h-20 mr-4 bg-white">
+          <span class="mb-1.5 text-sm font-medium">Total purchased</span>
           <br>
-          <span class="text-base text-yellow-500">{{voucherStats?.redeemedVouchers}}</span>
+          <span class="text-base font-semibold text-xxl" style="color: #0FB947;">{{voucherStats?.purchasedVouchers}}</span>
         </div>
-        <div class="h-20 py-1 pl-1 pr-12 text-center bg-white md:pl-2 lg:h-16 mt-9 w-38p">
-          <span class="mb-2 text-xs text-gray-500">Purchased</span>
+        <div style="padding: 0.875rem;" class="w-40 h-20 bg-white">
+          <span class="mb-1.5 text-sm font-medium">Total redeemed</span>
           <br>
-          <span class="text-base text-green-500">{{voucherStats?.purchasedVouchers}}</span>
+          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">{{voucherStats?.redeemedVouchers}}</span>
         </div>
-        <div class="h-20 py-1 pl-1 pr-12 ml-3 text-center bg-white md:pl-2 lg:h-16 mt-9 w-38p">
+        <!-- <div class="h-20 py-1 pl-1 pr-12 ml-3 text-center bg-white md:pl-2 lg:h-16 w-38p">
           <span class="mb-2 text-xs text-gray-500">Expired</span>
           <br>
           <span class="text-base text-red-500">{{voucherStats?.expiredVouchers}}</span>
-        </div>
+        </div> -->
       </div>
     </div>
   </ng-container>
 
   <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
-    <div #myDrop="ngbDropdown" ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
+    <!-- <div #myDrop="ngbDropdown" ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
       <button class="hidden font-light cursor-pointer xl:block xl:text-blue-400 xl:bg-blue-100 xl:rounded-md xl:px-6 xl:py-4 3xl:px-6 3xl:py-4" ngbDropdownToggle><i class="mr-3 text-blue-400 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 text-blue-400 fas fa-angle-down"></i></button>
       <button class="inline-flex px-2 py-2 font-light text-blue-400 bg-blue-100 rounded-md cursor-pointer xl:hidden" ngbDropdownToggle><i class="text-blue-400 far fa-calendar-alt"></i><i class="ml-3 text-blue-400 fas fa-angle-down"></i></button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -51,11 +51,11 @@
         [footerTemplate]="footerTemplate">
         </ngb-datepicker>
       </div>
-    </div>
+    </div> -->
 
-    <div class="m-2">
-      <button (click)="resetFilters()" class="hidden font-light cursor-pointer xl:block xl:text-blue-400 xl:bg-blue-100 xl:rounded-md xl:px-6 xl:py-4 3xl:px-6 3xl:py-4"><i class="mr-3 text-blue-400 fas fa-retweet"></i>Reset Filters</button>
-      <button (click)="resetFilters()" class="inline-flex px-2 py-2 font-light text-blue-400 bg-blue-100 rounded-md cursor-pointer xl:hidden"><i class="text-blue-400 fas fa-retweet"></i></button>
+    <div class="">
+      <button (click)="resetFilters()" class="text-sm cursor-pointer reset-button text-primary-400 xl:rounded-md">Reset filters</button>
+      <!-- <button (click)="resetFilters()" class="inline-flex px-2 py-2 font-light text-blue-400 bg-blue-100 rounded-md cursor-pointer xl:hidden"><i class="text-blue-400 fas fa-retweet"></i></button> -->
     </div>
   </div>
 </div>
@@ -65,73 +65,37 @@
 </ng-container>
 
 <ng-container *ngIf="showData == true">
-  <div class="table-container">
-    <table class="w-full mt-10 rounded-md shadow-md">
-      <thead ngbDropdown display="dynamic" id="dropdownBasic2" class="text-left text-black bg-blue-100 rounded-lg">
-        <th class="pt-4 pb-4 pl-12 pr-4 font-semibold cursor-pointer customary">Voucher ID</th>
-        <th class="p-4 font-semibold cursor-pointer" (click)="filterByDeal('Descending')">Deal&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th class="p-4 font-semibold cursor-pointer" (click)="filterByAmount('Descending')">Amount&nbsp; <i class="fas fa-sort fa-xs"></i></th>
-        <th ngbDropdownToggle class="p-4 font-semibold cursor-pointer">Status&nbsp;<i class="fas fa-chevron-down fa-xs"></i></th>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-            <ng-container *ngFor="let type of statusTypes">
-              <button ngbDropdownItem (click)="filterByStatus(type.status)">
-                {{type.status}}
-              </button>
-            </ng-container>
-          </div>
-          <div style="all: unset" ngbDropdown display="dynamic" id="dropdownBasic3">
-            <th ngbDropdownToggle class="p-4 font-semibold cursor-pointer">Payment Status&nbsp; <i class="fas fa-chevron-down fa-xs"></i></th>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
-              <ng-container *ngFor="let type of paymentTypes">
-                <button ngbDropdownItem (click)="filterByPaymentStatus(type.paymentStatus)">
-                  {{type.paymentStatus}}
-                </button>
-              </ng-container>
-            </div>
-          </div>
+  <div class="mt-4 table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
+    <table class="w-full">
+      <thead ngbDropdown display="dynamic" id="dropdownBasic2" class="text-left text-black bg-white rounded-lg h-14">
+        <th class="w-32 pr-4 font-semibold cursor-pointer">Voucher ID&nbsp;<app-filters></app-filters></th>
+        <th class="w-48 pr-4 font-semibold cursor-pointer">Deal header&nbsp;<app-filters></app-filters></th>
+        <th class="pr-4 font-semibold cursor-pointer w-60">Voucher header&nbsp;<app-filters></app-filters></th>
+        <th class="w-32 pr-4 font-semibold cursor-pointer">Value</th>
+        <th class="w-32 pr-4 font-semibold cursor-pointer">Net earnings</th>
+        <th class="w-24 pr-4 font-semibold cursor-pointer">Status&nbsp;<app-filters></app-filters></th>
+        <th class="font-semibold cursor-pointer w-36">Invoice status&nbsp; <app-filters></app-filters></th>
       </thead>
       <ng-container *ngFor="let data of ordersData?.data; let i = index;">
-        <tr class="z-40 w-full text-left text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg pl-28">
-
-          <td class="pt-4 pb-4 pl-20 pr-4 font-medium">{{data.voucherID}}</td>
-          <td class="p-4 font-thin">{{data.dealName}}</td>
-          <td class="p-4 font-thin">&euro;&nbsp;{{data.amount}}</td>
-
-          <ng-container *ngIf="data.status == 'Purchased'">
-            <td class="p-4 font-thin">
-              <i class="text-green-500 fas fa-dot-circle"></i>
-              <span class="px-5 py-3">{{data.status}}</span>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="data.status == 'Redeemed'">
-            <td class="p-4 font-thin">
-              <i class="text-yellow-500 fas fa-dot-circle"></i>
-              <span class="px-5 py-3">{{data.status}}</span>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="data.status == 'Expired'">
-            <td class="p-4 font-thin">
-              <i class="text-red-500 fas fa-dot-circle"></i>
-              <span class="px-5 py-3">{{data.status}}</span>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="data.status == 'UnPublished'">
-            <td class="p-4 font-thin">
-              <i class="fas fa-dot-circle" style="color: #0083AA;"></i>
-              <span class="px-5 py-3">{{data.status}}</span>
-            </td>
-          </ng-container>
-
-          <td class="pt-4 pb-4 pl-12 font-thin">
-            <span class="px-5 py-3 badge badge-secondary rounded-2xl" style="background-color: #c1c1c3;">{{data.paymentStatus}}</span>
+        <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dashed rounded-lg">
+          <td class="pr-4">{{data.voucherID}}</td>
+          <td class="pr-4">{{data.dealName}}</td>
+          <td class="pr-4"> Voucher {{data.dealName}}</td>
+          <td class="pr-4">{{data.amount}}&nbsp;&euro;</td>
+          <td class="pr-4">{{data.amount}}&nbsp;&euro;</td>
+          <td class="pr-4">{{data.status}}</td>
+          <td class="pl-4">
+            <button *ngIf="data.paymentStatus== 'Paid' ||data.paymentStatus== 'Credited'  " class="flex items-center justify-center w-24 rounded-lg badge badge-secondary h-9 text-primary-400" style="background-color: #4185F926;">{{data.paymentStatus}} <img class="ml-2" src="/assets/media/icons/open-external-link.svg"></button>
+            <button *ngIf="data.paymentStatus== 'Paid' && data.paymentStatus== 'Credited'  " class="flex items-center justify-center w-24 h-9 bg-none">{{data.paymentStatus}}</button>
           </td>
         </tr>
       </ng-container>
     </table>
-    <div class="flex justify-end pt-4">
-      <ul class="pagination">
-        <li class="page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" class="bg-white shadow-sm page-link"><i class="previous"></i></button></li>
-        <li class="page-item disabled"><a class="page-link">{{ page === 1 ? 1 : (page-1) * limit }}-{{ page * limit < ordersData?.totalCount ? (page * limit) : ordersData?.totalCount }}/{{ordersData?.totalCount}}</a></li>
+    <div class="flex justify-end w-full pb-4 pt-11">
+      <ul class="w-48 pagination">
+        <li class="page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" [ngClass]="page < 2 ? 'shadow-none': 'shadow-sm'" class="bg-white page-link"><i class="previous"></i></button></li>
+        <!-- <li class="page-item disabled"><a class="page-link">{{ page === 1 ? 1 : (page-1) * limit }}-{{ page * limit < ordersData?.totalCount ? (page * limit) : ordersData?.totalCount }}/{{ordersData?.totalCount}}</a></li> -->
+        <li class="page-item" *ngFor="let item of [].constructor(page === 1 ? 1 : (page-1) * limit );index as i"><a class="page-link" [class.active]="page == i+1"  >{{i+1}}</a></li>
         <li class="page-item next" [ngClass]="ordersData?.totalCount <= page * limit ? 'disabled': ''"><button [disabled]="ordersData?.totalCount <= page * limit" (click)="next()" class="bg-white shadow-sm page-link"><i class="next"></i></button></li>
       </ul>
     </div>
@@ -151,14 +115,11 @@
 
 
 <!--Calendar Footer TEMPLATE-->
-<ng-template #footerTemplate>
+<!-- <ng-template #footerTemplate>
   <hr class="my-0">
   <button class="m-2 text-white btn btn-primary btn-sm float-start" [disabled]="!fromDate || !toDate" (click)="filterByDate(fromDate, toDate); myDrop.close();">Apply Filter</button>
   <button class="mt-2 mr-1 btn btn-secondary btn-sm float-end" (click)="myDrop.close();">Close</button>
-</ng-template>
+</ng-template> -->
 
 
 <!-- <div class="half-circle"></div> -->
-
-
-
