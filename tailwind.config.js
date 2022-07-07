@@ -6,6 +6,7 @@ const primaryColors = {
 
 const extendedSize = {
   unset: 'unset',
+  4.5: '1.125rem',
   11: '2.75rem',
   14: '3.5rem',
   15: '3.75rem',
@@ -27,6 +28,8 @@ const extendedSize = {
   68: '17rem',
   70: '17.5rem',
   72: '18rem',
+  80: '20rem',
+  84: '21rem',
   88: '22rem',
   100: '25rem',
   116: '29rem',
@@ -42,7 +45,7 @@ const extendedSize = {
   240: '60rem',
 
 
-
+  '10/3':'30%',
   '38p': '38%',
 };
 
@@ -84,9 +87,14 @@ module.exports = {
       height: extendedSize,
       maxHeight: extendedSize,
       minHeight: extendedSize,
+      padding: {
+        4.5: '1.125rem',
+      },
       fontSize: {
         'xxs': '0.625rem',
         'xs2': '0.688rem',
+        'sm2': '0.938rem',
+        'xxl': '1.375rem',
         '4.5xl': '2.5rem',
         '45px': '45px',
         '2xxl': '1.625rem',
