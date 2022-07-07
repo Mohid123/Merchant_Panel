@@ -26,6 +26,7 @@ import { ProfileSliderComponent } from './components/profile-slider/profile-slid
 import { SliderComponent } from './components/slider/slider.component';
 import { BillingsComponent } from './pages/billings/billings.component';
 import { BusinessComponent } from './pages/business/business.component';
+import { NewReviewsComponent } from './pages/new-reviews/new-reviews.component';
 import { OrderManagementComponent } from './pages/order-management/order-management.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
@@ -46,6 +47,7 @@ import { TestComponent } from './pages/test/test.component';
     ProfileComponent,
     SecurityComponent,
     ProfileSliderComponent,
+    NewReviewsComponent,
     TruncationPipe
   ],
   imports: [
