@@ -122,11 +122,11 @@ export class Step3Component implements OnInit, OnDestroy {
       this.currentlyChecked = CheckBoxType.NONE;
       return;
     }
-
     this.currentlyChecked = targetType;
   }
 
   disableCheckBox() {
+
     if(this.currentlyChecked == this.check_box_type.ONE) {
       this.btnDisable = true;
       this.form.controls['voucherValidity'].disable();
@@ -224,6 +224,7 @@ export class Step3Component implements OnInit, OnDestroy {
       });
       this.updateParentModel(this.data, true);
       this.connection.sendData(this.data);
+      console.log(this.data)
     });
     this.unsubscribe.push(formChangesSubscr);
   }
@@ -262,6 +263,7 @@ export class Step3Component implements OnInit, OnDestroy {
   disableManual(e: any) {
     e.preventDefault()
   }
+
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

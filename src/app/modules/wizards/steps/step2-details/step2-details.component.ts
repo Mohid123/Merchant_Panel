@@ -17,7 +17,6 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
   config: any;
   public Editor = ClassicEditor;
-  public temporary: number;
 
   data: MainDeal;
   newData: MainDeal;
@@ -57,7 +56,8 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
           'highlight',
           'alignment',
           'undo',
-          'redo'
+          'redo',
+          'bulletedList',
         ]
       }
     }
@@ -77,7 +77,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         this.deal.highlights,
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9 ]+')
+          Validators.pattern('^[a-zA-Z0-9., ]+')
         ]),
       ],
       aboutThisDeal: [

@@ -203,13 +203,13 @@ export class Step4Component implements OnInit, OnDestroy {
           Validators.required
         ])
       ],
-      province: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
-        ])
-      ]
+      // province: [
+      //   '',
+      //   Validators.compose([
+      //     Validators.required,
+      //     Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
+      //   ])
+      // ]
     })
   }
 

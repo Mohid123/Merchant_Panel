@@ -1,85 +1,35 @@
-<div class="mb-3 text-3xl font-semibold text-left lg:mb-0">Heavenly Massage</div>
+<div class="flex flex-col justify-center mt-4 lg:flex-row lg:justify-between">
+  <div class="flex justify-start">
+    <span style="font-size: 26px;" class="mr-3 font-bold">Heavenly Massage with sauna</span>
+    <span class="mt-2.5 text-base text-gray-700 underline">D12345678</span>
+  </div>
+  <div class="text-gray-600 cursor-pointer hover:text-primary-400">
+    <span [routerLink]="['/reviews']"><span style="font-size: 25px;">&#8249;</span>&nbsp;Reviews & ratings</span>
+  </div>
+</div>
 
 
-<div class="flex flex-col justify-center lg:flex-row lg:justify-between">
-  <div class="flex flex-col lg:flex-row justify-evenly">
-    <div class="flex flex-col mt-4 mr-7">
-      <span class="mb-4 text-lg text-gray-500 font-base">Total Reviews</span>
-      <span class="text-5xl font-medium text-black">{{reviewData?.totalReviews}}</span>
-    </div>
-    <div class="flex flex-row">
-      <div class="h-20 py-1 pl-2 pr-6 mr-5 bg-white lg:h-20 mt-9 w-42">
-        <span class="inline-block text-xs text-left text-gray-500">Highest Rating</span>
-        <div class="text-center rating">
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 0 ? 'checked' : '' ">
-              <i class="fas fa-star fs-10"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 1 ? 'checked' : '' ">
-              <i class="fas fa-star fs-10"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 2 ? 'checked' : '' ">
-              <i class="fas fa-star fs-10"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 3 ? 'checked' : '' ">
-              <i class="fas fa-star fs-10"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 4 ? 'checked' : '' ">
-              <i class="fas fa-star fs-10"></i>
-          </div>
+<div class="flex flex-col justify-center mt-4 lg:flex-row lg:justify-between">
+  <ng-container *ngIf="showData == false">
+    <app-pending-skeleton></app-pending-skeleton>
+  </ng-container>
+  <ng-container *ngIf="showData == true">
+    <div class="flex flex-col lg:flex-row justify-evenly">
+      <div class="flex flex-row states statistics">
+        <div style="padding: 0.875rem;" class="w-40 h-20 mr-4 bg-white">
+          <span class="mb-1.5 text-sm font-medium">Total reviews</span>
+          <br>
+          <span class="text-base font-semibold text-xxl" style="color: #0FB947;">124</span>
         </div>
-        <span class="justify-start inline-block text-xs text-black">{{reviewData?.maxRating}}</span>
-      </div>
-      <div class="h-20 py-1 pl-2 pr-6 bg-white lg:h-20 mt-9 w-42">
-        <span class="inline-block text-xs text-left text-gray-500">Lowest Rating</span>
-        <br>
-        <div class="text-center rating">
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 0 ? 'checked' : '' ">
-              <i class="fas fa-star fs-10"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 1 ? 'checked' : '' ">
-              <i class="fas fa-star fs-10"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 2 ? 'checked' : '' ">
-              <i class="fas fa-star fs-10"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 3 ? 'checked' : '' ">
-              <i class="fas fa-star fs-10"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 4 ? 'checked' : '' ">
-              <i class="fas fa-star fs-10"></i>
-          </div>
+        <div style="padding: 0.875rem;" class="w-40 h-20 bg-white">
+          <span class="mb-1.5 text-sm font-medium">Average rating</span>
+          <br>
+          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">4.8</span>
         </div>
-        <span class="inline-block text-xs text-black">{{reviewData?.minRating}}</span>
+
       </div>
     </div>
-  </div>
-  <div class="flex flex-col items-start mt-8 lg:items-end lg:mt-0">
-    <span class="font-semibold text-gray-500 font-base">Average Rating</span>
-    <div class="flex flex-row justify-evenly">
-      <div class="mt-3">
-        <div class="text-center rating">
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 0 ? 'checked' : '' ">
-              <i class="fas fa-star fs-6"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 1 ? 'checked' : '' ">
-              <i class="fas fa-star fs-6"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 2 ? 'checked' : '' ">
-              <i class="fas fa-star fs-6"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 3 ? 'checked' : '' ">
-              <i class="fas fa-star fs-6"></i>
-          </div>
-          <div class="rating-label me-1" [ngClass]="reviewData?.maxRating > 4 ? 'checked' : '' ">
-              <i class="fas fa-star fs-6"></i>
-          </div>
-        </div>
-      </div>
-      <div class="m-1">
-        <span class="text-5xl font-semibold">{{reviewData?.ratingsAverage}}</span>
-      </div>
-    </div>
-  </div>
+  </ng-container>
 </div>
 
 <ng-container *ngIf="showData == false">
@@ -87,84 +37,207 @@
 </ng-container>
 
 <ng-container *ngIf="showData == true">
-  <div class="table-container">
-    <table class="w-full mt-10 rounded-md shadow-md">
-      <tr class="text-gray-800 bg-blue-100 rounded-lg">
-        <div style="all: unset" ngbDropdown display="dynamic" id="dropdownBasic1">
-          <th class="p-4 font-semibold cursor-pointer">
-            <div class="inline-flex">
-              <div ngbDropdownToggle class="mt-1 bg-white rounded-sm form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" style="transform: scale(0.7);">
-                <i class="fas fa-chevron-down fa-xs"></i>
-                <label class="pr-1 form-check-label"></label>
+  <div class="mt-4 overflow-x-scroll table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
+    <table class="w-full">
+      <thead class="text-left text-black bg-white border-b-2 border-gray-200 border-dotted rounded-lg h-14">
+        <th class="pr-4 font-semibold cursor-pointer same-font">Voucher ID</th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Date redeemed</th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Date review</th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Rating</th>
+      </thead>
+      <tbody>
+        <!-- <ng-container *ngFor="let data of reviewsData?.data; let i = index;"> -->
+          <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
+            <td class="pr-4">V56784598</td>
+            <td class="pr-4">24-09-2022</td>
+            <td class="pr-4">17-10-2022</td>
+            <td class="pr-4">
+              <div class="rating">
+                <div class="rating-label me-1 checked">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1 checked">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1 checked">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1 checked">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <span class="pt-1 ml-2 text-black">2.3</span>
               </div>
-              <span class="mt-1">Rating</span>
-            </div>
-          </th>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <span class="pt-2 pl-3 text-sm font-semibold">Filter by rating</span>
-            <hr class="text-gray-500">
-            <ng-container *ngFor="let rate of ratings">
-              <button ngbDropdownItem (click)="filterByRating(rate.value)">
-                <img [src]="rate.img">
-              </button>
-            </ng-container>
-            <hr class="text-gray-500">
-            <button class="m-3 text-blue-400 bg-blue-100 btn hover:bg-blue-600 hover:text-white btn-sm" (click)="resetFilters();">Reset</button>
-          </div>
-        </div>
-        <th class="p-4 font-semibold cursor-pointer">Author Name</th>
-        <th class="p-4 font-semibold cursor-pointer">Deal Name</th>
-        <th class="p-4 font-semibold cursor-pointer">Review</th>
-        <th class="p-4 font-semibold cursor-pointer">Action</th>
-      </tr>
-      <ng-container *ngFor="let data of reviewData?.Reviews">
-        <tr class="z-40 text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
-          <td class="p-4">
-            <div class="inline-flex">
-              <div class="mt-1 form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" style="transform: scale(0.7);">
-              <label class="form-check-label"></label>
-            </div>
-            <div class="text-center rating">
-              <div class="rating-label me-1" [ngClass]="data.rating > 0 ? 'checked' : '' ">
-                  <i class="fas fa-star fs-8"></i>
-              </div>
-              <div class="rating-label me-1" [ngClass]="data.rating > 1 ? 'checked' : '' ">
-                  <i class="fas fa-star fs-8"></i>
-              </div>
-              <div class="rating-label me-1" [ngClass]="data.rating > 2 ? 'checked' : '' ">
-                  <i class="fas fa-star fs-8"></i>
-              </div>
-              <div class="rating-label me-1" [ngClass]="data.rating > 3 ? 'checked' : '' ">
-                  <i class="fas fa-star fs-8"></i>
-              </div>
-              <div class="rating-label me-1" [ngClass]="data.rating > 4 ? 'checked' : '' ">
-                  <i class="fas fa-star fs-8"></i>
-              </div>
-            </div>
-            </div>
-          </td>
-          <td class="p-4">
-            <div class="flex justify-left">
-              <img class="circle" [src]="data.profilePicURL">
-              <span class="mt-2 ml-2 text-sm text-black font-base">{{data.customerName}}</span>
-            </div>
-          </td>
-          <td class="p-4 text-sm font-medium text-gray-600">{{reviewData?.dealHeader}}</td>
-          <td class="p-4" style="width: 40%;">
-            <span class="text-sm font-medium">On {{data.createdAt | date}} at {{data.createdAt | date:'shortTime'}}</span>
-            <br>
-            <span class="text-xs text-justify text-gray-600 font-extralight">{{data.text}}</span>
-          </td>
-          <td class="p-4">
-            <a class="px-1 py-1 text-gray-500 bg-gray-300 rounded-md cursor-pointer">
-              <i class="p-1 fas fa-ban"></i>
-            </a>
-          </td>
-        </tr>
-      </ng-container>
+            </td>
+            <td>
+              <button (click)="openReviewModal()" class="px-6 py-2 text-sm font-semibold text-blue-400 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
+            </td>
+          </tr>
+        <!-- </ng-container> -->
+      </tbody>
     </table>
+    <div class="flex justify-end w-full pb-4 pt-11">
+      <ngb-pagination
+          [page]="1"
+          [pageSize]="5"
+          [collectionSize]="25"
+          [maxSize]="5" [boundaryLinks]="false">
+        </ngb-pagination>
+    </div>
   </div>
 </ng-container>
+
+<ng-template #modal>
+  <div class="flex justify-between border-white modal-header">
+    <span class="px-3 text-lg" style="color: #313131; opacity: 0.7;">Customer name: &nbsp;<span class="text-lg font-semibold text-black">Harry Jonas</span></span>
+    <div class="pb-8">
+      <button (click)="closeModal()" class="px-3 py-2 text-xs font-normal text-gray-500 bg-gray-300 rounded-full">
+        &#10006;
+      </button>
+    </div>
+  </div>
+
+  <div class="w-full pt-3" style="background-color: #FFF3CF;">
+    <div class="flex justify-between px-10 py-4">
+      <span style="color: #D9B23E;">Voucher ID &nbsp; <span style="color: #A17900;">V8958613</span></span>
+      <span style="color: #D9B23E;">Date redeemed &nbsp; <span style="color: #A17900;">26-09-2022</span></span>
+      <span style="color: #D9B23E;">Date review &nbsp; <span style="color: #A17900;">10-10-2022</span></span>
+      <div class="flex justify-center">
+        <span class="mr-2" style="color: #D9B23E;">Rating</span>
+        <div class="rating">
+          <div class="rating-label me-1 checked inner">
+              <i class="fas fa-star fs-8"></i>
+          </div>
+          <div class="rating-label me-1 checked inner">
+              <i class="fas fa-star fs-8"></i>
+          </div>
+          <div class="rating-label me-1 checked inner">
+              <i class="fas fa-star fs-8"></i>
+          </div>
+          <div class="rating-label me-1 checked inner">
+              <i class="fas fa-star fs-8"></i>
+          </div>
+          <div class="rating-label me-1 outer">
+              <i class="fas fa-star fs-8"></i>
+          </div>
+        </div>
+        <span class="ml-2" style="color: #A17900;">4.2</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="py-4">
+    <span class="px-10 font-bold" style="font-size: 20px;">Ratings</span>
+  </div>
+
+  <div class="flex justify-start w-full px-10 py-2">
+    <ngb-progressbar class="mt-2.5" style="width: 8.938rem;" height=".4rem" type="warning" [value]="50"></ngb-progressbar>
+
+    <div class="px-4 rating">
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+    </div>
+
+    <span class="px-3 text-black">2.3</span>
+    <span class="px-3 text-black">Reception & service</span>
+  </div>
+
+  <div class="flex justify-start w-full px-10 py-2">
+    <ngb-progressbar class="mt-2.5" style="width: 8.938rem;" height=".4rem" type="warning" [value]="100"></ngb-progressbar>
+
+    <div class="px-4 rating">
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+    </div>
+
+    <span class="px-3 text-black">5.0</span>
+    <span class="px-3 text-black">Atmosphere</span>
+  </div>
+
+  <div class="flex justify-start w-full px-10 py-2">
+    <ngb-progressbar class="mt-2.5" style="width: 8.938rem;" height=".4rem" type="warning" [value]="75"></ngb-progressbar>
+
+    <div class="px-4 rating">
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1 checked">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+      <div class="rating-label me-1">
+          <i class="fas fa-star fs-8"></i>
+      </div>
+    </div>
+
+    <span class="px-3 text-black">4.2</span>
+    <span class="px-3 text-black">Deal value</span>
+  </div>
+
+  <div class="py-4">
+    <span class="px-10 font-bold" style="font-size: 20px;">Review</span>
+  </div>
+
+  <div class="flex justify-start px-10 pb-3">
+    <span class="py-5 text-lg font-semibold text-center text-white rounded-full px-7" style="background-color: #1D1D29;">{{Substring}}</span>
+    <span class="px-6 text-sm">{{loremIpsum}}</span>
+  </div>
+
+  <div *ngIf="switchToReply == false" class="px-32 pb-32">
+    <button (click)="switchToReplyMode()" class="px-3 py-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Reply</button>
+  </div>
+
+  <!--Before Reply Submit View-->
+  <div class="pb-8 pl-32 pr-16" *ngIf="switchToReply == true && replyView == false">
+    <textarea rows="4" class="w-full p-2 rounded-md mytextArea" style="border: 1px solid #C5C5C5;"></textarea>
+    <div class="flex justify-start">
+      <button (click)="discardReply()" class="px-3 py-2 mr-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Discard</button>
+      <button (click)="submitReply()" class="px-3 py-2 text-xs text-white rounded-md" style="background-color:#0081E9;">Submit</button>
+    </div>
+  </div>
+
+  <!--After Reply Submit View-->
+  <div class="pb-8 pl-44" *ngIf="replyView == true">
+    <img src="../../../assets/media/icons/reply.svg">
+  </div>
+
+  <div class="flex justify-start px-32 pb-8" *ngIf="replyView == true">
+    <span class="w-16 h-12 pt-3 text-base font-semibold text-center text-black" style="background-color: #E2F1FC; border-radius: 100%;">{{CompanyName}}</span>
+    <span class="px-6 text-sm"><span class="text-lg">Company name</span><br>{{semiLorem}}</span>
+  </div>
+
+</ng-template>
 

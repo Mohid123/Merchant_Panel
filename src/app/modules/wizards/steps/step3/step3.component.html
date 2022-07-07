@@ -30,16 +30,16 @@
               <div class="w-auto mt-4 mb-3 input-icon lg:w-96">
                 <span class="absolute flex items-center mt-2 ml-1"><i (click)="d.toggle()" class="p-2 ml-2 text-green-600 rounded far fa-calendar-alt"></i></span>
                 <input
-                placeholder="yyyy-mm-dd"
-                [disabled]="currentlyChecked !== check_box_type.ONE"
-                (keydown)="disableManual($event)"
-                name="dp"
-                ngbDatepicker
-                #d="ngbDatepicker"
-                (click)="d.toggle()"
-                class="pl-12 text-sm font-thin cursor-pointer form-control"
-                formControlName="voucherStartDate"
-                name="voucherStartDate"
+                  placeholder="yyyy-mm-dd"
+                  [disabled]="currentlyChecked !== check_box_type.ONE"
+                  (keydown)="disableManual($event)"
+                  name="dp"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                  (click)="d.toggle()"
+                  class="pl-12 text-sm font-thin cursor-pointer form-control"
+                  formControlName="voucherStartDate"
+                  name="voucherStartDate"
                 >
               </div>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -271,6 +271,8 @@ input::-webkit-datetime-edit-fields-wrapper {
 }
 
 </style> -->
+
+
 
 
 

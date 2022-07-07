@@ -132,7 +132,7 @@
         </form>
         <div *ngIf="!addVoucher" class="flex justify-between mt-8 min-h-14 2xl:h-20">
           <button (click)="prevClick.emit('')" class="self-center w-24 h-10 text-sm text-gray-600 bg-gray-300 rounded-lg">Back</button>
-          <button [disabled]="subDeals.length == 0" (click)="nextClick.emit('')" class="self-center w-32 h-10 text-sm text-white rounded-lg bg-primary-400">Save & next</button>
+          <button [disabled]="subDeals.length == 0" (click)="saveSecondDraft()" class="self-center w-32 h-10 text-sm text-white rounded-lg bg-primary-400">Save & next</button>
         </div>
       </div>
     </div>

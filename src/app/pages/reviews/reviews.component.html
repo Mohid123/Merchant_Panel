@@ -1,8 +1,37 @@
-<div class="mb-3 text-3xl font-semibold text-left lg:mb-0">Reviews & rating</div>
+<span class="font-bold" style="font-size: 24px;">Reviews & ratings</span>
 
-<div class="flex flex-col mt-4 mr-7">
-  <span class="mb-4 text-lg text-gray-500 font-base">Total Reviews</span>
-  <span class="text-5xl font-medium text-black">{{reviewsData?.totalDeals}}</span>
+<div class="flex flex-col justify-center mt-4 lg:flex-row lg:justify-between">
+  <ng-container *ngIf="showData == false">
+    <app-pending-skeleton></app-pending-skeleton>
+  </ng-container>
+  <ng-container *ngIf="showData == true">
+    <div class="flex flex-col lg:flex-row justify-evenly">
+      <div class="flex flex-row states statistics">
+        <div style="padding: 0.875rem;" class="w-40 h-20 mr-4 bg-white">
+          <span class="mb-1.5 text-sm font-medium">Total reviews</span>
+          <br>
+          <span class="text-base font-semibold text-xxl" style="color: #0FB947;">{{reviewsData?.totalDeals}}</span>
+        </div>
+        <div style="padding: 0.875rem;" class="w-40 h-20 bg-white">
+          <span class="mb-1.5 text-sm font-medium">Overall rating</span>
+          <br>
+          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">4.8</span>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
+
+    <div class="flex flex-row justify-start w-full gap-3 ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0"><div class="">
+      <button class="text-sm font-medium cursor-pointer reset-button text-primary-400 xl:rounded-md">Reset filters</button>
+    </div>
+    <div class="">
+      <button [routerLink]="['/new-reviews']" class="w-40 px-4 pt-2.5 text-sm cursor-pointer btn KYC reset-button xl:rounded-md bg-primary-400" style="color:#EEEEEE">View new reviews</button>
+    </div>
+  </div>
+  </div>
 </div>
 
 <ng-container *ngIf="showData == false">
@@ -10,38 +39,56 @@
 </ng-container>
 
 <ng-container *ngIf="showData == true">
-  <div class="table-container">
-    <table class="w-full mt-10 rounded-md shadow-md">
-      <tr class="text-center text-black bg-blue-100 rounded-lg">
-        <th class="flex justify-start pt-4 pb-4 pl-12 pr-4 font-semibold">Products&nbsp;</th>
-        <th class="p-4 font-semibold">Reviews&nbsp;</th>
-        <th class="p-4 font-semibold">Highest&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
-        <th class="p-4 font-semibold">Lowest&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
-        <th class="p-4 font-semibold">Average&nbsp; <i class="text-yellow-500 fas fa-star"></i></th>
-        <th class="p-4 font-semibold">Action&nbsp;</th>
-      </tr>
-      <ng-container *ngFor="let data of reviewsData?.data">
-        <tr class="z-40 text-center text-gray-700 bg-white border-b-2 border-gray-200 rounded-lg">
-          <td class="flex justify-start pt-4 pb-4 pl-12 pr-4 font-medium">{{data.dealHeader}}</td>
-          <td class="p-4 font-thin">{{data.totalReviews}}</td>
-          <td class="p-4 font-thin">{{data.maxRating}}</td>
-          <td class="p-4 font-thin">{{data.minRating}}</td>
-          <td class="p-4 font-thin">{{data.ratingsAverage}}</td>
-          <td class="p-4">
-            <button [disabled]="data.totalReviews == 0" [routerLink]="['/single-review/', data._id]"
-            class="px-4 py-3 text-sm text-blue-400 bg-blue-100 rounded-md"
-            [ngClass]="data.totalReviews == 0 ? 'opacity-50': 'hover:bg-blue-600 hover:text-white'">View Review</button>
-          </td>
-        </tr>
-      </ng-container>
+  <div class="mt-4 overflow-x-scroll table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
+    <table class="w-full">
+      <thead class="text-left text-black bg-white border-b-2 border-gray-200 border-dotted rounded-lg h-14">
+        <th class="pr-4 font-semibold cursor-pointer same-font">Deal header</th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Deal ID&nbsp;<app-filters></app-filters></th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Total reviews</th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Average rating&nbsp;<app-filters></app-filters></th>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of reviewsData?.data; let i = index;">
+          <tr class="z-40 h-16 text-left text-gray-700 bg-white rounded-lg" [ngClass]="(i == reviewsData?.data.length - 1) ? '' : 'border-b-2 border-gray-200 border-dotted'">
+            <td class="pr-4">{{data.dealHeader}}</td>
+            <td class="pr-4 underline">D56784598</td> <!--{{data.dealID}}-->
+            <td class="pr-4">{{data.totalReviews}}</td>
+            <td class="pr-4">
+              <div class="rating">
+                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 0 ? 'checked': ''">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 1 ? 'checked': ''">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 2 ? 'checked': ''">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 3 ? 'checked': ''">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 4 ? 'checked': ''">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <span class="pt-1 ml-2 text-black">{{data.ratingsAverage}}</span>
+              </div>
+            </td>
+            <td>
+              <button [disabled]="data.totalReviews == 0" [routerLink]="['/single-review/', data._id]"
+              class="px-6 py-2 text-sm font-semibold text-blue-400 bg-blue-100 rounded-md"
+              [ngClass]="data.totalReviews == 0 ? 'opacity-50': 'hover:bg-blue-600 hover:text-white'">View</button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
     </table>
-  </div>
-  <div class="flex justify-end pt-4">
-    <ul class="pagination">
-      <li class="page-item previous" [ngClass]="page < 2 ? 'disabled': ''"><button [disabled]="page < 2" (click)="previous()" class="bg-white shadow-sm page-link"><i class="previous"></i></button></li>
-      <li class="page-item disabled"><a class="page-link">{{ page === 1 ? 1 : (page-1) * limit }}-{{ page * limit < reviewsData?.totalDeals ? (page * limit) : reviewsData?.totalDeals }}/{{reviewsData?.totalDeals}}</a></li>
-      <li class="page-item next" [ngClass]="reviewsData?.totalDeals <= page * limit ? 'disabled': ''"><button [disabled]="reviewsData?.totalDeals <= page * limit" (click)="next()" class="bg-white shadow-sm page-link"><i class="next"></i></button></li>
-    </ul>
+    <div class="flex justify-end w-full pb-4 pt-11">
+      <ngb-pagination
+          [(page)]="page"
+          [pageSize]="limit"
+          [collectionSize]="reviewsData?.totalDeals"
+          [maxSize]="5" [boundaryLinks]="false" (pageChange)="next()">
+        </ngb-pagination>
+    </div>
   </div>
 </ng-container>
-

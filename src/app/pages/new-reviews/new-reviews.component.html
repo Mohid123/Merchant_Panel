@@ -1,0 +1,59 @@
+<div class="flex flex-col justify-center mt-4 lg:flex-row lg:justify-between">
+  <h1 class="font-bold">New reviews</h1>
+  <div class="text-gray-600 cursor-pointer hover:text-primary-400">
+    <span [routerLink]="['/reviews']"><span style="font-size: 25px;">&#8249;</span>&nbsp;Reviews & ratings</span>
+  </div>
+</div>
+
+<div class="mt-4 overflow-x-scroll table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
+  <table class="w-full">
+    <thead class="text-left text-black bg-white border-b-2 border-gray-200 border-dotted rounded-lg h-14">
+      <th class="pr-4 font-semibold cursor-pointer same-font">Sub deal header</th>
+      <th class="pr-4 font-semibold cursor-pointer same-font">Voucher ID</th>
+      <th class="pr-4 font-semibold cursor-pointer same-font">Date redeemed</th>
+      <th class="pr-4 font-semibold cursor-pointer same-font">Date review</th>
+      <th class="pr-4 font-semibold cursor-pointer same-font">Rating</th>
+    </thead>
+    <tbody>
+      <!-- <ng-container *ngFor="let data of reviewsData?.data; let i = index;"> -->
+        <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
+          <td class="pr-4">Heavenly Massage</td>
+          <td class="pr-4">V56784598</td>
+          <td class="pr-4">24-09-2022</td>
+          <td class="pr-4">17-10-2022</td>
+          <td class="pr-4">
+            <div class="rating">
+              <div class="rating-label me-1 checked">
+                  <i class="fas fa-star fs-8"></i>
+              </div>
+              <div class="rating-label me-1 checked">
+                  <i class="fas fa-star fs-8"></i>
+              </div>
+              <div class="rating-label me-1 checked">
+                  <i class="fas fa-star fs-8"></i>
+              </div>
+              <div class="rating-label me-1 checked">
+                  <i class="fas fa-star fs-8"></i>
+              </div>
+              <div class="rating-label me-1">
+                  <i class="fas fa-star fs-8"></i>
+              </div>
+              <span class="pt-1 ml-2 text-black">2.3</span>
+            </div>
+          </td>
+          <td>
+            <button class="px-6 py-2 text-sm font-semibold text-blue-400 bg-blue-100 rounded-md">View</button>
+          </td>
+        </tr>
+      <!-- </ng-container> -->
+    </tbody>
+  </table>
+  <div class="flex justify-end w-full pb-4 pt-11">
+    <ngb-pagination
+        [page]="1"
+        [pageSize]="5"
+        [collectionSize]="25"
+        [maxSize]="5" [boundaryLinks]="false">
+      </ngb-pagination>
+  </div>
+</div>

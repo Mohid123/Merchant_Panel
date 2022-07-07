@@ -2,6 +2,7 @@ import { Vouchers } from "./vouchers.model";
 
 export class MainDeal {
   id: string;
+  dealID: string;
   subCategory: string;
   dealHeader: string;
   subTitle: string;
@@ -19,7 +20,7 @@ export class MainDeal {
   maxRating?: number;
   ratingsAverage?: number;
   soldVouchers?: number;
-  showDetail: string;
+  isCollapsed: boolean;
   highlights: string;
   aboutThisDeal: string;
   readMore: string;
@@ -31,4 +32,5 @@ export class Deals {
   data: MainDeal[];
   totalDeals?: number;
 }
+
 
