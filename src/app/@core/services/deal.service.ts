@@ -19,8 +19,7 @@ export class DealService extends ApiService<deal> {
   }
 
   createDeal(deal: MainDeal) {
-    debugger
-    return this.post('/deal/createDeal',deal).pipe(tap((res: any) => {
+    return this.post('/deal/createDeal', deal).pipe(tap((res: any) => {
       console.log(res);
     }));
   }
@@ -59,6 +58,12 @@ export class DealService extends ApiService<deal> {
 
   deleteDeal(dealID: string): Observable<ApiResponse<any>> {
     return this.post(`/deal/deleteDeal/${dealID}`).pipe(tap((res: any) => {
+      console.log(res);
+    }))
+  }
+
+  getDealByID(dealID: string): Observable<ApiResponse<any>> {
+    return this.get(`/deal/getDeal/${dealID}`).pipe(tap((res: any) => {
       console.log(res);
     }))
   }
