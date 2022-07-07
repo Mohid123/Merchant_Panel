@@ -62,4 +62,10 @@ export class DealService extends ApiService<deal> {
       console.log(res);
     }))
   }
+
+  getDealByID(dealID: string): Observable<ApiResponse<any>> {
+    return this.get(`/deal/getDeal/${dealID}`).pipe(tap((res: any) => {
+      console.log(res);
+    }))
+  }
 }
