@@ -1,50 +1,45 @@
-import { animate, style, transition, trigger } from '@angular/animations';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { NgbDate, NgbDropdown, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbDropdown, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
-import * as moment from 'momnet';
+import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { Deals, MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
-import { GreaterThanValidator } from '../greater-than.validator';
 import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ConnectionService } from './../services/connection.service';
 
+@Component({
+  template: `
+    <div class="fc-content" #popoverHook="ngbPopover" [popoverClass]="'calendar-popover'" [ngbPopover]="template" [placement]="'bottom'" triggers="manual">
+      <ng-content></ng-content>
+    </div>
+  `,
+})
+export class PopoverWrapperComponent {
+  template: TemplateRef<any>;
 
+  @ViewChild('popoverHook')
+  public popoverHook: NgbPopover
+}
 
 @Component({
   selector: 'app-view-deal',
   templateUrl: './view-deal.component.html',
   styleUrls: ['./view-deal.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  animations: [
-    trigger('slideInOut', [
-      transition(':enter', [
-        style({transform: 'translateY(-100%)'}),
-        animate('225ms ease-in-out', style({transform: 'translateY(0%)'}))
-      ]),
-      transition(':leave', [
-        animate('325ms ease-in-out', style({transform: 'translateY(-100%)', opacity: '0'}))
-      ])
-    ])
-  ]
+  encapsulation: ViewEncapsulation.None
 })
 
 export class ViewDealComponent implements OnInit, OnDestroy {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
-  @ViewChild('myDrop') myDrop: NgbDropdown;
-  public isCollapsed: boolean[] = [true];
-  editVouchers: FormGroup;
+  @ViewChild('myDrop') myDrop: NgbDropdown
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
@@ -59,6 +54,12 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
 
   calendarPlugins = [dayGridPlugin];
+
+  @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
+
+  popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
+
+  popoverFactory = this.resolver.resolveComponentFactory(PopoverWrapperComponent);
 
   showDiv = {
     listView: true,
@@ -80,8 +81,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   status: string;
   page: number;
   dealData: Deals | any;
-  paginator: any[] = [];
-  selectedIndex: any;
 
   statusTypes = [
     {
@@ -112,26 +111,34 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: 3,
-    eventClick: this.handleEventClick.bind(this),
+    moreLinkClick: 'popover',
+    // select: this.handleDateSelect.bind(this),
+    // eventClick: this.showPopover.bind(this),
+    // eventsSet: this.handleEvents.bind(this),
+    // eventDidMount: this.renderTooltip.bind(this),
+    // eventWillUnmount: this.destroyTooltip.bind(this),
+    // eventMouseEnter: this.showPopover.bind(this),
+    // eventMouseLeave: this.hidePopover.bind(this),
+    /* you can update a remote database when these fire:
+    eventAdd:
+    eventChange:
+    eventRemove:
+    */
   };
 
   newData : any[] = [];
-  subDeals: any[] = [];
-  clickInfo: any;
-
-  @ViewChild('fullCalendar') fullCalendar: FullCalendarComponent;
-  @ViewChild('modal2') private modal2: TemplateRef<any>
+  @ViewChild('fullCalendar') fullCalendar: FullCalendarComponent
 
 
   constructor(
     private conn: ConnectionService,
-    private fb: FormBuilder,
+    private resolver: ComponentFactoryResolver,
+    private injector: Injector,
+    private appRef: ApplicationRef,
     private authService: AuthService,
     private dealService: DealService,
     private cf: ChangeDetectorRef,
-    private toast: HotToastService,
-    private router: Router,
-    private modalService: NgbModal
+    private toast: HotToastService
   ) {
       this.page = 1
       this.fromDate = '';
@@ -141,81 +148,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getDealsByMerchantID();
-    this.initEditVouchers();
-  }
-
-  initEditVouchers() {
-    this.editVouchers = this.fb.group({
-      originalPrice: [
-        '',
-        Validators.compose([
-        Validators.required,
-        ]),
-      ],
-      dealPrice: [
-        ''
-      ],
-      numberOfVouchers: [
-        '0',
-        Validators.compose([
-        Validators.required,
-        Validators.min(1)
-        ])
-      ],
-      subTitle: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern('^[a-zA-Z0-9 ]+')
-        ])
-      ],
-      discountPercentage: [
-        0
-      ]
-      }, {
-        validator: GreaterThanValidator('originalPrice', 'dealPrice')
-    })
-  }
-
-  editVoucher() {
-    if(this.editVouchers.invalid) {
-      this.editVouchers.markAllAsTouched();
-      return;
-    }
-    if(parseInt(this.editVouchers.controls['dealPrice']?.value) >= 0) {
-      const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
-      const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
-      this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
-    }
-    else if(!parseInt(this.editVouchers.controls['dealPrice']?.value)) {
-      const discountPrice = 100;
-      this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
-    }
-    else {
-      this.editVouchers.controls['dealPrice']?.setValue('0');
-      const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
-      const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
-      this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
-    }
-    // this.dealService.createDeal(this.editVouchers.value).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
-
-    // })
-    this.closeModal();
-    this.editVouchers.reset();
-  }
-
-  editHandlePlus() {
-    this.editVouchers.patchValue({
-      numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) + 1
-    });
-  }
-
-  editHandleMinus() {
-    if(this.editVouchers.controls['numberOfVouchers'].value >= 1) {
-      this.editVouchers.patchValue({
-        numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) - 1
-      });
-    }
   }
 
   getDealsByMerchantID() {
@@ -236,63 +168,21 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.currentEvents = res.data.data;
         this.showData = true;
         this.cf.detectChanges();
-        this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
-          if(item.dealStatus == 'InComplete') {
-            return {
-              title: item.dealHeader,
-              start: moment(item.startDate).format('YYYY-MM-DD'),
-              end: moment(item.endDate).format('YYYY-MM-DD'),
-              backgroundColor: '#00FF00',
-              borderColor: '#00FF00',
-              extendedProps: {
-                dealID: item.dealID,
-                sold: item.soldVouchers,
-                available: item.pageNumber,
-                value: item.pageNumber,
-                totalSold: item.pageNumber,
-                netEarnings: item.pageNumber,
-                img: item.mediaUrl[0],
-                vouchers: item.vouchers,
-                status: item.dealStatus
-              }
-            }
-          }
+        this.calendarOptions.events = res.data.data.map((item:MainDeal) => {
           if(item.dealStatus == 'In Review') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#F59E0B',
-              borderColor: '#F59E0B',
-              extendedProps: {
-                dealID: item.dealID,
-                sold: item.soldVouchers,
-                available: item.pageNumber,
-                value: item.pageNumber,
-                totalSold: item.pageNumber,
-                netEarnings: item.pageNumber,
-                img: item.mediaUrl[0],
-                vouchers: item.vouchers,
-                status: item.dealStatus
-              }
+              borderColor: '#F59E0B'
             }
           }
           if(item.dealStatus == 'Published') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
-              end: moment(item.endDate).format('YYYY-MM-DD'),
-              extendedProps: {
-                dealID: item.dealID,
-                sold: item.soldVouchers,
-                available: item.pageNumber,
-                value: item.pageNumber,
-                totalSold: item.pageNumber,
-                netEarnings: item.pageNumber,
-                img: item.mediaUrl[0],
-                vouchers: item.vouchers,
-                status: item.dealStatus
-              }
+              end: moment(item.endDate).format('YYYY-MM-DD')
             }
           }
           if(item.dealStatus == 'Scheduled') {
@@ -301,18 +191,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
-              borderColor: '#10B981',
-              extendedProps: {
-                dealID: item.dealID,
-                sold: item.soldVouchers,
-                available: item.pageNumber,
-                value: item.pageNumber,
-                totalSold: item.pageNumber,
-                netEarnings: item.pageNumber,
-                img: item.mediaUrl[0],
-                vouchers: item.vouchers,
-                status: item.dealStatus
-              }
+              borderColor: '#10B981'
             }
           }
           if(item.dealStatus == 'Bounced') {
@@ -321,18 +200,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#EF4444',
-              borderColor: '#EF4444',
-              extendedProps: {
-                dealID: item.dealID,
-                sold: item.soldVouchers,
-                available: item.pageNumber,
-                value: item.pageNumber,
-                totalSold: item.pageNumber,
-                netEarnings: item.pageNumber,
-                img: item.mediaUrl[0],
-                vouchers: item.vouchers,
-                status: item.dealStatus
-              }
+              borderColor: '#EF4444'
             }
           }
         })
@@ -345,24 +213,10 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
-        this.conn.sendSaveAndNext({});
         this.getDealsByMerchantID();
         this.toast.success('Deal removed')
       }
     })
-  }
-
-  getDraft(dealID: string, pageNumber: number) {
-    if(dealID && pageNumber) {
-      this.conn.currentStep$.next(pageNumber);
-      this.dealService.getDealByID(dealID).pipe(takeUntil(this.destroy$))
-      .subscribe((res: ApiResponse<any>) => {
-        if(!res.hasErrors()) {
-          this.conn.sendSaveAndNext(res.data);
-          this.router.navigate(['/deals/create-deal']);
-        }
-      })
-    }
   }
 
   filterByStartDate(startDate: string) {
@@ -417,6 +271,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   filterByStatus(status: string) {
+    debugger
     this.offset = 0;
     this.status = status;
     this.getDealsByMerchantID();
@@ -445,6 +300,50 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
 
+  ngAfterViewInit() {
+    this.fullCalendar.getApi().render();
+  }
+
+
+  renderTooltip(event:any) {
+    console.log('renderTooltip:',event);
+    const projectableNodes = Array.from(event.el.childNodes)
+
+    const compRef = this.popoverFactory.create(this.injector, [projectableNodes], event.el);
+    compRef.instance.template = this.popContent;
+
+    this.appRef.attachView(compRef.hostView)
+    this.popoversMap.set(event.el, compRef)
+  }
+
+  destroyTooltip(event:any) {
+    console.log('destroyTooltip:',event);
+
+    const popover = this.popoversMap.get(event.el);
+    if (popover) {
+      this.appRef.detachView(popover.hostView);
+      popover.destroy();
+      this.popoversMap.delete(event.el);
+    }
+  }
+
+  showPopover(event:any) {
+    console.log('showPopover:',event);
+    const popover = this.popoversMap.get(event.el);
+    console.log('popover:',popover);
+    if (popover) {
+      popover.instance.popoverHook.open({ event: event.event });
+    }
+  }
+
+  hidePopover(event:any) {
+    console.log('hidePopover:',event);
+    const popover = this.popoversMap.get(event.el);
+    if (popover?.instance?.popoverHook) {
+      popover.instance.popoverHook.close();
+    }
+  }
+
   switchTabs(event:any) {
     if (event.index == 0) {
       this.showDiv.listView = true;
@@ -462,10 +361,14 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   next():void {
-    this.page;
+    this.page++;
     this.getDealsByMerchantID();
   }
 
+  previous():void {
+    this.page--;
+    this.getDealsByMerchantID();
+  }
 
   handleWeekendsToggle() {
     const { calendarOptions } = this;
@@ -490,34 +393,26 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    this.clickInfo = clickInfo.event;
-    return this.modalService.open(this.modal2, {
-      centered: true,
-      size: 'lg',
-      backdrop: 'static',
-      keyboard: false,
-      modalDialogClass: 'modal-xl'
-    });
+    // if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+    //   clickInfo.event.remove();
+    // }
+    console.log('clickInfo:',clickInfo);
+    // this.openPopover(clickInfo);
+    this.showPopover(clickInfo)
+
   }
 
-  async openNew(index: any, editIndex: any) {
-    this.selectedIndex = index;
-    this.editVouchers.patchValue(this.currentEvents[index].vouchers[editIndex])
-    return await this.modal.open();
+
+  handleEvents(events:any) {
+    this.currentEvents = events;
   }
 
-  async openCalendarNew(index: any) {
-    this.editVouchers.patchValue(this.clickInfo._def.extendedProps.vouchers[index]);
+  async openNew(event:any) {
     return await this.modal.open();
   }
 
   async closeModal() {
-    this.editVouchers.reset();
     return await this.modal.close();
-  }
-
-  async closeModal2() {
-    return this.modalService.dismissAll();
   }
 
   resetFilters() {

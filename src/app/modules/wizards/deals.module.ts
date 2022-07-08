@@ -16,7 +16,7 @@ import { TimeformatePipe } from '@core/pipes/timeformate.pipe';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { NgbDateParserFormatter, NgbDropdownModule, NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { SwiperModule } from 'swiper/angular';
 import { DragAnDropUploadModule } from '../../@core/directives/drag-an-drop-upload/drag-an-drop-upload.module';
@@ -25,7 +25,6 @@ import { TruncatePipe } from '../../@core/pipes/truncate.pipe';
 import { TableSkeletonModule } from '../../components/table-skeleton/table-skeleton.module';
 import { ReusableModalModule } from '../../_metronic/layout/components/reusable-modal/reusable-modal.module';
 import { LayoutModule } from '../../_metronic/layout/layout.module';
-import { FiltersModule } from './../../components/filters/filters.module';
 import { CreateDealComponent } from './create-deal/create-deal.component';
 import { DateParserFormatter } from './date-parser-formatter';
 import { DealPreviewComponent } from './deal-preview/deal-preview.component';
@@ -33,9 +32,11 @@ import { DealsRoutingModule } from './deals-routing.module';
 import { SideDrawerComponent } from './side-drawer/side-drawer.component';
 import { Step1Component } from './steps/step1/step1.component';
 import { Step2Component } from './steps/step2/step2.component';
+import { Step3Component } from './steps/step3/step3.component';
 import { Step4Component } from './steps/step4/step4.component';
 import { Step5Component } from './steps/step5/step5.component';
-import { ViewDealComponent } from './view-deal/view-deal.component';
+import { VerticalComponent } from './vertical/vertical.component';
+import { PopoverWrapperComponent, ViewDealComponent } from './view-deal/view-deal.component';
 import { WizardsComponent } from './wizards.component';
 
 
@@ -47,15 +48,18 @@ FullCalendarModule.registerPlugins([
 @NgModule({
   declarations: [
     CreateDealComponent,
+    VerticalComponent,
     WizardsComponent,
     Step1Component,
     Step2Component,
+    Step3Component,
     Step4Component,
     Step5Component,
     Step2DetailsComponent,
     ViewDealComponent,
     TruncatePipe,
     TimeformatePipe,
+    PopoverWrapperComponent,
     SideDrawerComponent,
     DealPreviewComponent,
   ],
@@ -85,9 +89,8 @@ FullCalendarModule.registerPlugins([
     LayoutModule,
     DragAnDropUploadModule,
     MaxLengthModule,
-    FiltersModule,
-    NgbDropdownModule,
   ],
+  entryComponents: [PopoverWrapperComponent],
   providers: [
     { provide: NgbDateParserFormatter, useClass: DateParserFormatter },
   ],

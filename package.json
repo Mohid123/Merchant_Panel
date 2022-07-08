@@ -7,6 +7,7 @@
     "build": "ng build",
     "build-serve": "node --max_old_space_size=8048 ./node_modules/@angular/cli/bin/ng serve",
     "watch": "ng build --watch --configuration development",
+    "build:prod": "npm run build --prod --aot",
     "serve:prod": "http-server dist/divideals",
     "test": "ng test"
   },
