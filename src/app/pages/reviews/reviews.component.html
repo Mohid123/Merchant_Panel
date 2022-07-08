@@ -50,7 +50,7 @@
       <tbody>
         <ng-container *ngFor="let data of reviewsData?.data; let i = index;">
           <tr class="z-40 h-16 text-left text-gray-700 bg-white rounded-lg" [ngClass]="(i == reviewsData?.data.length - 1) ? '' : 'border-b-2 border-gray-200 border-dotted'">
-            <td class="pr-4">{{data.dealHeader}}</td>
+            <td class="pr-4">{{(data.dealHeader.length>30)? ((data.dealHeader) | slice:0:30)+'..':(data.dealHeader)}}</td>
             <td class="pr-4 underline">D56784598</td> <!--{{data.dealID}}-->
             <td class="pr-4">{{data.totalReviews}}</td>
             <td class="pr-4">
