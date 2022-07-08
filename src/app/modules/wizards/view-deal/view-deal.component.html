@@ -86,9 +86,9 @@
                         <td class="py-4 text-sm pl-11">{{(voucher.subTitle.length>24) ? ((voucher.subTitle) | slice:0:24)+'..':(voucher.subTitle)}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.voucherValidity}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.numberOfVouchers}}</td>
-                        <td class="px-5 py-4 text-sm">{{voucher.dealPrice}}</td>
-                        <td class="px-5 py-4 text-sm">{{voucher.originalPrice}}</td>
-                        <td class="py-4 pr-5 text-sm text-center">{{voucher.numberOfVouchers}}</td>
+                        <td class="px-5 py-4 text-sm">{{voucher.dealPrice}}&nbsp;&euro;</td>
+                        <td class="py-4 pr-5 text-sm text-center">{{voucher.originalPrice}}&nbsp;&euro;</td>
+                        <td class="py-4 pr-5 text-sm text-center">{{voucher.numberOfVouchers}}&nbsp;&euro;</td>
                         <td class="px-5 py-4 text-sm">
                           <img class="cursor-pointer" (click)="openNew(index, i)" src="../../../../assets/media/icons/edit.svg">
                         </td>
