@@ -466,10 +466,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.getDealsByMerchantID();
   }
 
-  previous():void {
-    this.page--;
-    this.getDealsByMerchantID();
-  }
 
   handleWeekendsToggle() {
     const { calendarOptions } = this;
