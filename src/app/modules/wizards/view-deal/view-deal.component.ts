@@ -239,7 +239,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
-          if(item.dealStatus == 'InComplete') {
+          if(item.dealStatus == 'Draft') {
             return {
               title: item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
