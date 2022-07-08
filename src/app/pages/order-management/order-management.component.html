@@ -71,9 +71,9 @@
         <th class="w-32 pr-4 font-semibold cursor-pointer">Voucher ID&nbsp;<app-filters></app-filters></th>
         <th class="w-48 pr-4 font-semibold cursor-pointer">Deal header&nbsp;<app-filters></app-filters></th>
         <th class="pr-4 font-semibold cursor-pointer w-60">Voucher header&nbsp;<app-filters></app-filters></th>
-        <th class="w-32 pr-4 font-semibold cursor-pointer">Value</th>
-        <th class="w-32 pr-4 font-semibold cursor-pointer">Net earnings</th>
-        <th class="w-24 pr-4 font-semibold cursor-pointer">Status&nbsp;<app-filters></app-filters></th>
+        <th class="w-24 pr-12 font-semibold text-right cursor-pointer">Value</th>
+        <th class="pr-4 font-semibold text-right cursor-pointer w-28">Net earnings</th>
+        <th class="w-40 pl-16 pr-4 font-semibold cursor-pointer">Status&nbsp;<app-filters></app-filters></th>
         <th class="font-semibold cursor-pointer w-36">Invoice status&nbsp; <app-filters></app-filters></th>
       </thead>
       <ng-container *ngFor="let data of ordersData?.data; let i = index;">
@@ -81,9 +81,9 @@
           <td class="pr-4">{{(data.voucherID.toString().length > 30)? ((data.voucherID) | slice:0:30)+'..':(data.voucherID)}}</td>
           <td class="pr-4">{{(data.dealName.length>30) ? ((data.dealName) | slice:0:30)+'..':(data.dealName)}}</td>
           <td class="pr-4"> Voucher {{(data.dealName.length>30)? ((data.dealName) | slice:0:30)+'..':(data.dealName)}}</td>
-          <td class="pr-4">{{data.amount}}&nbsp;&euro;</td>
-          <td class="pr-4">{{data.amount}}&nbsp;&euro;</td>
-          <td class="pr-4">{{data.status}}</td>
+          <td class="pr-12 text-right">{{data.amount}}&nbsp;&euro;</td>
+          <td class="pr-4 text-right">{{data.amount}}&nbsp;&euro;</td>
+          <td class="pl-16 pr-4">{{data.status}}</td>
           <td class="pl-4">
             <button *ngIf="data.paymentStatus== 'Paid' ||data.paymentStatus== 'Credited'  " class="flex items-center justify-center w-24 rounded-lg badge badge-secondary h-9 text-primary-400" style="background-color: #4185F926;">{{data.paymentStatus}} <img class="ml-2" src="/assets/media/icons/open-external-link.svg"></button>
             <button *ngIf="data.paymentStatus== 'Paid' && data.paymentStatus== 'Credited'  " class="flex items-center justify-center w-24 h-9 bg-none">{{data.paymentStatus}}</button>

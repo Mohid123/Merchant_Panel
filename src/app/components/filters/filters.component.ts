@@ -45,6 +45,7 @@ export class FiltersComponent implements OnInit  {
   }
 
   open() {
+    console.log('jkjhjjhg:',);
     this.isOpen = !this.isOpen;;
   }
 
