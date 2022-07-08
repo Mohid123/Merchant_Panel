@@ -61,7 +61,7 @@
                   </div>
                 </div>
                 <button [ngClass]="event?.vouchers.length == 0 || event?.vouchers == [] ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="event?.vouchers.length == 0 || event?.vouchers == []" (click)="event.isCollapsed = !event.isCollapsed">
-                  <i [ngClass]="event.isCollapsed == false ? 'fas fa-chevron-down fa-sm p-1.5': 'fas fa-chevron-up fa-sm p-1.5'" class="bg-gray-100 rounded-md"></i>
+                  <i [ngClass]="!event.isCollapsed ? 'fas fa-chevron-down fa-sm p-1.5': 'fas fa-chevron-up fa-sm p-1.5'" class="bg-gray-100 rounded-md"></i>
                 </button>
               </td>
             </tr>
