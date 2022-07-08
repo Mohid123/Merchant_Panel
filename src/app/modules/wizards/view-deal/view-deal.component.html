@@ -61,12 +61,12 @@
                   </div>
                 </div>
                 <button [ngClass]="event?.vouchers.length == 0 || event?.vouchers == [] ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="event?.vouchers.length == 0 || event?.vouchers == []" (click)="event.isCollapsed = !event.isCollapsed">
-                  <i [ngClass]="event.isCollapsed ? 'fas fa-chevron-down fa-sm p-1.5': 'fas fa-chevron-up fa-sm p-1.5'" class="bg-gray-100 rounded-md"></i>
+                  <i [ngClass]="event.isCollapsed == false ? 'fas fa-chevron-down fa-sm p-1.5': 'fas fa-chevron-up fa-sm p-1.5'" class="bg-gray-100 rounded-md"></i>
                 </button>
               </td>
             </tr>
             <div [ngClass]="index == 6 ? 'hidden': 'block'" id="borderMain"></div>
-            <tr [@slideInOut] *ngIf="!event.isCollapsed" class="z-0 w-full text-center bg-white">
+            <tr [@slideInOut] *ngIf="event.isCollapsed == true" class="z-0 w-full text-center bg-white">
               <td colspan="12">
                 <ng-container *ngFor="let voucher of event?.vouchers; let i = index">
                   <table class="p-4 rounded-lg" style="width: 96%; margin-left: auto; margin-right: auto; margin-bottom: 12px; background-color: #FAFDFF;">
