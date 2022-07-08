@@ -81,8 +81,8 @@
           <td class="pr-4">{{(data.voucherID.toString().length > 30)? ((data.voucherID) | slice:0:30)+'..':(data.voucherID)}}</td>
           <td class="pr-4">{{(data.dealName.length>30) ? ((data.dealName) | slice:0:30)+'..':(data.dealName)}}</td>
           <td class="pr-4"> Voucher {{(data.dealName.length>30)? ((data.dealName) | slice:0:30)+'..':(data.dealName)}}</td>
-          <td class="pr-4 text-right">{{data.amount}}&nbsp;&euro;</td>
-          <td class="pr-4 text-right">{{data.amount}}&nbsp;&euro;</td>
+          <td class="pr-4">{{data.amount}}&nbsp;&euro;</td>
+          <td class="pr-4">{{data.amount}}&nbsp;&euro;</td>
           <td class="pr-4">{{data.status}}</td>
           <td class="pl-4">
             <button *ngIf="data.paymentStatus== 'Paid' ||data.paymentStatus== 'Credited'  " class="flex items-center justify-center w-24 rounded-lg badge badge-secondary h-9 text-primary-400" style="background-color: #4185F926;">{{data.paymentStatus}} <img class="ml-2" src="/assets/media/icons/open-external-link.svg"></button>
