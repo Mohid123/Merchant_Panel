@@ -11,6 +11,24 @@ input.form-control:focus {
   border-color: #7FC0F4;
 }
 
+th {
+  @apply font-semibold text-sm2;
+  color: #545A60;
+}
+
+td {
+  @apply text-sm2;
+  color: #515151;
+}
+
+tr {
+  // width: clac(100% - 2rem);
+}
+
+.active {
+  background: #CCE6FB !important;
+  color:#0081E9 !important;
+}
 
 
 @media (max-width: 600px ) {
@@ -20,7 +38,6 @@ input.form-control:focus {
       overflow-x: scroll;
   }
 
-  th, td {min-width: 200px; }
 }
 
 @media (min-width: 900px ) {

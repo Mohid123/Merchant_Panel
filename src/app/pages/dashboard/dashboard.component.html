@@ -38,35 +38,24 @@
 </ng-container>
 
 <ng-container *ngIf="showData == true">
-  <div class="table-container">
-    <table class="w-full mt-10 rounded-md shadow-md">
-      <tr ngbDropdown placement="bottom-end" id="dropdownBasic1" class="text-center text-gray-600 bg-blue-100 rounded-lg">
-        <th class="p-4 font-semibold text-black">Deals Title</th>
-        <th class="p-4 font-semibold text-black">Start Date</th>
-        <th class="p-4 font-semibold text-black">End Date</th>
-        <th class="p-4 font-semibold text-black">Available</th>
-        <th class="p-4 font-semibold text-black">Sold</th>
-        <th class="p-4 font-semibold text-black">Average</th>
-        <th class="p-4 font-semibold text-black">Status</th>
-      </tr>
-      <ng-container *ngFor="let deal of topDeals; let i = index">
-        <tr class="z-40 w-full text-center text-black bg-white rounded-lg">
-          <td class="flex flex-row items-center justify-start p-4 font-thin">
-            <img class="rounded-full w-7 h-7 lg:rounded-md lg:w-11 lg:h-11 xl:w-11 xl:h-11 xl:rounded-md 3xl:w-11 3xl:h-11 3xl:rounded-md" [src]="deal.mediaUrl">
-            <span class="ml-3">{{deal.dealHeader}}</span>
-          </td>
-          <td class="p-4 font-thin">{{deal.startDate | date}}</td>
-          <td class="p-4 font-thin">{{deal.endDate | date}}</td>
-          <td class="p-4 font-thin">{{deal.ratingsAverage}}</td>
-          <td class="p-4 font-thin">{{deal.maxRating}}</td>
-          <td class="p-4 font-thin">{{deal.minRating}}</td>
-           <ng-container *ngIf="deal.dealStatus == 'In Review'"></ng-container>
-           <td class="p-4 font-thin">
-            <span class="px-4 py-3 bg-yellow-500 badge rounded-2xl opacity-80">Pending</span>
-          </td>
-          <!-- <ng-container *ngIf="deal.dealStatus == ''"></ng-container> -->
+  <div class="mt-4 table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
+    <table class="w-full">
+      <thead ngbDropdown display="dynamic" id="dropdownBasic2" class="text-left text-black bg-white border-b-2 border-gray-200 border-dotted rounded-lg h-14 ">
+        <th class="p-4 font-semibold cursor-pointer">Deal ID</th>
+        <th class="p-4 font-semibold cursor-pointer">Deal header</th>
+        <th class="p-4 font-semibold cursor-pointer">Status</th>
+        <th class="p-4 font-semibold cursor-pointer">Voucher sold</th>
+        <th class="p-4 font-semibold cursor-pointer">Total net earnings</th>
+      </thead>
+      <!-- <ng-container *ngFor="let data of ordersData?.data; let i = index;"> -->
+        <tr class="z-40 h-16 text-gray-700 bg-white rounded-lg">
+          <td class="p-4">D12345678</td>
+          <td class="p-4">Heavenly massage</td>
+          <td class="p-4">Published</td>
+          <td class="p-4">300</td>
+          <td class="pr-6 text-center">250&nbsp;&euro;</td>
         </tr>
-      </ng-container>
+      <!-- </ng-container> -->
     </table>
   </div>
 </ng-container>
