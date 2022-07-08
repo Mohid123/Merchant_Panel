@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { FiltersModule } from '@components/filters/filters.module';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
 import { TimeformatePipe } from '@core/pipes/timeformate.pipe';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -37,6 +38,7 @@ import { Step4Component } from './steps/step4/step4.component';
 import { Step5Component } from './steps/step5/step5.component';
 import { VerticalComponent } from './vertical/vertical.component';
 import { PopoverWrapperComponent, ViewDealComponent } from './view-deal/view-deal.component';
+// import { ViewDealComponent } from './view-deal/view-deal.component';
 import { WizardsComponent } from './wizards.component';
 
 
@@ -89,6 +91,7 @@ FullCalendarModule.registerPlugins([
     LayoutModule,
     DragAnDropUploadModule,
     MaxLengthModule,
+    FiltersModule
   ],
   entryComponents: [PopoverWrapperComponent],
   providers: [

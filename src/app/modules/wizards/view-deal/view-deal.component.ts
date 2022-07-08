@@ -1,9 +1,11 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { NgbDate, NgbDropdown, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbDropdown, NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
@@ -11,6 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { Deals, MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
+import { GreaterThanValidator } from '../greater-than.validator';
 import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ConnectionService } from './../services/connection.service';
@@ -33,7 +36,18 @@ export class PopoverWrapperComponent {
   selector: 'app-view-deal',
   templateUrl: './view-deal.component.html',
   styleUrls: ['./view-deal.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({transform: 'translateY(-100%)'}),
+        animate('225ms ease-in-out', style({transform: 'translateY(0%)'}))
+      ]),
+      transition(':leave', [
+        animate('325ms ease-in-out', style({transform: 'translateY(-100%)', opacity: '0'}))
+      ])
+    ])
+  ]
 })
 
 export class ViewDealComponent implements OnInit, OnDestroy {
@@ -81,6 +95,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   status: string;
   page: number;
   dealData: Deals | any;
+  selectedIndex: any;
+  editVouchers: FormGroup;
+  clickInfo: any;
 
   statusTypes = [
     {
@@ -127,7 +144,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   };
 
   newData : any[] = [];
-  @ViewChild('fullCalendar') fullCalendar: FullCalendarComponent
+  @ViewChild('fullCalendar') fullCalendar: FullCalendarComponent;
+  @ViewChild('modal2') private modal2: TemplateRef<any>
 
 
   constructor(
@@ -138,7 +156,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private dealService: DealService,
     private cf: ChangeDetectorRef,
-    private toast: HotToastService
+    private toast: HotToastService,
+    private fb: FormBuilder,
+    private modalService: NgbModal
   ) {
       this.page = 1
       this.fromDate = '';
@@ -148,7 +168,57 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getDealsByMerchantID();
+    this.initEditVouchers();
   }
+
+  initEditVouchers() {
+    this.editVouchers = this.fb.group({
+      originalPrice: [
+        '',
+        Validators.compose([
+        Validators.required,
+        ]),
+      ],
+      dealPrice: [
+        ''
+      ],
+      numberOfVouchers: [
+        '0',
+        Validators.compose([
+        Validators.required,
+        Validators.min(1)
+        ])
+      ],
+      subTitle: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9 ]+')
+        ])
+      ],
+      discountPercentage: [
+        0
+      ]
+      }, {
+        validator: GreaterThanValidator('originalPrice', 'dealPrice')
+    })
+  }
+
+  editHandlePlus() {
+    this.editVouchers.patchValue({
+      numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) + 1
+    });
+  }
+
+  editHandleMinus() {
+    if(this.editVouchers.controls['numberOfVouchers'].value >= 1) {
+      this.editVouchers.patchValue({
+        numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) - 1
+      });
+    }
+  }
+
+
 
   getDealsByMerchantID() {
     this.showData = false;
@@ -168,21 +238,63 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.currentEvents = res.data.data;
         this.showData = true;
         this.cf.detectChanges();
-        this.calendarOptions.events = res.data.data.map((item:MainDeal) => {
+        this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
+          if(item.dealStatus == 'InComplete') {
+            return {
+              title: item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#00FF00',
+              borderColor: '#00FF00',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
           if(item.dealStatus == 'In Review') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#F59E0B',
-              borderColor: '#F59E0B'
+              borderColor: '#F59E0B',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
             }
           }
           if(item.dealStatus == 'Published') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
-              end: moment(item.endDate).format('YYYY-MM-DD')
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
             }
           }
           if(item.dealStatus == 'Scheduled') {
@@ -191,7 +303,18 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
-              borderColor: '#10B981'
+              borderColor: '#10B981',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
             }
           }
           if(item.dealStatus == 'Bounced') {
@@ -200,7 +323,18 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#EF4444',
-              borderColor: '#EF4444'
+              borderColor: '#EF4444',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
             }
           }
         })
@@ -361,12 +495,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   next():void {
-    this.page++;
-    this.getDealsByMerchantID();
-  }
-
-  previous():void {
-    this.page--;
+    this.page;
     this.getDealsByMerchantID();
   }
 
@@ -393,13 +522,14 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    // if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-    //   clickInfo.event.remove();
-    // }
-    console.log('clickInfo:',clickInfo);
-    // this.openPopover(clickInfo);
-    this.showPopover(clickInfo)
-
+    this.clickInfo = clickInfo.event;
+    return this.modalService.open(this.modal2, {
+      centered: true,
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false,
+      modalDialogClass: 'modal-xl'
+    });
   }
 
 
@@ -407,7 +537,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.currentEvents = events;
   }
 
-  async openNew(event:any) {
+  async openNew(index: any, editIndex: any) {
+    this.selectedIndex = index;
+    this.editVouchers.patchValue(this.currentEvents[index].vouchers[editIndex])
     return await this.modal.open();
   }
 
