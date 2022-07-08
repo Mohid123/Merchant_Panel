@@ -241,7 +241,7 @@
   </div>
 </app-reusable-modal>
 
-<!-- <ng-template #modal2>
+<ng-template #modal2>
   <div class="flex justify-between border-white modal-header">
     <img [src]="clickInfo?._def.extendedProps.img" class="object-cover mr-3 rounded-md" style="width: 11.188rem; height: 6.25rem;">
     <div class="flex flex-col justify-evenly">
@@ -285,7 +285,7 @@
   </ng-container>
 
 
-</ng-template> -->
+</ng-template>
 
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">
   <ng-container *ngIf="control?.hasError(validation) && (control.dirty || control.touched)">

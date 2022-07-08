@@ -128,9 +128,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: 3,
-    moreLinkClick: 'popover',
+    // moreLinkClick: 'popover',
     // select: this.handleDateSelect.bind(this),
-    // eventClick: this.showPopover.bind(this),
+    eventClick: this.handleEventClick.bind(this),
     // eventsSet: this.handleEvents.bind(this),
     // eventDidMount: this.renderTooltip.bind(this),
     // eventWillUnmount: this.destroyTooltip.bind(this),
@@ -543,8 +543,18 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     return await this.modal.open();
   }
 
+  async openCalendarNew(index: any) {
+    this.editVouchers.patchValue(this.clickInfo._def.extendedProps.vouchers[index]);
+    return await this.modal.open();
+  }
+
   async closeModal() {
+    this.editVouchers.reset();
     return await this.modal.close();
+  }
+
+  async closeModal2() {
+    return this.modalService.dismissAll();
   }
 
   resetFilters() {
