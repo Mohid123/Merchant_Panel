@@ -37,7 +37,7 @@
            <ng-container *ngFor="let event of currentEvents; let index = index">
             <tr class="text-left text-gray-600 bg-white rounded-lg">
               <td class="py-4 text-left pl-14">{{event.dealID}}</td>
-              <td class="p-4 text-left">{{event.subTitle}}</td>
+              <td class="p-4 text-left">{{(event.subTitle.length>30) ? ((event.subTitle) | slice:0:30)+'..':(event.subTitle)}}</td>
               <td class="p-4 text-left">{{event.dealStatus}}</td>
               <td class="p-4">{{event.soldVouchers}}</td>
               <td class="p-4 text-center">{{event.ratingsAverage}} &euro;</td>
@@ -83,7 +83,7 @@
                     </thead>
                     <tbody class="relative">
                       <tr class="text-left text-gray-600 rounded-lg">
-                        <td class="py-4 text-sm pl-11">{{voucher.subTitle}}</td>
+                        <td class="py-4 text-sm pl-11">{{(voucher.subTitle.length>24) ? ((voucher.subTitle) | slice:0:24)+'..':(voucher.subTitle)}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.voucherValidity}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.numberOfVouchers}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.dealPrice}}</td>

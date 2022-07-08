@@ -110,6 +110,7 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
       size: 'xl',
       backdrop: 'static',
       keyboard: false,
+      modalDialogClass: 'extra-large'
     });
   }
 
