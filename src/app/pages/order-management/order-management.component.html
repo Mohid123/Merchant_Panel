@@ -77,7 +77,7 @@
         <th class="font-semibold cursor-pointer w-36">Invoice status&nbsp; <app-filters></app-filters></th>
       </thead>
       <ng-container *ngFor="let data of ordersData?.data; let i = index;">
-        <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dashed rounded-lg">
+        <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
           <td class="pr-4">{{(data.voucherID.toString().length > 30)? ((data.voucherID) | slice:0:30)+'..':(data.voucherID)}}</td>
           <td class="pr-4">{{(data.dealName.length>30) ? ((data.dealName) | slice:0:30)+'..':(data.dealName)}}</td>
           <td class="pr-4"> Voucher {{(data.dealName.length>30)? ((data.dealName) | slice:0:30)+'..':(data.dealName)}}</td>

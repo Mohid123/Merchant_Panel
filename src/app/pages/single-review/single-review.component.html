@@ -72,7 +72,7 @@
               </div>
             </td>
             <td>
-              <button (click)="openReviewModal()" class="px-6 py-2 text-sm font-semibold text-blue-400 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
+              <button (click)="openReviewModal()" class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
             </td>
           </tr>
         <!-- </ng-container> -->
@@ -129,7 +129,7 @@
   </div>
 
   <div class="py-4">
-    <span class="px-10 font-bold" style="font-size: 20px;">Ratings</span>
+    <span class="px-10 font-bold" style="font-size: 20px; color: #060606;">Ratings</span>
   </div>
 
   <div class="flex justify-start w-full px-10 py-2">
@@ -208,12 +208,12 @@
   </div>
 
   <div class="py-4">
-    <span class="px-10 font-bold" style="font-size: 20px;">Review</span>
+    <span class="px-10 font-bold" style="font-size: 20px; color: #060606;">Review</span>
   </div>
 
   <div class="flex justify-start px-10 pb-3">
     <span class="py-5 text-lg font-semibold text-center text-white rounded-full px-7" style="background-color: #1D1D29;">{{Substring}}</span>
-    <span class="px-6 text-sm">{{loremIpsum}}</span>
+    <span style="color: #515151" class="px-6 text-sm">{{loremIpsum}}</span>
   </div>
 
   <div *ngIf="switchToReply == false" class="px-32 pb-32">
@@ -236,7 +236,7 @@
 
   <div class="flex justify-start px-32 pb-8" *ngIf="replyView == true">
     <span class="w-16 h-12 pt-3 text-base font-semibold text-center text-black" style="background-color: #E2F1FC; border-radius: 100%;">{{CompanyName}}</span>
-    <span class="px-6 text-sm"><span class="text-lg">Company name</span><br>{{semiLorem}}</span>
+    <span style="color: #515151" class="px-6 text-sm"><span class="text-lg">Company name</span><br>{{semiLorem}}</span>
   </div>
 
 </ng-template>

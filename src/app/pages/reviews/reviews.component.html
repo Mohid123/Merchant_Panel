@@ -70,12 +70,12 @@
                 <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 4 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <span class="pt-1 ml-2 text-black">{{data.ratingsAverage}}</span>
+                <span class="pt-1 ml-3" style="color: #515151;">{{data.ratingsAverage}}</span>
               </div>
             </td>
             <td>
               <button [disabled]="data.totalReviews == 0" [routerLink]="['/single-review/', data._id]"
-              class="px-6 py-2 text-sm font-semibold text-blue-400 bg-blue-100 rounded-md"
+              class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md"
               [ngClass]="data.totalReviews == 0 ? 'opacity-50': 'hover:bg-blue-600 hover:text-white'">View</button>
             </td>
           </tr>

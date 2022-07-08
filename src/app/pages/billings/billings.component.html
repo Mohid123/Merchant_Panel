@@ -78,7 +78,7 @@
         <th class="w-full pr-12 ml-auto font-semibold text-right cursor-pointer xl:w-1/4 xl:max-w-unset max-w-72">Actions&nbsp;</th>
       </thead>
       <ng-container *ngFor="let data of billingsData?.data">
-        <tr class="z-40 flex items-center h-16 text-left text-gray-700 bg-white" style="border-bottom: 0.5px dashed #70707047;">
+        <tr class="z-40 flex items-center h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted">
           <td class="w-full pr-4 xl:w-1/4 xl:max-w-unset max-w-68">{{(data.invoiceNo.toString().length > 30 )? ((data.invoiceNo) | slice:0:30)+'...':(data.invoiceNo)}}</td>
           <td class="w-full pr-4 xl:w-1/4 xl:max-w-unset max-w-68">{{data.invoiceDate | date:"dd-MM-YYYY"}}</td>
           <td class="text-right xl:w-1/4 xl:max-w-unset min-w-36 "><span>{{data.invoiceAmount}} &euro;</span></td>
