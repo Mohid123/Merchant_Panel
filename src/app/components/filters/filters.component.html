@@ -25,19 +25,23 @@
     </ng-container>
     <ng-container *ngIf="options">
       <div class="flex flex-col options checkbox">
+        <label class="h-6 mb-2 checkbox checkbox-square">
+          <input [checked]="allSelected" (change)="checkAllCheckBox()" type="checkbox" name="options" class="mr-2.5">
+          <span></span>Select all
+        </label>
         <ng-container *ngFor="let option of optionsList">
           <label class="h-6 mb-2 checkbox checkbox-square">
-          <input type="checkbox" name="options" class="mr-2.5">
+          <input [checked]="option.checked" (change)="checkBoxClick(option.id, option.checked)" type="checkbox" name="options" class="mr-2.5">
           <span></span>{{option.value}}
         </label>
         </ng-container>
       </div>
     </ng-container>
     <div class="flex justify-between gap-3">
-      <button class="text-sm apply">
+      <button class="text-sm apply" type="submit" (click)="filterData()">
         <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
       </button>
-      <button class="clear">
+      <button type="button" (click)="clear()" class="clear">
         Clear
       </button>
     </div>

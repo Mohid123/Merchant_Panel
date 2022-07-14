@@ -81,6 +81,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   currentEvents: any;
+  filteredResult: any;
   showData: boolean;
   offset: number = 0;
   limit: number = 7;
@@ -98,6 +99,10 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   selectedIndex: any;
   editVouchers: FormGroup;
   clickInfo: any;
+  dealID: string[] = [];
+  header: string[] = [];
+  dealStatus: string[] = [];
+  dealIDs : string[] = [];
 
   statusTypes = [
     {
@@ -218,19 +223,16 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   getDealsByMerchantID() {
     this.showData = false;
     const params: any = {
       title: this.title,
-      status: this.status,
       startDate: this.startDate,
       endDate: this.endDate,
       dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
       dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
     }
-    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, params)
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: any)=> {
       if (!res.hasErrors()) {
@@ -406,10 +408,161 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   filterByStatus(status: string) {
-    debugger
     this.offset = 0;
     this.status = status;
     this.getDealsByMerchantID();
+  }
+
+  filterByDealID(dealID: string[]) {
+    this.page = 1;
+    this.offset = 0;
+    this.dealID = dealID;
+    const params: any = {}
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+      this.cf.detectChanges();
+       this.filteredResult = res.data.data.map((filtered: MainDeal) => {
+        return {
+          id: filtered.id,
+          value: filtered.dealID
+        }
+       })
+       this.cf.detectChanges();
+      }
+    })
+  }
+
+
+  filterSelectedDeal(dealID: any) {
+    this.showData = false;
+    this.dealIDs.push(dealID);
+    console.log(this.dealIDs)
+    debugger
+    const params: any = {
+      title: this.title,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
+      dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime(),
+      dealIDsArray: this.dealIDs,
+      dealHeaderArray: [],
+      dealStatusArray: []
+    }
+    debugger
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: any)=> {
+      debugger
+      if (!res.hasErrors()) {
+        this.dealData = res.data;
+        this.currentEvents = res.data.data;
+        console.log(this.currentEvents)
+        this.showData = true;
+        this.cf.detectChanges();
+        this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
+          if(item.dealStatus == 'Draft') {
+            return {
+              title: item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#00FF00',
+              borderColor: '#00FF00',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
+          if(item.dealStatus == 'In Review') {
+            return {
+              title:item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#F59E0B',
+              borderColor: '#F59E0B',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
+          if(item.dealStatus == 'Published') {
+            return {
+              title:item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
+          if(item.dealStatus == 'Scheduled') {
+            return {
+              title:item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#10B981',
+              borderColor: '#10B981',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
+          if(item.dealStatus == 'Bounced') {
+            return {
+              title:item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#EF4444',
+              borderColor: '#EF4444',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
+        })
+      }
+    })
   }
 
   onDateSelection(date: NgbDate) {

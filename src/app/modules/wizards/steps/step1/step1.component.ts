@@ -191,7 +191,7 @@ export class Step1Component implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.pattern('^[a-zA-Z0-9 ]+')
+          Validators.pattern('^[a-zA-Z0-9., ]+')
         ]),
       ],
       subTitle: [
