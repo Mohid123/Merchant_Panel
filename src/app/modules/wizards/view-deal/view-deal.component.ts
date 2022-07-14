@@ -236,6 +236,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
       if (!res.hasErrors()) {
         this.dealData = res.data;
         this.currentEvents = res.data.data;
+        console.log(this.currentEvents)
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {

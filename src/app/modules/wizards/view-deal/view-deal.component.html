@@ -25,13 +25,14 @@
       <div class="pt-6 mt-10 bg-white rounded-md shadow-sm table-container">
         <table class="w-full">
           <thead class="relative">
-            <tr class="text-left text-gray-700 bg-white rounded-lg my-border">
+            <tr class="text-left text-gray-700 bg-white rounded-lg">
               <th class="py-4 font-semibold text-main pl-14">Deal ID &nbsp;<app-filters></app-filters></th>
               <th class="p-4 font-semibold text-main">Deal header &nbsp;<app-filters></app-filters></th>
               <th class="p-4 font-semibold text-main">Status &nbsp;<app-filters></app-filters></th>
               <th class="p-4 font-semibold text-main">Voucher sold</th>
               <th class="p-4 font-semibold text-main">Total net earnings</th>
             </tr>
+            <div id="borderBottomMain"></div>
           </thead>
           <tbody class="relative">
            <ng-container *ngFor="let event of currentEvents; let index = index">
@@ -245,7 +246,7 @@
   <div class="flex justify-between border-white modal-header">
     <img [src]="clickInfo?._def.extendedProps.img" class="object-cover mr-3 rounded-md" style="width: 11.188rem; height: 6.25rem;">
     <div class="flex flex-col justify-evenly">
-      <span class="text-lg font-semibold max-w-54 pb-7">{{(clickInfo?.title.length>30) ? ((clickInfo?.title) | slice:0:30)+'..':(clickInfo?.title)}}</span>
+      <span class="text-lg font-semibold max-w-54 pb-7">{{(clickInfo?.title.length>20) ? ((clickInfo?.title) | slice:0:20)+'..':(clickInfo?.title)}}</span>
       <div class="flex pt-5 justify-evenly">
         <span class="text-sm text-gray-600">Publish from&nbsp; <span class="mr-3 text-sm font-semibold text-black">{{clickInfo?.start | date: 'dd-MM-yyyy'}}</span></span>
         <span class="text-sm text-gray-600">Validity&nbsp; <span class="text-sm font-semibold text-black">{{clickInfo?.end | date: 'dd-MM-yyyy'}}</span></span>
