@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { DealService } from '@core/services/deal.service';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -30,7 +29,7 @@ export class FiltersComponent implements OnInit  {
   ];
 
 
-  constructor(private cf: ChangeDetectorRef, private dealService: DealService) { }
+  constructor(private cf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.formCtrlSub = this.searchControl.valueChanges.pipe(debounceTime(600))
@@ -45,7 +44,6 @@ export class FiltersComponent implements OnInit  {
   }
 
   filterData() {
-    this.searchControl = new FormControl();
     this.optionsList.forEach((x: any) => {
       if(x.checked) {
         this.sendFilter.emit(x.value);
@@ -65,7 +63,7 @@ export class FiltersComponent implements OnInit  {
 
   clear() {
     this.optionsList = [];
-    this.searchControl = new FormControl()
+    this.searchControl.setValue(null);
   }
 
   open() {

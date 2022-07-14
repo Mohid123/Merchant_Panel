@@ -32,33 +32,28 @@ export class DealService extends ApiService<deal> {
     return this.get(`/deal/getSalesStatistics`);
   }
 
-  getDeals(page: number, merchantID: string | any, offset: any, limit: any, dealID: string[], header: string[], dealStatus: string[], data: {
-    title: string;
-    price: string;
-    startDate: string;
-    endDate: string;
-    dateFrom: number;
-    dateTo: number;
-    status: string;
-    dealID: string[];
-    header: string[];
-    dealStatus: string[];
-  }): Observable<ApiResponse<deal>> {
+  getDeals(
+    page: number,
+    merchantID: string | any,
+    offset: any,
+    limit: any,
+    dealID: string[],
+    header: string[],
+    dealStatus: string[],
+    data: {
+      dealIDsArray: string[];
+      dealHeaderArray: string[];
+      dealStatusArray: string[];
+    }): Observable<ApiResponse<deal>> {
     page--;
     const param: any = {
-      offset: page ? limit * page : 0,
-      limit: limit,
       dealIDsArray: [],
       dealHeaderArray: [],
       dealStatusArray: []
     }
-    if(data.title) param.title = data.title;
-    if(data.price) param.price = data.price;
-    if(data.startDate) param.startDate = data.startDate;
-    if(data.endDate) param.endDate = data.endDate;
-    if(data.dateFrom) param.dateFrom = data.dateFrom;
-    if(data.dateTo) param.dateTo = data.dateTo;
-    if(data.status) param.status = data.status;
+    if(data.dealIDsArray) param.dealIDsArray = data.dealIDsArray;
+    if(data.dealHeaderArray) param.dealHeaderArray = data.dealHeaderArray;
+    if(data.dealStatusArray) param.dealStatusArray = data.dealStatusArray;
     return this.post(`/deal/getDealsByMerchantID/${merchantID}?dealID=${dealID}&header=${header}&dealStatus=${dealStatus}&offset=${offset}&limit=${limit}`, param);
   }
 

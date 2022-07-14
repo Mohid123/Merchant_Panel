@@ -104,6 +104,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   dealStatus: string[] = [];
   dealIDs : string[] = [];
 
+
   statusTypes = [
     {
       status: 'Published'
@@ -426,7 +427,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
        this.filteredResult = res.data.data.map((filtered: MainDeal) => {
         return {
           id: filtered.id,
-          value: filtered.dealID
+          value: filtered.dealID,
+          checked: false
         }
        })
        this.cf.detectChanges();
@@ -435,11 +437,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
 
-  filterSelectedDeal(dealID: any) {
+  filterSelectedDeal(options: any) {
     this.showData = false;
-    this.dealIDs.push(dealID);
-    console.log(this.dealIDs)
-    debugger
+    this.dealIDs.push(options);
     const params: any = {
       title: this.title,
       startDate: this.startDate,
@@ -450,15 +450,12 @@ export class ViewDealComponent implements OnInit, OnDestroy {
       dealHeaderArray: [],
       dealStatusArray: []
     }
-    debugger
     this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: any)=> {
-      debugger
       if (!res.hasErrors()) {
         this.dealData = res.data;
         this.currentEvents = res.data.data;
-        console.log(this.currentEvents)
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
