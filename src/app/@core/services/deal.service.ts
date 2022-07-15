@@ -37,24 +37,18 @@ export class DealService extends ApiService<deal> {
     merchantID: string | any,
     offset: any,
     limit: any,
-    dealID: string[],
-    header: string[],
-    dealStatus: string[],
+    dealID: string,
+    header: string,
+    dealStatus: string,
     data: {
       dealIDsArray: string[];
       dealHeaderArray: string[];
       dealStatusArray: string[];
     }): Observable<ApiResponse<deal>> {
     page--;
-    const param: any = {
-      dealIDsArray: [],
-      dealHeaderArray: [],
-      dealStatusArray: []
-    }
-    if(data.dealIDsArray) param.dealIDsArray = data.dealIDsArray;
-    if(data.dealHeaderArray) param.dealHeaderArray = data.dealHeaderArray;
-    if(data.dealStatusArray) param.dealStatusArray = data.dealStatusArray;
-    return this.post(`/deal/getDealsByMerchantID/${merchantID}?dealID=${dealID}&header=${header}&dealStatus=${dealStatus}&offset=${offset}&limit=${limit}`, param);
+    offset = page ? limit * page : 0,
+    limit = limit
+    return this.post(`/deal/getDealsByMerchantID/${merchantID}?dealID=${dealID}&header=${header}&dealStatus=${dealStatus}&offset=${offset}&limit=${limit}`, data);
   }
 
   deleteDeal(dealID: string): Observable<ApiResponse<any>> {

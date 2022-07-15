@@ -44,11 +44,11 @@ export class FiltersComponent implements OnInit  {
   }
 
   filterData() {
-    this.optionsList.forEach((x: any) => {
-      if(x.checked) {
-        this.sendFilter.emit(x.value);
-      }
-    })
+    let filters = {
+      filterData : this.optionsList.filter(x => x.checked).map(x => x.value),
+      sortByAscending: true
+    }
+    this.sendFilter.emit(filters);
   }
 
   checkAllCheckBox() {

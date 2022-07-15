@@ -26,8 +26,8 @@
         <table class="w-full">
           <thead class="relative">
             <tr class="text-left text-gray-700 bg-white rounded-lg">
-              <th class="py-4 font-semibold text-main pl-14">Deal ID &nbsp;<app-filters (sendFilter)="filterSelectedDeal($event)" [optionsList]="filteredResult" (searchItem)="filterByDealID($event)" [options]="true" [search]="true" [searchBy]="'ID'"></app-filters></th>
-              <th class="p-4 font-semibold text-main">Deal header &nbsp;<app-filters></app-filters></th>
+              <th class="py-4 font-semibold text-main pl-14">Deal ID &nbsp;<app-filters (sendFilter)="filterSelectedDealByID($event)" [optionsList]="filteredResult" (searchItem)="filterByDealID($event)" [options]="true" [search]="true" [searchBy]="'ID'"></app-filters></th>
+              <th class="p-4 font-semibold text-main">Deal header &nbsp;<app-filters (sendFilter)="filterSelectedDealByHeader($event)" [search]="true" [sort]="true" [searchBy]="'deal name'" [options]="true" (searchItem)="filterByDealHeader($event)" [optionsList]="filteredHeader"></app-filters></th>
               <th class="p-4 font-semibold text-main">Status &nbsp;<app-filters></app-filters></th>
               <th class="p-4 font-semibold text-main">Voucher sold</th>
               <th class="p-4 font-semibold text-main">Total net earnings</th>
