@@ -21,7 +21,7 @@ export class ReviewsService extends ApiService<review> {
       offset: page ? limit * page : 0,
       limit: limit
     }
-    return this.get(`/deal/getDealsReviewStatsByMerchant/${merchantID}`, params);
+    return this.get(`/review/getReviewsByMerchant/${merchantID}`, params);
   }
 
   getDealReviews(dealID: string, offset: any, limit: any, data: {

@@ -40,15 +40,18 @@ export class DealService extends ApiService<deal> {
     dealID: string,
     header: string,
     dealStatus: string,
+    dealHeader: string,
     data: {
       dealIDsArray: string[];
       dealHeaderArray: string[];
       dealStatusArray: string[];
-    }): Observable<ApiResponse<deal>> {
+    }
+    ): Observable<ApiResponse<deal>> {
     page--;
-    offset = page ? limit * page : 0,
-    limit = limit
-    return this.post(`/deal/getDealsByMerchantID/${merchantID}?dealID=${dealID}&header=${header}&dealStatus=${dealStatus}&offset=${offset}&limit=${limit}`, data);
+    offset = page ? limit * page : 0;
+    limit = limit;
+    dealHeader = dealHeader;
+    return this.post(`/deal/getDealsByMerchantID/${merchantID}?dealHeader=${dealHeader}&dealID=${dealID}&header=${header}&dealStatus=${dealStatus}&offset=${offset}&limit=${limit}`, data);
   }
 
   deleteDeal(dealID: string): Observable<ApiResponse<any>> {
@@ -59,6 +62,12 @@ export class DealService extends ApiService<deal> {
 
   getDealByID(dealID: string): Observable<ApiResponse<any>> {
     return this.get(`/deal/getDeal/${dealID}`).pipe(tap((res: any) => {
+      console.log(res);
+    }))
+  }
+
+  updateVoucher(dealID: string, voucher: any): Observable<ApiResponse<any>> {
+    return this.post(`/deal/updateDeal/${dealID}`, voucher).pipe(tap((res: any) => {
       console.log(res);
     }))
   }

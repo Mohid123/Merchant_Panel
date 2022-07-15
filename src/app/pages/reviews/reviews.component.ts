@@ -36,11 +36,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   getReviewsByMerchant() {
     this.showData = false;
-
     this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.currentUserValue?.id, this.offset, this.limit)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<ReviewList>) => {
-
       if(!res.hasErrors()) {
         this.reviewsData = res.data;
         this.showData = true;
@@ -51,11 +49,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   next():void {
     this.page;
-    this.getReviewsByMerchant();
-  }
-
-  previous():void {
-    this.page--;
     this.getReviewsByMerchant();
   }
 

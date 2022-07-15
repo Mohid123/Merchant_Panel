@@ -13,6 +13,7 @@ export class FiltersComponent implements OnInit  {
   isOpen = false;
   allSelected = false;
   formCtrlSub: Subscription;
+  @Output() sortHeader = new EventEmitter();
   @Output() sendFilter = new EventEmitter();
   @Output() searchItem = new EventEmitter();
   @Input() sort = false;
@@ -39,14 +40,14 @@ export class FiltersComponent implements OnInit  {
     });
   }
 
-  filterBySort() {
-
+  filterBySort(sortHeader: string) {
+    this.sortHeader.emit(sortHeader);
   }
 
   filterData() {
     let filters = {
       filterData : this.optionsList.filter(x => x.checked).map(x => x.value),
-      sortByAscending: true
+      sortByAscending: 'Ascending'
     }
     this.sendFilter.emit(filters);
   }
@@ -63,13 +64,11 @@ export class FiltersComponent implements OnInit  {
 
   clear() {
     this.optionsList = [];
-    this.searchControl.setValue(null);
+    this.allSelected = false;
   }
 
   open() {
     this.isOpen = !this.isOpen;
   }
-
-
 
 }

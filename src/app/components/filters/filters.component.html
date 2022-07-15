@@ -8,10 +8,10 @@
   <div class="dropdown" ngbDropdownMenu aria-labelledby="dropdown">
     <div class="px-4 py-2 dropdown-container min-w-50">
       <ng-container *ngIf="sort">
-        <button class="text-sm" ngbDropdownItem (click)="filterBySort()">
+        <button class="text-sm" ngbDropdownItem (click)="filterBySort('Ascending')">
         Sort A <i class="fas fa-long-arrow-alt-right"></i> Z
       </button>
-      <button class="text-sm" ngbDropdownItem (click)="filterBySort()">
+      <button class="text-sm" ngbDropdownItem (click)="filterBySort('Descending')">
         Sort Z <i class="fas fa-long-arrow-alt-right"></i> A
       </button>
     </ng-container>

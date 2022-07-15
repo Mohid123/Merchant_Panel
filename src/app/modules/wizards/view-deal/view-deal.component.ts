@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/modules/auth';
 import { Deals, MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { GreaterThanValidator } from '../greater-than.validator';
+import { Vouchers } from '../models/vouchers.model';
 import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ConnectionService } from './../services/connection.service';
@@ -83,6 +84,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   currentEvents: any;
   filteredResult: any;
   filteredHeader: any;
+  filteredStatus: any;
   showData: boolean;
   offset: number = 0;
   limit: number = 7;
@@ -91,7 +93,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   toDate: NgbDate | any = null;
   startDate: string;
   endDate: string;
-  title: string;
+  title: string = '';
   price: string;
   destroy$ = new Subject();
   status: string;
@@ -106,6 +108,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   dealIDsFilters : any;
   dealHeadersFilters: any;
   dealStatusesFilters: any;
+  voucherId: string;
+  dealIDForEdit: string;
+  voucherIndex: any;
 
 
   statusTypes = [
@@ -230,7 +235,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   getDealsByMerchantID() {
     this.showData = false;
     const params: any = {}
-    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, params)
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: any)=> {
       if (!res.hasErrors()) {
@@ -364,15 +369,10 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.getDealsByMerchantID();
   }
 
-  filterByTitle(title: string) {
-    this.offset = 0;
-    if(this.title == '' || this.title == 'Descending') {
-      this.title = 'Ascending'
-    }
-    else {
-      this.title = title;
-    }
-    this.getDealsByMerchantID();
+  filterByTitle(title: any) {
+    this.limit = 7;
+    this.title = title;
+    this.applyFilters();
   }
 
   filterByDate(startDate: number, endDate: number) {
@@ -411,11 +411,10 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   filterByDealID(dealID: string) {
-    this.page = 1;
     this.offset = 0;
     this.dealID = dealID;
     const params: any = {}
-    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, params)
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
@@ -433,11 +432,10 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   filterByDealHeader(header: string) {
-    this.page = 1;
     this.offset = 0;
     this.header = header;
     const params: any = {}
-    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, params)
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
@@ -454,6 +452,26 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     })
   }
 
+  filterByDealStatus(status: string) {
+    this.offset = 0;
+    this.dealStatus = status;
+    const params: any = {}
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+      this.cf.detectChanges();
+       this.filteredStatus = res.data.data.map((filtered: MainDeal) => {
+        return {
+          id: filtered.id,
+          value: filtered.dealStatus,
+          checked: false
+        }
+       })
+       this.cf.detectChanges();
+      }
+    })
+  }
 
   filterSelectedDealByID(options: any) {
     this.showData = false;
@@ -475,12 +493,11 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   applyFilters(){
     const params: any = {
-      dealIDsArray: this.dealIDsFilters?.filterData || [],
-      dealHeaderArray: this.dealHeadersFilters?.filterData || [],
-      dealStatusArray: this.dealStatusesFilters?.filterData || []
+      dealIDsArray: this.dealIDsFilters?.filterData ? this.dealIDsFilters?.filterData : [],
+      dealHeaderArray: this.dealHeadersFilters?.filterData ? this.dealHeadersFilters?.filterData : [],
+      dealStatusArray: this.dealStatusesFilters?.filterData ? this.dealStatusesFilters?.filterData : []
     }
-    debugger
-    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, params)
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', this.title, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: any) => {
       if (!res.hasErrors()) {
@@ -720,8 +737,37 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   async openNew(index: any, editIndex: any) {
     this.selectedIndex = index;
+    this.voucherIndex = editIndex;
+    this.dealIDForEdit = this.currentEvents[index].id;
+    // console.log('dealID: ', this.dealIDForEdit)
+    this.voucherId = this.currentEvents[index].vouchers[editIndex]?._id;
+    // console.log('voucherID: ', this.voucherId);
     this.editVouchers.patchValue(this.currentEvents[index].vouchers[editIndex])
     return await this.modal.open();
+  }
+
+  saveEditVoucherOnListView() {
+    const voucher: Vouchers = {
+      voucherID: this.voucherId,
+      subTitle: this.editVouchers.get('subTitle')?.value,
+      originalPrice: this.editVouchers.get('originalPrice')?.value,
+      dealPrice: this.editVouchers.get('dealPrice')?.value,
+      numberOfVouchers: this.editVouchers.get('numberOfVouchers')?.value
+    }
+    this.dealService.updateVoucher(this.dealIDForEdit, {vouchers: voucher})
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.toast.success('Voucher updated!');
+        this.modal.close().then(() => {
+          this.getDealsByMerchantID();
+        });
+      }
+      else {
+        this.toast.error(res.errors[0].error.message);
+        this.modal.close();
+      }
+    })
   }
 
   async openCalendarNew(index: any) {
@@ -739,10 +785,12 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   resetFilters() {
-    this.offset = 0;
-    this.page = 1;
     this.limit = 7;
-    this.getDealsByMerchantID();
+    this.dealIDsFilters = [];
+    this.dealHeadersFilters = [];
+    this.dealStatusesFilters = [];
+    this.title = '';
+    this.applyFilters();
   }
 
   ngOnDestroy() {
