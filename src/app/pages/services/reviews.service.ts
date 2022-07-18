@@ -15,13 +15,21 @@ export class ReviewsService extends ApiService<review> {
     super(http);
   }
 
-  getDealReviewStatsByMerchant(page:number, merchantID: string | any, offset: any, limit: any): Observable<ApiResponse<any>> {
+  getDealReviewStatsByMerchant(
+    page: number,
+    merchantID: string | any,
+    offset: any,
+    limit: any,
+    dealID: string,
+    averageRating: string,
+    data: {
+      dealIDsArray: string[];
+    }): Observable<ApiResponse<review>> {
     page--;
-    const params: any = {
-      offset: page ? limit * page : 0,
-      limit: limit
-    }
-    return this.get(`/review/getReviewsByMerchant/${merchantID}`, params);
+    dealID = dealID;
+    offset = page ? limit * page : 0;
+    limit = limit;
+    return this.post(`/deal/getDealsReviewStatsByMerchant/${merchantID}?averageRating=${averageRating}&dealID=${dealID}&offset=${offset}&limit=${limit}`, data);
   }
 
   getDealReviews(dealID: string, offset: any, limit: any, data: {

@@ -10,12 +10,12 @@
         <div style="padding: 0.875rem;" class="w-40 h-20 mr-4 bg-white">
           <span class="mb-1.5 text-sm font-medium">Total reviews</span>
           <br>
-          <span class="text-base font-semibold text-xxl" style="color: #0FB947;">{{reviewsData?.totalDeals ? reviewsData?.totalDeals : 0}}</span>
+          <span class="text-base font-semibold text-xxl" style="color: #0FB947;">{{reviewsData?.totalMerchantReviews}}</span>
         </div>
         <div style="padding: 0.875rem;" class="w-40 h-20 bg-white">
           <span class="mb-1.5 text-sm font-medium">Overall rating</span>
           <br>
-          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">4.8</span>
+          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">{{reviewsData?.overallRating}}</span>
         </div>
 
       </div>
@@ -43,34 +43,34 @@
     <table class="w-full">
       <thead class="text-left text-black bg-white border-b-2 border-gray-200 border-dotted rounded-lg h-14">
         <th class="pr-4 font-semibold cursor-pointer same-font">Deal header</th>
-        <th class="pr-4 font-semibold cursor-pointer same-font">Deal ID&nbsp;<app-filters></app-filters></th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Deal ID&nbsp;<app-filters (sendFilter)="filterSelectedReviewByID($event)" [optionsList]="filteredResult" (searchItem)="filterByDealID($event)" [options]="true" [search]="true" [searchBy]="'ID'"></app-filters></th>
         <th class="pr-4 font-semibold cursor-pointer same-font">Total reviews</th>
-        <th class="pr-4 font-semibold cursor-pointer same-font">Average rating&nbsp;<app-filters></app-filters></th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Average rating&nbsp;<app-filters (searchItem)="filterByRating($event)" [optionsList]="filteredResult" [search]="true" [searchBy]="'rating'"></app-filters></th>
       </thead>
       <tbody>
         <ng-container *ngFor="let data of reviewsData?.data; let i = index;">
           <tr class="z-40 h-16 text-left text-gray-700 bg-white rounded-lg" [ngClass]="(i == reviewsData?.data.length - 1) ? '' : 'border-b-2 border-gray-200 border-dotted'">
             <td class="pr-4">{{(data.dealHeader.length>30)? ((data.dealHeader) | slice:0:30)+'..':(data.dealHeader)}}</td>
-            <td class="pr-4 underline">D56784598</td> <!--{{data.dealID}}-->
+            <td class="pr-4 underline">{{data.dealId}}</td>
             <td class="pr-4">{{data.totalReviews}}</td>
             <td class="pr-4">
               <div class="rating">
-                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 0 ? 'checked': ''">
+                <div class="rating-label me-1" [ngClass]="data.totalRating > 0 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 1 ? 'checked': ''">
+                <div class="rating-label me-1" [ngClass]="data.totalRating > 1 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 2 ? 'checked': ''">
+                <div class="rating-label me-1" [ngClass]="data.totalRating > 2 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 3 ? 'checked': ''">
+                <div class="rating-label me-1" [ngClass]="data.totalRating > 3 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 4 ? 'checked': ''">
+                <div class="rating-label me-1" [ngClass]="data.totalRating > 4 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <span class="pt-1 ml-3" style="color: #515151;">{{data.ratingsAverage}}</span>
+                <span class="pt-1 ml-3" style="color: #515151;">{{data.totalRating}}</span>
               </div>
             </td>
             <td>
@@ -86,7 +86,7 @@
       <ngb-pagination
           [(page)]="page"
           [pageSize]="limit"
-          [collectionSize]="reviewsData?.totalDeals"
+          [collectionSize]="reviewsData?.totalMerchantReviews"
           [maxSize]="5" [boundaryLinks]="false" (pageChange)="next()">
         </ngb-pagination>
     </div>
