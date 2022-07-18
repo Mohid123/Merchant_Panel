@@ -25,11 +25,11 @@
     </ng-container>
     <ng-container *ngIf="options">
       <div class="flex flex-col options checkbox">
-        <label class="h-6 mb-2 checkbox checkbox-square">
-          <input [checked]="allSelected" (change)="checkAllCheckBox()" type="checkbox" name="options" class="mr-2.5">
-          <span></span>Select all
-        </label>
-        <ng-container *ngFor="let option of optionsList">
+        <ng-container *ngFor="let option of optionsList; let i = index">
+          <label class="h-6 mb-2 checkbox checkbox-square" *ngIf="i == 0">
+            <input [checked]="allSelected" (change)="checkAllCheckBox()" type="checkbox" name="options" class="mr-2.5">
+            <span></span>Select all
+          </label>
           <label class="h-6 mb-2 checkbox checkbox-square">
           <input [checked]="option.checked" (change)="checkBoxClick(option.id, option.checked)" type="checkbox" name="options" class="mr-2.5">
           <span></span>{{option.value}}

@@ -4,7 +4,6 @@ import { ApiResponse } from '@core/models/response.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
-import { Reviews } from 'src/app/modules/wizards/models/reviews.model';
 import { ReviewList } from './../../modules/wizards/models/review-list.model';
 import { ReviewsService } from './../services/reviews.service';
 
@@ -24,7 +23,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   dealID: string = '';
   averageRating: string = 'All';
   filteredResult: any;
+  filteredResultSecond: any;
   dealIDsArray: any;
+  isStatusFilters = false;
 
   filtersForRating = [
     {
@@ -45,11 +46,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     },
     {
       id: 4,
-      ratingName: '5 and up'
-    },
-    {
-      id: 5,
-      ratingName: 'All'
+      ratingName: '5 only'
     }
   ]
 
@@ -71,39 +68,44 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.getReviewsByMerchant();
   }
 
-  filterByDealID(dealID: string) {
-    this.offset = 0;
-    this.dealID = dealID;
-    const params: any = {
-      dealIDsArray: this.dealIDsArray?.filterData ? this.dealIDsArray?.filterData : []
-    }
-    this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.averageRating, params)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res: ApiResponse<ReviewList>) => {
-      if(!res.hasErrors()) {
-        this.filteredResult = res.data.data.map((filtered: Reviews) => {
-          return {
-            id: filtered._id,
-            value: filtered.dealId,
-            checked: false
-          }
-        });
-        this.cf.detectChanges();
-      }
-    })
+  filterSelectedReviewByRating(options: any) {
+    this.averageRating = options?.filterData;
+    // this.getReviewsByMerchant();
   }
 
-  filterByRating(rating: string) {
-    this.offset = 0;
+  filterByDealID(dealID: string) {
+    this.dealID = dealID;
+    const params: any = {}
+    if(this.dealID != '') {
+      this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.averageRating, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<ReviewList>) => {
+        if(!res.hasErrors()) {
+          this.filteredResult = res.data.data.map((filtered: any) => {
+            return {
+              id: filtered._id,
+              value: filtered.dealID,
+              checked: false
+            }
+          });
+          this.cf.detectChanges();
+        }
+      })
+    }
+  }
+
+
+  filterRatingOnSearch(rating: string) {
     this.averageRating = rating;
-    debugger
-    this.filteredResult = this.filtersForRating.map((filtered: any) => {
-      return {
-        id: filtered.id,
-        value: filtered.ratingName,
-        checked: false
-      }
-    })
+    if(this.averageRating != '') {
+      this.filteredResultSecond = this.filtersForRating.filter((x: any) => x.ratingName.includes(this.averageRating)).map((filtered: any) => {
+        return {
+          id: filtered.id,
+          value: filtered.ratingName,
+          checked: false
+        }
+      })
+    }
   }
 
   getReviewsByMerchant() {
@@ -121,6 +123,14 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         this.cf.detectChanges();
       }
     })
+  }
+
+  resetFilters() {
+    this.limit = 7;
+    // this.averageRating = [];
+    this.dealIDsArray = [];
+    this.dealID = '';
+    this.getReviewsByMerchant();
   }
 
   next():void {

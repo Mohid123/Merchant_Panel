@@ -15,7 +15,7 @@
         <div style="padding: 0.875rem;" class="w-40 h-20 bg-white">
           <span class="mb-1.5 text-sm font-medium">Overall rating</span>
           <br>
-          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">{{reviewsData?.overallRating}}</span>
+          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">{{reviewsData?.overallRating.toFixed(1)}}</span>
         </div>
 
       </div>
@@ -25,7 +25,7 @@
   <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
 
     <div class="flex flex-row justify-start w-full gap-3 ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0"><div class="">
-      <button class="text-sm font-medium cursor-pointer reset-button text-primary-400 xl:rounded-md">Reset filters</button>
+      <button (click)="resetFilters()" class="text-sm font-medium cursor-pointer reset-button text-primary-400 xl:rounded-md">Reset filters</button>
     </div>
     <div class="">
       <button [routerLink]="['/new-reviews']" class="w-40 px-4 pt-2.5 text-sm cursor-pointer btn KYC reset-button xl:rounded-md bg-primary-400" style="color:#EEEEEE">View new reviews</button>
@@ -45,32 +45,32 @@
         <th class="pr-4 font-semibold cursor-pointer same-font">Deal header</th>
         <th class="pr-4 font-semibold cursor-pointer same-font">Deal ID&nbsp;<app-filters (sendFilter)="filterSelectedReviewByID($event)" [optionsList]="filteredResult" (searchItem)="filterByDealID($event)" [options]="true" [search]="true" [searchBy]="'ID'"></app-filters></th>
         <th class="pr-4 font-semibold cursor-pointer same-font">Total reviews</th>
-        <th class="pr-4 font-semibold cursor-pointer same-font">Average rating&nbsp;<app-filters (searchItem)="filterByRating($event)" [optionsList]="filteredResult" [search]="true" [searchBy]="'rating'"></app-filters></th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Average rating&nbsp;<app-filters (sendFilter)="filterSelectedReviewByRating($event)" (searchItem)="filterRatingOnSearch($event)" [optionsList]="filteredResultSecond" [search]="true" [searchBy]="'rating'" [options]="true"></app-filters></th>
       </thead>
       <tbody>
         <ng-container *ngFor="let data of reviewsData?.data; let i = index;">
           <tr class="z-40 h-16 text-left text-gray-700 bg-white rounded-lg" [ngClass]="(i == reviewsData?.data.length - 1) ? '' : 'border-b-2 border-gray-200 border-dotted'">
             <td class="pr-4">{{(data.dealHeader.length>30)? ((data.dealHeader) | slice:0:30)+'..':(data.dealHeader)}}</td>
-            <td class="pr-4 underline">{{data.dealId}}</td>
+            <td class="pr-4 underline">{{data.dealID}}</td>
             <td class="pr-4">{{data.totalReviews}}</td>
             <td class="pr-4">
               <div class="rating">
-                <div class="rating-label me-1" [ngClass]="data.totalRating > 0 ? 'checked': ''">
+                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 0 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <div class="rating-label me-1" [ngClass]="data.totalRating > 1 ? 'checked': ''">
+                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 1 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <div class="rating-label me-1" [ngClass]="data.totalRating > 2 ? 'checked': ''">
+                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 2 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <div class="rating-label me-1" [ngClass]="data.totalRating > 3 ? 'checked': ''">
+                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 3 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <div class="rating-label me-1" [ngClass]="data.totalRating > 4 ? 'checked': ''">
+                <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 4 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
                 </div>
-                <span class="pt-1 ml-3" style="color: #515151;">{{data.totalRating}}</span>
+                <span class="pt-1 ml-3" style="color: #515151;">{{data.ratingsAverage}}</span>
               </div>
             </td>
             <td>

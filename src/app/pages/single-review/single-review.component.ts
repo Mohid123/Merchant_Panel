@@ -86,6 +86,7 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<Reviews>) => {
       this.reviewData = res.data;
+      console.log(this.reviewData)
       this.showData = true;
       this.cf.detectChanges();
     })

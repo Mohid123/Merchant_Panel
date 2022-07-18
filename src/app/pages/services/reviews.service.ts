@@ -32,16 +32,17 @@ export class ReviewsService extends ApiService<review> {
     return this.post(`/deal/getDealsReviewStatsByMerchant/${merchantID}?averageRating=${averageRating}&dealID=${dealID}&offset=${offset}&limit=${limit}`, data);
   }
 
-  getDealReviews(dealID: string, offset: any, limit: any, data: {
-    rating: number
-  }): Observable<ApiResponse<any>> {
+  getDealReviews(dealID: string, offset: any, limit: any, page: number): Observable<ApiResponse<any>> {
     const params: any = {
-      offset: offset,
-      limit: limit
+      offset: page ? limit * page : 0,
+      limit: limit,
     }
-    if(data.rating) params.rating = data.rating;
     return this.get(`/deal/getDealReviews/${dealID}`, params)
   }
+
+  // getDealReviews(merchantID: string | any, dealID: string): Observable<ApiResponse<any>> {
+  //   return this.get(`/review/getMerchantReply/${merchantID}/${dealID}`);
+  // }
 
   deleteReview(id: string): Observable<ApiResponse<review>> {
     return this.delete(`/review/deleteReview/${id}`);

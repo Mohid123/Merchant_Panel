@@ -414,63 +414,69 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.offset = 0;
     this.dealID = dealID;
     const params: any = {}
-    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res: ApiResponse<any>) => {
-      if(!res.hasErrors()) {
-      this.cf.detectChanges();
-       this.filteredResult = res.data.data.map((filtered: MainDeal) => {
-        return {
-          id: filtered.id,
-          value: filtered.dealID,
-          checked: false
+    if(this.dealID != '') {
+      this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+        this.cf.detectChanges();
+        this.filteredResult = res.data.data.map((filtered: MainDeal) => {
+          return {
+            id: filtered.id,
+            value: filtered.dealID,
+            checked: false
+          }
+        })
+        this.cf.detectChanges();
         }
-       })
-       this.cf.detectChanges();
-      }
-    })
+      })
+    }
   }
 
   filterByDealHeader(header: string) {
     this.offset = 0;
     this.header = header;
-    const params: any = {}
-    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res: ApiResponse<any>) => {
-      if(!res.hasErrors()) {
-      this.cf.detectChanges();
-       this.filteredHeader = res.data.data.map((filtered: MainDeal) => {
-        return {
-          id: filtered.id,
-          value: filtered.dealHeader,
-          checked: false
+    const params: any = {};
+    if(this.header != '') {
+      this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+        this.cf.detectChanges();
+        this.filteredHeader = res.data.data.map((filtered: MainDeal) => {
+          return {
+            id: filtered.id,
+            value: filtered.dealHeader,
+            checked: false
+          }
+        })
+        this.cf.detectChanges();
         }
-       })
-       this.cf.detectChanges();
-      }
-    })
+      })
+    }
   }
 
   filterByDealStatus(status: string) {
     this.offset = 0;
     this.dealStatus = status;
     const params: any = {}
-    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res: ApiResponse<any>) => {
-      if(!res.hasErrors()) {
-      this.cf.detectChanges();
-       this.filteredStatus = res.data.data.map((filtered: MainDeal) => {
-        return {
-          id: filtered.id,
-          value: filtered.dealStatus,
-          checked: false
+    if(this.dealStatus != '') {
+      this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+        this.cf.detectChanges();
+        this.filteredStatus = res.data.data.map((filtered: MainDeal) => {
+          return {
+            id: filtered.id,
+            value: filtered.dealStatus,
+            checked: false
+          }
+        })
+        this.cf.detectChanges();
         }
-       })
-       this.cf.detectChanges();
-      }
-    })
+      })
+    }
   }
 
   filterSelectedDealByID(options: any) {

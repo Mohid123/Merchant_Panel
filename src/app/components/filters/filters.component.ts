@@ -29,6 +29,14 @@ export class FiltersComponent implements OnInit  {
     },
   ];
 
+  @Input() optionsListStatus = [
+    {
+      id: 0,
+      value: '',
+      checked: false
+    },
+  ];
+
 
   constructor(private cf: ChangeDetectorRef) { }
 
@@ -63,12 +71,16 @@ export class FiltersComponent implements OnInit  {
   }
 
   clear() {
-    this.optionsList = [];
     this.allSelected = false;
+    this.optionsList = [];
+    this.searchControl.setValue('');
   }
 
   open() {
     this.isOpen = !this.isOpen;
+    if(!this.isOpen) {
+      this.clear();
+    }
   }
 
 }
