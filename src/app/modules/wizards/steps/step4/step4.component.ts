@@ -336,8 +336,7 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   sendDraftData() {
-    debugger
-    if(!this.checkForm()) {
+    if(this.form.get('voucherStartDate')?.value == '' || this.form.get('voucherEndDate')?.value == '' || this.form.get('voucherValidity')?.value == '') {
       this.form.markAllAsTouched();
       return;
     }

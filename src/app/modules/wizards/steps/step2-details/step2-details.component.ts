@@ -126,7 +126,6 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   }
 
   sendDraftData() {
-    debugger
     if(this.dealForm.invalid
      || this.textLength(this.dealForm.get('aboutThisDeal')?.value) > 2000
      || this.textLength(this.dealForm.get('aboutThisDeal')?.value) < 16
@@ -135,6 +134,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
      || this.textLength(this.dealForm.get('finePrints')?.value) > 2000
      || this.textLength(this.dealForm.get('finePrints')?.value) < 16 ) {
       this.dealForm.markAllAsTouched();
+      return;
      }
      else {
       this.nextClick.emit('');

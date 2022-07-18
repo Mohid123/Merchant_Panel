@@ -140,42 +140,50 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   saveDraftOne() {
-    this.connection.isSaving.next(true);
-    const payload: any = {
-      subCategory: this.dealForm.get('subCategory')?.value,
-      dealHeader: this.dealForm.get('dealHeader')?.value,
-      subTitle: this.dealForm.get('subTitle')?.value,
-      mediaUrl: [],
-      deletedCheck: false,
-      pageNumber: 1
+    if(this.dealForm.invalid || this.urls.length == 0) {
+      this.dealForm.markAllAsTouched();
+      this.submitClick = true;
+      return
     }
-    const mediaUpload:any = [];
-    if(!!this.media.length) {
-      for (let index = 0; index < this.media.length; index++) {
-        mediaUpload.push(this.mediaService.uploadMedia('deal', this.media[index]));
+    else {
+      this.nextClick.emit('');
+      this.connection.isSaving.next(true);
+      const payload: any = {
+        subCategory: this.dealForm.get('subCategory')?.value,
+        dealHeader: this.dealForm.get('dealHeader')?.value,
+        subTitle: this.dealForm.get('subTitle')?.value,
+        mediaUrl: [],
+        deletedCheck: false,
+        pageNumber: 1
       }
-    }
-    payload.mediaUrl = [];
-    combineLatest(mediaUpload)
-      .pipe(
-        take(1),
-        exhaustMap((mainResponse:any) => {
-          mainResponse.forEach((res:any)=> {
-            if (!res.hasErrors()) {
-              payload.mediaUrl?.push(res.data.url);
-            } else {
-              return of(null);
-            }
-          })
-          // this.connection.sendSaveAndNext(payload); // to be sent at the end with last api call
-          return this.dealService.createDeal(payload);
-        })
-      ).subscribe((res: ApiResponse<any>) => {
-        if(!res.hasErrors()) {
-          this.connection.isSaving.next(false);
-          this.connection.sendSaveAndNext(res.data);
+      const mediaUpload:any = [];
+      if(!!this.media.length) {
+        for (let index = 0; index < this.media.length; index++) {
+          mediaUpload.push(this.mediaService.uploadMedia('deal', this.media[index]));
         }
-    })
+      }
+      payload.mediaUrl = [];
+      combineLatest(mediaUpload)
+        .pipe(
+          take(1),
+          exhaustMap((mainResponse:any) => {
+            mainResponse.forEach((res:any)=> {
+              if (!res.hasErrors()) {
+                payload.mediaUrl?.push(res.data.url);
+              } else {
+                return of(null);
+              }
+            })
+            // this.connection.sendSaveAndNext(payload); // to be sent at the end with last api call
+            return this.dealService.createDeal(payload);
+          })
+        ).subscribe((res: ApiResponse<any>) => {
+          if(!res.hasErrors()) {
+            this.connection.isSaving.next(false);
+            this.connection.sendSaveAndNext(res.data);
+          }
+      })
+    }
   }
 
   initDealForm() {
