@@ -411,6 +411,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   filterByDealID(dealID: string) {
+    debugger
     this.offset = 0;
     this.dealID = dealID;
     const params: any = {}

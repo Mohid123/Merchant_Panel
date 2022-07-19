@@ -5,9 +5,10 @@ import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { BillingsService } from '@pages/services/billings.service';
 import { OrdersService } from '@pages/services/orders.service';
 import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
+import { Orders } from 'src/app/modules/wizards/models/order.model';
 import { MerchantStats } from './../../modules/wizards/models/merchant-stats.model';
 
 @Component({
@@ -27,7 +28,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   hoveredDate: NgbDate | any = null;
   fromDate: NgbDate | any;
   toDate: NgbDate | any = null;
-  deal: string;
+  deal : string = '';
   amount: string;
   status: string;
   paymentStatus: string;
@@ -36,6 +37,26 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   statsData: any;
   statsLoading: boolean;
   voucherStats: MerchantStats;
+
+  filteredResult: any;
+  filteredVoucherID: any;
+  filteredDealHeader: any;
+  filteredStatusResult: any;
+
+
+  voucherID: string = '';
+  dealHeader: string = '';
+  voucherHeader: string = '';
+  voucherStatus: string = '';
+  invoiceStatus: string = '';
+
+  voucherIDsFilter : any;
+  dealHeadersFilters: any;
+  voucherHeadersFilters: any;
+  voucherStatusesFilters: any;
+  invoiceStatusesFilters: any;
+  filteredVoucherName: any;
+  filteredInvoiceStatus: any;
 
   statusTypes = [
     {
@@ -48,7 +69,10 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
       status: 'Expired'
     },
     {
-      status: 'Published'
+      status: 'Refunded'
+    },
+    {
+      status: 'In dispute'
     }
   ];
 
@@ -84,31 +108,33 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.authService.currentUserValue?.id;
     this.getVouchersByMerchant();
     this.getMerchantStats();
-    this.searchControl.valueChanges.pipe(takeUntil(this.destroy$),debounceTime(1000))
-      .subscribe(newValue => {
-
-        if (newValue.trim().length == 0 || newValue == null) {
-
-          this.noRecordFound = false;
-          this.getVouchersByMerchant();
-        } else {
-          this.searchVoucher(newValue);
-        }
-      });
-  }
+   }
 
   getVouchersByMerchant() {
     this.showData = false;
+    const params: any = {}
+    debugger
+    this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<OrdersList>) => {
+      if(!res.hasErrors()) {
+        this.ordersData = res.data;
+        console.log(this.ordersData);
+        this.showData = true;
+        this.cf.detectChanges();
+      }
+    })
+  }
+  applyFilter() {
+    this.showData = false;
     const params: any = {
-      deal: this.deal,
-      amount: this.amount,
-      status: this.status,
-      paymentStatus: this.paymentStatus,
-      dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
-      dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime()
+      voucherIDsArray : this.voucherIDsFilter?.filterData ? this.voucherIDsFilter?.filterData : [],
+      dealHeaderArray: this.dealHeadersFilters?.filterData ? this.dealHeadersFilters?.filterData : [],
+      voucherHeaderArray: this.voucherHeadersFilters?.filterData ? this.voucherHeadersFilters?.filterData : [],
+      voucherStatusArray: this.voucherStatusesFilters?.filterData ? this.voucherStatusesFilters?.filterData : [],
+      invoiceStatusArray: this.invoiceStatusesFilters?.filterData ? this.invoiceStatusesFilters?.filterData: [],
     }
-
-    this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, params)
+     this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', '', '', this.deal, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<OrdersList>) => {
 
@@ -118,6 +144,137 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
         this.cf.detectChanges();
       }
     })
+  }
+
+  filterByVoucherID(voucherID: string) {
+    this.offset = 0;
+    this.voucherID = voucherID;
+    const params: any = {}
+    if(this.voucherID != '') {
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        debugger
+        if(!res.hasErrors()) {
+        this.cf.detectChanges();
+         this.filteredVoucherID = res.data.data.map((filtered: Orders) => {
+          console.log(this.filteredResult)
+          return {
+            id: filtered.id,
+            value: filtered.voucherID,
+            checked: false
+          }
+         })
+         this.cf.detectChanges();
+        }
+      })
+    }
+    else {
+      this.filteredVoucherID.length = 0;
+    }
+
+  }
+
+  filterByDealHeader(dealHeader: string) {
+    this.offset = 0;
+    this.dealHeader = dealHeader;
+    const params: any = {}
+     if(this.dealHeader != '') {
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        debugger
+        if(!res.hasErrors()) {
+        this.cf.detectChanges();
+         this.filteredDealHeader = res.data.data.map((filtered: Orders) => {
+          console.log(this.filteredDealHeader)
+          return {
+            id: filtered.id,
+            value: filtered.dealHeader,
+            checked: false
+          }
+         })
+         this.cf.detectChanges();
+        }
+      })
+    }
+    else {
+      this.filteredDealHeader.length = 0;
+    }
+
+  }
+
+  filterSelectedDealByVoucherHeader(options: string) {
+   this.showData = false;
+    this.voucherHeadersFilters = options;
+    this.applyFilter();
+  }
+  filterSelectedStatus(options: string) {
+   this.showData = false;
+    this.voucherStatusesFilters = options;
+    this.applyFilter();
+  }
+  filterSelectedInvoiceStatus(options: string) {
+   this.showData = false;
+    this.invoiceStatusesFilters = options;
+    this.applyFilter();
+  }
+
+
+
+  filterByVoucherHeader(voucherHeader: string) {
+    this.offset = 0;
+    this.voucherHeader = voucherHeader;
+    const params: any = {}
+    if(this.voucherHeader != '') {
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        debugger
+        if(!res.hasErrors()) {
+        this.cf.detectChanges();
+         this.filteredVoucherName = res.data.data.map((filtered: Orders) => {
+          console.log(this.filteredVoucherName)
+          return {
+            id: filtered.id,
+            value: filtered.voucherHeader,
+            checked: false
+          }
+         })
+         this.cf.detectChanges();
+        }
+      })
+    }
+    else {
+      this.filteredVoucherName.length = 0;
+    }
+   }
+  filterByTitle(deal: any) {
+    this.limit = 7;
+    this.deal = deal;
+    this.applyFilter();
+  }
+  filterByVoucherName(deal: any) {
+    this.limit = 7;
+    this.deal = deal;
+    this.applyFilter();
+  }
+  filterByStatusName(deal: any) {
+    this.limit = 7;
+    this.deal = deal;
+    this.applyFilter();
+  }
+
+  filterSelectedVoucherByID(options: any) {
+    this.showData = false;
+    this.voucherIDsFilter = options;
+    this.applyFilter();
+  }
+
+  filterSelectedDealByHeader(options: any) {
+    this.showData = false;
+    this.dealHeadersFilters = options;
+    this.applyFilter();
   }
 
   getMerchantStats() {
@@ -156,10 +313,58 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.getVouchersByMerchant();
   }
 
-  filterByStatus(status: string) {
+  filterByStatus(voucherStatus: string) {
+    debugger
     this.offset = 0;
-    this.status = status;
-    this.getVouchersByMerchant();
+    this.voucherStatus = voucherStatus;
+    const params: any = {}
+    if(this.voucherStatus != '') {
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        debugger
+        if(!res.hasErrors()) {
+        this.cf.detectChanges();
+         this.filteredStatusResult = res.data.data.map((filtered: Orders) => {
+          console.log(this.filteredStatusResult)
+          return {
+            id: filtered.id,
+            value: filtered.status,
+            checked: false
+          }
+         })
+         this.cf.detectChanges();
+        }
+      })
+    } else {
+      this.filteredStatusResult.length = 0;
+    }
+  }
+  filterByInvoiceStatus(invoiceStatus: string) {
+    this.offset = 0;
+    this.invoiceStatus = invoiceStatus;
+    const params: any = {}
+    if(this.invoiceStatus != '') {
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        debugger
+        if(!res.hasErrors()) {
+        this.cf.detectChanges();
+         this.filteredInvoiceStatus = res.data.data.map((filtered: Orders) => {
+          console.log(this.filteredInvoiceStatus)
+          return {
+            id: filtered.id,
+            value: filtered.paymentStatus,
+            checked: false
+          }
+         })
+         this.cf.detectChanges();
+        }
+      })
+    } else {
+      this.filteredInvoiceStatus.length = 0;
+    }
   }
 
   filterByPaymentStatus(paymentStatus: string) {
@@ -229,23 +434,24 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   }
 
   resetFilters() {
-    this.offset = 0;
-    this.fromDate = '';
-    this.toDate = '';
-    this.deal = 'Ascending';
-    this.amount = 'Ascending';
-    this.status = '';
-    this.paymentStatus = '';
+    // this.offset = 0;
+    this.limit = 7;
+    this.voucherIDsFilter = [];
+    this.dealHeadersFilters = [];
+    this.invoiceStatusesFilters = [];
+    this.voucherHeadersFilters = [];
+    this.voucherStatusesFilters = [];
+    this.voucherID = '';
+    this.dealHeader = '';
+    this.deal = '';
+    this.voucherHeader = '';
+    this.voucherStatus = '';
+    this.invoiceStatus = '';
     this.getVouchersByMerchant();
   }
 
   next():void {
-    this.page++;
-    this.getVouchersByMerchant();
-  }
-
-  previous():void {
-    this.page--;
+    this.page;
     this.getVouchersByMerchant();
   }
 

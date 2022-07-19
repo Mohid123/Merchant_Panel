@@ -15,26 +15,29 @@ export class OrdersService extends ApiService<OrdersData> {
     super(http)
   }
 
-  getVouchersByMerchantID(page: number, merchantID: string | any, offset: any, limit: any, data: {
+  getVouchersByMerchantID(
+    page: number,
+    merchantID: string | any,
+    offset: any,
+    limit: any,
+    voucherID: string,
+    dealHeader: string,
+    voucherHeader: string,
+    voucherStatus: string,
+    invoiceStatus: string,
+
     deal: string,
-    amount: string,
-    status: string,
-    paymentStatus: string,
-    dateFrom: number,
-    dateTo: number
+    data: {
+      voucherIDsArray: string[];
+      dealHeaderArray: string[];
+      voucherHeaderArray: string[];
+      voucherStatusArray: string[];
+      invoiceStatusArray: string[];
     }): Observable<ApiResponse<OrdersData>> {
     page--;
-    const param: any = {
-      offset: page ? limit * page : 0,
-      limit: limit
-    }
-    if(data.deal) param.deal = data.deal;
-    if(data.amount) param.amount = data.amount;
-    if(data.status) param.status = data.status;
-    if(data.paymentStatus) param.paymentStatus = data.paymentStatus;
-    if(data.dateFrom) param.dateFrom = data.dateFrom;
-    if(data.dateTo) param.dateTo = data.dateTo
-    return this.get(`/voucher/getAllVouchersByMerchantID/${merchantID}`, param);
+    offset = page ? limit * page : 0;
+    limit = limit
+    return this.post(`/voucher/getAllVouchersByMerchantID/${merchantID}?deal=${deal}&voucherID=${voucherID}&dealHeader=${dealHeader}&voucherHeader=${voucherHeader}&voucherStatus=${voucherStatus}&invoiceStatus=${invoiceStatus}&offset=${offset}&limit=${limit}`, data);
   }
 
 

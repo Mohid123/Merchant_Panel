@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/modules/auth';
 import { UserService } from 'src/app/modules/auth/services/user.service';
 import { BillingList } from 'src/app/modules/wizards/models/billing-list.model';
 import { KYC } from 'src/app/modules/wizards/models/kyc.model';
+import { Billings } from './../../modules/wizards/models/billings.model';
 import { MerchantStats } from './../../modules/wizards/models/merchant-stats.model';
 
 @Component({
@@ -33,7 +34,9 @@ export class BillingsComponent implements OnInit, OnDestroy {
     },
     closeButtonLabel: "Close"
   }
-
+  invoiceID: string = '';
+  invoiceIDsFilter : any;
+  filteredResult: any;
   public billingsData: BillingList | any;
   showData: boolean;
   page: number;
@@ -173,23 +176,70 @@ export class BillingsComponent implements OnInit, OnDestroy {
   }
 
   getInvoicesByMerchant() {
+    debugger
     this.showData = false;
-    const params: any = {
-      invoiceDate: this.invoiceDate,
-      invoiceAmount: this.invoiceAmount,
-      dateFrom: new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(),
-      dateTo: new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime(),
-      status: this.status
-    }
-    this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, params)
+    const params: any = {}
+    const dateFrom:any =  new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime() ? new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(): '';
+    const dateTo:any = new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime() ? new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime() : '';
+
+    this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.invoiceID, dateFrom, dateTo, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
       if(!res.hasErrors()) {
         this.billingsData = res.data;
+        console.log(this.billingsData)
         this.showData = true;
         this.cf.detectChanges();
       }
     })
+  }
+
+  applyFilter() {
+    this.showData = false;
+    const params: any = {
+      invoiceIDsArray: this.invoiceIDsFilter?.filterData ? this.invoiceIDsFilter?.filterData : []
+    }
+    this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res:ApiResponse<BillingList>) => {
+      if(!res.hasErrors()) {
+        this.billingsData = res.data;
+        console.log(this.billingsData)
+        this.showData = true;
+        this.cf.detectChanges();
+      }
+    })
+  }
+
+  filterByInvoiceID(invoiceID: string) {
+    this.offset = 0;
+    this.invoiceID = invoiceID;
+    const params: any = {};
+    if(this.invoiceID != '') {
+      this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.invoiceID, this.fromDate, this.toDate, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.cf.detectChanges();
+          this.filteredResult = res.data.data.map((filtered: Billings) => {
+            return {
+              id: filtered.id,
+              value: filtered.invoiceID,
+              checked: false
+            }
+          })
+          this.cf.detectChanges();
+        }
+      })
+    } else {
+      this.filteredResult.length = 0;
+    }
+
+  }
+  filterSelectedInvoiceByID(options: any) {
+    this.showData = false;
+    this.invoiceIDsFilter = options;
+    this.applyFilter()
   }
 
   filterByInvoiceDate(invoiceDate: string) {
@@ -215,6 +265,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
   }
 
   filterByDate(startDate: number, endDate: number) {
+    debugger
     this.offset = 0;
     this.fromDate = startDate;
     this.toDate = endDate;
@@ -236,6 +287,12 @@ export class BillingsComponent implements OnInit, OnDestroy {
       this.toDate = null;
       this.fromDate = date;
     }
+  }
+
+  clear() {
+    debugger
+    this.fromDate = '';
+    this.toDate = '';
   }
 
   isHovered(date: NgbDate) {
@@ -261,22 +318,16 @@ export class BillingsComponent implements OnInit, OnDestroy {
   }
 
   next():void {
-    this.page++;
-    this.getInvoicesByMerchant();
-  }
-
-  previous():void {
-    this.page--;
+    this.page;
     this.getInvoicesByMerchant();
   }
 
   resetFilters() {
-    this.offset = 0;
+    this.limit = 7;
+    this.invoiceIDsFilter = [];
+    this.invoiceID = '';
     this.fromDate = '';
     this.toDate = '';
-    this.invoiceAmount = 'Ascending';
-    this.invoiceDate = 'Ascending';
-    this.status = '';
     this.getInvoicesByMerchant();
   }
 

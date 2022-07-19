@@ -46,6 +46,10 @@
         <ng-container *ngIf="optionsList?.length == 0">
           <span #spanner class="text-center text-sm py-4">No record found</span>
         </ng-container>
+        <!-- <ng-container *ngIf="!optionsList">
+            <span>No record</span>
+        </ng-container> -->
+
       </div>
     </ng-container>
 
@@ -76,7 +80,7 @@
         <button class="text-sm applyStatus" type="submit" (click)="filterStatuses()">
           <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
         </button>
-        <button type="button" (click)="clear()" class="clearStatus text-sm">
+        <button type="button" (click)="clear()" class="text-sm clearStatus">
           Clear
         </button>
       </div>

@@ -47,7 +47,7 @@
   <div class="px-12 mt-4 table-container" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
     <div class="w-full">
       <thead class="flex items-center text-left text-black bg-white rounded-lg h-14">
-        <th class="w-full pr-4 font-semibold cursor-pointer xl:w-1/4 2xl:max-w-unset max-w-68">Invoice ID&nbsp; &nbsp;<app-filters></app-filters></th>
+        <th class="w-full pr-4 font-semibold cursor-pointer xl:w-1/4 2xl:max-w-unset max-w-68">Invoice ID&nbsp; &nbsp;<app-filters (sendFilter)="filterSelectedInvoiceByID($event)" (searchItem)="filterByInvoiceID($event)" [options]="true" [search]="true" [searchBy]="'invoice no'" [optionsList]="filteredResult"></app-filters></th>
         <th class="w-full pr-4 font-semibold cursor-pointer xl:w-1/4 2xl:max-w-unset max-w-68">
           <div class="flex">
             <div>
@@ -66,9 +66,20 @@
               </div>
               <!--Calendar Footer TEMPLATE-->
               <ng-template #footerTemplate>
-                <div class="w-full h-14">
+                <div class="w-full p-3 h-14">
+                  <div class="flex justify-between gap-3">
+                    <button class="text-sm apply" type="submit" [disabled]="fromDate == '' || toDate == '' " (click)="filterByDate(fromDate, toDate); myDrop.close()" >
+                      <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
+                    </button>
+                    <button type="button" class="clear" (click)="clear()" >
+                      Clear
+                    </button>
+                  </div>
+                  <!-- <button class="text-sm apply" type="submit" >
+                    <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
+                  </button>
                   <button style="width: calc(100% - 1rem) !important;" class="h-8 p-0 mx-2 text-white bg-primary-400 btn btn-primary btn-sm float-start" [disabled]="!fromDate || !toDate"
-                  (click)="filterByDate(fromDate, toDate); myDrop.close()">Clear</button>
+                  (click)="filterByDate(fromDate, toDate); myDrop.close()">Clear</button> -->
                 </div>
               </ng-template>
             </div>
@@ -79,7 +90,7 @@
       </thead>
       <ng-container *ngFor="let data of billingsData?.data">
         <tr class="z-40 flex items-center h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted">
-          <td class="w-full pr-4 xl:w-1/4 xl:max-w-unset max-w-68">{{(data.invoiceNo.toString().length > 30 )? ((data.invoiceNo) | slice:0:30)+'...':(data.invoiceNo)}}</td>
+          <td class="w-full pr-4 xl:w-1/4 xl:max-w-unset max-w-68">{{(data.invoiceID?.length > 30 )? ((data.invoiceID) | slice:0:30)+'...':(data.invoiceID)}}</td>
           <td class="w-full pr-4 xl:w-1/4 xl:max-w-unset max-w-68">{{data.invoiceDate | date:"dd-MM-YYYY"}}</td>
           <td class="text-right xl:w-1/4 xl:max-w-unset min-w-36 "><span>{{data.invoiceAmount}} &euro;</span></td>
           <td class="w-full pr-4 ml-auto text-right xl:w-1/4 xl:max-w-unset max-w-72">
@@ -95,11 +106,11 @@
     </div>
     <div class="flex justify-end w-full pb-4 pt-11">
       <ngb-pagination
-        [page]="1"
-        [pageSize]="5"
-        [collectionSize]="25"
-        [maxSize]="5" [boundaryLinks]="false">
-      </ngb-pagination>
+          [(page)]="page"
+          [pageSize]="limit"
+          [collectionSize]="billingsData?.totalCount"
+          [maxSize]="5" [boundaryLinks]="false" (pageChange)="next()">
+        </ngb-pagination>
     </div>
   </div>
 </ng-container>
@@ -196,6 +207,8 @@
     </div>
 
 </app-reusable-modal>
+
+
 
 <!--Calendar TEMPLATE-->
 <ng-template #t let-date let-focused="focused">

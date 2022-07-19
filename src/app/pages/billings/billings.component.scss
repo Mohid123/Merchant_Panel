@@ -2,6 +2,21 @@
   display: none;
 }
 
+.apply {
+  color: white;
+  background: #0081E9 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  height: 30px;
+  width: 50%;
+}
+
+.clear {
+  background: #ECECEC 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  width: 50%;
+  height: 30px;
+}
+
 .table-conatiner {
   width: 100%!important;
   overflow-x: scroll;

@@ -68,19 +68,19 @@
   <div class="mt-4 table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
     <table class="w-full">
       <thead ngbDropdown display="dynamic" id="dropdownBasic2" class="text-left text-black bg-white rounded-lg h-14">
-        <th class="w-32 pr-4 font-semibold cursor-pointer">Voucher ID&nbsp;<app-filters></app-filters></th>
-        <th class="w-48 pr-4 font-semibold cursor-pointer">Deal header&nbsp;<app-filters></app-filters></th>
-        <th class="pr-4 font-semibold cursor-pointer w-60">Voucher header&nbsp;<app-filters></app-filters></th>
+        <th class="w-32 pr-4 font-semibold cursor-pointer">Voucher ID&nbsp;<app-filters (sendFilter)="filterSelectedVoucherByID($event)" (searchItem)="filterByVoucherID($event)" [options]="true" [search]="true" [searchBy]="'ID'" [optionsList]="filteredVoucherID"></app-filters></th>
+        <th class="w-48 pr-4 font-semibold cursor-pointer">Deal header&nbsp;<app-filters (sortHeader)="filterByTitle($event)"  (sendFilter)="filterSelectedDealByHeader($event)" [sort]="true" (searchItem)="filterByDealHeader($event)" [searchBy]="'deal name'" [options]="true" [search]="true"  [optionsList]="filteredDealHeader"></app-filters></th>
+        <th class="pr-4 font-semibold cursor-pointer w-60">Voucher header&nbsp;<app-filters (sortHeader)="filterByVoucherName($event)" [sort]="true" [searchBy]="'voucher name'" (sendFilter)="filterSelectedDealByVoucherHeader($event)" (searchItem)="filterByVoucherHeader($event)" [options]="true" [search]="true"  [optionsList]="filteredVoucherName"></app-filters></th>
         <th class="w-24 pr-12 font-semibold text-right cursor-pointer">Value</th>
         <th class="pr-4 font-semibold text-right cursor-pointer w-28">Net earnings</th>
-        <th class="w-40 pl-16 pr-4 font-semibold cursor-pointer">Status&nbsp;<app-filters></app-filters></th>
-        <th class="font-semibold cursor-pointer w-36">Invoice status&nbsp; <app-filters></app-filters></th>
+        <th class="w-40 pl-16 pr-4 font-semibold cursor-pointer">Status&nbsp;<app-filters (sortHeader)="filterByStatusName($event)" [sort]="true" [searchBy]="'status'" (searchItem)="filterByStatus($event)" (sendFilter)="filterSelectedStatus($event)" [options]="true" [search]="true"  [optionsList]="filteredStatusResult"></app-filters></th>
+        <th class="font-semibold cursor-pointer w-36">Invoice status&nbsp; <app-filters  (sortHeader)="filterByStatusName($event)"  [sort]="true" [searchBy]="'status'" (searchItem)="filterByInvoiceStatus($event)" (sendFilter)="filterSelectedInvoiceStatus($event)" [options]="true" [search]="true"  [optionsList]="filteredInvoiceStatus"></app-filters></th>
       </thead>
       <ng-container *ngFor="let data of ordersData?.data; let i = index;">
         <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
           <td class="pr-4">{{(data.voucherID.toString().length > 30)? ((data.voucherID) | slice:0:30)+'..':(data.voucherID)}}</td>
-          <td class="pr-4">{{(data.dealName.length>30) ? ((data.dealName) | slice:0:30)+'..':(data.dealName)}}</td>
-          <td class="pr-4"> Voucher {{(data.dealName.length>30)? ((data.dealName) | slice:0:30)+'..':(data.dealName)}}</td>
+          <td class="pr-4">{{(data.dealHeader.length>30) ? ((data.dealHeader) | slice:0:30)+'..':(data.dealHeader)}}</td>
+          <td class="pr-4"> Voucher {{(data.voucherHeader.length>30)? ((data.voucherHeader) | slice:0:30)+'..':(data.voucherHeader)}}</td>
           <td class="pr-12 text-right">{{data.amount}}&nbsp;&euro;</td>
           <td class="pr-4 text-right">{{data.amount}}&nbsp;&euro;</td>
           <td class="pl-16 pr-4">{{data.status}}</td>
@@ -93,11 +93,11 @@
     </table>
     <div class="flex justify-end w-full pb-4 pt-11">
       <ngb-pagination
-        [page]="1"
-        [pageSize]="5"
-        [collectionSize]="25"
-        [maxSize]="5" [boundaryLinks]="false">
-      </ngb-pagination>
+          [(page)]="page"
+          [pageSize]="limit"
+          [collectionSize]="ordersData?.totalCount"
+          [maxSize]="5" [boundaryLinks]="false" (pageChange)="next()">
+        </ngb-pagination>
     </div>
   </div>
 </ng-container>
