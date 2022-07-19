@@ -187,7 +187,7 @@
               <input maxlength="16" class="form-control form-control-lg form-control-solid" type="text" name="vatNumber"
                 placeholder="BE0123123123"
                 formControlName="vatNumber" autocomplete="off" [ngClass]="{
-                'is-invalid': f['vatNumber'].invalid && f['vatNumber'].touched,
+                'is-invalid': f['vatNumber'].invalid && f['vatNumber'].touched && f['vatNumber']?.hasError('notAvailable'),
                 'is-valid': f['vatNumber'].valid}" />
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',

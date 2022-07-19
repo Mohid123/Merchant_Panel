@@ -47,6 +47,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     {
       id: 4,
       ratingName: '5 only'
+    },
+    {
+      id: 5,
+      ratingName: 'All'
     }
   ]
 
@@ -61,6 +65,13 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getReviewsByMerchant();
+    this.filteredResultSecond = this.filtersForRating.map((filtered: any) => {
+      return {
+        id: filtered.id,
+        value: filtered.ratingName,
+        checked: false
+      }
+    })
   }
 
   filterSelectedReviewByID(options: any) {
@@ -69,6 +80,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   }
 
   filterSelectedReviewByRating(options: any) {
+    debugger
     this.averageRating = options?.filterData;
     // this.getReviewsByMerchant();
   }
@@ -94,19 +106,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  filterRatingOnSearch(rating: string) {
-    this.averageRating = rating;
-    if(this.averageRating != '') {
-      this.filteredResultSecond = this.filtersForRating.filter((x: any) => x.ratingName.includes(this.averageRating)).map((filtered: any) => {
-        return {
-          id: filtered.id,
-          value: filtered.ratingName,
-          checked: false
-        }
-      })
-    }
-  }
 
   getReviewsByMerchant() {
     this.showData = false;

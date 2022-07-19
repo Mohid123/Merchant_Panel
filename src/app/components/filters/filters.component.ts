@@ -15,12 +15,16 @@ export class FiltersComponent implements OnInit  {
   formCtrlSub: Subscription;
   @Output() sortHeader = new EventEmitter();
   @Output() sendFilter = new EventEmitter();
+  @Output() sendFilterStatus = new EventEmitter();
   @Output() searchItem = new EventEmitter();
   @Input() sort = false;
   @Input() search = false;
+  @Input() isStatusFilter = false;
   @Input() searchBy = '';
+  @Input() filterBy = '';
   @Input() searchControl = new FormControl();
   @Input() options = false;
+  @Input() statusFilters = false;
   @Input() optionsList = [
     {
       id: 0,
@@ -52,6 +56,15 @@ export class FiltersComponent implements OnInit  {
     this.sortHeader.emit(sortHeader);
   }
 
+  filterStatuses() {
+    debugger
+    let filters = {
+      filterData: this.optionsListStatus.filter(x => x.checked).map(x => x.value),
+      sortByAscending: 'Ascending'
+    }
+    this.sendFilterStatus.emit(filters);
+  }
+
   filterData() {
     let filters = {
       filterData : this.optionsList.filter(x => x.checked).map(x => x.value),
@@ -70,9 +83,15 @@ export class FiltersComponent implements OnInit  {
     this.optionsList.find((x: any) => x.id == dealID)!.checked = !check;
   }
 
+  checkBoxClickStatus(dealID: number, check: any):void {
+    this.allSelected = false;
+    this.optionsListStatus.find((x: any) => x.id == dealID)!.checked = !check;
+  }
+
   clear() {
     this.allSelected = false;
     this.optionsList = [];
+    this.optionsListStatus.find((x: any) => x.checked = false)
     this.searchControl.setValue('');
   }
 

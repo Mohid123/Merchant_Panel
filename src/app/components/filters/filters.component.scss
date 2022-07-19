@@ -1,5 +1,5 @@
 .dropdown {
-  color: #7E8299
+  color: #7E8299;
 }
 
 button {
@@ -19,6 +19,11 @@ textarea:focus,
 #dropdownBasic1.open,
 input.form-control:focus {
   border-color: #0081E9 !important;
+}
+
+.options {
+  max-height: 400px;
+  overflow-y: scroll;
 }
 
 .options label {
@@ -41,3 +46,19 @@ input.form-control:focus {
   width: 50%;
   height: 30px;
 }
+
+.applyStatus {
+  color: white;
+  background: #0081E9 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  height: 30px;
+  width: 5.313rem;
+}
+
+.clearStatus {
+  background: #ECECEC 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  width: 5.313rem;
+  height: 30px;
+}
+

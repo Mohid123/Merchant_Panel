@@ -15,18 +15,26 @@
         Sort Z <i class="fas fa-long-arrow-alt-right"></i> A
       </button>
     </ng-container>
+    <ng-container *ngIf="isStatusFilter">
+      <div class="search">
+        <div class="mb-3 fv-row">
+          <label for="" class="my-1 text-sm font-medium" style="color: #414950;">Filter By {{filterBy}}</label>
+        </div>
+      </div>
+    </ng-container>
     <ng-container *ngIf="search">
       <div class="search">
         <div class="mb-3 fv-row">
           <label for="" class="my-1 text-sm font-medium" style="color: #414950;">Search By {{searchBy}}</label>
-          <input  [formControl]="searchControl"  maxlength="100" appTrim type="text " class="text-base font-normal text-black form-control">
+          <input [formControl]="searchControl" maxlength="100" appTrim type="text " class="text-base font-normal text-black form-control">
         </div>
       </div>
     </ng-container>
+
     <ng-container *ngIf="options">
       <div class="flex flex-col options checkbox">
         <ng-container *ngFor="let option of optionsList; let i = index">
-          <label class="h-6 mb-2 checkbox checkbox-square" *ngIf="i == 0">
+          <label class="h-6 mb-2 checkbox checkbox-square" *ngIf="i == 0 && statusFilters == false">
             <input [checked]="allSelected" (change)="checkAllCheckBox()" type="checkbox" name="options" class="mr-2.5">
             <span></span>Select all
           </label>
@@ -37,19 +45,39 @@
         </ng-container>
       </div>
     </ng-container>
-    <div class="flex justify-between gap-3">
-      <button class="text-sm apply" type="submit" (click)="filterData()">
-        <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
-      </button>
-      <button type="button" (click)="clear()" class="clear">
-        Clear
-      </button>
-    </div>
-    <!-- <ng-container *ngFor="let type of paymentTypes">
-      <button ngbDropdownItem (click)="filterByPaymentStatus(type.paymentStatus)">
-        {{type.paymentStatus}}
-      </button>
-    </ng-container> -->
+
+    <ng-container *ngIf="statusFilters">
+      <div class="flex flex-col options checkbox">
+        <ng-container *ngFor="let option of optionsListStatus; let i = index">
+          <label class="h-6 mb-2 checkbox checkbox-square">
+          <input [checked]="option.checked" (change)="checkBoxClickStatus(option.id, option.checked)" type="checkbox" name="options" class="mr-2.5">
+          <span></span>{{option.value}}
+        </label>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="options">
+      <div class="flex justify-between gap-3">
+        <button class="text-sm apply" type="submit" (click)="filterData()">
+          <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
+        </button>
+        <button type="button" (click)="clear()" class="clear">
+          Clear
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="statusFilters">
+      <div class="flex justify-between gap-3">
+        <button class="text-sm applyStatus" type="submit" (click)="filterStatuses()">
+          <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
+        </button>
+        <button type="button" (click)="clear()" class="clearStatus text-sm">
+          Clear
+        </button>
+      </div>
+    </ng-container>
   </div>
   </div>
 </div>

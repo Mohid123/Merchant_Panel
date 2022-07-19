@@ -45,7 +45,7 @@
         <th class="pr-4 font-semibold cursor-pointer same-font">Deal header</th>
         <th class="pr-4 font-semibold cursor-pointer same-font">Deal ID&nbsp;<app-filters (sendFilter)="filterSelectedReviewByID($event)" [optionsList]="filteredResult" (searchItem)="filterByDealID($event)" [options]="true" [search]="true" [searchBy]="'ID'"></app-filters></th>
         <th class="pr-4 font-semibold cursor-pointer same-font">Total reviews</th>
-        <th class="pr-4 font-semibold cursor-pointer same-font">Average rating&nbsp;<app-filters (sendFilter)="filterSelectedReviewByRating($event)" (searchItem)="filterRatingOnSearch($event)" [optionsList]="filteredResultSecond" [search]="true" [searchBy]="'rating'" [options]="true"></app-filters></th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Average rating&nbsp;<app-filters [statusFilters]="true" (sendFilterStatus)="filterSelectedReviewByRating($event)" [optionsListStatus]="filteredResultSecond" [filterBy]="'rating'" [isStatusFilter]="true"></app-filters></th>
       </thead>
       <tbody>
         <ng-container *ngFor="let data of reviewsData?.data; let i = index;">
