@@ -281,11 +281,22 @@ matchCompanywithVatNumber() {
         this.cf.detectChanges();
       }
       else {
-        this.toast.error('Company name does not exist')
+        this.toast.error('Company name does not exist', {
+          style: {
+            border: '1px solid #b71c1c',
+            padding: '16px',
+            color: '#b71c1c',
+          },
+          iconTheme: {
+            primary: '#b71c1c',
+            secondary: '#ffcdd2',
+          }
+        })
         this.registrationForm.controls['legalName']?.setValue('');
         this.registrationForm.controls['vatNumber']?.setErrors({
           notAvailable: true
-        })
+        });
+        this.registrationForm.controls['vatNumber']?.markAsTouched();
         this.fetchingName = false;
         this.cf.detectChanges();
       }
