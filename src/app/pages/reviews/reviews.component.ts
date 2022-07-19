@@ -21,11 +21,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   page: number;
   destroy$ = new Subject();
   dealID: string = '';
-  averageRating: string = 'All';
+  averageRating: any;
   filteredResult: any;
   filteredResultSecond: any;
   dealIDsArray: any;
-  isStatusFilters = false;
 
   filtersForRating = [
     {
@@ -81,7 +80,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   filterSelectedReviewByRating(options: any) {
     this.averageRating = options;
-    // this.getReviewsByMerchant();
+    this.getReviewsByMerchant();
   }
 
   filterByDealID(dealID: string) {
@@ -112,7 +111,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   getReviewsByMerchant() {
     this.showData = false;
     const params: any = {
-      dealIDsArray: this.dealIDsArray?.filterData ? this.dealIDsArray?.filterData : []
+      dealIDsArray: this.dealIDsArray?.filterData ? this.dealIDsArray?.filterData : [],
+      ratingsArray: this.averageRating?.filterData ? this.averageRating?.filterData: ['All']
     }
     this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.averageRating, params)
     .pipe(takeUntil(this.destroy$))

@@ -1,7 +1,7 @@
 <div class="flex flex-col justify-center mt-4 lg:flex-row lg:justify-between">
   <div class="flex justify-start">
-    <span style="font-size: 26px;" class="mr-3 font-bold">Heavenly Massage with sauna</span>
-    <span class="mt-2.5 text-base text-gray-700 underline">D12345678</span>
+    <span style="font-size: 26px;" class="mr-3 font-bold">{{reviewData?.dealHeader}}</span>
+    <span class="mt-2.5 text-base text-gray-700 underline">{{reviewData?.dealID}}</span>
   </div>
   <div class="text-gray-600 cursor-pointer hover:text-primary-400">
     <span [routerLink]="['/reviews']"><span style="font-size: 25px;">&#8249;</span>&nbsp;&nbsp;Reviews & ratings</span>
@@ -19,12 +19,12 @@
         <div style="padding: 0.875rem;" class="w-40 h-20 mr-4 bg-white">
           <span class="mb-1.5 text-sm font-medium">Total reviews</span>
           <br>
-          <span class="text-base font-semibold text-xxl" style="color: #0FB947;">124</span>
+          <span class="text-base font-semibold text-xxl" style="color: #0FB947;">{{reviewData?.totalReviews}}</span>
         </div>
         <div style="padding: 0.875rem;" class="w-40 h-20 bg-white">
           <span class="mb-1.5 text-sm font-medium">Average rating</span>
           <br>
-          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">4.8</span>
+          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">{{reviewData?.ratingsAverage}}</span>
         </div>
 
       </div>
@@ -80,9 +80,9 @@
     </table>
     <div class="flex justify-end w-full pb-4 pt-11">
       <ngb-pagination
-          [page]="1"
-          [pageSize]="5"
-          [collectionSize]="25"
+          [(page)]="page"
+          [pageSize]="limit"
+          [collectionSize]="reviewData?.totalReviews"
           [maxSize]="5" [boundaryLinks]="false">
         </ngb-pagination>
     </div>

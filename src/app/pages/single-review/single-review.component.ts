@@ -22,6 +22,7 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   limit: number = 10;
   destroy$ = new Subject();
   rating: number;
+  page: number;
 
   Substring: string;
   CompanyName: string;
@@ -69,7 +70,8 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     this.Substring = name.substring(0, 1);
     const companyName = 'Comapny Name';
     this.CompanyName = companyName.substring(0, 1);
-    this.semiLorem = this.loremIpsum.substring(0, 152)
+    this.semiLorem = this.loremIpsum.substring(0, 152);
+    this.page = 1;
    }
 
   ngOnInit(): void {
@@ -93,7 +95,6 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   }
 
   filterByRating(rating: number) {
-    debugger
     this.offset = 0;
     this.rating = rating;
     this.getReviewsByMerchant();

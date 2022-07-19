@@ -24,6 +24,7 @@ export class ReviewsService extends ApiService<review> {
     averageRating: string,
     data: {
       dealIDsArray: string[];
+      ratingsArray: string[];
     }): Observable<ApiResponse<review>> {
     page--;
     dealID = dealID;
