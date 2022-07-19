@@ -34,6 +34,7 @@ export class ReviewsService extends ApiService<review> {
   }
 
   getDealReviews(dealID: string, offset: any, limit: any, page: number): Observable<ApiResponse<any>> {
+    page--;
     const params: any = {
       offset: page ? limit * page : 0,
       limit: limit,

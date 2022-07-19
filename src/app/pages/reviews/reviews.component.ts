@@ -128,7 +128,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   resetFilters() {
     this.limit = 7;
-    // this.averageRating = [];
+    this.averageRating = ['All'];
     this.dealIDsArray = [];
     this.dealID = '';
     this.getReviewsByMerchant();

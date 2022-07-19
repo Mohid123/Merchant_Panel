@@ -83,7 +83,7 @@
           [(page)]="page"
           [pageSize]="limit"
           [collectionSize]="reviewData?.totalReviews"
-          [maxSize]="5" [boundaryLinks]="false">
+          [maxSize]="5" [boundaryLinks]="false" (pageChange)="next()">
         </ngb-pagination>
     </div>
   </div>

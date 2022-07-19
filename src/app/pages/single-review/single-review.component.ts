@@ -84,7 +84,7 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     const params: any = {
       rating: this.rating
     }
-    this.reviewService.getDealReviews(this.reviewId, this.offset, this.limit, params)
+    this.reviewService.getDealReviews(this.reviewId, this.offset, this.limit, this.page)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<Reviews>) => {
       this.reviewData = res.data;
@@ -131,6 +131,11 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   submitReply() {
     this.switchToReply = true;
     this.replyView = true;
+  }
+
+  next():void {
+    this.page;
+    this.getReviewsByMerchant();
   }
 
   ngOnDestroy() {
