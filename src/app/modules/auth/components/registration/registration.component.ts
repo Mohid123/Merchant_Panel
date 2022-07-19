@@ -47,6 +47,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   cities: any = [];
 
+  cityFromZip: any[] = [];
+
   // zipCodes = zipCodes;
   registrationForm: FormGroup;
   hasError: boolean;
@@ -93,7 +95,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.f['zipCode'].valueChanges.pipe(takeUntil(this.destroy$))
+    this.f['zipCode'].valueChanges.pipe(takeUntil(this.destroy$), debounceTime(400))
     .subscribe(value => {
       if(value != '' || value.length > 0) {
         this.matchZipCodeWithCity()
@@ -247,10 +249,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       if(zipCode) {
         this.authService.fetchCityByZipCode(zipCode)
         .pipe(takeUntil(this.destroy$))
-        .subscribe((res: ApiResponse<ZipCode>) => {
+        .subscribe((res: ApiResponse<ZipCode[]>) => {
           if(!res.hasErrors() && res.data != null) {
-            console.log(res.data);
-            this.cities.push(res.data.city);
+            this.cities = res.data.filter(city => city.city).map((cityName) => {
+              return cityName.city
+            })
             this.cf.detectChanges();
           }
           else {
