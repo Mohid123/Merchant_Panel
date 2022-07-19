@@ -431,6 +431,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         }
       })
     }
+    else {
+      this.filteredResult.length = 0;
+    }
   }
 
   filterByDealHeader(header: string) {
@@ -454,6 +457,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         }
       })
     }
+    else {
+      this.filteredHeader.length = 0;
+    }
   }
 
   filterByDealStatus(status: string) {
@@ -476,6 +482,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.cf.detectChanges();
         }
       })
+    }
+    else {
+      this.filteredStatus.length = 0;
     }
   }
 

@@ -80,8 +80,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   }
 
   filterSelectedReviewByRating(options: any) {
-    debugger
-    this.averageRating = options?.filterData;
+    this.averageRating = options;
     // this.getReviewsByMerchant();
   }
 
@@ -103,6 +102,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
+    }
+    else {
+      this.filteredResult.length = 0;
     }
   }
 

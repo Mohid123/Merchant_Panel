@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -9,6 +9,8 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./filters.component.scss']
 })
 export class FiltersComponent implements OnInit  {
+
+  @ViewChild('spanner') spanner: ElementRef;
 
   isOpen = false;
   allSelected = false;
@@ -57,7 +59,6 @@ export class FiltersComponent implements OnInit  {
   }
 
   filterStatuses() {
-    debugger
     let filters = {
       filterData: this.optionsListStatus.filter(x => x.checked).map(x => x.value),
       sortByAscending: 'Ascending'
@@ -90,8 +91,8 @@ export class FiltersComponent implements OnInit  {
 
   clear() {
     this.allSelected = false;
-    this.optionsList = [];
-    this.optionsListStatus.find((x: any) => x.checked = false)
+    this.optionsList.length = 0;
+    this.optionsListStatus.find((x: any) => x.checked = false);
     this.searchControl.setValue('');
   }
 
@@ -99,6 +100,7 @@ export class FiltersComponent implements OnInit  {
     this.isOpen = !this.isOpen;
     if(!this.isOpen) {
       this.clear();
+      this.spanner.nativeElement.style.display = 'none'
     }
   }
 

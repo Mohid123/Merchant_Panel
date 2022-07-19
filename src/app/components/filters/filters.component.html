@@ -39,9 +39,12 @@
             <span></span>Select all
           </label>
           <label class="h-6 mb-2 checkbox checkbox-square">
-          <input [checked]="option.checked" (change)="checkBoxClick(option.id, option.checked)" type="checkbox" name="options" class="mr-2.5">
-          <span></span>{{option.value}}
-        </label>
+            <input [checked]="option.checked" (change)="checkBoxClick(option.id, option.checked)" type="checkbox" name="options" class="mr-2.5">
+            <span></span>{{option.value}}
+          </label>
+        </ng-container>
+        <ng-container *ngIf="optionsList?.length == 0">
+          <span #spanner class="text-center text-sm py-4">No record found</span>
         </ng-container>
       </div>
     </ng-container>
