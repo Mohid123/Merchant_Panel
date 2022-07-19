@@ -119,15 +119,17 @@ export class Step4Component implements OnInit, OnDestroy {
       this.currentlyChecked = this.check_box_type.ONE
     }
     else {
-      this.form.get('voucherStartDate')?.setValue('')
-      this.form.get('voucherEndDate')?.setValue('')
+      this.form.get('voucherStartDate')?.disable();
+      this.form.get('voucherEndDate')?.disable();
     }
 
-    if(!this.form.controls['voucherValidity'].value) {
-      this.form.controls['voucherValidity'].disable();
-      this.cf.detectChanges();
+    if(this.form.get('voucherValidity')?.value) {
+      this.currentlyChecked = this.check_box_type.TWO
+    }
+    else {
       this.btnDisable = true;
-      this.form.controls['voucherValidity'].setValue(0);
+      this.form.get('voucherValidity')?.setValue(0);
+      this.form.get('voucherValidity')?.disable();
       this.cf.detectChanges();
     }
 
@@ -267,7 +269,8 @@ export class Step4Component implements OnInit, OnDestroy {
     return !(
       this.form.get('voucherStartDate')?.hasError('required') ||
       this.form.get('voucherEndDate')?.hasError('required') ||
-      this.form.get('voucherValidity')?.hasError('required')
+      this.form.get('voucherValidity')?.hasError('required') ||
+      this.form.get('voucherValidity')?.hasError('min')
     );
   }
 
@@ -336,33 +339,37 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   sendDraftData() {
-    if(this.form.get('voucherStartDate')?.value == '' || this.form.get('voucherEndDate')?.value == '' || this.form.get('voucherValidity')?.value == '') {
+    if(!this.checkForm()) {
+      debugger
       this.form.markAllAsTouched();
       return;
     }
-    this.connection.isSaving.next(true);
-    this.nextClick.emit('');
-    this.newData.pageNumber = 4;
-    this.newData.vouchers?.forEach((voucher) => {
-      if (this.form.get('voucherValidity')?.value) {
-        voucher.voucherValidity = this.form.get('voucherValidity')?.value;
-        voucher.voucherStartDate = '';
-        voucher.voucherEndDate = '';
-      } else {
-        voucher.voucherValidity = 0;
-        voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.year).getTime();
-        voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
-      }
-    });
+    else {
+      debugger
+      this.connection.isSaving.next(true);
+      this.nextClick.emit('');
+      this.newData.pageNumber = 4;
+      this.newData.vouchers?.forEach((voucher) => {
+        if (this.form.get('voucherValidity')?.value) {
+          voucher.voucherValidity = this.form.get('voucherValidity')?.value;
+          voucher.voucherStartDate = '';
+          voucher.voucherEndDate = '';
+        } else {
+          voucher.voucherValidity = 0;
+          voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.year).getTime();
+          voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
+        }
+      });
 
-    const payload = this.newData;
-    this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
-    .subscribe((res: ApiResponse<any>) => {
-      if(!res.hasErrors()) {
-        this.connection.isSaving.next(false);
-        this.connection.sendSaveAndNext(res.data);
-      }
-    })
+      const payload = this.newData;
+      this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.connection.isSaving.next(false);
+          this.connection.sendSaveAndNext(res.data);
+        }
+      })
+    }
   }
 
   ngOnDestroy() {
