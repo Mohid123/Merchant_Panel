@@ -88,8 +88,8 @@
                         <td class="px-5 py-4 text-sm">{{voucher.voucherValidity}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.numberOfVouchers}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.dealPrice}}&nbsp;&euro;</td>
-                        <td class="py-4 pr-5 text-sm text-center">{{voucher.originalPrice}}&nbsp;&euro;</td>
-                        <td class="py-4 pr-5 text-sm text-center">{{voucher.numberOfVouchers}}&nbsp;&euro;</td>
+                        <td class="px-5 py-4 text-sm">{{voucher.originalPrice}}&nbsp;&euro;</td>
+                        <td class="px-5 py-4 text-sm">{{voucher.numberOfVouchers}}&nbsp;&euro;</td>
                         <td class="px-5 py-4 text-sm">
                           <img class="cursor-pointer" (click)="openNew(index, i)" src="../../../../assets/media/icons/edit.svg">
                         </td>
@@ -108,7 +108,13 @@
                 </ng-container>
               </td>
             </tr>
-            </ng-container>
+           </ng-container>
+
+           <ng-container *ngIf="currentEvents.length == 0">
+            <tr class="flex justify-center align-middle">
+              <span class="py-16 text-lg font-semibold text-center text-gray-700">No record/s found</span>
+            </tr>
+          </ng-container>
         </table>
         <div class="flex justify-end px-5 pb-2 pt-14">
           <ngb-pagination

@@ -46,10 +46,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     {
       id: 4,
       ratingName: '5 only'
-    },
-    {
-      id: 5,
-      ratingName: 'All'
     }
   ]
 
@@ -85,9 +81,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   filterByDealID(dealID: string) {
     this.dealID = dealID;
-    const params: any = {}
+    const params: any = {
+      dealIDsArray: [],
+      ratingsArray: []
+    }
     if(this.dealID != '') {
-      this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.averageRating, params)
+      this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<ReviewList>) => {
         if(!res.hasErrors()) {
@@ -112,9 +111,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.showData = false;
     const params: any = {
       dealIDsArray: this.dealIDsArray?.filterData ? this.dealIDsArray?.filterData : [],
-      ratingsArray: this.averageRating?.filterData ? this.averageRating?.filterData: ['All']
+      ratingsArray: this.averageRating?.filterData ? this.averageRating?.filterData: []
     }
-    this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.averageRating, params)
+    this.reviewService.getDealReviewStatsByMerchant(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<ReviewList>) => {
       if(!res.hasErrors()) {

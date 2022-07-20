@@ -250,10 +250,29 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         this.authService.fetchCityByZipCode(zipCode)
         .pipe(takeUntil(this.destroy$))
         .subscribe((res: ApiResponse<ZipCode[]>) => {
-          if(!res.hasErrors() && res.data != null) {
+          if(!res.hasErrors() && res.data.length != 0) {
             this.cities = res.data.filter(city => city.city).map((cityName) => {
               return cityName.city
             })
+            this.cf.detectChanges();
+          }
+          else if(res.data.length == 0) {
+            this.toast.error('Please provide valid zip code', {
+              style: {
+                border: '1px solid #b71c1c',
+                padding: '16px',
+                color: '#b71c1c',
+              },
+              iconTheme: {
+                primary: '#b71c1c',
+                secondary: '#ffcdd2',
+              }
+            })
+            this.registrationForm.controls['zipCode']?.setErrors({
+              notAvailable: true
+            });
+            this.registrationForm.controls['zipCode']?.markAsTouched();
+            this.cities = [];
             this.cf.detectChanges();
           }
           else {

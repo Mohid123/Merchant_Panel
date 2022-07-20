@@ -68,18 +68,13 @@
               <ng-template #footerTemplate>
                 <div class="w-full p-3 h-14">
                   <div class="flex justify-between gap-3">
-                    <button class="text-sm apply" type="submit" [disabled]="fromDate == '' || toDate == '' " (click)="filterByDate(fromDate, toDate); myDrop.close()" >
+                    <button class="text-sm apply" type="submit" (click)="filterByDate(fromDate, toDate); myDrop.close()" >
                       <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
                     </button>
                     <button type="button" class="clear" (click)="clear()" >
                       Clear
                     </button>
                   </div>
-                  <!-- <button class="text-sm apply" type="submit" >
-                    <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
-                  </button>
-                  <button style="width: calc(100% - 1rem) !important;" class="h-8 p-0 mx-2 text-white bg-primary-400 btn btn-primary btn-sm float-start" [disabled]="!fromDate || !toDate"
-                  (click)="filterByDate(fromDate, toDate); myDrop.close()">Clear</button> -->
                 </div>
               </ng-template>
             </div>
@@ -98,10 +93,15 @@
               <button class="icon-btn" ><img src="/assets/media/icons/eye.svg" alt=""></button>
               <button class="icon-btn" ><img src="/assets/media/icons/download.svg" alt=""></button>
               <button class="icon-btn" ><img src="/assets/media/icons/print.svg" alt=""></button>
-              <!-- <button class="px-4 py-2 text-sm text-blue-400 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View Invoice</button> -->
             </div>
           </td>
         </tr>
+      </ng-container>
+      <ng-container *ngIf="billingsData?.data.length == 0">
+        <div class="w-full text-center mt-28">
+          <h3 class="font-semibold text-gray-700">No Record Found</h3>
+          <p class="text-gray-600">It seems we can't find any results.</p>
+        </div>
       </ng-container>
     </div>
     <div class="flex justify-end w-full pb-4 pt-11">

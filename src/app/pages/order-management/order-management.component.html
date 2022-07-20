@@ -73,8 +73,28 @@
         <th class="pr-4 font-semibold cursor-pointer w-60">Voucher header&nbsp;<app-filters (sortHeader)="filterByVoucherName($event)" [sort]="true" [searchBy]="'voucher name'" (sendFilter)="filterSelectedDealByVoucherHeader($event)" (searchItem)="filterByVoucherHeader($event)" [options]="true" [search]="true"  [optionsList]="filteredVoucherName"></app-filters></th>
         <th class="w-24 pr-12 font-semibold text-right cursor-pointer">Value</th>
         <th class="pr-4 font-semibold text-right cursor-pointer w-28">Net earnings</th>
-        <th class="w-40 pl-16 pr-4 font-semibold cursor-pointer">Status&nbsp;<app-filters (sortHeader)="filterByStatusName($event)" [sort]="true" [searchBy]="'status'" (searchItem)="filterByStatus($event)" (sendFilter)="filterSelectedStatus($event)" [options]="true" [search]="true"  [optionsList]="filteredStatusResult"></app-filters></th>
-        <th class="font-semibold cursor-pointer w-36">Invoice status&nbsp; <app-filters  (sortHeader)="filterByStatusName($event)"  [sort]="true" [searchBy]="'status'" (searchItem)="filterByInvoiceStatus($event)" (sendFilter)="filterSelectedInvoiceStatus($event)" [options]="true" [search]="true"  [optionsList]="filteredInvoiceStatus"></app-filters></th>
+        <th class="w-40 pl-16 pr-4 font-semibold cursor-pointer">Status&nbsp;
+          <app-filters
+            (sortHeader)="filterByStatusName($event)"
+            [sort]="true"
+            [filterBy]="'rating'"
+            [isStatusFilter]="true"
+            (sendFilterStatus)="filterSelectedStatus($event)"
+            [statusFilters]="true"
+            [optionsListStatus]="filteredStatusResult">
+          </app-filters>
+        </th>
+        <th class="font-semibold cursor-pointer w-36">Invoice status&nbsp;
+          <app-filters
+            (sortHeader)="filterByStatusName($event)"
+            [sort]="true"
+            [filterBy]="'rating'"
+            [isStatusFilter]="true"
+            (sendFilterStatus)="filterSelectedInvoiceStatus($event)"
+            [statusFilters]="true"
+            [optionsListStatus]="filteredInvoiceStatus">
+         </app-filters>
+        </th>
       </thead>
       <ng-container *ngFor="let data of ordersData?.data; let i = index;">
         <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
@@ -90,6 +110,13 @@
           </td>
         </tr>
       </ng-container>
+
+      <!-- <ng-container *ngIf="ordersData?.data.length == 0">
+        <div class="w-full text-center mt-28">
+          <h3 class="font-semibold text-gray-700">No Record Found</h3>
+          <p class="text-gray-600">It seems we can't find any results.</p>
+        </div>
+      </ng-container> -->
     </table>
     <div class="flex justify-end w-full pb-4 pt-11">
       <ngb-pagination
@@ -112,14 +139,3 @@
     {{ date.day }}
   </span>
 </ng-template>
-
-
-<!--Calendar Footer TEMPLATE-->
-<!-- <ng-template #footerTemplate>
-  <hr class="my-0">
-  <button class="m-2 text-white btn btn-primary btn-sm float-start" [disabled]="!fromDate || !toDate" (click)="filterByDate(fromDate, toDate); myDrop.close();">Apply Filter</button>
-  <button class="mt-2 mr-1 btn btn-secondary btn-sm float-end" (click)="myDrop.close();">Close</button>
-</ng-template> -->
-
-
-<!-- <div class="half-circle"></div> -->

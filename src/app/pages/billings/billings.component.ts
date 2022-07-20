@@ -176,12 +176,10 @@ export class BillingsComponent implements OnInit, OnDestroy {
   }
 
   getInvoicesByMerchant() {
-    debugger
     this.showData = false;
     const params: any = {}
     const dateFrom:any =  new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime() ? new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(): '';
     const dateTo:any = new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime() ? new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime() : '';
-
     this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.invoiceID, dateFrom, dateTo, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
@@ -265,7 +263,6 @@ export class BillingsComponent implements OnInit, OnDestroy {
   }
 
   filterByDate(startDate: number, endDate: number) {
-    debugger
     this.offset = 0;
     this.fromDate = startDate;
     this.toDate = endDate;

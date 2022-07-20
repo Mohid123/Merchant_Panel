@@ -44,11 +44,8 @@
           </label>
         </ng-container>
         <ng-container *ngIf="optionsList?.length == 0">
-          <span #spanner class="text-center text-sm py-4">No record found</span>
+          <span #spanner class="py-4 text-sm text-center">No record found</span>
         </ng-container>
-        <!-- <ng-container *ngIf="!optionsList">
-            <span>No record</span>
-        </ng-container> -->
 
       </div>
     </ng-container>
@@ -56,6 +53,10 @@
     <ng-container *ngIf="statusFilters">
       <div class="flex flex-col options checkbox">
         <ng-container *ngFor="let option of optionsListStatus; let i = index">
+          <label class="h-6 mb-2 checkbox checkbox-square" *ngIf="i == 0">
+            <input [checked]="allSelected" (change)="checkAllCheckBoxStatus()" type="checkbox" name="options" class="mr-2.5">
+            <span></span>Select all
+          </label>
           <label class="h-6 mb-2 checkbox checkbox-square">
           <input [checked]="option.checked" (change)="checkBoxClickStatus(option.id, option.checked)" type="checkbox" name="options" class="mr-2.5">
           <span></span>{{option.value}}

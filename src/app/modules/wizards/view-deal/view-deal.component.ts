@@ -241,6 +241,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
       if (!res.hasErrors()) {
         this.dealData = res.data;
         this.currentEvents = res.data.data;
+        console.log(this.currentEvents)
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
@@ -411,7 +412,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   filterByDealID(dealID: string) {
-    debugger
     this.offset = 0;
     this.dealID = dealID;
     const params: any = {}
@@ -508,6 +508,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   applyFilters(){
+    this.showData = false;
     const params: any = {
       dealIDsArray: this.dealIDsFilters?.filterData ? this.dealIDsFilters?.filterData : [],
       dealHeaderArray: this.dealHeadersFilters?.filterData ? this.dealHeadersFilters?.filterData : [],

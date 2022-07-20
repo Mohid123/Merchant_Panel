@@ -84,6 +84,12 @@ export class FiltersComponent implements OnInit  {
     this.optionsList.find((x: any) => x.id == dealID)!.checked = !check;
   }
 
+
+  checkAllCheckBoxStatus() {
+    this.allSelected = !this.allSelected;
+    this.optionsListStatus.forEach(x => x.checked = this.allSelected)
+  }
+
   checkBoxClickStatus(dealID: number, check: any):void {
     this.allSelected = false;
     this.optionsListStatus.find((x: any) => x.id == dealID)!.checked = !check;
@@ -98,6 +104,8 @@ export class FiltersComponent implements OnInit  {
 
   open() {
     this.isOpen = !this.isOpen;
+    this.optionsList.forEach(x => x.checked ? this.allSelected = true : this.allSelected)
+    this.optionsListStatus.forEach(x => x.checked ? this.allSelected = true : this.allSelected)
     if(!this.isOpen) {
       this.clear();
       this.spanner.nativeElement.style.display = 'none'

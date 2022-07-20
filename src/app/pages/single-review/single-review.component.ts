@@ -1,12 +1,15 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewsService } from '@pages/services/reviews.service';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
+import { SingleReview } from 'src/app/modules/wizards/models/single-review.model';
 import { Reviews } from './../../modules/wizards/models/reviews.model';
+import { ReplySchema } from './../../modules/wizards/models/single-review.model';
 
 @Component({
   selector: 'app-single-review',
@@ -23,13 +26,19 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   rating: number;
   page: number;
+  replyForm: FormGroup;
+  replyData: any;
 
   Substring: string;
   CompanyName: string;
   switchToReply: boolean = false;
   replyView: boolean = false;
   semiLorem: string;
-  loremIpsum: string = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+  loremIpsum: string = 'dasdasdasdasdd';
+  reviewValues: any[] = [];
+  ReplySubject: BehaviorSubject<any> = new BehaviorSubject([]);
+  ReplyObservable: Observable<any[]> = this.ReplySubject.asObservable();
+  voucherID: any;
 
   @ViewChild('modal') private modal: TemplateRef<any>
 
@@ -63,11 +72,9 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     private reviewService: ReviewsService,
     private cf: ChangeDetectorRef,
     private authService: AuthService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private fb: FormBuilder
   ) {
-    console.log('this.activatedRoute.snapshot.params:',this.activatedRoute.snapshot.params);
-    const name = 'Harry Jonas'
-    this.Substring = name.substring(0, 1);
     const companyName = 'Comapny Name';
     this.CompanyName = companyName.substring(0, 1);
     this.semiLorem = this.loremIpsum.substring(0, 152);
@@ -77,6 +84,13 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.reviewId = this.activatedRoute.snapshot.params['dealId'];
     this.getReviewsByMerchant();
+    this.initReplyForm()
+  }
+
+  initReplyForm() {
+    this.replyForm = this.fb.group({
+      merchantReplyText: ''
+    })
   }
 
   getReviewsByMerchant() {
@@ -86,7 +100,7 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     }
     this.reviewService.getDealReviews(this.reviewId, this.offset, this.limit, this.page)
     .pipe(takeUntil(this.destroy$))
-    .subscribe((res: ApiResponse<Reviews>) => {
+    .subscribe((res: ApiResponse<SingleReview>) => {
       this.reviewData = res.data;
       console.log(this.reviewData)
       this.showData = true;
@@ -106,7 +120,19 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     this.getReviewsByMerchant();
   }
 
-  openReviewModal() {
+  openReviewModal(voucherID: string) {
+    this.voucherID = voucherID;
+    this.reviewData.Reviews?.find((value: any) => {
+      if(value._id == this.voucherID) {
+        this.ReplySubject.value?.pop();
+        this.reviewValues.push(value);
+        this.ReplySubject.next(this.reviewValues)
+      }
+    })
+    this.reviewService.getMerchantReply(this.authService.currentUserValue?.id, this.voucherID).subscribe((res: ApiResponse<ReplySchema>) => {
+      this.replyData = res.data;
+      console.log(this.replyData)
+    })
     return this.modalService.open(this.modal, {
       centered: true,
       size: 'xl',
@@ -121,16 +147,30 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   }
 
   switchToReplyMode() {
-    this.switchToReply = true;
+    this.switchToReply = false;
   }
 
   discardReply() {
-    this.switchToReply = false;
+    this.switchToReply = true;
   }
 
   submitReply() {
     this.switchToReply = true;
     this.replyView = true;
+    const payload: any = {
+      reviewID: this.ReplySubject.value[0]?.reviewID,
+      merchantID: this.ReplySubject.value[0]?.merchantID,
+      voucherID: this.ReplySubject.value[0]?.voucherID,
+      merchantName: this.ReplySubject.value[0]?.merchantName,
+      legalName: this.ReplySubject.value[0]?.legalName,
+      profilePicURL: this.ReplySubject.value[0]?.profilePicURL,
+      merchantReplyText: this.replyForm.get('merchantReplyText')?.value,
+      deletedCheck: false
+    }
+    this.reviewService.createReply(payload).pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      console.log(res)
+    })
   }
 
   next():void {

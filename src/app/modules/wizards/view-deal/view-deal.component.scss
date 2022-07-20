@@ -7,6 +7,11 @@
   color: #0081E9!important;
 }
 
+.mat-tab-body-content {
+  height: 800px!important;
+  overflow: auto!important;
+}
+
 .page-item.active .page-link {
   z-index: 3 !important;
   color: #0081e9 !important;
@@ -181,11 +186,6 @@ input::-webkit-datetime-edit-fields-wrapper {
 
 .abc {
   font-family: Arial, Helvetica, sans-serif
-}
-
-.table-container {
-  width: 100%!important;
-  overflow-x: scroll;
 }
 
 @media (max-width: 600px) {

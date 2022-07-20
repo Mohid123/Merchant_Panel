@@ -60,34 +60,47 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   statusTypes = [
     {
+      id: 0,
       status: 'Purchased'
     },
     {
+      id: 1,
       status: 'Redeemed'
     },
     {
+      id: 2,
       status: 'Expired'
     },
     {
+      id: 3,
       status: 'Refunded'
     },
     {
+      id: 4,
       status: 'In dispute'
     }
   ];
 
   paymentTypes = [
     {
+      id: 0,
+      paymentStatus: 'Select all'
+    },
+    {
+      id: 1,
       paymentStatus: 'Paid'
     },
     {
-      paymentStatus: 'UnPaid'
+      id: 2,
+      paymentStatus: 'Cooling off'
     },
     {
-      paymentStatus: 'Pending'
+      id: 3,
+      paymentStatus: 'Credited'
     },
     {
-      paymentStatus: 'Cancelled'
+      id: 3,
+      paymentStatus: 'In process'
     }
   ]
 
@@ -108,12 +121,26 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.authService.currentUserValue?.id;
     this.getVouchersByMerchant();
     this.getMerchantStats();
+    this.filteredStatusResult = this.statusTypes.map((filtered: any) => {
+      return {
+        id: filtered.id,
+        value: filtered.status,
+        checked: false
+      }
+    });
+
+    this.filteredInvoiceStatus = this.paymentTypes.map((filtered: any) => {
+      return {
+        id: filtered.id,
+        value: filtered.paymentStatus,
+        checked: false
+      }
+    })
    }
 
   getVouchersByMerchant() {
     this.showData = false;
     const params: any = {}
-    debugger
     this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<OrdersList>) => {
@@ -125,6 +152,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
       }
     })
   }
+
   applyFilter() {
     this.showData = false;
     const params: any = {
@@ -134,10 +162,10 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
       voucherStatusArray: this.voucherStatusesFilters?.filterData ? this.voucherStatusesFilters?.filterData : [],
       invoiceStatusArray: this.invoiceStatusesFilters?.filterData ? this.invoiceStatusesFilters?.filterData: [],
     }
+    debugger
      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', '', '', this.deal, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<OrdersList>) => {
-
       if(!res.hasErrors()) {
         this.ordersData = res.data;
         this.showData = true;
@@ -154,11 +182,9 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
       this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
-        debugger
         if(!res.hasErrors()) {
         this.cf.detectChanges();
          this.filteredVoucherID = res.data.data.map((filtered: Orders) => {
-          console.log(this.filteredResult)
           return {
             id: filtered.id,
             value: filtered.voucherID,
@@ -183,7 +209,6 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
       this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
-        debugger
         if(!res.hasErrors()) {
         this.cf.detectChanges();
          this.filteredDealHeader = res.data.data.map((filtered: Orders) => {
@@ -209,18 +234,19 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.voucherHeadersFilters = options;
     this.applyFilter();
   }
+
   filterSelectedStatus(options: string) {
-   this.showData = false;
+    this.showData = false;
     this.voucherStatusesFilters = options;
     this.applyFilter();
   }
+
   filterSelectedInvoiceStatus(options: string) {
-   this.showData = false;
+    this.showData = false;
+    debugger
     this.invoiceStatusesFilters = options;
     this.applyFilter();
   }
-
-
 
   filterByVoucherHeader(voucherHeader: string) {
     this.offset = 0;
@@ -230,7 +256,6 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
       this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
-        debugger
         if(!res.hasErrors()) {
         this.cf.detectChanges();
          this.filteredVoucherName = res.data.data.map((filtered: Orders) => {
@@ -313,90 +338,11 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.getVouchersByMerchant();
   }
 
-  filterByStatus(voucherStatus: string) {
-    debugger
-    this.offset = 0;
-    this.voucherStatus = voucherStatus;
-    const params: any = {}
-    if(this.voucherStatus != '') {
-      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: ApiResponse<any>) => {
-        debugger
-        if(!res.hasErrors()) {
-        this.cf.detectChanges();
-         this.filteredStatusResult = res.data.data.map((filtered: Orders) => {
-          console.log(this.filteredStatusResult)
-          return {
-            id: filtered.id,
-            value: filtered.status,
-            checked: false
-          }
-         })
-         this.cf.detectChanges();
-        }
-      })
-    } else {
-      this.filteredStatusResult.length = 0;
-    }
-  }
-  filterByInvoiceStatus(invoiceStatus: string) {
-    this.offset = 0;
-    this.invoiceStatus = invoiceStatus;
-    const params: any = {}
-    if(this.invoiceStatus != '') {
-      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: ApiResponse<any>) => {
-        debugger
-        if(!res.hasErrors()) {
-        this.cf.detectChanges();
-         this.filteredInvoiceStatus = res.data.data.map((filtered: Orders) => {
-          console.log(this.filteredInvoiceStatus)
-          return {
-            id: filtered.id,
-            value: filtered.paymentStatus,
-            checked: false
-          }
-         })
-         this.cf.detectChanges();
-        }
-      })
-    } else {
-      this.filteredInvoiceStatus.length = 0;
-    }
-  }
-
-  filterByPaymentStatus(paymentStatus: string) {
-    this.offset = 0;
-    this.paymentStatus = paymentStatus;
-    this.getVouchersByMerchant();
-  }
-
   filterByDate(dateFrom: number, dateTo: number) {
     this.offset = 0;
     this.fromDate = dateFrom;
     this.toDate = dateTo;
     this.getVouchersByMerchant();
-  }
-
-  searchVoucher(voucherID: number) {
-    this.orderService.searchByVoucherID(voucherID)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((res:ApiResponse<any>) => {
-      if(!res.hasErrors()) {
-        if(!res.data) {
-          this.ordersData = res.data;
-          // this.noRecordFound = true;
-          this.cf.detectChanges();
-        }
-        else {
-          this.ordersData = res;
-          // this.noRecordFound = false;
-          this.cf.detectChanges();
-        }
-      }
-    })
   }
 
   getMerchantStatsForVouchers() {

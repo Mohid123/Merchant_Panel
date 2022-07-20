@@ -1,12 +1,12 @@
 export class SingleReview {
   _id?: string;
   dealID?: string;
-  dealHeader: string;
-  ratingsAverage: number;
-  totalReviews: number;
-  maxRating: number;
-  minRating: number;
-  Reviews: Reviews[];
+  dealHeader?: string;
+  ratingsAverage?: number;
+  totalReviews?: number;
+  maxRating?: number;
+  minRating?: number;
+  Reviews?: Reviews[];
 }
 
 class Reviews {
@@ -21,7 +21,7 @@ class Reviews {
   merchantID: string;
   text: string;
   totalRating: number;
-  multipleRating: multipleRatings[];
+  multipleRating?: multipleRatings[];
   customerEmail: string;
   customerName: string;
   profilePicURL: string;
@@ -29,7 +29,18 @@ class Reviews {
 }
 
 
-class multipleRatings {
-  ratingName: string;
-  ratingScore: number;
+export class multipleRatings {
+  ratingName?: string;
+  ratingScore?: number;
+}
+
+export class ReplySchema {
+  reviewID?: string;
+  merchantID?: string;
+  voucherID?: string;
+  merchantName?: string;
+  legalName?: string;
+  profilePicURL?: string;
+  merchantReplyText?: string;
+  deletedCheck: boolean;
 }
