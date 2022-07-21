@@ -1,22 +1,9 @@
-<!-- <div class="flex flex-row flex-wrap justify-between">
-  <div class="mb-3 text-3xl font-semibold text-left lg:mb-0">My Vouchers</div>
-  <div class="input-icon">
-    <span class="mt-2.5 ml-1 absolute flex items-center"><i class="p-2 ml-2 text-blue-400 rounded fas fa-search fa-lg"></i></span>
-    <input [formControl]="searchControl" placeholder="Search By Voucher ID" type="text" class="pl-12 text-blue-500 bg-blue-100 border-0 form-control">
-   </div>
-</div> -->
-
-
 <div class="flex flex-col justify-center mt-4 lg:flex-row lg:justify-between">
   <ng-container *ngIf="statsLoading == false">
     <app-pending-skeleton></app-pending-skeleton>
   </ng-container>
   <ng-container *ngIf="statsLoading == true">
     <div class="flex flex-col lg:flex-row justify-evenly">
-      <!-- <div class="flex flex-col mt-4 mr-7">
-        <span class="mb-4 text-lg text-gray-500 font-base">Total Sales</span>
-        <span class="text-5xl font-medium text-black">{{voucherStats?.totalVoucherSales}}</span>
-      </div> -->
       <div class="flex flex-row states statistics">
         <div style="padding: 0.875rem;" class="w-40 h-20 mr-4 bg-white">
           <span class="mb-1.5 text-sm font-medium">Total purchased</span>
@@ -28,31 +15,11 @@
           <br>
           <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">{{voucherStats?.redeemedVouchers}}</span>
         </div>
-        <!-- <div class="h-20 py-1 pl-1 pr-12 ml-3 text-center bg-white md:pl-2 lg:h-16 w-38p">
-          <span class="mb-2 text-xs text-gray-500">Expired</span>
-          <br>
-          <span class="text-base text-red-500">{{voucherStats?.expiredVouchers}}</span>
-        </div> -->
       </div>
     </div>
   </ng-container>
 
   <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
-    <!-- <div #myDrop="ngbDropdown" ngbDropdown display="dynamic" id="dropdownBasic1" class="m-2">
-      <button class="hidden font-light cursor-pointer xl:block xl:text-blue-400 xl:bg-blue-100 xl:rounded-md xl:px-6 xl:py-4 3xl:px-6 3xl:py-4" ngbDropdownToggle><i class="mr-3 text-blue-400 far fa-calendar-alt"></i>Pick Date Range<i class="ml-3 text-blue-400 fas fa-angle-down"></i></button>
-      <button class="inline-flex px-2 py-2 font-light text-blue-400 bg-blue-100 rounded-md cursor-pointer xl:hidden" ngbDropdownToggle><i class="text-blue-400 far fa-calendar-alt"></i><i class="ml-3 text-blue-400 fas fa-angle-down"></i></button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <ngb-datepicker
-        #dp
-        (dateSelect)="onDateSelection($event)"
-        [displayMonths]="1"
-        [dayTemplate]="t"
-        outsideDays="hidden"
-        [footerTemplate]="footerTemplate">
-        </ngb-datepicker>
-      </div>
-    </div> -->
-
     <div class="">
       <button
         [ngClass]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus ? 'cursor-not-allowed': 'cursor-pointer'"
@@ -61,7 +28,6 @@
         class="text-sm cursor-pointer reset-button text-primary-400 xl:rounded-md">
         Reset filters
       </button>
-      <!-- <button (click)="resetFilters()" class="inline-flex px-2 py-2 font-light text-blue-400 bg-blue-100 rounded-md cursor-pointer xl:hidden"><i class="text-blue-400 fas fa-retweet"></i></button> -->
     </div>
   </div>
 </div>

@@ -5,7 +5,7 @@
     [style.color]='(isOpen || isFilterApplied) ? "#0081E9":"#7E8299"'
     style="font-size: 10px !important;" class="filter" [class.active]="isOpen" class="p-1 fas fa-filter"></i>
   </button>
-  <div class="dropdown" ngbDropdownMenu aria-labelledby="dropdown">
+  <div class="mt-2 dropdown" ngbDropdownMenu aria-labelledby="dropdown">
     <div class="px-4 py-2 dropdown-container min-w-50">
       <ng-container *ngIf="sort">
         <button class="px-2 text-sm" ngbDropdownItem (click)="filterBySort('Ascending')">
