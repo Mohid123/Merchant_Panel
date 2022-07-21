@@ -104,15 +104,34 @@ export class FiltersComponent implements OnInit  {
     this.optionsList.length = 0;
     this.optionsListStatus.find((x: any) => x.checked = false)
     this.searchControl.setValue('');
+    this.sendFilter.emit('');
+    this.sendFilterStatus.emit('');
+    this.filterApplied.emit(false);
   }
 
   open() {
     this.isOpen = !this.isOpen;
-    this.optionsList?.forEach(x => x.checked ? this.allSelected = true : this.allSelected)
-    this.optionsListStatus.forEach(x => x.checked ? this.allSelected = true : this.allSelected)
+    const allChecked = this.optionsList?.filter(x => x.checked);
+    const allCheckedStatus = this.optionsListStatus?.filter(x => x.checked);
+    if(this.optionsList?.length > 0) {
+      if(allChecked?.length == this.optionsList?.length) {
+        this.allSelected = true
+      }
+      else {
+        this.allSelected = false
+      }
+    }
+    if(this.optionsListStatus?.length > 0) {
+      if(allCheckedStatus?.length == this.optionsListStatus?.length) {
+        this.allSelected = true
+      }
+    }
     if(!this.isOpen) {
-      this.clear();
-      this.spanner.nativeElement.style.display = 'none'
+      // this.allSelected = false;
+      // this.optionsList.length = 0;
+      // this.optionsListStatus.find((x: any) => x.checked = false)
+      // this.searchControl.setValue('');
+      this.spanner.nativeElement.style.display = 'none';
     }
   }
 

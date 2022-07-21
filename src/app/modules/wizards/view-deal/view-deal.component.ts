@@ -830,10 +830,13 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.appliedFilterID = false;
     this.appliedFilterHeader = false;
     this.appliedFilterStatus = false;
+    this.filteredHeader = [];
+    this.filteredResult = [];
     this.dealIDsFilters = [];
     this.dealHeadersFilters = [];
     this.dealStatusesFilters = [];
     this.title = '';
+    debugger
     this.applyFilters();
   }
 

@@ -117,6 +117,8 @@
             <td class="pl-4">
               <button *ngIf="data.paymentStatus== 'Paid' || data.paymentStatus== 'Credited'  " class="flex items-center justify-center w-24 rounded-lg badge badge-secondary h-9 text-primary-400" style="background-color: #4185F926;">{{data.paymentStatus}} <img class="ml-2" src="/assets/media/icons/open-external-link.svg"></button>
               <button *ngIf="data.paymentStatus== 'Paid' && data.paymentStatus== 'Credited'  " class="flex items-center justify-center w-24 h-9 bg-none">{{data.paymentStatus}}</button>
+              <span *ngIf="data.paymentStatus == 'Cooling off'" class="pl-2 text-gray-700">{{data.paymentStatus}}</span>
+              <span *ngIf="data.paymentStatus == 'In process'" class="pl-2 text-gray-700">{{data.paymentStatus}}</span>
             </td>
            </tr>
           </ng-container>

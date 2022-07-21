@@ -9,11 +9,9 @@
     <div class="z-50 flex flex-row items-end justify-end w-full mt-5 ml-2 lg:mt-0">
       <div class="absolute right-0 z-50 top-8">
         <button
-          [ngClass]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus ? 'cursor-not-allowed': 'cursor-pointer'"
-          [disabled]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus"
+          [ngClass]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus ? 'hidden': 'cursor-pointer z-50 text-primary-400 rounded-md px-4.5 py-2.5 mr-2 text-sm'"
           style="background-color: #D9E7FE;"
           (click)="resetFilters()"
-          class="cursor-pointer z-50 text-primary-400 rounded-md px-4.5 py-2.5 mr-2 text-sm"
           >
           Reset filters
         </button>
@@ -129,9 +127,9 @@
                         <td class="py-4 text-sm pl-11">{{(voucher.subTitle.length>24) ? ((voucher.subTitle) | slice:0:24)+'...':(voucher.subTitle)}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.voucherValidity}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.numberOfVouchers}}</td>
-                        <td class="px-5 py-4 text-sm">{{voucher.dealPrice}}&nbsp;&euro;</td>
-                        <td class="px-5 py-4 text-sm">{{voucher.originalPrice}}&nbsp;&euro;</td>
-                        <td class="px-5 py-4 text-sm">{{voucher.numberOfVouchers}}&nbsp;&euro;</td>
+                        <td class="py-4 pl-3 text-sm text-left">{{voucher.dealPrice}}&nbsp;&euro;</td>
+                        <td class="py-4 text-sm text-left pl-7">{{voucher.originalPrice}}&nbsp;&euro;</td>
+                        <td class="py-4 pl-16 text-sm text-left">{{voucher.numberOfVouchers}}&nbsp;&euro;</td> <!--ye wala-->
                         <td class="px-5 py-4 text-sm">
                           <img class="cursor-pointer" (click)="openNew(index, i)" src="../../../../assets/media/icons/edit.svg">
                         </td>

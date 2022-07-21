@@ -8,8 +8,12 @@
 }
 
 .mat-tab-body-content {
-  height: 800px!important;
-  overflow: auto!important;
+  height: auto!important;
+  overflow: hidden!important;
+}
+
+.mat-tab-body-content {
+  padding-bottom: 250px!important;
 }
 
 .page-item.active .page-link {

@@ -1,7 +1,7 @@
 <div style="all: unset" ngbDropdown [open]="isOpen" display="dynamic" id="dropdown">
   <button class="m-0" (click)="open()">
     <i
-    [style.background]='(isOpen || isFilterApplied) ? "#CCE6FB":"#F5F8FA"'
+    [style.background]='isOpen ? "#CCE6FB":"#F5F8FA"'
     [style.color]='(isOpen || isFilterApplied) ? "#0081E9":"#7E8299"'
     style="font-size: 10px !important;" class="filter" [class.active]="isOpen" class="p-1 fas fa-filter"></i>
   </button>
