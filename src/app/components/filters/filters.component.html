@@ -18,14 +18,14 @@
     <ng-container *ngIf="isStatusFilter">
       <div class="search">
         <div class="mb-3 fv-row">
-          <label for="" class="my-1 text-sm font-medium" style="color: #414950;">Filter By {{filterBy}}</label>
+          <label for="" class="my-1 text-sm font-medium" style="color: #414950;">Filter by {{filterBy}}</label>
         </div>
       </div>
     </ng-container>
     <ng-container *ngIf="search">
       <div class="search">
         <div class="mb-3 fv-row">
-          <label for="" class="my-1 text-sm font-medium" style="color: #414950;">Search By {{searchBy}}</label>
+          <label for="" class="my-1 text-sm font-medium" style="color: #414950;">Search by {{searchBy}}</label>
           <input [formControl]="searchControl" maxlength="100" appTrim type="text " class="text-base font-normal text-black form-control">
         </div>
       </div>
