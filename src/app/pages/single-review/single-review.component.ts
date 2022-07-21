@@ -7,9 +7,8 @@ import { ReviewsService } from '@pages/services/reviews.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
-import { SingleReview } from 'src/app/modules/wizards/models/single-review.model';
+import { ReplySchema, SingleReview } from 'src/app/modules/wizards/models/single-review.model';
 import { Reviews } from './../../modules/wizards/models/reviews.model';
-import { ReplySchema } from './../../modules/wizards/models/single-review.model';
 
 @Component({
   selector: 'app-single-review',
@@ -27,7 +26,7 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   rating: number;
   page: number;
   replyForm: FormGroup;
-  replyData: any;
+  replyData: ReplySchema[] | any;
 
   Substring: string;
   CompanyName: string;
@@ -38,7 +37,8 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   reviewValues: any[] = [];
   ReplySubject: BehaviorSubject<any> = new BehaviorSubject([]);
   ReplyObservable: Observable<any[]> = this.ReplySubject.asObservable();
-  voucherID: any;
+  voucherID: string;
+  reviewID: string;
 
   @ViewChild('modal') private modal: TemplateRef<any>
 
@@ -120,18 +120,20 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     this.getReviewsByMerchant();
   }
 
-  openReviewModal(voucherID: string) {
+  openReviewModal(reviewID: string, voucherID: string) {
+    this.reviewID = reviewID;
     this.voucherID = voucherID;
     this.reviewData.Reviews?.find((value: any) => {
-      if(value._id == this.voucherID) {
+      if(value._id == this.reviewID) {
         this.ReplySubject.value?.pop();
         this.reviewValues.push(value);
-        this.ReplySubject.next(this.reviewValues)
+        this.ReplySubject.next(this.reviewValues);
       }
     })
-    this.reviewService.getMerchantReply(this.authService.currentUserValue?.id, this.voucherID).subscribe((res: ApiResponse<ReplySchema>) => {
-      this.replyData = res.data;
-      console.log(this.replyData)
+    this.reviewService.getMerchantReply(this.authService.currentUserValue?.id, this.reviewID).subscribe((res: ApiResponse<any>) => {
+      this.replyData = res.data[0];
+      // console.log(this.ReplySubject.value)
+      // console.log(this.replyData)
     })
     return this.modalService.open(this.modal, {
       centered: true,
@@ -147,29 +149,32 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   }
 
   switchToReplyMode() {
-    this.switchToReply = false;
+    this.switchToReply = true;
   }
 
   discardReply() {
-    this.switchToReply = true;
+    this.switchToReply = false;
   }
 
   submitReply() {
     this.switchToReply = true;
-    this.replyView = true;
     const payload: any = {
-      reviewID: this.ReplySubject.value[0]?.reviewID,
-      merchantID: this.ReplySubject.value[0]?.merchantID,
-      voucherID: this.ReplySubject.value[0]?.voucherID,
-      merchantName: this.ReplySubject.value[0]?.merchantName,
-      legalName: this.ReplySubject.value[0]?.legalName,
-      profilePicURL: this.ReplySubject.value[0]?.profilePicURL,
+      reviewID: this.reviewID,
+      merchantID: this.authService.currentUserValue?.id,
+      voucherID: this.voucherID,
+      merchantName: this.authService.currentUserValue?.firstName,
+      legalName: this.authService.currentUserValue?.legalName,
+      profilePicURL: this.authService.currentUserValue?.profilePicURL,
       merchantReplyText: this.replyForm.get('merchantReplyText')?.value,
       deletedCheck: false
     }
     this.reviewService.createReply(payload).pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
       console.log(res)
+      this.reviewService.getMerchantReply(this.authService.currentUserValue?.id, this.reviewID).subscribe((res: ApiResponse<any>) => {
+        this.replyData = res.data[0];
+      })
+      this.switchToReply = false;
     })
   }
 

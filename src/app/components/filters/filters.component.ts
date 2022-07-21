@@ -19,6 +19,8 @@ export class FiltersComponent implements OnInit  {
   @Output() sendFilter = new EventEmitter();
   @Output() sendFilterStatus = new EventEmitter();
   @Output() searchItem = new EventEmitter();
+  @Output() filterApplied = new EventEmitter(false);
+  @Input() isFilterApplied = false;
   @Input() sort = false;
   @Input() search = false;
   @Input() isStatusFilter = false;
@@ -64,6 +66,7 @@ export class FiltersComponent implements OnInit  {
       sortByAscending: 'Ascending'
     }
     this.sendFilterStatus.emit(filters);
+    this.filterApplied.emit(true);
   }
 
   filterData() {
@@ -72,6 +75,7 @@ export class FiltersComponent implements OnInit  {
       sortByAscending: 'Ascending'
     }
     this.sendFilter.emit(filters);
+    this.filterApplied.emit(true);
   }
 
   checkAllCheckBox() {
@@ -104,7 +108,7 @@ export class FiltersComponent implements OnInit  {
 
   open() {
     this.isOpen = !this.isOpen;
-    this.optionsList.forEach(x => x.checked ? this.allSelected = true : this.allSelected)
+    this.optionsList?.forEach(x => x.checked ? this.allSelected = true : this.allSelected)
     this.optionsListStatus.forEach(x => x.checked ? this.allSelected = true : this.allSelected)
     if(!this.isOpen) {
       this.clear();

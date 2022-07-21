@@ -52,6 +52,8 @@ export class BillingsComponent implements OnInit, OnDestroy {
   kycForm: FormGroup;
   statsLoading: boolean;
   billingStats: MerchantStats;
+  appliedFilter: any;
+  dateAppliedFilter: any;
   statusTypes = [
     {
       status: 'Paid'
@@ -192,6 +194,10 @@ export class BillingsComponent implements OnInit, OnDestroy {
     })
   }
 
+  isFilterApplied(fiilterApplied: any) {
+    this.appliedFilter = fiilterApplied;
+  }
+
   applyFilter() {
     this.showData = false;
     const params: any = {
@@ -266,6 +272,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
     this.offset = 0;
     this.fromDate = startDate;
     this.toDate = endDate;
+    this.dateAppliedFilter = true;
     this.getInvoicesByMerchant();
   }
 
@@ -287,7 +294,6 @@ export class BillingsComponent implements OnInit, OnDestroy {
   }
 
   clear() {
-    debugger
     this.fromDate = '';
     this.toDate = '';
   }
@@ -321,6 +327,8 @@ export class BillingsComponent implements OnInit, OnDestroy {
 
   resetFilters() {
     this.limit = 7;
+    this.appliedFilter = false;
+    this.dateAppliedFilter = false;
     this.invoiceIDsFilter = [];
     this.invoiceID = '';
     this.fromDate = '';

@@ -47,7 +47,18 @@
   <div class="px-12 mt-4 table-container" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
     <div class="w-full">
       <thead class="flex items-center text-left text-black bg-white rounded-lg h-14">
-        <th class="w-full pr-4 font-semibold cursor-pointer xl:w-1/4 2xl:max-w-unset max-w-68">Invoice ID&nbsp; &nbsp;<app-filters (sendFilter)="filterSelectedInvoiceByID($event)" (searchItem)="filterByInvoiceID($event)" [options]="true" [search]="true" [searchBy]="'invoice no'" [optionsList]="filteredResult"></app-filters></th>
+        <th class="w-full pr-4 font-semibold cursor-pointer xl:w-1/4 2xl:max-w-unset max-w-68">Invoice ID&nbsp; &nbsp;
+          <app-filters
+            (sendFilter)="filterSelectedInvoiceByID($event)"
+            (searchItem)="filterByInvoiceID($event)"
+            [options]="true"
+            [search]="true"
+            [searchBy]="'invoice no'"
+            [optionsList]="filteredResult"
+            (filterApplied)="isFilterApplied($event)"
+            [isFilterApplied]="appliedFilter">
+          </app-filters>
+        </th>
         <th class="w-full pr-4 font-semibold cursor-pointer xl:w-1/4 2xl:max-w-unset max-w-68">
           <div class="flex">
             <div>
@@ -56,8 +67,8 @@
             <div #myDrop="ngbDropdown" ngbDropdown display="dynamic" id="dropdownBasic1" class="ml-2">
               <button class="cursor-pointer" ngbDropdownToggle>
                 <i class="p-1 fas fa-filter" [style.background]='myDrop.isOpen() ? "#CCE6FB":"#F5F8FA"'
-                  [style.color]='myDrop.isOpen() ? "#0081E9":"#7E8299"' style="font-size: 10px !important;"
-                  [class.active]="myDrop.isOpen()"></i>
+                  [style.color]='(myDrop.isOpen() || dateAppliedFilter) ? "#0081E9":"#7E8299"' style="font-size: 10px !important;"
+                  [class.active]="(myDrop.isOpen() || dateAppliedFilter)"></i>
               </button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="p-0">
                 <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="1" [dayTemplate]="t"

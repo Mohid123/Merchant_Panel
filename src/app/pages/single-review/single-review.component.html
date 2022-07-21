@@ -72,7 +72,7 @@
               </div>
             </td>
             <td>
-              <button (click)="openReviewModal(data._id)" class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
+              <button (click)="openReviewModal(data._id, data.voucherID)" class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
             </td>
           </tr>
         </ng-container>
@@ -165,7 +165,7 @@
     </div>
 
     <div class="flex justify-start px-10 pb-3">
-      <span class="py-5 text-lg font-semibold text-center text-white rounded-full px-7" style="background-color: #1D1D29;">{{data.customerName?.substring(0, 1)}}</span>
+      <span class="py-5 text-lg font-semibold text-center text-white rounded-full px-7" style="background-color: #1D1D29;">{{data.customerName?.substring(0, 1)?.toUpperCase()}}</span>
       <span style="color: #515151" class="px-6 text-sm">{{data?.text}}</span>
     </div>
 
@@ -173,29 +173,27 @@
 
     <!--Before Reply Submit View-->
 
-    <ng-container *ngFor="let reply of replyData">
-      <div *ngIf="reply.merchantReplyText" class="px-32 pb-32">
-        <button (click)="switchToReplyMode()" class="px-3 py-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Reply</button>
-      </div>
+    <div *ngIf="!replyData?.merchantReplyText && switchToReply == false" class="px-32 pb-32">
+      <button (click)="switchToReplyMode()" class="px-3 py-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Reply</button>
+    </div>
 
-      <div class="pb-8 pl-32 pr-16" *ngIf="switchToReply == true && !reply.merchantReplyText" [formGroup]="replyForm">
-        <textarea formControlName="merchantReplyText" name="merchantReplyText" rows="4" class="w-full p-2 rounded-md mytextArea" style="border: 1px solid #C5C5C5;"></textarea>
-        <div class="flex justify-start">
-          <button (click)="discardReply()" class="px-3 py-2 mr-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Discard</button>
-          <button (click)="submitReply()" class="px-3 py-2 text-xs text-white rounded-md" style="background-color:#0081E9;">Submit</button>
-        </div>
+    <div class="pb-8 pl-32 pr-16" *ngIf="!replyData?.merchantReplyText && switchToReply == true" [formGroup]="replyForm">
+      <textarea formControlName="merchantReplyText" name="merchantReplyText" rows="4" class="w-full p-2 rounded-md mytextArea" style="border: 1px solid #C5C5C5;"></textarea>
+      <div class="flex justify-start">
+        <button (click)="discardReply()" class="px-3 py-2 mr-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Discard</button>
+        <button (click)="submitReply()" class="px-3 py-2 text-xs text-white rounded-md" style="background-color:#0081E9;">Submit</button>
       </div>
+    </div>
 
-      <!--After Reply Submit View-->
-      <div class="pb-8 pl-44" *ngIf="reply.merchantReplyText">
-        <img src="../../../assets/media/icons/reply.svg">
-      </div>
+    <!--After Reply Submit View-->
+    <div class="px-32 pb-6" *ngIf="replyData?.merchantReplyText && switchToReply == false">
+      <img src="../../../assets/media/icons/line.svg">
+    </div>
 
-      <div class="flex justify-start px-32 pb-8" *ngIf="reply.merchantReplyText">
-        <span class="w-12 h-12 pt-3 text-base font-semibold text-center text-black" style="background-color: #E2F1FC; border-radius: 100%;">{{reply.merchantReplyText.substring(0, 1)}}</span>
-        <span style="color: #515151" class="px-6 text-sm"><span class="text-lg">Company name</span><br>{{semiLorem}}</span>
-      </div>
-    </ng-container>
+    <div class="relative flex justify-start pb-8 px-28" *ngIf="replyData?.merchantReplyText && switchToReply == false">
+      <span class="absolute top-0 px-5 py-3 text-lg font-semibold text-center text-black rounded-full" style="background-color: #E2F1FC; border-radius: 100%; left: 67px;">{{replyData?.legalName.substring(0, 1)}}</span>
+      <span style="color: #515151" class="px-6 text-sm"><span class="text-lg">Company name</span><br>{{replyData?.merchantReplyText}}</span>
+    </div>
 
 </ng-template>
 

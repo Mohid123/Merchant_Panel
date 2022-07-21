@@ -1,17 +1,17 @@
 <div style="all: unset" ngbDropdown [open]="isOpen" display="dynamic" id="dropdown">
   <button class="m-0" (click)="open()">
     <i
-    [style.background]='isOpen ? "#CCE6FB":"#F5F8FA"'
-    [style.color]='isOpen ? "#0081E9":"#7E8299"'
+    [style.background]='(isOpen || isFilterApplied) ? "#CCE6FB":"#F5F8FA"'
+    [style.color]='(isOpen || isFilterApplied) ? "#0081E9":"#7E8299"'
     style="font-size: 10px !important;" class="filter" [class.active]="isOpen" class="p-1 fas fa-filter"></i>
   </button>
   <div class="dropdown" ngbDropdownMenu aria-labelledby="dropdown">
     <div class="px-4 py-2 dropdown-container min-w-50">
       <ng-container *ngIf="sort">
-        <button class="text-sm" ngbDropdownItem (click)="filterBySort('Ascending')">
+        <button class="px-2 text-sm" ngbDropdownItem (click)="filterBySort('Ascending')">
         Sort A <i class="fas fa-long-arrow-alt-right"></i> Z
       </button>
-      <button class="text-sm" ngbDropdownItem (click)="filterBySort('Descending')">
+      <button class="px-2 text-sm" ngbDropdownItem (click)="filterBySort('Descending')">
         Sort Z <i class="fas fa-long-arrow-alt-right"></i> A
       </button>
     </ng-container>

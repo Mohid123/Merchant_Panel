@@ -25,6 +25,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   filteredResult: any;
   filteredResultSecond: any;
   dealIDsArray: any;
+  appliedFilterID: boolean;
+  appliedFilterStatus: boolean;
 
   filtersForRating = [
     {
@@ -67,6 +69,14 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         checked: false
       }
     })
+  }
+
+  isFilterAppliedOnID(filteredID: any) {
+    this.appliedFilterID = filteredID
+  }
+
+  isFilterAppliedOnStatus(filteredStatus: any) {
+    this.appliedFilterStatus = filteredStatus
   }
 
   filterSelectedReviewByID(options: any) {
@@ -127,6 +137,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   resetFilters() {
     this.limit = 7;
+    this.appliedFilterID = false;
+    this.appliedFilterStatus = false;
     this.averageRating = ['All'];
     this.dealIDsArray = [];
     this.dealID = '';

@@ -57,6 +57,11 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   invoiceStatusesFilters: any;
   filteredVoucherName: any;
   filteredInvoiceStatus: any;
+  appliedFilterID: boolean;
+  appliedFilterHeader: boolean;
+  appliedFilterVoucherHeader: boolean;
+  appliedFilterStatus: boolean;
+  appliedFilterPaymentStatus: boolean;
 
   statusTypes = [
     {
@@ -82,10 +87,6 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   ];
 
   paymentTypes = [
-    {
-      id: 0,
-      paymentStatus: 'Select all'
-    },
     {
       id: 1,
       paymentStatus: 'Paid'
@@ -151,6 +152,26 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
         this.cf.detectChanges();
       }
     })
+  }
+
+  isFilterAppliedOnID(fiilterApplied: any) {
+    this.appliedFilterID = fiilterApplied;
+  }
+
+  isFilterAppliedOnHeader(fiilterApplied: any) {
+    this.appliedFilterHeader = fiilterApplied;
+  }
+
+  isFilterAppliedOnVoucherHeader(fiilterApplied: any) {
+    this.appliedFilterVoucherHeader = fiilterApplied;
+  }
+
+  isFilterAppliedOnStatus(fiilterApplied: any) {
+    this.appliedFilterStatus = fiilterApplied;
+  }
+
+  isFilterAppliedOnPaymentStatus(fiilterApplied: any) {
+    this.appliedFilterPaymentStatus = fiilterApplied;
   }
 
   applyFilter() {
@@ -273,17 +294,20 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     else {
       this.filteredVoucherName.length = 0;
     }
-   }
+  }
+
   filterByTitle(deal: any) {
     this.limit = 7;
     this.deal = deal;
     this.applyFilter();
   }
+
   filterByVoucherName(deal: any) {
     this.limit = 7;
     this.deal = deal;
     this.applyFilter();
   }
+
   filterByStatusName(deal: any) {
     this.limit = 7;
     this.deal = deal;
@@ -381,6 +405,11 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   resetFilters() {
     // this.offset = 0;
+    this.appliedFilterID = false;
+    this.appliedFilterHeader = false;
+    this.appliedFilterVoucherHeader = false;
+    this.appliedFilterStatus = false;
+    this.appliedFilterPaymentStatus = false;
     this.limit = 7;
     this.voucherIDsFilter = [];
     this.dealHeadersFilters = [];
