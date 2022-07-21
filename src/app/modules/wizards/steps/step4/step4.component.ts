@@ -90,7 +90,7 @@ export class Step4Component implements OnInit, OnDestroy {
     private cf: ChangeDetectorRef,
     private dealService: DealService) {
       const current = new Date();
-      this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate()}
+      this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2}
 
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       if(response) {
