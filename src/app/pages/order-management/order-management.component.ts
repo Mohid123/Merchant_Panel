@@ -304,7 +304,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   sortByVoucherName(deal: any) {
     this.limit = 7;
-    this.voucherheader = deal;
+    this.deal = deal;
     this.applyFilter();
   }
 

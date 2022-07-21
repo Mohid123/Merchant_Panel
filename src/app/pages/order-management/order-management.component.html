@@ -22,8 +22,8 @@
   <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
     <div class="">
       <button
-        [ngClass]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus ? 'cursor-not-allowed': 'cursor-pointer'"
-        [disabled]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus"
+        [ngClass]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus && !appliedFilterPaymentStatus ? 'cursor-not-allowed': 'cursor-pointer'"
+        [disabled]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus && !appliedFilterPaymentStatus"
         (click)="resetFilters()"
         class="text-sm cursor-pointer reset-button text-primary-400 xl:rounded-md">
         Reset filters
