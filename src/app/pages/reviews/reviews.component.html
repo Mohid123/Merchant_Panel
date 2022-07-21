@@ -25,7 +25,14 @@
   <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
 
     <div class="flex flex-row justify-start w-full gap-3 ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0"><div class="">
-      <button (click)="resetFilters()" class="text-sm font-medium cursor-pointer reset-button text-primary-400 xl:rounded-md">Reset filters</button>
+      <button
+        [ngClass]="!appliedFilterID && !appliedFilterStatus ? 'cursor-not-allowed': 'cursor-pointer'"
+        [disabled]="!appliedFilterID && !appliedFilterStatus"
+        (click)="resetFilters()"
+        class="text-sm font-medium cursor-pointer reset-button text-primary-400 xl:rounded-md"
+        [disabled]="">
+        Reset filters
+      </button>
     </div>
     <div class="">
       <button [routerLink]="['/new-reviews']" class="w-40 px-4 pt-2.5 text-sm cursor-pointer btn KYC reset-button xl:rounded-md bg-primary-400" style="color:#EEEEEE">View new reviews</button>
