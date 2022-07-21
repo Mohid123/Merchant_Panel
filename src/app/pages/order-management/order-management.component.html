@@ -54,7 +54,13 @@
     </div> -->
 
     <div class="">
-      <button (click)="resetFilters()" class="text-sm cursor-pointer reset-button text-primary-400 xl:rounded-md">Reset filters</button>
+      <button
+        [ngClass]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus ? 'cursor-not-allowed': 'cursor-pointer'"
+        [disabled]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus"
+        (click)="resetFilters()"
+        class="text-sm cursor-pointer reset-button text-primary-400 xl:rounded-md">
+        Reset filters
+      </button>
       <!-- <button (click)="resetFilters()" class="inline-flex px-2 py-2 font-light text-blue-400 bg-blue-100 rounded-md cursor-pointer xl:hidden"><i class="text-blue-400 fas fa-retweet"></i></button> -->
     </div>
   </div>
@@ -82,7 +88,7 @@
         </th>
         <th class="w-48 pr-4 font-semibold cursor-pointer">Deal header&nbsp;
           <app-filters
-            (sortHeader)="filterByTitle($event)"
+            (sortHeader)="sortByTitle($event)"
             (sendFilter)="filterSelectedDealByHeader($event)"
             [sort]="true"
             (searchItem)="filterByDealHeader($event)"
@@ -96,7 +102,7 @@
         </th>
         <th class="pr-4 font-semibold cursor-pointer w-60">Voucher header&nbsp;
           <app-filters
-            (sortHeader)="filterByVoucherName($event)"
+            (sortHeader)="sortByVoucherName($event)"
             [sort]="true"
             [searchBy]="'voucher name'"
             (sendFilter)="filterSelectedDealByVoucherHeader($event)"
@@ -112,9 +118,7 @@
         <th class="pr-4 font-semibold text-right cursor-pointer w-28">Net earnings</th>
         <th class="w-40 pl-16 pr-4 font-semibold cursor-pointer">Status&nbsp;
           <app-filters
-            (sortHeader)="filterByStatusName($event)"
-            [sort]="true"
-            [filterBy]="'rating'"
+            [filterBy]="'status'"
             [isStatusFilter]="true"
             (sendFilterStatus)="filterSelectedStatus($event)"
             [statusFilters]="true"
@@ -125,9 +129,7 @@
         </th>
         <th class="font-semibold cursor-pointer w-36">Invoice status&nbsp;
           <app-filters
-            (sortHeader)="filterByStatusName($event)"
-            [sort]="true"
-            [filterBy]="'rating'"
+            [filterBy]="'payment status'"
             [isStatusFilter]="true"
             (sendFilterStatus)="filterSelectedInvoiceStatus($event)"
             [statusFilters]="true"

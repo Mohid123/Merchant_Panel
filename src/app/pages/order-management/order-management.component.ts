@@ -29,6 +29,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   fromDate: NgbDate | any;
   toDate: NgbDate | any = null;
   deal : string = '';
+  voucherheader: string = '';
   amount: string;
   status: string;
   paymentStatus: string;
@@ -264,7 +265,6 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   filterSelectedInvoiceStatus(options: string) {
     this.showData = false;
-    debugger
     this.invoiceStatusesFilters = options;
     this.applyFilter();
   }
@@ -296,15 +296,15 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterByTitle(deal: any) {
+  sortByTitle(deal: any) {
     this.limit = 7;
     this.deal = deal;
     this.applyFilter();
   }
 
-  filterByVoucherName(deal: any) {
+  sortByVoucherName(deal: any) {
     this.limit = 7;
-    this.deal = deal;
+    this.voucherheader = deal;
     this.applyFilter();
   }
 

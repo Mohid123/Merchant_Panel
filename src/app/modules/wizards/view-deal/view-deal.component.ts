@@ -115,18 +115,34 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   statusTypes = [
     {
-      status: 'Published'
+      id: 0,
+      status: 'Draft'
     },
     {
+      id: 1,
+      status: 'In review'
+    },
+    {
+      id: 2,
       status: 'Scheduled'
     },
     {
-      status: 'In Review'
+      id: 3,
+      status: 'Needs Attention'
     },
     {
-      status: 'Bounced'
+      id: 4,
+      status: 'Published'
+    },
+    {
+      id: 5,
+      status: 'Expired'
     }
   ];
+
+  appliedFilterID: boolean = false;
+  appliedFilterHeader: boolean = false;
+  appliedFilterStatus: boolean = false;
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -183,6 +199,13 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getDealsByMerchantID();
     this.initEditVouchers();
+    this.filteredStatus = this.statusTypes.map((filtered: any) => {
+      return {
+        id: filtered.id,
+        value: filtered.status,
+        checked: false
+      }
+    });
   }
 
   initEditVouchers() {
@@ -348,6 +371,18 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     })
   }
 
+  isFilterAppliedOnID(fiilterApplied: any) {
+    this.appliedFilterID = fiilterApplied;
+  }
+
+  isFilterAppliedOnHeader(fiilterApplied: any) {
+    this.appliedFilterHeader = fiilterApplied;
+  }
+
+  isFilterAppliedOnStatus(fiilterApplied: any) {
+    this.appliedFilterStatus = fiilterApplied;
+  }
+
   deleteDeal(dealID: string) {
     this.dealService.deleteDeal(dealID)
     .pipe(takeUntil(this.destroy$))
@@ -390,17 +425,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     }
     else {
       this.endDate = endDate;
-    }
-    this.getDealsByMerchantID();
-  }
-
-  filterByPrice(price: string) {
-    this.offset = 0;
-    if(this.price == '' || this.price == 'Descending') {
-      this.price = 'Ascending'
-    }
-    else {
-      this.price = price;
     }
     this.getDealsByMerchantID();
   }
@@ -803,6 +827,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   resetFilters() {
     this.limit = 7;
+    this.appliedFilterID = false;
+    this.appliedFilterHeader = false;
+    this.appliedFilterStatus = false;
     this.dealIDsFilters = [];
     this.dealHeadersFilters = [];
     this.dealStatusesFilters = [];

@@ -30,7 +30,13 @@
   </ng-container>
 
   <div class="flex flex-row justify-start w-full gap-3 ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0"><div class="">
-      <button (click)="resetFilters()" class="text-sm font-medium cursor-pointer reset-button text-primary-400 xl:rounded-md">Reset filters</button>
+      <button
+        [ngClass]="!appliedFilter && !dateAppliedFilter ? 'cursor-not-allowed': 'cursor-pointer'"
+        [disabled]="!appliedFilter && !dateAppliedFilter"
+        (click)="resetFilters()"
+        class="text-sm font-medium cursor-pointer reset-button text-primary-400 xl:rounded-md">
+        Reset filters
+      </button>
       <!-- <button (click)="resetFilters()" class="inline-flex px-2 py-2 text-blue-400 bg-blue-100 rounded-md cursor-pointer xl:hidden"><i class="text-blue-400 fas fa-retweet"></i></button> -->
     </div>
     <div class="">

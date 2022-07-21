@@ -8,7 +8,15 @@
   <div class="relative">
     <div class="z-50 flex flex-row items-end justify-end w-full mt-5 ml-2 lg:mt-0">
       <div class="absolute right-0 z-50 top-8">
-        <button style="background-color: #D9E7FE;" (click)="resetFilters()" class="cursor-pointer z-50 text-primary-400 rounded-md px-4.5 py-2.5 mr-2 text-sm">Reset filters</button>
+        <button
+          [ngClass]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus ? 'cursor-not-allowed': 'cursor-pointer'"
+          [disabled]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus"
+          style="background-color: #D9E7FE;"
+          (click)="resetFilters()"
+          class="cursor-pointer z-50 text-primary-400 rounded-md px-4.5 py-2.5 mr-2 text-sm"
+          >
+          Reset filters
+        </button>
         <button [routerLink]="['/deals/create-deal']" style="background-color: #0081E9;" class="cursor-pointer z-50 text-white rounded-md px-4.5 py-2.5 text-sm">Create deal</button>
       </div>
    </div>
@@ -26,9 +34,43 @@
         <table class="w-full">
           <thead class="relative">
             <tr class="text-left text-gray-700 bg-white rounded-lg">
-              <th class="py-4 font-semibold text-main pl-14">Deal ID &nbsp;<app-filters (sendFilter)="filterSelectedDealByID($event)" [optionsList]="filteredResult" (searchItem)="filterByDealID($event)" [options]="true" [search]="true" [searchBy]="'ID'"></app-filters></th>
-              <th class="p-4 font-semibold text-main">Deal header &nbsp;<app-filters (sortHeader)="filterByTitle($event)" (sendFilter)="filterSelectedDealByHeader($event)" [search]="true" [sort]="true" [searchBy]="'deal name'" [options]="true" (searchItem)="filterByDealHeader($event)" [optionsList]="filteredHeader"></app-filters></th>
-              <th class="p-4 font-semibold text-main">Status &nbsp;<app-filters (sortHeader)="filterByTitle($event)" (sendFilter)="filterSelectedDealByStatus($event)" [optionsList]="filteredStatus" (searchItem)="filterByDealStatus($event)" [sort]="true" [options]="true" [search]="true" [searchBy]="'status'"></app-filters></th>
+              <th class="py-4 font-semibold text-main pl-14">Deal ID &nbsp;
+                  <app-filters
+                  (sendFilter)="filterSelectedDealByID($event)"
+                  [optionsList]="filteredResult"
+                  (searchItem)="filterByDealID($event)"
+                  [options]="true"
+                  [search]="true"
+                  [searchBy]="'ID'"
+                  (filterApplied)="isFilterAppliedOnID($event)"
+                  [isFilterApplied]="appliedFilterID">
+                </app-filters>
+              </th>
+              <th class="p-4 font-semibold text-main">Deal header &nbsp;
+                <app-filters
+                  (sortHeader)="filterByTitle($event)"
+                  (sendFilter)="filterSelectedDealByHeader($event)"
+                  [search]="true"
+                  [sort]="true"
+                  [searchBy]="'deal name'"
+                  [options]="true"
+                  (searchItem)="filterByDealHeader($event)"
+                  [optionsList]="filteredHeader"
+                  (filterApplied)="isFilterAppliedOnHeader($event)"
+                  [isFilterApplied]="appliedFilterHeader">
+                </app-filters>
+              </th>
+              <th class="p-4 font-semibold text-main">Status &nbsp;
+                <app-filters
+                  [filterBy]="'deal status'"
+                  [isStatusFilter]="true"
+                  [statusFilters]="true"
+                  (sendFilterStatus)="filterSelectedDealByStatus($event)"
+                  [optionsListStatus]="filteredStatus"
+                  (filterApplied)="isFilterAppliedOnStatus($event)"
+                  [isFilterApplied]="appliedFilterStatus">
+                </app-filters>
+              </th>
               <th class="p-4 font-semibold text-main">Voucher sold</th>
               <th class="p-4 font-semibold text-main">Total net earnings</th>
             </tr>
@@ -111,8 +153,15 @@
            </ng-container>
 
            <ng-container *ngIf="currentEvents.length == 0">
-            <tr class="flex justify-center align-middle">
-              <span class="py-16 text-lg font-semibold text-center text-gray-700">No record/s found</span>
+            <tr class="w-full text-center">
+              <td colspan="8" class="w-full pt-12 text-xl font-semibold text-gray-700">
+                No Record Found
+              </td>
+            </tr>
+            <tr class="w-full text-center">
+              <td colspan="8" class="w-full py-3 text-gray-600">
+                It seems we can't find any results.
+              </td>
             </tr>
           </ng-container>
         </table>
