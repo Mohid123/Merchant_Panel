@@ -108,8 +108,8 @@ export class FiltersComponent implements OnInit  {
 
   open() {
     this.isOpen = !this.isOpen;
-    this.optionsList?.forEach(x => x.checked ? this.allSelected = true : this.allSelected = false)
-    this.optionsListStatus.forEach(x => x.checked ? this.allSelected = true : this.allSelected = false)
+    this.optionsList?.forEach(x => x.checked ? this.allSelected = true : this.allSelected)
+    this.optionsListStatus.forEach(x => x.checked ? this.allSelected = true : this.allSelected)
     if(!this.isOpen) {
       this.clear();
       this.spanner.nativeElement.style.display = 'none'
