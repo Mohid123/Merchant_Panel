@@ -134,7 +134,7 @@
 
     <ng-container *ngFor="let ratings of data?.multipleRating">
       <div class="flex justify-start w-full px-10 py-2">
-        <ngb-progressbar class="mt-2.5" style="width: 8.938rem;" height=".4rem" type="warning" [value]="(ratings.ratingScore * 10)"></ngb-progressbar>
+        <ngb-progressbar class="mt-2.5" style="width: 8.938rem;" height=".4rem" type="warning" [value]="(ratings.ratingScore * 10)* 2"></ngb-progressbar>
 
         <div class="px-4 rating">
           <div class="rating-label me-1" [ngClass]="ratings.ratingScore > 0 ? 'checked': ''">
