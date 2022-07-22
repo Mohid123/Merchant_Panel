@@ -199,6 +199,11 @@
                 message: 'Special characters are not allowed',
                 control: f['vatNumber']}">
               </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'notAvailable',
+                message: 'Please provide a valid vat number',
+                control: f['vatNumber']}">
+              </ng-container>
             </div>
 
             <div class="h-90px fv-row 2xl:h-26">
@@ -211,21 +216,6 @@
                   placeholder="Company Name"
                   formControlName="legalName" autocomplete="off">
                </div>
-               <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'required',
-                message: 'Company Name is required',
-                control: f['legalName']}">
-                </ng-container>
-                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'minlength',
-                message: 'Company Name should have at least 3 letters',
-                control: f['legalName']}">
-                </ng-container>
-                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message: 'Company Name should have maximum 30 letters',
-                control: f['legalName']}">
-                </ng-container> -->
             </div>
 
             <div class="h-90px fv-row 2xl:h-26">
@@ -236,19 +226,19 @@
                 'is-invalid': f['streetAddress'].invalid && f['streetAddress'].touched ,
                 'is-valid': f['streetAddress'].valid}" />
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'required',
-                            message: 'Street Address is required',
-                            control: f['streetAddress']}">
+                  validation: 'required',
+                  message: 'Street Address is required',
+                  control: f['streetAddress']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'minlength',
-                            message: 'Street Address should have at least 3 letters',
-                            control: f['streetAddress']}">
+                  validation: 'minlength',
+                  message: 'Street Address should have at least 3 letters',
+                  control: f['streetAddress']}">
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'maxlength',
-                            message: 'Street Address should have maximum 100 letters',
-                            control: f['streetAddress']}">
+                  validation: 'maxlength',
+                  message: 'Street Address should have maximum 100 letters',
+                  control: f['streetAddress']}">
               </ng-container>
             </div>
 
@@ -273,7 +263,12 @@
                   validation: 'minLength',
                   message: 'Incorrect zipcode',
                   control: f['zipCode']}">
-                  </ng-container>
+                </ng-container>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'notAvailable',
+                  message: 'A city for the provided zip code does not exist',
+                  control: f['zipCode']}">
+                </ng-container>
             </div>
 
             <div class="h-90px fv-row 2xl:h-26 province">

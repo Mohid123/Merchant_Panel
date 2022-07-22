@@ -97,7 +97,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
     this.f['zipCode'].valueChanges.pipe(takeUntil(this.destroy$), debounceTime(400))
     .subscribe(value => {
-      if(value != '' || value.length > 0) {
+      if(value != '' && value.length == 4) {
         this.matchZipCodeWithCity()
       }
       else {
@@ -257,17 +257,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             this.cf.detectChanges();
           }
           else if(res.data.length == 0) {
-            this.toast.error('Please provide valid zip code', {
-              style: {
-                border: '1px solid #b71c1c',
-                padding: '16px',
-                color: '#b71c1c',
-              },
-              iconTheme: {
-                primary: '#b71c1c',
-                secondary: '#ffcdd2',
-              }
-            })
             this.registrationForm.controls['zipCode']?.setErrors({
               notAvailable: true
             });
@@ -300,17 +289,6 @@ matchCompanywithVatNumber() {
         this.cf.detectChanges();
       }
       else {
-        this.toast.error('Company name does not exist', {
-          style: {
-            border: '1px solid #b71c1c',
-            padding: '16px',
-            color: '#b71c1c',
-          },
-          iconTheme: {
-            primary: '#b71c1c',
-            secondary: '#ffcdd2',
-          }
-        })
         this.registrationForm.controls['legalName']?.setValue('');
         this.registrationForm.controls['vatNumber']?.setErrors({
           notAvailable: true
@@ -365,17 +343,14 @@ emailValidator() {
   }
 }
 
-
-// const payload: Partial<RegisterModel> = {
-//   businessType: this.registrationForm.value.businessType,
-//   firstName: this.registrationForm.value.firstName,
-//   lastName: this.registrationForm.value.lastName,
-//   email: this.registrationForm.value.email,
-//   phoneNumber: `+${this.countryCode}${this.registrationForm.value.phoneNumber}`,
-//   companyName: this.registrationForm.value.companyName,
-//   streetAddress: this.registrationForm.value.streetAddress,
-//   zipCode: this.registrationForm.value.zipCodes,
-//   city: this.registrationForm.value.city,
-//   province: this.registrationForm.value.province,
-//   website_socialAppLink: this.registrationForm.value.website_socialAppLink,
-// }
+// this.toast.error('Please provide valid zip code', {
+//   style: {
+//     border: '1px solid #b71c1c',
+//     padding: '16px',
+//     color: '#b71c1c',
+//   },
+//   iconTheme: {
+//     primary: '#b71c1c',
+//     secondary: '#ffcdd2',
+//   }
+// })
