@@ -42,7 +42,7 @@
           </label>
           <label class="h-6 mb-2 checkbox checkbox-square">
             <input [checked]="option.checked" (change)="checkBoxClick(option.id, option.checked)" type="checkbox" name="options" class="mr-2.5">
-            <span></span>{{option.value}}
+            <span></span>{{(option.value.length > 20) ? ((option.value) | slice:0:20)+'...':(option.value)}}
           </label>
         </ng-container>
         <ng-container *ngIf="optionsList?.length == 0">
