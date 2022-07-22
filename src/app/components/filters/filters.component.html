@@ -3,6 +3,8 @@
     <i
     [style.background]='isOpen ? "#CCE6FB":"#F5F8FA"'
     [style.color]='(isOpen || isFilterApplied) ? "#0081E9":"#7E8299"'
+    [style.border]='isFilterApplied ? "1px solid #E2EDFE": ""'
+    [style.border-radius]='isFilterApplied ? "4px": ""'
     style="font-size: 10px !important;" class="filter" [class.active]="isOpen" class="p-1 fas fa-filter"></i>
   </button>
   <div class="mt-2 dropdown" ngbDropdownMenu aria-labelledby="dropdown">

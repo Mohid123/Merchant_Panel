@@ -66,7 +66,9 @@ export class FiltersComponent implements OnInit  {
       sortByAscending: 'Ascending'
     }
     this.sendFilterStatus.emit(filters);
-    this.filterApplied.emit(true);
+    if(filters.filterData.length > 0) {
+      this.filterApplied.emit(true);
+    }
   }
 
   filterData() {
@@ -75,7 +77,9 @@ export class FiltersComponent implements OnInit  {
       sortByAscending: 'Ascending'
     }
     this.sendFilter.emit(filters);
-    this.filterApplied.emit(true);
+    if(filters.filterData.length > 0) {
+      this.filterApplied.emit(true);
+    }
   }
 
   checkAllCheckBox() {

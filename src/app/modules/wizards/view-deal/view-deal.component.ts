@@ -7,6 +7,7 @@ import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { NgbDate, NgbDropdown, NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
+import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -188,7 +189,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     private cf: ChangeDetectorRef,
     private toast: HotToastService,
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private commonService: CommonFunctionsService
   ) {
       this.page = 1
       this.fromDate = '';
@@ -471,7 +473,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
         this.cf.detectChanges();
-        this.filteredHeader = res.data.data.map((filtered: MainDeal) => {
+        const uniqueArray = this.commonService.getUniqueListBy(res.data.data, 'dealHeader')
+        this.filteredHeader = uniqueArray.map((filtered: any) => {
           return {
             id: filtered.id,
             value: filtered.dealHeader,
@@ -484,32 +487,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     }
     else {
       this.filteredHeader.length = 0;
-    }
-  }
-
-  filterByDealStatus(status: string) {
-    this.offset = 0;
-    this.dealStatus = status;
-    const params: any = {}
-    if(this.dealStatus != '') {
-      this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: ApiResponse<any>) => {
-        if(!res.hasErrors()) {
-        this.cf.detectChanges();
-        this.filteredStatus = res.data.data.map((filtered: MainDeal) => {
-          return {
-            id: filtered.id,
-            value: filtered.dealStatus,
-            checked: false
-          }
-        })
-        this.cf.detectChanges();
-        }
-      })
-    }
-    else {
-      this.filteredStatus.length = 0;
     }
   }
 

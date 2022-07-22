@@ -22,10 +22,13 @@
   <div class="flex flex-row justify-start w-full ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0">
     <div class="">
       <button
-        [ngClass]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus && !appliedFilterPaymentStatus ? 'cursor-not-allowed': 'cursor-pointer'"
-        [disabled]="!appliedFilterID && !appliedFilterHeader && !appliedFilterStatus && !appliedFilterPaymentStatus"
-        (click)="resetFilters()"
-        class="text-sm cursor-pointer reset-button text-primary-400 xl:rounded-md">
+        [ngClass]="
+          !appliedFilterID &&
+          !appliedFilterHeader &&
+          !appliedFilterStatus &&
+          !appliedFilterPaymentStatus &&
+          !appliedFilterVoucherHeader ? 'hidden': 'text-sm cursor-pointer reset-button text-primary-400 xl:rounded-md'"
+        (click)="resetFilters()">
         Reset filters
       </button>
     </div>
@@ -110,7 +113,7 @@
           <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
             <td class="pr-4">{{(data.voucherID.toString().length > 30)? ((data.voucherID) | slice:0:30)+'..':(data.voucherID)}}</td>
             <td class="pr-4">{{(data.dealHeader.length>30) ? ((data.dealHeader) | slice:0:30)+'..':(data.dealHeader)}}</td>
-            <td class="pr-4"> Voucher {{(data.voucherHeader.length>30)? ((data.voucherHeader) | slice:0:30)+'..':(data.voucherHeader)}}</td>
+            <td class="pr-4"> {{(data.voucherHeader.length>30)? ((data.voucherHeader) | slice:0:30)+'..':(data.voucherHeader)}}</td>
             <td class="pr-12 text-right">{{data.amount}}&nbsp;&euro;</td>
             <td class="pr-4 text-right">{{data.amount}}&nbsp;&euro;</td>
             <td class="pl-16 pr-4">{{data.status}}</td>

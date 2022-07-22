@@ -27,6 +27,7 @@ export class OrdersService extends ApiService<OrdersData> {
     invoiceStatus: string,
 
     deal: string,
+    voucher: string,
     data: {
       voucherIDsArray: string[];
       dealHeaderArray: string[];
@@ -37,7 +38,7 @@ export class OrdersService extends ApiService<OrdersData> {
     page--;
     offset = page ? limit * page : 0;
     limit = limit
-    return this.post(`/voucher/getAllVouchersByMerchantID/${merchantID}?deal=${deal}&voucherID=${voucherID}&dealHeader=${dealHeader}&voucherHeader=${voucherHeader}&voucherStatus=${voucherStatus}&invoiceStatus=${invoiceStatus}&offset=${offset}&limit=${limit}`, data);
+    return this.post(`/voucher/getAllVouchersByMerchantID/${merchantID}?deal=${deal}&voucher=${voucher}&voucherID=${voucherID}&dealHeader=${dealHeader}&voucherHeader=${voucherHeader}&voucherStatus=${voucherStatus}&invoiceStatus=${invoiceStatus}&offset=${offset}&limit=${limit}`, data);
   }
 
 

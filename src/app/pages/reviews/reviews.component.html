@@ -26,11 +26,8 @@
 
     <div class="flex flex-row justify-start w-full gap-3 ml-2 lg:items-end lg:justify-end mt-9 lg:mt-0"><div class="">
       <button
-        [ngClass]="!appliedFilterID && !appliedFilterStatus ? 'cursor-not-allowed': 'cursor-pointer'"
-        [disabled]="!appliedFilterID && !appliedFilterStatus"
-        (click)="resetFilters()"
-        class="text-sm font-medium cursor-pointer reset-button text-primary-400 xl:rounded-md"
-        [disabled]="">
+        [ngClass]="!appliedFilterID && !appliedFilterStatus ? 'hidden': 'text-sm font-medium cursor-pointer reset-button text-primary-400 xl:rounded-md'"
+        (click)="resetFilters()">
         Reset filters
       </button>
     </div>
@@ -105,6 +102,19 @@
               <button [disabled]="data.totalReviews == 0" [routerLink]="['/single-review/', data._id]"
               class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md"
               [ngClass]="data.totalReviews == 0 ? 'opacity-50': 'hover:bg-blue-600 hover:text-white'">View</button>
+            </td>
+          </tr>
+        </ng-container>
+
+        <ng-container *ngIf="reviewsData?.data.length == 0">
+          <tr class="w-full text-center">
+            <td colspan="8" class="w-full pt-12 text-xl font-semibold text-gray-700">
+              No Record Found
+            </td>
+          </tr>
+          <tr class="w-full text-center">
+            <td colspan="8" class="w-full py-3 text-gray-600">
+              It seems we can't find any results.
             </td>
           </tr>
         </ng-container>

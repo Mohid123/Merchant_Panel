@@ -5,9 +5,9 @@ import { ApiResponse } from '@core/models/response.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewsService } from '@pages/services/reviews.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
-import { ReplySchema, SingleReview } from 'src/app/modules/wizards/models/single-review.model';
+import { SingleReview } from 'src/app/modules/wizards/models/single-review.model';
 import { Reviews } from './../../modules/wizards/models/reviews.model';
 
 @Component({
@@ -26,7 +26,6 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   rating: number;
   page: number;
   replyForm: FormGroup;
-  replyData: ReplySchema[] | any;
 
   Substring: string;
   CompanyName: string;
@@ -37,6 +36,8 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   reviewValues: any[] = [];
   ReplySubject: BehaviorSubject<any> = new BehaviorSubject([]);
   ReplyObservable: Observable<any[]> = this.ReplySubject.asObservable();
+  merchantReplyData: BehaviorSubject<any> = new BehaviorSubject({});
+  merchantReplyDataObservable: Observable<any> = this.merchantReplyData.asObservable();
   voucherID: string;
   reviewID: string;
 
@@ -128,12 +129,12 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
         this.ReplySubject.value?.pop();
         this.reviewValues.push(value);
         this.ReplySubject.next(this.reviewValues);
+        this.reviewValues.forEach((x: any) => {
+          const merchantReplyText = x.merchantReplyText[0]
+          this.merchantReplyData.next(merchantReplyText);
+          console.log(this.merchantReplyData.value);
+        })
       }
-    })
-    this.reviewService.getMerchantReply(this.authService.currentUserValue?.id, this.reviewID).subscribe((res: ApiResponse<any>) => {
-      this.replyData = res.data[0];
-      // console.log(this.ReplySubject.value)
-      // console.log(this.replyData)
     })
     return this.modalService.open(this.modal, {
       centered: true,
@@ -168,14 +169,17 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
       merchantReplyText: this.replyForm.get('merchantReplyText')?.value,
       deletedCheck: false
     }
-    this.reviewService.createReply(payload).pipe(takeUntil(this.destroy$))
-    .subscribe((res: ApiResponse<any>) => {
-      console.log(res)
-      this.reviewService.getMerchantReply(this.authService.currentUserValue?.id, this.reviewID).subscribe((res: ApiResponse<any>) => {
-        this.replyData = res.data[0];
-      })
-      this.switchToReply = false;
-    })
+    this.reviewService.createReply(payload).pipe(takeUntil(this.destroy$), exhaustMap((res: any): any => {
+      if(!res.hasErrors()) {
+        this.switchToReply = false;
+        this.getReviewsByMerchant();
+        return this.merchantReplyData.next({...res.data});
+      }
+      else {
+        return(res)
+      }
+    }))
+    .subscribe()
   }
 
   next():void {

@@ -26,7 +26,6 @@
           <br>
           <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">{{reviewData?.ratingsAverage}}</span>
         </div>
-
       </div>
     </div>
   </ng-container>
@@ -91,17 +90,17 @@
 
 <ng-template #modal>
   <ng-container *ngFor="let data of ReplyObservable | async">
-    <div class="flex justify-between border-white modal-header">
+    <div class="relative flex justify-between border-white modal-header">
       <span class="px-3 text-lg" style="color: #313131; opacity: 0.7;">Customer name: &nbsp;<span class="text-lg font-semibold text-black">{{data.customerName}}</span></span>
-      <div class="pb-8">
-        <button (click)="closeModal()" class="px-3 py-2 text-xs font-normal text-gray-500 bg-gray-300 rounded-full">
+      <div class="absolute top-4 right-5">
+        <button (click)="closeModal()" class="px-2 py-1 text-xs font-normal text-gray-500 bg-gray-200 rounded-full">
           &#10006;
         </button>
       </div>
     </div>
 
-    <div class="w-full pt-3" style="background-color: #FFF3CF;">
-      <div class="flex justify-between px-10 py-4">
+    <div class="w-full" style="background-color: #FFF3CF;">
+      <div class="flex justify-between px-10 py-6 text-sm2">
         <span style="color: #D9B23E;">Voucher ID &nbsp; <span style="color: #A17900;">{{data.voucherID}}</span></span>
         <span style="color: #D9B23E;">Date redeemed &nbsp; <span style="color: #A17900;">{{(data.voucherRedeemedDate * 1000) | date: 'dd-MM-yyyy'}}</span></span>
         <span style="color: #D9B23E;">Date review &nbsp; <span style="color: #A17900;">{{data.createdAt | date: 'dd-MM-yyyy'}}</span></span>
@@ -155,8 +154,8 @@
           </div>
         </div>
 
-        <span class="px-3 text-black">{{ratings?.ratingScore}}</span>
-        <span class="px-3 text-black">{{ratings?.ratingName}}</span>
+        <span class="px-3 text-black text-sm2">{{ratings?.ratingScore}}</span>
+        <span class="px-3 text-black text-sm2">{{ratings?.ratingName}}</span>
       </div>
     </ng-container>
 
@@ -165,19 +164,23 @@
     </div>
 
     <div class="flex justify-start px-10 pb-3">
-      <span class="py-5 text-lg font-semibold text-center text-white rounded-full px-7" style="background-color: #1D1D29;">{{data.customerName?.substring(0, 1)?.toUpperCase()}}</span>
+      <span
+        class="text-lg font-semibold text-center text-white rounded-full w-18 h-18"
+        style="background-color: #1D1D29;">
+        <span class="block mt-5 text-center">{{data.customerName?.substring(0, 1)?.toUpperCase()}}</span>
+      </span>
       <span style="color: #515151" class="px-6 text-sm">{{data?.text}}</span>
     </div>
 
-    </ng-container>
+  </ng-container>
 
-    <!--Before Reply Submit View-->
+  <!--Before Reply Submit View-->
 
-    <div *ngIf="!replyData?.merchantReplyText && switchToReply == false" class="px-32 pb-32">
+    <div *ngIf="!(merchantReplyDataObservable | async) && switchToReply == false" class="px-32 pb-32">
       <button (click)="switchToReplyMode()" class="px-3 py-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Reply</button>
     </div>
 
-    <div class="pb-8 pl-32 pr-16" *ngIf="!replyData?.merchantReplyText && switchToReply == true" [formGroup]="replyForm">
+    <div class="pb-8 pl-32 pr-16" *ngIf="!(merchantReplyDataObservable | async) && switchToReply == true" [formGroup]="replyForm">
       <textarea formControlName="merchantReplyText" name="merchantReplyText" rows="4" class="w-full p-2 rounded-md mytextArea" style="border: 1px solid #C5C5C5;"></textarea>
       <div class="flex justify-start">
         <button (click)="discardReply()" class="px-3 py-2 mr-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Discard</button>
@@ -186,14 +189,15 @@
     </div>
 
     <!--After Reply Submit View-->
-    <div class="px-32 pb-6" *ngIf="replyData?.merchantReplyText && switchToReply == false">
+    <div class="pb-4 px-36" *ngIf="(merchantReplyDataObservable | async) && switchToReply == false">
       <img src="../../../assets/media/icons/line.svg">
     </div>
 
-    <div class="relative flex justify-start pb-8 px-28" *ngIf="replyData?.merchantReplyText && switchToReply == false">
-      <span class="absolute top-0 px-5 py-3 text-lg font-semibold text-center text-black rounded-full" style="background-color: #E2F1FC; border-radius: 100%; left: 67px;">{{replyData?.legalName.substring(0, 1)}}</span>
-      <span style="color: #515151" class="px-6 text-sm"><span class="text-lg">Company name</span><br>{{replyData?.merchantReplyText}}</span>
+    <div class="relative flex justify-start px-32 pb-8" *ngIf="(merchantReplyDataObservable | async)?.merchantReplyText && switchToReply == false">
+      <span class="absolute top-0 px-4.5 py-2.5 text-lg font-semibold text-center text-black rounded-full" style="background-color: #E2F1FC; border-radius: 100%; left: 90px;">{{(merchantReplyDataObservable | async)?.legalName.substring(0, 1)}}</span>
+      <span style="color: #515151" class="px-6 text-sm"><span class="text-black text-sm2">{{(merchantReplyDataObservable | async)?.legalName}}</span><br>{{(merchantReplyDataObservable | async)?.merchantReplyText}}</span>
     </div>
+
 
 </ng-template>
 

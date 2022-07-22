@@ -240,6 +240,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
     }
 
   }
+
   filterSelectedInvoiceByID(options: any) {
     this.showData = false;
     this.invoiceIDsFilter = options;
@@ -340,6 +341,5 @@ export class BillingsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
     this.destroy$.unsubscribe();
   }
-
 
 }

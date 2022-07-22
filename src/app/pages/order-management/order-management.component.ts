@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { BillingsService } from '@pages/services/billings.service';
+import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import { OrdersService } from '@pages/services/orders.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -101,7 +102,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
       paymentStatus: 'Credited'
     },
     {
-      id: 3,
+      id: 4,
       paymentStatus: 'In process'
     }
   ]
@@ -112,7 +113,8 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     private cf: ChangeDetectorRef,
     private authService: AuthService,
     private calendar: NgbCalendar,
-    private billingService: BillingsService
+    private billingService: BillingsService,
+    private commonService: CommonFunctionsService
     ) {
       this.page = 1;
       this.fromDate = '';
@@ -143,7 +145,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   getVouchersByMerchant() {
     this.showData = false;
     const params: any = {}
-    this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
+    this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<OrdersList>) => {
       if(!res.hasErrors()) {
@@ -184,8 +186,8 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
       voucherStatusArray: this.voucherStatusesFilters?.filterData ? this.voucherStatusesFilters?.filterData : [],
       invoiceStatusArray: this.invoiceStatusesFilters?.filterData ? this.invoiceStatusesFilters?.filterData: [],
     }
-    debugger
-     this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', '', '', this.deal, params)
+    // debugger
+     this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', '', '', this.deal, this.voucherheader, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<OrdersList>) => {
       if(!res.hasErrors()) {
@@ -201,7 +203,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.voucherID = voucherID;
     const params: any = {}
     if(this.voucherID != '') {
-      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
@@ -228,13 +230,13 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.dealHeader = dealHeader;
     const params: any = {}
      if(this.dealHeader != '') {
-      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
         this.cf.detectChanges();
-         this.filteredDealHeader = res.data.data.map((filtered: Orders) => {
-          console.log(this.filteredDealHeader)
+        const uniqueArray = this.commonService.getUniqueListBy(res.data.data, 'dealHeader');
+         this.filteredDealHeader = uniqueArray.map((filtered: any) => {
           return {
             id: filtered.id,
             value: filtered.dealHeader,
@@ -248,7 +250,6 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     else {
       this.filteredDealHeader.length = 0;
     }
-
   }
 
   filterSelectedDealByVoucherHeader(options: string) {
@@ -274,13 +275,13 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.voucherHeader = voucherHeader;
     const params: any = {}
     if(this.voucherHeader != '') {
-      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, params)
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
         this.cf.detectChanges();
-         this.filteredVoucherName = res.data.data.map((filtered: Orders) => {
-          console.log(this.filteredVoucherName)
+        const uniqueArray = this.commonService.getUniqueListBy(res.data.data, 'voucherHeader');
+         this.filteredVoucherName = uniqueArray.map((filtered: any) => {
           return {
             id: filtered.id,
             value: filtered.voucherHeader,
@@ -302,9 +303,9 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.applyFilter();
   }
 
-  sortByVoucherName(deal: any) {
+  sortByVoucherName(voucherheader: any) {
     this.limit = 7;
-    this.deal = deal;
+    this.voucherheader = voucherheader;
     this.applyFilter();
   }
 
