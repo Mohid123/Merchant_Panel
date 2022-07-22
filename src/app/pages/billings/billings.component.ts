@@ -297,6 +297,8 @@ export class BillingsComponent implements OnInit, OnDestroy {
   clear() {
     this.fromDate = '';
     this.toDate = '';
+    this.dateAppliedFilter = false;
+    this.applyFilter();
   }
 
   isHovered(date: NgbDate) {
