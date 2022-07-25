@@ -89,7 +89,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   filteredStatus: any;
   showData: boolean;
   offset: number = 0;
-  limit: number = 7;
+  limit: number = 3;
   hoveredDate: NgbDate | any = null;
   fromDate: NgbDate | any;
   toDate: NgbDate | any = null;
@@ -431,6 +431,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   filterByDealID(dealID: string) {
     this.offset = 0;
+    this.page = 1;
     this.dealID = dealID;
     const params: any = {}
     if(this.dealID != '') {
@@ -455,10 +456,12 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterByDealHeader(header: string) {
+  filterByDealHeader(header: any) {
     this.offset = 0;
-    this.header = header;
+    this.page = header.page;
+    this.header = header?.value;
     const params: any = {};
+    debugger
     if(this.header != '') {
       this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
       .pipe(takeUntil(this.destroy$))

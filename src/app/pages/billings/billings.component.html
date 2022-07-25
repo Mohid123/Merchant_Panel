@@ -85,10 +85,10 @@
               <ng-template #footerTemplate>
                 <div class="w-full p-3 h-14">
                   <div class="flex justify-between gap-3">
-                    <button class="text-sm apply" type="submit" (click)="filterByDate(fromDate, toDate); myDrop.close()" >
+                    <button class="text-sm apply" type="submit" (click)="filterByDate(fromDate, toDate); myDrop.close()" [disabled]="fromDate == ''" [ngClass]="fromDate == '' ? 'opacity-50': 'opacity-100'">
                       <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
                     </button>
-                    <button type="button" class="text-gray-600 clear" (click)="clear()" >
+                    <button type="button" class="text-gray-600 clear" (click)="clear()" [disabled]="fromDate == ''" [ngClass]="fromDate == '' ? 'opacity-60': 'opacity-100'">
                       Clear
                     </button>
                   </div>

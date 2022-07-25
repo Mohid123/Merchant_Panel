@@ -217,6 +217,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
 
   filterByInvoiceID(invoiceID: string) {
     this.offset = 0;
+    this.page = 1;
     this.invoiceID = invoiceID;
     const params: any = {};
     if(this.invoiceID != '') {

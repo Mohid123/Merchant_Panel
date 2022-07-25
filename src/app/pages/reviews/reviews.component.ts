@@ -91,6 +91,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   filterByDealID(dealID: string) {
     this.dealID = dealID;
+    this.page = 1;
     const params: any = {
       dealIDsArray: [],
       ratingsArray: []

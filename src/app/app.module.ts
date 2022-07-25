@@ -18,6 +18,7 @@ import { TruncationPipe } from '@pages/pipe/truncation.pipe';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { ClipboardModule } from 'ngx-clipboard';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CoreModule } from './@core/core.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -73,7 +74,8 @@ import { TestComponent } from './pages/test/test.component';
     NumberOnlyModule,
     PendingSkeletonModule,
     HotToastModule.forRoot(),
-    NgPasswordValidatorModule
+    NgPasswordValidatorModule,
+    InfiniteScrollModule
   ],
   providers: [
     // {

@@ -200,10 +200,11 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   filterByVoucherID(voucherID: string) {
     this.offset = 0;
+    this.page = 1;
     this.voucherID = voucherID;
     const params: any = {}
     if(this.voucherID != '') {
-      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, 0, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
@@ -227,10 +228,11 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   filterByDealHeader(dealHeader: string) {
     this.offset = 0;
+    this.page = 1;
     this.dealHeader = dealHeader;
     const params: any = {}
      if(this.dealHeader != '') {
-      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, 0, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
@@ -272,10 +274,11 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   filterByVoucherHeader(voucherHeader: string) {
     this.offset = 0;
+    this.page = 1;
     this.voucherHeader = voucherHeader;
     const params: any = {}
     if(this.voucherHeader != '') {
-      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, 0, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {

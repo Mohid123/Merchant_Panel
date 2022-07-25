@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -31,6 +31,8 @@ export class FiltersComponent implements OnInit  {
   @Input() statusFilters = false;
   optionsCheckedStatues = false;
   optionsChecked = false;
+  newValue: any;
+  offset: number = 1;
   @Input() optionsList = [
     {
       id: 0,
@@ -47,13 +49,28 @@ export class FiltersComponent implements OnInit  {
     },
   ];
 
+  @HostListener('scroll', ['$event'])
+    scrollHandler(event: any) {
+      let valueTosend = {
+        value: this.newValue,
+        page: (this.offset + 1)
+      }
+      this.searchItem.emit(valueTosend);
+      this.cf.detectChanges();
+    }
+
 
   constructor(private cf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.formCtrlSub = this.searchControl.valueChanges.pipe(debounceTime(600))
     .subscribe((newValue: any) => {
-      this.searchItem.emit(newValue);
+      this.newValue = newValue;
+      let valueTosend = {
+        value: newValue,
+        page: this.offset
+      }
+      this.searchItem.emit(valueTosend);
       this.cf.detectChanges();
     });
 
@@ -86,6 +103,7 @@ export class FiltersComponent implements OnInit  {
   }
 
   filterData() {
+    debugger
     let filters = {
       filterData : this.optionsList.filter(x => x.checked).map(x => x.value),
       sortByAscending: 'Ascending'
@@ -124,7 +142,7 @@ export class FiltersComponent implements OnInit  {
   clear() {
     this.allSelected = false;
     this.optionsList.length = 0;
-    this.optionsListStatus.find((x: any) => x.checked = false)
+    this.optionsListStatus.find((x: any) => x.checked = false);
     this.searchControl.setValue('');
     this.sendFilter.emit('');
     this.sendFilterStatus.emit('');
@@ -155,6 +173,10 @@ export class FiltersComponent implements OnInit  {
       // this.searchControl.setValue('');
       this.spanner.nativeElement.style.display = 'none';
     }
+  }
+
+  onScrollDown() {
+    console.log('SCROLLED')
   }
 
 }

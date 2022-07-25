@@ -55,6 +55,7 @@
     "ng2-tel-input": "^2.3.0",
     "ngx-bootstrap": "^7.1.2",
     "ngx-clipboard": "^14.0.1",
+    "ngx-infinite-scroll": "^10.0.1",
     "ngx-intl-tel-input": "^3.2.0",
     "ngx-material-timepicker": "^5.5.3",
     "nouislider": "^15.2.0",

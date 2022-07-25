@@ -34,7 +34,7 @@
     </ng-container>
 
     <ng-container *ngIf="options">
-      <div class="flex flex-col options checkbox">
+      <div class="flex flex-col options checkbox" (scroll)="scrollHandler($event)" >
         <ng-container *ngFor="let option of optionsList; let i = index">
           <label class="h-6 mb-2 checkbox checkbox-square" *ngIf="i == 0 && statusFilters == false">
             <input [checked]="allSelected" (change)="checkAllCheckBox()" type="checkbox" name="options" class="mr-2.5">
@@ -48,7 +48,6 @@
         <ng-container *ngIf="optionsList?.length == 0">
           <span #spanner class="py-4 text-sm text-center">No record found</span>
         </ng-container>
-
       </div>
     </ng-container>
 
