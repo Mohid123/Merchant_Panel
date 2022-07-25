@@ -15,6 +15,8 @@ export class ConnectionService {
 
   editDealSubject: BehaviorSubject<any> = new BehaviorSubject({});
 
+  filterOptions = new BehaviorSubject([]);
+
   sendData(data: any) {
     this.stepData.next(data);
   }
@@ -39,5 +41,15 @@ export class ConnectionService {
 
   getEditDealData(): Observable<any> {
     return this.editDealSubject.asObservable();
+  }
+
+  //FilterOptions data
+
+  sendFilterData(data: any) {
+    this.filterOptions.next(data);
+  }
+
+  getFilterData(): Observable<any> {
+    return this.filterOptions.asObservable();
   }
 }

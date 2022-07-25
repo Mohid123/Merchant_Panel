@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ConnectionService } from 'src/app/modules/wizards/services/connection.service';
 
 @Component({
   selector: 'app-filters',
@@ -49,18 +50,10 @@ export class FiltersComponent implements OnInit  {
     },
   ];
 
-  @HostListener('scroll', ['$event'])
-    scrollHandler(event: any) {
-      let valueTosend = {
-        value: this.newValue,
-        page: (this.offset + 1)
-      }
-      this.searchItem.emit(valueTosend);
-      this.cf.detectChanges();
-    }
+  filtersValues = new BehaviorSubject<Array<any>>([]);
 
 
-  constructor(private cf: ChangeDetectorRef) { }
+  constructor(private cf: ChangeDetectorRef, private conn: ConnectionService) { }
 
   ngOnInit(): void {
     this.formCtrlSub = this.searchControl.valueChanges.pipe(debounceTime(600))
@@ -73,6 +66,15 @@ export class FiltersComponent implements OnInit  {
       this.searchItem.emit(valueTosend);
       this.cf.detectChanges();
     });
+
+    this.conn.getFilterData().subscribe((res: any) => {
+      this.filtersValues.next(res);
+      const currentData = this.filtersValues.value;
+      debugger
+
+      // this.optionsList = latestData;
+      // console.log(this.optionsList)
+    })
 
     this.optionsListStatus?.forEach((x: any) => {
       if(x.checked) {
@@ -103,7 +105,6 @@ export class FiltersComponent implements OnInit  {
   }
 
   filterData() {
-    debugger
     let filters = {
       filterData : this.optionsList.filter(x => x.checked).map(x => x.value),
       sortByAscending: 'Ascending'
@@ -176,7 +177,12 @@ export class FiltersComponent implements OnInit  {
   }
 
   onScrollDown() {
-    console.log('SCROLLED')
+    let valueTosend = {
+      value: this.newValue,
+      page: (this.offset + 1)
+    }
+    this.searchItem.emit(valueTosend);
+    this.cf.detectChanges();
   }
 
 }
