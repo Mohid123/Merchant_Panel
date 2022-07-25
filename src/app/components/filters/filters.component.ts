@@ -29,6 +29,8 @@ export class FiltersComponent implements OnInit  {
   @Input() searchControl = new FormControl();
   @Input() options = false;
   @Input() statusFilters = false;
+  optionsCheckedStatues = false;
+  optionsChecked = false;
   @Input() optionsList = [
     {
       id: 0,
@@ -54,6 +56,18 @@ export class FiltersComponent implements OnInit  {
       this.searchItem.emit(newValue);
       this.cf.detectChanges();
     });
+
+    this.optionsListStatus?.forEach((x: any) => {
+      if(x.checked) {
+        this.optionsCheckedStatues = true;
+      }
+    });
+
+    this.optionsList?.forEach((x: any) => {
+      if(x.checked) {
+        this.optionsChecked = true;
+      }
+    })
   }
 
   filterBySort(sortHeader: string) {
@@ -84,23 +98,27 @@ export class FiltersComponent implements OnInit  {
 
   checkAllCheckBox() {
     this.allSelected = !this.allSelected;
-    this.optionsList.forEach(x => x.checked = this.allSelected)
+    this.optionsList.forEach(x => x.checked = this.allSelected);
+    this.optionsChecked = true;
   }
 
   checkBoxClick(dealID: number, check: any):void {
     this.allSelected = false;
     this.optionsList.find((x: any) => x.id == dealID)!.checked = !check;
+    this.optionsChecked = true;
   }
 
 
   checkAllCheckBoxStatus() {
     this.allSelected = !this.allSelected;
-    this.optionsListStatus.forEach(x => x.checked = this.allSelected)
+    this.optionsListStatus.forEach(x => x.checked = this.allSelected);
+    this.optionsCheckedStatues = true;
   }
 
   checkBoxClickStatus(dealID: number, check: any):void {
     this.allSelected = false;
     this.optionsListStatus.find((x: any) => x.id == dealID)!.checked = !check;
+    this.optionsCheckedStatues = true;
   }
 
   clear() {

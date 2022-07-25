@@ -290,7 +290,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               }
             }
           }
-          if(item.dealStatus == 'In Review') {
+          if(item.dealStatus == 'In review') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
@@ -348,7 +348,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               }
             }
           }
-          if(item.dealStatus == 'Bounced') {
+          if(item.dealStatus == 'Needs Attention') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
@@ -396,39 +396,10 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     })
   }
 
-  filterByStartDate(startDate: string) {
-    this.offset = 0;
-    if(this.startDate == '' || this.startDate == 'Descending') {
-      this.startDate = 'Ascending'
-    }
-    else {
-      this.startDate = startDate;
-    }
-    this.getDealsByMerchantID();
-  }
-
   filterByTitle(title: any) {
     this.limit = 7;
     this.title = title;
     this.applyFilters();
-  }
-
-  filterByDate(startDate: number, endDate: number) {
-    this.offset = 0;
-    this.fromDate = startDate;
-    this.toDate = endDate;
-    this.getDealsByMerchantID();
-  }
-
-  filterByEndDate(endDate: string) {
-    this.offset = 0;
-    if(this.endDate == '' || this.endDate == 'Descending') {
-      this.endDate = 'Ascending'
-    }
-    else {
-      this.endDate = endDate;
-    }
-    this.getDealsByMerchantID();
   }
 
   filterByStatus(status: string) {
@@ -712,7 +683,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   next():void {
     this.page;
-    this.getDealsByMerchantID();
+    this.applyFilters();
   }
 
   handleWeekendsToggle() {
@@ -813,7 +784,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.dealHeadersFilters = [];
     this.dealStatusesFilters = [];
     this.title = '';
-    debugger
     this.applyFilters();
   }
 

@@ -69,10 +69,10 @@
 
     <ng-container *ngIf="options">
       <div class="flex justify-between gap-3">
-        <button class="text-sm apply" type="submit" (click)="filterData()">
+        <button class="text-sm apply" type="submit" (click)="filterData()" [disabled]="!optionsChecked" [ngClass]="!optionsChecked ? 'opacity-50': 'opacity-100'">
           <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
         </button>
-        <button type="button" (click)="clear()" class="clear">
+        <button type="button" (click)="clear()" class="clear" [disabled]="!optionsChecked" [ngClass]="!optionsChecked ? 'opacity-60': 'opacity-100'">
           Clear
         </button>
       </div>
@@ -80,10 +80,10 @@
 
     <ng-container *ngIf="statusFilters">
       <div class="flex justify-between gap-3">
-        <button class="text-sm applyStatus" type="submit" (click)="filterStatuses()">
+        <button class="text-sm applyStatus" type="submit" (click)="filterStatuses()" [disabled]="optionsCheckedStatues == false" [ngClass]="optionsCheckedStatues == false ? 'opacity-50': 'opacity-100'">
           <i style="color: white; font-size: 10px;" class="fas fa-filter"></i> Filter
         </button>
-        <button type="button" (click)="clear()" class="text-sm clearStatus">
+        <button type="button" (click)="clear()" class="text-sm clearStatus" [disabled]="optionsCheckedStatues == false" [ngClass]="optionsCheckedStatues == false ? 'opacity-60': 'opacity-100'">
           Clear
         </button>
       </div>
