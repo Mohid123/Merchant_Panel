@@ -1,6 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
@@ -190,7 +191,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     private toast: HotToastService,
     private fb: FormBuilder,
     private modalService: NgbModal,
-    private commonService: CommonFunctionsService
+    private commonService: CommonFunctionsService,
+    private router: Router
   ) {
       this.page = 1
       this.fromDate = '';
@@ -290,7 +292,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               }
             }
           }
-          if(item.dealStatus == 'In review') {
+          if(item.dealStatus == 'In Review') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
@@ -395,6 +397,25 @@ export class ViewDealComponent implements OnInit, OnDestroy {
       }
     })
   }
+
+  duplicateDeal(index: number) {
+    this.currentEvents[index].id = '';
+    this.currentEvents[index].dealID = '';
+    this.dealService.createDeal(this.currentEvents[index]).pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.applyFilters();
+        this.toast.success('Deal successfully duplicated', {
+          duration: 1000
+        })
+      }
+    })
+  }
+
+//  async editDeal(index: number) {
+//     this.conn.sendEditDealData(this.currentEvents[index]);
+//     await this.router.navigate(['/deals/create-deal']);
+//   }
 
   filterByTitle(title: any) {
     this.limit = 7;
@@ -573,7 +594,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               }
             }
           }
-          if(item.dealStatus == 'Bounced') {
+          if(item.dealStatus == 'Needs Attention') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),

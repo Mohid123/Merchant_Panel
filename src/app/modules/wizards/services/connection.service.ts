@@ -12,18 +12,11 @@ export class ConnectionService {
   public disabler: boolean = true;
   public isSaving: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
-  sendvideo: BehaviorSubject<any> = new BehaviorSubject('');
+
+  editDealSubject: BehaviorSubject<any> = new BehaviorSubject({});
 
   sendData(data: any) {
     this.stepData.next(data);
-  }
-
-  sendVideoValue(data: any) {
-    this.sendvideo.next(data);
-  }
-
-  getVideoValue(): Observable<any> {
-    return this.sendvideo.asObservable();
   }
 
   sendSaveAndNext(data: any) {
@@ -36,5 +29,15 @@ export class ConnectionService {
 
   getData(): Observable<any> {
     return this.stepData.asObservable();
+  }
+
+  // EDIt DEAL DATA.
+
+  sendEditDealData(data: any) {
+    this.editDealSubject.next(data);
+  }
+
+  getEditDealData(): Observable<any> {
+    return this.editDealSubject.asObservable();
   }
 }
