@@ -89,7 +89,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   filteredStatus: any;
   showData: boolean;
   offset: number = 0;
-  limit: number = 2;
+  limit: number = 7;
   hoveredDate: NgbDate | any = null;
   fromDate: NgbDate | any;
   toDate: NgbDate | any = null;
@@ -458,8 +458,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   filterByDealHeader(header: any) {
     this.offset = 0;
-    this.page = header.page;
-    this.header = header?.value;
+    this.page = 1;
+    this.header = header;
     const params: any = {};
     // debugger
     if(this.header != '') {
@@ -476,7 +476,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
             checked: false
           }
         })
-        this.conn.sendFilterData(this.filteredHeader);
+        // this.conn.sendFilterData(this.filteredHeader);
         this.cf.detectChanges();
         }
       })
