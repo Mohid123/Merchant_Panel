@@ -166,6 +166,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.appliedFilterStatus = false;
     this.averageRating = ['All'];
     this.dealIDsArray = [];
+    this.filterDealIDSearch = [];
     this.dealID = '';
     this.getReviewsByMerchant();
   }
