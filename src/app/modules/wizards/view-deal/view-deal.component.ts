@@ -547,7 +547,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
       dealHeaderArray: this.dealHeadersFilters?.filterData ? this.dealHeadersFilters?.filterData : [],
       dealStatusArray: this.dealStatusesFilters?.filterData ? this.dealStatusesFilters?.filterData : []
     }
-    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', this.title, params)
+    this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', this.title, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: any) => {
       if (!res.hasErrors()) {
@@ -845,6 +845,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.dealHeadersFilters = [];
     this.dealStatusesFilters = [];
     this.title = '';
+    this.searchPage = 1;
     this.applyFilters();
   }
 
