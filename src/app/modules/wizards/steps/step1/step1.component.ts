@@ -9,7 +9,7 @@ import { DealService } from '@core/services/deal.service';
 import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { combineLatest, of, Subject, Subscription } from 'rxjs';
-import { exhaustMap, map, take, takeUntil } from 'rxjs/operators';
+import { exhaustMap, map, take } from 'rxjs/operators';
 import { VideoProcessingService } from '../../services/video-to-img.service';
 import { CategoryDetail, SubCategory } from './../../../auth/models/categories-detail.model';
 import { CategoryService } from './../../../auth/services/category.service';
@@ -135,21 +135,21 @@ export class Step1Component implements OnInit, OnDestroy {
     });
 
     //Edit deal data bind to form
-    this.connection.getEditDealData().pipe(takeUntil(this.destroy$))
-    .subscribe((res: any) => {
-      // debugger
-      if(res) {
-        this.dealForm.patchValue({
-          dealHeader: res.dealHeader,
-          subTitle: res.subTitle,
-          deletedCheck: false
-        });
-        this.cf.detectChanges();
-        this.urls = res.mediaUrl;
-        this.cf.detectChanges();
-        console.log(this.urls)
-      }
-    })
+    // this.connection.getEditDealData().pipe(takeUntil(this.destroy$))
+    // .subscribe((res: any) => {
+    //   // debugger
+    //   if(res) {
+    //     this.dealForm.patchValue({
+    //       dealHeader: res.dealHeader,
+    //       subTitle: res.subTitle,
+    //       deletedCheck: false
+    //     });
+    //     this.cf.detectChanges();
+    //     this.urls = res.mediaUrl;
+    //     this.cf.detectChanges();
+    //     console.log(this.urls)
+    //   }
+    // })
 
   }
 
