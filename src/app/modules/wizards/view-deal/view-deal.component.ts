@@ -85,6 +85,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   currentEvents: any;
   filteredResult: any;
+  filteredResultID: any[] = [];
   filteredHeader: any;
   filteredHeaderUpdated: any[] = [];
   filteredStatus: any;
@@ -101,6 +102,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   status: string;
   page: number;
+  searchPage: number;
   dealData: Deals | any;
   selectedIndex: any;
   editVouchers: FormGroup;
@@ -430,48 +432,66 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.getDealsByMerchantID();
   }
 
-  filterByDealID(dealID: string) {
+  filterByDealID(dealID: any) {
     this.offset = 0;
-    this.page = 1;
-    this.dealID = dealID;
-    const params: any = {}
+    this.searchPage = dealID?.page;
+    if(dealID?.value != this.dealID) {
+      this.filteredResultID = [];
+      this.commonService.optionsLengthIsZero = false;
+    }
+    this.dealID = dealID?.value;
+    const params: any = {};
     if(this.dealID != '') {
-      this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
+      this.commonService.finished = false;
+      this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, this.header, this.dealStatus, this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-        this.cf.detectChanges();
-        this.filteredResult = res.data.data.map((filtered: MainDeal) => {
-          return {
-            id: filtered.id,
-            value: filtered.dealID,
-            checked: false
+          if(res.data?.totalDeals >= this.searchPage * this.limit) {
+            this.commonService.optionsLengthIsZero = false;
+            this.cf.detectChanges();
+            this.filteredResult = res.data.data.map((filtered: MainDeal) => {
+              return {
+                id: filtered.id,
+                value: filtered.dealID,
+                checked: false
+              }
+            })
+            this.filteredResultID.push(...this.filteredResult);
+            this.cf.detectChanges();
           }
-        })
-        this.cf.detectChanges();
+          else if(res.data?.totalDeals <= this.searchPage * this.limit) {
+            this.commonService.finished = true
+          }
+        }
+        if(res.data.data.length == 0) {
+          this.commonService.optionsLengthIsZero = true;
+          this.cf.detectChanges();
         }
       })
     }
     else {
-      this.filteredResult.length = 0;
+      this.filteredResultID.length = 0;
+      this.commonService.optionsLengthIsZero = true;
+      this.cf.detectChanges();
     }
   }
 
   filterByDealHeader(header: any) {
-    this.offset = 0;
-    this.page = header.page;
     if(header?.value != this.header) {
       this.filteredHeaderUpdated = [];
       this.commonService.optionsLengthIsZero = false;
+      this.offset = 0;
     }
     this.header = header?.value;
+    this.searchPage = header.page;
     const params: any = {};
     if(this.header != '') {
-      this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, this.header, this.dealStatus, this.title, params)
+      this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, this.header, this.dealStatus, this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-          if(res.data?.totalDeals >= this.page * this.limit) {
+          if(res.data?.totalDeals >= this.searchPage * this.limit) {
             this.commonService.finished = false;
             this.commonService.optionsLengthIsZero = false;
             const uniqueArray = this.commonService.getUniqueListBy(res.data.data, 'dealHeader')
@@ -485,15 +505,20 @@ export class ViewDealComponent implements OnInit, OnDestroy {
             this.filteredHeaderUpdated.push(...this.filteredHeader);
             this.cf.detectChanges();
           }
-          else if(res.data?.totalDeals <= this.page * this.limit) {
+          else if(res.data?.totalDeals <= this.searchPage * this.limit) {
             this.commonService.finished = true
           }
+        }
+        if(res.data.data.length == 0) {
+          this.commonService.optionsLengthIsZero = true;
+          this.cf.detectChanges();
         }
       })
     }
     else {
       this.filteredHeaderUpdated.length = 0;
       this.commonService.optionsLengthIsZero = true;
+      this.cf.detectChanges();
     }
   }
 
@@ -814,8 +839,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.appliedFilterID = false;
     this.appliedFilterHeader = false;
     this.appliedFilterStatus = false;
-    this.filteredHeader = [];
-    this.filteredResult = [];
+    this.filteredHeaderUpdated = [];
+    this.filteredResultID = [];
     this.dealIDsFilters = [];
     this.dealHeadersFilters = [];
     this.dealStatusesFilters = [];

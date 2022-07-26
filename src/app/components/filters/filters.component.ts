@@ -56,6 +56,9 @@ export class FiltersComponent implements OnInit  {
   ngOnInit(): void {
     this.formCtrlSub = this.searchControl.valueChanges.pipe(debounceTime(600))
     .subscribe((newValue: any) => {
+      if(this.newValue != newValue) {
+        this.page = 2;
+      }
       this.newValue = newValue;
       let valueTosend = {
         value: newValue,

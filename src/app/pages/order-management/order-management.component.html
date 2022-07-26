@@ -50,7 +50,7 @@
             [options]="true"
             [search]="true"
             [searchBy]="'ID'"
-            [optionsList]="filteredVoucherID"
+            [optionsList]="filteredVoucherIDSearch"
             (filterApplied)="isFilterAppliedOnID($event)"
             [isFilterApplied]="appliedFilterID">
           </app-filters>
@@ -64,7 +64,7 @@
             [searchBy]="'deal name'"
             [options]="true"
             [search]="true"
-            [optionsList]="filteredDealHeader"
+            [optionsList]="filteredDealHeaderSearch"
             (filterApplied)="isFilterAppliedOnHeader($event)"
             [isFilterApplied]="appliedFilterHeader">
           </app-filters>
@@ -78,7 +78,7 @@
             (searchItem)="filterByVoucherHeader($event)"
             [options]="true"
             [search]="true"
-            [optionsList]="filteredVoucherName"
+            [optionsList]="filteredVoucherNameSearch"
             (filterApplied)="isFilterAppliedOnVoucherHeader($event)"
             [isFilterApplied]="appliedFilterVoucherHeader">
           </app-filters>
