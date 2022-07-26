@@ -14,6 +14,7 @@ import { BillingList } from 'src/app/modules/wizards/models/billing-list.model';
 import { KYC } from 'src/app/modules/wizards/models/kyc.model';
 import { Billings } from './../../modules/wizards/models/billings.model';
 import { MerchantStats } from './../../modules/wizards/models/merchant-stats.model';
+import { CommonFunctionsService } from './../services/common-functions.service';
 
 @Component({
   selector: 'app-billings',
@@ -37,9 +38,11 @@ export class BillingsComponent implements OnInit, OnDestroy {
   invoiceID: string = '';
   invoiceIDsFilter : any;
   filteredResult: any;
+  filteredInvoiceIDSearch: any[] = [];
   public billingsData: BillingList | any;
   showData: boolean;
   page: number;
+  searchPage: number;
   offset: number = 0;
   limit: number = 7;
   destroy$ = new Subject();
@@ -76,7 +79,8 @@ export class BillingsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private calendar: NgbCalendar,
     private toast: HotToastService,
-    private userService: UserService
+    private userService: UserService,
+    private commonService: CommonFunctionsService
     ) {
       this.page = 1;
       this.fromDate = '';
@@ -215,29 +219,47 @@ export class BillingsComponent implements OnInit, OnDestroy {
     })
   }
 
-  filterByInvoiceID(invoiceID: string) {
+  filterByInvoiceID(invoiceID: any) {
     this.offset = 0;
-    this.page = 1;
-    this.invoiceID = invoiceID;
+    this.searchPage = invoiceID?.page;
+    if(invoiceID?.value != this.invoiceID) {
+      this.filteredInvoiceIDSearch = [];
+      this.commonService.optionsLengthIsZero = false;
+    }
+    this.invoiceID = invoiceID?.value;
     const params: any = {};
     if(this.invoiceID != '') {
-      this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.invoiceID, this.fromDate, this.toDate, params)
+      this.billingService.getAllInvoicesByMerchantID(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.invoiceID, this.fromDate, this.toDate, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-          this.cf.detectChanges();
-          this.filteredResult = res.data.data.map((filtered: Billings) => {
-            return {
-              id: filtered.id,
-              value: filtered.invoiceID,
-              checked: false
-            }
-          })
+          if(res.data?.totalCount >= this.searchPage * 1) {
+            this.commonService.finished = false;
+            this.commonService.optionsLengthIsZero = false;
+            this.cf.detectChanges();
+            this.filteredResult = res.data.data.map((filtered: Billings) => {
+              return {
+                id: filtered.id,
+                value: filtered.invoiceID,
+                checked: false
+              }
+            })
+            this.filteredInvoiceIDSearch.push(...this.filteredResult)
+            this.cf.detectChanges();
+          }
+          else if(res.data?.totalCount <= this.searchPage * 1) {
+            this.commonService.finished = true
+          }
+        }
+        if(res.data.data.length == 0) {
+          this.commonService.optionsLengthIsZero = true;
           this.cf.detectChanges();
         }
       })
     } else {
-      this.filteredResult.length = 0;
+      this.filteredInvoiceIDSearch.length = 0;
+      this.commonService.optionsLengthIsZero = true;
+      this.cf.detectChanges();
     }
 
   }
@@ -334,6 +356,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
     this.appliedFilter = false;
     this.dateAppliedFilter = false;
     this.invoiceIDsFilter = [];
+    this.filteredInvoiceIDSearch = [];
     this.invoiceID = '';
     this.fromDate = '';
     this.toDate = '';
