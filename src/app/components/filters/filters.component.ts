@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { CommonFunctionsService } from '@pages/services/common-functions.service';
+import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { ConnectionService } from 'src/app/modules/wizards/services/connection.service';
 
 @Component({
   selector: 'app-filters',
@@ -33,7 +33,7 @@ export class FiltersComponent implements OnInit  {
   optionsCheckedStatues = false;
   optionsChecked = false;
   newValue: any;
-  offset: number = 1;
+  page: number = 2;
   @Input() optionsList = [
     {
       id: 0,
@@ -50,10 +50,8 @@ export class FiltersComponent implements OnInit  {
     },
   ];
 
-  filtersValues = new BehaviorSubject<Array<any>>([]);
 
-
-  constructor(private cf: ChangeDetectorRef, private conn: ConnectionService) { }
+  constructor(private cf: ChangeDetectorRef, public common: CommonFunctionsService) { }
 
   ngOnInit(): void {
     this.formCtrlSub = this.searchControl.valueChanges.pipe(debounceTime(600))
@@ -61,20 +59,12 @@ export class FiltersComponent implements OnInit  {
       this.newValue = newValue;
       let valueTosend = {
         value: newValue,
-        page: this.offset
+        page: 1
       }
       this.searchItem.emit(valueTosend);
       this.cf.detectChanges();
     });
 
-    this.conn.getFilterData().subscribe((res: any) => {
-      this.filtersValues.next(res);
-      const currentData = this.filtersValues.value;
-      debugger
-
-      // this.optionsList = latestData;
-      // console.log(this.optionsList)
-    })
 
     this.optionsListStatus?.forEach((x: any) => {
       if(x.checked) {
@@ -179,7 +169,7 @@ export class FiltersComponent implements OnInit  {
   onScrollDown() {
     let valueTosend = {
       value: this.newValue,
-      page: (this.offset + 1)
+      page: this.page++
     }
     this.searchItem.emit(valueTosend);
     this.cf.detectChanges();

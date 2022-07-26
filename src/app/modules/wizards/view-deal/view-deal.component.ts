@@ -86,6 +86,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   currentEvents: any;
   filteredResult: any;
   filteredHeader: any;
+  filteredHeaderUpdated: any[] = [];
   filteredStatus: any;
   showData: boolean;
   offset: number = 0;
@@ -458,31 +459,41 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   filterByDealHeader(header: any) {
     this.offset = 0;
-    this.page = 1;
-    this.header = header;
+    this.page = header.page;
+    if(header?.value != this.header) {
+      this.filteredHeaderUpdated = [];
+      this.commonService.optionsLengthIsZero = false;
+    }
+    this.header = header?.value;
     const params: any = {};
-    // debugger
     if(this.header != '') {
-      this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.dealID, this.header, this.dealStatus, this.title, params)
+      this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, this.header, this.dealStatus, this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-        this.cf.detectChanges();
-        const uniqueArray = this.commonService.getUniqueListBy(res.data.data, 'dealHeader')
-        this.filteredHeader = uniqueArray.map((filtered: any) => {
-          return {
-            id: filtered.id,
-            value: filtered.dealHeader,
-            checked: false
+          if(res.data?.totalDeals >= this.page * this.limit) {
+            this.commonService.finished = false;
+            this.commonService.optionsLengthIsZero = false;
+            const uniqueArray = this.commonService.getUniqueListBy(res.data.data, 'dealHeader')
+            this.filteredHeader = uniqueArray.map((filtered: any) => {
+              return {
+                id: filtered.id,
+                value: filtered.dealHeader,
+                checked: false
+              }
+            })
+            this.filteredHeaderUpdated.push(...this.filteredHeader);
+            this.cf.detectChanges();
           }
-        })
-        // this.conn.sendFilterData(this.filteredHeader);
-        this.cf.detectChanges();
+          else if(res.data?.totalDeals <= this.page * this.limit) {
+            this.commonService.finished = true
+          }
         }
       })
     }
     else {
-      this.filteredHeader.length = 0;
+      this.filteredHeaderUpdated.length = 0;
+      this.commonService.optionsLengthIsZero = true;
     }
   }
 

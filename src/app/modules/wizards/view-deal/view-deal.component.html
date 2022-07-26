@@ -53,7 +53,7 @@
                   [searchBy]="'deal name'"
                   [options]="true"
                   (searchItem)="filterByDealHeader($event)"
-                  [optionsList]="filteredHeader"
+                  [optionsList]="filteredHeaderUpdated"
                   (filterApplied)="isFilterAppliedOnHeader($event)"
                   [isFilterApplied]="appliedFilterHeader">
                 </app-filters>

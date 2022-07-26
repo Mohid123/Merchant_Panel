@@ -34,7 +34,14 @@
     </ng-container>
 
     <ng-container *ngIf="options">
-      <div class="flex flex-col options checkbox">
+      <div class="flex flex-col options checkbox"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="50"
+        [scrollWindow]="false"
+        [infiniteScrollDisabled]="common.finished"
+        (scrolled)="onScrollDown()"
+      >
         <ng-container *ngFor="let option of optionsList; let i = index">
           <label class="h-6 mb-2 checkbox checkbox-square" *ngIf="i == 0 && statusFilters == false">
             <input [checked]="allSelected" (change)="checkAllCheckBox()" type="checkbox" name="options" class="mr-2.5">
@@ -45,7 +52,7 @@
             <span></span>{{(option.value.length > 20) ? ((option.value) | slice:0:20)+'...':(option.value)}}
           </label>
         </ng-container>
-        <ng-container *ngIf="optionsList?.length == 0">
+        <ng-container *ngIf="common.optionsLengthIsZero">
           <span #spanner class="py-4 text-sm text-center">No record found</span>
         </ng-container>
       </div>
