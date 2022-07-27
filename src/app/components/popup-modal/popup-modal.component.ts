@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalConfig } from '@core/models/modal.config';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CanActivateGuard } from 'src/app/modules/auth/services/can-activate.guard';
 import { ConnectionService } from './../../modules/wizards/services/connection.service';
 
 @Component({
@@ -12,40 +10,21 @@ import { ConnectionService } from './../../modules/wizards/services/connection.s
 })
 export class PopupModalComponent implements OnInit {
 
-  @ViewChild('modal') private modal: ReusableModalComponent;
-
-  public modalConfig: ModalConfig = {
-    onDismiss: () => {
-      return true
-    },
-    dismissButtonLabel: "Dismiss",
-    onClose: () => {
-      return true
-    },
-    closeButtonLabel: "Close"
-  }
-
-  constructor(public conn: ConnectionService) { }
+  constructor(public conn: ConnectionService, private router: Router, public guard: CanActivateGuard) { }
 
   ngOnInit(): void {
   }
 
-  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
-    debugger
-    if(this.conn.currentStep$.value == 2 || this.conn.currentStep$.value == 3 || this.conn.currentStep$.value == 4 || this.conn.currentStep$.value == 5) {
-      this.modal.open();
-      return this.conn.getRoutePopup().pipe(tap((res: any) => {
-        return res
-      }))
-    }
-    else
-    {
-      return true;
-    }
+  discard() {
+    const URL = this.conn.getStateURL;
+    this.conn.getRoutePopup = true;
+    this.router.navigate([URL]);
+    this.conn.getSPopupState = 'Discard';
   }
 
-  discardPopup() {
-    this.conn.sendRoutePopup(false)
+  cancel() {
+    this.conn.getRoutePopup = false;
+    this.guard.modal.dismissAll();
   }
 
 }

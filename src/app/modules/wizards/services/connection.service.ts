@@ -16,6 +16,8 @@ export class ConnectionService {
   editDealSubject: BehaviorSubject<any> = new BehaviorSubject({});
 
   canRoute = new BehaviorSubject(false);
+  stateURL = new BehaviorSubject('');
+  popupState = new BehaviorSubject('');
 
   filterOptions = new BehaviorSubject([]);
 
@@ -55,15 +57,33 @@ export class ConnectionService {
     return this.filterOptions.asObservable();
   }
 
-  //route Popup
+  // Route Popup
 
-  sendRoutePopup(data: any) {
-    debugger
+  set getRoutePopup(data: any) {
     this.canRoute.next(data);
   }
 
-  getRoutePopup(): Observable<any> {
-    debugger
-    return this.canRoute.asObservable();
+  get getRoutePopup(): boolean {
+    return this.canRoute.value;
+  }
+
+  // State URL Handlers
+
+  set getStateURL(data: any) {
+    this.stateURL.next(data);
+  }
+
+  get getStateURL(): string {
+    return this.stateURL.value;
+  }
+
+  // Popup State
+
+  set getSPopupState(data: any) {
+    this.popupState.next(data);
+  }
+
+  get getSPopupState(): string {
+    return this.popupState.value;
   }
 }

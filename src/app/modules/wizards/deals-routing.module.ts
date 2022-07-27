@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CanDeactivateGuard } from '../auth/services/can-activate.guard';
+import { CanActivateGuard } from '../auth/services/can-activate.guard';
 import { CreateDealComponent } from './create-deal/create-deal.component';
 import { VerticalComponent } from './vertical/vertical.component';
 import { ViewDealComponent } from './view-deal/view-deal.component';
@@ -22,7 +22,7 @@ const routes: Routes = [
       {
         path: 'view-deal',
         component: ViewDealComponent,
-        canDeactivate: [CanDeactivateGuard]
+        canActivate: [CanActivateGuard]
       },
       { path: '', redirectTo: 'horizontal', pathMatch: 'full' },
       { path: '**', redirectTo: 'horizontal', pathMatch: 'full' },
