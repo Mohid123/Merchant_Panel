@@ -15,6 +15,8 @@ export class ConnectionService {
 
   editDealSubject: BehaviorSubject<any> = new BehaviorSubject({});
 
+  canRoute = new BehaviorSubject(false);
+
   filterOptions = new BehaviorSubject([]);
 
   sendData(data: any) {
@@ -51,5 +53,17 @@ export class ConnectionService {
 
   getFilterData(): Observable<any> {
     return this.filterOptions.asObservable();
+  }
+
+  //route Popup
+
+  sendRoutePopup(data: any) {
+    debugger
+    this.canRoute.next(data);
+  }
+
+  getRoutePopup(): Observable<any> {
+    debugger
+    return this.canRoute.asObservable();
   }
 }

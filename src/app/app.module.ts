@@ -34,6 +34,7 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { SecurityComponent } from './pages/security/security.component';
 import { SingleReviewComponent } from './pages/single-review/single-review.component';
 import { TestComponent } from './pages/test/test.component';
+import { PopupModalComponent } from './components/popup-modal/popup-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { TestComponent } from './pages/test/test.component';
     SecurityComponent,
     ProfileSliderComponent,
     NewReviewsComponent,
-    TruncationPipe
+    TruncationPipe,
+    PopupModalComponent
   ],
   imports: [
     CoreModule,

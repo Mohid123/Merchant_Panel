@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-new-reviews',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewReviewsComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('modal') private modal: TemplateRef<any>
+
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
+
+  openReviewModal() {
+    return this.modalService.open(this.modal, {
+      centered: true,
+      size: 'xl',
+      backdrop: 'static',
+      keyboard: false,
+      modalDialogClass: 'extra-large'
+    });
+  }
+
 
 }

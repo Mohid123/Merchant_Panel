@@ -40,7 +40,7 @@ import { SecurityCodeComponent } from './components/security-code/security-code.
     ResetPasswordComponent,
     DropDownComponent,
     CustomCheckboxComponent,
-    CheckboxComponent,
+    CheckboxComponent
   ],
   imports: [
     CommonModule,

@@ -43,29 +43,6 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
 
   @ViewChild('modal') private modal: TemplateRef<any>
 
-  ratings = [
-    {
-      value: 1,
-      img: '../../../assets/media/logos/1.svg'
-    },
-    {
-      value: 2,
-      img: '../../../assets/media/logos/2.svg'
-    },
-    {
-      value: 3,
-      img: '../../../assets/media/logos/3.svg'
-    },
-    {
-      value: 4,
-      img: '../../../assets/media/logos/4.svg'
-    },
-    {
-      value: 5,
-      img: '../../../assets/media/logos/5.svg'
-    }
-  ]
-
   public reviewId: string;
 
   constructor(
@@ -132,7 +109,6 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
         this.reviewValues.forEach((x: any) => {
           const merchantReplyText = x.merchantReplyText[0]
           this.merchantReplyData.next(merchantReplyText);
-          console.log(this.merchantReplyData.value);
         })
       }
     })
