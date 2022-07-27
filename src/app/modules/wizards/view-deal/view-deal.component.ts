@@ -10,7 +10,7 @@ import { NgbDate, NgbDropdown, NgbModal, NgbPopover } from '@ng-bootstrap/ng-boo
 import { HotToastService } from '@ngneat/hot-toast';
 import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import * as moment from 'moment';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { Deals, MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
@@ -108,6 +108,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   editVouchers: FormGroup;
   clickInfo: any;
   dealID: string = '';
+  dealIDSubject = new BehaviorSubject('');
   header: string = '';
   dealStatus: string = '';
   dealIDsFilters : any;
@@ -442,13 +443,13 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.dealID = dealID?.value;
     const params: any = {};
     if(this.dealID != '') {
-      this.commonService.finished = false;
       this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, this.header, this.dealStatus, this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           if(res.data?.totalDeals >= this.searchPage * this.limit) {
             this.commonService.optionsLengthIsZero = false;
+            this.commonService.finished = false;
             this.cf.detectChanges();
             this.filteredResult = res.data.data.map((filtered: MainDeal) => {
               return {
@@ -461,7 +462,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
             this.cf.detectChanges();
           }
           else if(res.data?.totalDeals <= this.searchPage * this.limit) {
-            this.commonService.finished = true
+            this.commonService.finished = true;
           }
         }
         if(res.data.data.length == 0) {
@@ -525,6 +526,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   filterSelectedDealByID(options: any) {
     this.showData = false;
     this.dealIDsFilters = options;
+    this.page = 1;
     this.applyFilters();
   }
 
@@ -547,7 +549,127 @@ export class ViewDealComponent implements OnInit, OnDestroy {
       dealHeaderArray: this.dealHeadersFilters?.filterData ? this.dealHeadersFilters?.filterData : [],
       dealStatusArray: this.dealStatusesFilters?.filterData ? this.dealStatusesFilters?.filterData : []
     }
-    this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', this.title, params)
+    debugger
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, 0, this.limit, '', '', '', this.title, params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: any) => {
+      if (!res.hasErrors()) {
+        this.dealData = res.data;
+        this.currentEvents = res.data.data;
+        this.showData = true;
+        this.cf.detectChanges();
+        this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
+          if(item.dealStatus == 'Draft') {
+            return {
+              title: item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#00FF00',
+              borderColor: '#00FF00',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
+          if(item.dealStatus == 'In Review') {
+            return {
+              title:item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#F59E0B',
+              borderColor: '#F59E0B',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
+          if(item.dealStatus == 'Published') {
+            return {
+              title:item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
+          if(item.dealStatus == 'Scheduled') {
+            return {
+              title:item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#10B981',
+              borderColor: '#10B981',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
+          if(item.dealStatus == 'Needs Attention') {
+            return {
+              title:item.dealHeader,
+              start: moment(item.startDate).format('YYYY-MM-DD'),
+              end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#EF4444',
+              borderColor: '#EF4444',
+              extendedProps: {
+                dealID: item.dealID,
+                sold: item.soldVouchers,
+                available: item.pageNumber,
+                value: item.pageNumber,
+                totalSold: item.pageNumber,
+                netEarnings: item.pageNumber,
+                img: item.mediaUrl[0],
+                vouchers: item.vouchers,
+                status: item.dealStatus
+              }
+            }
+          }
+        })
+      }
+    })
+  }
+
+  sendPaginationNext(){
+    this.showData = false;
+    const params: any = {
+      dealIDsArray: this.dealIDsFilters?.filterData ? this.dealIDsFilters?.filterData : [],
+      dealHeaderArray: this.dealHeadersFilters?.filterData ? this.dealHeadersFilters?.filterData : [],
+      dealStatusArray: this.dealStatusesFilters?.filterData ? this.dealStatusesFilters?.filterData : []
+    }
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, 0, this.limit, '', '', '', this.title, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: any) => {
       if (!res.hasErrors()) {
@@ -744,7 +866,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   next():void {
     this.page;
-    this.applyFilters();
+    this.sendPaginationNext();
   }
 
   handleWeekendsToggle() {
@@ -846,7 +968,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.dealStatusesFilters = [];
     this.title = '';
     this.searchPage = 1;
-    this.applyFilters();
+    this.page = 1;
+    this.sendPaginationNext();
   }
 
   ngOnDestroy() {

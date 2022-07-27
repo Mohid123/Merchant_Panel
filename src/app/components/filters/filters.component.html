@@ -52,7 +52,7 @@
             <span></span>{{(option.value.length > 20) ? ((option.value) | slice:0:20)+'...':(option.value)}}
           </label>
         </ng-container>
-        <ng-container *ngIf="common.optionsLengthIsZero">
+        <ng-container *ngIf="optionsList.length == 0">
           <span #spanner class="py-4 text-sm text-center">No record/s found</span>
         </ng-container>
       </div>
