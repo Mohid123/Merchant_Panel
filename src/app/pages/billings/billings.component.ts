@@ -267,6 +267,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
   filterSelectedInvoiceByID(options: any) {
     this.showData = false;
     this.invoiceIDsFilter = options;
+    this.page = 1;
     this.applyFilter()
   }
 
