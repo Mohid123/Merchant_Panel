@@ -125,11 +125,11 @@
                     <tbody class="relative">
                       <tr class="text-left text-gray-600 rounded-lg">
                         <td class="py-4 text-sm pl-11">{{(voucher.subTitle.length>24) ? ((voucher.subTitle) | slice:0:24)+'...':(voucher.subTitle)}}</td>
-                        <td class="px-5 py-4 text-sm">{{voucher.voucherValidity}}</td>
+                        <td class="px-5 py-4 text-sm">{{voucher.soldVouchers}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.numberOfVouchers}}</td>
                         <td class="py-4 pl-3 text-sm text-left">{{voucher.dealPrice}}&nbsp;&euro;</td>
-                        <td class="py-4 text-sm text-left pl-7">{{voucher.originalPrice}}&nbsp;&euro;</td>
-                        <td class="py-4 pl-16 text-sm text-left">{{voucher.numberOfVouchers}}&nbsp;&euro;</td> <!--ye wala-->
+                        <td class="py-4 text-sm text-left pl-7">{{voucher.grossEarning}}&nbsp;&euro;</td>
+                        <td class="py-4 pl-16 text-sm text-left">{{voucher.netEarning}}&nbsp;&euro;</td> <!--ye wala-->
                         <td class="px-5 py-4 text-sm">
                           <img class="cursor-pointer" (click)="openNew(index, i)" src="../../../../assets/media/icons/edit.svg">
                         </td>

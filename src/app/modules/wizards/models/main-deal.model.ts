@@ -26,6 +26,7 @@ export class MainDeal {
   readMore: string;
   finePrints: string;
   pageNumber: number;
+  netEarnings: number;
   isDuplicate: boolean;
 }
 

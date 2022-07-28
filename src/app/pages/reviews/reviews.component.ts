@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
@@ -11,7 +12,8 @@ import { ReviewsService } from './../services/reviews.service';
 @Component({
   selector: 'app-reviews',
   templateUrl: './reviews.component.html',
-  styleUrls: ['./reviews.component.scss']
+  styleUrls: ['./reviews.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ReviewsComponent implements OnInit, OnDestroy {
 
@@ -30,6 +32,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   dealIDsArray: any;
   appliedFilterID: boolean;
   appliedFilterStatus: boolean;
+  @ViewChild('modal3') private modal3: TemplateRef<any>;
+
 
   filtersForRating = [
     {
@@ -59,7 +63,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     private cf: ChangeDetectorRef,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
-    private commonService: CommonFunctionsService
+    private commonService: CommonFunctionsService,
+    private modalService: NgbModal
   ) {
     this.page = 1;
   }

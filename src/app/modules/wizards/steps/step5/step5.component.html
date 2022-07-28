@@ -61,36 +61,92 @@
       </div>
     </div>
   </div>
-
 </app-reusable-modal>
 
+
+<ng-template #modal3>
+  <div class="modal-content">
+    <div class="flex justify-start px-6 py-7">
+      <div class="relative">
+        <span style="color: #313131; font-weight: 600; font-size: 20px;" class="absolute top-3.5 right-3">{{daysInMonth}}</span>
+        <img src="../../../../../assets/media/icons/date.svg">
+      </div>
+      <span class="px-4 py-1" style="font-size: 22px; font-weight: 600">Schedule deal</span>
+    </div>
+    <form class="px-6 py-5" [formGroup]="dateForm">
+      <div class="relative w-auto mt-2 input-icon">
+        <span class="text-sm pb-1.5" style="color: #313131;">Start date&nbsp;*</span>
+        <span class="absolute flex items-center mt-1 right-2"><i (click)="c.toggle()" class="p-2 mr-2 text-gray-600 rounded far fa-calendar-alt"></i></span>
+        <input
+          placeholder=""
+          (keydown)="$event.preventDefault()"
+          name="dp"
+          [value]="startDate"
+          formControlName="startDate"
+          ngbDatepicker
+          #c="ngbDatepicker"
+          (click)="c.toggle()"
+          style="width: 16.125rem; height: 2.5rem;"
+          class="text-sm font-thin border-gray-400 cursor-pointer form-control"
+        >
+      </div>
+      <div class="relative w-auto mt-2.5 input-icon">
+        <span class="text-sm pb-1.5" style="color: #313131;">End date&nbsp;*</span>
+        <span class="absolute flex items-center mt-1 right-2"><i #dPicker (click)="d.toggle();" class="p-2 mr-2 text-gray-600 rounded far fa-calendar-alt"></i></span>
+        <input
+          placeholder=""
+          (keydown)="$event.preventDefault()"
+          name="dp"
+          [minDate]="dateForm.get('startDate')?.value"
+          formControlName="endDate"
+          ngbDatepicker
+          #d="ngbDatepicker"
+          (click)="d.toggle()"
+          style="width: 16.125rem; height: 2.5rem;"
+          class="text-sm font-thin border-gray-400 cursor-pointer form-control"
+        >
+      </div>
+    </form>
+    <div class="flex justify-around mt-10 mb-7">
+      <button (click)="closeModal3()" class="px-5 py-2 rounded-md" style="background-color: #F2F3F4; color: #A0B7CB;">Discard</button>
+      <button (click)="saveDates()" class="px-5 py-2 text-white rounded-md" style="background-color: #0081E9;">Save</button>
+    </div>
+  </div>
+</ng-template>
+
 <style>
- ::ng-deep .fc .fc-toolbar-title {
-    margin-right: 120px!important;
-    font-weight: 500;
-    font-size: 19px!important;
-    color: #4E5970;
+.fc .fc-toolbar-title {
+  margin-right: 13.75rem!important;
+  font-weight: 500;
+  font-size: 19px!important;
+  color: #4E5970;
   }
 
-::ng-deep .fc .fc-today-button {
-    text-transform: capitalize!important;
-    background: white!important;
-    color: black!important;
-    border: 1px solid white!important;
-    padding-left: 30px!important;
-    padding-right: 30px!important;
+.fc .fc-today-button {
+  text-transform: capitalize!important;
+  background: white!important;
+  color: black!important;
+  border: 1px solid white!important;
+  padding-left: 30px!important;
+  padding-right: 30px!important;
 }
 
-::ng-deep .fc .fc-prev-button {
+.fc .fc-prev-button {
   background: black!important;
 }
 
-::ng-deep .fc .fc-next-button {
+.fc .fc-next-button {
   background: black!important;
 }
 
-::ng-deep .fc-scrollgrid-sync-table {
-  background-color: white!important;
+.fc-daygrid-day .fc-day .fc-day-disabled {
+  background-color: #F2F3F4!important;
+}
+
+.fc .fc-daygrid-day-frame {
+  position: relative!important;
+  min-height: 100%!important;
+  background: white!important;
 }
 
 span {
@@ -119,6 +175,80 @@ span {
  ::ng-deep .fc .fc-toolbar-title {
     font-size: 10px!important;
   }
+}
+
+.small-popup {
+  max-width: 19.5rem!important;
+}
+
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+  color: #728A9F !important;
+}
+
+.custom-day.focused {
+  background-color: #e6e6e6;
+}
+
+.custom-day.range, .custom-day:hover {
+  background-color: rgb(2, 117, 216);
+  color: white;
+}
+
+.custom-day.faded {
+  background-color: rgba(2, 117, 216, 0.5);
+}
+
+ngb-datepicker {
+  border: none !important;
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+  box-shadow: 0px 0px 15px #00000029 !important;
+  border-radius: 7px !important;
+}
+
+.ngb-dp-content.ngb-dp-months {
+  padding: 20px 20px 16px 20px !important;
+}
+
+.ngb-dp-header {
+  padding-top: 1.75rem !important;
+  background: white !important;
+}
+
+.ngb-dp-arrow {
+  align-items: center !important;
+}
+
+.btn.btn-link.ngb-dp-arrow-btn {
+  width: 1.625rem !important;
+  height: 1.625rem !important;
+  background-color: #E2F1FC !important;
+  padding: 0 !important;
+  border-radius: 50px !important;
+  margin: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.ngb-dp-navigation-chevron {
+  width: 0.625rem !important;
+  height: 0.625rem !important;
+}
+
+.ngb-dp-weekdays {
+  @apply mt-5;
+  border: none !important;
+  background: white !important;
+}
+
+.ngb-dp-weekday {
+  color: #0081E9 !important;
+  font: normal normal normal 12px/17px Open Sans !important;
 }
 
 </style>

@@ -1,6 +1,7 @@
 export interface ModalConfig {
   modalTitle?: string
   dismissButtonLabel?: string
+  size?: string;
   closeButtonLabel?: string
   shouldClose?(): Promise<boolean> | boolean
   shouldDismiss?(): Promise<boolean> | boolean

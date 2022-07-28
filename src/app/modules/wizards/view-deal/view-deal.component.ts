@@ -405,6 +405,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   duplicateDeal(index: number) {
     this.currentEvents[index].id = '';
     this.currentEvents[index].dealID = '';
+    delete this.currentEvents[index].createdAt;
+    delete this.currentEvents[index].updatedAt;
     this.currentEvents[index].isDuplicate = true;
     this.dealService.createDeal(this.currentEvents[index]).pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {

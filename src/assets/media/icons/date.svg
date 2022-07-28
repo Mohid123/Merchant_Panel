@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45.637" height="47.984" viewBox="0 0 45.637 47.984">
+  <g id="Group_61520" data-name="Group 61520" transform="translate(-506 -296.24)">
+    <path id="Path_83910" data-name="Path 83910" d="M9.91,0H35.727a9.91,9.91,0,0,1,9.91,9.91V35.727a9.91,9.91,0,0,1-9.91,9.91H9.91A9.91,9.91,0,0,1,0,35.727V9.91A9.91,9.91,0,0,1,9.91,0Z" transform="translate(506 298.587)" fill="#f3f3f3"/>
+    <path id="Rectangle_19473_-_Outline" data-name="Rectangle 19473 - Outline" d="M9.91.261A9.641,9.641,0,0,0,.261,9.91V35.727A9.641,9.641,0,0,0,9.91,45.376H35.727a9.641,9.641,0,0,0,9.649-9.649V9.91A9.641,9.641,0,0,0,35.727.261H9.91M9.91,0H35.727a9.91,9.91,0,0,1,9.91,9.91V35.727a9.91,9.91,0,0,1-9.91,9.91H9.91A9.91,9.91,0,0,1,0,35.727V9.91A9.91,9.91,0,0,1,9.91,0Z" transform="translate(506 298.587)" fill="#d0d0d0"/>
+    <path id="Path_83911" data-name="Path 83911" d="M9.91,0H35.727a9.91,9.91,0,0,1,9.91,9.91v2.347H0V9.91A9.91,9.91,0,0,1,9.91,0Z" transform="translate(506 298.587)" fill="#f4413d"/>
+    <path id="Rectangle_19474_-_Outline" data-name="Rectangle 19474 - Outline" d="M9.91.261A9.641,9.641,0,0,0,.261,9.91V12H45.376V9.91A9.641,9.641,0,0,0,35.727.261H9.91M9.91,0H35.727a9.91,9.91,0,0,1,9.91,9.91v2.347H0V9.91A9.91,9.91,0,0,1,9.91,0Z" transform="translate(506 298.587)" fill="#ce3733"/>
+    <g id="Group_61507" data-name="Group 61507" transform="translate(517.996 296.24)">
+      <path id="Path_83913" data-name="Path 83913" d="M2.608,0A2.608,2.608,0,1,1,0,2.608,2.608,2.608,0,0,1,2.608,0Z" transform="translate(0 4.173)" fill="#ba322e"/>
+      <path id="Line_649" data-name="Line 649" d="M-1.848,4.8A.652.652,0,0,1-2.5,4.15v-6A.652.652,0,0,1-1.848-2.5a.652.652,0,0,1,.652.652v6A.652.652,0,0,1-1.848,4.8Z" transform="translate(4.456 2.5)" fill="#f2f2f2"/>
+    </g>
+    <g id="Group_61506" data-name="Group 61506" transform="translate(534.425 296.24)">
+      <path id="Path_83912" data-name="Path 83912" d="M2.608,0A2.608,2.608,0,1,1,0,2.608,2.608,2.608,0,0,1,2.608,0Z" transform="translate(0 4.173)" fill="#ba322e"/>
+      <path id="Line_650" data-name="Line 650" d="M-1.848,4.8A.652.652,0,0,1-2.5,4.15v-6A.652.652,0,0,1-1.848-2.5a.652.652,0,0,1,.652.652v6A.652.652,0,0,1-1.848,4.8Z" transform="translate(4.552 2.5)" fill="#f2f2f2"/>
+    </g>
+  </g>
+</svg>

@@ -33,11 +33,11 @@
 </div>
 <!-- end::Row -->
 
-<!-- <ng-container *ngIf="showData == false">
+ <ng-container *ngIf="showData == false">
   <app-table-skeleton></app-table-skeleton>
-</ng-container> -->
+</ng-container>
 
-<!-- <ng-container *ngIf="showData == true"> -->
+<ng-container *ngIf="showData == true">
   <div class="mt-4 table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
     <table class="w-full">
       <thead ngbDropdown display="dynamic" id="dropdownBasic2" class="text-left text-black bg-white border-b-2 border-gray-200 border-dotted rounded-lg h-14 ">
@@ -47,18 +47,31 @@
         <th class="p-4 font-semibold cursor-pointer">Voucher sold</th>
         <th class="p-4 font-semibold cursor-pointer">Total net earnings</th>
       </thead>
-      <!-- <ng-container *ngFor="let data of ordersData?.data; let i = index;"> -->
+      <ng-container *ngFor="let data of topDeals; let i = index;">
         <tr class="z-40 h-16 text-gray-700 bg-white rounded-lg">
-          <td class="p-4">D12345678</td>
-          <td class="p-4">Heavenly massage</td>
-          <td class="p-4">Published</td>
-          <td class="p-4">300</td>
-          <td class="pr-6 text-center">250&nbsp;&euro;</td>
+          <td class="p-4">{{data?.dealID}}</td>
+          <td class="p-4">{{data?.dealHeader}}</td>
+          <td class="p-4">{{data?.dealStatus}}</td>
+          <td class="p-4">{{data?.soldVouchers}}</td>
+          <td class="pr-6 text-center">{{data?.soldVouchers}}&nbsp;&euro;</td>
         </tr>
-      <!-- </ng-container> -->
+      </ng-container>
+
+      <ng-container *ngIf="topDeals.length == 0">
+        <tr class="w-full text-center">
+          <td colspan="8" class="w-full pt-12 text-xl font-semibold text-gray-700">
+            No Record Found
+          </td>
+        </tr>
+        <tr class="w-full text-center">
+          <td colspan="8" class="w-full py-3 text-gray-600">
+            It seems we can't find any results.
+          </td>
+        </tr>
+      </ng-container>
     </table>
   </div>
-<!-- </ng-container> -->
+</ng-container>
 
 <!-- <button class="p-2 bg-red-400" (click)="openNew()">Test</button> -->
 

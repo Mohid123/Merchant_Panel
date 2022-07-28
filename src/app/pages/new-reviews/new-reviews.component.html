@@ -55,6 +55,18 @@
           </tr>
         </ng-container>
       </tbody>
+      <ng-container *ngIf="newReviews.length == 0">
+        <tr class="w-full text-center">
+          <td colspan="8" class="w-full pt-12 text-xl font-semibold text-gray-700">
+            No Record Found
+          </td>
+        </tr>
+        <tr class="w-full text-center">
+          <td colspan="8" class="w-full py-3 text-gray-600">
+            It seems we can't find any results.
+          </td>
+        </tr>
+      </ng-container>
     </table>
     <div class="flex justify-end w-full pb-4 pt-11">
       <ngb-pagination
@@ -164,7 +176,7 @@
       <textarea formControlName="merchantReplyText" name="merchantReplyText" rows="4" class="w-full p-2 rounded-md mytextArea" style="border: 1px solid #C5C5C5;"></textarea>
       <div class="flex justify-start">
         <button (click)="discardReply()" class="px-3 py-2 mr-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Discard</button>
-        <button (click)="submitReply()" class="px-3 py-2 text-xs text-white rounded-md" style="background-color:#0081E9;">Submit</button>
+        <button (click)="submitReply()" class="px-3 py-2 text-xs text-white rounded-md" style="background-color:#0081E9;" [disabled]="replyForm.get('merchantReplyText')?.value == ''" [ngClass]="replyForm.get('merchantReplyText')?.value == '' ? 'opacity-50': 'opacity-100'">Submit</button>
       </div>
     </div>
 
@@ -177,7 +189,5 @@
       <span class="absolute top-0 px-4.5 py-2.5 text-lg font-semibold text-center text-black rounded-full" style="background-color: #E2F1FC; border-radius: 100%; left: 90px;">{{(merchantReplyDataObservable | async)?.legalName.substring(0, 1)}}</span>
       <span style="color: #515151" class="px-6 text-sm"><span class="text-black text-sm2">{{(merchantReplyDataObservable | async)?.legalName}}</span><br>{{(merchantReplyDataObservable | async)?.merchantReplyText}}</span>
     </div>
-
-
 </ng-template>
 

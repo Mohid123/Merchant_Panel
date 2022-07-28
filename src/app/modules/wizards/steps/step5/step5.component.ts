@@ -1,8 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
+import { DateClickArg } from '@fullcalendar/interaction';
+import { NgbInputDatepicker, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import * as moment from 'moment';
 import { Subject, Subscription } from 'rxjs';
@@ -18,6 +20,7 @@ import { ConnectionService } from './../../services/connection.service';
 @Component({
   selector: 'app-step5',
   templateUrl: './step5.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class Step5Component implements OnInit, AfterViewInit {
 
@@ -25,9 +28,11 @@ export class Step5Component implements OnInit, AfterViewInit {
   @Input() images: Array<any>;
   @ViewChild('modal') private modal: ReusableModalComponent;
   @ViewChild('modal2') private modal2: ReusableModalComponent;
+  @ViewChild('dPicker') public dPicker: NgbInputDatepicker;
   @Output() prevClick = new EventEmitter();
   uploaded: boolean;
   yesClick: boolean = false;
+  daysInMonth: any;
 
   public modalConfig: ModalConfig = {
     onDismiss: () => {
@@ -37,7 +42,8 @@ export class Step5Component implements OnInit, AfterViewInit {
     onClose: () => {
       return true
     },
-    closeButtonLabel: "Close"
+    closeButtonLabel: "Close",
+    size: 'sm'
   }
 
   currentEvents: EventApi[] = [];
@@ -59,7 +65,8 @@ export class Step5Component implements OnInit, AfterViewInit {
     validRange: {
       start: moment().format('YYYY-MM-DD')
     },
-    select: this.handleDateSelect.bind(this),
+    // select: this.handleDateSelect.bind(this),
+    dateClick: this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this)
   };
@@ -77,6 +84,11 @@ export class Step5Component implements OnInit, AfterViewInit {
   newData: MainDeal;
   clickInfo: any;
   destroy$ = new Subject();
+  @ViewChild('modal3') private modal3: TemplateRef<any>;
+  dateForm: FormGroup;
+  startDate: any;
+  calendarApi: any;
+  allDay: any;
 
   private unsubscribe: Subscription[] = [];
 
@@ -86,7 +98,9 @@ export class Step5Component implements OnInit, AfterViewInit {
     private mediaService: MediaService,
     private router: Router,
     private cf: ChangeDetectorRef,
-    private toast: HotToastService) {
+    private toast: HotToastService,
+    private modalService: NgbModal,
+    private fb: FormBuilder) {
       this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
         this.data = response;
         this.images = this.data.mediaUrl;
@@ -96,14 +110,30 @@ export class Step5Component implements OnInit, AfterViewInit {
       this.secondReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
         this.newData = response;
       })
-    }
+  }
 
   ngOnInit() {
     this.updateParentModel({}, true);
+    this.getCurrentMonthDays();
+    this.initSelectDateForm();
   }
 
   ngAfterViewInit(): void {
     this.fullCalendar.getApi().render();
+  }
+
+  initSelectDateForm() {
+    this.dateForm = this.fb.group({
+      startDate: '',
+      endDate: ''
+    })
+  }
+
+  getCurrentMonthDays() {
+    var dt = new Date();
+    var month = dt.getMonth();
+    var year = dt.getFullYear();
+    this.daysInMonth = (new Date(year, month, 0).getDate() + 1);
   }
 
   handleWeekendsToggle() {
@@ -111,14 +141,67 @@ export class Step5Component implements OnInit, AfterViewInit {
     calendarOptions.weekends = !calendarOptions.weekends;
   }
 
-  handleDateSelect(selectInfo: DateSelectArg) {
-    // console.log('moment().isSame(selectInfo.startStr):',moment().isSame(selectInfo.startStr,'day'));
-    // if(!moment().isSame(selectInfo.startStr,'day') && moment().isAfter(selectInfo.startStr)) { return }
+  handleDateClick(selectInfo: DateClickArg) {
+    const title = this.data.dealHeader;
+    this.calendarApi = selectInfo.view.calendar;
+    this.allDay = selectInfo.allDay
 
-    const title = this.data.dealHeader
+    this.calendarApi.unselect();
+
+    if (title && !this.calendarApi.getEvents().length) {
+      this.data.startDate = selectInfo.dateStr;
+      this.startDate = selectInfo.dateStr;
+      console.log(selectInfo.dateStr)
+      this.calendarApi.addEvent({
+        id: createEventId(),
+        title,
+        start: selectInfo.dateStr,
+        allDay: selectInfo.allDay
+      });
+      return this.modalService.open(this.modal3, {
+        centered: true,
+        size: 'sm',
+        backdrop: 'static',
+        keyboard: false,
+        modalDialogClass: 'small-popup'
+      });
+    }
+  }
+
+  saveDates() {
+    debugger
+    const calendarApi = this.calendarApi.view.calendar;
+    const startDate = new Date(this.dateForm.get('startDate')?.value?.year, this.dateForm.get('startDate')?.value?.month - 1, this.dateForm.get('startDate')?.value?.year).getTime();
+    const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.year).getTime();
+    const start = moment(startDate).format("YYYY-MM-DD");
+    const end = moment(endDate).format("YYYY-MM-DD");
+    console.log(start)
+    console.log(end)
+    debugger
+    calendarApi.removeAllEvents();
+    calendarApi.addEvent({
+      id: createEventId(),
+      title: this.data.dealHeader,
+      start: start,
+      end: end,
+      allDay: this.allDay
+    })
+    this.closeModal3();
+  }
+
+  openDatePicker() {
+    this.dPicker.open();
+  }
+
+  closeModal3() {
+    this.modalService.dismissAll();
+  }
+
+  handleDateSelect(selectInfo: DateSelectArg) {
+    const title = this.data.dealHeader;
     const calendarApi = selectInfo.view.calendar;
 
-    calendarApi.unselect(); // clear date selection
+    calendarApi.unselect();
 
     if (title && !calendarApi.getEvents().length) {
       this.data.startDate = selectInfo.startStr;
