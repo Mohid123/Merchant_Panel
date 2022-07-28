@@ -8,7 +8,7 @@ import { MainDeal } from './../models/main-deal.model';
 
 export class ConnectionService {
   private stepData: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
-  private saveAndNextData: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
+  public saveAndNextData: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
   public disabler: boolean = true;
   public isSaving: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);

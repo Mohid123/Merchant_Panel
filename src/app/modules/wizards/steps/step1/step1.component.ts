@@ -9,7 +9,7 @@ import { DealService } from '@core/services/deal.service';
 import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { combineLatest, of, Subject, Subscription } from 'rxjs';
-import { exhaustMap, map, take } from 'rxjs/operators';
+import { concatMap, map, take } from 'rxjs/operators';
 import { VideoProcessingService } from '../../services/video-to-img.service';
 import { CategoryDetail, SubCategory } from './../../../auth/models/categories-detail.model';
 import { CategoryService } from './../../../auth/services/category.service';
@@ -157,7 +157,7 @@ export class Step1Component implements OnInit, OnDestroy {
     return this.dealForm.controls;
   }
 
-  saveDraftOne() {
+  async saveDraftOne() {
     if(this.dealForm.invalid || this.urls.length == 0) {
       this.dealForm.markAllAsTouched();
       this.submitClick = true;
@@ -184,7 +184,7 @@ export class Step1Component implements OnInit, OnDestroy {
       combineLatest(mediaUpload)
         .pipe(
           take(1),
-          exhaustMap((mainResponse:any) => {
+          concatMap((mainResponse:any) => {
             mainResponse.forEach((res:any)=> {
               if (!res.hasErrors()) {
                 payload.mediaUrl?.push(res.data.url);

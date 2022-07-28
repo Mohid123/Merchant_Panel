@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnIni
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarOptions, EventApi, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import { DateClickArg } from '@fullcalendar/interaction';
 import { NgbInputDatepicker, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -89,6 +89,9 @@ export class Step5Component implements OnInit, AfterViewInit {
   startDate: any;
   calendarApi: any;
   allDay: any;
+  start: string;
+  end: string;
+  today: any;
 
   private unsubscribe: Subscription[] = [];
 
@@ -116,6 +119,8 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.updateParentModel({}, true);
     this.getCurrentMonthDays();
     this.initSelectDateForm();
+    const current = new Date();
+    this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() }
   }
 
   ngAfterViewInit(): void {
@@ -151,7 +156,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     if (title && !this.calendarApi.getEvents().length) {
       this.data.startDate = selectInfo.dateStr;
       this.startDate = selectInfo.dateStr;
-      console.log(selectInfo.dateStr)
+      console.log(selectInfo)
       this.calendarApi.addEvent({
         id: createEventId(),
         title,
@@ -169,24 +174,21 @@ export class Step5Component implements OnInit, AfterViewInit {
   }
 
   saveDates() {
-    debugger
     const calendarApi = this.calendarApi.view.calendar;
-    const startDate = new Date(this.dateForm.get('startDate')?.value?.year, this.dateForm.get('startDate')?.value?.month - 1, this.dateForm.get('startDate')?.value?.year).getTime();
-    const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.year).getTime();
-    const start = moment(startDate).format("YYYY-MM-DD");
-    const end = moment(endDate).format("YYYY-MM-DD");
-    console.log(start)
-    console.log(end)
-    debugger
     calendarApi.removeAllEvents();
+    const startDate = new Date(this.dateForm.get('startDate')?.value?.year, this.dateForm.get('startDate')?.value?.month - 1, this.dateForm.get('startDate')?.value?.day).getTime();
+    const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day).getTime();
+    this.start = moment(startDate).format("YYYY-MM-DD");
+    this.end = moment(endDate).format("YYYY-MM-DD");
     calendarApi.addEvent({
       id: createEventId(),
       title: this.data.dealHeader,
-      start: start,
-      end: end,
+      start: this.start,
+      end: this.end,
       allDay: this.allDay
     })
-    this.closeModal3();
+    this.dateForm.reset();
+    this.modalService.dismissAll();
   }
 
   openDatePicker() {
@@ -194,29 +196,31 @@ export class Step5Component implements OnInit, AfterViewInit {
   }
 
   closeModal3() {
+    this.calendarApi.removeAllEvents();
+    this.dateForm.reset();
     this.modalService.dismissAll();
   }
 
-  handleDateSelect(selectInfo: DateSelectArg) {
-    const title = this.data.dealHeader;
-    const calendarApi = selectInfo.view.calendar;
+  // handleDateSelect(selectInfo: DateSelectArg) {
+  //   const title = this.data.dealHeader;
+  //   const calendarApi = selectInfo.view.calendar;
 
-    calendarApi.unselect();
+  //   calendarApi.unselect();
 
-    if (title && !calendarApi.getEvents().length) {
-      this.data.startDate = selectInfo.startStr;
-      this.data.endDate = selectInfo.endStr;
-      this.newData.startDate = selectInfo.startStr;
-      this.newData.endDate = selectInfo.endStr;
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      });
-    }
-  }
+  //   if (title && !calendarApi.getEvents().length) {
+  //     this.data.startDate = selectInfo.startStr;
+  //     this.data.endDate = selectInfo.endStr;
+  //     this.newData.startDate = selectInfo.startStr;
+  //     this.newData.endDate = selectInfo.endStr;
+  //     calendarApi.addEvent({
+  //       id: createEventId(),
+  //       title,
+  //       start: selectInfo.startStr,
+  //       end: selectInfo.endStr,
+  //       allDay: selectInfo.allDay
+  //     });
+  //   }
+  // }
 
   yesClickTrue() {
     this.yesClick = true;
@@ -260,8 +264,11 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.connection.disabler = false;
     this.uploaded = false;
     this.newData.pageNumber = 5;
-    this.newData.dealStatus = 'In Review';
+    this.newData.dealStatus = 'In review';
+    this.newData.startDate = this.start;
+    this.newData.endDate = this.end;
     const payload = this.newData;
+    debugger
     this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {

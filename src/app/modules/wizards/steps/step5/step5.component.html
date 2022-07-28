@@ -81,7 +81,7 @@
           placeholder=""
           (keydown)="$event.preventDefault()"
           name="dp"
-          [value]="startDate"
+          [minDate]="today"
           formControlName="startDate"
           ngbDatepicker
           #c="ngbDatepicker"
@@ -109,7 +109,14 @@
     </form>
     <div class="flex justify-around mt-10 mb-7">
       <button (click)="closeModal3()" class="px-5 py-2 rounded-md" style="background-color: #F2F3F4; color: #A0B7CB;">Discard</button>
-      <button (click)="saveDates()" class="px-5 py-2 text-white rounded-md" style="background-color: #0081E9;">Save</button>
+      <button
+        [disabled]="dateForm.get('startDate')?.value == '' || dateForm.get('endDate')?.value == ''"
+        [ngClass]="dateForm.get('startDate')?.value == '' || dateForm.get('endDate')?.value == '' ? 'opacity-50': 'opacity-100'"
+        (click)="saveDates()"
+        class="px-5 py-2 text-white rounded-md"
+        style="background-color: #0081E9;">
+        Save
+      </button>
     </div>
   </div>
 </ng-template>
