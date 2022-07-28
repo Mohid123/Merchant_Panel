@@ -1,0 +1,12 @@
+.modal-header {
+  align-items: center!important;
+  justify-content: center!important;
+  border-top-left-radius: 0.475rem!important;
+  border-top-right-radius: 0.475rem!important;
+}
+
+.fa-exclamation-circle:before {
+  content: "\f06a"!important;
+  background-color: white!important;
+  border-radius: 100%!important;
+}
