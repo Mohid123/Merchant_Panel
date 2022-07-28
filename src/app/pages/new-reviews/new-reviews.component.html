@@ -8,55 +8,176 @@
   </div>
 </div>
 
-<div class="mt-4 overflow-x-scroll table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
-  <table class="w-full">
-    <thead class="text-left text-black bg-white border-b-2 border-gray-200 border-dotted rounded-lg h-14">
-      <th class="pr-4 font-semibold cursor-pointer same-font">Sub deal header</th>
-      <th class="pr-4 font-semibold cursor-pointer same-font">Voucher ID</th>
-      <th class="pr-4 font-semibold cursor-pointer same-font">Date redeemed</th>
-      <th class="pr-4 font-semibold cursor-pointer same-font">Date review</th>
-      <th class="pr-4 font-semibold cursor-pointer same-font">Rating</th>
-    </thead>
-    <tbody>
-      <!-- <ng-container *ngFor="let data of reviewsData?.data; let i = index;"> -->
-        <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
-          <td class="pr-4">Heavenly Massage</td>
-          <td class="pr-4">V56784598</td>
-          <td class="pr-4">24-09-2022</td>
-          <td class="pr-4">17-10-2022</td>
-          <td class="pr-4">
-            <div class="rating">
-              <div class="rating-label me-1 checked">
-                  <i class="fas fa-star fs-8"></i>
+<ng-container *ngIf="showData == false">
+  <app-table-skeleton></app-table-skeleton>
+</ng-container>
+
+<ng-container *ngIf="showData == true">
+  <div class="mt-4 overflow-x-scroll table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
+    <table class="w-full">
+      <thead class="text-left text-black bg-white border-b-2 border-gray-200 border-dotted rounded-lg h-14">
+        <th class="pr-4 font-semibold cursor-pointer same-font">Sub deal header</th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Voucher ID</th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Date redeemed</th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Date review</th>
+        <th class="pr-4 font-semibold cursor-pointer same-font">Rating</th>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of newReviews; let i = index;">
+          <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
+            <td class="pr-4">{{data.subDealHeader}}</td>
+            <td class="pr-4">{{data.voucherID}}</td>
+            <td class="pr-4">{{data.voucherRedeemedDate | date:'dd-MM-yyyy'}}</td>
+            <td class="pr-4">{{data.updatedAt | date:'dd-MM-yyyy'}}</td>
+            <td class="pr-4">
+              <div class="rating">
+                <div class="rating-label me-1" [ngClass]="data.totalRating > 0 ? 'checked': ''">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1" [ngClass]="data.totalRating > 1 ? 'checked': ''">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1" [ngClass]="data.totalRating > 2 ? 'checked': ''">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1" [ngClass]="data.totalRating > 3 ? 'checked': ''">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <div class="rating-label me-1" [ngClass]="data.totalRating > 4 ? 'checked': ''">
+                    <i class="fas fa-star fs-8"></i>
+                </div>
+                <span class="pt-1 ml-2 text-black">{{data.totalRating.toFixed(1)}}</span>
               </div>
-              <div class="rating-label me-1 checked">
-                  <i class="fas fa-star fs-8"></i>
-              </div>
-              <div class="rating-label me-1 checked">
-                  <i class="fas fa-star fs-8"></i>
-              </div>
-              <div class="rating-label me-1 checked">
-                  <i class="fas fa-star fs-8"></i>
-              </div>
-              <div class="rating-label me-1">
-                  <i class="fas fa-star fs-8"></i>
-              </div>
-              <span class="pt-1 ml-2 text-black">2.3</span>
-            </div>
-          </td>
-          <td>
-            <button class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md">View</button>
-          </td>
-        </tr>
-      <!-- </ng-container> -->
-    </tbody>
-  </table>
-  <div class="flex justify-end w-full pb-4 pt-11">
-    <ngb-pagination
-        [page]="1"
-        [pageSize]="5"
-        [collectionSize]="25"
-        [maxSize]="5" [boundaryLinks]="false">
-      </ngb-pagination>
+            </td>
+            <td>
+              <button (click)="openReviewModal(data.id, data.voucherID); updateReview(data.id)" class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <div class="flex justify-end w-full pb-4 pt-11">
+      <ngb-pagination
+          [(page)]="page"
+          [pageSize]="limit"
+          [collectionSize]="totalCount"
+          [maxSize]="5" [boundaryLinks]="false" (pageChange)="next()">
+        </ngb-pagination>
+    </div>
   </div>
-</div>
+</ng-container>
+
+
+<ng-template #modal>
+  <ng-container *ngFor="let data of ReplyObservable | async">
+    <div class="relative flex justify-between border-white modal-header">
+      <span class="px-3 text-lg" style="color: #313131; opacity: 0.7;">Customer name: &nbsp;<span class="text-lg font-semibold text-black">{{data.customerName}}</span></span>
+      <div class="absolute top-4 right-5">
+        <button (click)="closeModal()" class="px-2 py-1 text-xs font-normal text-gray-500 bg-gray-200 rounded-full">
+          &#10006;
+        </button>
+      </div>
+    </div>
+
+    <div class="w-full" style="background-color: #FFF3CF;">
+      <div class="flex justify-between px-10 py-6 text-sm2">
+        <span style="color: #D9B23E;">Voucher ID &nbsp; <span style="color: #A17900;">{{data.voucherID}}</span></span>
+        <span style="color: #D9B23E;">Date redeemed &nbsp; <span style="color: #A17900;">{{data.voucherRedeemedDate | date:'dd-MM-yyyy'}}</span></span>
+        <span style="color: #D9B23E;">Date review &nbsp; <span style="color: #A17900;">{{data.createdAt | date:'dd-MM-yyyy'}}</span></span>
+        <div class="flex justify-center">
+          <span class="mr-2" style="color: #D9B23E;">Rating</span>
+          <div class="rating">
+            <div class="rating-label me-1" [ngClass]="data.totalRating > 0 ? 'checked inner': ''">
+                <i class="fas fa-star fs-8"></i>
+            </div>
+            <div class="rating-label me-1" [ngClass]="data.totalRating > 1 ? 'checked inner': ''">
+                <i class="fas fa-star fs-8"></i>
+            </div>
+            <div class="rating-label me-1" [ngClass]="data.totalRating > 2 ? 'checked inner': ''">
+                <i class="fas fa-star fs-8"></i>
+            </div>
+            <div class="rating-label me-1" [ngClass]="data.totalRating > 3 ? 'checked inner': ''">
+                <i class="fas fa-star fs-8"></i>
+            </div>
+            <div class="rating-label me-1" [ngClass]="data.totalRating > 4 ? 'checked inner': ''">
+                <i class="fas fa-star fs-8"></i>
+            </div>
+          </div>
+          <span class="ml-2" style="color: #A17900;">{{data.totalRating.toFixed(1)}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="py-4">
+      <span class="px-10 font-bold" style="font-size: 20px; color: #060606;">Ratings</span>
+    </div>
+
+    <ng-container *ngFor="let ratings of data?.multipleRating">
+      <div class="flex justify-start w-full px-10 py-2">
+        <ngb-progressbar class="mt-2.5" style="width: 8.938rem;" height=".4rem" type="warning" [value]="(ratings.ratingScore * 10)* 2"></ngb-progressbar>
+
+        <div class="px-4 rating">
+          <div class="rating-label me-1" [ngClass]="ratings.ratingScore > 0 ? 'checked': ''">
+              <i class="fas fa-star fs-8"></i>
+          </div>
+          <div class="rating-label me-1" [ngClass]="ratings.ratingScore > 1 ? 'checked': ''">
+              <i class="fas fa-star fs-8"></i>
+          </div>
+          <div class="rating-label me-1" [ngClass]="ratings.ratingScore > 2 ? 'checked': ''">
+              <i class="fas fa-star fs-8"></i>
+          </div>
+          <div class="rating-label me-1" [ngClass]="ratings.ratingScore > 3 ? 'checked': ''">
+              <i class="fas fa-star fs-8"></i>
+          </div>
+          <div class="rating-label me-1" [ngClass]="ratings.ratingScore > 4 ? 'checked': ''">
+              <i class="fas fa-star fs-8"></i>
+          </div>
+        </div>
+
+        <span class="px-3 text-black text-sm2">{{ratings?.ratingScore}}</span>
+        <span class="px-3 text-black text-sm2">{{ratings?.ratingName}}</span>
+      </div>
+    </ng-container>
+
+    <div class="py-4">
+      <span class="px-10 font-bold" style="font-size: 20px; color: #060606;">Review</span>
+    </div>
+
+    <div class="flex justify-start px-10 pb-3">
+      <span
+        class="text-lg font-semibold text-center text-white rounded-full w-18 h-18"
+        style="background-color: #1D1D29;">
+      <span class="block mt-5 text-center">{{data.customerName?.substring(0, 1)?.toUpperCase()}}</span>
+      </span>
+      <span style="color: #515151" class="px-6 text-sm">{{data?.text}}</span>
+    </div>
+
+  </ng-container>
+
+  <!--Before Reply Submit View-->
+
+    <div *ngIf="!(merchantReplyDataObservable | async) && switchToReply == false" class="px-32 pb-32">
+      <button (click)="switchToReplyMode()" class="px-3 py-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Reply</button>
+    </div>
+
+    <div class="pb-8 pl-32 pr-16" *ngIf="!(merchantReplyDataObservable | async) && switchToReply == true" [formGroup]="replyForm">
+      <textarea formControlName="merchantReplyText" name="merchantReplyText" rows="4" class="w-full p-2 rounded-md mytextArea" style="border: 1px solid #C5C5C5;"></textarea>
+      <div class="flex justify-start">
+        <button (click)="discardReply()" class="px-3 py-2 mr-2 text-xs rounded-md" style="background-color:#E5F2FD; color:#0081E9;">Discard</button>
+        <button (click)="submitReply()" class="px-3 py-2 text-xs text-white rounded-md" style="background-color:#0081E9;">Submit</button>
+      </div>
+    </div>
+
+    <!--After Reply Submit View-->
+    <div class="pb-4 px-36" *ngIf="(merchantReplyDataObservable | async) && switchToReply == false">
+      <img src="../../../assets/media/icons/line.svg">
+    </div>
+
+    <div class="relative flex justify-start px-32 pb-12" *ngIf="(merchantReplyDataObservable | async)?.merchantReplyText && switchToReply == false">
+      <span class="absolute top-0 px-4.5 py-2.5 text-lg font-semibold text-center text-black rounded-full" style="background-color: #E2F1FC; border-radius: 100%; left: 90px;">{{(merchantReplyDataObservable | async)?.legalName.substring(0, 1)}}</span>
+      <span style="color: #515151" class="px-6 text-sm"><span class="text-black text-sm2">{{(merchantReplyDataObservable | async)?.legalName}}</span><br>{{(merchantReplyDataObservable | async)?.merchantReplyText}}</span>
+    </div>
+
+
+</ng-template>
+

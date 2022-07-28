@@ -1,20 +1,21 @@
 export class Reviews {
-  _id?: string;
+  id?: string | any;
   dealMongoID?: string;
   dealId?: string;
   dealHeader?: string;
   subDealHeader?: string;
   voucherMongoID?: string;
-  voucherID?: string;
+  voucherID?: string | any;
   customerID?: string;
   merchantID?: string;
   text?: string;
-  totalRating?: number;
+  totalRating: number;
   multipleRating?: multipleRatings[];
   customerEmail?: string;
   customerName?: string;
   profilePicURL?: string;
   voucherRedeemedDate?: number;
+  updatedAt?: string
 }
 
 class multipleRatings {
