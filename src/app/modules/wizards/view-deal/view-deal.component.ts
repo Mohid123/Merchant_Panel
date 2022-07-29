@@ -311,6 +311,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#10B981',
+              borderColor: '#10B981',
               extendedProps: {
                 dealID: item.dealID,
                 sold: item.soldVouchers,
