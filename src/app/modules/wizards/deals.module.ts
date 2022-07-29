@@ -35,9 +35,9 @@ import { Step1Component } from './steps/step1/step1.component';
 import { Step2Component } from './steps/step2/step2.component';
 import { Step3Component } from './steps/step3/step3.component';
 import { Step4Component } from './steps/step4/step4.component';
-import { Step5Component } from './steps/step5/step5.component';
+import { PopoverWrapperComponent, Step5Component } from './steps/step5/step5.component';
 import { VerticalComponent } from './vertical/vertical.component';
-import { PopoverWrapperComponent, ViewDealComponent } from './view-deal/view-deal.component';
+import { ViewDealComponent } from './view-deal/view-deal.component';
 // import { ViewDealComponent } from './view-deal/view-deal.component';
 import { WizardsComponent } from './wizards.component';
 

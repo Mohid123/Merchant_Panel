@@ -1,12 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, Injector, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { CalendarOptions, DateSelectArg, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { NgbDate, NgbDropdown, NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbDropdown, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import * as moment from 'moment';
@@ -21,19 +21,19 @@ import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ConnectionService } from './../services/connection.service';
 
-@Component({
-  template: `
-    <div class="fc-content" #popoverHook="ngbPopover" [popoverClass]="'calendar-popover'" [ngbPopover]="template" [placement]="'bottom'" triggers="manual">
-      <ng-content></ng-content>
-    </div>
-  `,
-})
-export class PopoverWrapperComponent {
-  template: TemplateRef<any>;
+// @Component({
+//   template: `
+//     <div class="fc-content" #popoverHook="ngbPopover" [popoverClass]="'calendar-popover'" [ngbPopover]="template" [placement]="'bottom'" triggers="manual">
+//       <ng-content></ng-content>
+//     </div>
+//   `,
+// })
+// export class PopoverWrapperComponent {
+//   template: TemplateRef<any>;
 
-  @ViewChild('popoverHook')
-  public popoverHook: NgbPopover
-}
+//   @ViewChild('popoverHook')
+//   public popoverHook: NgbPopover
+// }
 
 @Component({
   selector: 'app-view-deal',
@@ -72,11 +72,11 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   calendarPlugins = [dayGridPlugin];
 
-  @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
+  // @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
 
-  popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
+  // popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
 
-  popoverFactory = this.resolver.resolveComponentFactory(PopoverWrapperComponent);
+  // popoverFactory = this.resolver.resolveComponentFactory(PopoverWrapperComponent);
 
   showDiv = {
     listView: true,
@@ -813,44 +813,44 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
 
-  renderTooltip(event:any) {
-    console.log('renderTooltip:',event);
-    const projectableNodes = Array.from(event.el.childNodes)
+  // renderTooltip(event:any) {
+  //   console.log('renderTooltip:',event);
+  //   const projectableNodes = Array.from(event.el.childNodes)
 
-    const compRef = this.popoverFactory.create(this.injector, [projectableNodes], event.el);
-    compRef.instance.template = this.popContent;
+  //   const compRef = this.popoverFactory.create(this.injector, [projectableNodes], event.el);
+  //   compRef.instance.template = this.popContent;
 
-    this.appRef.attachView(compRef.hostView)
-    this.popoversMap.set(event.el, compRef)
-  }
+  //   this.appRef.attachView(compRef.hostView)
+  //   this.popoversMap.set(event.el, compRef)
+  // }
 
-  destroyTooltip(event:any) {
-    console.log('destroyTooltip:',event);
+  // destroyTooltip(event:any) {
+  //   console.log('destroyTooltip:',event);
 
-    const popover = this.popoversMap.get(event.el);
-    if (popover) {
-      this.appRef.detachView(popover.hostView);
-      popover.destroy();
-      this.popoversMap.delete(event.el);
-    }
-  }
+  //   const popover = this.popoversMap.get(event.el);
+  //   if (popover) {
+  //     this.appRef.detachView(popover.hostView);
+  //     popover.destroy();
+  //     this.popoversMap.delete(event.el);
+  //   }
+  // }
 
-  showPopover(event:any) {
-    console.log('showPopover:',event);
-    const popover = this.popoversMap.get(event.el);
-    console.log('popover:',popover);
-    if (popover) {
-      popover.instance.popoverHook.open({ event: event.event });
-    }
-  }
+  // showPopover(event:any) {
+  //   console.log('showPopover:',event);
+  //   const popover = this.popoversMap.get(event.el);
+  //   console.log('popover:',popover);
+  //   if (popover) {
+  //     popover.instance.popoverHook.open({ event: event.event });
+  //   }
+  // }
 
-  hidePopover(event:any) {
-    console.log('hidePopover:',event);
-    const popover = this.popoversMap.get(event.el);
-    if (popover?.instance?.popoverHook) {
-      popover.instance.popoverHook.close();
-    }
-  }
+  // hidePopover(event:any) {
+  //   console.log('hidePopover:',event);
+  //   const popover = this.popoversMap.get(event.el);
+  //   if (popover?.instance?.popoverHook) {
+  //     popover.instance.popoverHook.close();
+  //   }
+  // }
 
   switchTabs(event:any) {
     if (event.index == 0) {

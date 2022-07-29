@@ -81,7 +81,7 @@
           placeholder=""
           (keydown)="$event.preventDefault()"
           name="dp"
-          [value]="startDate"
+          [minDate]="today"
           formControlName="startDate"
           ngbDatepicker
           #c="ngbDatepicker"
@@ -112,6 +112,28 @@
       <button
       [disabled]="dateForm.get('startDate')?.value == '' || dateForm.get('endDate')?.value == ''"
       (click)="saveDates()" class="px-5 py-2 text-white rounded-md" style="background-color: #0081E9;">Save</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #popContent let-event="event">
+  <div class="flex justify-evenly">
+    <span class="px-1.5 text-sm text-left text-black font-semibold">{{ (event.title.length > 19? ((event.title) | slice:0: 19)+'...':(event.title)) }}</span>
+    <img src="../../../../../assets/media/icons/edit.svg" class="px-1.5">
+    <img src="../../../../../assets/media/icons/edit.svg" class="px-1.5">
+    <img src="../../../../../assets/media/icons/edit.svg" class="px-1.5">
+  </div>
+  <hr class="text-gray-500">
+  <div class="py-2.5 flex flex-col justify-center align-middle">
+    <div class="flex justify-evenly">
+      <i style="color:#7E8299" class="px-3 far fa-calendar-alt"></i>
+      <span class="text-sm" style="color: #7E8299;"> Start date</span>
+      <span class="px-6 text-sm">{{start | date: 'mediumDate'}}</span>
+    </div>
+    <div class="flex justify-evenly py-2.5">
+      <i style="color:#7E8299" class="px-3 far fa-calendar-alt"></i>
+      <span class="text-sm" style="color: #7E8299;"> End date</span>
+      <span class="px-6 text-sm">{{end | date: 'mediumDate'}}</span>
     </div>
   </div>
 </ng-template>

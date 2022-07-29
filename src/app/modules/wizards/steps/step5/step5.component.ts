@@ -1,10 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ApplicationRef, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, EventEmitter, Injector, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { CalendarOptions, EventApi, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
 import { DateClickArg } from '@fullcalendar/interaction';
-import { NgbInputDatepicker, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbInputDatepicker, NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import * as moment from 'moment';
 import { Subject, Subscription } from 'rxjs';
@@ -16,6 +16,28 @@ import { ModalConfig } from './../../../../@core/models/modal.config';
 import { DealService } from './../../../../@core/services/deal.service';
 import { MediaService } from './../../../../@core/services/media.service';
 import { ConnectionService } from './../../services/connection.service';
+
+
+@Component({
+  template: `
+    <div
+      class="fc-content"
+      #popoverHook="ngbPopover"
+      [popoverClass]="'calendar-popover'"
+      [ngbPopover]="template"
+      [placement]="'top'"
+      triggers="manual"
+    >
+      <ng-content></ng-content>
+    </div>
+  `
+})
+
+export class PopoverWrapperComponent {
+  template: TemplateRef<any>;
+
+  @ViewChild('popoverHook') public popoverHook: NgbPopover;
+}
 
 @Component({
   selector: 'app-step5',
@@ -66,8 +88,10 @@ export class Step5Component implements OnInit, AfterViewInit {
       start: moment().format('YYYY-MM-DD')
     },
     // select: this.handleDateSelect.bind(this),
+    moreLinkClick: 'popover',
     dateClick: this.handleDateClick.bind(this),
-    eventClick: this.handleEventClick.bind(this),
+    eventClick: this.showPopover.bind(this),
+    eventDidMount: this.renderTooltip.bind(this),
     eventsSet: this.handleEvents.bind(this)
   };
 
@@ -93,17 +117,25 @@ export class Step5Component implements OnInit, AfterViewInit {
   end: string;
   today: any;
 
+  @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
+  popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
+
+  popoverFactory = this.resolver.resolveComponentFactory(PopoverWrapperComponent);
+
   private unsubscribe: Subscription[] = [];
 
   constructor(
     private connection: ConnectionService,
     private dealService: DealService,
     private mediaService: MediaService,
+    private injector: Injector,
+    private appRef: ApplicationRef,
     private router: Router,
     private cf: ChangeDetectorRef,
     private toast: HotToastService,
     private modalService: NgbModal,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private resolver: ComponentFactoryResolver) {
       this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
         this.data = response;
         this.images = this.data.mediaUrl;
@@ -121,6 +153,39 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.initSelectDateForm();
     const current = new Date();
     this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() }
+  }
+
+  showPopover(event:any) {
+    const popover = this.popoversMap.get(event.el);
+    if (popover) {
+      popover.instance.popoverHook.open({ event: event.event });
+    }
+  }
+
+  hidePopover(event:any) {
+    const popover = this.popoversMap.get(event.el);
+    if (popover?.instance?.popoverHook) {
+      popover.instance.popoverHook.close();
+    }
+  }
+
+  renderTooltip(event:any) {
+    const projectableNodes = Array.from(event.el.childNodes)
+
+    const compRef = this.popoverFactory.create(this.injector, [projectableNodes], event.el);
+    compRef.instance.template = this.popContent;
+
+    this.appRef.attachView(compRef.hostView)
+    this.popoversMap.set(event.el, compRef)
+  }
+
+  destroyTooltip(event:any) {
+    const popover = this.popoversMap.get(event.el);
+    if (popover) {
+      this.appRef.detachView(popover.hostView);
+      popover.destroy();
+      this.popoversMap.delete(event.el);
+    }
   }
 
   ngAfterViewInit(): void {
