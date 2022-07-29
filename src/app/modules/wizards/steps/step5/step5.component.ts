@@ -2,7 +2,7 @@ import { AfterViewInit, ApplicationRef, ChangeDetectorRef, Component, ComponentF
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
-import { CalendarOptions, EventApi, EventClickArg, FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarOptions, EventApi, FullCalendarComponent } from '@fullcalendar/angular';
 import { DateClickArg } from '@fullcalendar/interaction';
 import { NgbInputDatepicker, NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -25,7 +25,7 @@ import { ConnectionService } from './../../services/connection.service';
       #popoverHook="ngbPopover"
       [popoverClass]="'calendar-popover'"
       [ngbPopover]="template"
-      [placement]="'top'"
+      [placement]="'right'"
       triggers="manual"
     >
       <ng-content></ng-content>
@@ -109,6 +109,7 @@ export class Step5Component implements OnInit, AfterViewInit {
   clickInfo: any;
   destroy$ = new Subject();
   @ViewChild('modal3') private modal3: TemplateRef<any>;
+  @ViewChild('modal4') private modal4: TemplateRef<any>;
   dateForm: FormGroup;
   startDate: any;
   calendarApi: any;
@@ -116,6 +117,7 @@ export class Step5Component implements OnInit, AfterViewInit {
   start: string;
   end: string;
   today: any;
+  endDateInView: any;
 
   @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
   popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
@@ -152,6 +154,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.getCurrentMonthDays();
     this.initSelectDateForm();
     const current = new Date();
+    console.log(current)
     this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() }
   }
 
@@ -244,7 +247,8 @@ export class Step5Component implements OnInit, AfterViewInit {
     const startDate = new Date(this.dateForm.get('startDate')?.value?.year, this.dateForm.get('startDate')?.value?.month - 1, this.dateForm.get('startDate')?.value?.day).getTime();
     const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day).getTime();
     this.start = moment(startDate).format("YYYY-MM-DD");
-    this.end = moment(endDate).format("YYYY-MM-DD");
+    this.endDateInView = moment(endDate).format("YYYY-MM-DD");
+    this.end = moment(endDate).add(1, 'days').format("YYYY-MM-DD");
     calendarApi.addEvent({
       id: createEventId(),
       title: this.data.dealHeader,
@@ -264,6 +268,32 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.calendarApi.removeAllEvents();
     this.dateForm.reset();
     this.modalService.dismissAll();
+  }
+
+  discardFourthModal() {
+    this.modalService.dismissAll();
+    this.dateForm.reset();
+  }
+
+  editDates() {
+    const start = this.start;
+    const end = this.endDateInView;
+    const newStart = new Date(start);
+    const newEnd = new Date(end);
+    const ngbStart = { day: newStart.getUTCDate(), month: newStart.getUTCMonth() + 1, year: newStart.getUTCFullYear() }
+    const ngbEnd = { day: newEnd.getUTCDate(), month: newEnd.getUTCMonth() + 1, year: newEnd.getUTCFullYear() }
+    console.log(ngbStart)
+    console.log(ngbEnd)
+    this.modalService.open(this.modal4, {
+      centered: true,
+      size: 'sm',
+      backdrop: 'static',
+      keyboard: false,
+      modalDialogClass: 'small-popup'
+    })
+    this.cf.detectChanges()
+    this.dateForm.get('startDate')?.setValue(ngbStart)
+    this.dateForm.get('endDate')?.setValue(ngbEnd)
   }
 
   // handleDateSelect(selectInfo: DateSelectArg) {
@@ -290,7 +320,7 @@ export class Step5Component implements OnInit, AfterViewInit {
   yesClickTrue() {
     this.yesClick = true;
     if(this.yesClick == true) {
-      this.clickInfo.remove();
+      this.calendarApi.removeAllEvents();
       this.data.startDate = '';
       this.data.endDate = '';
       this.modal2.close();
@@ -301,8 +331,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.modal2.close();
   }
 
-  handleEventClick(clickInfo: EventClickArg) {
-    this.clickInfo = clickInfo.event;
+  handleEventClick() {
     return this.modal2.open();
   }
 

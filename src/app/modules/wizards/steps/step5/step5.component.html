@@ -57,7 +57,7 @@
       <span class="mb-8">Are you sure you want to delete schedule for the deal <strong>{{(data.dealHeader.length > 25) ? ((data.dealHeader) | slice:0:25)+'...':(data.dealHeader)}}</strong>.</span>
       <div class="flex justify-evenly">
         <button (click)="yesClickTrue()" class="px-8 py-2 text-white bg-gray-900 rounded-md">Yes</button>
-        <button class="px-8 py-2 text-gray-600 bg-gray-300 rounded-md">Cancel</button>
+        <button (click)="closeSecondModal()" class="px-8 py-2 text-gray-600 bg-gray-300 rounded-md">Cancel</button>
       </div>
     </div>
   </div>
@@ -116,12 +116,64 @@
   </div>
 </ng-template>
 
+<ng-template #modal4>
+  <div class="modal-content">
+    <div class="flex justify-start px-6 py-7">
+      <div class="relative">
+        <span style="color: #313131; font-weight: 600; font-size: 20px;" class="absolute top-3.5 right-3">{{daysInMonth}}</span>
+        <img src="../../../../../assets/media/icons/date.svg">
+      </div>
+      <span class="px-4 py-1" style="font-size: 22px; font-weight: 600">Schedule deal</span>
+    </div>
+    <form class="px-6 py-5" [formGroup]="dateForm">
+      <div class="relative w-auto mt-2 input-icon">
+        <span class="text-sm pb-1.5" style="color: #313131;">Start date&nbsp;*</span>
+        <span class="absolute flex items-center mt-1 right-2"><i (click)="c.toggle()" class="p-2 mr-2 text-gray-600 rounded far fa-calendar-alt"></i></span>
+        <input
+          placeholder=""
+          (keydown)="$event.preventDefault()"
+          name="dp"
+          [minDate]="today"
+          formControlName="startDate"
+          ngbDatepicker
+          #c="ngbDatepicker"
+          (click)="c.toggle()"
+          style="width: 16.125rem; height: 2.5rem;"
+          class="text-sm font-thin border-gray-400 cursor-pointer form-control"
+        >
+      </div>
+      <div class="relative w-auto mt-2.5 input-icon">
+        <span class="text-sm pb-1.5" style="color: #313131;">End date&nbsp;*</span>
+        <span class="absolute flex items-center mt-1 right-2"><i #dPicker (click)="d.toggle();" class="p-2 mr-2 text-gray-600 rounded far fa-calendar-alt"></i></span>
+        <input
+          placeholder=""
+          (keydown)="$event.preventDefault()"
+          name="dp"
+          [minDate]="dateForm.get('startDate')?.value"
+          formControlName="endDate"
+          ngbDatepicker
+          #d="ngbDatepicker"
+          (click)="d.toggle()"
+          style="width: 16.125rem; height: 2.5rem;"
+          class="text-sm font-thin border-gray-400 cursor-pointer form-control"
+        >
+      </div>
+    </form>
+    <div class="flex justify-around mt-10 mb-7">
+      <button (click)="discardFourthModal()" class="px-5 py-2 rounded-md" style="background-color: #F2F3F4; color: #A0B7CB;">Discard</button>
+      <button
+      [disabled]="dateForm.get('startDate')?.value == '' || dateForm.get('endDate')?.value == ''"
+      (click)="saveDates()" class="px-5 py-2 text-white rounded-md" style="background-color: #0081E9;">Save</button>
+    </div>
+  </div>
+</ng-template>
+
 <ng-template #popContent let-event="event">
   <div class="flex justify-evenly">
     <span class="px-1.5 text-sm text-left text-black font-semibold">{{ (event.title.length > 19? ((event.title) | slice:0: 19)+'...':(event.title)) }}</span>
-    <img src="../../../../../assets/media/icons/edit.svg" class="px-1.5">
-    <img src="../../../../../assets/media/icons/edit.svg" class="px-1.5">
-    <img src="../../../../../assets/media/icons/edit.svg" class="px-1.5">
+    <img (click)="handleEventClick()" src="../../../../../assets/media/icons/trash.svg" class="px-1.5">
+    <img (click)="editDates()" src="../../../../../assets/media/icons/edit.svg" class="px-1.5">
+    <img src="../../../../../assets/media/icons/cross-icon.svg" class="px-1.5">
   </div>
   <hr class="text-gray-500">
   <div class="py-2.5 flex flex-col justify-center align-middle">
@@ -133,7 +185,7 @@
     <div class="flex justify-evenly py-2.5">
       <i style="color:#7E8299" class="px-3 far fa-calendar-alt"></i>
       <span class="text-sm" style="color: #7E8299;"> End date</span>
-      <span class="px-6 text-sm">{{end | date: 'mediumDate'}}</span>
+      <span class="px-6 text-sm">{{endDateInView | date: 'mediumDate'}}</span>
     </div>
   </div>
 </ng-template>

@@ -7,7 +7,7 @@ export class Vouchers {
   // details?: string;
   numberOfVouchers?: number;
   grossEarning?: number;
-  netEarning?: string;
+  netEarning?: number;
   voucherValidity?: number;
   voucherStartDate?: Date | any;
   voucherEndDate?: Date | any;

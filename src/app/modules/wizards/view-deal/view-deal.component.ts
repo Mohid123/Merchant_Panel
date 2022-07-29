@@ -276,27 +276,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
-          if(item.dealStatus == 'Draft') {
-            return {
-              title: item.dealHeader,
-              start: moment(item.startDate).format('YYYY-MM-DD'),
-              end: moment(item.endDate).format('YYYY-MM-DD'),
-              backgroundColor: '#00FF00',
-              borderColor: '#00FF00',
-              extendedProps: {
-                dealID: item.dealID,
-                sold: item.soldVouchers,
-                available: item.pageNumber,
-                value: item.pageNumber,
-                totalSold: item.pageNumber,
-                netEarnings: item.pageNumber,
-                img: item.mediaUrl[0],
-                vouchers: item.vouchers,
-                status: item.dealStatus
-              }
-            }
-          }
-          if(item.dealStatus == 'In Review') {
+          if(item.dealStatus == 'In review') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
@@ -354,7 +334,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               }
             }
           }
-          if(item.dealStatus == 'Needs Attention') {
+          if(item.dealStatus == 'Needs attention') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
@@ -446,7 +426,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.dealID = dealID?.value;
     const params: any = {};
     if(this.dealID != '') {
-      this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, this.header, this.dealStatus, this.title, params)
+      this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, '', '', this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
@@ -491,7 +471,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.searchPage = header.page;
     const params: any = {};
     if(this.header != '') {
-      this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, this.header, this.dealStatus, this.title, params)
+      this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, '', this.header, '', this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
@@ -563,27 +543,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
-          if(item.dealStatus == 'Draft') {
-            return {
-              title: item.dealHeader,
-              start: moment(item.startDate).format('YYYY-MM-DD'),
-              end: moment(item.endDate).format('YYYY-MM-DD'),
-              backgroundColor: '#00FF00',
-              borderColor: '#00FF00',
-              extendedProps: {
-                dealID: item.dealID,
-                sold: item.soldVouchers,
-                available: item.pageNumber,
-                value: item.pageNumber,
-                totalSold: item.pageNumber,
-                netEarnings: item.pageNumber,
-                img: item.mediaUrl[0],
-                vouchers: item.vouchers,
-                status: item.dealStatus
-              }
-            }
-          }
-          if(item.dealStatus == 'In Review') {
+          if(item.dealStatus == 'In review') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
@@ -641,7 +601,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               }
             }
           }
-          if(item.dealStatus == 'Needs Attention') {
+          if(item.dealStatus == 'Needs attention') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
@@ -682,27 +642,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
-          if(item.dealStatus == 'Draft') {
-            return {
-              title: item.dealHeader,
-              start: moment(item.startDate).format('YYYY-MM-DD'),
-              end: moment(item.endDate).format('YYYY-MM-DD'),
-              backgroundColor: '#00FF00',
-              borderColor: '#00FF00',
-              extendedProps: {
-                dealID: item.dealID,
-                sold: item.soldVouchers,
-                available: item.pageNumber,
-                value: item.pageNumber,
-                totalSold: item.pageNumber,
-                netEarnings: item.pageNumber,
-                img: item.mediaUrl[0],
-                vouchers: item.vouchers,
-                status: item.dealStatus
-              }
-            }
-          }
-          if(item.dealStatus == 'In Review') {
+          if(item.dealStatus == 'In review') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
@@ -760,7 +700,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               }
             }
           }
-          if(item.dealStatus == 'Needs Attention') {
+          if(item.dealStatus == 'Needs attention') {
             return {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
