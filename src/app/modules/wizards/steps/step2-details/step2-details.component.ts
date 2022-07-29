@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
+import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
@@ -31,12 +32,14 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   ) => void;
 
   dealForm: FormGroup;
+  id: string;
 
   constructor(
     private cf: ChangeDetectorRef,
     private fb: FormBuilder,
     private connection: ConnectionService,
-    private dealService: DealService
+    private dealService: DealService,
+    private common: CommonFunctionsService
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +67,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
     this.reciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
+      this.id = response?.id;
     })
   }
 
@@ -148,6 +152,12 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         }
       })
      }
+  }
+
+  returnToPrevious() {
+    debugger
+    this.prevClick.emit('');
+    this.common.deleteDealByID(this.id);
   }
 
   ngOnDestroy() {

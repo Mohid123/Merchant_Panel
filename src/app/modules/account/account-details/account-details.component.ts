@@ -85,7 +85,6 @@ export class AccountDetailsComponent implements OnInit {
   saveBillingDetails() {
     this.isLoading$.next(true);
     this.userService.updateIBAN(this.authService.currentUserValue?.id, this.iban).pipe(exhaustMap((res:any) => {
-      debugger
       if(!res.hasErrors()) {
         return this.userService.getUser();
       } else {

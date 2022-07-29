@@ -98,7 +98,7 @@
                       <img src="../../../../assets/media/icons/Dublicate.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Duplicate</span>
                     </button>
-                    <!-- <button (click)="deleteDeal(event.id)" ngbDropdownItem>Delete</button> -->
+                    <button (click)="deleteDeal(event.id)" ngbDropdownItem>Delete</button>
                   </div>
                 </div>
                 <button [ngClass]="event?.vouchers.length == 0 || event?.vouchers == [] ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="event?.vouchers.length == 0 || event?.vouchers == []" (click)="event.isCollapsed = !event.isCollapsed">

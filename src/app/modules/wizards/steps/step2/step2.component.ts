@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { HotToastService } from '@ngneat/hot-toast';
+import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
@@ -22,6 +23,7 @@ import { ConnectionService } from './../../services/connection.service';
 export class Step2Component implements OnInit, OnDestroy {
 
   removed: boolean = false;
+  id: string;
 
   @Output() nextClick = new EventEmitter();
   @Output() prevClick = new EventEmitter();
@@ -75,7 +77,8 @@ export class Step2Component implements OnInit, OnDestroy {
     private connection: ConnectionService,
     private toast: HotToastService,
     private authService: AuthService,
-    private dealService: DealService
+    private dealService: DealService,
+    private common: CommonFunctionsService
     ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;
@@ -87,6 +90,8 @@ export class Step2Component implements OnInit, OnDestroy {
 
     this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
+      this.id = response?.id
+      console.log(this.id)
     })
   }
 
@@ -328,7 +333,6 @@ export class Step2Component implements OnInit, OnDestroy {
     this.connection.isSaving.next(true);
     this.nextClick.emit('');
     this.newData.pageNumber = 2;
-    debugger
     const payload = this.newData;
     if(payload) {
       return this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
@@ -338,6 +342,12 @@ export class Step2Component implements OnInit, OnDestroy {
         }
       })
     }
+  }
+
+  returnToPrevious() {
+    debugger
+    this.prevClick.emit('');
+    this.common.deleteDealByID(this.id);
   }
 
   convertToInteger(value: any) {

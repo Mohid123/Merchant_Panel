@@ -6,6 +6,7 @@ import { User } from '@core/models/user.model';
 import { DealService } from '@core/services/deal.service';
 import { NgbDateStruct, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
+import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import { Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
@@ -78,6 +79,7 @@ export class Step4Component implements OnInit, OnDestroy {
   newData: MainDeal;
   policy: Partial<User>;
   editIndex: number = -1;
+  id: string;
 
   private unsubscribe: Subscription[] = [];
 
@@ -88,7 +90,8 @@ export class Step4Component implements OnInit, OnDestroy {
     private userService: UserService,
     private toast: HotToastService,
     private cf: ChangeDetectorRef,
-    private dealService: DealService) {
+    private dealService: DealService,
+    private common: CommonFunctionsService) {
       const current = new Date();
       this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2}
 
@@ -101,6 +104,7 @@ export class Step4Component implements OnInit, OnDestroy {
     this.secondReciever = this.connection.getSaveAndNext().subscribe((response: any) => {
       if(response) {
         this.newData = response;
+        this.id = response?.id;
       }
     })
   }
@@ -340,12 +344,10 @@ export class Step4Component implements OnInit, OnDestroy {
 
   sendDraftData() {
     if(!this.checkForm()) {
-      debugger
       this.form.markAllAsTouched();
       return;
     }
     else {
-      debugger
       this.connection.isSaving.next(true);
       this.nextClick.emit('');
       this.newData.pageNumber = 4;
@@ -370,6 +372,11 @@ export class Step4Component implements OnInit, OnDestroy {
         }
       })
     }
+  }
+
+  returnToPrevious() {
+    this.prevClick.emit('');
+    this.common.deleteDealByID(this.id);
   }
 
   ngOnDestroy() {

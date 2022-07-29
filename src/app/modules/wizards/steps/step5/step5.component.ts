@@ -6,6 +6,7 @@ import { CalendarOptions, EventApi, FullCalendarComponent } from '@fullcalendar/
 import { DateClickArg } from '@fullcalendar/interaction';
 import { NgbInputDatepicker, NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
+import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import * as moment from 'moment';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -25,8 +26,9 @@ import { ConnectionService } from './../../services/connection.service';
       #popoverHook="ngbPopover"
       [popoverClass]="'calendar-popover'"
       [ngbPopover]="template"
-      [placement]="'right'"
+      [placement]="'top'"
       triggers="manual"
+      [container]="'body'"
     >
       <ng-content></ng-content>
     </div>
@@ -118,6 +120,7 @@ export class Step5Component implements OnInit, AfterViewInit {
   end: string;
   today: any;
   endDateInView: any;
+  id: string;
 
   @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
   popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
@@ -137,7 +140,8 @@ export class Step5Component implements OnInit, AfterViewInit {
     private toast: HotToastService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private resolver: ComponentFactoryResolver) {
+    private resolver: ComponentFactoryResolver,
+    private common: CommonFunctionsService) {
       this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
         this.data = response;
         this.images = this.data.mediaUrl;
@@ -146,6 +150,7 @@ export class Step5Component implements OnInit, AfterViewInit {
 
       this.secondReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
         this.newData = response;
+        this.id = response.id
       })
   }
 
@@ -295,27 +300,6 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.dateForm.get('endDate')?.setValue(ngbEnd)
   }
 
-  // handleDateSelect(selectInfo: DateSelectArg) {
-  //   const title = this.data.dealHeader;
-  //   const calendarApi = selectInfo.view.calendar;
-
-  //   calendarApi.unselect();
-
-  //   if (title && !calendarApi.getEvents().length) {
-  //     this.data.startDate = selectInfo.startStr;
-  //     this.data.endDate = selectInfo.endStr;
-  //     this.newData.startDate = selectInfo.startStr;
-  //     this.newData.endDate = selectInfo.endStr;
-  //     calendarApi.addEvent({
-  //       id: createEventId(),
-  //       title,
-  //       start: selectInfo.startStr,
-  //       end: selectInfo.endStr,
-  //       allDay: selectInfo.allDay
-  //     });
-  //   }
-  // }
-
   yesClickTrue() {
     this.yesClick = true;
     if(this.yesClick == true) {
@@ -379,6 +363,11 @@ export class Step5Component implements OnInit, AfterViewInit {
     return await this.modal.close().then(() => {
       this.router.navigate(['/deals/view-deal'])
     });
+  }
+
+  returnToPrevious() {
+    this.prevClick.emit('');
+    this.common.deleteDealByID(this.id);
   }
 
   ngOnDestroy() {
