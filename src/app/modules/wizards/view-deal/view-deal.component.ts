@@ -399,10 +399,10 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     })
   }
 
-//  async editDeal(index: number) {
-//     this.conn.sendEditDealData(this.currentEvents[index]);
-//     await this.router.navigate(['/deals/create-deal']);
-//   }
+ async editDeal(index: number) {
+    this.conn.sendData(this.currentEvents[index]);
+    await this.router.navigate(['/deals/create-deal']);
+  }
 
   filterByTitle(title: any) {
     this.limit = 7;
@@ -430,7 +430,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-          if(res.data?.totalDeals >= this.searchPage * this.limit) {
+          if(res.data?.totalDeals >= this.offset) {
+            debugger
             this.commonService.optionsLengthIsZero = false;
             this.commonService.finished = false;
             this.cf.detectChanges();
@@ -444,7 +445,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
             this.filteredResultID.push(...this.filteredResult);
             this.cf.detectChanges();
           }
-          else if(res.data?.totalDeals <= this.searchPage * this.limit) {
+          else if(res.data?.totalDeals <= this.offset) {
+            debugger
             this.commonService.finished = true;
           }
         }
@@ -475,7 +477,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-          if(res.data?.totalDeals >= this.searchPage * this.limit) {
+          if(res.data?.totalDeals >= this.offset) {
             this.commonService.finished = false;
             this.commonService.optionsLengthIsZero = false;
             const uniqueArray = this.commonService.getUniqueListBy(res.data.data, 'dealHeader')
@@ -489,7 +491,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
             this.filteredHeaderUpdated.push(...this.filteredHeader);
             this.cf.detectChanges();
           }
-          else if(res.data?.totalDeals <= this.searchPage * this.limit) {
+          else if(res.data?.totalDeals <= this.offset) {
             this.commonService.finished = true
           }
         }

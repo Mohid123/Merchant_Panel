@@ -13,8 +13,6 @@ export class ConnectionService {
   public isSaving: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
 
-  editDealSubject: BehaviorSubject<any> = new BehaviorSubject({});
-
   canRoute = new BehaviorSubject(false);
   stateURL = new BehaviorSubject('');
   popupState = new BehaviorSubject('');
@@ -35,16 +33,6 @@ export class ConnectionService {
 
   getData(): Observable<any> {
     return this.stepData.asObservable();
-  }
-
-  // EDIt DEAL DATA.
-
-  sendEditDealData(data: any) {
-    this.editDealSubject.next(data);
-  }
-
-  getEditDealData(): Observable<any> {
-    return this.editDealSubject.asObservable();
   }
 
   //FilterOptions data
