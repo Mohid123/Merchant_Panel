@@ -236,7 +236,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-          if(res.data?.totalCount >= this.searchPage * 1) {
+          if(res.data?.totalCount > 0) {
             this.commonService.finished = false;
             this.commonService.optionsLengthIsZero = false;
             this.cf.detectChanges();
@@ -250,7 +250,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
             this.filteredInvoiceIDSearch.push(...this.filteredResult)
             this.cf.detectChanges();
           }
-          else if(res.data?.totalCount <= this.searchPage * 1) {
+          else if(res.data?.totalCount == 0) {
             this.commonService.finished = true
           }
         }
