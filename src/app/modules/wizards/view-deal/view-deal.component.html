@@ -90,15 +90,15 @@
                       <img src="../../../../assets/media/icons/preview.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Preview</span>
                     </button>
-                    <button ngbDropdownItem class="flex justify-start m-2"> <!--(click)="editDeal(index)"-->
+                    <!-- <button (click)="editDeal(index)" ngbDropdownItem class="flex justify-start m-2">
                       <img src="../../../../assets/media/icons/editing.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Edit</span>
-                    </button>
-                    <button ngbDropdownItem class="flex justify-start m-2" (click)="duplicateDeal(index)">
+                    </button> -->
+                    <button *ngIf="event.dealStatus != 'Needs Attention' && event.dealStatus != 'Draft'" ngbDropdownItem class="flex justify-start m-2" (click)="duplicateDeal(index)">
                       <img src="../../../../assets/media/icons/Dublicate.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Duplicate</span>
                     </button>
-                    <button (click)="deleteDeal(event.id)" ngbDropdownItem>Delete</button>
+                    <!-- <button (click)="deleteDeal(event.id)" ngbDropdownItem>Delete</button> -->
                   </div>
                 </div>
                 <button [ngClass]="event?.vouchers.length == 0 || event?.vouchers == [] ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="event?.vouchers.length == 0 || event?.vouchers == []" (click)="event.isCollapsed = !event.isCollapsed">

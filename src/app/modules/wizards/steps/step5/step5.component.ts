@@ -154,7 +154,6 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.getCurrentMonthDays();
     this.initSelectDateForm();
     const current = new Date();
-    console.log(current)
     this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() }
   }
 

@@ -166,7 +166,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     dayMaxEvents: 3,
     // moreLinkClick: 'popover',
     // select: this.handleDateSelect.bind(this),
-    eventClick: this.handleEventClick.bind(this),
+    // eventClick: this.handleEventClick.bind(this),
     // eventsSet: this.handleEvents.bind(this),
     // eventDidMount: this.renderTooltip.bind(this),
     // eventWillUnmount: this.destroyTooltip.bind(this),
@@ -276,6 +276,16 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
+          if(item.dealStatus == 'Draft') {
+            return {
+              title: null,
+              start: null,
+              end: null,
+              backgroundColor: '',
+              borderColor: '',
+              extendedProps: {}
+            }
+          }
           if(item.dealStatus == 'In review') {
             return {
               title:item.dealHeader,
@@ -399,7 +409,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     })
   }
 
- async editDeal(index: number) {
+  async editDeal(index: number) {
+    debugger
     this.conn.sendData(this.currentEvents[index]);
     await this.router.navigate(['/deals/create-deal']);
   }

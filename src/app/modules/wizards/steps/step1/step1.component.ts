@@ -82,6 +82,7 @@ export class Step1Component implements OnInit, OnDestroy {
   images: any[] = [];
   media: any[] = [];
   temporaryVideo: any;
+  id: string;
 
   constructor(
     private fb: FormBuilder,
@@ -134,22 +135,23 @@ export class Step1Component implements OnInit, OnDestroy {
       }
     });
 
-    //Edit deal data bind to form
-    // this.connection.getEditDealData().pipe(takeUntil(this.destroy$))
-    // .subscribe((res: any) => {
-    //   // debugger
-    //   if(res) {
-    //     this.dealForm.patchValue({
-    //       dealHeader: res.dealHeader,
-    //       subTitle: res.subTitle,
-    //       deletedCheck: false
-    //     });
-    //     this.cf.detectChanges();
-    //     this.urls = res.mediaUrl;
-    //     this.cf.detectChanges();
-    //     console.log(this.urls)
-    //   }
-    // })
+    // Edit deal data bind to form
+  //  this.connection.getData().pipe(takeUntil(this.destroy$))
+  //   .subscribe((res: any) => {
+  //     debugger
+  //     if(res.id) {
+  //       this.id = res.id
+  //       this.dealForm.patchValue({
+  //         dealHeader: res.dealHeader,
+  //         subTitle: res.subTitle,
+  //         deletedCheck: false
+  //       });
+  //       this.cf.detectChanges();
+  //       this.urls = res.mediaUrl;
+  //       this.cf.detectChanges();
+  //       console.log(this.urls)
+  //     }
+  //   })
 
   }
 
@@ -373,12 +375,6 @@ export class Step1Component implements OnInit, OnDestroy {
     event.target.value = ''
   }
 
-  ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
-    this.destroy$.complete();
-    this.destroy$.unsubscribe();
-  }
-
   dragEntered(event: CdkDragEnter<number>) {
     const drag = event.item;
     const dropList = event.container;
@@ -543,5 +539,11 @@ export class Step1Component implements OnInit, OnDestroy {
     }else {
       this.nextClick.emit('');
     }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 }

@@ -57,6 +57,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
   billingStats: MerchantStats;
   appliedFilter: any;
   dateAppliedFilter: any;
+  today: any
   statusTypes = [
     {
       status: 'Paid'
@@ -91,6 +92,8 @@ export class BillingsComponent implements OnInit, OnDestroy {
     this.getMerchantStats();
     this.getInvoicesByMerchant();
     this.initKYCForm();
+    const current = new Date();
+    this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() }
   }
 
   get f() {
@@ -184,8 +187,8 @@ export class BillingsComponent implements OnInit, OnDestroy {
   getInvoicesByMerchant() {
     this.showData = false;
     const params: any = {}
-    const dateFrom:any =  new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime() ? new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day).getTime(): '';
-    const dateTo:any = new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime() ? new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day).getTime() : '';
+    const dateFrom:any =  new Date(this.fromDate?.year, this.fromDate?.month - 1, this.fromDate?.day).getTime() ? new Date(this.fromDate?.year, this.fromDate?.month - 1, this.fromDate?.day).getTime(): '';
+    const dateTo:any = new Date(this.toDate?.year, this.toDate?.month - 1, this.toDate?.day).getTime() ? new Date(this.toDate?.year, this.toDate?.month - 1, this.toDate?.day).getTime() : '';
     this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.invoiceID, dateFrom, dateTo, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res:ApiResponse<BillingList>) => {
@@ -294,10 +297,12 @@ export class BillingsComponent implements OnInit, OnDestroy {
   }
 
   filterByDate(startDate: number, endDate: number) {
+    debugger
     this.offset = 0;
     this.fromDate = startDate;
     this.toDate = endDate;
     this.dateAppliedFilter = true;
+    debugger
     this.getInvoicesByMerchant();
   }
 

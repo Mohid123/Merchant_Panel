@@ -20,6 +20,7 @@ export class ConnectionService {
   filterOptions = new BehaviorSubject([]);
 
   sendData(data: any) {
+    debugger
     this.stepData.next(data);
   }
 
@@ -32,6 +33,7 @@ export class ConnectionService {
   }
 
   getData(): Observable<any> {
+    debugger
     return this.stepData.asObservable();
   }
 
