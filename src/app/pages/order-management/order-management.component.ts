@@ -252,7 +252,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.offset = 0;
     this.searchPage = dealHeader?.page;
     if(dealHeader?.value != this.voucherID) {
-      this.filteredVoucherIDSearch = [];
+      this.filteredDealHeaderSearch = [];
       this.commonService.optionsLengthIsZero = false;
     }
     this.dealHeader = dealHeader?.value;
@@ -316,7 +316,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.offset = 0;
     this.searchPage = voucherHeader?.page;
     if(voucherHeader?.value != this.voucherID) {
-      this.filteredVoucherIDSearch = [];
+      this.filteredVoucherNameSearch = [];
       this.commonService.optionsLengthIsZero = false;
     }
     this.voucherHeader = voucherHeader?.value;
