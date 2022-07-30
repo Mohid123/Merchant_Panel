@@ -146,7 +146,10 @@ export class FiltersComponent implements OnInit  {
   }
 
   open() {
-    this.isOpen = !this.isOpen;
+    this.isOpen = true
+    if(this.autoClose == false) {
+      this.isOpen = false;
+    }
     const allChecked = this.optionsList?.filter(x => x.checked);
     const allCheckedStatus = this.optionsListStatus?.filter(x => x.checked);
     if(this.optionsList?.length > 0) {
