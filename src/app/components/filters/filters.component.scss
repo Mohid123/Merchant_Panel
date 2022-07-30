@@ -62,3 +62,8 @@ input.form-control:focus {
   height: 30px;
 }
 
+.dropdown-toggle::after {
+  display: none;
+}
+
+

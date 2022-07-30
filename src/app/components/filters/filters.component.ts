@@ -50,6 +50,8 @@ export class FiltersComponent implements OnInit  {
     },
   ];
 
+  autoClose: boolean = false;
+
 
   constructor(private cf: ChangeDetectorRef, public common: CommonFunctionsService) { }
 
@@ -161,11 +163,14 @@ export class FiltersComponent implements OnInit  {
       }
     }
     if(!this.isOpen) {
-      // this.allSelected = false;
-      // this.optionsList.length = 0;
-      // this.optionsListStatus.find((x: any) => x.checked = false)
-      // this.searchControl.setValue('');
       this.spanner.nativeElement.style.display = 'none';
+    }
+  }
+
+  autoCloseOutside(close: boolean) {
+    this.autoClose = close;
+    if(this.autoClose == false) {
+      this.isOpen = false;
     }
   }
 
