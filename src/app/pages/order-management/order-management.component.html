@@ -43,7 +43,7 @@
   <div class="mt-4 table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
     <table class="w-full">
       <thead ngbDropdown display="dynamic" id="dropdownBasic2" class="text-left text-black bg-white rounded-lg h-14">
-        <th class="w-32 pr-4 font-semibold cursor-pointer">Voucher ID&nbsp;
+        <th class="pr-4 font-semibold cursor-pointer w-36 2xl:w-32">Voucher ID&nbsp;
           <app-filters
             (sendFilter)="filterSelectedVoucherByID($event)"
             (searchItem)="filterByVoucherID($event)"
@@ -84,7 +84,7 @@
           </app-filters>
         </th>
         <th class="w-24 pr-12 font-semibold text-right cursor-pointer">Value</th>
-        <th class="pr-4 font-semibold text-right cursor-pointer w-28">Net earnings</th>
+        <th class="pr-4 font-semibold text-right cursor-pointer w-36 2xl:w-28">Net earnings</th>
         <th class="w-40 pl-16 pr-4 font-semibold cursor-pointer">Status&nbsp;
           <app-filters
             [filterBy]="'status'"

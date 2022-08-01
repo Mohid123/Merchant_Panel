@@ -75,4 +75,14 @@ export class ConnectionService {
   get getSPopupState(): string {
     return this.popupState.value;
   }
+
+  // get and set isSaving
+
+  get isSavingNext(): boolean {
+    return this.isSaving.value;
+  }
+
+  set isSavingNext(data: any) {
+    this.isSaving.next(data);
+  }
 }

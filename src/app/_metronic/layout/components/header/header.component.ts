@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy, DoChec
   };
   @ViewChild('ktPageTitle', {static: true}) ktPageTitle: ElementRef;
   timer: any;
+  showHideStatus: boolean;
 
   private unsubscribe: Subscription[] = [];
   @ViewChild('access') access: ElementRef;
@@ -49,8 +50,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy, DoChec
   }
 
   ngDoCheck() {
-    this.conn.isSaving.getValue();
-    if(this.conn.isSaving.value == false) {
+    this.showHideStatus = this.conn.isSavingNext;
+    if(this.showHideStatus == false) {
       this.timer = setTimeout(() => {
         if(this.access?.nativeElement) {
           this.access.nativeElement.style.visibility = 'hidden';

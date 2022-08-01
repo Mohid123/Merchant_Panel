@@ -86,12 +86,11 @@ export class Step2Component implements OnInit, OnDestroy {
       if(this.subDeals.length > 0) {
         this.addVoucher = false;
       }
-    })
+    });
 
     this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
-      this.id = response?.id
-      console.log(this.id)
+      this.id = response?.id;
     })
   }
 

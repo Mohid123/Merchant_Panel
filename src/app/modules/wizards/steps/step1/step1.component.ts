@@ -200,7 +200,9 @@ export class Step1Component implements OnInit, OnDestroy {
           })
         ).subscribe((res: ApiResponse<any>) => {
           if(!res.hasErrors()) {
-            this.connection.isSaving.next(false);
+            debugger
+            this.connection.isSavingNext = false;
+            this.cf.detectChanges();
             this.connection.sendSaveAndNext(res.data);
           }
       })

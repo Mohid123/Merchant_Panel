@@ -171,9 +171,9 @@
 <ng-template #popContent let-event="event">
   <div class="flex justify-evenly">
     <span class="px-1.5 text-sm text-left text-black font-semibold">{{ (event.title.length > 17? ((event.title) | slice:0: 17)+'...':(event.title)) }}</span>
-    <img (click)="handleEventClick()" src="../../../../../assets/media/icons/trash.svg" class="px-1.5">
-    <img (click)="editDates()" src="../../../../../assets/media/icons/edit.svg" class="px-1.5">
-    <img src="../../../../../assets/media/icons/cross-icon.svg" class="px-1.5">
+    <img (click)="handleEventClick()" src="../../../../../assets/media/icons/trash.svg" class="px-1.5 cursor-pointer">
+    <img (click)="editDates()" src="../../../../../assets/media/icons/edit.svg" class="px-1.5 cursor-pointer">
+    <img src="../../../../../assets/media/icons/cross-icon.svg" class="px-1.5 cursor-pointer">
   </div>
   <hr class="text-gray-500">
   <div class="py-2.5 flex flex-col justify-center align-middle">
