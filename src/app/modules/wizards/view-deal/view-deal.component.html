@@ -137,10 +137,12 @@
                       <div id="borderBottom"></div>
                       <tr class="w-full">
                         <td colspan="12">
-                          <tr class="w-full text-sm text-left text-gray-500">
-                            <td class="py-4 pr-4 pl-11">Published from &nbsp;<span class="text-black">{{voucher?.voucherStartDate | date: 'dd-MM-yyyy'}} until {{voucher?.voucherEndDate | date: 'dd-MM-yyyy'}}</span></td>
-                            <td class="px-4 py-4">Validity date &nbsp;<span class="text-black">{{voucher?.voucherValidity | date: 'dd-MM-yyyy'}}</span></td>
-                          </tr>
+                          <ng-container *ngIf="event.startDate && event.endDate">
+                            <tr class="w-full text-sm text-left text-gray-500">
+                              <td class="py-4 pr-4 pl-11">Published from &nbsp;<span class="text-black">{{event?.startDate | date: 'dd-MM-yyyy'}} until {{event?.startDate | date: 'dd-MM-yyyy'}}</span></td>
+                              <td class="px-4 py-4">Validity date &nbsp;<span class="text-black">{{voucher?.voucherEndDate | date: 'dd-MM-yyyy'}}</span></td>
+                            </tr>
+                          </ng-container>
                         </td>
                       </tr>
                     </tbody>
