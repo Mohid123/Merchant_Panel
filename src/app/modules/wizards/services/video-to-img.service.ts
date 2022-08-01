@@ -69,4 +69,21 @@ export class VideoProcessingService {
     return new File([u8arr], filename, { type: mime });
   }
 
+  async getBase64ImageFromUrl(imageUrl: any) {
+    var res = await fetch(imageUrl);
+    var blob = await res.blob();
+
+    return new Promise((resolve, reject) => {
+      var reader  = new FileReader();
+      reader.addEventListener("load", function () {
+          resolve(reader.result);
+      }, false);
+
+      reader.onerror = () => {
+        return reject(this);
+      };
+      reader.readAsDataURL(blob);
+    })
+  }
+
 }

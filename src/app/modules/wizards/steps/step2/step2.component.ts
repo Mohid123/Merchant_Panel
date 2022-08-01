@@ -81,6 +81,7 @@ export class Step2Component implements OnInit, OnDestroy {
     private common: CommonFunctionsService
     ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
+      debugger
       this.data = response;
       this.subDeals = this.data.vouchers ? this.data.vouchers  : [];
       if(this.subDeals.length > 0) {
@@ -91,7 +92,7 @@ export class Step2Component implements OnInit, OnDestroy {
     this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
       this.id = response?.id;
-    })
+    });
   }
 
   ngOnInit() {

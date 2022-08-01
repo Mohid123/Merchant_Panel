@@ -413,9 +413,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   async editDeal(index: number) {
-    debugger
     return await this.router.navigate(['/deals/create-deal']).finally(() => {
-      this.conn.sendData(this.currentEvents[index]);
+      this.conn.sendStep1(this.currentEvents[index]);
     });
   }
 

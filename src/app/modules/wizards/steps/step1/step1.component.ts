@@ -40,6 +40,7 @@ export class Step1Component implements OnInit, OnDestroy {
   public Editor = ClassicEditor
 
   categoryList: CategoryDetail[];
+  categoryEdit: any;
   selectedcategory: SubCategory;
   disableCategory: boolean = false;
   metaDisable: boolean = false;
@@ -83,6 +84,8 @@ export class Step1Component implements OnInit, OnDestroy {
   media: any[] = [];
   temporaryVideo: any;
   id: string;
+  editDealCheck: boolean = false;
+  convertedImage: any;
 
   constructor(
     private fb: FormBuilder,
@@ -106,6 +109,17 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initDealForm();
+    this.updateParentModel({}, this.checkForm());
+
+    this.editDealData();
+
+    this.categoryService.getAllCategoriesDetail(0,0).pipe(take(1)).subscribe((res) => {
+      if(!res.hasErrors()){
+        const categoryList = res.data.data;
+        this.categoryList = categoryList;
+      }
+    });
     this.config = {
       toolbar: {
         styles: [
@@ -126,34 +140,35 @@ export class Step1Component implements OnInit, OnDestroy {
         ]
       }
     }
-    this.initDealForm();
-    this.updateParentModel({}, this.checkForm());
-    this.categoryService.getAllCategoriesDetail(0,0).pipe(take(1)).subscribe((res) => {
-      if(!res.hasErrors()){
-        const categoryList = res.data.data;
-        this.categoryList = categoryList;
-      }
-    });
 
   }
 
+
   editDealData() {
-    this.connection.getData()
+    this.connection.getStep1()
     .subscribe((res: any) => {
-      // debugger
-      if(res.id) {
-        this.id = res.id
+      if(res.dealStatus == 'Draft' && res.id) {
+        this.id = res.id;
+        this.editDealCheck = true;
         this.dealForm.patchValue({
           dealHeader: res.dealHeader,
           subTitle: res.subTitle,
           deletedCheck: false
         });
         this.cf.detectChanges();
-        this.urls = res.mediaUrl;
-        this.multiples = res.mediaUrl;
+        res.mediaUrl.forEach((image: any) => {
+          this.videoService.getBase64ImageFromUrl(image)
+          .then(result => this.multiples.push(result))
+          .catch(err => console.log(err));
+        });
+        this.categoryEdit = res.subCategory;
         this.cf.detectChanges();
       }
     })
+  }
+
+  openDropDown() {
+    this.editDealCheck = false;
   }
 
   get f() {

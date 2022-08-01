@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { ApiService } from '@core/services/api.service';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
 import { CategoryList } from '../models/category-list.model';
 
 type category = CategoryList
@@ -21,9 +20,7 @@ export class CategoryService extends ApiService<category> {
       offset: offset,
       limit: limit
     }
-    return this.get(`/category/getAllCategories`, params).pipe(take(1), tap((res: ApiResponse<any>) => {
-      console.log(res);
-    }))
+    return this.get(`/category/getAllCategories`, params);
   }
 
   getSubCategories(offset: any, limit: any): Observable<ApiResponse<any>> {
@@ -31,9 +28,7 @@ export class CategoryService extends ApiService<category> {
       offset: offset,
       limit: limit
     }
-    return this.get(`/category/getAllSubCategoriesByMerchant`, params).pipe(take(1), tap((res: ApiResponse<any>) => {
-      console.log(res);
-    }));
+    return this.get(`/category/getAllSubCategoriesByMerchant`, params);
   }
 
   getAllCategoriesDetail(offset: any, limit: any): Observable<ApiResponse<any>> {
@@ -41,8 +36,6 @@ export class CategoryService extends ApiService<category> {
       offset: offset,
       limit: limit
     }
-    return this.get(`/category/getAllSubCategoriesByCategories`, params).pipe(take(1), tap((res: ApiResponse<any>) => {
-      console.log(res);
-    }));
+    return this.get(`/category/getAllSubCategoriesByCategories`, params);
   }
 }

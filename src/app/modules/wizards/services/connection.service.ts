@@ -13,14 +13,27 @@ export class ConnectionService {
   public isSaving: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
 
+  private stepDataPageOne: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
+
   canRoute = new BehaviorSubject(false);
   stateURL = new BehaviorSubject('');
   popupState = new BehaviorSubject('');
 
   filterOptions = new BehaviorSubject([]);
 
+  // Step 1 data transfer
+
+  sendStep1(data: any) {
+    this.stepDataPageOne.next(data);
+  }
+
+  getStep1(): Observable<any> {
+    return this.stepDataPageOne.asObservable();
+  }
+
+  //Normal Steps transfer from form
+
   sendData(data: any) {
-    // debugger
     this.stepData.next(data);
   }
 
