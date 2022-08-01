@@ -20,6 +20,10 @@ export class PopupModalComponent implements OnInit {
     this.conn.getRoutePopup = true;
     this.router.navigate([URL]);
     this.conn.getSPopupState = 'Discard';
+    setTimeout(() => {
+      this.conn.getRoutePopup = false;
+      this.conn.getSPopupState = '';
+    }, 3000)
   }
 
   cancel() {

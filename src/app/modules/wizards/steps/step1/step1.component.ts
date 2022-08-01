@@ -135,24 +135,25 @@ export class Step1Component implements OnInit, OnDestroy {
       }
     });
 
-    // Edit deal data bind to form
-  //  this.connection.getData().pipe(takeUntil(this.destroy$))
-  //   .subscribe((res: any) => {
-  //     debugger
-  //     if(res.id) {
-  //       this.id = res.id
-  //       this.dealForm.patchValue({
-  //         dealHeader: res.dealHeader,
-  //         subTitle: res.subTitle,
-  //         deletedCheck: false
-  //       });
-  //       this.cf.detectChanges();
-  //       this.urls = res.mediaUrl;
-  //       this.cf.detectChanges();
-  //       console.log(this.urls)
-  //     }
-  //   })
+  }
 
+  editDealData() {
+    this.connection.getData()
+    .subscribe((res: any) => {
+      // debugger
+      if(res.id) {
+        this.id = res.id
+        this.dealForm.patchValue({
+          dealHeader: res.dealHeader,
+          subTitle: res.subTitle,
+          deletedCheck: false
+        });
+        this.cf.detectChanges();
+        this.urls = res.mediaUrl;
+        this.multiples = res.mediaUrl;
+        this.cf.detectChanges();
+      }
+    })
   }
 
   get f() {

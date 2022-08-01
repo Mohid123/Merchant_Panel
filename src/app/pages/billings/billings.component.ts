@@ -92,8 +92,8 @@ export class BillingsComponent implements OnInit, OnDestroy {
     this.getMerchantStats();
     this.getInvoicesByMerchant();
     this.initKYCForm();
-    const current = new Date();
-    this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() }
+    // const current = new Date();
+    // this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() }
   }
 
   get f() {

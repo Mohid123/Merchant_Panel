@@ -397,6 +397,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   duplicateDeal(index: number) {
     this.currentEvents[index].id = '';
     this.currentEvents[index].dealID = '';
+    this.currentEvents[index].isCollapsed = false;
     delete this.currentEvents[index].createdAt;
     delete this.currentEvents[index].updatedAt;
     this.currentEvents[index].isDuplicate = true;
@@ -413,8 +414,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   async editDeal(index: number) {
     debugger
-    this.conn.sendData(this.currentEvents[index]);
-    await this.router.navigate(['/deals/create-deal']);
+    return await this.router.navigate(['/deals/create-deal']).finally(() => {
+      this.conn.sendData(this.currentEvents[index]);
+    });
   }
 
   filterByTitle(title: any) {

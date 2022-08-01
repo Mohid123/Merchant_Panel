@@ -14,6 +14,7 @@ export class CanActivateGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const routePop = this.conn.currentStep$.value;
     if (routePop == 2 || routePop == 3 || routePop == 4 || (routePop == 5 && !this.conn.saveAndNextData.value?.startDate)) {
+      debugger
       this.modal.open(PopupModalComponent,  {
         centered: true,
         keyboard: false,
@@ -24,6 +25,7 @@ export class CanActivateGuard implements CanActivate {
         this.modal.dismissAll();
         this.conn.currentStep$.next(1);
       }
+      debugger
       return this.conn.getRoutePopup;
     }
     else {
