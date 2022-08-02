@@ -50,8 +50,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy, DoChec
   }
 
   ngDoCheck() {
-    this.showHideStatus = this.conn.isSavingNext;
-    if(this.showHideStatus == false) {
+    if(this.conn.isSaving.value == false) {
       this.timer = setTimeout(() => {
         if(this.access?.nativeElement) {
           this.access.nativeElement.style.visibility = 'hidden';
