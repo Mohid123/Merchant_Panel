@@ -348,18 +348,24 @@ export class Step5Component implements OnInit, AfterViewInit {
     debugger
     this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
+      debugger
       if(!res.hasErrors()) {
+        debugger
         this.connection.isSaving.next(false);
         this.connection.sendSaveAndNext(res.data);
         this.uploaded = true;
-        this.connection.currentStep$.next(1);
-        return this.modal.open();
+        debugger
+        return this.modal.open().then(() => {
+          debugger
+          this.connection.currentStep$.next(1);
+        });
       }
     })
 
   }
 
   async closeModal() {
+    debugger
     return await this.modal.close().then(() => {
       this.router.navigate(['/deals/view-deal'])
     });
