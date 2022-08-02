@@ -79,13 +79,15 @@ ngb-datepicker {
   padding-top: 1.75rem !important;
   background: white !important;
 }
+
 ::ng-deep .ngb-dp-arrow {
   align-items: center !important;
 }
+
 ::ng-deep .btn.btn-link.ngb-dp-arrow-btn {
   width: 1.625rem !important;
   height: 1.625rem !important;
-  background-color: #E2F1FC !important;
+  background-color: #0081E9 !important;
   padding: 0 !important;
   border-radius: 50px !important;
   margin: auto !important;
@@ -93,15 +95,18 @@ ngb-datepicker {
   justify-content: center !important;
   align-items: center !important;
 }
+
 ::ng-deep .ngb-dp-navigation-chevron {
   width: 0.625rem !important;
   height: 0.625rem !important;
 }
+
 ::ng-deep .ngb-dp-weekdays {
   @apply mt-5;
   border: none !important;
   background: white !important;
 }
+
 ::ng-deep .ngb-dp-weekday {
   color: #0081E9 !important;
   font: normal normal normal 12px/17px Open Sans !important;

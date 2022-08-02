@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
@@ -24,6 +24,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   removed: boolean = false;
   id: string;
+  editID: string;
 
   @Output() nextClick = new EventEmitter();
   @Output() prevClick = new EventEmitter();
@@ -78,10 +79,10 @@ export class Step2Component implements OnInit, OnDestroy {
     private toast: HotToastService,
     private authService: AuthService,
     private dealService: DealService,
-    private common: CommonFunctionsService
+    private common: CommonFunctionsService,
+    private cf: ChangeDetectorRef
     ) {
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
-      debugger
       this.data = response;
       this.subDeals = this.data.vouchers ? this.data.vouchers  : [];
       if(this.subDeals.length > 0) {
@@ -98,8 +99,23 @@ export class Step2Component implements OnInit, OnDestroy {
   ngOnInit() {
     this.initVouchers();
     this.initEditVouchers();
-    this.address = this.authService.currentUserValue?.streetAddress
+    this.address = this.authService.currentUserValue?.streetAddress;
     this.updateParentModel({}, true);
+    this.editDealData();
+    console.log(this.newData)
+  }
+
+  editDealData() {
+    this.connection.getStep1().subscribe((res: any) => {
+      if(res.dealStatus == 'Draft' && res.id) {
+        this.editID = res.id;
+        this.addVoucher = false;
+        debugger
+        this.subDeals = res.vouchers;
+        this.newData.vouchers = res.vouchers;
+        this.cf.detectChanges();
+      }
+    })
   }
 
   initVouchers() {
@@ -334,8 +350,11 @@ export class Step2Component implements OnInit, OnDestroy {
     this.nextClick.emit('');
     this.newData.pageNumber = 2;
     const payload = this.newData;
+    debugger
     if(payload) {
-      return this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
+      return this.dealService.createDeal(payload)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.connection.isSaving.next(false);
           this.connection.sendSaveAndNext(res.data);

@@ -86,4 +86,19 @@ export class VideoProcessingService {
     })
   }
 
+  async convertUrlToFile(src: any) {
+    const extension = src.split(/[#?]/)[0].split('.').pop().trim();
+    const res = await fetch(src);
+    const buf = await res.arrayBuffer();
+    if(src.endsWith('jpeg') || src.endsWith('jpg') || src.endsWith('png')) {
+      const file = new File([buf], 'new-file', {type: `image/${extension}`});
+      return file;
+    }
+    else {
+      const file = new File([buf], 'new-file', {type: `video/${extension}`});
+      return file;
+    }
+  }
+
+
 }

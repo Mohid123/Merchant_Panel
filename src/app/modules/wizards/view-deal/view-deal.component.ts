@@ -768,46 +768,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.fullCalendar.getApi().render();
   }
 
-
-  // renderTooltip(event:any) {
-  //   console.log('renderTooltip:',event);
-  //   const projectableNodes = Array.from(event.el.childNodes)
-
-  //   const compRef = this.popoverFactory.create(this.injector, [projectableNodes], event.el);
-  //   compRef.instance.template = this.popContent;
-
-  //   this.appRef.attachView(compRef.hostView)
-  //   this.popoversMap.set(event.el, compRef)
-  // }
-
-  // destroyTooltip(event:any) {
-  //   console.log('destroyTooltip:',event);
-
-  //   const popover = this.popoversMap.get(event.el);
-  //   if (popover) {
-  //     this.appRef.detachView(popover.hostView);
-  //     popover.destroy();
-  //     this.popoversMap.delete(event.el);
-  //   }
-  // }
-
-  // showPopover(event:any) {
-  //   console.log('showPopover:',event);
-  //   const popover = this.popoversMap.get(event.el);
-  //   console.log('popover:',popover);
-  //   if (popover) {
-  //     popover.instance.popoverHook.open({ event: event.event });
-  //   }
-  // }
-
-  // hidePopover(event:any) {
-  //   console.log('hidePopover:',event);
-  //   const popover = this.popoversMap.get(event.el);
-  //   if (popover?.instance?.popoverHook) {
-  //     popover.instance.popoverHook.close();
-  //   }
-  // }
-
   switchTabs(event:any) {
     if (event.index == 0) {
       this.showDiv.listView = true;
@@ -884,7 +844,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
       subTitle: this.editVouchers.get('subTitle')?.value,
       originalPrice: this.editVouchers.get('originalPrice')?.value,
       dealPrice: this.editVouchers.get('dealPrice')?.value,
-      numberOfVouchers: this.editVouchers.get('numberOfVouchers')?.value
+      numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value)
     }
     this.dealService.updateVoucher(this.dealIDForEdit, {vouchers: voucher})
     .pipe(takeUntil(this.destroy$))

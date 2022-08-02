@@ -33,6 +33,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
   dealForm: FormGroup;
   id: string;
+  editID: string;
 
   constructor(
     private cf: ChangeDetectorRef,
@@ -65,9 +66,25 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       }
     }
 
+    this.editDealData();
+
     this.reciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
       this.id = response?.id;
+    })
+  }
+
+  editDealData() {
+    this.connection.getStep1().subscribe((res: any) => {
+      if(res.dealStatus == 'Draft' && res.id) {
+        this.editID = res.id;
+        this.dealForm.patchValue({
+          highlights: res.highlights,
+          aboutThisDeal: res.aboutThisDeal,
+          readMore: res.readMore,
+          finePrints: res.finePrints
+        })
+      }
     })
   }
 
@@ -155,7 +172,6 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   }
 
   returnToPrevious() {
-    debugger
     this.prevClick.emit('');
     this.common.deleteDealByID(this.id);
   }

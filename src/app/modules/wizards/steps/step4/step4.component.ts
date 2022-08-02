@@ -159,6 +159,28 @@ export class Step4Component implements OnInit, OnDestroy {
 
   }
 
+  editDealData() {
+    this.connection.getStep1().subscribe((res: any) => {
+      if(res.dealStatus == 'Draft' && res.id) {
+        if(res.vouchers[0].voucherValidity) {
+          debugger
+          this.currentlyChecked = this.check_box_type.TWO;
+          this.form.patchValue({
+            voucherValidity: res.vouchers[0].voucherValidity
+          })
+        }
+        else if(res.vouchers[0].voucherStartDate && res.vouchers[0].voucherEndDate) {
+          debugger
+          this.currentlyChecked = this.check_box_type.ONE;
+          this.form.patchValue({
+            voucherStartDate: res.vouchers[0].voucherStartDate,
+            voucherEndDate: res.vouchers[0].voucherEndDate
+          })
+        }
+      }
+    })
+  }
+
   selectCheckBox(targetType: CheckBoxType) {
     if(this.currentlyChecked === targetType) {
       this.currentlyChecked = CheckBoxType.NONE;

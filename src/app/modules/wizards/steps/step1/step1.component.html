@@ -161,49 +161,51 @@
                 </div>
               </ng-container>
         </div>
+
         <div class="fv-row">
           <label class="mb-4 text-sm 2xl:text-base 2xl:mb-2 form-label">Upload your video</label>
           <div class="rounded-xl min-h-43 video-container">
 
-          <div (files)="onSelectVideo($event)" appDragAnDropUpload *ngIf="!url && loadingVideo == false" class="flex flex-col justify-center h-full">
-            <div class="self-center mt-6 mb-3 image-input image-input-outline image-upload">
-              <div class="w-18 h-18 image-input-wrapper" style="box-shadow: none; opacity: 0.8;">
+            <div (files)="onSelectVideo($event)" appDragAnDropUpload *ngIf="!url && !editUrl && loadingVideo == false" class="flex flex-col justify-center h-full">
+              <div class="self-center mt-6 mb-3 image-input image-input-outline image-upload">
+                <div class="w-18 h-18 image-input-wrapper" style="box-shadow: none; opacity: 0.8;">
+                </div>
+                <label class="absolute top-0 w-18 h-18 btn btn-xs btn-icon btn-hover-text-primary">
+                  <span class="absolute top-0 flex items-center justify-center w-18 h-18 "
+                    style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-18 h-18 "
+                    src="../../../../../assets/media/icons/video-play.svg"></span>
+                  <input #videoInput class="absolute top-0 cursor-pointer w-18 h-18 " type="file"
+                    accept="video/mp4 , .FLV" (change)="onSelectVideo($event)" (click)="onClick($event)">
+                </label>
               </div>
-              <label class="absolute top-0 w-18 h-18 btn btn-xs btn-icon btn-hover-text-primary">
-                <span class="absolute top-0 flex items-center justify-center w-18 h-18 "
-                  style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-18 h-18 "
-                  src="../../../../../assets/media/icons/video-play.svg"></span>
-                <input #videoInput class="absolute top-0 cursor-pointer w-18 h-18 " type="file"
-                  accept="video/mp4 , .FLV" (change)="onSelectVideo($event)" (click)="onClick($event)">
-              </label>
+              <ng-container *ngIf="!url && loadingVideo == false">
+                <p class="self-center m-0 text-sm text-center h w-60">
+                  Drag and Drop or <a  class="underline cursor-pointer text-primary-500" (click)="videoInput.click()">Browse</a>
+                </p>
+                <p class="self-center m-0 mt-2 text-xs text-center text-gray-500">
+                  Allowed file types are MP4 or FLV. You can upload maximum 10MB file.
+                </p>
+              </ng-container>
             </div>
-            <ng-container *ngIf="!url && loadingVideo == false">
-              <p class="self-center m-0 text-sm text-center h w-60">
-                Drag and Drop or <a  class="underline cursor-pointer text-primary-500" (click)="videoInput.click()">Browse</a>
-              </p>
-              <p class="self-center m-0 mt-2 text-xs text-center text-gray-500">
-                Allowed file types are MP4 or FLV. You can upload maximum 10MB file.
-              </p>
+
+            <ng-container *ngIf="url && !editUrl && loadingVideo == true">
+              <!-- <ng-container *ngFor="let video of videos; let i = index;"> -->
+                <div class="relative self-center m-4" style="width: fit-content;">
+                  <video [src]="url" class="object-cover rounded-lg w-36 h-22 2xl:h-26 2xl:w-52"></video>
+                  <i class="absolute -top-1 -right-0.5 bg-white rounded-full cursor-pointer fa fa-times-circle" (click)="clearVideo()"></i>
+                </div>
+              <!-- </ng-container> -->
+            </ng-container>
+
+            <ng-container *ngIf="!url && editUrl && loadingVideo == true">
+              <!-- <ng-container *ngFor="let video of videos; let i = index;"> -->
+                <div class="relative self-center m-4" style="width: fit-content;">
+                  <video [src]="editUrl" class="object-cover rounded-lg w-36 h-22 2xl:h-26 2xl:w-52"></video>
+                  <i class="absolute -top-1 -right-0.5 bg-white rounded-full cursor-pointer fa fa-times-circle" (click)="clearVideo()"></i>
+                </div>
+              <!-- </ng-container> -->
             </ng-container>
           </div>
-
-          <ng-container *ngIf="url">
-            <!-- <ng-container *ngFor="let video of videos; let i = index;"> -->
-              <div class="relative self-center m-4" style="width: fit-content;">
-                <video [src]="url" class="object-cover rounded-lg w-36 h-22 2xl:h-26 2xl:w-52"></video>
-                <i class="absolute -top-1 -right-0.5 bg-white rounded-full cursor-pointer fa fa-times-circle" (click)="clearVideo()"></i>
-              </div>
-            <!-- </ng-container> -->
-          </ng-container>
-
-          <!-- <ng-container *ngIf="loadingVideo == true">
-            <div class="relative self-center m-4" style="width: fit-content;">
-              <span class="flex items-center justify-center p-4 m-2 align-middle bg-gray-200 rounded-lg w-36 h-22 2xl:h-26 2xl:w-52">
-                <mat-spinner [diameter]="30"></mat-spinner>
-              </span>
-            </div>
-          </ng-container> -->
-        </div>
         </div>
 
 
