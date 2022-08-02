@@ -91,11 +91,11 @@ export class VideoProcessingService {
     const res = await fetch(src);
     const buf = await res.arrayBuffer();
     if(src.endsWith('jpeg') || src.endsWith('jpg') || src.endsWith('png')) {
-      const file = new File([buf], 'new-file', {type: `image/${extension}`});
+      const file = new File([buf], 'new-image.png', {type: `image/${extension}`});
       return file;
     }
     else {
-      const file = new File([buf], 'new-file', {type: `video/${extension}`});
+      const file = new File([buf], 'new-video.mp4', {type: `video/${extension}`});
       return file;
     }
   }

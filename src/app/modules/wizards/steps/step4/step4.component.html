@@ -59,7 +59,7 @@
                     <input
                     [disabled]="currentlyChecked !== check_box_type.ONE"
                     placeholder="dd-mm-yyyy"
-                    [minDate]="form.controls['voucherStartDate'].value"
+                    [minDate]="form.get('voucherStartDate')?.value"
                     (keydown)="disableManual($event)"
                     name="dp"
                     ngbDatepicker

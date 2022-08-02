@@ -98,68 +98,62 @@
             </ng-container>
         </div>
         <div class="mb-4 fv-row">
-              <label class="mb-4 text-sm 2xl:text-base form-label">Upload your pictures</label>
-              <!-- <label *ngIf="multiples.length > 0" class="mt-1 text-sm text-gray-400 form-label"> Photos {{multiples.length}}/10. You can add maximum 10 images</label> -->
-              <div (files)="onSelectFile($event,true)" appDragAnDropUpload class="rounded-xl min-h-43 pictures-drop-container">
-                <div *ngIf="multiples.length == 0" class="flex flex-col justify-center h-full">
-                  <div class="self-center mt-6 mb-3 image-input image-input-outline image-upload">
-                    <div class="w-18 h-18 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
-                    <label class="absolute top-0 w-18 h-18 btn btn-xs btn-icon btn-hover-text-primary">
-                      <span class="absolute top-0 flex items-center justify-center w-18 h-18 "
-                        style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-18 h-18 "
-                          src="../../../../../assets/media/icons/images.svg"></span>
-                      <input #imgInput class="absolute top-0 cursor-pointer w-18 h-18 " type="file" accept=".png, .jpg, .jpeg"
-                        (change)="onSelectFile($event,true)" multiple>
-                    </label>
-                  </div>
-                  <p  class="self-center m-0 text-sm text-center h w-60">
-                    Drag and Drop or <a  class="underline cursor-pointer text-primary-500" (click)="imgInput.click()">Browse</a>
-                  </p>
-                  <p  class="self-center m-0 mt-2 text-xs text-center text-gray-500">
-                    Allowed file types are PNG or JPEG. You can add maximum 10 images
-                  </p>
-                </div>
+          <label class="mb-4 text-sm 2xl:text-base form-label">Upload your pictures</label>
+          <!-- <label *ngIf="multiples.length > 0" class="mt-1 text-sm text-gray-400 form-label"> Photos {{multiples.length}}/10. You can add maximum 10 images</label> -->
+          <div (files)="onSelectFile($event,true)" appDragAnDropUpload class="rounded-xl min-h-43 pictures-drop-container">
+            <div *ngIf="multiples.length == 0" class="flex flex-col justify-center h-full">
+              <div class="self-center mt-6 mb-3 image-input image-input-outline image-upload">
+                <div class="w-18 h-18 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
+                <label class="absolute top-0 w-18 h-18 btn btn-xs btn-icon btn-hover-text-primary">
+                  <span class="absolute top-0 flex items-center justify-center w-18 h-18 "
+                    style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-18 h-18 "
+                    src="../../../../../assets/media/icons/images.svg"></span>
+                  <input #imgInput class="absolute top-0 cursor-pointer w-18 h-18 " type="file" accept=".png, .jpg, .jpeg"
+                    (change)="onSelectFile($event,true)" multiple>
+                </label>
+              </div>
+              <p  class="self-center m-0 text-sm text-center h w-60">
+                Drag and Drop or <a  class="underline cursor-pointer text-primary-500" (click)="imgInput.click()">Browse</a>
+              </p>
+              <p  class="self-center m-0 mt-2 text-xs text-center text-gray-500">
+                Allowed file types are PNG or JPEG. You can add maximum 10 images
+              </p>
+            </div>
 
-                <div  cdkDropListGroup class="p-4 overflow-hidden md:max-h-40 md:overflow-y-auto 2xl:max-h-full" data-max-image="10" *ngIf="multiples.length > 0">
-                <div id="drop-list-main" class="flex flex-wrap w-full h-full" data-max-image="10" *ngIf="multiples.length > 0">
+            <div cdkDropListGroup class="p-4 overflow-hidden md:max-h-40 md:overflow-y-auto 2xl:max-h-full" data-max-image="10" *ngIf="multiples.length > 0">
+            <div id="drop-list-main" class="flex flex-wrap w-full h-full" data-max-image="10" *ngIf="multiples.length > 0">
 
-                  <ng-container *ngIf="multiples && multiples.length>0">
-                    <div fxLayout="row" *ngFor="let itemsRow of getItemsTable();let j = index" cdkDropList
-                      cdkDropListOrientation="horizontal" [id]="'DropZone'+j"   [ngClass]="{' h-15 2xl:h-22 overflow-hidden dropZone_Reorder': true}"  [cdkDropListData]="itemsRow"
-                      (cdkDropListDropped)="reorderDroppedItem($event,j)">
-                      <ng-container *ngFor="let media of itemsRow;let i = index;last as last;first as first">
-                        <div cdkDrag class="relative" [class.lastindex]="last && dragIndex !=j" (cdkDragStarted)="onDragStartedDropZone(j,i)">
-                          <div class="drag-placeholder" [ngStyle]="{'width': last && dragIndex !=j ? '0 !important' : '' }" style="" *cdkDragPlaceholder></div>
-                          <img [src]="media" class="m-0.5 2xl:m-1 rounded-lg w-14 h-14 2xl:h-20 2xl:w-20">
-                          <i class="absolute top-0 right-0 bg-white rounded-full cursor-pointer fa fa-times-circle" (click)="clearImage(j,i)"></i>
-                        </div>
-                      </ng-container>
+              <ng-container *ngIf="multiples && multiples.length > 0">
+                <div fxLayout="row" *ngFor="let itemsRow of getItemsTable(); let j = index" cdkDropList
+                  cdkDropListOrientation="horizontal" [id]="'DropZone'+j"   [ngClass]="{' h-15 2xl:h-22 overflow-hidden dropZone_Reorder': true}"  [cdkDropListData]="itemsRow"
+                  (cdkDropListDropped)="reorderDroppedItem($event,j)">
+                  <ng-container *ngFor="let media of itemsRow; let i = index; last as last; first as first">
+                    <div cdkDrag class="relative" [class.lastindex]="last && dragIndex !=j" (cdkDragStarted)="onDragStartedDropZone(j,i)">
+                      <div class="drag-placeholder" [ngStyle]="{'width': last && dragIndex !=j ? '0 !important' : '' }" style="" *cdkDragPlaceholder></div>
+                      <img [src]="media" class="m-0.5 2xl:m-1 rounded-lg w-14 h-14 2xl:h-20 2xl:w-20">
+                      <i class="absolute top-0 right-0 bg-white rounded-full cursor-pointer fa fa-times-circle" (click)="clearImage(j,i)"></i>
                     </div>
                   </ng-container>
-
-                  <!-- <ng-container *ngFor="let multiple of multiples; let i = index;">
-                    <div class="relative self-center">
-                      <img [src]="multiple" class="rounded-lg w-14 h-14 2xl:h-20 2xl:w-20">
-                      <i class="absolute bg-white rounded-full cursor-pointer -top-1 -right-1 fa fa-times-circle" (click)="clearImage(i)"></i>
-                    </div>
-                  </ng-container> -->
-                  <div *ngIf="multiples.length < 10" class="relative">
-                    <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
-                    <label class="absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
-                      <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20 m-0.5 ml-1 2xl:m-1 2xl:ml-2" style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"  src="../../../../../assets/media/icons/more-images.svg"></span>
-                      <input class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20 m-0.5 ml-1 2xl:m-1 2xl:ml-2" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event,true)" (click)="onClick($event)" multiple>
-                    </label>
-                  </div>
-               </div>
-               </div>
-              </div>
-              <ng-container *ngIf="submitClick && this.urls.length == 0">
-                <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
-                  <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
-                    At least one image is required
-                  </span>
                 </div>
               </ng-container>
+
+              <div *ngIf="multiples.length < 10" class="relative">
+                <div class="w-14 h-14 2xl:h-20 2xl:w-20 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
+                <label class="absolute top-0 w-14 h-14 2xl:h-20 2xl:w-20 btn btn-xs btn-icon btn-hover-text-primary">
+                  <span class="absolute top-0 flex items-center justify-center w-14 h-14 2xl:h-20 2xl:w-20 m-0.5 ml-1 2xl:m-1 2xl:ml-2" style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-14 h-14 2xl:h-20 2xl:w-20"  src="../../../../../assets/media/icons/more-images.svg"></span>
+                  <input class="absolute top-0 cursor-pointer w-14 h-14 2xl:h-20 2xl:w-20 m-0.5 ml-1 2xl:m-1 2xl:ml-2" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event,true)" (click)="onClick($event)" multiple>
+                </label>
+              </div>
+            </div>
+            </div>
+          </div>
+          <ng-container *ngIf="submitClick && this.urls.length == 0">
+            <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+              <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                At least one image is required
+              </span>
+            </div>
+          </ng-container>
         </div>
 
         <div class="fv-row">

@@ -166,6 +166,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         if(!res.hasErrors()) {
           this.connection.isSaving.next(false);
           this.connection.sendSaveAndNext(res.data);
+          // this.connection.sendStep1(res.data)
         }
       })
      }

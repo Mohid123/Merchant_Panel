@@ -113,6 +113,7 @@ export class Step4Component implements OnInit, OnDestroy {
     this.initDateForm();
     this.initPolicyForm();
     this.updateParentModel({}, true);
+    this.editDealData();
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
       this.policy = user;
       if(user)

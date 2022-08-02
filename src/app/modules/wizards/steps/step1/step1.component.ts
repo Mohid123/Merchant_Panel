@@ -153,6 +153,7 @@ export class Step1Component implements OnInit, OnDestroy {
         this.dealForm.patchValue({
           dealHeader: res.dealHeader,
           subTitle: res.subTitle,
+          subCategory: res.subCategory,
           deletedCheck: false
         });
         this.cf.detectChanges();
@@ -169,16 +170,17 @@ export class Step1Component implements OnInit, OnDestroy {
           else {
             this.videoService.getBase64ImageFromUrl(image)
             .then((result: any) => {
-              this.multiples = [result.toString()];
+              this.multiples.push(result);
               this.cf.detectChanges();
-              this.urls = [result.toString()];
+              this.initTable();
+              this.urls.push(result);
               this.cf.detectChanges();
+              this.dealForm.updateValueAndValidity({emitEvent: true})
             })
             .catch(err => console.log(err));
 
             this.videoService.convertUrlToFile(image).then((result) => {
               this.media.push(result);
-              console.log(this.media)
             })
             .catch(err => console.log(err));
           }
@@ -225,7 +227,6 @@ export class Step1Component implements OnInit, OnDestroy {
         forkJoin(mediaUpload)
           .pipe(
             mergeMap((mainResponse:any) => {
-              debugger
               mainResponse.forEach((res: any) => {
                 if (!res.hasErrors()) {
                   payload.mediaUrl?.push(res.data.url);
@@ -236,12 +237,11 @@ export class Step1Component implements OnInit, OnDestroy {
               return this.dealService.createDeal(payload);
             })
           ).subscribe((res: ApiResponse<any>) => {
-            debugger
             if(!res.hasErrors()) {
               this.connection.isSavingNextData(false);
               this.cf.detectChanges();
-              console.log(res)
               this.connection.sendSaveAndNext(res.data);
+              // this.connection.sendStep1(res.data)
               resolve('success')
             }
         })
@@ -424,7 +424,6 @@ export class Step1Component implements OnInit, OnDestroy {
     const dropIndex = dropList.data;
 
     this.dragDropInfo = { dragIndex, dropIndex };
-    console.log('dragEntered', { dragIndex, dropIndex });
 
     const phContainer = dropList.element.nativeElement;
     const phElement = phContainer.querySelector('.cdk-drag-placeholder');
@@ -505,9 +504,6 @@ export class Step1Component implements OnInit, OnDestroy {
       if (forceReset || columnSize != this.columnSize) {
         this.columnSize = columnSize;
         this.initTable();
-      }
-      else {
-        console.log('sss:',);
       }
     }
     return this.itemsTable;

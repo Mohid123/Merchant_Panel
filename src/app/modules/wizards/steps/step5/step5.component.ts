@@ -345,18 +345,13 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.newData.startDate = this.start;
     this.newData.endDate = this.end;
     const payload = this.newData;
-    debugger
     this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
-      debugger
       if(!res.hasErrors()) {
-        debugger
         this.connection.isSaving.next(false);
         this.connection.sendSaveAndNext(res.data);
         this.uploaded = true;
-        debugger
         return this.modal.open().then(() => {
-          debugger
           this.connection.currentStep$.next(1);
         });
       }
@@ -365,9 +360,9 @@ export class Step5Component implements OnInit, AfterViewInit {
   }
 
   async closeModal() {
-    debugger
     return await this.modal.close().then(() => {
-      this.router.navigate(['/deals/view-deal'])
+      this.router.navigate(['/deals/view-deal']);
+      this.connection.sendStep1({});
     });
   }
 

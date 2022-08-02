@@ -65,6 +65,7 @@ export class Step2Component implements OnInit, OnDestroy {
   @Input() deal: Partial<MainDeal>
 
   subDeals: any[] = [];
+  vouchersForEdit: any
 
   @Input() mainDeal: Partial<MainDeal>
   @Input() images: any;
@@ -92,6 +93,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
     this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
+      console.log(this.newData)
       this.id = response?.id;
     });
   }
@@ -102,7 +104,6 @@ export class Step2Component implements OnInit, OnDestroy {
     this.address = this.authService.currentUserValue?.streetAddress;
     this.updateParentModel({}, true);
     this.editDealData();
-    console.log(this.newData)
   }
 
   editDealData() {
@@ -110,9 +111,8 @@ export class Step2Component implements OnInit, OnDestroy {
       if(res.dealStatus == 'Draft' && res.id) {
         this.editID = res.id;
         this.addVoucher = false;
-        debugger
         this.subDeals = res.vouchers;
-        this.newData.vouchers = res.vouchers;
+        this.vouchersForEdit = res.vouchers;
         this.cf.detectChanges();
       }
     })
@@ -345,26 +345,29 @@ export class Step2Component implements OnInit, OnDestroy {
     this.addVoucher = false;
   }
 
-  saveSecondDraft() {
+  async saveSecondDraft() {
     this.connection.isSaving.next(true);
     this.nextClick.emit('');
     this.newData.pageNumber = 2;
-    const payload = this.newData;
-    debugger
-    if(payload) {
-      return this.dealService.createDeal(payload)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: ApiResponse<any>) => {
-        if(!res.hasErrors()) {
-          this.connection.isSaving.next(false);
-          this.connection.sendSaveAndNext(res.data);
-        }
-      })
-    }
+    this.newData.vouchers = this.vouchersForEdit;
+    return new Promise((resolve, reject) => {
+      const payload = this.newData;
+      if(payload) {
+        return this.dealService.createDeal(payload)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((res: ApiResponse<any>) => {
+          if(!res.hasErrors()) {
+            this.connection.isSaving.next(false);
+            this.connection.sendSaveAndNext(res.data);
+            // this.connection.sendStep1(res.data)
+            resolve('success')
+          }
+        })
+      }
+    })
   }
 
   returnToPrevious() {
-    debugger
     this.prevClick.emit('');
     this.common.deleteDealByID(this.id);
   }
