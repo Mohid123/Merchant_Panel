@@ -88,8 +88,9 @@ export class Step1Component implements OnInit, OnDestroy {
   editDealCheck: boolean = false;
   convertedImage: any;
   saveEditDeal: boolean;
+  firstSaveData: MainDeal;
+  filteredMedia: any;
   showImageSkeleton: boolean = false;
-  newID: string;
 
   constructor(
     private fb: FormBuilder,
@@ -208,6 +209,24 @@ export class Step1Component implements OnInit, OnDestroy {
     return this.dealForm.controls;
   }
 
+  firstSave() {
+    const payload: any = {
+      subCategory: this.dealForm.get('subCategory')?.value,
+      dealHeader: this.dealForm.get('dealHeader')?.value,
+      subTitle: this.dealForm.get('subTitle')?.value,
+      mediaUrl: [],
+      deletedCheck: false,
+      pageNumber: 1
+    }
+
+    this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.firstSaveData = res.data;
+        this.connection.sendSaveAndNext(this.firstSaveData)
+      }
+    })
+  }
+
   async saveDraftOne() {
     if(this.dealForm.invalid || this.urls.length == 0) {
       this.dealForm.markAllAsTouched();
@@ -259,59 +278,77 @@ export class Step1Component implements OnInit, OnDestroy {
             })
           });
         case false:
-          // this.nextClick.emit('');
-          // this.connection.isSaving.next(true);
-
-          const payload: any = {
-            subCategory: this.dealForm.get('subCategory')?.value,
-            dealHeader: this.dealForm.get('dealHeader')?.value,
-            subTitle: this.dealForm.get('subTitle')?.value,
-            mediaUrl: [],
-            deletedCheck: false,
-            pageNumber: 1,
-            id: ''
-          }
-
-          // this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
-          //   if(!res.hasErrors()) {
-          //     this.connection.sendSaveAndNext(res.data);
-          //     debugger
-          //     payload.id = res.data.id;
-          //   }
-          // });
-
-        const mediaUpload: Array<Observable<any>> = [];
-        if(this.media.length > 0) {
-          this.media.forEach((file: any) => {
-            mediaUpload.push(this.mediaService.uploadMedia('deal', file));
-          });
-        }
-        payload.mediaUrl = [];
-        forkJoin(mediaUpload)
-          .pipe(
-            concatMap((mainResponse:any) => {
-              debugger
-              mainResponse.forEach((res: any) => {
-                debugger
-                if (!res.hasErrors()) {
-                  debugger
-                  payload.mediaUrl?.push(res.data);
-                } else {
-                  return of(null);
-                }
-              })
-              debugger
-              return this.dealService.createDeal(payload)
-            })
-          ).subscribe((res: ApiResponse<any>) => {
-            if(!res.hasErrors()) {
-              debugger
-              this.connection.isSavingNextData(false);
-              this.cf.detectChanges();
-              this.connection.sendSaveAndNext(res.data);
-              // this.connection.sendStep1(res.data)
+          this.nextClick.emit('');
+          this.connection.isSaving.next(true);
+          this.firstSave();
+          return new Promise((resolve, reject) => {
+            const mediaUpload: Array<Observable<any>> = [];
+            if(this.media.length > 0) {
+              this.media.forEach((file: any) => {
+                mediaUpload.push(this.mediaService.uploadMedia('deal', file));
+              });
             }
-        });
+            forkJoin(mediaUpload)
+              .pipe(
+                concatMap((mainResponse:any) => {
+                const images = mainResponse.filter((res: any) => {
+                  if(!res.data.url.endsWith('mp4')) {
+                    debugger
+                    return res.data
+                  }
+                });
+                const videos = mainResponse.filter((res: any) => {
+                  if(res.data.url.endsWith('mp4')) {
+                    return res.data
+                  }
+                });
+                if(images.length > 0) {
+                  this.firstSaveData.mediaUrl = images.map((image: any) => {
+                    return {
+                      type: 'Image',
+                      captureFileURL: image.data.url,
+                      path: image.data.path,
+                      thumbnailURL: '',
+                      thumbnailPath: '',
+                      blurHash: '',
+                      backgroundColorHex: ''
+                    }
+                  })
+                }
+                if(videos.length > 0) {
+                  videos.forEach((video: any) => {
+                    this.videoService.convertUrlToFile(video.data.url).then((result) => {
+                      this.videoService.generateThumbnail(result, 'any-image').then(result => {
+                        this.mediaService.uploadMedia('deal', result).subscribe((res: any) => {
+                          res = [res];
+                          debugger
+                          this.firstSaveData.mediaUrl.push(res.data.map((video: any) => {
+                            return {
+                              type: 'Video',
+                              captureFileURL: video.url,
+                              path: video.path,
+                              thumbnailURL: '',
+                              thumbnailPath: '',
+                              blurHash: '',
+                              backgroundColorHex: ''
+                            }
+                          }))
+                        })
+                      })
+                    })
+                  })
+                }
+                return this.dealService.createDeal(this.firstSaveData);
+                })).subscribe((res: any) => {
+                if(!res.hasErrors()) {
+                  debugger
+                  this.connection.isSavingNextData(false);
+                  this.cf.detectChanges();
+                  this.connection.sendSaveAndNext(res.data);
+                  resolve('success')
+                }
+            })
+          });
       }
     }
   }
