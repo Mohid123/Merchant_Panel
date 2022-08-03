@@ -63,6 +63,9 @@ export class Step2Component implements OnInit, OnDestroy {
   vouchers: FormGroup;
   editVouchers: FormGroup;
   saveEditDeal: boolean;
+  voucherStartDate: any;
+  voucherEndDate: any;
+  voucherValidity: any;
 
   @Input() deal: Partial<MainDeal>
 
@@ -115,6 +118,10 @@ export class Step2Component implements OnInit, OnDestroy {
       if(res.dealStatus == 'Draft' && res.id) {
         this.editID = res.id;
         this.subDeals = res.vouchers;
+        debugger
+        this.voucherStartDate = res.vouchers[0]?.voucherStartDate ? res.vouchers[0]?.voucherStartDate : '';
+        this.voucherEndDate = res.vouchers[0]?.voucherEndDate ? res.vouchers[0]?.voucherEndDate : '';
+        this.voucherValidity = res.vouchers[0]?.voucherValidity ? res.vouchers[0]?.voucherValidity : '';
         if(this.subDeals.length > 0) {
           this.addVoucher = false;
           this.saveEditDeal = true;
@@ -362,7 +369,13 @@ export class Step2Component implements OnInit, OnDestroy {
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.editData.pageNumber = 2;
-        this.editData.vouchers = this.subDeals
+        this.editData.vouchers = this.subDeals;
+        debugger
+        this.editData.vouchers.forEach((voucher) => {
+          voucher.voucherStartDate = this.voucherStartDate;
+          voucher.voucherEndDate = this.voucherEndDate;
+          voucher.voucherValidity = this.voucherValidity
+        })
         return new Promise((resolve, reject) => {
           debugger
           const payload = this.editData;
@@ -373,7 +386,6 @@ export class Step2Component implements OnInit, OnDestroy {
               if(!res.hasErrors()) {
                 this.connection.isSaving.next(false);
                 this.connection.sendSaveAndNext(res.data);
-                // this.connection.sendStep1(res.data)
                 resolve('success')
               }
             })

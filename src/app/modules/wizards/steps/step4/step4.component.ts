@@ -276,7 +276,7 @@ export class Step4Component implements OnInit, OnDestroy {
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      this.data.vouchers?.forEach((voucher) => {
+      this.newData.vouchers?.forEach((voucher) => {
         if (val.voucherValidity) {
           voucher.voucherValidity = val.voucherValidity;
           voucher.voucherStartDate ='';
@@ -287,8 +287,8 @@ export class Step4Component implements OnInit, OnDestroy {
           voucher.voucherEndDate = val.voucherEndDate;
         }
       });
-      this.updateParentModel(this.data, true);
-      this.connection.sendData(this.data);
+      this.updateParentModel(this.newData, true);
+      this.connection.sendData(this.newData);
     });
     this.unsubscribe.push(formChangesSubscr);
   }
@@ -386,7 +386,7 @@ export class Step4Component implements OnInit, OnDestroy {
           voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
         }
       });
-
+      debugger
       const payload = this.newData;
       this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
