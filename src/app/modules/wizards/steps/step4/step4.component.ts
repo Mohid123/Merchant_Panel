@@ -92,6 +92,14 @@ export class Step4Component implements OnInit, OnDestroy {
     private cf: ChangeDetectorRef,
     private dealService: DealService,
     private common: CommonFunctionsService) {
+
+      this.secondReciever = this.connection.getSaveAndNext().subscribe((response: any) => {
+        if(response) {
+          this.newData = response;
+          this.id = response?.id;
+        }
+      })
+
       const current = new Date();
       this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2}
 
@@ -100,20 +108,13 @@ export class Step4Component implements OnInit, OnDestroy {
         this.data = response;
       }
     })
-
-    this.secondReciever = this.connection.getSaveAndNext().subscribe((response: any) => {
-      if(response) {
-        this.newData = response;
-        this.id = response?.id;
-      }
-    })
   }
 
   ngOnInit() {
     this.initDateForm();
     this.initPolicyForm();
     this.updateParentModel({}, true);
-    this.editDealData();
+
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
       this.policy = user;
       if(user)
@@ -160,27 +161,27 @@ export class Step4Component implements OnInit, OnDestroy {
 
   }
 
-  editDealData() {
-    this.connection.getStep1().subscribe((res: any) => {
-      if(res.dealStatus == 'Draft' && res.id) {
-        if(res.vouchers[0].voucherValidity) {
-          debugger
-          this.currentlyChecked = this.check_box_type.TWO;
-          this.form.patchValue({
-            voucherValidity: res.vouchers[0].voucherValidity
-          })
-        }
-        else if(res.vouchers[0].voucherStartDate && res.vouchers[0].voucherEndDate) {
-          debugger
-          this.currentlyChecked = this.check_box_type.ONE;
-          this.form.patchValue({
-            voucherStartDate: res.vouchers[0].voucherStartDate,
-            voucherEndDate: res.vouchers[0].voucherEndDate
-          })
-        }
-      }
-    })
-  }
+  // editDealData() {
+  //   this.connection.getStep1().subscribe((res: any) => {
+  //     if(res.dealStatus == 'Draft' && res.id) {
+  //       if(res.vouchers[0].voucherValidity) {
+  //         debugger
+  //         this.currentlyChecked = this.check_box_type.TWO;
+  //         this.form.patchValue({
+  //           voucherValidity: res.vouchers[0].voucherValidity
+  //         })
+  //       }
+  //       else if(res.vouchers[0].voucherStartDate && res.vouchers[0].voucherEndDate) {
+  //         debugger
+  //         this.currentlyChecked = this.check_box_type.ONE;
+  //         this.form.patchValue({
+  //           voucherStartDate: res.vouchers[0].voucherStartDate,
+  //           voucherEndDate: res.vouchers[0].voucherEndDate
+  //         })
+  //       }
+  //     }
+  //   })
+  // }
 
   selectCheckBox(targetType: CheckBoxType) {
     if(this.currentlyChecked === targetType) {
@@ -254,19 +255,19 @@ export class Step4Component implements OnInit, OnDestroy {
   initDateForm() {
     this.form = this.fb.group({
       voucherStartDate: [
-        this.data.vouchers[0]?.voucherStartDate,
+        this.newData.vouchers[0]?.voucherStartDate,
         Validators.compose([
           Validators.required
         ])
       ],
       voucherEndDate: [
-        this.data.vouchers[0]?.voucherEndDate,
+        this.newData.vouchers[0]?.voucherEndDate,
         Validators.compose([
           Validators.required
         ])
       ],
       voucherValidity: [
-        this.data.vouchers[0]?.voucherValidity,
+        this.newData.vouchers[0]?.voucherValidity,
         Validators.compose([
           Validators.required,
           Validators.min(1)

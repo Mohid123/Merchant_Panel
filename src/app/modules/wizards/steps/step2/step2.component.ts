@@ -56,11 +56,13 @@ export class Step2Component implements OnInit, OnDestroy {
   dataReciever: Subscription
   data: MainDeal;
   newData: MainDeal;
+  editData: MainDeal;
   address: string | any;
   destroy$ = new Subject();
   singleVoucher: Vouchers;
   vouchers: FormGroup;
   editVouchers: FormGroup;
+  saveEditDeal: boolean;
 
   @Input() deal: Partial<MainDeal>
 
@@ -96,6 +98,8 @@ export class Step2Component implements OnInit, OnDestroy {
       console.log(this.newData)
       this.id = response?.id;
     });
+
+    this.saveEditDeal = false;
   }
 
   ngOnInit() {
@@ -110,9 +114,13 @@ export class Step2Component implements OnInit, OnDestroy {
     this.connection.getStep1().subscribe((res: any) => {
       if(res.dealStatus == 'Draft' && res.id) {
         this.editID = res.id;
-        this.addVoucher = false;
         this.subDeals = res.vouchers;
-        this.vouchersForEdit = res.vouchers;
+        if(this.subDeals.length > 0) {
+          this.addVoucher = false;
+          this.saveEditDeal = true;
+        }
+        this.editData = res;
+        // this.vouchersForEdit = res.vouchers;
         this.cf.detectChanges();
       }
     })
@@ -278,6 +286,8 @@ export class Step2Component implements OnInit, OnDestroy {
   deleteDeal() {
     this.subDeals.splice(this.selectedIndex, 1);
     this.data.vouchers = this.subDeals;
+    this.newData.vouchers = this.subDeals;
+    this.editData.vouchers = this.subDeals;
     this.connection.sendData(this.data);
     if(this.subDeals.length == 0) {
       this.addVoucher = true;
@@ -346,26 +356,52 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   async saveSecondDraft() {
-    this.connection.isSaving.next(true);
-    this.nextClick.emit('');
-    this.newData.pageNumber = 2;
-    this.newData.vouchers = this.vouchersForEdit;
-    return new Promise((resolve, reject) => {
-      const payload = this.newData;
-      if(payload) {
-        return this.dealService.createDeal(payload)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((res: ApiResponse<any>) => {
-          if(!res.hasErrors()) {
-            this.connection.isSaving.next(false);
-            this.connection.sendSaveAndNext(res.data);
-            // this.connection.sendStep1(res.data)
-            resolve('success')
+    switch (this.saveEditDeal) {
+      case true:
+        debugger
+        this.connection.isSaving.next(true);
+        this.nextClick.emit('');
+        this.editData.pageNumber = 2;
+        this.editData.vouchers = this.subDeals
+        return new Promise((resolve, reject) => {
+          debugger
+          const payload = this.editData;
+          if(payload) {
+            return this.dealService.createDeal(payload)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((res: ApiResponse<any>) => {
+              if(!res.hasErrors()) {
+                this.connection.isSaving.next(false);
+                this.connection.sendSaveAndNext(res.data);
+                // this.connection.sendStep1(res.data)
+                resolve('success')
+              }
+            })
+          }
+        })
+      case false:
+        debugger
+        this.connection.isSaving.next(true);
+        this.nextClick.emit('');
+        this.newData.pageNumber = 2;
+        return new Promise((resolve, reject) => {
+          debugger
+          const payload = this.newData;
+          if(payload) {
+            return this.dealService.createDeal(payload)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((res: ApiResponse<any>) => {
+              if(!res.hasErrors()) {
+                this.connection.isSaving.next(false);
+                this.connection.sendSaveAndNext(res.data);
+                // this.connection.sendStep1(res.data)
+                resolve('success')
+              }
+            })
           }
         })
       }
-    })
-  }
+    }
 
   returnToPrevious() {
     this.prevClick.emit('');
