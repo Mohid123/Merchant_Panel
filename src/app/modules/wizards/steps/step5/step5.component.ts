@@ -363,6 +363,8 @@ export class Step5Component implements OnInit, AfterViewInit {
     return await this.modal.close().then(() => {
       this.router.navigate(['/deals/view-deal']);
       this.connection.sendStep1({});
+      this.connection.sendSaveAndNext({});
+      this.connection.sendData({})
     });
   }
 
