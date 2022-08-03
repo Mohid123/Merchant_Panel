@@ -80,6 +80,7 @@ export class Step4Component implements OnInit, OnDestroy {
   policy: Partial<User>;
   editIndex: number = -1;
   id: string;
+  disableBackButton: boolean;
 
   private unsubscribe: Subscription[] = [];
 
@@ -93,10 +94,15 @@ export class Step4Component implements OnInit, OnDestroy {
     private dealService: DealService,
     private common: CommonFunctionsService) {
 
+      this.disableBackButton = false;
+
       this.secondReciever = this.connection.getSaveAndNext().subscribe((response: any) => {
         if(response) {
           this.newData = response;
           this.id = response?.id;
+          if(response.dealStatus == 'Published') {
+            this.disableBackButton = true
+          }
         }
       })
 
@@ -107,7 +113,7 @@ export class Step4Component implements OnInit, OnDestroy {
       if(response) {
         this.data = response;
       }
-    })
+    });
   }
 
   ngOnInit() {
@@ -276,17 +282,20 @@ export class Step4Component implements OnInit, OnDestroy {
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      this.newData.vouchers?.forEach((voucher) => {
-        if (val.voucherValidity) {
-          voucher.voucherValidity = val.voucherValidity;
-          voucher.voucherStartDate ='';
-          voucher.voucherEndDate ='';
-        } else {
-          voucher.voucherValidity = 0;
-          voucher.voucherStartDate = val.voucherStartDate;
-          voucher.voucherEndDate = val.voucherEndDate;
-        }
-      });
+      if(this.newData.vouchers[0] != null) {
+        debugger
+        this.newData.vouchers?.forEach((voucher) => {
+          if (val.voucherValidity) {
+            voucher.voucherValidity = val.voucherValidity;
+            voucher.voucherStartDate ='';
+            voucher.voucherEndDate ='';
+          } else {
+            voucher.voucherValidity = 0;
+            voucher.voucherStartDate = val.voucherStartDate;
+            voucher.voucherEndDate = val.voucherEndDate;
+          }
+        });
+      }
       this.updateParentModel(this.newData, true);
       this.connection.sendData(this.newData);
     });

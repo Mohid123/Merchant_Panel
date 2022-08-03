@@ -10,10 +10,12 @@
         <!--Form-->
         <div class="h-24 fv-row 2xl:h-26">
           <label class="form-label">Where should this deal appear?</label>
-            <div #myDropA #myDrop="ngbDropdown" ngbDropdown class="w-full rounded-lg d-inline-block">
+            <div #myDrop="ngbDropdown" ngbDropdown class="w-full rounded-lg d-inline-block">
               <ng-container *ngIf="!editDealCheck">
-                <button [disabled]="disableCategory == true" type="button" class="w-full px-4 text-base text-left text-black btn" [class.open]="myDrop.isOpen()" id="dropdownBasic1"
-                  ngbDropdownToggle>{{selectedcategory?.subCategoryName || '-Select'}}</button>
+                <button [disabled]="disableCategory == true" type="button" class="relative w-full px-4 text-base text-left text-black btn" [class.open]="myDrop.isOpen()" id="dropdownBasic1"
+                  ngbDropdownToggle>{{selectedcategory?.subCategoryName || '-Select'}}
+                  <i [ngClass]="myDrop.isOpen() ? 'fas fa-caret-up fa-lg' : 'fas fa-caret-down fa-lg'" class="absolute text-black fas fa-caret-down fa-lg top-6 right-2"></i>
+                </button>
               </ng-container>
               <ng-container *ngIf="editDealCheck">
                 <button id="dropdownBasic1" ngbDropdownToggle (click)="openDropDown()" type="button" class="w-full px-4 text-base text-left text-black btn">{{categoryEdit}}</button>

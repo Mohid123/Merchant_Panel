@@ -155,13 +155,18 @@
       <span class="px-10 font-bold" style="font-size: 20px; color: #060606;">Review</span>
     </div>
 
-    <div class="flex justify-start px-10 pb-3">
+    <!-- <div class="flex justify-start px-10 pb-3">
       <span
         class="text-lg font-semibold text-center text-white rounded-full w-18 h-18"
         style="background-color: #1D1D29;">
       <span class="block mt-5 text-center">{{data.customerName?.substring(0, 1)?.toUpperCase()}}</span>
       </span>
       <span style="color: #515151" class="px-6 text-sm">{{data?.text}}</span>
+    </div> -->
+
+    <div class="relative flex justify-start px-10 pb-3">
+      <span class="absolute py-5 text-lg font-semibold text-center text-white rounded-full px-7 -top-2" style="background-color: #1D1D29; border-radius: 100%; left: 36px;">{{data.customerName?.substring(0, 1)?.toUpperCase()}}</span>
+      <span style="color: #515151" class="px-6 ml-16 text-sm">{{data?.text}}</span>
     </div>
 
   </ng-container>
