@@ -19,9 +19,7 @@ export class DealService extends ApiService<deal> {
   }
 
   createDeal(deal: MainDeal) {
-    return this.post('/deal/createDeal', deal).pipe(tap((res: any) => {
-      console.log(res);
-    }));
+    return this.post('/deal/createDeal', deal);
   }
 
   getTopRatedDeals(merchantID: string | any): Observable<ApiResponse<deal>> {

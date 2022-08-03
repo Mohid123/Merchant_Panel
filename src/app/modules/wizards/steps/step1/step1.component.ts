@@ -9,7 +9,7 @@ import { DealService } from '@core/services/deal.service';
 import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { forkJoin, Observable, of, Subject, Subscription } from 'rxjs';
-import { map, mergeMap, take } from 'rxjs/operators';
+import { concatMap, map, mergeMap, take } from 'rxjs/operators';
 import { VideoProcessingService } from '../../services/video-to-img.service';
 import { CategoryDetail, SubCategory } from './../../../auth/models/categories-detail.model';
 import { CategoryService } from './../../../auth/services/category.service';
@@ -88,6 +88,8 @@ export class Step1Component implements OnInit, OnDestroy {
   editDealCheck: boolean = false;
   convertedImage: any;
   saveEditDeal: boolean;
+  showImageSkeleton: boolean = false;
+  newID: string;
 
   constructor(
     private fb: FormBuilder,
@@ -110,6 +112,7 @@ export class Step1Component implements OnInit, OnDestroy {
     });
 
     this.saveEditDeal = false;
+    this.showImageSkeleton = false;
   }
 
   ngOnInit() {
@@ -151,6 +154,7 @@ export class Step1Component implements OnInit, OnDestroy {
     this.connection.getStep1()
     .subscribe((res: any) => {
       if(res.dealStatus == 'Draft' && res.id) {
+        this.showImageSkeleton = true;
         this.id = res.id;
         this.editDealCheck = true;
         this.saveEditDeal = true;
@@ -179,7 +183,8 @@ export class Step1Component implements OnInit, OnDestroy {
               this.initTable();
               this.urls.push(result);
               this.cf.detectChanges();
-              this.dealForm.updateValueAndValidity({emitEvent: true})
+              this.dealForm.updateValueAndValidity({emitEvent: true});
+              this.showImageSkeleton = false;
             })
             .catch(err => console.log(err));
 
@@ -254,46 +259,59 @@ export class Step1Component implements OnInit, OnDestroy {
             })
           });
         case false:
-          this.nextClick.emit('');
-          this.connection.isSaving.next(true);
-          return new Promise((resolve, reject) => {
-            const payload: any = {
-              subCategory: this.dealForm.get('subCategory')?.value,
-              dealHeader: this.dealForm.get('dealHeader')?.value,
-              subTitle: this.dealForm.get('subTitle')?.value,
-              mediaUrl: [],
-              deletedCheck: false,
-              pageNumber: 1
-            }
-            const mediaUpload: Array<Observable<any>> = [];
-            if(this.media.length > 0) {
-              this.media.forEach((file: any) => {
-                mediaUpload.push(this.mediaService.uploadMedia('deal', file));
-              });
-            }
-            payload.mediaUrl = [];
-            forkJoin(mediaUpload)
-              .pipe(
-                mergeMap((mainResponse:any) => {
-                  mainResponse.forEach((res: any) => {
-                    if (!res.hasErrors()) {
-                      payload.mediaUrl?.push(res.data.url);
-                    } else {
-                      return of(null);
-                    }
-                  })
-                  return this.dealService.createDeal(payload);
-                })
-              ).subscribe((res: ApiResponse<any>) => {
-                if(!res.hasErrors()) {
-                  this.connection.isSavingNextData(false);
-                  this.cf.detectChanges();
-                  this.connection.sendSaveAndNext(res.data);
-                  // this.connection.sendStep1(res.data)
-                  resolve('success')
-                }
-            })
+          // this.nextClick.emit('');
+          // this.connection.isSaving.next(true);
+
+          const payload: any = {
+            subCategory: this.dealForm.get('subCategory')?.value,
+            dealHeader: this.dealForm.get('dealHeader')?.value,
+            subTitle: this.dealForm.get('subTitle')?.value,
+            mediaUrl: [],
+            deletedCheck: false,
+            pageNumber: 1,
+            id: ''
+          }
+
+          // this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
+          //   if(!res.hasErrors()) {
+          //     this.connection.sendSaveAndNext(res.data);
+          //     debugger
+          //     payload.id = res.data.id;
+          //   }
+          // });
+
+        const mediaUpload: Array<Observable<any>> = [];
+        if(this.media.length > 0) {
+          this.media.forEach((file: any) => {
+            mediaUpload.push(this.mediaService.uploadMedia('deal', file));
           });
+        }
+        payload.mediaUrl = [];
+        forkJoin(mediaUpload)
+          .pipe(
+            concatMap((mainResponse:any) => {
+              debugger
+              mainResponse.forEach((res: any) => {
+                debugger
+                if (!res.hasErrors()) {
+                  debugger
+                  payload.mediaUrl?.push(res.data);
+                } else {
+                  return of(null);
+                }
+              })
+              debugger
+              return this.dealService.createDeal(payload)
+            })
+          ).subscribe((res: ApiResponse<any>) => {
+            if(!res.hasErrors()) {
+              debugger
+              this.connection.isSavingNextData(false);
+              this.cf.detectChanges();
+              this.connection.sendSaveAndNext(res.data);
+              // this.connection.sendStep1(res.data)
+            }
+        });
       }
     }
   }

@@ -1,5 +1,9 @@
 export interface MediaUpload {
-  folderName: string,
-  fileNameL: string,
-  size: string
+  type: string,
+  captureFileURL: string,
+  path: string,
+  thumbnailURL: string,
+  thumbnailPath: string,
+  blurHash: string,
+  backgroundColorHex: string
 }

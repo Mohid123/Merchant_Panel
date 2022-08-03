@@ -103,23 +103,34 @@
           <label class="mb-4 text-sm 2xl:text-base form-label">Upload your pictures</label>
           <!-- <label *ngIf="multiples.length > 0" class="mt-1 text-sm text-gray-400 form-label"> Photos {{multiples.length}}/10. You can add maximum 10 images</label> -->
           <div (files)="onSelectFile($event,true)" appDragAnDropUpload class="rounded-xl min-h-43 pictures-drop-container">
-            <div *ngIf="multiples.length == 0" class="flex flex-col justify-center h-full">
+            <div *ngIf="multiples.length == 0 && showImageSkeleton == false" class="flex flex-col justify-center h-full">
               <div class="self-center mt-6 mb-3 image-input image-input-outline image-upload">
                 <div class="w-18 h-18 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
                 <label class="absolute top-0 w-18 h-18 btn btn-xs btn-icon btn-hover-text-primary">
-                  <span class="absolute top-0 flex items-center justify-center w-18 h-18 "
-                    style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-18 h-18 "
-                    src="../../../../../assets/media/icons/images.svg"></span>
-                  <input #imgInput class="absolute top-0 cursor-pointer w-18 h-18 " type="file" accept=".png, .jpg, .jpeg"
-                    (change)="onSelectFile($event,true)" multiple>
+                  <span class="absolute top-0 flex items-center justify-center w-18 h-18" style="color: rgb(179, 179, 179); font-size: 30px">
+                    <img class="w-18 h-18 "src="../../../../../assets/media/icons/images.svg">
+                  </span>
+                  <input #imgInput class="absolute top-0 cursor-pointer w-18 h-18 " type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event,true)" multiple>
                 </label>
               </div>
-              <p  class="self-center m-0 text-sm text-center h w-60">
-                Drag and Drop or <a  class="underline cursor-pointer text-primary-500" (click)="imgInput.click()">Browse</a>
+              <p class="self-center m-0 text-sm text-center h w-60">
+                Drag and Drop or <a class="underline cursor-pointer text-primary-500" (click)="imgInput.click()">Browse</a>
               </p>
               <p  class="self-center m-0 mt-2 text-xs text-center text-gray-500">
                 Allowed file types are PNG or JPEG. You can add maximum 10 images
               </p>
+            </div>
+
+            <div *ngIf="showImageSkeleton == true" class="flex flex-col justify-center h-full">
+              <div class="self-center mt-6 mb-3 image-input image-input-outline image-upload">
+                <div class="w-18 h-18 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
+                  <span class="absolute flex items-center justify-center top-2 w-18 h-18" style="color: rgb(179, 179, 179); font-size: 30px">
+                    <mat-spinner [diameter]="45"></mat-spinner>
+                  </span>
+                  <p class="self-center m-0 mt-2 text-xs text-center text-gray-500">
+                    Loading images...
+                  </p>
+              </div>
             </div>
 
             <div cdkDropListGroup class="p-4 overflow-hidden md:max-h-40 md:overflow-y-auto 2xl:max-h-full" data-max-image="10" *ngIf="multiples.length > 0">
@@ -160,15 +171,15 @@
 
         <div class="fv-row">
           <label class="mb-4 text-sm 2xl:text-base 2xl:mb-2 form-label">Upload your video</label>
-          <div class="rounded-xl min-h-43 video-container">
-
+          <div class="rounded-xl min-h-43 video-container" *ngIf="showImageSkeleton == false">
             <div (files)="onSelectVideo($event)" appDragAnDropUpload *ngIf="!url && !editUrl && loadingVideo == false" class="flex flex-col justify-center h-full">
               <div class="self-center mt-6 mb-3 image-input image-input-outline image-upload">
                 <div class="w-18 h-18 image-input-wrapper" style="box-shadow: none; opacity: 0.8;">
                 </div>
                 <label class="absolute top-0 w-18 h-18 btn btn-xs btn-icon btn-hover-text-primary">
                   <span class="absolute top-0 flex items-center justify-center w-18 h-18 "
-                    style="color: rgb(179, 179, 179); font-size: 30px"><img class="w-18 h-18 "
+                    style="color: rgb(179, 179, 179); font-size: 30px">
+                    <img class="w-18 h-18 "
                     src="../../../../../assets/media/icons/video-play.svg"></span>
                   <input #videoInput class="absolute top-0 cursor-pointer w-18 h-18 " type="file"
                     accept="video/mp4 , .FLV" (change)="onSelectVideo($event)" (click)="onClick($event)">
@@ -201,6 +212,20 @@
                 </div>
               <!-- </ng-container> -->
             </ng-container>
+          </div>
+
+          <div class="rounded-xl min-h-43 video-container" *ngIf="showImageSkeleton == true">
+            <div class="flex flex-col justify-center h-full">
+              <div class="self-center mt-6 mb-3 image-input image-input-outline image-upload">
+                <div class="w-18 h-18 image-input-wrapper" style="box-shadow: none;  opacity: 0.8;"></div>
+                  <span class="absolute flex items-center justify-center top-2 w-18 h-18" style="color: rgb(179, 179, 179); font-size: 30px">
+                    <mat-spinner [diameter]="45"></mat-spinner>
+                  </span>
+                  <p class="self-center m-0 mt-2 text-xs text-center text-gray-500">
+                    Loading video...
+                  </p>
+              </div>
+            </div>
           </div>
         </div>
 

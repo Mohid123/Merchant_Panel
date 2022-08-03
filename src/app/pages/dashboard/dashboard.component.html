@@ -104,6 +104,17 @@
           control: newPassForm.controls['password']}">
         </ng-container>
 
+        <ng-container
+        *ngIf="
+        newPassForm.controls['password'].errors &&
+        newPassForm.controls['password'].errors['ConfirmPassword']">
+        <div class="fv-plugins-message-container">
+          <div class="text-xs fv-help-block">
+            Passswords do not match.
+          </div>
+        </div>
+      </ng-container>
+
         <ng-template #popTitle>
           <div class="">Password should include:</div>
         </ng-template>

@@ -1,3 +1,4 @@
+import { MediaUpload } from './../../../@core/models/requests/media-upload.model';
 import { Vouchers } from "./vouchers.model";
 
 export class MainDeal {
@@ -8,7 +9,7 @@ export class MainDeal {
   subTitle: string;
   description: string | any;
   categoryType: string;
-  mediaUrl: any[];
+  mediaUrl: MediaUpload[] | any[];
   startDate: string;
   endDate: string;
   vouchers: Vouchers[];
@@ -28,6 +29,9 @@ export class MainDeal {
   pageNumber: number;
   netEarnings: number;
   isDuplicate: boolean;
+  minOriginalPrice: number;
+  minDealPrice: number;
+  minDiscountPercentage: number;
 }
 
 export class Deals {
