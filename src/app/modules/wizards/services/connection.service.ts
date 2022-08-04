@@ -18,6 +18,7 @@ export class ConnectionService {
   canRoute = new BehaviorSubject(false);
   stateURL = new BehaviorSubject('');
   popupState = new BehaviorSubject('');
+  public isEditTrue = new BehaviorSubject(false);
 
   filterOptions = new BehaviorSubject([]);
 
@@ -97,5 +98,16 @@ export class ConnectionService {
 
   isSavingNextData(data: any) {
     this.isSaving.next(data);
+  }
+
+  // Edit mode
+
+  get isEditmode(): boolean {
+    return this.isEditTrue.value
+  }
+
+
+  set isEditMode(data: any) {
+    this.isEditTrue.next(data);
   }
 }

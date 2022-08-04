@@ -8,9 +8,10 @@ import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
-import { forkJoin, Observable, of, Subject, Subscription } from 'rxjs';
-import { concatMap, map, mergeMap, take } from 'rxjs/operators';
+import { forkJoin, Observable, Subject, Subscription } from 'rxjs';
+import { map, mergeMap, take } from 'rxjs/operators';
 import { VideoProcessingService } from '../../services/video-to-img.service';
+import { MediaUpload } from './../../../../@core/models/requests/media-upload.model';
 import { CategoryDetail, SubCategory } from './../../../auth/models/categories-detail.model';
 import { CategoryService } from './../../../auth/services/category.service';
 import { MainDeal } from './../../models/main-deal.model';
@@ -159,6 +160,7 @@ export class Step1Component implements OnInit, OnDestroy {
         this.id = res.id;
         this.editDealCheck = true;
         this.saveEditDeal = true;
+        this.connection.isEditMode = true;
         this.dealForm.patchValue({
           dealHeader: res.dealHeader,
           subTitle: res.subTitle,
@@ -166,18 +168,19 @@ export class Step1Component implements OnInit, OnDestroy {
           deletedCheck: false
         });
         this.cf.detectChanges();
-        res.mediaUrl.filter((image: string) => {
-          if(image.endsWith('.mp4')) {
-            this.editUrl = image.toString();
+        res.mediaUrl.filter((image: MediaUpload) => {
+          if(image.captureFileURL.endsWith('.mp4')) {
+            this.editUrl = image.captureFileURL;
             this.cf.detectChanges();
             this.loadingVideo = true;
+            this.cf.detectChanges();
             this.videoService.convertUrlToFile(this.editUrl).then((result) => {
               this.media.push(result);
             })
             .catch(err => console.log(err));
           }
           else {
-            this.videoService.getBase64ImageFromUrl(image)
+            this.videoService.getBase64ImageFromUrl(image.captureFileURL)
             .then((result: any) => {
               this.multiples.push(result);
               this.cf.detectChanges();
@@ -189,13 +192,14 @@ export class Step1Component implements OnInit, OnDestroy {
             })
             .catch(err => console.log(err));
 
-            this.videoService.convertUrlToFile(image).then((result) => {
+            this.videoService.convertUrlToFile(image.captureFileURL).then((result) => {
               this.media.push(result);
             })
             .catch(err => console.log(err));
           }
         });
         this.categoryEdit = res.subCategory;
+        // must remove video before uploading and also convert date timestamps to ngbDateStruct objects
         this.cf.detectChanges();
       }
     })
@@ -215,10 +219,11 @@ export class Step1Component implements OnInit, OnDestroy {
       dealHeader: this.dealForm.get('dealHeader')?.value,
       subTitle: this.dealForm.get('subTitle')?.value,
       mediaUrl: [],
+      id: this.id ? this.id : '',
       deletedCheck: false,
       pageNumber: 1
     }
-
+    debugger
     this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
         this.firstSaveData = res.data;
@@ -238,62 +243,20 @@ export class Step1Component implements OnInit, OnDestroy {
         case true:
           this.nextClick.emit('');
           this.connection.isSaving.next(true);
-          return new Promise((resolve, reject) => {
-            const payload: any = {
-              subCategory: this.dealForm.get('subCategory')?.value,
-              dealHeader: this.dealForm.get('dealHeader')?.value,
-              subTitle: this.dealForm.get('subTitle')?.value,
-              mediaUrl: [],
-              id: this.id,
-              deletedCheck: false,
-              pageNumber: 1
-            }
-            const mediaUpload: Array<Observable<any>> = [];
-            if(this.media.length > 0) {
-              this.media.forEach((file: any) => {
-                mediaUpload.push(this.mediaService.uploadMedia('deal', file));
-              });
-            }
-            payload.mediaUrl = [];
-            forkJoin(mediaUpload)
-              .pipe(
-                mergeMap((mainResponse:any) => {
-                  mainResponse.forEach((res: any) => {
-                    if (!res.hasErrors()) {
-                      payload.mediaUrl?.push(res.data.url);
-                    } else {
-                      return of(null);
-                    }
-                  })
-                  return this.dealService.createDeal(payload);
-                })
-              ).subscribe((res: ApiResponse<any>) => {
-                if(!res.hasErrors()) {
-                  this.connection.isSavingNextData(false);
-                  this.cf.detectChanges();
-                  this.connection.sendSaveAndNext(res.data);
-                  // this.connection.sendStep1(res.data)
-                  resolve('success')
-                }
-            })
-          });
-        case false:
-          this.nextClick.emit('');
-          this.connection.isSaving.next(true);
           this.firstSave();
           return new Promise((resolve, reject) => {
             const mediaUpload: Array<Observable<any>> = [];
             if(this.media.length > 0) {
               this.media.forEach((file: any) => {
+                debugger
                 mediaUpload.push(this.mediaService.uploadMedia('deal', file));
               });
             }
             forkJoin(mediaUpload)
               .pipe(
-                concatMap((mainResponse:any) => {
+                mergeMap((mainResponse:any) => {
                 const images = mainResponse.filter((res: any) => {
                   if(!res.data.url.endsWith('mp4')) {
-                    debugger
                     return res.data
                   }
                 });
@@ -319,20 +282,102 @@ export class Step1Component implements OnInit, OnDestroy {
                   videos.forEach((video: any) => {
                     this.videoService.convertUrlToFile(video.data.url).then((result) => {
                       this.videoService.generateThumbnail(result, 'any-image').then(result => {
-                        this.mediaService.uploadMedia('deal', result).subscribe((res: any) => {
-                          res = [res];
+                        forkJoin(
+                          this.mediaService.uploadMedia('deal', result)
+                        ).subscribe(response => {
                           debugger
-                          this.firstSaveData.mediaUrl.push(res.data.map((video: any) => {
+                          this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
                             return {
                               type: 'Video',
-                              captureFileURL: video.url,
-                              path: video.path,
-                              thumbnailURL: '',
-                              thumbnailPath: '',
+                              captureFileURL: video.data.url,
+                              path: video.data.path,
+                              thumbnailURL: response[0].data.url,
+                              thumbnailPath: response[0].data.path,
                               blurHash: '',
                               backgroundColorHex: ''
                             }
-                          }))
+                          }));
+                          debugger
+                          this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
+                            debugger
+                            console.log('After Subscription: ', res)
+                          })
+                        })
+                      })
+                    })
+                  })
+                }
+                return this.dealService.createDeal(this.firstSaveData);
+                })).subscribe((res: any) => {
+                if(!res.hasErrors()) {
+                  debugger
+                  this.connection.isSavingNextData(false);
+                  this.cf.detectChanges();
+                  this.connection.sendSaveAndNext(res.data);
+                  resolve('success')
+                }
+            })
+          });
+        case false:
+          this.nextClick.emit('');
+          this.connection.isSaving.next(true);
+          this.firstSave();
+          return new Promise((resolve, reject) => {
+            const mediaUpload: Array<Observable<any>> = [];
+            if(this.media.length > 0) {
+              this.media.forEach((file: any) => {
+                mediaUpload.push(this.mediaService.uploadMedia('deal', file));
+              });
+            }
+            forkJoin(mediaUpload)
+              .pipe(
+                mergeMap((mainResponse:any) => {
+                const images = mainResponse.filter((res: any) => {
+                  if(!res.data.url.endsWith('mp4')) {
+                    return res.data
+                  }
+                });
+                const videos = mainResponse.filter((res: any) => {
+                  if(res.data.url.endsWith('mp4')) {
+                    return res.data
+                  }
+                });
+                if(images.length > 0) {
+                  this.firstSaveData.mediaUrl = images.map((image: any) => {
+                    return {
+                      type: 'Image',
+                      captureFileURL: image.data.url,
+                      path: image.data.path,
+                      thumbnailURL: '',
+                      thumbnailPath: '',
+                      blurHash: '',
+                      backgroundColorHex: ''
+                    }
+                  })
+                }
+                if(videos.length > 0) {
+                  videos.forEach((video: any) => {
+                    this.videoService.convertUrlToFile(video.data.url).then((result) => {
+                      this.videoService.generateThumbnail(result, 'any-image').then(result => {
+                        forkJoin(
+                          this.mediaService.uploadMedia('deal', result)
+                        ).subscribe(response => {
+                          debugger
+                          this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
+                            return {
+                              type: 'Video',
+                              captureFileURL: video.data.url,
+                              path: video.data.path,
+                              thumbnailURL: response[0].data.url,
+                              thumbnailPath: response[0].data.path,
+                              blurHash: '',
+                              backgroundColorHex: ''
+                            }
+                          }));
+                          this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
+                            debugger
+                            console.log('After Subscription: ', res)
+                          })
                         })
                       })
                     })

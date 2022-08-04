@@ -283,7 +283,6 @@ export class Step4Component implements OnInit, OnDestroy {
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
       if(this.newData.vouchers[0] != null) {
-        debugger
         this.newData.vouchers?.forEach((voucher) => {
           if (val.voucherValidity) {
             voucher.voucherValidity = val.voucherValidity;

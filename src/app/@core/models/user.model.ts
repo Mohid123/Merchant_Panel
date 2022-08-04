@@ -28,6 +28,7 @@ export interface User {
   newUser: boolean;
   voucherPinCode: number;
   gallery: Gallery[];
+  countryCode: string;
 }
 
 interface BusinessHours {

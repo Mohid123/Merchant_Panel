@@ -13,8 +13,7 @@ export class CanActivateGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const routePop = this.conn.currentStep$.value;
-    if (routePop == 2 || routePop == 3 || routePop == 4 || (routePop == 5 && !this.conn.saveAndNextData.value?.startDate)) {
-      debugger
+    if (routePop == 2 || routePop == 3 || routePop == 4 || (routePop == 5 && !this.conn.saveAndNextData.value?.startDate) || (routePop == 1 && this.conn.isEditTrue?.value == true)) {
       this.modal.open(PopupModalComponent,  {
         centered: true,
         keyboard: false,
@@ -24,8 +23,11 @@ export class CanActivateGuard implements CanActivate {
       if(this.conn.getSPopupState == 'Discard') {
         this.modal.dismissAll();
         this.conn.currentStep$.next(1);
+        this.conn.isEditMode = false;
+        this.conn.sendSaveAndNext({});
+        this.conn.sendData({});
+        this.conn.sendStep1({});
       }
-      debugger
       return this.conn.getRoutePopup;
     }
     else {
