@@ -8,8 +8,8 @@ import { Inject, Injectable } from '@angular/core';
 export class VideoProcessingService {
 
 
-  maxWidth = 151;
-  maxHeight = 127;
+  maxWidth = 500;
+  maxHeight = 440;
 
   constructor(@Inject(DOCUMENT) private document: Document, private http: HttpClient) { }
 

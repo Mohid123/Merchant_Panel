@@ -353,6 +353,7 @@ export class Step5Component implements OnInit, AfterViewInit {
         this.uploaded = true;
         return this.modal.open().then(() => {
           this.connection.currentStep$.next(1);
+          this.connection.isEditMode = false;
         });
       }
     })

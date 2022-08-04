@@ -61,6 +61,8 @@ export class Step4Component implements OnInit, OnDestroy {
   form: FormGroup;
   policyForm: FormGroup;
   destroy$ = new Subject();
+  ngbStart: any;
+  ngbEnd: any;
 
   @Input() deal: Partial<MainDeal> = {
     vouchers: [
@@ -100,6 +102,14 @@ export class Step4Component implements OnInit, OnDestroy {
         if(response) {
           this.newData = response;
           this.id = response?.id;
+          debugger
+          const isObject  = typeof response.vouchers[0]?.voucherStartDate
+          if(response.vouchers[0].voucherStartDate && isObject != "object") {
+            const newStart = new Date(response?.vouchers[0]?.voucherStartDate);
+            const newEnd = new Date(response?.vouchers[0]?.voucherEndDate);
+            this.ngbStart = { day: newStart.getUTCDate(), month: newStart.getUTCMonth() + 1, year: newStart.getUTCFullYear() }
+            this.ngbEnd = { day: newEnd.getUTCDate(), month: newEnd.getUTCMonth() + 1, year: newEnd.getUTCFullYear() }
+          }
           if(response.dealStatus == 'Published') {
             this.disableBackButton = true
           }
@@ -120,6 +130,11 @@ export class Step4Component implements OnInit, OnDestroy {
     this.initDateForm();
     this.initPolicyForm();
     this.updateParentModel({}, true);
+
+    if(this.ngbStart) {
+      this.form.get('voucherStartDate')?.setValue(this.ngbStart);
+      this.form.get('voucherEndDate')?.setValue(this.ngbEnd);
+    }
 
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
       this.policy = user;
@@ -197,9 +212,7 @@ export class Step4Component implements OnInit, OnDestroy {
     this.currentlyChecked = targetType;
   }
 
-  openDatePicker() {
-    this.dPicker.open();
-  }
+
 
   disableCheckBox() {
     if(this.currentlyChecked == this.check_box_type.ONE) {

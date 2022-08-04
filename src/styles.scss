@@ -186,6 +186,78 @@ a[aria-label='Next'] {
   }
 }
 
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+  color: #728A9F !important;
+}
+
+.custom-day.focused {
+  background-color: #e6e6e6;
+  color: white !important;
+}
+
+.custom-day.range, .custom-day:hover {
+  background-color: rgb(2, 117, 216);
+  color: white !important;
+}
+
+.custom-day.faded {
+  background-color: rgba(2, 117, 216, 0.5);
+  color: white !important;
+}
+
+ngb-datepicker {
+  border: none !important;
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+  box-shadow: 0px 0px 15px #00000029 !important;
+  border-radius: 7px !important;
+}
+
+.ngb-dp-content.ngb-dp-months {
+  padding: 20px 20px 16px 20px !important;
+}
+
+.ngb-dp-header {
+  padding-top: 1.75rem !important;
+  background: white !important;
+}
+
+.ngb-dp-arrow {
+  align-items: center !important;
+}
+
+.btn.btn-link.ngb-dp-arrow-btn {
+  width: 1.625rem !important;
+  height: 1.625rem !important;
+  background-color: #0081E9 !important;
+  padding: 0 !important;
+  border-radius: 50px !important;
+  margin: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.ngb-dp-navigation-chevron {
+  width: 0.625rem !important;
+  height: 0.625rem !important;
+}
+
+.ngb-dp-weekdays {
+  @apply mt-5;
+  border: none !important;
+  background: white !important;
+}
+
+.ngb-dp-weekday {
+  color: #0081E9 !important;
+  font: normal normal normal 12px/17px Open Sans !important;
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none !important;

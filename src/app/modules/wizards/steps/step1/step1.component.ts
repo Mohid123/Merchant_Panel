@@ -78,6 +78,7 @@ export class Step1Component implements OnInit, OnDestroy {
   urls: any[] = [];
   url: any;
   editUrl: any;
+  videoFromEdit: any;
   videos: any[] = [];
   videoUrls: any[] = [];
   private unsubscribe: Subscription[] = [];
@@ -85,6 +86,7 @@ export class Step1Component implements OnInit, OnDestroy {
   images: any[] = [];
   media: any[] = [];
   temporaryVideo: any;
+  thumbnail: any;
   id: string;
   editDealCheck: boolean = false;
   convertedImage: any;
@@ -170,14 +172,14 @@ export class Step1Component implements OnInit, OnDestroy {
         this.cf.detectChanges();
         res.mediaUrl.filter((image: MediaUpload) => {
           if(image.captureFileURL.endsWith('.mp4')) {
+            this.videoFromEdit = image;
             this.editUrl = image.captureFileURL;
+            // console.log(this.videoFromEdit)
             this.cf.detectChanges();
-            this.loadingVideo = true;
-            this.cf.detectChanges();
-            this.videoService.convertUrlToFile(this.editUrl).then((result) => {
-              this.media.push(result);
-            })
-            .catch(err => console.log(err));
+            // this.videoService.convertUrlToFile(this.editUrl).then((result) => {
+            //   this.media.push(result);
+            // })
+            // .catch(err => console.log(err));
           }
           else {
             this.videoService.getBase64ImageFromUrl(image.captureFileURL)
@@ -223,7 +225,6 @@ export class Step1Component implements OnInit, OnDestroy {
       deletedCheck: false,
       pageNumber: 1
     }
-    debugger
     this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
         this.firstSaveData = res.data;
@@ -248,7 +249,6 @@ export class Step1Component implements OnInit, OnDestroy {
             const mediaUpload: Array<Observable<any>> = [];
             if(this.media.length > 0) {
               this.media.forEach((file: any) => {
-                debugger
                 mediaUpload.push(this.mediaService.uploadMedia('deal', file));
               });
             }
@@ -260,11 +260,11 @@ export class Step1Component implements OnInit, OnDestroy {
                     return res.data
                   }
                 });
-                const videos = mainResponse.filter((res: any) => {
-                  if(res.data.url.endsWith('mp4')) {
-                    return res.data
-                  }
-                });
+                // const videos = mainResponse.filter((res: any) => {
+                //   if(res.data.url.endsWith('mp4')) {
+                //     return res.data
+                //   }
+                // });
                 if(images.length > 0) {
                   this.firstSaveData.mediaUrl = images.map((image: any) => {
                     return {
@@ -276,37 +276,45 @@ export class Step1Component implements OnInit, OnDestroy {
                       blurHash: '',
                       backgroundColorHex: ''
                     }
-                  })
+                  });
+                  if(this.videoUrls.length > 0) {
+                    debugger
+                    this.firstSaveData.mediaUrl.push(...this.videoUrls)
+                  }
+                  else if(this.videoFromEdit) {
+                    debugger
+                    this.firstSaveData.mediaUrl.push(this.videoFromEdit)
+                  }
                 }
-                if(videos.length > 0) {
-                  videos.forEach((video: any) => {
-                    this.videoService.convertUrlToFile(video.data.url).then((result) => {
-                      this.videoService.generateThumbnail(result, 'any-image').then(result => {
-                        forkJoin(
-                          this.mediaService.uploadMedia('deal', result)
-                        ).subscribe(response => {
-                          debugger
-                          this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
-                            return {
-                              type: 'Video',
-                              captureFileURL: video.data.url,
-                              path: video.data.path,
-                              thumbnailURL: response[0].data.url,
-                              thumbnailPath: response[0].data.path,
-                              blurHash: '',
-                              backgroundColorHex: ''
-                            }
-                          }));
-                          debugger
-                          this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
-                            debugger
-                            console.log('After Subscription: ', res)
-                          })
-                        })
-                      })
-                    })
-                  })
-                }
+                // if(videos.length > 0) {
+                //   videos.forEach((video: any) => {
+                //     this.videoService.convertUrlToFile(video.data.url).then((result) => {
+                //       this.videoService.generateThumbnail(result, 'any-image').then(result => {
+                //         forkJoin(
+                //           this.mediaService.uploadMedia('deal', result)
+                //         ).subscribe(response => {
+                //           debugger
+                //           this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
+                //             return {
+                //               type: 'Video',
+                //               captureFileURL: video.data.url,
+                //               path: video.data.path,
+                //               thumbnailURL: response[0].data.url,
+                //               thumbnailPath: response[0].data.path,
+                //               blurHash: '',
+                //               backgroundColorHex: ''
+                //             }
+                //           }));
+                //           debugger
+                //           this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
+                //             debugger
+                //             console.log('After Subscription: ', res)
+                //           })
+                //         })
+                //       })
+                //     })
+                //   })
+                // }
                 return this.dealService.createDeal(this.firstSaveData);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
@@ -337,11 +345,11 @@ export class Step1Component implements OnInit, OnDestroy {
                     return res.data
                   }
                 });
-                const videos = mainResponse.filter((res: any) => {
-                  if(res.data.url.endsWith('mp4')) {
-                    return res.data
-                  }
-                });
+                // const videos = mainResponse.filter((res: any) => {
+                //   if(res.data.url.endsWith('mp4')) {
+                //     return res.data
+                //   }
+                // });
                 if(images.length > 0) {
                   this.firstSaveData.mediaUrl = images.map((image: any) => {
                     return {
@@ -353,36 +361,42 @@ export class Step1Component implements OnInit, OnDestroy {
                       blurHash: '',
                       backgroundColorHex: ''
                     }
-                  })
+                  });
+                  if(this.videoUrls.length > 0) {
+                    this.firstSaveData.mediaUrl.push(...this.videoUrls)
+                  }
+                  else if(this.videoFromEdit) {
+                    this.firstSaveData.mediaUrl.push(this.videoFromEdit)
+                  }
                 }
-                if(videos.length > 0) {
-                  videos.forEach((video: any) => {
-                    this.videoService.convertUrlToFile(video.data.url).then((result) => {
-                      this.videoService.generateThumbnail(result, 'any-image').then(result => {
-                        forkJoin(
-                          this.mediaService.uploadMedia('deal', result)
-                        ).subscribe(response => {
-                          debugger
-                          this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
-                            return {
-                              type: 'Video',
-                              captureFileURL: video.data.url,
-                              path: video.data.path,
-                              thumbnailURL: response[0].data.url,
-                              thumbnailPath: response[0].data.path,
-                              blurHash: '',
-                              backgroundColorHex: ''
-                            }
-                          }));
-                          this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
-                            debugger
-                            console.log('After Subscription: ', res)
-                          })
-                        })
-                      })
-                    })
-                  })
-                }
+                // if(videos.length > 0) {
+                //   videos.forEach((video: any) => {
+                //     this.videoService.convertUrlToFile(video.data.url).then((result) => {
+                //       this.videoService.generateThumbnail(result, 'any-image').then(result => {
+                //         forkJoin(
+                //           this.mediaService.uploadMedia('deal', result)
+                //         ).subscribe(response => {
+                //           debugger
+                //           this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
+                //             return {
+                //               type: 'Video',
+                //               captureFileURL: video.data.url,
+                //               path: video.data.path,
+                //               thumbnailURL: response[0].data.url,
+                //               thumbnailPath: response[0].data.path,
+                //               blurHash: '',
+                //               backgroundColorHex: ''
+                //             }
+                //           }));
+                //           this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
+                //             debugger
+                //             console.log('After Subscription: ', res)
+                //           })
+                //         })
+                //       })
+                //     })
+                //   })
+                // }
                 return this.dealService.createDeal(this.firstSaveData);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
@@ -524,15 +538,44 @@ export class Step1Component implements OnInit, OnDestroy {
     }
     if (this.file) {
       this.temporaryVideo = this.file;
-      this.media.push(this.temporaryVideo)
+      this.loadingVideo = true;
+      this.cf.detectChanges();
+      this.mediaService.uploadMedia('deal', this.temporaryVideo).subscribe((res: any) => {
+        if(!res.hasErrors()) {
+          this.videoService.convertUrlToFile(res.data.url).then((result) => {
+            this.videoService.generateThumbnail(result, 'any-image').then((result) => {
+              this.thumbnail = result;
+            }).finally(() => {
+              this.mediaService.uploadMedia('deal', this.thumbnail).subscribe((thumbnailResponse: any) => {
+                this.url = thumbnailResponse.data.url
+                this.loadingVideo = false;
+                this.cf.detectChanges();
+                const thumbsArray = [res];
+                this.videoUrls = thumbsArray.map((video: any) => {
+                  return {
+                    type: 'Video',
+                    captureFileURL: video.data.url,
+                    path: video.data.path,
+                    thumbnailURL: thumbnailResponse.data.url,
+                    thumbnailPath: thumbnailResponse.data.path,
+                    blurHash: '',
+                    backgroundColorHex: ''
+                  }
+                })
+                console.log(this.videoUrls)
+              })
+            })
+          })
+        }
+      });
+      // this.media.push(this.temporaryVideo)
       this.cf.detectChanges();
       var reader = new FileReader();
       reader.readAsDataURL(this.file);
-      this.loadingVideo = true
-      reader.onload = (event) => {
-        this.url = (<FileReader>event.target).result as string;
-        this.cf.detectChanges();
-      };
+      // reader.onload = (event) => {
+      //   this.url = (<FileReader>event.target).result as string;
+      //   this.cf.detectChanges();
+      // };
       event.target.value = "";
     }
   }

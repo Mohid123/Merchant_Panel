@@ -98,7 +98,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
     this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
-      console.log(this.newData)
+      console.log(this.newData);
       this.id = response?.id;
     });
 

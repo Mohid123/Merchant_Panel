@@ -124,7 +124,7 @@
            </svg>
           </div>
           <div class="flex justify-between">
-            <button *ngIf="subDeals.length == 0 " type="button" class="self-center w-24 h-10 p-0 text-sm text-gray-600 bg-gray-300 rounded-lg" (click)="prevClick.emit('')">Back</button>
+            <button *ngIf="subDeals.length == 0 " type="button" class="self-center w-24 h-10 p-0 text-sm text-gray-600 bg-gray-300 rounded-lg" (click)="returnToPrevious()">Back</button>
             <button *ngIf="subDeals.length > 0 " type="button" class="self-center w-24 h-10 p-0 text-sm text-gray-600 bg-gray-300 rounded-lg" (click)="cancleVoucher()">Cancel</button>
             <button type="button" class="self-center w-24 h-10 p-0 text-white rounded-lg bg-primary-400" (click)="calculateDiscount()">Add</button>
           </div>

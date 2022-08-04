@@ -55,7 +55,7 @@
                   <span class="text-sm font-medium form-check-label">End Date</span>
                   <!-- &nbsp;<span class="text-black">*</span> -->
                   <div class="flex-auto w-auto mt-2 input-icon lg:w-96">
-                    <span class="absolute flex items-center mt-2 ml-1"><i #dPicker (click)="d.toggle(); openDatePicker()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+                    <span class="absolute flex items-center mt-2 ml-1"><i (click)="d.toggle();" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
                     <input
                     [disabled]="currentlyChecked !== check_box_type.ONE"
                     placeholder="dd-mm-yyyy"
@@ -309,12 +309,6 @@ input::-webkit-datetime-edit {
 input::-webkit-datetime-edit-fields-wrapper {
   position: relative;
   left: 20px;
-}
-
-::ng-deep .ngb-dp-weekday {
-  color: rgb(69, 87, 219)!important;
-  font-family: Arial, Helvetica, sans-serif!important;
-  font-style: normal!important;
 }
 
 .edit-button {

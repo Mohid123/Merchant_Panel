@@ -195,22 +195,26 @@
               </ng-container>
             </div>
 
-            <ng-container *ngIf="url && !editUrl && loadingVideo == true">
-              <!-- <ng-container *ngFor="let video of videos; let i = index;"> -->
-                <div class="relative self-center m-4" style="width: fit-content;">
-                  <video [src]="url" class="object-cover rounded-lg w-36 h-22 2xl:h-26 2xl:w-52"></video>
-                  <i class="absolute -top-1 -right-0.5 bg-white rounded-full cursor-pointer fa fa-times-circle" (click)="clearVideo()"></i>
-                </div>
-              <!-- </ng-container> -->
+            <ng-container *ngIf="url && !editUrl && loadingVideo == false">
+              <div class="relative self-center m-4" style="width: fit-content;">
+                <img [src]="url" class="object-cover rounded-lg w-36 h-22 2xl:h-26 2xl:w-52">
+                <i class="absolute -top-1 -right-0.5 bg-white rounded-full cursor-pointer fa fa-times-circle" (click)="clearVideo()"></i>
+              </div>
             </ng-container>
 
-            <ng-container *ngIf="!url && editUrl && loadingVideo == true">
-              <!-- <ng-container *ngFor="let video of videos; let i = index;"> -->
+            <ng-container *ngIf="!url && !editUrl && loadingVideo == true">
+              <div class="flex justify-starts m-4" style="width: fit-content;">
+                <span class="rounded-lg bg-gray-300 py-12 px-24 animate-pulse">
+                  <mat-spinner [diameter]="30"></mat-spinner>
+                </span>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="!url && editUrl && loadingVideo == false">
                 <div class="relative self-center m-4" style="width: fit-content;">
                   <video [src]="editUrl" class="object-cover rounded-lg w-36 h-22 2xl:h-26 2xl:w-52"></video>
                   <i class="absolute -top-1 -right-0.5 bg-white rounded-full cursor-pointer fa fa-times-circle" (click)="clearVideo()"></i>
                 </div>
-              <!-- </ng-container> -->
             </ng-container>
           </div>
 
@@ -231,7 +235,7 @@
 
 
         <div class="flex justify-center mt-8 min-h-14 2xl:h-20">
-          <button (click)="saveDraftOne();" class="self-center w-32 text-sm text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & next</button>
+          <button [disabled]="loadingVideo == true" (click)="saveDraftOne();" class="self-center w-32 text-sm text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & next</button>
         </div>
         <!--nextClick.emit('');  saveDraftOne();-->
 
