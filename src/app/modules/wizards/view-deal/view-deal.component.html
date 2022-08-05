@@ -86,15 +86,15 @@
                 <div style="all: unset" ngbDropdown placement="bottom">
                   <i ngbDropdownToggle class="fas fa-ellipsis-h fa-sm p-1.5 bg-gray-100 rounded-md cursor-pointer mr-1.5"></i>
                   <div class="z-50" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button ngbDropdownItem class="flex justify-start m-2 px-2">
+                    <button ngbDropdownItem class="flex justify-start px-2 m-2">
                       <img src="../../../../assets/media/icons/preview.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Preview</span>
                     </button>
-                    <button *ngIf="event.dealStatus == 'Draft' || event.dealStatus == 'Needs attention' || event.dealStatus == 'Published' || event.dealStatus == 'Scheduled'" (click)="editDeal(index)" ngbDropdownItem class="flex justify-start m-2 px-2">
+                    <button *ngIf="event.dealStatus == 'Draft' || event.dealStatus == 'Needs attention' || event.dealStatus == 'Published' || event.dealStatus == 'Scheduled'" (click)="editDeal(index)" ngbDropdownItem class="flex justify-start px-2 m-2">
                       <img src="../../../../assets/media/icons/editing.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Edit</span>
                     </button>
-                    <button *ngIf="event.dealStatus == 'Published' || event.dealStatus == 'Expired'" ngbDropdownItem class="flex justify-start m-2 px-2" (click)="duplicateDeal(index)">
+                    <button *ngIf="event.dealStatus == 'Published' || event.dealStatus == 'Expired'" ngbDropdownItem class="flex justify-start px-2 m-2" (click)="duplicateDeal(index)">
                       <img src="../../../../assets/media/icons/Dublicate.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Duplicate</span>
                     </button>
@@ -139,8 +139,8 @@
                         <td colspan="12">
                           <ng-container *ngIf="event.startDate && event.endDate">
                             <tr class="w-full text-sm text-left text-gray-500">
-                              <td class="py-4 pr-4 pl-11">Published from &nbsp;<span class="text-black">{{event?.startDate | date: 'dd-MM-yyyy'}} until {{event?.startDate | date: 'dd-MM-yyyy'}}</span></td>
-                              <td class="px-4 py-4">Validity date &nbsp;<span class="text-black">{{voucher?.voucherEndDate | date: 'dd-MM-yyyy'}}</span></td>
+                              <td class="py-4 pr-4 pl-11">Published from &nbsp;<span class="text-black">{{event?.startDate | date: 'dd-MM-yyyy'}} until {{event?.endDate | date: 'dd-MM-yyyy'}}</span></td>
+                              <td class="px-4 py-4">Validity date &nbsp;<span class="text-black">{{event?.endDate | date: 'dd-MM-yyyy'}}</span></td>
                             </tr>
                           </ng-container>
                         </td>
