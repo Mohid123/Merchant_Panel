@@ -81,7 +81,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private connection: ConnectionService,
+    public connection: ConnectionService,
     private toast: HotToastService,
     private authService: AuthService,
     private dealService: DealService,
@@ -286,7 +286,6 @@ export class Step2Component implements OnInit, OnDestroy {
     this.newData.vouchers = this.subDeals;
     this.connection.sendData(this.data);
     if(this.editID) {
-      debugger
       this.saveEditDeal = true;
     }
     this.closeModal();

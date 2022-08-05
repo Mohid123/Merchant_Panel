@@ -88,7 +88,7 @@ export class Step4Component implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private connection: ConnectionService,
+    public connection: ConnectionService,
     private authService: AuthService,
     private userService: UserService,
     private toast: HotToastService,
@@ -102,7 +102,6 @@ export class Step4Component implements OnInit, OnDestroy {
         if(response) {
           this.newData = response;
           this.id = response?.id;
-          debugger
           const isObject  = typeof response.vouchers[0]?.voucherStartDate
           if(response.vouchers[0].voucherStartDate && isObject != "object") {
             const newStart = new Date(response?.vouchers[0]?.voucherStartDate);
@@ -407,7 +406,6 @@ export class Step4Component implements OnInit, OnDestroy {
           voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
         }
       });
-      debugger
       const payload = this.newData;
       this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {

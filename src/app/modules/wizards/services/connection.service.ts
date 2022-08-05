@@ -11,6 +11,7 @@ export class ConnectionService {
   public saveAndNextData: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
   public disabler: boolean = true;
   public isSaving: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isSavingObs = this.isSaving.asObservable();
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
 
   private stepDataPageOne: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);

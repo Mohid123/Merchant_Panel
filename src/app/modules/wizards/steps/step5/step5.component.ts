@@ -121,6 +121,7 @@ export class Step5Component implements OnInit, AfterViewInit {
   today: any;
   endDateInView: any;
   id: string;
+  selectInfo: DateClickArg;
 
   @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
   popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
@@ -147,11 +148,6 @@ export class Step5Component implements OnInit, AfterViewInit {
         this.images = this.data.mediaUrl;
       })
       this.uploaded = true;
-
-      this.secondReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
-        this.newData = response;
-        this.id = response.id
-      })
   }
 
   ngOnInit() {
@@ -159,7 +155,29 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.getCurrentMonthDays();
     this.initSelectDateForm();
     const current = new Date();
-    this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() }
+    this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() };
+    this.editDealCase();
+  }
+
+  editDealCase() {
+    this.secondReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
+      if(response.startDate) {
+        const startDate = new Date(response.startDate);
+        const endDate = new Date(response.endDate);
+        const newStart = moment(startDate).format("YYYY-MM-DD");
+        const newEnd = moment(endDate).format("YYYY-MM-DD");
+        const res = [response];
+        this.calendarOptions.events = res.map((data: any) => {
+          return  {
+            title:data.dealHeader,
+            start: newStart,
+            end: newEnd,
+          }
+        })
+      }
+      this.newData = response;
+      this.id = response.id
+    })
   }
 
   showPopover(event:any) {
@@ -341,7 +359,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.connection.disabler = false;
     this.uploaded = false;
     this.newData.pageNumber = 5;
-    this.newData.dealStatus = 'In review';
+    this.newData.dealStatus = 'Published'; // In review kr dena baad me
     this.newData.startDate = this.start;
     this.newData.endDate = this.end;
     const payload = this.newData;

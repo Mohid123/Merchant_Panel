@@ -22,6 +22,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   data: MainDeal;
   newData: MainDeal;
   reciever: Subscription;
+  secondReciever: Subscription;
   destroy$ = new Subject();
   @Output() nextClick = new EventEmitter();
   @Output() prevClick = new EventEmitter();
@@ -38,7 +39,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   constructor(
     private cf: ChangeDetectorRef,
     private fb: FormBuilder,
-    private connection: ConnectionService,
+    public connection: ConnectionService,
     private dealService: DealService,
     private common: CommonFunctionsService
   ) { }
@@ -66,12 +67,21 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       }
     }
 
-    this.editDealData();
-
     this.reciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
       this.id = response?.id;
-    })
+      if((response.dealStatus == 'Draft' || response.dealStatus == 'Needs attention') && response.id) {
+        this.editID = response.id;
+        if(response.highlights) {
+          this.dealForm.patchValue({
+            highlights: response.highlights,
+            aboutThisDeal: response.aboutThisDeal,
+            readMore: response.readMore,
+            finePrints: response.finePrints
+          })
+        }
+      }
+    });
   }
 
   editDealData() {
@@ -162,6 +172,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       this.connection.isSaving.next(true);
       this.newData.pageNumber = 3;
       const payload = {...this.newData, ...this.dealForm.value};
+      this.connection.sendData(payload);
       this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.connection.isSaving.next(false);
