@@ -225,7 +225,6 @@ export class Step1Component implements OnInit, OnDestroy {
       deletedCheck: false,
       pageNumber: 1
     }
-    debugger
     this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
         this.firstSaveData = res.data;
@@ -279,11 +278,9 @@ export class Step1Component implements OnInit, OnDestroy {
                     }
                   });
                   if(this.videoUrls.length > 0) {
-                    debugger
                     this.firstSaveData.mediaUrl.push(...this.videoUrls)
                   }
                   else if(this.videoFromEdit) {
-                    debugger
                     this.firstSaveData.mediaUrl.push(this.videoFromEdit)
                   }
                 }
@@ -319,7 +316,6 @@ export class Step1Component implements OnInit, OnDestroy {
                 return this.dealService.createDeal(this.firstSaveData);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
-                  debugger
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);
@@ -401,7 +397,6 @@ export class Step1Component implements OnInit, OnDestroy {
                 return this.dealService.createDeal(this.firstSaveData);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
-                  debugger
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);

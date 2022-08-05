@@ -121,7 +121,6 @@ export class Step5Component implements OnInit, AfterViewInit {
   today: any;
   endDateInView: any;
   id: string;
-  selectInfo: DateClickArg;
 
   @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
   popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
@@ -167,7 +166,6 @@ export class Step5Component implements OnInit, AfterViewInit {
         const newStart = moment(startDate).format("YYYY-MM-DD");
         const newEnd = moment(endDate).add(1, 'days').format("YYYY-MM-DD");
         const res = [response];
-        debugger
         this.start = newStart;
         this.endDateInView = newEnd;
         this.calendarOptions.events = res.map((data: any) => {
@@ -176,7 +174,8 @@ export class Step5Component implements OnInit, AfterViewInit {
             start: newStart,
             end: newEnd,
           }
-        })
+        });
+        this.connection.isEditMode = true;
       }
       this.newData = response;
       this.id = response.id
@@ -249,7 +248,6 @@ export class Step5Component implements OnInit, AfterViewInit {
     if (title && !this.calendarApi.getEvents().length) {
       this.data.startDate = selectInfo.dateStr;
       this.startDate = selectInfo.dateStr;
-      console.log(selectInfo)
       this.calendarApi.addEvent({
         id: createEventId(),
         title,
@@ -323,6 +321,7 @@ export class Step5Component implements OnInit, AfterViewInit {
 
   yesClickTrue() {
     this.yesClick = true;
+    this.fullCalendar.getApi().removeAllEvents();
     if(this.yesClick == true) {
       if(this.calendarApi) {
         this.calendarApi.removeAllEvents();
@@ -364,7 +363,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.connection.disabler = false;
     this.uploaded = false;
     this.newData.pageNumber = 5;
-    this.newData.dealStatus = 'Published'; // In review kr dena baad me
+    this.newData.dealStatus = 'In review';
     this.newData.startDate = this.start;
     this.newData.endDate = this.end;
     const payload = this.newData;

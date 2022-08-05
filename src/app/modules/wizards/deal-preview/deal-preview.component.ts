@@ -4,7 +4,6 @@ import { takeUntil } from 'rxjs/operators';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
-import { VideoProcessingService } from '../services/video-to-img.service';
 import { ConnectionService } from './../services/connection.service';
 
 SwiperCore.use([FreeMode, Navigation, Thumbs]);
@@ -32,13 +31,13 @@ export class DealPreviewComponent implements OnInit, OnDestroy {
   videoType: any;
   unsubscribe = new Subject();
 
-  constructor(private conn: ConnectionService, private cf: ChangeDetectorRef, private videoService: VideoProcessingService) {}
+  constructor(private conn: ConnectionService, private cf: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.conn.getData().pipe(takeUntil(this.unsubscribe)).subscribe((res: any) => {
       this.mainDeal = res;
       this.subDeals = this.mainDeal.vouchers ? this.mainDeal.vouchers : [];
-      this.urls = this.mainDeal.mediaUrl ? this.mainDeal.mediaUrl.filter(img => img.startsWith('data:image')) : [];
+      this.urls = this.mainDeal.mediaUrl ? this.mainDeal?.mediaUrl.filter(img => img?.startsWith('data:image')) : [];
       this.cf.detectChanges();
     });
   }

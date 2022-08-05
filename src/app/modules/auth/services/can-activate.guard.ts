@@ -13,9 +13,7 @@ export class CanActivateGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const routePop = this.conn.currentStep$.value;
-    debugger
-    if (routePop == 2 || routePop == 3 || routePop == 4 || (routePop == 5 && !this.conn.saveAndNextData.value?.startDate) || (routePop == 1 && this.conn.isEditTrue?.value == true)) {
-      debugger
+    if (routePop == 2 || routePop == 3 || routePop == 4 || (routePop == 5 && !this.conn.saveAndNextData.value?.startDate) || (routePop == 5 && this.conn.isEditTrue?.value == true) || (routePop == 1 && this.conn.isEditTrue?.value == true)) {
       this.modal.open(PopupModalComponent,  {
         centered: true,
         keyboard: false,

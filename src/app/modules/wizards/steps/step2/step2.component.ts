@@ -88,6 +88,7 @@ export class Step2Component implements OnInit, OnDestroy {
     private common: CommonFunctionsService,
     private cf: ChangeDetectorRef
     ) {
+
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;
       this.subDeals = this.data.vouchers ? this.data.vouchers  : [];
@@ -98,8 +99,13 @@ export class Step2Component implements OnInit, OnDestroy {
 
     this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
-      console.log(this.newData);
       this.id = response?.id;
+      debugger
+      if(response?.vouchers?.length > 0) {
+        this.data.vouchers = response.vouchers;
+        this.connection.sendData(this.data);
+        debugger
+      }
     });
 
     this.saveEditDeal = false;
@@ -249,7 +255,6 @@ export class Step2Component implements OnInit, OnDestroy {
     this.newData.vouchers = this.subDeals;
     this.connection.sendData(this.data);
     if(this.editID) {
-      debugger
       this.saveEditDeal = true;
     }
     this.closeModal();
