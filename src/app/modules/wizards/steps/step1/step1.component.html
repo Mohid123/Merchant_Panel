@@ -19,7 +19,7 @@
               </ng-container>
               <ng-container *ngIf="editDealCheck">
                 <button id="dropdownBasic1" ngbDropdownToggle (click)="openDropDown()" type="button" class="relative w-full px-4 text-base text-left text-black btn">{{categoryEdit}}</button>
-                <i (click)="openDropDown()" class="absolute text-black fas fa-caret-down top-5 right-3 cursor-pointer"></i>
+                <i (click)="openDropDown()" class="absolute text-black cursor-pointer fas fa-caret-down top-5 right-3"></i>
               </ng-container>
               <div class="w-full dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
                 <ng-container *ngIf="categoryList">
@@ -37,7 +37,7 @@
                 </ng-container>
 
                 <ng-container *ngIf="!categoryList">
-                  <div class="flex flex-col justify center py-4 mx-auto items-center align-middle">
+                  <div class="flex flex-col items-center py-4 mx-auto align-middle justify center">
                     <mat-spinner [diameter]="25"></mat-spinner>
                   </div>
                 </ng-container>
@@ -212,8 +212,8 @@
             </ng-container>
 
             <ng-container *ngIf="!url && !editUrl && loadingVideo == true">
-              <div class="flex justify-starts m-4" style="width: fit-content;">
-                <span class="rounded-lg bg-gray-300 py-12 px-24 animate-pulse">
+              <div class="flex m-4 justify-starts" style="width: fit-content;">
+                <span class="px-24 py-12 bg-gray-300 rounded-lg animate-pulse">
                   <mat-spinner [diameter]="30"></mat-spinner>
                 </span>
               </div>
@@ -244,9 +244,8 @@
 
 
         <div class="flex justify-center mt-8 min-h-14 2xl:h-20">
-          <button [disabled]="loadingVideo == true" (click)="saveDraftOne();" class="self-center w-32 text-sm text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & next</button>
+          <button [ngClass]="loadingVideo == true ? 'opacity-50': 'opacity-100'" [disabled]="loadingVideo == true" (click)="saveDraftOne();" class="self-center w-32 text-sm text-white rounded-lg h-9 2xl:h-12 bg-primary-500">Save & next</button>
         </div>
-        <!--nextClick.emit('');  saveDraftOne();-->
 
       </form>
   </div>
