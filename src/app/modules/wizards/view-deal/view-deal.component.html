@@ -90,9 +90,10 @@
                       <img src="../../../../assets/media/icons/preview.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Preview</span>
                     </button>
-                    <button *ngIf="event.dealStatus == 'Draft' || event.dealStatus == 'Needs attention' || event.dealStatus == 'Published' || event.dealStatus == 'Scheduled'" (click)="editDeal(index)" ngbDropdownItem class="flex justify-start px-2 m-2">
+                    <button *ngIf="event.dealStatus == 'Draft' || event.dealStatus == 'Needs attention'" (click)="editDeal(index)" ngbDropdownItem class="flex justify-start px-2 m-2">
                       <img src="../../../../assets/media/icons/editing.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Edit</span>
+                      <!-- || event.dealStatus == 'Published' || event.dealStatus == 'Scheduled'-->
                     </button>
                     <button *ngIf="event.dealStatus == 'Published' || event.dealStatus == 'Expired'" ngbDropdownItem class="flex justify-start px-2 m-2" (click)="duplicateDeal(index)">
                       <img src="../../../../assets/media/icons/Dublicate.svg" class="mt-1 mr-2">
