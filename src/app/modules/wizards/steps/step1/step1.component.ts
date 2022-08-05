@@ -8,7 +8,7 @@ import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
-import { forkJoin, Observable, Subject, Subscription } from 'rxjs';
+import { forkJoin, Observable, of, Subject, Subscription } from 'rxjs';
 import { map, mergeMap, take } from 'rxjs/operators';
 import { VideoProcessingService } from '../../services/video-to-img.service';
 import { MediaUpload } from './../../../../@core/models/requests/media-upload.model';
@@ -40,7 +40,7 @@ export class Step1Component implements OnInit, OnDestroy {
   config: any;
   public Editor = ClassicEditor
 
-  categoryList: CategoryDetail[];
+  categoryList: Observable<CategoryDetail[]>;
   categoryEdit: any;
   selectedcategory: SubCategory;
   disableCategory: boolean = false;
@@ -124,11 +124,11 @@ export class Step1Component implements OnInit, OnDestroy {
     this.updateParentModel({}, this.checkForm());
 
     this.editDealData();
-
     this.categoryService.getAllCategoriesDetail(0,0).pipe(take(1)).subscribe((res) => {
       if(!res.hasErrors()){
         const categoryList = res.data.data;
-        this.categoryList = categoryList;
+        this.categoryList = of(categoryList);
+        this.cf.detectChanges();
       }
     });
 
@@ -157,7 +157,7 @@ export class Step1Component implements OnInit, OnDestroy {
   editDealData() {
     this.connection.getStep1()
     .subscribe((res: any) => {
-      if(res.dealStatus == 'Draft' && res.id) {
+      if((res.dealStatus == 'Draft' || res.dealStatus == 'Needs attention') && res.id) {
         this.showImageSkeleton = true;
         this.id = res.id;
         this.editDealCheck = true;
@@ -225,6 +225,7 @@ export class Step1Component implements OnInit, OnDestroy {
       deletedCheck: false,
       pageNumber: 1
     }
+    debugger
     this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
         this.firstSaveData = res.data;

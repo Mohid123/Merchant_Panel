@@ -76,7 +76,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
   editDealData() {
     this.connection.getStep1().subscribe((res: any) => {
-      if(res.dealStatus == 'Draft' && res.id) {
+      if((res.dealStatus == 'Draft' || res.dealStatus == 'Needs attention') && res.id) {
         this.editID = res.id;
         this.dealForm.patchValue({
           highlights: res.highlights,
@@ -174,7 +174,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
   returnToPrevious() {
     this.prevClick.emit('');
-    this.common.deleteDealByID(this.id);
+    // this.common.deleteDealByID(this.id);
   }
 
   ngOnDestroy() {

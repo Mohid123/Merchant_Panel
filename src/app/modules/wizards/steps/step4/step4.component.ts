@@ -421,7 +421,7 @@ export class Step4Component implements OnInit, OnDestroy {
 
   returnToPrevious() {
     this.prevClick.emit('');
-    this.common.deleteDealByID(this.id);
+    // this.common.deleteDealByID(this.id);
   }
 
   ngOnDestroy() {

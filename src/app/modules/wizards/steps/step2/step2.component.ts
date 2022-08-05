@@ -115,7 +115,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   editDealData() {
     this.connection.getStep1().subscribe((res: any) => {
-      if(res.dealStatus == 'Draft' && res.id) {
+      if((res.dealStatus == 'Draft' || res.dealStatus == 'Needs attention') && res.id) {
         this.editID = res.id;
         this.subDeals = res.vouchers;
         this.voucherStartDate = res.vouchers[0]?.voucherStartDate ? res.vouchers[0]?.voucherStartDate : '';
@@ -299,7 +299,6 @@ export class Step2Component implements OnInit, OnDestroy {
   deleteDeal() {
     this.subDeals.splice(this.selectedIndex, 1);
     this.data.vouchers = this.subDeals;
-    debugger
     if(this.newData) {
       this.newData.vouchers = this.subDeals;
     }
@@ -427,7 +426,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   returnToPrevious() {
     this.prevClick.emit('');
-    this.common.deleteDealByID(this.id);
+    // this.common.deleteDealByID(this.id);
   }
 
   convertToInteger(value: any) {

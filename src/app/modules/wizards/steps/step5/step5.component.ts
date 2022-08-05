@@ -371,7 +371,7 @@ export class Step5Component implements OnInit, AfterViewInit {
 
   returnToPrevious() {
     this.prevClick.emit('');
-    this.common.deleteDealByID(this.id);
+    // this.common.deleteDealByID(this.id);
   }
 
   ngOnDestroy() {

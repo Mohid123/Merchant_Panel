@@ -18,19 +18,28 @@
                 </button>
               </ng-container>
               <ng-container *ngIf="editDealCheck">
-                <button id="dropdownBasic1" ngbDropdownToggle (click)="openDropDown()" type="button" class="w-full px-4 text-base text-left text-black btn">{{categoryEdit}}</button>
+                <button id="dropdownBasic1" ngbDropdownToggle (click)="openDropDown()" type="button" class="relative w-full px-4 text-base text-left text-black btn">{{categoryEdit}}</button>
+                <i (click)="openDropDown()" class="absolute text-black fas fa-caret-down top-5 right-3 cursor-pointer"></i>
               </ng-container>
               <div class="w-full dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <ng-container *ngFor="let category of categoryList">
-                  <label>{{category.categoryName}}</label>
-                  <ng-container *ngFor="let subCategory of category.subCategories" >
-                    <ng-container *ngIf="subCategory.subCategoryName == 'Metaverse(Coming soon)'; else notDisabled">
-                      <button [disabled]="true" ngbDropdownItem [class.selected]="selectedcategory?._id == subCategory._id">{{subCategory.subCategoryName}}</button>
+                <ng-container *ngIf="categoryList">
+                  <ng-container *ngFor="let category of (categoryList | async)">
+                    <label>{{category.categoryName}}</label>
+                    <ng-container *ngFor="let subCategory of category.subCategories" >
+                      <ng-container *ngIf="subCategory.subCategoryName == 'Metaverse(Coming soon)'; else notDisabled">
+                        <button [disabled]="true" ngbDropdownItem [class.selected]="selectedcategory?._id == subCategory._id">{{subCategory.subCategoryName}}</button>
+                      </ng-container>
+                      <ng-template #notDisabled>
+                        <button type="button" ngbDropdownItem [class.selected]="selectedcategory?._id == subCategory._id" (click)="ChangeSelectedCategory(subCategory)">{{subCategory.subCategoryName}}</button>
+                      </ng-template>
                     </ng-container>
-                    <ng-template #notDisabled>
-                      <button type="button" ngbDropdownItem [class.selected]="selectedcategory?._id == subCategory._id" (click)="ChangeSelectedCategory(subCategory)">{{subCategory.subCategoryName}}</button>
-                    </ng-template>
                   </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="!categoryList">
+                  <div class="flex flex-col justify center py-4 mx-auto items-center align-middle">
+                    <mat-spinner [diameter]="25"></mat-spinner>
+                  </div>
                 </ng-container>
               </div>
             </div>
