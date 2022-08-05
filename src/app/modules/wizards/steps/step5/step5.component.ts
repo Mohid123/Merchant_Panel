@@ -165,11 +165,14 @@ export class Step5Component implements OnInit, AfterViewInit {
         const startDate = new Date(response.startDate);
         const endDate = new Date(response.endDate);
         const newStart = moment(startDate).format("YYYY-MM-DD");
-        const newEnd = moment(endDate).format("YYYY-MM-DD");
+        const newEnd = moment(endDate).add(1, 'days').format("YYYY-MM-DD");
         const res = [response];
+        debugger
+        this.start = newStart;
+        this.endDateInView = newEnd;
         this.calendarOptions.events = res.map((data: any) => {
           return  {
-            title:data.dealHeader,
+            title: data.dealHeader,
             start: newStart,
             end: newEnd,
           }
@@ -321,7 +324,9 @@ export class Step5Component implements OnInit, AfterViewInit {
   yesClickTrue() {
     this.yesClick = true;
     if(this.yesClick == true) {
-      this.calendarApi.removeAllEvents();
+      if(this.calendarApi) {
+        this.calendarApi.removeAllEvents();
+      }
       this.data.startDate = '';
       this.data.endDate = '';
       this.modal2.close();
