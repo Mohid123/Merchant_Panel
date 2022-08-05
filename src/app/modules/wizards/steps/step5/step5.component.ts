@@ -9,7 +9,7 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import * as moment from 'moment';
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { MainDeal } from '../../models/main-deal.model';
 import { createEventId } from '../step4/event-utils';
@@ -86,6 +86,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     dayMaxEvents: 3,
     firstDay: 1,
     height: 'auto',
+    displayEventTime: false,
     validRange: {
       start: moment().format('YYYY-MM-DD')
     },
@@ -159,7 +160,7 @@ export class Step5Component implements OnInit, AfterViewInit {
   }
 
   editDealCase() {
-    this.secondReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
+    this.secondReciever = this.connection.getSaveAndNext().pipe(take(1)).subscribe((response: MainDeal) => {
       if(response.startDate) {
         const startDate = new Date(response.startDate);
         const endDate = new Date(response.endDate);
@@ -265,19 +266,20 @@ export class Step5Component implements OnInit, AfterViewInit {
   }
 
   saveDates() {
-    const calendarApi = this.calendarApi.view.calendar;
-    calendarApi.removeAllEvents();
+    debugger
+    this.fullCalendar.getApi().removeAllEvents();
+    debugger
     const startDate = new Date(this.dateForm.get('startDate')?.value?.year, this.dateForm.get('startDate')?.value?.month - 1, this.dateForm.get('startDate')?.value?.day).getTime();
     const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day).getTime();
     this.start = moment(startDate).format("YYYY-MM-DD");
     this.endDateInView = moment(endDate).format("YYYY-MM-DD");
     this.end = moment(endDate).add(1, 'days').format("YYYY-MM-DD");
-    calendarApi.addEvent({
-      id: createEventId(),
+    debugger
+    this.fullCalendar.getApi().addEvent({
       title: this.data.dealHeader,
       start: this.start,
       end: this.end,
-      allDay: this.allDay
+      allDay: this.allDay,
     })
     this.dateForm.reset();
     this.modalService.dismissAll();
