@@ -104,7 +104,6 @@ export class Step2Component implements OnInit, OnDestroy {
       if(response?.vouchers?.length > 0) {
         this.data.vouchers = response.vouchers;
         this.connection.sendData(this.data);
-
       }
     });
 

@@ -23,6 +23,7 @@ export class CreateDealComponent implements OnInit {
   ngOnInit(): void {
     this.connection.sendData(new MainDeal);
     this.receiver = this.connection.getData().subscribe((res: any) => {
+      debugger
       this.data = res;
     })
   }

@@ -742,6 +742,7 @@ export class Step1Component implements OnInit, OnDestroy {
     this.initTable();
     this.dealForm.valueChanges.subscribe((val: MainDeal) => {
       this.updateParentModel(val, this.checkForm());
+      debugger
       this.connection.sendData(val)
     });
   }

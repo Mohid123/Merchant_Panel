@@ -98,6 +98,12 @@ export class Step4Component implements OnInit, OnDestroy {
 
       this.disableBackButton = false;
 
+      this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
+        if(response) {
+          this.data = response;
+        }
+      });
+
       this.secondReciever = this.connection.getSaveAndNext().subscribe((response: any) => {
         if(response) {
           this.newData = response;
@@ -117,12 +123,6 @@ export class Step4Component implements OnInit, OnDestroy {
 
       const current = new Date();
       this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2}
-
-    this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
-      if(response) {
-        this.data = response;
-      }
-    });
   }
 
   ngOnInit() {
@@ -285,8 +285,7 @@ export class Step4Component implements OnInit, OnDestroy {
           }
         });
       }
-      this.updateParentModel(this.newData, true);
-      this.connection.sendData(this.newData);
+      this.updateParentModel(val, true);
     });
     this.unsubscribe.push(formChangesSubscr);
   }
@@ -390,8 +389,22 @@ export class Step4Component implements OnInit, OnDestroy {
         if(!res.hasErrors()) {
           this.connection.isSaving.next(false);
           this.connection.sendSaveAndNext(res.data);
+          // this.connection.sendStep1(res.data)
         }
-      })
+      });
+      this.data.vouchers?.forEach((voucher) => {
+        if (this.form.get('voucherValidity')?.value) {
+          voucher.voucherValidity = this.form.get('voucherValidity')?.value;
+          voucher.voucherStartDate = '';
+          voucher.voucherEndDate = '';
+        } else {
+          voucher.voucherValidity = 0;
+          voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day).getTime();
+          voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
+        }
+      });
+      this.connection.sendData(this.data);
+      this.connection.sendStep1(this.data);
     }
   }
 

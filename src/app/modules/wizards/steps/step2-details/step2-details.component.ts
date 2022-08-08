@@ -42,7 +42,11 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     public connection: ConnectionService,
     private dealService: DealService,
     private common: CommonFunctionsService
-  ) { }
+  ) {
+    this.connection.getData().pipe(takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
+      this.data = response;
+    })
+  }
 
   ngOnInit(): void {
     this.initDealForm();
@@ -67,7 +71,8 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       }
     }
 
-    this.reciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
+
+    this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
       this.id = response?.id;
       if((response.dealStatus == 'Draft' || response.dealStatus == 'Needs attention') && response.id) {
@@ -79,24 +84,12 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
             finePrints: response.finePrints
           })
         }
-      }
-    });
-  }
-
-  editDealData() {
-    this.connection.getStep1().subscribe((res: any) => {
-      if((res.dealStatus == 'Draft' || res.dealStatus == 'Needs attention') && res.id) {
-        this.editID = res.id;
-        if(res.highlights) {
-          this.dealForm.patchValue({
-            highlights: res.highlights,
-            aboutThisDeal: res.aboutThisDeal,
-            readMore: res.readMore,
-            finePrints: res.finePrints
-          })
+        if(response.vouchers.length > 0) {
+          this.data.vouchers = response.vouchers;
+          this.connection.sendData(this.data);
         }
       }
-    })
+    });
   }
 
   get f() {
@@ -132,14 +125,9 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       ],
     })
 
-    this.connection.getData().pipe(takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
-      this.data = response;
-    })
-
     this.dealForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: MainDeal) => {
       this.cf.detectChanges();
       this.updateParentModel(val, true);
-      this.connection.sendData({...this.data,...val})
     });
   }
 
@@ -169,15 +157,26 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       return;
      }
      else {
+      this.data.aboutThisDeal = this.dealForm.get('aboutThisDeal')?.value;
+      this.data.highlights = this.dealForm.get('highlights')?.value;
+      this.data.finePrints = this.dealForm.get('finePrints')?.value;
+      this.data.readMore = this.dealForm.get('readMore')?.value;
+      this.connection.sendData(this.data);
+      this.connection.sendStep1(this.data);
       this.nextClick.emit('');
       this.connection.isSaving.next(true);
       this.newData.pageNumber = 3;
-      const payload = {...this.newData, ...this.dealForm.value};
-      this.connection.sendData(payload);
+      this.newData.aboutThisDeal = this.dealForm.get('aboutThisDeal')?.value;
+      this.newData.highlights = this.dealForm.get('highlights')?.value;
+      this.newData.finePrints = this.dealForm.get('finePrints')?.value;
+      this.newData.readMore = this.dealForm.get('readMore')?.value;
+      debugger
+      const payload = this.newData;
       this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.connection.isSaving.next(false);
           this.connection.sendSaveAndNext(res.data);
+          // this.connection.sendStep1(res.data)
         }
       })
      }
@@ -191,7 +190,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   ngOnDestroy() {
     this.destroy$.complete();
     this.destroy$.unsubscribe();
-    this.reciever.unsubscribe();
+    // this.reciever.unsubscribe();
   }
 
 }

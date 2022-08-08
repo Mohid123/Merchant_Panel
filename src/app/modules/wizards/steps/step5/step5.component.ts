@@ -145,7 +145,6 @@ export class Step5Component implements OnInit, AfterViewInit {
     private common: CommonFunctionsService) {
       this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
         this.data = response;
-        this.images = this.data.mediaUrl;
       })
       this.uploaded = true;
   }
@@ -266,15 +265,12 @@ export class Step5Component implements OnInit, AfterViewInit {
   }
 
   saveDates() {
-    debugger
     this.fullCalendar.getApi().removeAllEvents();
-    debugger
     const startDate = new Date(this.dateForm.get('startDate')?.value?.year, this.dateForm.get('startDate')?.value?.month - 1, this.dateForm.get('startDate')?.value?.day).getTime();
     const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day).getTime();
     this.start = moment(startDate).format("YYYY-MM-DD");
     this.endDateInView = moment(endDate).format("YYYY-MM-DD");
     this.end = moment(endDate).add(1, 'days').format("YYYY-MM-DD");
-    debugger
     this.fullCalendar.getApi().addEvent({
       title: this.data.dealHeader,
       start: this.start,
