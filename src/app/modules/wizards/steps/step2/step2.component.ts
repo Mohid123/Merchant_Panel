@@ -100,11 +100,11 @@ export class Step2Component implements OnInit, OnDestroy {
     this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
       this.id = response?.id;
-      debugger
+
       if(response?.vouchers?.length > 0) {
         this.data.vouchers = response.vouchers;
         this.connection.sendData(this.data);
-        debugger
+
       }
     });
 
@@ -380,7 +380,6 @@ export class Step2Component implements OnInit, OnDestroy {
   async saveSecondDraft() {
     switch (this.saveEditDeal) {
       case true:
-        debugger
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.editData.pageNumber = 2;
@@ -391,7 +390,6 @@ export class Step2Component implements OnInit, OnDestroy {
           voucher.voucherValidity = this.voucherValidity
         })
         return new Promise((resolve, reject) => {
-          debugger
           const payload = this.editData;
           if(payload) {
             return this.dealService.createDeal(payload)
@@ -406,7 +404,6 @@ export class Step2Component implements OnInit, OnDestroy {
           }
         })
       case false:
-        debugger
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.newData.pageNumber = 2;

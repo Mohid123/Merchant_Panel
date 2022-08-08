@@ -71,7 +71,6 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       this.newData = response;
       this.id = response?.id;
       if((response.dealStatus == 'Draft' || response.dealStatus == 'Needs attention') && response.id) {
-        this.editID = response.id;
         if(response.highlights) {
           this.dealForm.patchValue({
             highlights: response.highlights,
@@ -88,12 +87,14 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     this.connection.getStep1().subscribe((res: any) => {
       if((res.dealStatus == 'Draft' || res.dealStatus == 'Needs attention') && res.id) {
         this.editID = res.id;
-        this.dealForm.patchValue({
-          highlights: res.highlights,
-          aboutThisDeal: res.aboutThisDeal,
-          readMore: res.readMore,
-          finePrints: res.finePrints
-        })
+        if(res.highlights) {
+          this.dealForm.patchValue({
+            highlights: res.highlights,
+            aboutThisDeal: res.aboutThisDeal,
+            readMore: res.readMore,
+            finePrints: res.finePrints
+          })
+        }
       }
     })
   }
@@ -177,7 +178,6 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         if(!res.hasErrors()) {
           this.connection.isSaving.next(false);
           this.connection.sendSaveAndNext(res.data);
-          // this.connection.sendStep1(res.data)
         }
       })
      }
