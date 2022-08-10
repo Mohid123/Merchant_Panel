@@ -360,7 +360,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.uploaded = false;
     this.newData.pageNumber = 5;
     debugger
-    this.newData.dealStatus = 'Published';
+    this.newData.dealStatus = 'In review';
     this.newData.startDate = this.start;
     this.newData.endDate = this.endDateInView;
     const payload = this.newData;
