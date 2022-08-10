@@ -15,6 +15,8 @@ import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reus
 import { ModalConfig } from '../../../../@core/models/modal.config';
 import { MainDeal } from '../../models/main-deal.model';
 import { ConnectionService } from '../../services/connection.service';
+import { VideoProcessingService } from '../../services/video-to-img.service';
+import { MediaUpload } from './../../../../@core/models/requests/media-upload.model';
 
 enum CheckBoxType { ONE, TWO, NONE };
 
@@ -83,6 +85,9 @@ export class Step4Component implements OnInit, OnDestroy {
   editIndex: number = -1;
   id: string;
   disableBackButton: boolean;
+  videoFromEdit: any;
+  editUrl: any;
+  multiples: any[];
 
   private unsubscribe: Subscription[] = [];
 
@@ -94,6 +99,7 @@ export class Step4Component implements OnInit, OnDestroy {
     private toast: HotToastService,
     private cf: ChangeDetectorRef,
     private dealService: DealService,
+    private videoService: VideoProcessingService,
     private common: CommonFunctionsService) {
 
       this.disableBackButton = false;
@@ -115,8 +121,37 @@ export class Step4Component implements OnInit, OnDestroy {
             this.ngbStart = { day: newStart.getUTCDate(), month: newStart.getUTCMonth() + 1, year: newStart.getUTCFullYear() }
             this.ngbEnd = { day: newEnd.getUTCDate(), month: newEnd.getUTCMonth() + 1, year: newEnd.getUTCFullYear() }
           }
-          if(response.dealStatus == 'Published') {
-            this.connection.sendData(response);
+          if(response.dealStatus == 'Published' || response.dealStatus == 'Scheduled') {
+            response.mediaUrl.filter((image: MediaUpload) => {
+              if(image.captureFileURL.endsWith('.mp4')) {
+                this.videoFromEdit = image;
+                this.editUrl = image.captureFileURL;
+              }
+              else {
+                this.videoService.getBase64ImageFromUrl(image.captureFileURL)
+                .then((result: any) => {
+                  const resulted = [result]
+                  this.multiples = resulted;
+                })
+                .catch(err => console.log(err))
+                .finally(() => {
+                  const data = {
+                    subCategory: response.subCategory,
+                    dealHeader: response.dealHeader,
+                    subTitle: response.subTitle,
+                    mediaUrl: this.multiples,
+                    vouchers: response.vouchers,
+                    finePrints: response.finePrints,
+                    highlights: response.highlights,
+                    aboutThisDeal: response.aboutThisDeal,
+                    readMore: response.readMore,
+                    deletedCheck: false,
+                    pageNumber: 4
+                  }
+                  this.connection.sendData(data);
+                });
+              }
+            });
             this.disableBackButton = true
           }
         }

@@ -236,7 +236,6 @@ export class Step1Component implements OnInit, OnDestroy {
         deletedCheck: false,
         pageNumber: 1
       }
-      debugger
       this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.firstSaveData = res.data;

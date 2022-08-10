@@ -303,8 +303,6 @@ export class Step5Component implements OnInit, AfterViewInit {
     const newEnd = new Date(end);
     const ngbStart = { day: newStart.getUTCDate(), month: newStart.getUTCMonth() + 1, year: newStart.getUTCFullYear() }
     const ngbEnd = { day: newEnd.getUTCDate(), month: newEnd.getUTCMonth() + 1, year: newEnd.getUTCFullYear() }
-    console.log(ngbStart)
-    console.log(ngbEnd)
     this.modalService.open(this.modal4, {
       centered: true,
       size: 'sm',
@@ -361,9 +359,10 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.connection.disabler = false;
     this.uploaded = false;
     this.newData.pageNumber = 5;
-    this.newData.dealStatus = 'In review';
+    debugger
+    this.newData.dealStatus = 'Published';
     this.newData.startDate = this.start;
-    this.newData.endDate = this.end;
+    this.newData.endDate = this.endDateInView;
     const payload = this.newData;
     this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {

@@ -102,9 +102,9 @@ export class Step2Component implements OnInit, OnDestroy {
       this.id = response?.id;
 
       if(response.vouchers?.length > 0) {
-        debugger
         this.data.vouchers = response.vouchers;
         this.subDeals = this.data.vouchers ? this.data.vouchers : [];
+        this.newData.vouchers = this.data.vouchers ? this.data.vouchers : [];
         if(this.subDeals.length > 0) {
           this.addVoucher = false;
         }
@@ -411,6 +411,7 @@ export class Step2Component implements OnInit, OnDestroy {
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.newData.pageNumber = 2;
+        debugger
         return new Promise((resolve, reject) => {
           const payload = this.newData;
           if(payload) {
@@ -427,7 +428,7 @@ export class Step2Component implements OnInit, OnDestroy {
           }
         })
       }
-    }
+  }
 
   returnToPrevious() {
     this.prevClick.emit('');
