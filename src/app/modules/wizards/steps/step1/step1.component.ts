@@ -88,6 +88,8 @@ export class Step1Component implements OnInit, OnDestroy {
   temporaryVideo: any;
   thumbnail: any;
   id: string;
+  responseID: string;
+  responseVouchers: any[] = [];
   editDealCheck: boolean = false;
   convertedImage: any;
   saveEditDeal: boolean;
@@ -131,6 +133,13 @@ export class Step1Component implements OnInit, OnDestroy {
         this.cf.detectChanges();
       }
     });
+
+    this.connection.getSaveAndNext().subscribe((response: any) => {
+      if(response) {
+        this.responseID = response?.id;
+        this.responseVouchers = response.vouchers;
+      }
+    })
 
     this.config = {
       toolbar: {
@@ -216,21 +225,43 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   firstSave() {
-    const payload: any = {
-      subCategory: this.dealForm.get('subCategory')?.value,
-      dealHeader: this.dealForm.get('dealHeader')?.value,
-      subTitle: this.dealForm.get('subTitle')?.value,
-      mediaUrl: [],
-      id: this.id ? this.id : '',
-      deletedCheck: false,
-      pageNumber: 1
-    }
-    this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
-      if(!res.hasErrors()) {
-        this.firstSaveData = res.data;
-        this.connection.sendSaveAndNext(this.firstSaveData)
+    if(this.saveEditDeal == false) {
+      const payload: any = {
+        subCategory: this.dealForm.get('subCategory')?.value,
+        dealHeader: this.dealForm.get('dealHeader')?.value,
+        subTitle: this.dealForm.get('subTitle')?.value,
+        mediaUrl: [],
+        id: this.responseID ? this.responseID : '',
+        vouchers: this.responseVouchers ? this.responseVouchers : [],
+        deletedCheck: false,
+        pageNumber: 1
       }
-    })
+      debugger
+      this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.firstSaveData = res.data;
+          this.connection.sendSaveAndNext(this.firstSaveData)
+        }
+      })
+    }
+    else {
+      const payload: any = {
+        subCategory: this.dealForm.get('subCategory')?.value,
+        dealHeader: this.dealForm.get('dealHeader')?.value,
+        subTitle: this.dealForm.get('subTitle')?.value,
+        mediaUrl: [],
+        id: this.id ? this.id : '',
+        vouchers: this.responseVouchers ? this.responseVouchers : [],
+        deletedCheck: false,
+        pageNumber: 1
+      }
+      this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.firstSaveData = res.data;
+          this.connection.sendSaveAndNext(this.firstSaveData)
+        }
+      })
+    }
   }
 
   async saveDraftOne() {
@@ -291,7 +322,7 @@ export class Step1Component implements OnInit, OnDestroy {
                 //         forkJoin(
                 //           this.mediaService.uploadMedia('deal', result)
                 //         ).subscribe(response => {
-                //           debugger
+                //
                 //           this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
                 //             return {
                 //               type: 'Video',
@@ -303,9 +334,9 @@ export class Step1Component implements OnInit, OnDestroy {
                 //               backgroundColorHex: ''
                 //             }
                 //           }));
-                //           debugger
+                //
                 //           this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
-                //             debugger
+                //
                 //             console.log('After Subscription: ', res)
                 //           })
                 //         })
@@ -373,7 +404,7 @@ export class Step1Component implements OnInit, OnDestroy {
                 //         forkJoin(
                 //           this.mediaService.uploadMedia('deal', result)
                 //         ).subscribe(response => {
-                //           debugger
+                //
                 //           this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
                 //             return {
                 //               type: 'Video',
@@ -386,7 +417,7 @@ export class Step1Component implements OnInit, OnDestroy {
                 //             }
                 //           }));
                 //           this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
-                //             debugger
+                //
                 //             console.log('After Subscription: ', res)
                 //           })
                 //         })
@@ -399,6 +430,7 @@ export class Step1Component implements OnInit, OnDestroy {
                 if(!res.hasErrors()) {
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
+                  debugger
                   this.connection.sendSaveAndNext(res.data);
                   resolve('success')
                 }

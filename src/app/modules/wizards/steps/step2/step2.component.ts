@@ -91,7 +91,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;
-      this.subDeals = this.data.vouchers ? this.data.vouchers  : [];
+      // this.subDeals = this.data.vouchers ? this.data.vouchers : [];
       if(this.subDeals.length > 0) {
         this.addVoucher = false;
       }
@@ -101,8 +101,13 @@ export class Step2Component implements OnInit, OnDestroy {
       this.newData = response;
       this.id = response?.id;
 
-      if(response?.vouchers?.length > 0) {
+      if(response.vouchers?.length > 0) {
+        debugger
         this.data.vouchers = response.vouchers;
+        this.subDeals = this.data.vouchers ? this.data.vouchers : [];
+        if(this.subDeals.length > 0) {
+          this.addVoucher = false;
+        }
         this.connection.sendData(this.data);
       }
     });
