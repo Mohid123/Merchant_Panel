@@ -107,6 +107,7 @@ export class Step4Component implements OnInit, OnDestroy {
       this.secondReciever = this.connection.getSaveAndNext().subscribe((response: any) => {
         if(response) {
           this.newData = response;
+          this.connection.sendData(response);
           this.id = response?.id;
           const isObject  = typeof response.vouchers[0]?.voucherStartDate
           if(response.vouchers[0].voucherStartDate && isObject != "object") {
@@ -188,8 +189,6 @@ export class Step4Component implements OnInit, OnDestroy {
     }
     this.currentlyChecked = targetType;
   }
-
-
 
   disableCheckBox() {
     if(this.currentlyChecked == this.check_box_type.ONE) {
