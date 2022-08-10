@@ -274,7 +274,8 @@
             <div class="h-90px fv-row 2xl:h-26 province">
               <label class="w-full mb-1 text-sm text-gray-400 font-extralight form-label">City</label>
                 <ng-container *ngIf="cities.length > 0">
-                  <app-drop-down [options]="cities" [title]="'Select City'" formControlName="city"></app-drop-down>
+                  <app-drop-down *ngIf="cities.length == 1" [options]="cities[0]" [title]="cities[0]"></app-drop-down>
+                  <app-drop-down *ngIf="cities.length > 1" [options]="cities" [title]="'Select City'" formControlName="city"></app-drop-down>
                 </ng-container>
                 <ng-container *ngIf="cities.length == 0">
                   <input class="form-control form-control-lg form-control-solid" disabled>

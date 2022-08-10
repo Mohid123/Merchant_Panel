@@ -255,6 +255,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             this.cities = res.data.filter(city => city.city).map((cityName) => {
               return cityName.city
             })
+            if(this.cities.length == 1) {
+              this.registrationForm.controls['city']?.setValue(this.cities[0]);
+            }
             this.cf.detectChanges();
           }
           else if(res.data.length == 0) {

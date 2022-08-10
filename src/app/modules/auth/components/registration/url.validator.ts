@@ -5,7 +5,7 @@ export function UrlValidator(controlName: string){
       const http = 'http';
       const https = 'https';
       const www = 'www';
-      const pattern = '[a-z]+\\.[a-z]{2,4}$';
+      const pattern = '[a-z]+\\.[a-z]{6,30}.[a-z]{2,20}$';
       const control = formGroup.controls[controlName];
       if (control.errors && !control.errors['invalidUrl']) {
         return;
