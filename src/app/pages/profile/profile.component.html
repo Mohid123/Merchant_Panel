@@ -340,26 +340,26 @@
               </td>
             <td class="time">
               <div>
-                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker1" class="form-control" placeholder="First Start Time" formControlName="firstStartTime" />
+                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker1" class="form-control" placeholder="First start" formControlName="firstStartTime" />
                 <ngx-material-timepicker #picker1></ngx-material-timepicker>
               </div>
-              <span>-</span>
+              <span>&#8212;</span>
               <div>
-                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker2" class="form-control" placeholder="First End Time" formControlName="firstEndTime" />
+                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker2" class="form-control" placeholder="First end" formControlName="firstEndTime" />
                 <ngx-material-timepicker #picker2></ngx-material-timepicker>
               </div>
             </td>
             <td class="until">
-              <span class="flex items-center justify-center text-center">And</span>
+              <span class="flex items-center justify-center text-center">and</span>
             </td>
             <td class="pr-10 time">
               <div>
-                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker3" class="form-control" placeholder="Second Start Time" formControlName="secondStartTime" />
+                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker3" class="form-control" placeholder="Last start" formControlName="secondStartTime" />
                 <ngx-material-timepicker [format]="24"  #picker3></ngx-material-timepicker>
               </div>
-              <span>-</span>
+              <span>&#8212;</span>
               <div>
-                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker4" class="form-control" placeholder="Second End Time" formControlName="secondEndTime" />
+                <input readonly [disabled]="!formControls.value.isWorkingDay || !isEditBusinessHours" [format]="24" [ngxTimepicker]="picker4" class="form-control" placeholder="Last end" formControlName="secondEndTime" />
                 <ngx-material-timepicker #picker4></ngx-material-timepicker>
               </div>
             </td>

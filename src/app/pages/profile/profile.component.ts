@@ -374,14 +374,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   saveBusinessHours(){
-    if(this.termsForm.value.aboutUs == '' || this.termsForm.value.finePrint == '') {
+    if(this.termsForm.value.aboutUs == '' || this.termsForm.value.finePrint == '' || !this.validateBusinessHours()) {
       return;
     }
-
     if(this.validateBusinessHours()) {
+      debugger
       this.isLoading$.next(true);
       this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
-        // console.log('asdsad:',res);
         if(!res.hasErrors()) {
           return this.userService.getUser();
         } else {
@@ -390,19 +389,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
       })).subscribe((res:any) => {
         this.isLoading$.next(false);
         this.isEditBusinessHours = false;
-      },(error=> {
+      },(error => {
         this.isLoading$.next(false);
         this.toast.error('error');
         this.isEditBusinessHours = false;
       }));
-  } else {
-    this.toast.warning('Enter business hours')
-  }
+  // } else {
+  //   this.toast.warning('Enter business hours')
+    }
   }
 
   saveTerms() {
-    if(this.termsForm.value.aboutUs == '' || this.termsForm.value.finePrint == '') {
-      this.toast.error('Please fill in all fields');
+    if(this.termsForm.value.aboutUs == '' || this.termsForm.value.finePrint == '' || !this.validateBusinessHours()) {
+      this.toast.warning('Please fill in all fields');
       return;
     }
     else {
@@ -434,7 +433,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           businessHours.firstEndTime.length &&
           businessHours.secondStartTime.length &&
           businessHours.secondEndTime.length)){
-            console.log('valid day:',businessHours.day);
+            console.log('valid day:', businessHours.day);
           }
           else {
             valid = false;

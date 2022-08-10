@@ -220,7 +220,7 @@ h3 {
 }
 
 .time {
-  @apply flex w-60 justify-between items-center px-5;
+  @apply flex w-80 justify-between items-center px-5;
 
   div {
     input {
@@ -515,6 +515,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     }
   }
 
+  hr {
+    border: none;
+    color: black;
+    height: 1px;
+    width: 50%;
+  }
+
   .shope-status {
     display: none;
     position:absolute;
@@ -540,7 +547,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   }
 
   .time {
-    @apply flex w-60 justify-between items-center px-5;
+    @apply flex w-80 justify-between items-center px-5;
 
     div {
       input {
