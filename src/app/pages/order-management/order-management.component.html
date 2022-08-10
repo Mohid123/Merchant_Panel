@@ -1,3 +1,4 @@
+<span class="font-bold" style="font-size: 24px;">Vouchers</span>
 <div class="flex flex-col justify-center mt-4 lg:flex-row lg:justify-between">
   <ng-container *ngIf="statsLoading == false">
     <app-pending-skeleton></app-pending-skeleton>
@@ -55,7 +56,7 @@
             [isFilterApplied]="appliedFilterID">
           </app-filters>
         </th>
-        <th class="w-48 pr-4 font-semibold cursor-pointer">Deal header&nbsp;
+        <th class="w-48 pr-4 font-semibold cursor-pointer">Deal&nbsp;
           <app-filters
             (sortHeader)="sortByTitle($event)"
             (sendFilter)="filterSelectedDealByHeader($event)"
@@ -69,7 +70,7 @@
             [isFilterApplied]="appliedFilterHeader">
           </app-filters>
         </th>
-        <th class="pr-4 font-semibold cursor-pointer w-60">Voucher header&nbsp;
+        <th class="pr-4 font-semibold cursor-pointer w-60">Voucher&nbsp;
           <app-filters
             (sortHeader)="sortByVoucherName($event)"
             [sort]="true"

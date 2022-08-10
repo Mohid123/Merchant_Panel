@@ -2,8 +2,8 @@
 
 <!-- <app-profile-slider [activePane]="isLeftVisible ? 'left' : 'right'"> -->
   <div class="card" *ngIf="isLeftVisible == true">
-    <span class="business-header">My DiviDeals profile</span>
-    <span class="secondary-title">How do you want to appear in our DiviDeals?</span>
+    <span class="business-header">My profile</span>
+    <span class="secondary-title">How do you want to appear?</span>
 
     <div class="flex justify-end central">
       <button [ngClass]="isEditBusinessHours ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" type="button" class="edit-button" [disabled]="isEditBusinessHours" (click)="isLeftVisible = false;">Edit</button>
@@ -95,8 +95,8 @@
   </div>
 
   <div class="card card-right" *ngIf="isLeftVisible == false">
-    <span class="business-header">My DiviDeals profile</span>
-    <span class="secondary-title">How do you want to appear in our DiviDeals?</span>
+    <span class="business-header">My profile</span>
+    <span class="secondary-title">How do you want to appear?</span>
 
     <div class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
       <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
@@ -272,7 +272,7 @@
                   </div>
                 </ng-container>
                 <div class="image-input image-input-outline image-upload">
-                  <div class="object-cover small-image image-input-wrapper ml-1">
+                  <div class="object-cover ml-1 small-image image-input-wrapper">
                     <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
                       <span class="absolute top-0 flex items-center justify-center w-20 h-20"><img class="object-contain w-14 h-14" src="../../../assets/media/logos/active.svg"></span>
                       <input class="absolute top-0 w-20 h-20 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event); onClick($event)" multiple>

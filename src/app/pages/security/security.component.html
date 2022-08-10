@@ -56,6 +56,10 @@
                 </div>
                 <div *ngIf="passForm.controls['password']?.valid" class="mt-2 text-sm text-left text-success">Password is valid</div>
               </ng-template>
+              <div class="text-xs text-danger"
+                *ngIf="passForm.controls['password']?.errors?.['confirmedValidator']">
+                The Passwords do not match
+              </div>
           </div>
         </td>
       </tr>
@@ -97,7 +101,7 @@
     <img class="my-img" src="../../../assets/media/logos/Line-dash.svg">
   </div>
 
-  <table class="pb-3 datatable-table">
+  <table class="pb-3 datatable-table" [formGroup]="pinCodeForm">
     <tbody class="w-full datatable-body form-group">
       <tr>
         <td class="pb-4">
@@ -107,12 +111,19 @@
           <div class="flex justify-start input-group-prepend">
             <span class="absolute flex items-center mt-3 ml-64 cursor-pointer" (click)="showPin()"><i [ngClass]="pinHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-gray-200 rounded far fa-eye fa-xs"></i></span>
             <input
-              disabled
+              formControlName="pinCode"
               class="form-control pr-14"
               type="{{pinHide ? 'password' : 'text'}}"
               [value]="user.voucherPinCode">
            </div>
         </td>
+        <div *ngIf="editPin == true" class="flex px-8 justify-evenly">
+          <button style="background-color: #EBF5FD; color: #0081E9;" (click)="editPinCode()" type="button" class="text-sm rounded-md w-18 h-9">Edit</button>
+        </div>
+        <div *ngIf="editPin == false" class="flex px-8 justify-evenly">
+          <button (click)="discard()" type="button" class="text-sm text-white bg-gray-400 rounded-md w-18 h-9">Discard</button>
+          <button type="submit" class="text-sm text-white bg-blue-400 rounded-md w-18 h-9">Save</button>
+        </div>
       </tr>
     </tbody>
   </table>

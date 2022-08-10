@@ -95,10 +95,11 @@ a[aria-label='Next'] {
 }
 
 #borderBottom {
-  border-bottom: dotted 2px #F3F3F3;
+  border-bottom: dotted 2px #c0c0c0;
   position: absolute;
   left: 4%;
   width: 90%;
+  opacity: 0.2;
 }
 
 #borderBottomMain {

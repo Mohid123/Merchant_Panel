@@ -359,7 +359,6 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.connection.disabler = false;
     this.uploaded = false;
     this.newData.pageNumber = 5;
-    debugger
     this.newData.dealStatus = 'In review';
     this.newData.startDate = this.start;
     this.newData.endDate = this.endDateInView;

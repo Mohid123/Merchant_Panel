@@ -1,3 +1,4 @@
+<span class="font-bold" style="font-size: 24px;">Invoices</span>
 <div class="flex flex-col justify-center mt-4 xl:flex-row xl:justify-between">
   <ng-container *ngIf="statsLoading == false">
     <app-pending-skeleton></app-pending-skeleton>
@@ -157,18 +158,10 @@
           control: kycForm.controls['iban']
         }">
       </ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'IBAN number should at least be 15 characters',
-          control: kycForm.controls['iban']
-        }">
-      </ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'IBAN number cannot exceed 35 characters',
-          control: kycForm.controls['iban']
-        }">
-      </ng-container>
+      </div>
+      <div class="w-84 h-22">
+        <label class="form-label">BIC/Swift code (optional)</label>
+          <input maxlength="35" formControlName="swiftCode" name="swiftCode" type="text" class="form-control">
        </div>
        <div class="w-84 h-22 fv-row">
         <label class="form-label">Account holder</label>

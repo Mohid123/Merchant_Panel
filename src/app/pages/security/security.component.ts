@@ -27,6 +27,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   passForm: FormGroup;
   user: User;
+  editPin: boolean = false;
+  pinCodeForm: FormGroup;
+  pinCodeValue: any;
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +37,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private toast: HotToastService,
     private userService: UserService) {
+      this.editPin = true;
       const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
@@ -41,11 +45,37 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
       this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
         this.user = user;
+        this.pinCodeValue = user.voucherPinCode
      });
     }
 
   ngOnInit(): void {
     this.initPassForm();
+    this.initPinCodeForm();
+  }
+
+  initPinCodeForm() {
+    this.pinCodeForm = this.fb.group({
+      pinCode: [{value: this.pinCodeValue, disabled: this.editPin}]
+    })
+  }
+
+  editPinCode() {
+    this.editPin = false;
+    this.pinCodeForm.get('pinCode')?.enable();
+  }
+
+  discard() {
+    this.editPin = true;
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.user = user;
+      if(user)
+      this.pinCodeForm.patchValue({
+        pinCode: user.voucherPinCode
+      });
+      this.pinCodeValue = user.voucherPinCode;
+      this.pinCodeForm.get('pinCode')?.disable();
+   });
   }
 
   initPassForm() {

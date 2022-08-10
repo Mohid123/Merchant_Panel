@@ -106,9 +106,12 @@ export class BillingsComponent implements OnInit, OnDestroy {
         '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(15),
-          Validators.maxLength(35)
+          // Validators.minLength(15),
+          // Validators.maxLength(35)
         ])
+      ],
+      swiftCode: [
+        ''
       ],
       accountHolder: [
         '',
@@ -135,6 +138,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
     const payload: KYC = {
       iban: this.kycForm.value.iban,
       bankName: this.kycForm.value.bankName,
+      swiftCode: this.kycForm.value.swiftCode
       // vatNumber: this.kycForm.value.vatNumber
     }
     this.billingService.completeKYC(this.authService.currentUserValue?.id, payload)
@@ -297,12 +301,10 @@ export class BillingsComponent implements OnInit, OnDestroy {
   }
 
   filterByDate(startDate: number, endDate: number) {
-    debugger
     this.offset = 0;
     this.fromDate = startDate;
     this.toDate = endDate;
     this.dateAppliedFilter = true;
-    debugger
     this.getInvoicesByMerchant();
   }
 
