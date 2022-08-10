@@ -107,7 +107,6 @@ export class Step4Component implements OnInit, OnDestroy {
       this.secondReciever = this.connection.getSaveAndNext().subscribe((response: any) => {
         if(response) {
           this.newData = response;
-          this.connection.sendData(response);
           this.id = response?.id;
           const isObject  = typeof response.vouchers[0]?.voucherStartDate
           if(response.vouchers[0].voucherStartDate && isObject != "object") {
@@ -117,6 +116,7 @@ export class Step4Component implements OnInit, OnDestroy {
             this.ngbEnd = { day: newEnd.getUTCDate(), month: newEnd.getUTCMonth() + 1, year: newEnd.getUTCFullYear() }
           }
           if(response.dealStatus == 'Published') {
+            this.connection.sendData(response);
             this.disableBackButton = true
           }
         }
