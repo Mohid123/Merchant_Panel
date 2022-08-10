@@ -88,6 +88,7 @@ export class Step4Component implements OnInit, OnDestroy {
   videoFromEdit: any;
   editUrl: any;
   multiples: any[];
+  dealStatus: string;
 
   private unsubscribe: Subscription[] = [];
 
@@ -113,11 +114,14 @@ export class Step4Component implements OnInit, OnDestroy {
       this.secondReciever = this.connection.getSaveAndNext().subscribe((response: any) => {
         if(response) {
           this.newData = response;
+          this.dealStatus = response.dealStatus;
           this.id = response?.id;
           const isObject  = typeof response.vouchers[0]?.voucherStartDate
           if(response.vouchers[0].voucherStartDate && isObject != "object") {
             const newStart = new Date(response?.vouchers[0]?.voucherStartDate);
             const newEnd = new Date(response?.vouchers[0]?.voucherEndDate);
+            newStart.setDate(newStart.getDate() + 1);
+            newEnd.setDate(newEnd.getDate() + 1);
             this.ngbStart = { day: newStart.getUTCDate(), month: newStart.getUTCMonth() + 1, year: newStart.getUTCFullYear() }
             this.ngbEnd = { day: newEnd.getUTCDate(), month: newEnd.getUTCMonth() + 1, year: newEnd.getUTCFullYear() }
           }
@@ -165,6 +169,10 @@ export class Step4Component implements OnInit, OnDestroy {
     this.initDateForm();
     this.initPolicyForm();
     this.updateParentModel({}, true);
+
+    if(this.dealStatus == 'Published') {
+      this.form.get('voucherStartDate')?.disable();
+    }
 
     if(this.ngbStart) {
       this.form.get('voucherStartDate')?.setValue(this.ngbStart);

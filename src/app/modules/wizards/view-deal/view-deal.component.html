@@ -80,7 +80,7 @@
               <td class="py-4 text-left pl-14" [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''">{{event.dealID}}</td>
               <td [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''" class="p-4 text-left">{{(event.dealHeader.length > 22) ? ((event.dealHeader) | slice:0:22)+'...':(event.dealHeader)}}</td>
               <td [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''" class="p-4 text-left">{{event.dealStatus}}</td>
-              <td [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''" class="p-4">{{event.soldVouchers}}</td>
+              <td [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''" class="p-4 text-center">{{event.soldVouchers}}</td>
               <td [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''" class="p-4 text-center">{{event.netEarnings}} &euro;</td>
               <td class="flex justify-center py-4 pr-8">
                 <div style="all: unset" ngbDropdown placement="bottom">

@@ -3,10 +3,10 @@
 <!-- <app-slider [activePane]="isLeftVisible ? 'left' : 'right'"> -->
   <div class="card" *ngIf="isLeftVisible == true">
 
-    <span class="business-header">My business details</span>
+    <span class="business-header">Business details</span>
 
     <div class="flex justify-between central">
-      <span class="contact-details">My contact details</span>
+      <span class="contact-details">Contact details</span>
       <button [ngClass]="secondLeftVisible == false ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" type="button" class="edit-button" [disabled]="secondLeftVisible == false" (click)="isLeftVisible = false;">Edit</button>
     </div>
 
@@ -56,9 +56,9 @@
   </div>
 
   <div class="card card-right" *ngIf="isLeftVisible == false">
-    <span class="business-header">My business details</span>
+    <span class="business-header">Business details</span>
     <div class="flex justify-between central">
-      <span class="contact-details">My contact details</span>
+      <span class="contact-details">Contact details</span>
       <div class="flex justify-end pr-20 mt-6">
         <button type="button" class="discard-button" (click)="discardUpper()">Discard</button>
         <button [ngClass]="businessForm.invalid ? 'opacity-50': 'opacity-100'" type="submit" class="save-button" (click)="editForm()" [disabled]="businessForm.invalid">Save</button>
@@ -157,7 +157,7 @@
 <!-- <app-slider [activePane]="secondLeftVisible ? 'left' : 'right'"> -->
   <div class="card card-upper" *ngIf="secondLeftVisible == true">
     <div class="flex justify-between central">
-      <span class="contact-details">My company details</span>
+      <span class="contact-details">Company details</span>
       <button [ngClass]="isLeftVisible == false ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" type="button" class="edit-button" [disabled]="isLeftVisible == false" (click)="secondLeftVisible = false;">Edit</button>
     </div>
     <div class="flex justify-center mt-12">
@@ -224,7 +224,7 @@
 
   <div class="card card-right-lower" *ngIf="secondLeftVisible == false">
     <div class="flex justify-between central">
-      <span class="contact-details">My company details</span>
+      <span class="contact-details">Company details</span>
       <div class="flex justify-end pr-20 mt-6">
         <button type="button" class="discard-button" (click)="discardLower()">Discard</button>
         <button [ngClass]="companyForm.invalid ? 'opacity-50': 'opacity-100'" type="submit" class="save-button" (click)="editCompanyForm()" [disabled]="companyForm.invalid">Save</button>
