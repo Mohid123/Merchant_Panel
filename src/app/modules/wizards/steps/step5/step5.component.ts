@@ -178,7 +178,7 @@ export class Step5Component implements OnInit, AfterViewInit {
         this.connection.isEditMode = true;
       }
       this.newData = response;
-      this.id = response.id
+      this.id = response.id;
     })
   }
 
@@ -217,6 +217,7 @@ export class Step5Component implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.fullCalendar.getApi().render();
+    this.fullCalendar.getApi().gotoDate(this.start)
   }
 
   initSelectDateForm() {
@@ -277,6 +278,7 @@ export class Step5Component implements OnInit, AfterViewInit {
       end: this.end,
       allDay: this.allDay,
     });
+    debugger
     this.fullCalendar.getApi().gotoDate(this.start)
     this.dateForm.reset();
     this.modalService.dismissAll();
@@ -312,8 +314,8 @@ export class Step5Component implements OnInit, AfterViewInit {
       modalDialogClass: 'small-popup'
     })
     this.cf.detectChanges()
-    this.dateForm.get('startDate')?.setValue(ngbStart)
-    this.dateForm.get('endDate')?.setValue(ngbEnd)
+    this.dateForm.get('startDate')?.setValue(ngbStart);
+    this.dateForm.get('endDate')?.setValue(ngbEnd);
   }
 
   yesClickTrue() {

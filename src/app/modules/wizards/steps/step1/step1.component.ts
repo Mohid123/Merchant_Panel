@@ -9,7 +9,7 @@ import { DealService } from '@core/services/deal.service';
 import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { forkJoin, Observable, of, Subject, Subscription } from 'rxjs';
-import { map, mergeMap, take } from 'rxjs/operators';
+import { map, mergeMap, take, takeUntil } from 'rxjs/operators';
 import { VideoProcessingService } from '../../services/video-to-img.service';
 import { MediaUpload } from './../../../../@core/models/requests/media-upload.model';
 import { CategoryDetail, SubCategory } from './../../../auth/models/categories-detail.model';
@@ -96,6 +96,8 @@ export class Step1Component implements OnInit, OnDestroy {
   firstSaveData: MainDeal;
   filteredMedia: any;
   showImageSkeleton: boolean = false;
+  editMedia: MediaUpload[];
+  inCaseNoEditData: MainDeal;
 
   constructor(
     private fb: FormBuilder,
@@ -169,6 +171,7 @@ export class Step1Component implements OnInit, OnDestroy {
     .subscribe((res: any) => {
       if((res.dealStatus == 'Draft' || res.dealStatus == 'Needs attention') && res.id) {
         this.showImageSkeleton = true;
+        this.inCaseNoEditData = res;
         this.id = res.id;
         this.editDealCheck = true;
         this.saveEditDeal = true;
@@ -180,18 +183,14 @@ export class Step1Component implements OnInit, OnDestroy {
           deletedCheck: false
         });
         this.cf.detectChanges();
-        debugger
+        this.editMedia = res.mediaUrl;
+
         res.mediaUrl.filter((image: MediaUpload) => {
-          debugger
+
           if(image.captureFileURL.endsWith('.mp4')) {
             this.videoFromEdit = image;
             this.editUrl = image.captureFileURL;
-            // console.log(this.videoFromEdit)
             this.cf.detectChanges();
-            // this.videoService.convertUrlToFile(this.editUrl).then((result) => {
-            //   this.media.push(result);
-            // })
-            // .catch(err => console.log(err));
           }
           else {
             this.videoService.getBase64ImageFromUrl(image.captureFileURL)
@@ -206,14 +205,13 @@ export class Step1Component implements OnInit, OnDestroy {
             })
             .catch(err => console.log(err));
 
-            this.videoService.convertUrlToFile(image.captureFileURL).then((result) => {
-              this.media.push(result);
-            })
-            .catch(err => console.log(err));
+            // this.videoService.convertUrlToFile(image.captureFileURL).then((result) => {
+            //   this.media.push(result);
+            // })
+            // .catch(err => console.log(err));
           }
         });
         this.categoryEdit = res.subCategory;
-        // must remove video before uploading and also convert date timestamps to ngbDateStruct objects
         this.cf.detectChanges();
       }
     })
@@ -233,12 +231,13 @@ export class Step1Component implements OnInit, OnDestroy {
         subCategory: this.dealForm.get('subCategory')?.value,
         dealHeader: this.dealForm.get('dealHeader')?.value,
         subTitle: this.dealForm.get('subTitle')?.value,
-        mediaUrl: [],
+        mediaUrl: this.editMedia ? this.editMedia : [],
         id: this.responseID ? this.responseID : '',
         vouchers: this.responseVouchers ? this.responseVouchers : [],
         deletedCheck: false,
         pageNumber: 1
       }
+
       this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.firstSaveData = res.data;
@@ -251,12 +250,13 @@ export class Step1Component implements OnInit, OnDestroy {
         subCategory: this.dealForm.get('subCategory')?.value,
         dealHeader: this.dealForm.get('dealHeader')?.value,
         subTitle: this.dealForm.get('subTitle')?.value,
-        mediaUrl: [],
+        mediaUrl: this.editMedia ? this.editMedia : [],
         id: this.id ? this.id : '',
         vouchers: this.responseVouchers ? this.responseVouchers : [],
         deletedCheck: false,
         pageNumber: 1
       }
+
       this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.firstSaveData = res.data;
@@ -280,12 +280,30 @@ export class Step1Component implements OnInit, OnDestroy {
           this.firstSave();
           return new Promise((resolve, reject) => {
             const mediaUpload: Array<Observable<any>> = [];
+            if(this.media.length == 0) {
+              this.inCaseNoEditData.subCategory = this.dealForm.get('subCategory')?.value;
+              this.inCaseNoEditData.dealHeader = this.dealForm.get('dealHeader')?.value;
+              this.inCaseNoEditData.subTitle = this.dealForm.get('subTitle')?.value;
+              debugger
+              return this.dealService.createDeal(this.inCaseNoEditData)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe((res: ApiResponse<any>) => {
+                if(!res.hasErrors()) {
+                  this.connection.isSavingNextData(false);
+                  this.cf.detectChanges();
+                  this.connection.sendSaveAndNext(res.data);
+                  console.log(res.data);
+                  resolve('success')
+                }
+              })
+            }
             if(this.media.length > 0) {
               this.media.forEach((file: any) => {
                 mediaUpload.push(this.mediaService.uploadMedia('deal', file));
               });
             }
-            forkJoin(mediaUpload)
+            if(mediaUpload.length > 0) {
+              forkJoin(mediaUpload)
               .pipe(
                 mergeMap((mainResponse:any) => {
                 const images = mainResponse.filter((res: any) => {
@@ -293,13 +311,8 @@ export class Step1Component implements OnInit, OnDestroy {
                     return res.data
                   }
                 });
-                // const videos = mainResponse.filter((res: any) => {
-                //   if(res.data.url.endsWith('mp4')) {
-                //     return res.data
-                //   }
-                // });
                 if(images.length > 0) {
-                  this.firstSaveData.mediaUrl = images.map((image: any) => {
+                  const media = images.map((image: any) => {
                     return {
                       type: 'Image',
                       captureFileURL: image.data.url,
@@ -310,42 +323,18 @@ export class Step1Component implements OnInit, OnDestroy {
                       backgroundColorHex: ''
                     }
                   });
+
+                  this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, ...media]
                   if(this.videoUrls.length > 0) {
-                    this.firstSaveData.mediaUrl.push(...this.videoUrls)
+
+                    this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, ...this.videoUrls]
                   }
                   else if(this.videoFromEdit) {
-                    this.firstSaveData.mediaUrl.push(this.videoFromEdit)
+
+                    this.firstSaveData.mediaUrl.shift();
+                    this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, this.videoFromEdit]
                   }
                 }
-                // if(videos.length > 0) {
-                //   videos.forEach((video: any) => {
-                //     this.videoService.convertUrlToFile(video.data.url).then((result) => {
-                //       this.videoService.generateThumbnail(result, 'any-image').then(result => {
-                //         forkJoin(
-                //           this.mediaService.uploadMedia('deal', result)
-                //         ).subscribe(response => {
-                //
-                //           this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
-                //             return {
-                //               type: 'Video',
-                //               captureFileURL: video.data.url,
-                //               path: video.data.path,
-                //               thumbnailURL: response[0].data.url,
-                //               thumbnailPath: response[0].data.path,
-                //               blurHash: '',
-                //               backgroundColorHex: ''
-                //             }
-                //           }));
-                //
-                //           this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
-                //
-                //             console.log('After Subscription: ', res)
-                //           })
-                //         })
-                //       })
-                //     })
-                //   })
-                // }
                 return this.dealService.createDeal(this.firstSaveData);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
@@ -354,7 +343,26 @@ export class Step1Component implements OnInit, OnDestroy {
                   this.connection.sendSaveAndNext(res.data);
                   resolve('success')
                 }
-            })
+              })
+            }
+            else {
+              if(this.videoUrls.length > 0) {
+                this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, ...this.videoUrls]
+              }
+              else if(this.videoFromEdit) {
+                this.firstSaveData.mediaUrl.shift();
+                this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, this.videoFromEdit]
+              }
+              return this.dealService.createDeal(this.firstSaveData).subscribe((res: ApiResponse<any>) => {
+                if(!res.hasErrors()) {
+                  this.connection.isSavingNextData(false);
+                  this.cf.detectChanges();
+                  this.connection.sendSaveAndNext(res.data);
+
+                  resolve('success')
+                }
+              });
+            }
           });
         case false:
           this.nextClick.emit('');
@@ -375,12 +383,8 @@ export class Step1Component implements OnInit, OnDestroy {
                     return res.data
                   }
                 });
-                // const videos = mainResponse.filter((res: any) => {
-                //   if(res.data.url.endsWith('mp4')) {
-                //     return res.data
-                //   }
-                // });
                 if(images.length > 0) {
+
                   this.firstSaveData.mediaUrl = images.map((image: any) => {
                     return {
                       type: 'Image',
@@ -393,46 +397,18 @@ export class Step1Component implements OnInit, OnDestroy {
                     }
                   });
                   if(this.videoUrls.length > 0) {
-                    this.firstSaveData.mediaUrl.push(...this.videoUrls)
+                    this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, ...this.videoUrls]
                   }
                   else if(this.videoFromEdit) {
-                    this.firstSaveData.mediaUrl.push(this.videoFromEdit)
+                    this.firstSaveData.mediaUrl.shift();
+                    this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, this.videoFromEdit]
                   }
                 }
-                // if(videos.length > 0) {
-                //   videos.forEach((video: any) => {
-                //     this.videoService.convertUrlToFile(video.data.url).then((result) => {
-                //       this.videoService.generateThumbnail(result, 'any-image').then(result => {
-                //         forkJoin(
-                //           this.mediaService.uploadMedia('deal', result)
-                //         ).subscribe(response => {
-                //
-                //           this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
-                //             return {
-                //               type: 'Video',
-                //               captureFileURL: video.data.url,
-                //               path: video.data.path,
-                //               thumbnailURL: response[0].data.url,
-                //               thumbnailPath: response[0].data.path,
-                //               blurHash: '',
-                //               backgroundColorHex: ''
-                //             }
-                //           }));
-                //           this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
-                //
-                //             console.log('After Subscription: ', res)
-                //           })
-                //         })
-                //       })
-                //     })
-                //   })
-                // }
                 return this.dealService.createDeal(this.firstSaveData);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
-                  debugger
                   this.connection.sendSaveAndNext(res.data);
                   resolve('success')
                 }
@@ -592,7 +568,9 @@ export class Step1Component implements OnInit, OnDestroy {
                     backgroundColorHex: ''
                   }
                 })
-                console.log(this.videoUrls)
+                if(this.saveEditDeal == true) {
+                  this.firstSave();
+                }
               })
             })
           })
@@ -629,6 +607,7 @@ export class Step1Component implements OnInit, OnDestroy {
     this.url = '';
     this.editUrl = '';
     this.urls.splice(0, 1);
+    this.videoFromEdit = '';
     this.loadingVideo = false;
     this.cf.detectChanges();
     this.dealForm.controls['mediaUrl'].setValue(this.urls);
@@ -776,7 +755,7 @@ export class Step1Component implements OnInit, OnDestroy {
     this.initTable();
     this.dealForm.valueChanges.subscribe((val: MainDeal) => {
       this.updateParentModel(val, this.checkForm());
-      debugger
+
       this.connection.sendData(val)
     });
   }
@@ -806,3 +785,41 @@ export class Step1Component implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 }
+
+// if(videos.length > 0) {
+//   videos.forEach((video: any) => {
+//     this.videoService.convertUrlToFile(video.data.url).then((result) => {
+//       this.videoService.generateThumbnail(result, 'any-image').then(result => {
+//         forkJoin(
+//           this.mediaService.uploadMedia('deal', result)
+//         ).subscribe(response => {
+//
+//           this.firstSaveData.mediaUrl.push(...videos.map((video: any) => {
+//             return {
+//               type: 'Video',
+//               captureFileURL: video.data.url,
+//               path: video.data.path,
+//               thumbnailURL: response[0].data.url,
+//               thumbnailPath: response[0].data.path,
+//               blurHash: '',
+//               backgroundColorHex: ''
+//             }
+//           }));
+//
+//           this.dealService.createDeal(this.firstSaveData).subscribe((res: any) => {
+//
+//             console.log('After Subscription: ', res)
+//           })
+//         })
+//       })
+//     })
+//   })
+// }
+
+
+
+// const videos = mainResponse.filter((res: any) => {
+//   if(res.data.url.endsWith('mp4')) {
+//     return res.data
+//   }
+// });

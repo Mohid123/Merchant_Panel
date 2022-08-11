@@ -294,7 +294,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'In review') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#F59E0B',
@@ -314,7 +314,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Published') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
@@ -334,7 +334,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Scheduled') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
@@ -354,7 +354,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Needs attention') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#EF4444',
@@ -581,7 +581,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
           if(item.dealStatus == 'In review') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#F59E0B',
@@ -601,7 +601,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Published') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               extendedProps: {
@@ -619,7 +619,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Scheduled') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
@@ -639,7 +639,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Needs attention') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#EF4444',
@@ -680,7 +680,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
           if(item.dealStatus == 'In review') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#F59E0B',
@@ -700,7 +700,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Published') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               extendedProps: {
@@ -718,7 +718,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Scheduled') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
@@ -738,7 +738,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Needs attention') {
             return {
-              title:item.dealHeader.toLowerCase(),
+              title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#EF4444',
