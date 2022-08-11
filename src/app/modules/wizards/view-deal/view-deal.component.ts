@@ -214,6 +214,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         checked: false
       }
     });
+    this.filterByDealID('');
+    this.filterByDealHeader('');
   }
 
   initEditVouchers() {
@@ -263,6 +265,10 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     }
   }
 
+  public trackItem (index: number, item: MainDeal) {
+    return index;
+  }
+
   getDealsByMerchantID() {
     this.showData = false;
     const params: any = {}
@@ -288,7 +294,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'In review') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#F59E0B',
@@ -308,7 +314,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Published') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
@@ -328,7 +334,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Scheduled') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
@@ -348,7 +354,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Needs attention') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#EF4444',
@@ -447,20 +453,19 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   filterByDealID(dealID: any) {
     this.offset = 0;
-    this.searchPage = dealID?.page;
-    if(dealID?.value != this.dealID) {
+    if(dealID?.value != this.dealID || this.dealID == 'd') {
       this.filteredResultID = [];
       this.commonService.optionsLengthIsZero = false;
     }
-    this.dealID = dealID?.value;
+    this.dealID = dealID?.value ? dealID?.value : '';
+    this.searchPage = dealID?.page ? dealID?.page:  1;
     const params: any = {};
-    if(this.dealID != '') {
+    // if(this.dealID != '') {
       this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, '', '', this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           if(res.data?.totalDeals >= this.offset) {
-            debugger
             this.commonService.optionsLengthIsZero = false;
             this.commonService.finished = false;
             this.cf.detectChanges();
@@ -475,7 +480,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
             this.cf.detectChanges();
           }
           else if(res.data?.totalDeals <= this.offset) {
-            debugger
             this.commonService.finished = true;
           }
         }
@@ -484,24 +488,24 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    }
-    else {
-      this.filteredResultID.length = 0;
-      this.commonService.optionsLengthIsZero = true;
-      this.cf.detectChanges();
-    }
+    // }
+    // else {
+    //   this.filteredResultID.length = 0;
+    //   this.commonService.optionsLengthIsZero = true;
+    //   this.cf.detectChanges();
+    // }
   }
 
   filterByDealHeader(header: any) {
-    if(header?.value != this.header) {
+    if(header?.value != this.header || this.header == 'a') {
       this.filteredHeaderUpdated = [];
       this.commonService.optionsLengthIsZero = false;
       this.offset = 0;
     }
-    this.header = header?.value;
-    this.searchPage = header.page;
+    this.header = header?.value ? header?.value : '';
+    this.searchPage = header.page ? header.page : 1;
     const params: any = {};
-    if(this.header != '') {
+    // if(this.header != '') {
       this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, '', this.header, '', this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
@@ -525,16 +529,17 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
         }
         if(res.data.data.length == 0) {
+          this.filteredHeaderUpdated.length = 0;
           this.commonService.optionsLengthIsZero = true;
           this.cf.detectChanges();
         }
       })
-    }
-    else {
-      this.filteredHeaderUpdated.length = 0;
-      this.commonService.optionsLengthIsZero = true;
-      this.cf.detectChanges();
-    }
+    // }
+    // else {
+    //   this.filteredHeaderUpdated.length = 0;
+    //   this.commonService.optionsLengthIsZero = true;
+    //   this.cf.detectChanges();
+    // }
   }
 
   filterSelectedDealByID(options: any) {
@@ -576,7 +581,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
           if(item.dealStatus == 'In review') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#F59E0B',
@@ -596,7 +601,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Published') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               extendedProps: {
@@ -614,7 +619,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Scheduled') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
@@ -634,7 +639,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Needs attention') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#EF4444',
@@ -675,7 +680,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
           if(item.dealStatus == 'In review') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#F59E0B',
@@ -695,7 +700,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Published') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               extendedProps: {
@@ -713,7 +718,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Scheduled') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#10B981',
@@ -733,7 +738,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
           if(item.dealStatus == 'Needs attention') {
             return {
-              title:item.dealHeader,
+              title:item.dealHeader.toLowerCase(),
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
               backgroundColor: '#EF4444',

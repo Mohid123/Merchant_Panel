@@ -68,6 +68,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   appliedFilterVoucherHeader: boolean;
   appliedFilterStatus: boolean;
   appliedFilterPaymentStatus: boolean;
+  temporaryHeader: any;
 
   statusTypes = [
     {
@@ -129,6 +130,9 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.authService.currentUserValue?.id;
     this.getVouchersByMerchant();
     this.getMerchantStats();
+    this.filterByVoucherID('');
+    this.filterByVoucherHeader('');
+    this.filterByDealHeader('');
     this.filteredStatusResult = this.statusTypes.map((filtered: any) => {
       return {
         id: filtered.id,
@@ -143,8 +147,8 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
         value: filtered.paymentStatus,
         checked: false
       }
-    })
-   }
+    });
+  }
 
   getVouchersByMerchant() {
     this.showData = false;
@@ -204,14 +208,14 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   filterByVoucherID(voucherID: any) {
     this.offset = 0;
-    this.searchPage = voucherID?.page;
+    this.searchPage = voucherID?.page ? voucherID?.page : 1;
     if(voucherID?.value != this.voucherID) {
       this.filteredVoucherIDSearch = [];
       this.commonService.optionsLengthIsZero = false;
     }
-    this.voucherID = voucherID?.value;
+    this.voucherID = voucherID?.value ? voucherID?.value : '';
     const params: any = {};
-    if(this.voucherID != '') {
+    // if(this.voucherID != '') {
       this.orderService.getVouchersByMerchantID(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
@@ -239,25 +243,25 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    }
-    else {
-      this.filteredVoucherIDSearch.length = 0;
-      this.commonService.optionsLengthIsZero = true;
-      this.cf.detectChanges();
-    }
+    // }
+    // else {
+    //   this.filteredVoucherIDSearch.length = 0;
+    //   this.commonService.optionsLengthIsZero = true;
+    //   this.cf.detectChanges();
+    // }
 
   }
 
   filterByDealHeader(dealHeader: any) {
     this.offset = 0;
-    this.searchPage = dealHeader?.page;
+    this.searchPage = dealHeader?.page ? dealHeader?.page : 1;
     if(dealHeader?.value != this.voucherID) {
       this.filteredDealHeaderSearch = [];
       this.commonService.optionsLengthIsZero = false;
     }
-    this.dealHeader = dealHeader?.value;
+    this.dealHeader = dealHeader?.value ? dealHeader?.value : '';
     const params: any = {}
-     if(this.dealHeader != '') {
+    //  if(this.dealHeader != '') {
       this.orderService.getVouchersByMerchantID(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
@@ -273,9 +277,14 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
                 value: filtered.dealHeader,
                 checked: false
               }
-            })
-            this.filteredDealHeaderSearch.push(...this.filteredDealHeader)
+            });
+            this.filteredDealHeaderSearch.push(...this.filteredDealHeader);
             this.cf.detectChanges();
+            // this.filteredDealHeaderSearch.filter((value) => {
+            //   this.temporaryHeader = value.voucherHeader
+            // })
+            // debugger
+            // this.filterByVoucherHeader(this.temporaryHeader)
           }
           else if(res.data?.totalCount == 0) {
             this.commonService.finished = true
@@ -286,12 +295,12 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    }
-    else {
-      this.filteredDealHeaderSearch.length = 0;
-      this.commonService.optionsLengthIsZero = true;
-      this.cf.detectChanges();
-    }
+    // }
+    // else {
+    //   this.filteredDealHeaderSearch.length = 0;
+    //   this.commonService.optionsLengthIsZero = true;
+    //   this.cf.detectChanges();
+    // }
   }
 
   filterSelectedDealByVoucherHeader(options: string) {
@@ -314,14 +323,14 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   filterByVoucherHeader(voucherHeader: any) {
     this.offset = 0;
-    this.searchPage = voucherHeader?.page;
+    this.searchPage = voucherHeader?.page ? voucherHeader?.page : 1;
     if(voucherHeader?.value != this.voucherID) {
       this.filteredVoucherNameSearch = [];
       this.commonService.optionsLengthIsZero = false;
     }
-    this.voucherHeader = voucherHeader?.value;
+    this.voucherHeader = voucherHeader?.value ? voucherHeader?.value : '';
     const params: any = {};
-    if(this.voucherHeader != '') {
+    // if(this.voucherHeader != '') {
       this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, 0, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
@@ -350,12 +359,12 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    }
-    else {
-      this.filteredVoucherNameSearch.length = 0;
-      this.commonService.optionsLengthIsZero = true;
-      this.cf.detectChanges();
-    }
+    // }
+    // else {
+    //   this.filteredVoucherNameSearch.length = 0;
+    //   this.commonService.optionsLengthIsZero = true;
+    //   this.cf.detectChanges();
+    // }
   }
 
   sortByTitle(deal: any) {

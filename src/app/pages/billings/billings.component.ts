@@ -92,6 +92,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
     this.getMerchantStats();
     this.getInvoicesByMerchant();
     this.initKYCForm();
+    this.filterByInvoiceID('')
     // const current = new Date();
     // this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() }
   }
@@ -138,7 +139,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
     const payload: KYC = {
       iban: this.kycForm.value.iban,
       bankName: this.kycForm.value.bankName,
-      swiftCode: this.kycForm.value.swiftCode
+      bic_swiftCode: this.kycForm.value.swiftCode
       // vatNumber: this.kycForm.value.vatNumber
     }
     this.billingService.completeKYC(this.authService.currentUserValue?.id, payload)
@@ -228,14 +229,14 @@ export class BillingsComponent implements OnInit, OnDestroy {
 
   filterByInvoiceID(invoiceID: any) {
     this.offset = 0;
-    this.searchPage = invoiceID?.page;
+    this.searchPage = invoiceID?.page ? invoiceID?.page : 1;
     if(invoiceID?.value != this.invoiceID) {
       this.filteredInvoiceIDSearch = [];
       this.commonService.optionsLengthIsZero = false;
     }
-    this.invoiceID = invoiceID?.value;
+    this.invoiceID = invoiceID?.value ? invoiceID?.value : '';
     const params: any = {};
-    if(this.invoiceID != '') {
+    // if(this.invoiceID != '') {
       this.billingService.getAllInvoicesByMerchantID(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.invoiceID, this.fromDate, this.toDate, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
@@ -263,11 +264,11 @@ export class BillingsComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    } else {
-      this.filteredInvoiceIDSearch.length = 0;
-      this.commonService.optionsLengthIsZero = true;
-      this.cf.detectChanges();
-    }
+    // } else {
+    //   this.filteredInvoiceIDSearch.length = 0;
+    //   this.commonService.optionsLengthIsZero = true;
+    //   this.cf.detectChanges();
+    // }
 
   }
 

@@ -105,7 +105,7 @@
         <tr class="z-40 flex items-center h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted">
           <td class="w-full pr-4 xl:w-1/4 xl:max-w-unset max-w-68">{{(data.invoiceID?.length > 30 )? ((data.invoiceID) | slice:0:30)+'...':(data.invoiceID)}}</td>
           <td class="w-full pr-4 xl:w-1/4 xl:max-w-unset max-w-68">{{data.invoiceDate | date:"dd-MM-YYYY"}}</td>
-          <td class="text-right xl:w-1/4 xl:max-w-unset min-w-36 "><span>{{data.invoiceAmount}} &euro;</span></td>
+          <td class="text-right xl:w-1/4 xl:max-w-unset min-w-36 "><span>{{data.invoiceAmount.toFixed(2).replace('.', ',')}} &euro;</span></td>
           <td class="w-full pr-4 ml-auto text-right xl:w-1/4 xl:max-w-unset max-w-72">
             <div class="flex gap-1.5 justify-end">
               <button class="icon-btn" ><img src="/assets/media/icons/eye.svg" alt=""></button>
@@ -148,7 +148,7 @@
     <div class="flex flex-col items-center justify-center py-2 modal-body kyc-form">
       <div class="w-84 h-22">
         <label class="form-label">IBAN</label>
-          <input maxlength="35" formControlName="iban" name="iban" type="text" class="form-control"
+          <input formControlName="iban" name="iban" type="text" class="form-control"
           [ngClass]="{
             'is-invalid': f['iban'].invalid && f['iban'].touched,
             'is-valid': f['iban'].valid}">

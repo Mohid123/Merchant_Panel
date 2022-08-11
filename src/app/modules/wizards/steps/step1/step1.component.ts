@@ -119,6 +119,7 @@ export class Step1Component implements OnInit, OnDestroy {
 
     this.saveEditDeal = false;
     this.showImageSkeleton = false;
+    this.multiples = [];
   }
 
   ngOnInit() {
@@ -179,7 +180,9 @@ export class Step1Component implements OnInit, OnDestroy {
           deletedCheck: false
         });
         this.cf.detectChanges();
+        debugger
         res.mediaUrl.filter((image: MediaUpload) => {
+          debugger
           if(image.captureFileURL.endsWith('.mp4')) {
             this.videoFromEdit = image;
             this.editUrl = image.captureFileURL;

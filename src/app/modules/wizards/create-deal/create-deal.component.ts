@@ -45,6 +45,7 @@ export class CreateDealComponent implements OnInit {
     // }
     if(this.connection.currentStep$.value == 4) {
       // if(this.data.vouchers) {
+        debugger
         if(new Date(this.data.vouchers[0]?.voucherStartDate?.year, this.data.vouchers[0]?.voucherStartDate?.month - 1, this.data.vouchers[0]?.voucherStartDate?.day).getTime() > new Date(this.data.vouchers[0]?.voucherEndDate?.year, this.data.vouchers[0]?.voucherEndDate?.month - 1, this.data.vouchers[0]?.voucherEndDate?.day).getTime()) {
           this.toast.warning('Start date cannot exceed End date');
           this.connection.isSaving.next(false);

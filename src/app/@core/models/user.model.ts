@@ -29,6 +29,8 @@ export interface User {
   voucherPinCode: number;
   gallery: Gallery[];
   countryCode: string;
+  bic_swiftCode: string;
+  accountHolder: string;
 }
 
 interface BusinessHours {

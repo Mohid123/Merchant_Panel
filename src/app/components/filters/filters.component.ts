@@ -141,6 +141,7 @@ export class FiltersComponent implements OnInit  {
     this.optionsListStatus.find((x: any) => x.checked = false);
     this.searchControl.setValue('');
     this.sendFilter.emit('');
+    this.searchItem.emit('');
     this.sendFilterStatus.emit('');
     this.filterApplied.emit(false);
   }
@@ -179,7 +180,7 @@ export class FiltersComponent implements OnInit  {
 
   onScrollDown() {
     let valueTosend = {
-      value: this.newValue,
+      value: this.newValue ? this.newValue : '',
       page: this.page++
     }
     this.searchItem.emit(valueTosend);

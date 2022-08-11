@@ -56,13 +56,32 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   initPinCodeForm() {
     this.pinCodeForm = this.fb.group({
-      pinCode: [{value: this.pinCodeValue, disabled: this.editPin}]
+      voucherPinCode: [{value: this.pinCodeValue, disabled: this.editPin}]
     })
   }
 
   editPinCode() {
     this.editPin = false;
-    this.pinCodeForm.get('pinCode')?.enable();
+    this.pinCodeForm.get('voucherPinCode')?.enable();
+  }
+
+  savePinCode() {
+    this.pinCodeForm.get('voucherPinCode')?.enable();
+    this.userService.updatePinCode(this.pinCodeForm.get('voucherPinCode')?.value)
+    .pipe(takeUntil(this.destroy$), exhaustMap((res:any) => {
+      if(!res.hasErrors()) {
+        return this.userService.getUser();
+      } else {
+        return (res);
+      }
+    })).subscribe((res: any) => {
+      if(!res.hasErrors()) {
+        this.authService.updateUser(res.data);
+        this.toast.success('Pin code updated!')
+      }
+    })
+    this.editPin = true;
+    this.pinCodeForm.get('voucherPinCode')?.disable();
   }
 
   discard() {
@@ -71,10 +90,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
       this.user = user;
       if(user)
       this.pinCodeForm.patchValue({
-        pinCode: user.voucherPinCode
+        voucherPinCode: user.voucherPinCode
       });
       this.pinCodeValue = user.voucherPinCode;
-      this.pinCodeForm.get('pinCode')?.disable();
+      this.pinCodeForm.get('voucherPinCode')?.disable();
    });
   }
 

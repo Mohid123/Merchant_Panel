@@ -77,7 +77,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         value: filtered.ratingName,
         checked: false
       }
-    })
+    });
+    this.filterByDealID('');
   }
 
   isFilterAppliedOnID(filteredID: any) {
@@ -100,7 +101,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   filterByDealID(dealID: any) {
     this.offset = 0;
-    this.searchPage = dealID?.page;
+    this.searchPage = dealID?.page ? dealID?.page : 1;
     if(dealID?.value != this.searchPage) {
       this.filterDealIDSearch = [];
       this.commonService.optionsLengthIsZero = false;
@@ -109,8 +110,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       dealIDsArray: [],
       ratingsArray: []
     }
-    this.dealID = dealID?.value;
-    if(this.dealID != '') {
+    this.dealID = dealID?.value ? dealID?.value : '';
+    // if(this.dealID != '') {
       this.reviewService.getDealReviewStatsByMerchant(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<ReviewList>) => {
@@ -138,12 +139,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    }
-    else {
-      this.filterDealIDSearch.length = 0;
-      this.commonService.optionsLengthIsZero = true;
-      this.cf.detectChanges();
-    }
+    // }
+    // else {
+    //   this.filterDealIDSearch.length = 0;
+    //   this.commonService.optionsLengthIsZero = true;
+    //   this.cf.detectChanges();
+    // }
   }
 
 

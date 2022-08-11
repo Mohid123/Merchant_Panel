@@ -32,6 +32,7 @@ export class MainDeal {
   minOriginalPrice: number;
   minDealPrice: number;
   minDiscountPercentage: number;
+  reviewMediaUrl: MediaUpload[];
 }
 
 export class Deals {

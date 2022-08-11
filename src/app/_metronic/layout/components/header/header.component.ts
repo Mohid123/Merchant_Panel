@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy, DoChec
         if(this.access?.nativeElement) {
           this.access.nativeElement.style.visibility = 'hidden';
         }
-      }, 3000);
+      }, 2000);
     }
   }
 

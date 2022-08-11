@@ -350,15 +350,15 @@
 
             <div class="h-90px 2xl:h-26 fv-row">
               <label class="mb-1 text-sm text-gray-400 font-extralight 2xl:text-base 2xl:mb-2 form-label">Website or social media url</label>
-              <input (keyup.enter)="onEnter()" appMaxLength length="30" class="form-control form-control-lg form-control-solid" type="text" name="website_socialAppLink"
+              <input (keyup.enter)="onEnter()" appMaxLength length="50" class="form-control form-control-lg form-control-solid" type="text" name="website_socialAppLink"
               placeholder="Website"
                 formControlName="website_socialAppLink" autocomplete="off" [ngClass]="{
                 'is-invalid': f['website_socialAppLink'].invalid && f['website_socialAppLink'].touched ,
                 'is-valid': f['website_socialAppLink'].valid}" />
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                            validation: 'required',
-                            message: 'Website is required',
-                            control: f['website_socialAppLink']}">
+                validation: 'required',
+                message: 'Website is required',
+                control: f['website_socialAppLink']}">
               </ng-container>
               <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'pattern',

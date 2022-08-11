@@ -53,14 +53,14 @@
         </div>
         <form *ngIf="addVoucher || subDeals.length == 0" class="mt-4 form" [formGroup]="vouchers">
           <div class="h-24 fv-row 2xl:h-26">
-            <label class="form-label">Voucher type</label>
+            <label class="form-label">Voucher title</label>
               <input maxlength="140" appTrim type="text" class="form-control" formControlName="subTitle" name="subTitle"
               [ngClass]="{
               'is-invalid': vouchers.controls['subTitle']?.invalid && vouchers.controls['subTitle']?.touched,
               'is-valid': vouchers.controls['subTitle']?.valid}">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
-              message: 'Voucher type is required',
+              message: 'Voucher title is required',
               control: vouchers.controls['subTitle']
               }">
             </ng-container>
@@ -153,7 +153,7 @@
     <div>
       <form class="px-6 mt-2 md:px-11 form" [formGroup]="editVouchers">
         <div class="h-24 fv-row 2xl:h-26">
-          <label class="form-label">Voucher type</label>
+          <label class="form-label">Voucher title</label>
             <input maxlength="140" appTrim type="text" class="form-control" formControlName="subTitle" name="subTitle"
             [ngClass]="{
             'is-invalid': editVouchers.controls['subTitle']?.invalid && editVouchers.controls['subTitle']?.touched,

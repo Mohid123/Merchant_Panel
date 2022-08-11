@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ApiResponse } from '@core/models/response.model';
 import { User } from '@core/models/user.model';
 import { ApiService } from '@core/services/api.service';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { BusinessHours } from './../models/business-hours.modal';
@@ -40,5 +42,11 @@ export class UserService extends ApiService<AuthApiData> {
   updateMerchantprofile(param:any) {
     const id = this.authService.currentUserValue?.id;
     return this.post(`/users/updateMerchantprofile/${id}`, param)
+  }
+
+  updatePinCode(voucherPinCode: any): Observable<ApiResponse<any>> {
+    debugger
+    const id = this.authService.currentUserValue?.id;
+    return this.post(`/users/updateVoucherPinCode/${id}`, {voucherPinCode});
   }
 }

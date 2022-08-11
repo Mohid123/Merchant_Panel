@@ -1,6 +1,6 @@
 export interface KYC {
   iban: number;
   bankName: string;
-  swiftCode: string;
-  // vatNumber: string;
+  bic_swiftCode?: string;
+  accountHolder?: string;
 }
