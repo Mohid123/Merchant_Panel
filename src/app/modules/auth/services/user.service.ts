@@ -45,7 +45,6 @@ export class UserService extends ApiService<AuthApiData> {
   }
 
   updatePinCode(voucherPinCode: any): Observable<ApiResponse<any>> {
-    debugger
     const id = this.authService.currentUserValue?.id;
     return this.post(`/users/updateVoucherPinCode/${id}`, {voucherPinCode});
   }

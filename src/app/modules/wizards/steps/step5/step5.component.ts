@@ -276,7 +276,8 @@ export class Step5Component implements OnInit, AfterViewInit {
       start: this.start,
       end: this.end,
       allDay: this.allDay,
-    })
+    });
+    this.fullCalendar.getApi().gotoDate(this.start)
     this.dateForm.reset();
     this.modalService.dismissAll();
   }
