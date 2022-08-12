@@ -236,7 +236,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         Validators.min(1)
         ])
       ],
-      subTitle: [
+      title: [
         '',
         Validators.compose([
           Validators.required,
@@ -307,7 +307,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -327,7 +327,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -347,7 +347,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -367,7 +367,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -634,7 +634,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -652,7 +652,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -672,7 +672,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -692,7 +692,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -733,7 +733,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -751,7 +751,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -771,7 +771,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -791,7 +791,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
                 totalSold: item.pageNumber,
                 netEarnings: item.pageNumber,
                 img: item.mediaUrl[0],
-                vouchers: item.vouchers,
+                subDeals: item.subDeals,
                 status: item.dealStatus
               }
             }
@@ -892,21 +892,21 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.voucherIndex = editIndex;
     this.dealIDForEdit = this.currentEvents[index].id;
     // console.log('dealID: ', this.dealIDForEdit)
-    this.voucherId = this.currentEvents[index].vouchers[editIndex]?._id;
+    this.voucherId = this.currentEvents[index].subDeals[editIndex]?._id;
     // console.log('voucherID: ', this.voucherId);
-    this.editVouchers.patchValue(this.currentEvents[index].vouchers[editIndex])
+    this.editVouchers.patchValue(this.currentEvents[index].subDeals[editIndex])
     return await this.modal.open();
   }
 
   saveEditVoucherOnListView() {
     const voucher: Vouchers = {
       voucherID: this.voucherId,
-      subTitle: this.editVouchers.get('subTitle')?.value,
+      title: this.editVouchers.get('title')?.value,
       originalPrice: this.editVouchers.get('originalPrice')?.value,
       dealPrice: this.editVouchers.get('dealPrice')?.value,
       numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value)
     }
-    this.dealService.updateVoucher(this.dealIDForEdit, {vouchers: voucher})
+    this.dealService.updateVoucher(this.dealIDForEdit, {subDeals: voucher})
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
@@ -923,7 +923,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   async openCalendarNew(index: any) {
-    this.editVouchers.patchValue(this.clickInfo._def.extendedProps.vouchers[index]);
+    this.editVouchers.patchValue(this.clickInfo._def.extendedProps.subDeals[index]);
     return await this.modal.open();
   }
 

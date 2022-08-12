@@ -98,6 +98,11 @@ export class Step1Component implements OnInit, OnDestroy {
   showImageSkeleton: boolean = false;
   editMedia: MediaUpload[];
   inCaseNoEditData: MainDeal;
+  imageWidth: any;
+  imageHeight: any;
+  sizeObj: any;
+  temporaryObjOne: any;
+  temporaryObjTwo: any;
 
   constructor(
     private fb: FormBuilder,
@@ -137,10 +142,10 @@ export class Step1Component implements OnInit, OnDestroy {
       }
     });
 
-    this.connection.getSaveAndNext().subscribe((response: any) => {
+    this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       if(response) {
         this.responseID = response?.id;
-        this.responseVouchers = response.vouchers;
+        this.responseVouchers = response.subDeals;
       }
     })
 
@@ -233,7 +238,7 @@ export class Step1Component implements OnInit, OnDestroy {
         subTitle: this.dealForm.get('subTitle')?.value,
         mediaUrl: this.editMedia ? this.editMedia : [],
         id: this.responseID ? this.responseID : '',
-        vouchers: this.responseVouchers ? this.responseVouchers : [],
+        subDeals: this.responseVouchers ? this.responseVouchers : [],
         deletedCheck: false,
         pageNumber: 1
       }
@@ -252,7 +257,7 @@ export class Step1Component implements OnInit, OnDestroy {
         subTitle: this.dealForm.get('subTitle')?.value,
         mediaUrl: this.editMedia ? this.editMedia : [],
         id: this.id ? this.id : '',
-        vouchers: this.responseVouchers ? this.responseVouchers : [],
+        subDeals: this.responseVouchers ? this.responseVouchers : [],
         deletedCheck: false,
         pageNumber: 1
       }
@@ -284,7 +289,6 @@ export class Step1Component implements OnInit, OnDestroy {
               this.inCaseNoEditData.subCategory = this.dealForm.get('subCategory')?.value;
               this.inCaseNoEditData.dealHeader = this.dealForm.get('dealHeader')?.value;
               this.inCaseNoEditData.subTitle = this.dealForm.get('subTitle')?.value;
-              debugger
               return this.dealService.createDeal(this.inCaseNoEditData)
               .pipe(takeUntil(this.destroy$))
               .subscribe((res: ApiResponse<any>) => {
@@ -460,13 +464,29 @@ export class Step1Component implements OnInit, OnDestroy {
     this.dealForm.get('subTitle')?.hasError('required'))
   }
 
+  getWidthAndHeight(file: any) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e: any) => {
+      var image = new Image();
+      image.src = e.target.result;
+      image.onload = () => {
+        this.imageWidth = image.width;
+        this.imageHeight = image.height;
+        this.sizeObj = {
+          width: this.imageWidth,
+          height: this.imageHeight
+        };
+      }
+    }
+  }
+
   onSelectFile(event: any,isImages:boolean) {
     const files = event.target? event.target.files : event;
     this.file = files && files.length;
     if (!isImages || (this.file > 0 && this.file < 11)) {
       this.images = files;
       this.media.push(...this.images);
-      console.log(this.media)
       let i: number = 0;
       for (const singlefile of files) {
         var reader = new FileReader();
@@ -481,9 +501,7 @@ export class Step1Component implements OnInit, OnDestroy {
             this.cf.detectChanges();
           }
           this.cf.detectChanges();
-          // If multple events are fired by user
           if (this.multiples.length > 10) {
-            // If multple events are fired by user
             this.multiples.pop();
             this.cf.detectChanges();
             this.urls.pop();
@@ -499,7 +517,6 @@ export class Step1Component implements OnInit, OnDestroy {
               }
             })
           }
-          // console.log('this.selectedPlayList.media:',this.multiples);
           if(files.length == i) {
             this.initTable();
             this.getItemsTable();

@@ -67,7 +67,7 @@ export class Step4Component implements OnInit, OnDestroy {
   ngbEnd: any;
 
   @Input() deal: Partial<MainDeal> = {
-    vouchers: [
+    subDeals: [
       {
         voucherEndDate: '',
         voucherStartDate: '',
@@ -111,15 +111,15 @@ export class Step4Component implements OnInit, OnDestroy {
         }
       });
 
-      this.secondReciever = this.connection.getSaveAndNext().subscribe((response: any) => {
+      this.secondReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
         if(response) {
           this.newData = response;
           this.dealStatus = response.dealStatus;
           this.id = response?.id;
-          const isObject  = typeof response.vouchers[0]?.voucherStartDate
-          if(response.vouchers[0].voucherStartDate && isObject != "object") {
-            const newStart = new Date(response?.vouchers[0]?.voucherStartDate);
-            const newEnd = new Date(response?.vouchers[0]?.voucherEndDate);
+          const isObject  = typeof response.subDeals[0]?.voucherStartDate
+          if(response.subDeals[0].voucherStartDate && isObject != "object") {
+            const newStart = new Date(response?.subDeals[0]?.voucherStartDate);
+            const newEnd = new Date(response?.subDeals[0]?.voucherEndDate);
             newStart.setDate(newStart.getDate() + 1);
             newEnd.setDate(newEnd.getDate() + 1);
             this.ngbStart = { day: newStart.getUTCDate(), month: newStart.getUTCMonth() + 1, year: newStart.getUTCFullYear() }
@@ -144,7 +144,7 @@ export class Step4Component implements OnInit, OnDestroy {
                     dealHeader: response.dealHeader,
                     subTitle: response.subTitle,
                     mediaUrl: this.multiples,
-                    vouchers: response.vouchers,
+                    subDeals: response.subDeals,
                     finePrints: response.finePrints,
                     highlights: response.highlights,
                     aboutThisDeal: response.aboutThisDeal,
@@ -293,19 +293,19 @@ export class Step4Component implements OnInit, OnDestroy {
   initDateForm() {
     this.form = this.fb.group({
       voucherStartDate: [
-        this.newData.vouchers[0]?.voucherStartDate,
+        this.newData.subDeals[0]?.voucherStartDate,
         Validators.compose([
           Validators.required
         ])
       ],
       voucherEndDate: [
-        this.newData.vouchers[0]?.voucherEndDate,
+        this.newData.subDeals[0]?.voucherEndDate,
         Validators.compose([
           Validators.required
         ])
       ],
       voucherValidity: [
-        this.newData.vouchers[0]?.voucherValidity,
+        this.newData.subDeals[0]?.voucherValidity,
         Validators.compose([
           Validators.required,
           Validators.min(1)
@@ -314,8 +314,8 @@ export class Step4Component implements OnInit, OnDestroy {
     });
 
     const formChangesSubscr = this.form.valueChanges.subscribe((val) => {
-      if(this.newData.vouchers[0] != null) {
-        this.newData.vouchers?.forEach((voucher) => {
+      if(this.newData.subDeals[0] != null) {
+        this.newData.subDeals?.forEach((voucher) => {
           if (val.voucherValidity) {
             voucher.voucherValidity = val.voucherValidity;
             voucher.voucherStartDate ='';
@@ -414,7 +414,7 @@ export class Step4Component implements OnInit, OnDestroy {
       this.connection.isSaving.next(true);
       this.nextClick.emit('');
       this.newData.pageNumber = 4;
-      this.newData.vouchers?.forEach((voucher) => {
+      this.newData.subDeals?.forEach((voucher) => {
         if (this.form.get('voucherValidity')?.value) {
           voucher.voucherValidity = this.form.get('voucherValidity')?.value;
           voucher.voucherStartDate = '';
@@ -434,7 +434,7 @@ export class Step4Component implements OnInit, OnDestroy {
           // this.connection.sendStep1(res.data)
         }
       });
-      this.data.vouchers?.forEach((voucher) => {
+      this.data.subDeals?.forEach((voucher) => {
         if (this.form.get('voucherValidity')?.value) {
           voucher.voucherValidity = this.form.get('voucherValidity')?.value;
           voucher.voucherStartDate = '';

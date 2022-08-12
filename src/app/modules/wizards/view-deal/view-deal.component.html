@@ -103,7 +103,7 @@
                     <!-- <button (click)="deleteDeal(event.id)" ngbDropdownItem>Delete</button> -->
                   </div>
                 </div>
-                <button [ngClass]="event?.vouchers.length == 0 || event?.vouchers == [] ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="event?.vouchers.length == 0 || event?.vouchers == []" (click)="event.isCollapsed = !event.isCollapsed">
+                <button [ngClass]="event.subDeals?.length == 0 || event.subDeals == [] ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="event.subDeals?.length == 0 || event.subDeals == []" (click)="event.isCollapsed = !event.isCollapsed">
                   <i [ngClass]="!event.isCollapsed ? 'fas fa-chevron-down fa-sm p-1.5': 'fas fa-chevron-up fa-sm p-1.5'" class="bg-gray-100 rounded-md"></i>
                 </button>
               </td>
@@ -124,9 +124,9 @@
                       <div id="borderBottom"></div>
                     </thead>
                     <tbody class="relative">
-                      <ng-container *ngFor="let voucher of event?.vouchers; let i = index; let first = first; let last = last">
+                      <ng-container *ngFor="let voucher of event?.subDeals; let i = index; let first = first; let last = last">
                       <tr class="text-left text-gray-600 rounded-lg">
-                        <td class="py-4 text-sm pl-11">{{(voucher.subTitle.length>24) ? ((voucher.subTitle) | slice:0:24)+'...':(voucher.subTitle)}}</td>
+                        <td class="py-4 text-sm pl-11">{{(voucher.title?.length > 24) ? ((voucher.title) | slice:0:24)+'...':(voucher.title)}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.soldVouchers}}</td>
                         <td class="px-5 py-4 text-sm">{{voucher.numberOfVouchers}}</td>
                         <td class="py-4 text-sm text-left">{{voucher.dealPrice.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
@@ -206,13 +206,6 @@
 </ng-template>
 
 
-<!--Calendar Footer TEMPLATE-->
-<!-- <ng-template #footerTemplate>
-  <hr class="my-0">
-  <button class="m-2 text-white btn btn-primary btn-sm float-center" [disabled]="!fromDate || !toDate" (click)="filterByDate(fromDate, toDate); myDrop.close()">Apply Filter</button>
-  <button class="mt-2 mr-1 btn btn-secondary btn-sm float-end" (click)="myDrop.close()">Close</button>
-</ng-template> -->
-
 <!--Edit Voucher-->
 
 <app-reusable-modal #modal [modalConfig]="modalConfig">
@@ -229,14 +222,14 @@
       <form class="px-6 mt-2 md:px-11 form" [formGroup]="editVouchers">
         <div class="h-24 fv-row 2xl:h-26">
           <label class="pb-2 text-gray-500">Voucher type</label>
-            <input maxlength="140" appTrim type="text" class="form-control" formControlName="subTitle" name="subTitle"
+            <input maxlength="140" appTrim type="text" class="form-control" formControlName="title" name="title"
             [ngClass]="{
-            'is-invalid': editVouchers.controls['subTitle']?.invalid && editVouchers.controls['subTitle']?.touched,
-            'is-valid': editVouchers.controls['subTitle']?.valid}">
+            'is-invalid': editVouchers.controls['title']?.invalid && editVouchers.controls['title']?.touched,
+            'is-valid': editVouchers.controls['title']?.valid}">
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'required',
-            message: 'Deal Subtitle is required',
-            control: editVouchers.controls['subTitle']
+            message: 'Voucher title is required',
+            control: editVouchers.controls['title']
           }">
         </ng-container>
         </div>
@@ -303,7 +296,7 @@
   <div class="flex justify-between border-white modal-header">
     <img [src]="clickInfo?._def.extendedProps.img" class="object-cover mr-3 rounded-md" style="width: 11.188rem; height: 6.25rem;">
     <div class="flex flex-col justify-evenly">
-      <span class="text-lg font-semibold max-w-54 pb-7">{{(clickInfo?.title.length>20) ? ((clickInfo?.title) | slice:0:20)+'..':(clickInfo?.title)}}</span>
+      <span class="text-lg font-semibold max-w-54 pb-7">{{(clickInfo?.title?.length>20) ? ((clickInfo?.title) | slice:0:20)+'..':(clickInfo?.title)}}</span>
       <div class="flex pt-5 justify-evenly">
         <span class="text-sm text-gray-600">Publish from&nbsp; <span class="mr-3 text-sm font-semibold text-black">{{clickInfo?.start | date: 'dd-MM-yyyy'}}</span></span>
         <span class="text-sm text-gray-600">Validity&nbsp; <span class="text-sm font-semibold text-black">{{clickInfo?.end | date: 'dd-MM-yyyy'}}</span></span>
@@ -324,20 +317,20 @@
   </div>
 
   <div class="overflow-y-scroll" style="max-height: 23.75rem;;"></div>
-  <ng-container *ngFor="let dealVoucher of clickInfo?._def.extendedProps.vouchers; let j = index">
+  <ng-container *ngFor="let dealVoucher of clickInfo?._def.extendedProps.subDeals; let j = index">
     <div class="flex justify-between px-8">
       <span class="text-sm text-gray-600">Deal ID: <span class="text-sm text-black">{{clickInfo?._def.extendedProps.dealID}}</span></span>
       <img (click)="openCalendarNew(j)" class="cursor-pointer" src="../../../../assets/media/icons/edit.svg">
     </div>
     <div class="w-full px-8">
-      <span class="font-semibold text-left" style="color: #379CED;">{{(dealVoucher?.subTitle.length>30) ? ((dealVoucher?.subTitle) | slice:0:30)+'..':(dealVoucher?.subTitle)}}</span>
+      <span class="font-semibold text-left" style="color: #379CED;">{{(dealVoucher?.title?.length>30) ? ((dealVoucher?.title) | slice:0:30)+'..':(dealVoucher?.title)}}</span>
       <div class="flex justify-between pt-2.5 pb-10 relative">
         <span class="text-sm text-gray-600">Sold <span class="text-black">{{clickInfo?._def.extendedProps.sold}}</span></span>
         <span class="text-sm text-gray-600">Available <span class="text-black">{{clickInfo?._def.extendedProps.sold}}</span></span>
         <span class="text-sm text-gray-600">Value <span class="text-black">{{clickInfo?._def.extendedProps.sold}} &euro;</span></span>
         <span class="text-sm text-gray-600">Total sold <span class="text-black">{{clickInfo?._def.extendedProps.sold}} &euro;</span></span>
         <span class="text-sm text-gray-600">Net earnings <span class="text-black">{{clickInfo?._def.extendedProps.sold}} &euro;</span></span>
-        <div [ngClass]="j == (clickInfo?._def.extendedProps.vouchers.length - 1) ? 'hidden': 'block'" id="borderModalA"></div>
+        <div [ngClass]="j == (clickInfo?._def.extendedProps.subDeals?.length - 1) ? 'hidden': 'block'" id="borderModalA"></div>
       </div>
     </div>
   </ng-container>

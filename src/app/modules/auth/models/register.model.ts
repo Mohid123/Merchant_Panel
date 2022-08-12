@@ -13,6 +13,7 @@ export class RegisterModel {
   role: string;
   status: string;
   businessHours: any;
+  vatNumber: string;
 
   setModel(_model: unknown) {
     const model = _model as RegisterModel;
@@ -26,6 +27,7 @@ export class RegisterModel {
     this.zipCode = model.zipCode || null;
     this.city = model.city || '';
     this.province = model.province || null;
+    this.vatNumber = model.vatNumber || '';
     this.website_socialAppLink = model.website_socialAppLink;
     this.role = 'Merchant';
     this.status= 'Pending';

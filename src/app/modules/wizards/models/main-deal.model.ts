@@ -12,7 +12,7 @@ export class MainDeal {
   mediaUrl: MediaUpload[] | any[];
   startDate: string;
   endDate: string;
-  vouchers: Vouchers[];
+  subDeals: Vouchers[];
   termsAndCondition: string;
   merchantID: string;
   dealStatus: string;
@@ -22,6 +22,7 @@ export class MainDeal {
   ratingsAverage?: number;
   soldVouchers?: number;
   isCollapsed: boolean;
+  isSpecialOffer?: boolean;
   highlights: string;
   aboutThisDeal: string;
   readMore: string;
@@ -33,6 +34,8 @@ export class MainDeal {
   minDealPrice: number;
   minDiscountPercentage: number;
   reviewMediaUrl: MediaUpload[];
+  dealPreviewURL?: string;
+  editDealURL?: string;
 }
 
 export class Deals {

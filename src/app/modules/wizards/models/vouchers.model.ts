@@ -1,6 +1,6 @@
 export class Vouchers {
   voucherID?: string;
-  subTitle?: string;
+  title?: string;
   originalPrice?: string;
   dealPrice?: string;
   discountPercentage?: number;

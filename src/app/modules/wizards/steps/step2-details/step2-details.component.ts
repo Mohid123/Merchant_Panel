@@ -84,8 +84,8 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
             finePrints: response.finePrints
           })
         }
-        if(response.vouchers.length > 0) {
-          this.data.vouchers = response.vouchers;
+        if(response.subDeals.length > 0) {
+          this.data.subDeals = response.subDeals;
           this.connection.sendData(this.data);
         }
       }

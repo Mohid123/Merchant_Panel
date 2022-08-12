@@ -91,7 +91,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;
-      // this.subDeals = this.data.vouchers ? this.data.vouchers : [];
+      // this.subDeals = this.data.subDeals ? this.data.subDeals : [];
       if(this.subDeals.length > 0) {
         this.addVoucher = false;
       }
@@ -101,10 +101,10 @@ export class Step2Component implements OnInit, OnDestroy {
       this.newData = response;
       this.id = response?.id;
 
-      if(response.vouchers?.length > 0) {
-        this.data.vouchers = response.vouchers;
-        this.subDeals = this.data.vouchers ? this.data.vouchers : [];
-        this.newData.vouchers = this.data.vouchers ? this.data.vouchers : [];
+      if(response.subDeals?.length > 0) {
+        this.data.subDeals = response.subDeals;
+        this.subDeals = this.data.subDeals ? this.data.subDeals : [];
+        this.newData.subDeals = this.data.subDeals ? this.data.subDeals : [];
         if(this.subDeals.length > 0) {
           this.addVoucher = false;
         }
@@ -127,10 +127,10 @@ export class Step2Component implements OnInit, OnDestroy {
     this.connection.getStep1().subscribe((res: any) => {
       if((res.dealStatus == 'Draft' || res.dealStatus == 'Needs attention') && res.id) {
         this.editID = res.id;
-        this.subDeals = res.vouchers;
-        this.voucherStartDate = res.vouchers[0]?.voucherStartDate ? res.vouchers[0]?.voucherStartDate : '';
-        this.voucherEndDate = res.vouchers[0]?.voucherEndDate ? res.vouchers[0]?.voucherEndDate : '';
-        this.voucherValidity = res.vouchers[0]?.voucherValidity ? res.vouchers[0]?.voucherValidity : '';
+        this.subDeals = res.subDeals;
+        this.voucherStartDate = res.subDeals[0]?.voucherStartDate ? res.subDeals[0]?.voucherStartDate : '';
+        this.voucherEndDate = res.subDeals[0]?.voucherEndDate ? res.subDeals[0]?.voucherEndDate : '';
+        this.voucherValidity = res.subDeals[0]?.voucherValidity ? res.subDeals[0]?.voucherValidity : '';
         if(this.subDeals.length > 0) {
           this.addVoucher = false;
           this.saveEditDeal = true;
@@ -159,7 +159,7 @@ export class Step2Component implements OnInit, OnDestroy {
         Validators.min(1)
         ])
       ],
-      subTitle: [
+      title: [
         '',
         Validators.compose([
           Validators.required,
@@ -192,7 +192,7 @@ export class Step2Component implements OnInit, OnDestroy {
         Validators.min(1)
         ])
       ],
-      subTitle: [
+      title: [
         '',
         Validators.compose([
           Validators.required,
@@ -255,8 +255,9 @@ export class Step2Component implements OnInit, OnDestroy {
     } else {
       this.subDeals.push(this.editVouchers.value);
     }
-    this.data.vouchers = this.subDeals;
-    this.newData.vouchers = this.subDeals;
+    this.data.subDeals = this.subDeals;
+    this.newData.subDeals = this.subDeals;
+
     this.connection.sendData(this.data);
     if(this.editID) {
       this.saveEditDeal = true;
@@ -291,8 +292,9 @@ export class Step2Component implements OnInit, OnDestroy {
     } else {
       this.subDeals.push(this.vouchers.value);
     }
-    this.data.vouchers = this.subDeals;
-    this.newData.vouchers = this.subDeals;
+    this.data.subDeals = this.subDeals;
+
+    this.newData.subDeals = this.subDeals;
     this.connection.sendData(this.data);
     if(this.editID) {
       this.saveEditDeal = true;
@@ -306,12 +308,12 @@ export class Step2Component implements OnInit, OnDestroy {
 
   deleteDeal() {
     this.subDeals.splice(this.selectedIndex, 1);
-    this.data.vouchers = this.subDeals;
+    this.data.subDeals = this.subDeals;
     if(this.newData) {
-      this.newData.vouchers = this.subDeals;
+      this.newData.subDeals = this.subDeals;
     }
     if(this.editData) {
-      this.editData.vouchers = this.subDeals;
+      this.editData.subDeals = this.subDeals;
     }
     this.connection.sendData(this.data);
     if(this.subDeals.length == 0) {
@@ -387,13 +389,15 @@ export class Step2Component implements OnInit, OnDestroy {
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.editData.pageNumber = 2;
-        this.editData.vouchers = this.subDeals;
-        this.editData.vouchers.forEach((voucher) => {
+        this.editData.subDeals = this.subDeals;
+        this.editData.subDeals.forEach((voucher) => {
           voucher.voucherStartDate = this.voucherStartDate;
           voucher.voucherEndDate = this.voucherEndDate;
           voucher.voucherValidity = this.voucherValidity
         })
+
         return new Promise((resolve, reject) => {
+
           const payload = this.editData;
           if(payload) {
             return this.dealService.createDeal(payload)
@@ -411,9 +415,11 @@ export class Step2Component implements OnInit, OnDestroy {
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.newData.pageNumber = 2;
+
         return new Promise((resolve, reject) => {
           const payload = this.newData;
           if(payload) {
+
             return this.dealService.createDeal(payload)
             .pipe(takeUntil(this.destroy$))
             .subscribe((res: ApiResponse<any>) => {
