@@ -139,9 +139,10 @@ export class BillingsComponent implements OnInit, OnDestroy {
     const payload: KYC = {
       iban: this.kycForm.value.iban,
       bankName: this.kycForm.value.bankName,
-      bic_swiftCode: this.kycForm.value.swiftCode
-      // vatNumber: this.kycForm.value.vatNumber
+      bic_swiftCode: this.kycForm.value.swiftCode ? this.kycForm.value.swiftCode : '',
+      accountHolder: this.kycForm.value.accountHolder
     }
+    debugger
     this.billingService.completeKYC(this.authService.currentUserValue?.id, payload)
     .pipe(takeUntil(this.destroy$), exhaustMap((res: any) => {
       if(!res.hasErrors()) {

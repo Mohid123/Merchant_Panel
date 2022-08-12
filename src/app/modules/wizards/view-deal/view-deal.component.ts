@@ -461,7 +461,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.searchPage = dealID?.page ? dealID?.page:  1;
     const params: any = {};
     if(this.dealID == '') {
-      debugger
+
       this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, '', '', this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
@@ -479,7 +479,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
           this.commonService.finished = true;
           this.cf.detectChanges();
-          debugger
+
         }
       })
     }
