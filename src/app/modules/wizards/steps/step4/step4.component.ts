@@ -411,7 +411,6 @@ export class Step4Component implements OnInit, OnDestroy {
       return;
     }
     else {
-
       this.connection.isSaving.next(true);
       this.nextClick.emit('');
       this.newData.pageNumber = 4;
@@ -426,7 +425,6 @@ export class Step4Component implements OnInit, OnDestroy {
           voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
         }
       });
-
       const payload = this.newData;
       this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {

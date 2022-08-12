@@ -257,7 +257,7 @@
               <div class="large-image">
                 <ng-container *ngFor="let multiple of images; let i = index">
                   <div class="m-1 image-input image-input-outline">
-                    <img class="object-cover border-2 border-gray-600 rounded-md w-80px h-80px" [src]="multiple">
+                    <img class="object-cover border-2 border-gray-600 rounded-md w-80px h-80px" [src]="multiple.captureFileURL">
                     <label class="z-50 mt-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px" data-kt-image-input-action="change">
                       <i class="bi bi-x fs-6" style="color: white;"></i>
                       <input (click)="images.splice(i, 1)" type="reset" name="avatar" accept=".png, .jpg, .jpeg" multiple>

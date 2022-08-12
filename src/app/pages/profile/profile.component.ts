@@ -8,7 +8,8 @@ import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { UrlValidator } from 'src/app/modules/auth/components/registration/url.validator';
 import { BusinessHours, initalBusinessHours } from 'src/app/modules/auth/models/business-hours.modal';
 import { UserService } from 'src/app/modules/auth/services/user.service';
-import { Gallery, User } from './../../@core/models/user.model';
+import { MediaUpload } from './../../@core/models/requests/media-upload.model';
+import { User } from './../../@core/models/user.model';
 import { MediaService } from './../../@core/services/media.service';
 import { AuthService } from './../../modules/auth/services/auth.service';
 
@@ -35,7 +36,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   file: any;
   singleFile: any
   multiples: any[] = [];
-  images: Gallery[] = [];
+  images: MediaUpload[] = [];
   galleries: any[] = [];
   profileImage: any;
   private unsubscribe: Subscription[] = [];
@@ -247,7 +248,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.mediaService.uploadMedia('profile-images', this.urls[index])
           .subscribe((res: ApiResponse<any>) => {
             if(!res.hasErrors()) {
-              this.images.push(res.data?.url);
+              const result = [res.data];
+              let images: Array<any> = [];
+              images = result.map((image: any) => {
+                return {
+                  type: 'Image',
+                  captureFileURL: image.url,
+                  path: image.path,
+                  thumbnailURL: '',
+                  thumbnailPath: '',
+                  blurHash: '',
+                  backgroundColorHex: ''
+                }
+              });
+              this.images.push(...images);
+              console.log(this.images);
               this.cf.detectChanges();
               this.urls = [];
               this.cf.detectChanges();
@@ -302,7 +317,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
       for (let index = 0; index < this.multiples.length; index++) {
         this.mediaService.uploadMedia('profile-image', this.multiples[index]).subscribe((res: ApiResponse<any>) => {
           if(!res.hasErrors()) {
-            this.image = res.data?.url;
+            const result = [res.data];
+            const image = result.map((image: any) => {
+              return {
+                type: 'Image',
+                captureFileURL: image.url,
+                path: image.path,
+                thumbnailURL: '',
+                thumbnailPath: '',
+                blurHash: '',
+                backgroundColorHex: ''
+              }
+            });
+            debugger
+            this.image = image[0].captureFileURL;
             this.cf.detectChanges();
             this.multiples = [];
           }
