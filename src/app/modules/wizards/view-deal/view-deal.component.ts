@@ -453,14 +453,37 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   filterByDealID(dealID: any) {
     this.offset = 0;
-    if(dealID?.value != this.dealID || this.dealID == 'd') {
+    if(dealID?.value != this.dealID) {
       this.filteredResultID = [];
       this.commonService.optionsLengthIsZero = false;
     }
     this.dealID = dealID?.value ? dealID?.value : '';
     this.searchPage = dealID?.page ? dealID?.page:  1;
     const params: any = {};
-    // if(this.dealID != '') {
+    if(this.dealID == '') {
+      debugger
+      this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, '', '', this.title, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.commonService.optionsLengthIsZero = false;
+          this.cf.detectChanges();
+          this.filteredResult = res.data.data.map((filtered: MainDeal) => {
+            return {
+              id: filtered.id,
+              value: filtered.dealID,
+              checked: false
+            }
+          })
+          this.filteredResultID.push(...this.filteredResult);
+          this.cf.detectChanges();
+          this.commonService.finished = true;
+          this.cf.detectChanges();
+          debugger
+        }
+      })
+    }
+    else {
       this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, '', '', this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
@@ -478,6 +501,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
             })
             this.filteredResultID.push(...this.filteredResult);
             this.cf.detectChanges();
+
           }
           else if(res.data?.totalDeals <= this.offset) {
             this.commonService.finished = true;
@@ -488,16 +512,11 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    // }
-    // else {
-    //   this.filteredResultID.length = 0;
-    //   this.commonService.optionsLengthIsZero = true;
-    //   this.cf.detectChanges();
-    // }
+    }
   }
 
   filterByDealHeader(header: any) {
-    if(header?.value != this.header || this.header == 'a') {
+    if(header?.value != this.header) {
       this.filteredHeaderUpdated = [];
       this.commonService.optionsLengthIsZero = false;
       this.offset = 0;
@@ -505,7 +524,27 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.header = header?.value ? header?.value : '';
     this.searchPage = header.page ? header.page : 1;
     const params: any = {};
-    // if(this.header != '') {
+    if(this.header == '') {
+      this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, '', this.header, '', this.title, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.commonService.optionsLengthIsZero = false;
+          const uniqueArray = this.commonService.getUniqueListBy(res.data.data, 'dealHeader')
+          this.filteredHeader = uniqueArray.map((filtered: any) => {
+            return {
+              id: filtered.id,
+              value: filtered.dealHeader,
+              checked: false
+            }
+          })
+          this.filteredHeaderUpdated.push(...this.filteredHeader);
+          this.commonService.finished = true;
+          this.cf.detectChanges();
+        }
+      })
+    }
+    else {
       this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, '', this.header, '', this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
@@ -529,11 +568,12 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           }
         }
         if(res.data.data.length == 0) {
-          this.filteredHeaderUpdated.length = 0;
           this.commonService.optionsLengthIsZero = true;
           this.cf.detectChanges();
         }
       })
+    }
+
     // }
     // else {
     //   this.filteredHeaderUpdated.length = 0;

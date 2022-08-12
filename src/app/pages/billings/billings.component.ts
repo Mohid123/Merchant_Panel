@@ -236,12 +236,32 @@ export class BillingsComponent implements OnInit, OnDestroy {
     }
     this.invoiceID = invoiceID?.value ? invoiceID?.value : '';
     const params: any = {};
-    // if(this.invoiceID != '') {
+    if(this.invoiceID == '') {
       this.billingService.getAllInvoicesByMerchantID(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.invoiceID, this.fromDate, this.toDate, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-          if(res.data?.totalCount > 0) {
+          this.commonService.optionsLengthIsZero = false;
+          this.cf.detectChanges();
+          this.filteredResult = res.data.data.map((filtered: Billings) => {
+            return {
+              id: filtered.id,
+              value: filtered.invoiceID,
+              checked: false
+            }
+          })
+          this.filteredInvoiceIDSearch.push(...this.filteredResult);
+          this.commonService.finished = true;
+          this.cf.detectChanges();
+        }
+      })
+    }
+    else {
+      this.billingService.getAllInvoicesByMerchantID(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.invoiceID, this.fromDate, this.toDate, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          if(res.data?.totalCount >= this.offset) {
             this.commonService.finished = false;
             this.commonService.optionsLengthIsZero = false;
             this.cf.detectChanges();
@@ -255,7 +275,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
             this.filteredInvoiceIDSearch.push(...this.filteredResult)
             this.cf.detectChanges();
           }
-          else if(res.data?.totalCount == 0) {
+          else if(res.data?.totalCount <= this.offset) {
             this.commonService.finished = true
           }
         }
@@ -264,11 +284,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    // } else {
-    //   this.filteredInvoiceIDSearch.length = 0;
-    //   this.commonService.optionsLengthIsZero = true;
-    //   this.cf.detectChanges();
-    // }
+    }
 
   }
 

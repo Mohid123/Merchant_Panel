@@ -215,12 +215,32 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     }
     this.voucherID = voucherID?.value ? voucherID?.value : '';
     const params: any = {};
-    // if(this.voucherID != '') {
+    if(this.voucherID == '') {
       this.orderService.getVouchersByMerchantID(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-          if(res.data?.totalCount > 0) {
+          this.commonService.optionsLengthIsZero = false;
+          this.cf.detectChanges();
+          this.filteredVoucherID = res.data.data.map((filtered: Orders) => {
+            return {
+              id: filtered.id,
+              value: filtered.voucherID,
+              checked: false
+            }
+          })
+          this.filteredVoucherIDSearch.push(...this.filteredVoucherID);
+          this.commonService.finished = true;
+          this.cf.detectChanges();
+        }
+      })
+    }
+    else {
+      this.orderService.getVouchersByMerchantID(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          if(res.data?.totalCount >= this.offset) {
             this.commonService.finished = false;
             this.commonService.optionsLengthIsZero = false;
             this.cf.detectChanges();
@@ -234,7 +254,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
             this.filteredVoucherIDSearch.push(...this.filteredVoucherID);
             this.cf.detectChanges();
           }
-          else if(res.data?.totalCount == 0) {
+          else if(res.data?.totalCount <= this.offset) {
             this.commonService.finished = true
           }
         }
@@ -243,13 +263,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    // }
-    // else {
-    //   this.filteredVoucherIDSearch.length = 0;
-    //   this.commonService.optionsLengthIsZero = true;
-    //   this.cf.detectChanges();
-    // }
-
+    }
   }
 
   filterByDealHeader(dealHeader: any) {
@@ -261,12 +275,33 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     }
     this.dealHeader = dealHeader?.value ? dealHeader?.value : '';
     const params: any = {}
-    //  if(this.dealHeader != '') {
+    if(this.dealHeader == '') {
       this.orderService.getVouchersByMerchantID(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-          if(res.data?.totalCount > 0) {
+          this.commonService.optionsLengthIsZero = false;
+          this.cf.detectChanges();
+          const uniqueArray = this.commonService.getUniqueListBy(res.data.data, 'dealHeader');
+          this.filteredDealHeader = uniqueArray.map((filtered: any) => {
+            return {
+              id: filtered.id,
+              value: filtered.dealHeader,
+              checked: false
+            }
+          });
+          this.filteredDealHeaderSearch.push(...this.filteredDealHeader);
+          this.commonService.finished = true;
+          this.cf.detectChanges();
+        }
+      })
+    }
+    else {
+      this.orderService.getVouchersByMerchantID(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          if(res.data?.totalCount >= this.offset) {
             this.commonService.finished = false;
             this.commonService.optionsLengthIsZero = false;
             this.cf.detectChanges();
@@ -280,13 +315,8 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
             });
             this.filteredDealHeaderSearch.push(...this.filteredDealHeader);
             this.cf.detectChanges();
-            // this.filteredDealHeaderSearch.filter((value) => {
-            //   this.temporaryHeader = value.voucherHeader
-            // })
-            // debugger
-            // this.filterByVoucherHeader(this.temporaryHeader)
           }
-          else if(res.data?.totalCount == 0) {
+          else if(res.data?.totalCount <= this.offset) {
             this.commonService.finished = true
           }
         }
@@ -295,12 +325,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    // }
-    // else {
-    //   this.filteredDealHeaderSearch.length = 0;
-    //   this.commonService.optionsLengthIsZero = true;
-    //   this.cf.detectChanges();
-    // }
+    }
   }
 
   filterSelectedDealByVoucherHeader(options: string) {
@@ -330,12 +355,33 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     }
     this.voucherHeader = voucherHeader?.value ? voucherHeader?.value : '';
     const params: any = {};
-    // if(this.voucherHeader != '') {
-      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, 0, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
+    if(this.voucherHeader == '') {
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, 10, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
-          if(res.data?.totalCount > 0) {
+          this.commonService.optionsLengthIsZero = false;
+          this.cf.detectChanges();
+          const uniqueArray = this.commonService.getUniqueListBy(res.data.data, 'voucherHeader');
+          this.filteredVoucherName = uniqueArray.map((filtered: any) => {
+            return {
+              id: filtered.id,
+              value: filtered.voucherHeader,
+              checked: false
+            }
+          })
+          this.filteredVoucherNameSearch.push(...this.filteredVoucherName);
+          this.commonService.finished = true;
+          this.cf.detectChanges();
+        }
+      })
+    }
+    else {
+      this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, 10, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          if(res.data?.totalCount >= this.offset) {
             this.commonService.finished = false;
             this.commonService.optionsLengthIsZero = false;
             this.cf.detectChanges();
@@ -350,7 +396,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
             this.filteredVoucherNameSearch.push(...this.filteredVoucherName);
             this.cf.detectChanges();
           }
-          else if(res.data?.totalCount == 0) {
+          else if(res.data?.totalCount <= this.offset) {
             this.commonService.finished = true
           }
         }
@@ -359,12 +405,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    // }
-    // else {
-    //   this.filteredVoucherNameSearch.length = 0;
-    //   this.commonService.optionsLengthIsZero = true;
-    //   this.cf.detectChanges();
-    // }
+    }
   }
 
   sortByTitle(deal: any) {

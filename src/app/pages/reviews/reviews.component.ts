@@ -111,12 +111,32 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       ratingsArray: []
     }
     this.dealID = dealID?.value ? dealID?.value : '';
-    // if(this.dealID != '') {
+    if(this.dealID == '') {
       this.reviewService.getDealReviewStatsByMerchant(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<ReviewList>) => {
-        if(!res.hasErrors()) { // totalMerchantReviews
-          if(res.data?.totalMerchantReviews >= this.searchPage * 1) {
+        if(!res.hasErrors()) {
+          this.commonService.optionsLengthIsZero = false;
+          this.cf.detectChanges();
+          this.filteredResult = res.data.data.map((filtered: any) => {
+            return {
+              id: filtered._id,
+              value: filtered.dealID,
+              checked: false
+            }
+          });
+          this.filterDealIDSearch.push(...this.filteredResult);
+          this.commonService.finished = true;
+          this.cf.detectChanges();
+        }
+      })
+    }
+    else {
+      this.reviewService.getDealReviewStatsByMerchant(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<ReviewList>) => {
+        if(!res.hasErrors()) {
+          if(res.data?.totalMerchantReviews >= this.offset) {
             this.commonService.finished = false;
             this.commonService.optionsLengthIsZero = false;
             this.cf.detectChanges();
@@ -130,7 +150,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
             this.filterDealIDSearch.push(...this.filteredResult)
             this.cf.detectChanges();
           }
-          else if(res.data?.totalMerchantReviews <= this.searchPage * 1) {
+          else if(res.data?.totalMerchantReviews <= this.offset) {
             this.commonService.finished = true
           }
         }
@@ -139,14 +159,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
           this.cf.detectChanges();
         }
       })
-    // }
-    // else {
-    //   this.filterDealIDSearch.length = 0;
-    //   this.commonService.optionsLengthIsZero = true;
-    //   this.cf.detectChanges();
-    // }
+    }
   }
-
 
   getReviewsByMerchant() {
     this.showData = false;
