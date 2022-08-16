@@ -51,6 +51,7 @@ export class FiltersComponent implements OnInit  {
   ];
 
   autoClose: boolean = false;
+  index: number;
 
 
   constructor(private cf: ChangeDetectorRef, public common: CommonFunctionsService) { }
@@ -94,8 +95,11 @@ export class FiltersComponent implements OnInit  {
       sortByAscending: 'Ascending'
     }
     this.sendFilterStatus.emit(filters);
-    if(filters.filterData.length > 0) {
+    if(filters.filterData.length > 0 && !!this.optionsListStatus.findIndex(x => x.checked)) {
       this.filterApplied.emit(true);
+    }
+    else {
+      this.filterApplied.emit(false);
     }
   }
 
@@ -105,8 +109,11 @@ export class FiltersComponent implements OnInit  {
       sortByAscending: 'Ascending'
     }
     this.sendFilter.emit(filters);
-    if(filters.filterData.length > 0) {
+    if(filters.filterData.length > 0 && !!this.optionsList.findIndex(x => x.checked)) {
       this.filterApplied.emit(true);
+    }
+    else {
+      this.filterApplied.emit(false);
     }
   }
 
