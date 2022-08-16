@@ -9,7 +9,7 @@ import { UrlValidator } from 'src/app/modules/auth/components/registration/url.v
 import { BusinessHours, initalBusinessHours } from 'src/app/modules/auth/models/business-hours.modal';
 import { UserService } from 'src/app/modules/auth/services/user.service';
 import { MediaUpload } from './../../@core/models/requests/media-upload.model';
-import { User } from './../../@core/models/user.model';
+import { PersonalDetail, User } from './../../@core/models/user.model';
 import { MediaService } from './../../@core/services/media.service';
 import { AuthService } from './../../modules/auth/services/auth.service';
 
@@ -116,11 +116,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.user = user;
       this.setbusinessHours();
       if(user)
-      this.profileForm.patchValue(user);
+      console.log(this.user)
+      this.profileForm.patchValue(user.personalDetail);
       this.termsForm.patchValue(user);
       this.galleries.push(user.gallery)
       this.profileImage = user.profilePicURL;
-      console.log(this.profileImage);
    });
   }
 
@@ -158,14 +158,48 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
+  submitImages() {
+    const param: any = {
+      gallery: this.images,
+      profilePicURL: this.image,
+      website_socialAppLink: this.profileForm.value.website_socialAppLink
+    }
+    if(param.gallery.length > 0 || param.profilePicURL != "") {
+      this.userService.updateMerchantprofile(param)
+      .pipe(exhaustMap((res: any) => {
+        if(!res.hasErrors()) {
+          return this.userService.getUser();
+        }
+        else {
+          return (res);
+        }
+      })).subscribe()
+    }
+    else if(param.website_socialAppLink != '') {
+      this.userService.updateMerchantprofile({website_socialAppLink: param.website_socialAppLink})
+      .pipe(exhaustMap((res: any) => {
+        if(!res.hasErrors()) {
+          return this.userService.getUser();
+        }
+        else {
+          return (res);
+        }
+      })).subscribe()
+    }
+  }
+
   submitProfileChanges() {
     this.isLeftVisible = true;
-    this.profileForm.patchValue({gallery: this.images})
-    if(this.image) {
-      this.profileForm.patchValue({profilePicURL: this.image})
+    const payload: PersonalDetail = {
+      tradeName: this.profileForm.value.tradeName,
+      streetAddress: this.profileForm.value.streetAddress,
+      zipCode: this.profileForm.value.zipCode,
+      city: this.profileForm.value.city,
+      googleMapPin: this.profileForm.value.googleMapPin
     }
-    this.userService.updateMerchantprofile(this.profileForm.value)
+    this.userService.updateLocation(payload)
     .pipe(exhaustMap((res: any) => {
+      debugger
       if(!res.hasErrors()) {
         this.toast.success('Profile updated', {
           style: {
@@ -378,7 +412,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       id: [''],
       businessHours: this.fb.array( [])
     });
-   const businessHours = !!this.user?.businessHours.length ? this.user?.businessHours : initalBusinessHours;
+   const businessHours = !!this.user?.businessHours?.length ? this.user?.businessHours : initalBusinessHours;
    // console.log('businessHours:',businessHours);
    this.businessHoursForm.controls['id'].setValue(this.user?.id);
     businessHours.forEach(businessHour => {
@@ -401,7 +435,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     // console.log('this.businessHoursFromControl:',this.businessHoursFromControl);
   }
 
-  saveBusinessHours(){
+  saveBusinessHours() {
     if(this.termsForm.value.aboutUs == '' || this.termsForm.value.finePrint == '' || !this.validateBusinessHours()) {
       return;
     }

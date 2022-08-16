@@ -17,7 +17,7 @@
               <span class="spanner">Trade name</span>
             </td>
             <td class="w-0 pb-5">
-              <span class="naming">{{user.tradeName}}</span>
+              <span class="naming">{{user?.personalDetail?.tradeName}}</span>
             </td>
           </tr>
           <tr>
@@ -25,7 +25,7 @@
               <span class="spanner">Street address</span>
             </td>
             <td class="w-0 pb-5">
-              <span class="naming">{{user.streetAddress}}</span>
+              <span class="naming">{{user?.personalDetail?.streetAddress}}</span>
             </td>
           </tr>
           <tr>
@@ -33,7 +33,7 @@
               <span class="spanner">Zip code</span>
             </td>
             <td class="w-0 pb-5">
-              <span class="naming">{{user.zipCode}}</span>
+              <span class="naming">{{user?.personalDetail?.zipCode}}</span>
             </td>
           </tr>
           <tr>
@@ -41,7 +41,7 @@
               <span class="spanner">City</span>
             </td>
             <td class="w-0 pb-5">
-              <span class="naming">{{user.city}}</span>
+              <span class="naming">{{user?.personalDetail?.city}}</span>
             </td>
           </tr>
           <tr>
@@ -49,7 +49,7 @@
               <span class="spanner">Google map pin</span>
             </td>
             <td class="w-0 pb-5">
-              <span class="naming">{{user.googleMapPin | truncation: 70}}</span>
+              <span class="naming">{{user?.personalDetail?.googleMapPin | truncation: 70}}</span>
             </td>
           </tr>
           <tr>
@@ -100,7 +100,7 @@
 
     <div class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
       <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
-      <button type="submit" class="save-button" (click)="submitProfileChanges()">Save</button>
+      <button type="submit" class="save-button" (click)="submitProfileChanges(); submitImages()">Save</button>
     </div>
 
     <div class="flex justify-center mt-2">

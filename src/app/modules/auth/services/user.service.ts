@@ -41,11 +41,17 @@ export class UserService extends ApiService<AuthApiData> {
 
   updateMerchantprofile(param:any) {
     const id = this.authService.currentUserValue?.id;
+    debugger
     return this.post(`/users/updateMerchantprofile/${id}`, param)
   }
 
   updatePinCode(voucherPinCode: any): Observable<ApiResponse<any>> {
     const id = this.authService.currentUserValue?.id;
     return this.post(`/users/updateVoucherPinCode/${id}`, {voucherPinCode});
+  }
+
+  updateLocation(param: any) {
+    const id = this.authService.currentUserValue?.id
+    return this.post(`/location/updateLocation/${id}`, {param});
   }
 }

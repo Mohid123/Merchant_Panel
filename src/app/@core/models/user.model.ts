@@ -31,6 +31,7 @@ export interface User {
   countryCode: string;
   bic_swiftCode: string;
   accountHolder: string;
+  personalDetail: PersonalDetail;
 }
 
 interface BusinessHours {
@@ -40,6 +41,20 @@ interface BusinessHours {
   secondStartTime: string;
   secondEndTime: string;
   isWorkingDay: boolean;
+}
+
+export interface PersonalDetail {
+  _id?: string;
+  merchantID?: string;
+  tradeName?: string;
+  locationName?: string;
+  streetAddress?: string;
+  zipCode?: string;
+  city?: string;
+  googleMapPin?: string | any;
+  province?: string;
+  phoneNumber?: string;
+  plusCode?: string;
 }
 
 export interface Gallery {

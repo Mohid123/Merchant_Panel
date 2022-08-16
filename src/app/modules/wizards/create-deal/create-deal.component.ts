@@ -36,27 +36,18 @@ export class CreateDealComponent implements OnInit {
 
   nextStep() {
     this.connection.isSaving.next(true);
-    // if(this.connection.currentStep$.value == 2) {
-    //   if(!this.data.subDeals) {
-    //     this.toast.warning('Please create at least one voucher for your deal!');
-    //     this.connection.isSaving.next(false);
-    //     return;
-    //   }
-    // }
     if(this.connection.currentStep$.value == 4) {
-      // if(this.data.subDeals) {
-        debugger
-        if(new Date(this.data.subDeals[0]?.voucherStartDate?.year, this.data.subDeals[0]?.voucherStartDate?.month - 1, this.data.subDeals[0]?.voucherStartDate?.day).getTime() > new Date(this.data.subDeals[0]?.voucherEndDate?.year, this.data.subDeals[0]?.voucherEndDate?.month - 1, this.data.subDeals[0]?.voucherEndDate?.day).getTime()) {
-          this.toast.warning('Start date cannot exceed End date');
-          this.connection.isSaving.next(false);
-          return;
-        // }
+      // const nextStep = this.connection.currentStep$.value + 1;
+      //   if (nextStep > this.formsCount) {
+      //     return;
+      //   }
+      // this.connection.currentStep$.next(nextStep);
+      debugger
+      if(new Date(this.data?.subDeals[0]?.voucherStartDate?.year, this.data?.subDeals[0]?.voucherStartDate?.month - 1, this.data?.subDeals[0]?.voucherStartDate?.day).getTime() > new Date(this.data?.subDeals[0]?.voucherEndDate?.year, this.data?.subDeals[0]?.voucherEndDate?.month - 1, this.data?.subDeals[0]?.voucherEndDate?.day).getTime()) {
+        this.toast.warning('Start date cannot exceed End date');
+        this.connection.isSaving.next(false);
+        return;
       }
-      // if(!(this.data.subDeals[0]?.voucherStartDate && this.data.subDeals[0]?.voucherEndDate) && !this.data.subDeals[0]?.voucherValidity) {
-      //   this.toast.warning('Please specify the voucher validity period');
-      //   this.connection.isSaving.next(false);
-      //   return;
-      // }
       else {
         const nextStep = this.connection.currentStep$.value + 1;
         if (nextStep > this.formsCount) {

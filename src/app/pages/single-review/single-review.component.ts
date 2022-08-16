@@ -80,7 +80,10 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<SingleReview>) => {
       this.reviewData = res.data;
-      console.log(this.reviewData)
+      // console.log(this.reviewData)
+      // this.reviewData.Reviews.forEach((value: any) => {
+      //   console.log(moment(value.voucherRedeemedDate).format('YYYY-MM-DD'));
+      // })
       this.showData = true;
       this.cf.detectChanges();
     })

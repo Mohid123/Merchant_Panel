@@ -464,23 +464,6 @@ export class Step1Component implements OnInit, OnDestroy {
     this.dealForm.get('subTitle')?.hasError('required'))
   }
 
-  getWidthAndHeight(file: any) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (e: any) => {
-      var image = new Image();
-      image.src = e.target.result;
-      image.onload = () => {
-        this.imageWidth = image.width;
-        this.imageHeight = image.height;
-        this.sizeObj = {
-          width: this.imageWidth,
-          height: this.imageHeight
-        };
-      }
-    }
-  }
-
   onSelectFile(event: any,isImages:boolean) {
     const files = event.target? event.target.files : event;
     this.file = files && files.length;
@@ -840,3 +823,110 @@ export class Step1Component implements OnInit, OnDestroy {
 //     return res.data
 //   }
 // });
+
+
+
+// CASE FOR IMAGE DIMENSIONS LOGIC
+
+// async getWidthAndHeight(files: any) {
+//   const newPromise = Array.from(files).map((file: any, index: any) => {
+//     return new Promise((resolve, reject) => {
+//       var reader = new FileReader();
+//       reader.readAsDataURL(file);
+//       reader.onload = async (e: any) => {
+//         var image = new Image();
+//         image.src = e.target.result;
+//         image.onload = async () => {
+//           this.sizeObj = {
+//             width: image.width,
+//             height: image.height,
+//             index: index
+//           };
+//           resolve(this.sizeObj);
+//         }
+//       }
+//     })
+//   })
+//   const final = await Promise.all(newPromise);
+//   return final
+// }
+
+// onSelectFile(event: any, isImages:boolean) {
+//   const files = event.target? event.target.files : event;
+//   this.file = files && files.length;
+//   if (!isImages || (this.file > 0 && this.file < 11)) {
+//     const images = files;
+//     this.images = [];
+//     this.cf.detectChanges();
+//     this.getWidthAndHeight(files).then((result) => {
+//       if(result) {
+//         result.forEach((dimensions: any) => {
+//           if((dimensions.width == 764 && dimensions.height == 460) ||
+//             (dimensions.width == 281 && dimensions.height == 170) ||
+//             (dimensions.width == 168 && dimensions.height == 101) ||
+//             (dimensions.width == 142 && dimensions.height == 114)) {
+//               this.images.push(images[dimensions.index]);
+//               this.cf.detectChanges();
+//               console.log(this.images)
+//               this.media.push(images[dimensions.index]);
+//               this.cf.detectChanges();
+//             }
+//         })
+//       }
+//     }).finally(() => {
+//       let i: number = 0;
+//       for (const singlefile of this.images) {
+//         var reader = new FileReader();
+//         reader.readAsDataURL(singlefile);
+//         this.cf.detectChanges();
+//         i++;
+//         reader.onload = (fileEvent) => {
+//           const url = (<FileReader>fileEvent.target).result as string;
+//           if(isImages){
+//             this.cf.detectChanges();
+//             this.multiples.push(url);
+//             this.cf.detectChanges();
+//             this.urls.push(url);
+//             this.cf.detectChanges();
+//           }
+//           this.cf.detectChanges();
+//           if (this.multiples.length > 10) {
+//             this.multiples.pop();
+//             this.cf.detectChanges();
+//             this.urls.pop();
+//             this.toast.error('Please select upto 10 images', {
+//               style: {
+//                 border: '1px solid #713200',
+//                 padding: '16px',
+//                 color: '#713200',
+//               },
+//               iconTheme: {
+//                 primary: '#713200',
+//                 secondary: '#FFFAEE',
+//               }
+//             })
+//           }
+//           if(files.length == i) {
+//             this.initTable();
+//             this.getItemsTable();
+//           }
+//           this.dealForm.controls['mediaUrl'].setValue(this.urls);
+//           this.cf.detectChanges();
+//         };
+//       }
+//     })
+//   }
+//   else {
+//     this.toast.error('Please select upto 10 images', {
+//       style: {
+//         border: '1px solid #713200',
+//         padding: '16px',
+//         color: '#713200',
+//       },
+//       iconTheme: {
+//         primary: '#713200',
+//         secondary: '#FFFAEE',
+//       }
+//     })
+//   }
+// }

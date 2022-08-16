@@ -48,7 +48,7 @@
         <ng-container *ngFor="let data of reviewData?.Reviews; let i = index;">
           <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
             <td class="pr-4">{{data.voucherID}}</td>
-            <td class="pr-4">{{(data.voucherRedeemedDate * 1000) | date: 'dd-MM-yyyy'}}</td>
+            <td class="pr-4">{{data.voucherRedeemedDate | date: 'dd-MM-yyyy'}}</td>
             <td class="pr-4">{{data.createdAt | date: 'dd-MM-yyyy'}}</td>
             <td class="pr-4">
               <div class="rating">
@@ -102,7 +102,7 @@
     <div class="w-full" style="background-color: #FFF3CF;">
       <div class="flex justify-between px-10 py-6 text-sm2">
         <span style="color: #D9B23E;">Voucher ID &nbsp; <span style="color: #A17900;">{{data.voucherID}}</span></span>
-        <span style="color: #D9B23E;">Date redeemed &nbsp; <span style="color: #A17900;">{{(data.voucherRedeemedDate * 1000) | date: 'dd-MM-yyyy'}}</span></span>
+        <span style="color: #D9B23E;">Date redeemed &nbsp; <span style="color: #A17900;">{{data.voucherRedeemedDate  | date: 'dd-MM-yyyy'}}</span></span>
         <span style="color: #D9B23E;">Date review &nbsp; <span style="color: #A17900;">{{data.createdAt | date: 'dd-MM-yyyy'}}</span></span>
         <div class="flex justify-center">
           <span class="mr-2" style="color: #D9B23E;">Rating</span>
