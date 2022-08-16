@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChi
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalConfig } from '@core/models/modal.config';
 import { DealService } from '@core/services/deal.service';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { NgPasswordValidatorOptions } from 'ng-password-validator';
 import { Subject, Subscription } from 'rxjs';
@@ -154,6 +155,16 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     else {
       this.validityPass = false;
+    }
+  }
+
+  openPopover(p: NgbPopover) {
+    p.toggle();
+  }
+
+  closePopover(close: boolean, p: NgbPopover) {
+    if(close == true) {
+      p.close();
     }
   }
 

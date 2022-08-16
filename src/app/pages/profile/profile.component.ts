@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   secondLeftVisible: boolean = true;
   isLeftVisible: boolean = true;
-  user: User | null;
+  user: User;
   destroy$ = new Subject();
   urls: any[] = [];
   url: any;
@@ -118,13 +118,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
       if(user)
       console.log(this.user)
       this.profileForm.patchValue({
-        tradeName: user.personalDetail.tradeName,
-        streetAddress: user.personalDetail.streetAddress,
-        zipCode: user.personalDetail.zipCode,
-        city: user.personalDetail.city,
-        googleMapPin: user.personalDetail.googleMapPin,
-        website_socialAppLink: user.website_socialAppLink,
-        profilePicURL: user.profilePicURL
+        tradeName: user?.personalDetail?.tradeName,
+        streetAddress: user?.personalDetail?.streetAddress,
+        zipCode: user?.personalDetail?.zipCode,
+        city: user?.personalDetail?.city,
+        googleMapPin: user?.personalDetail?.googleMapPin,
+        website_socialAppLink: user?.website_socialAppLink,
+        profilePicURL: user?.profilePicURL
       });
       this.termsForm.patchValue(user);
       this.galleries.push(user.gallery)
@@ -388,6 +388,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   clearImage() {
     this.image = '';
     this.profileImage = '';
+    this.user.profilePicURL = ''
   }
 
   get businessHoursFromControl() {

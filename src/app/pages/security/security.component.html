@@ -42,7 +42,11 @@
               formControlName="password"
               [ngbPopover]="popContent"
               [popoverTitle]="popTitle"
-              placement="bottom-end">
+              placement="bottom-end"
+              triggers="manual"
+              #popover="ngbPopover"
+              (click)="openPopover(popover)"
+              (keyup)="closePopover(passForm.controls['password'].valid, popover)">
               <ng-template #popTitle>
                 <div class="">Password should include:</div>
               </ng-template>

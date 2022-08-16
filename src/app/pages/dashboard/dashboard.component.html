@@ -96,6 +96,10 @@
           [ngbPopover]="popContent"
           [popoverTitle]="popTitle"
           placement="bottom-right"
+          triggers="manual"
+          #popover="ngbPopover"
+          (click)="openPopover(popover)"
+          (keyup)="closePopover(newPassForm.controls['password'].valid, popover)"
           >
         </div>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{

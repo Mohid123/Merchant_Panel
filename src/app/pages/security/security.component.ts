@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '@core/models/user.model';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
@@ -30,13 +31,15 @@ export class SecurityComponent implements OnInit, OnDestroy {
   editPin: boolean = false;
   pinCodeForm: FormGroup;
   pinCodeValue: any;
+  autoClose: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private passService: PasswordService,
     private authService: AuthService,
     private toast: HotToastService,
-    private userService: UserService) {
+    private userService: UserService,
+    private cf: ChangeDetectorRef) {
       this.editPin = true;
       const loadingSubscr = this.isLoading$
       .asObservable()
@@ -52,6 +55,16 @@ export class SecurityComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initPassForm();
     this.initPinCodeForm();
+  }
+
+  openPopover(p: NgbPopover) {
+    p.toggle();
+  }
+
+  closePopover(close: boolean, p: NgbPopover) {
+    if(close == true) {
+      p.close();
+    }
   }
 
   initPinCodeForm() {

@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { NgPasswordValidatorOptions } from 'ng-password-validator';
 import { Subject } from 'rxjs';
@@ -118,6 +119,16 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     }
     else {
       this.validityPass = false;
+    }
+  }
+
+  openPopover(p: NgbPopover) {
+    p.toggle();
+  }
+
+  closePopover(close: boolean, p: NgbPopover) {
+    if(close == true) {
+      p.close();
     }
   }
 
