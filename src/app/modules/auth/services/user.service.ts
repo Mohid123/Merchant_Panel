@@ -41,7 +41,6 @@ export class UserService extends ApiService<AuthApiData> {
 
   updateMerchantprofile(param:any) {
     const id = this.authService.currentUserValue?.id;
-    debugger
     return this.post(`/users/updateMerchantprofile/${id}`, param)
   }
 
@@ -51,7 +50,7 @@ export class UserService extends ApiService<AuthApiData> {
   }
 
   updateLocation(param: any) {
-    const id = this.authService.currentUserValue?.id
-    return this.post(`/location/updateLocation/${id}`, {param});
+    const merchantId = this.authService.currentUserValue?.userID;
+    return this.post(`/location/updateLocation/${merchantId}`, param);
   }
 }

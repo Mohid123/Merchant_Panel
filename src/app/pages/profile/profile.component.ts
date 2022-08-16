@@ -117,7 +117,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.setbusinessHours();
       if(user)
       console.log(this.user)
-      this.profileForm.patchValue(user.personalDetail);
+      this.profileForm.patchValue({
+        tradeName: user.personalDetail.tradeName,
+        streetAddress: user.personalDetail.streetAddress,
+        zipCode: user.personalDetail.zipCode,
+        city: user.personalDetail.city,
+        googleMapPin: user.personalDetail.googleMapPin,
+        website_socialAppLink: user.website_socialAppLink,
+        profilePicURL: user.profilePicURL
+      });
       this.termsForm.patchValue(user);
       this.galleries.push(user.gallery)
       this.profileImage = user.profilePicURL;

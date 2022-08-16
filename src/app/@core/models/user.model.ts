@@ -32,6 +32,7 @@ export interface User {
   bic_swiftCode: string;
   accountHolder: string;
   personalDetail: PersonalDetail;
+  userID: string;
 }
 
 interface BusinessHours {
