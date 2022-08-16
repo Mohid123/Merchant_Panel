@@ -138,7 +138,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.user = user;
       this.setbusinessHours();
       if(user)
-      this.profileForm.patchValue(user);
+      this.profileForm.patchValue({
+        tradeName: user?.personalDetail?.tradeName,
+        streetAddress: user?.personalDetail?.streetAddress,
+        zipCode: user?.personalDetail?.zipCode,
+        city: user?.personalDetail?.city,
+        googleMapPin: user?.personalDetail?.googleMapPin,
+        website_socialAppLink: user?.website_socialAppLink,
+        profilePicURL: user?.profilePicURL
+      });
       this.termsForm.patchValue(user);
     })
   }
@@ -225,6 +233,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
           return (res);
         }
     })).subscribe((res: any) => {
+      this.profileForm.patchValue({
+        tradeName: res?.data?.personalDetail?.tradeName,
+        streetAddress: res?.data?.personalDetail?.streetAddress,
+        zipCode: res?.data?.personalDetail?.zipCode,
+        city: res?.data?.personalDetail?.city,
+        googleMapPin: res?.data?.personalDetail?.googleMapPin,
+        website_socialAppLink: res?.data?.website_socialAppLink,
+        profilePicURL: res?.data?.profilePicURL
+      });
+      debugger
       console.log(res);
     })
   }
