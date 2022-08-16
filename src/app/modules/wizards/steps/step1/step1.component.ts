@@ -90,6 +90,7 @@ export class Step1Component implements OnInit, OnDestroy {
   id: string;
   responseID: string;
   responseVouchers: any[] = [];
+  responseSaveAndNextVocuhers: any[] = [];
   editDealCheck: boolean = false;
   convertedImage: any;
   saveEditDeal: boolean;
@@ -98,6 +99,7 @@ export class Step1Component implements OnInit, OnDestroy {
   showImageSkeleton: boolean = false;
   editMedia: MediaUpload[];
   inCaseNoEditData: MainDeal;
+  inCaseNoCreateData: MainDeal;
   imageWidth: any;
   imageHeight: any;
   sizeObj: any;
@@ -145,7 +147,7 @@ export class Step1Component implements OnInit, OnDestroy {
     this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       if(response) {
         this.responseID = response?.id;
-        this.responseVouchers = response.subDeals;
+        this.responseSaveAndNextVocuhers = response.subDeals;
       }
     })
 
@@ -178,6 +180,7 @@ export class Step1Component implements OnInit, OnDestroy {
         this.showImageSkeleton = true;
         this.inCaseNoEditData = res;
         this.id = res.id;
+        this.responseVouchers = res.subDeals;
         this.editDealCheck = true;
         this.saveEditDeal = true;
         this.connection.isEditMode = true;
@@ -238,7 +241,7 @@ export class Step1Component implements OnInit, OnDestroy {
         subTitle: this.dealForm.get('subTitle')?.value,
         mediaUrl: this.editMedia ? this.editMedia : [],
         id: this.responseID ? this.responseID : '',
-        subDeals: this.responseVouchers ? this.responseVouchers : [],
+        subDeals: this.responseSaveAndNextVocuhers ? this.responseSaveAndNextVocuhers : [],
         deletedCheck: false,
         pageNumber: 1
       }
@@ -289,6 +292,7 @@ export class Step1Component implements OnInit, OnDestroy {
               this.inCaseNoEditData.subCategory = this.dealForm.get('subCategory')?.value;
               this.inCaseNoEditData.dealHeader = this.dealForm.get('dealHeader')?.value;
               this.inCaseNoEditData.subTitle = this.dealForm.get('subTitle')?.value;
+              this.inCaseNoEditData.subDeals = this.responseVouchers;
               return this.dealService.createDeal(this.inCaseNoEditData)
               .pipe(takeUntil(this.destroy$))
               .subscribe((res: ApiResponse<any>) => {
@@ -339,6 +343,7 @@ export class Step1Component implements OnInit, OnDestroy {
                     this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, this.videoFromEdit]
                   }
                 }
+                this.firstSaveData.subDeals = this.responseVouchers ? this.responseVouchers : [];
                 return this.dealService.createDeal(this.firstSaveData);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
@@ -362,7 +367,6 @@ export class Step1Component implements OnInit, OnDestroy {
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);
-
                   resolve('success')
                 }
               });
@@ -374,6 +378,7 @@ export class Step1Component implements OnInit, OnDestroy {
           this.firstSave();
           return new Promise((resolve, reject) => {
             const mediaUpload: Array<Observable<any>> = [];
+
             if(this.media.length > 0) {
               this.media.forEach((file: any) => {
                 mediaUpload.push(this.mediaService.uploadMedia('deal', file));
@@ -408,6 +413,7 @@ export class Step1Component implements OnInit, OnDestroy {
                     this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, this.videoFromEdit]
                   }
                 }
+                this.firstSaveData.subDeals = this.responseSaveAndNextVocuhers ? this.responseSaveAndNextVocuhers : [];
                 return this.dealService.createDeal(this.firstSaveData);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
