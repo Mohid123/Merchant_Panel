@@ -132,7 +132,7 @@
                         <td class="py-4 text-sm text-left">{{voucher.dealPrice.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
                         <td class="py-4 text-sm text-left pl-7">{{voucher.grossEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
                         <td class="py-4 pl-12 text-sm text-left">{{voucher.netEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td> <!--ye wala-->
-                        <td class="px-5 py-4 text-sm">
+                        <td [ngClass]="event.dealStatus == 'In review' ? 'hidden': 'px-5 py-4 text-sm'">
                           <img class="cursor-pointer" (click)="openNew(index, i)" src="../../../../assets/media/icons/edit.svg">
                         </td>
                       </tr>
