@@ -414,39 +414,41 @@ export class Step4Component implements OnInit, OnDestroy {
       this.connection.isSaving.next(true);
       this.nextClick.emit('');
       this.newData.pageNumber = 4;
-      this.newData.subDeals?.forEach((voucher) => {
-        if (this.form.get('voucherValidity')?.value) {
-          voucher.voucherValidity = this.form.get('voucherValidity')?.value;
-          voucher.voucherStartDate = '';
-          voucher.voucherEndDate = '';
-        } else {
-          voucher.voucherValidity = 0;
-          voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day).getTime();
-          voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
-        }
-      });
-      const payload = this.newData;
-      this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
-      .subscribe((res: ApiResponse<any>) => {
-        if(!res.hasErrors()) {
-          this.connection.isSaving.next(false);
-          this.connection.sendSaveAndNext(res.data);
-          // this.connection.sendStep1(res.data)
-        }
-      });
-      this.data.subDeals?.forEach((voucher) => {
-        if (this.form.get('voucherValidity')?.value) {
-          voucher.voucherValidity = this.form.get('voucherValidity')?.value;
-          voucher.voucherStartDate = '';
-          voucher.voucherEndDate = '';
-        } else {
-          voucher.voucherValidity = 0;
-          voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day).getTime();
-          voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
-        }
-      });
-      this.connection.sendData(this.data);
-      this.connection.sendStep1(this.data);
+      return new Promise((resolve, reject) => {
+        this.newData.subDeals?.forEach((voucher) => {
+          if (this.form.get('voucherValidity')?.value) {
+            voucher.voucherValidity = this.form.get('voucherValidity')?.value;
+            voucher.voucherStartDate = '';
+            voucher.voucherEndDate = '';
+          } else {
+            voucher.voucherValidity = 0;
+            voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day).getTime();
+            voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
+          }
+        });
+        const payload = this.newData;
+        this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
+        .subscribe((res: ApiResponse<any>) => {
+          if(!res.hasErrors()) {
+            this.connection.isSaving.next(false);
+            this.connection.sendSaveAndNext(res.data);
+            resolve('success')
+          }
+        });
+        this.data.subDeals?.forEach((voucher) => {
+          if (this.form.get('voucherValidity')?.value) {
+            voucher.voucherValidity = this.form.get('voucherValidity')?.value;
+            voucher.voucherStartDate = '';
+            voucher.voucherEndDate = '';
+          } else {
+            voucher.voucherValidity = 0;
+            voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day).getTime();
+            voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
+          }
+        });
+        this.connection.sendData(this.data);
+        this.connection.sendStep1(this.data);
+      })
     }
   }
 

@@ -17,7 +17,7 @@
                   <i style="font-size: 12px; line-height: 24px; color:#4E5970" class="fas fa-euro-sign"></i><i style="font-style: normal; font-weight: 500; color:#4E5970" class="ml-1 mr-3 text-base">{{singleDeal?.originalPrice}}</i>
                   <ng-container *ngIf="convertToInteger(singleDeal?.dealPrice) < convertToInteger(singleDeal?.originalPrice)">
                     <i style="font-size: 12px; color:#08A80D; line-height: 24px;" class="fas fa-euro-sign"></i><i style="font-style: normal; font-weight: 500; color: #08A80D;" class="ml-1 mr-3 text-base">{{singleDeal?.dealPrice}}</i>
-                    <i style="font-style: normal;" class="text-sm font-semibold text-primary-400">{{singleDeal?.discountPercentage.toFixed(1)}}% off</i>
+                    <i style="font-style: normal;" class="text-sm font-semibold text-primary-400">{{singleDeal?.discountPercentage.toFixed(2).replace('.', ',')}}% off</i>
                   </ng-container>
                   <ng-container *ngIf="convertToInteger(singleDeal?.dealPrice) == convertToInteger(singleDeal?.originalPrice)">
                     <i style="font-size: 12px; color:#08A80D; line-height: 24px;" class="fas fa-euro-sign"></i><i style="font-style: normal; font-weight: 500; color: #08A80D;" class="ml-1 mr-3 text-base">{{singleDeal?.dealPrice}}</i>
