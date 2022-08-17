@@ -25,7 +25,8 @@
               "object-path",
               "apexcharts",
               "clipboard.js",
-              "prismjs"
+              "prismjs",
+              "moment-timezone"
             ],
             "index": "src/index.html",
             "main": "src/main.ts",

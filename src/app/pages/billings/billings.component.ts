@@ -231,7 +231,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
   filterByInvoiceID(invoiceID: any) {
     this.offset = 0;
     this.searchPage = invoiceID?.page ? invoiceID?.page : 1;
-    if(invoiceID?.value != this.invoiceID) {
+    if(invoiceID?.value != this.invoiceID || invoiceID?.value == '') {
       this.filteredInvoiceIDSearch = [];
       this.commonService.optionsLengthIsZero = false;
     }

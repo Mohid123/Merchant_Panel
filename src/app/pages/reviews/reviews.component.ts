@@ -102,7 +102,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   filterByDealID(dealID: any) {
     this.offset = 0;
     this.searchPage = dealID?.page ? dealID?.page : 1;
-    if(dealID?.value != this.searchPage) {
+    if(dealID?.value != this.dealID || dealID?.value == '') {
       this.filterDealIDSearch = [];
       this.commonService.optionsLengthIsZero = false;
     }

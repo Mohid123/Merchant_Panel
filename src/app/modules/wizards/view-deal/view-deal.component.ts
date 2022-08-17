@@ -453,7 +453,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   filterByDealID(dealID: any) {
     this.offset = 0;
-    if(dealID?.value != this.dealID) {
+    if(dealID?.value != this.dealID || dealID?.value == '') {
       this.filteredResultID = [];
       this.commonService.optionsLengthIsZero = false;
     }
@@ -461,7 +461,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.searchPage = dealID?.page ? dealID?.page:  1;
     const params: any = {};
     if(this.dealID == '') {
-
       this.dealService.getDeals(this.searchPage, this.authService.currentUserValue?.id, this.offset, 10, this.dealID, '', '', this.title, params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ApiResponse<any>) => {
@@ -516,7 +515,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   filterByDealHeader(header: any) {
-    if(header?.value != this.header) {
+    if(header?.value != this.header || header?.value == '') {
       this.filteredHeaderUpdated = [];
       this.commonService.optionsLengthIsZero = false;
       this.offset = 0;
