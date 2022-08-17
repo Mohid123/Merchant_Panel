@@ -87,8 +87,9 @@ export class Step5Component implements OnInit, AfterViewInit {
     firstDay: 1,
     height: 'auto',
     displayEventTime: false,
+    initialDate: moment().add(2, 'days').format('YYYY-MM-DD'),
     validRange: {
-      start: moment().format('YYYY-MM-DD')
+      start: moment().add(2, 'days').format('YYYY-MM-DD')
     },
     // select: this.handleDateSelect.bind(this),
     moreLinkClick: 'popover',
@@ -154,7 +155,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.getCurrentMonthDays();
     this.initSelectDateForm();
     const current = new Date();
-    this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() };
+    this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2};
     this.editDealCase();
   }
 
@@ -375,6 +376,9 @@ export class Step5Component implements OnInit, AfterViewInit {
         return this.modal.open().then(() => {
           this.connection.currentStep$.next(1);
           this.connection.isEditMode = false;
+          this.connection.sendStep1({});
+          this.connection.sendSaveAndNext({});
+          this.connection.sendData({})
         });
       }
     })
@@ -384,9 +388,6 @@ export class Step5Component implements OnInit, AfterViewInit {
   async closeModal() {
     return await this.modal.close().then(() => {
       this.router.navigate(['/deals/view-deal']);
-      this.connection.sendStep1({});
-      this.connection.sendSaveAndNext({});
-      this.connection.sendData({})
     });
   }
 
