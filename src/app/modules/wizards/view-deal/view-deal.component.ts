@@ -72,12 +72,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
 
   calendarPlugins = [dayGridPlugin];
 
-  // @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
-
-  // popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
-
-  // popoverFactory = this.resolver.resolveComponentFactory(PopoverWrapperComponent);
-
   showDiv = {
     listView: true,
     calendarView: false

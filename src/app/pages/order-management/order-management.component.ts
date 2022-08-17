@@ -152,7 +152,13 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   getVouchersByMerchant() {
     this.showData = false;
-    const params: any = {}
+    const params: any = {
+      voucherIDsArray : this.voucherIDsFilter?.filterData ? this.voucherIDsFilter?.filterData : [],
+      dealHeaderArray: this.dealHeadersFilters?.filterData ? this.dealHeadersFilters?.filterData : [],
+      voucherHeaderArray: this.voucherHeadersFilters?.filterData ? this.voucherHeadersFilters?.filterData : [],
+      voucherStatusArray: this.voucherStatusesFilters?.filterData ? this.voucherStatusesFilters?.filterData : [],
+      invoiceStatusArray: this.invoiceStatusesFilters?.filterData ? this.invoiceStatusesFilters?.filterData: [],
+    }
     this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<OrdersList>) => {
