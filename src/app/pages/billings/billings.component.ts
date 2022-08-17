@@ -192,7 +192,9 @@ export class BillingsComponent implements OnInit, OnDestroy {
 
   getInvoicesByMerchant() {
     this.showData = false;
-    const params: any = {}
+    const params: any = {
+      invoiceIDsArray: this.invoiceIDsFilter?.filterData ? this.invoiceIDsFilter?.filterData : []
+    }
     const dateFrom:any =  new Date(this.fromDate?.year, this.fromDate?.month - 1, this.fromDate?.day).getTime() ? new Date(this.fromDate?.year, this.fromDate?.month - 1, this.fromDate?.day).getTime(): '';
     const dateTo:any = new Date(this.toDate?.year, this.toDate?.month - 1, this.toDate?.day).getTime() ? new Date(this.toDate?.year, this.toDate?.month - 1, this.toDate?.day).getTime() : '';
     this.billingService.getAllInvoicesByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.invoiceID, dateFrom, dateTo, params)
