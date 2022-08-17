@@ -463,11 +463,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   saveBusinessHours() {
-    if(this.termsForm.value.aboutUs == '' || this.termsForm.value.finePrint == '' || !this.validateBusinessHours()) {
+    if(!this.validateBusinessHours()) {
       return;
     }
     if(this.validateBusinessHours()) {
-      debugger
       this.isLoading$.next(true);
       this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
         if(!res.hasErrors()) {
@@ -489,13 +488,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   saveTerms() {
-    if(this.termsForm.value.aboutUs == '' || this.termsForm.value.finePrint == '' || !this.validateBusinessHours()) {
-      this.toast.warning('Please fill in all fields');
+    if(!this.validateBusinessHours()) {
+      this.toast.warning('Please fill in all open fields');
       return;
     }
     else {
       this.userService.updateMerchantprofile(this.termsForm.value).pipe(exhaustMap((res:any) => {
-        // console.log('asdsad:',res);
         if(!res.hasErrors()) {
           this.toast.success('Data saved')
           return this.userService.getUser();
