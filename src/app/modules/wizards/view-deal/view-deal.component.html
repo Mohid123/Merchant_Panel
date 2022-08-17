@@ -226,7 +226,7 @@
     <div>
       <form class="px-6 mt-2 md:px-11 form" [formGroup]="editVouchers">
         <div class="h-24 fv-row 2xl:h-26">
-          <label class="pb-2 text-gray-500">Voucher type</label>
+          <label class="pb-2 text-gray-500">Voucher title</label>
             <input maxlength="140" appTrim type="text" class="form-control" formControlName="title" name="title"
             [ngClass]="{
             'is-invalid': editVouchers.controls['title']?.invalid && editVouchers.controls['title']?.touched,
