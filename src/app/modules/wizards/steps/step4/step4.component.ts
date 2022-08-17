@@ -117,7 +117,7 @@ export class Step4Component implements OnInit, OnDestroy {
           this.dealStatus = response.dealStatus;
           this.id = response?.id;
           const isObject = typeof response?.subDeals[0]?.voucherStartDate;
-          if(response.subDeals[0].voucherStartDate && isObject != "object") {
+          if(response.subDeals[0]?.voucherStartDate && isObject != "object") {
             const newStart = new Date(response?.subDeals[0]?.voucherStartDate);
             const newEnd = new Date(response?.subDeals[0]?.voucherEndDate);
             newStart.setDate(newStart.getDate() + 1);
@@ -180,9 +180,13 @@ export class Step4Component implements OnInit, OnDestroy {
     }
 
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
-      this.policy = user;
+      this.policy = user?.personalDetail;
       if(user)
-      this.policyForm.patchValue(user);
+      this.policyForm.patchValue({
+        streetAddress: this.policy?.streetAddress,
+        city: this.policy?.city,
+        zipCode: this.policy?.city
+      })
    });
 
     if(this.form.get('voucherStartDate')?.value && this.form.get('voucherEndDate')?.value) {
@@ -262,7 +266,8 @@ export class Step4Component implements OnInit, OnDestroy {
       zipCode: [
         '',
         Validators.compose([
-          Validators.required
+          Validators.required,
+          Validators.minLength(4)
         ])
       ],
       city: [
@@ -334,9 +339,9 @@ export class Step4Component implements OnInit, OnDestroy {
 
   checkForm() {
     return !(
-      this.form.get('voucherStartDate')?.hasError('required') ||
-      this.form.get('voucherEndDate')?.hasError('required') ||
-      this.form.get('voucherValidity')?.hasError('required') ||
+      !this.form.get('voucherStartDate')?.value ||
+      !this.form.get('voucherEndDate')?.value ||
+      !this.form.get('voucherValidity')?.value ||
       this.form.get('voucherValidity')?.hasError('min')
     );
   }
@@ -356,7 +361,11 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   async openNew() {
-    this.policyForm.patchValue(this.policy);
+    this.policyForm.patchValue({
+      streetAddress: this.policy?.streetAddress,
+      city: this.policy?.city,
+      zipCode: this.policy?.city
+    })
     return await this.modal.open();
   }
 
@@ -368,12 +377,24 @@ export class Step4Component implements OnInit, OnDestroy {
     e.preventDefault()
   }
 
+  enableEdit() {
+    this.editable = true;
+    debugger
+    this.policyForm.patchValue({
+      streetAddress: this.policy?.streetAddress,
+      city: this.policy?.city,
+      zipCode: this.policy?.zipCode
+    })
+  }
+
   editPolicyForm() {
     this.editable = true;
     this.disabled = true;
-    this.userService.updateMerchantprofile(this.policyForm.value)
+    debugger
+    this.userService.updateLocation(this.policyForm.value)
     .pipe(exhaustMap((res: any) => {
       if(!res.hasErrors()) {
+        debugger
         this.toast.success('Data updated', {
           style: {
             border: '1px solid #65a30d',
@@ -392,25 +413,29 @@ export class Step4Component implements OnInit, OnDestroy {
         }
     })).subscribe((res: any) => {
       this.disabled = false;
+      debugger
+      this.policy = res.data.personalDetail;
       console.log(res);
     })
   }
 
   discardLower() {
     this.editable = false;
-    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
-      this.policy = user;
-      if(user)
-      this.policyForm.patchValue(user);
-   });
+    this.policyForm.patchValue({
+      streetAddress: this.policy?.streetAddress,
+      city: this.policy?.city,
+      zipCode: this.policy?.city
+    });
   }
 
   sendDraftData() {
     if(!this.checkForm()) {
+      debugger
       this.form.markAllAsTouched();
       return;
     }
     else {
+      debugger
       this.connection.isSaving.next(true);
       this.nextClick.emit('');
       this.newData.pageNumber = 4;

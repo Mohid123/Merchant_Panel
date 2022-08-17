@@ -115,6 +115,7 @@
           <div class="flex justify-start input-group-prepend">
             <span class="absolute flex items-center mt-3 ml-64 cursor-pointer" (click)="showPin()"><i [ngClass]="pinHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-1 ml-2 text-gray-600 bg-gray-200 rounded far fa-eye fa-xs"></i></span>
             <input
+              appNumbersOnly
               maxlength="4"
               formControlName="voucherPinCode"
               class="form-control pr-14"
