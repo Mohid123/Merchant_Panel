@@ -339,9 +339,9 @@ export class Step4Component implements OnInit, OnDestroy {
 
   checkForm() {
     return !(
-      !this.form.get('voucherStartDate')?.value ||
-      !this.form.get('voucherEndDate')?.value ||
-      !this.form.get('voucherValidity')?.value ||
+      this.form.get('voucherStartDate')?.hasError('required') ||
+      this.form.get('voucherEndDate')?.hasError('required') ||
+      this.form.get('voucherValidity')?.hasError('required') ||
       this.form.get('voucherValidity')?.hasError('min')
     );
   }
@@ -379,7 +379,6 @@ export class Step4Component implements OnInit, OnDestroy {
 
   enableEdit() {
     this.editable = true;
-    debugger
     this.policyForm.patchValue({
       streetAddress: this.policy?.streetAddress,
       city: this.policy?.city,
@@ -390,11 +389,9 @@ export class Step4Component implements OnInit, OnDestroy {
   editPolicyForm() {
     this.editable = true;
     this.disabled = true;
-    debugger
     this.userService.updateLocation(this.policyForm.value)
     .pipe(exhaustMap((res: any) => {
       if(!res.hasErrors()) {
-        debugger
         this.toast.success('Data updated', {
           style: {
             border: '1px solid #65a30d',
@@ -413,7 +410,6 @@ export class Step4Component implements OnInit, OnDestroy {
         }
     })).subscribe((res: any) => {
       this.disabled = false;
-      debugger
       this.policy = res.data.personalDetail;
       console.log(res);
     })
@@ -429,13 +425,11 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   sendDraftData() {
-    if(!this.checkForm()) {
-      debugger
+    if(this.form.disabled || this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
     else {
-      debugger
       this.connection.isSaving.next(true);
       this.nextClick.emit('');
       this.newData.pageNumber = 4;

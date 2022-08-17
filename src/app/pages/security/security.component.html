@@ -122,13 +122,25 @@
               type="{{pinHide ? 'password' : 'text'}}"
               [value]="user.voucherPinCode">
            </div>
+           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'Pin code should be 4 digits',
+            control: pinCodeForm.controls['voucherPinCode']
+          }">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Pin code is required',
+            control: pinCodeForm.controls['voucherPinCode']
+          }">
+          </ng-container>
         </td>
         <div *ngIf="editPin == true" class="flex px-8 justify-evenly">
           <button style="background-color: #EBF5FD; color: #0081E9;" (click)="editPinCode()" type="button" class="text-sm rounded-md w-18 h-9">Edit</button>
         </div>
         <div *ngIf="editPin == false" class="flex px-8 justify-evenly">
           <button (click)="discard()" type="button" class="text-sm text-white bg-gray-400 rounded-md w-18 h-9">Discard</button>
-          <button (click)="savePinCode()" type="submit" class="text-sm text-white bg-blue-400 rounded-md w-18 h-9">Save</button>
+          <button [disabled]="pinCodeForm.invalid" [ngClass]="pinCodeForm.invalid ? 'bg-blue-300 cursor-not-allowed': 'bg-blue-500 cursor-pointer'" (click)="savePinCode()" type="submit" class="text-sm text-white rounded-md w-18 h-9">Save</button>
         </div>
       </tr>
     </tbody>

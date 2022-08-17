@@ -69,7 +69,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   initPinCodeForm() {
     this.pinCodeForm = this.fb.group({
-      voucherPinCode: [{value: this.pinCodeValue, disabled: this.editPin}]
+      voucherPinCode: [{value: this.pinCodeValue, disabled: this.editPin}, Validators.compose([Validators.minLength(4), Validators.required])]
     })
   }
 
