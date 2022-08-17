@@ -134,7 +134,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     },
     {
       id: 3,
-      status: 'Needs Attention'
+      status: 'Needs attention'
     },
     {
       id: 4,
