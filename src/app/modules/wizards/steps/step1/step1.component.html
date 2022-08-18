@@ -84,20 +84,20 @@
           </ng-container>
         </div>
         <div class="h-24 fv-row 2xl:h-26">
-          <label class="form-label">Deal sub-header</label>
+          <label class="form-label">Deal sub-title</label>
           <input maxlength="140" appTrim type="text " class="text-base font-normal text-black form-control" formControlName="subTitle" name="subTitle" placeholder="Enter subtitle of your deal"
           [ngClass]="{
             'is-invalid': f['subTitle'].invalid && f['subTitle'].touched,
             'is-valid': f['subTitle'].valid}">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
-              message: 'Deal sub-header is required',
+              message: 'Deal sub-title is required',
               control: dealForm.controls['subTitle']
             }">
             </ng-container>
             <ng-container *ngIf="f['subTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'minlength',
-              message: 'Deal sub-header should at least be 3 characters',
+              message: 'Deal sub-title should at least be 3 characters',
               control: dealForm.controls['subTitle']
             }">
             </ng-container>

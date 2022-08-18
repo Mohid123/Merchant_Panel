@@ -95,6 +95,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     })
     this.editPin = true;
     this.pinCodeForm.get('voucherPinCode')?.disable();
+    this.showPin();
   }
 
   discard() {
