@@ -189,6 +189,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.filterDealIDSearch = [];
     this.dealID = '';
     this.getReviewsByMerchant();
+    this.filterByDealID('');
   }
 
   next():void {

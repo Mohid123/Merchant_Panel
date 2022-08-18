@@ -389,6 +389,7 @@ export class BillingsComponent implements OnInit, OnDestroy {
     this.fromDate = '';
     this.toDate = '';
     this.getInvoicesByMerchant();
+    this.filterByInvoiceID('');
   }
 
   ngOnDestroy() {

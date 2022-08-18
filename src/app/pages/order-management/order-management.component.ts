@@ -544,6 +544,9 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.voucherStatus = '';
     this.invoiceStatus = '';
     this.getVouchersByMerchant();
+    this.filterByVoucherID('');
+    this.filterByVoucherHeader('');
+    this.filterByDealHeader('');
   }
 
   next():void {

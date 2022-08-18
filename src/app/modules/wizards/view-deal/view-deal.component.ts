@@ -939,10 +939,13 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.dealIDsFilters = [];
     this.dealHeadersFilters = [];
     this.dealStatusesFilters = [];
-    this.title = '';
+    this.header = '';
+    this.dealID = '';
     this.searchPage = 1;
     this.page = 1;
-    this.sendPaginationNext();
+    this.applyFilters();
+    this.filterByDealID('');
+    this.filterByDealHeader('');
   }
 
   ngOnDestroy() {
