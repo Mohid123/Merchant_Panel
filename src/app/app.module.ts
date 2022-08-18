@@ -35,6 +35,7 @@ import { SecurityComponent } from './pages/security/security.component';
 import { SingleReviewComponent } from './pages/single-review/single-review.component';
 import { TestComponent } from './pages/test/test.component';
 import { PopupModalComponent } from './components/popup-modal/popup-modal.component';
+import { DealCrmHeaderComponent } from './CRM/deal-crm-header/deal-crm-header.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { PopupModalComponent } from './components/popup-modal/popup-modal.compon
     ProfileSliderComponent,
     NewReviewsComponent,
     TruncationPipe,
-    PopupModalComponent
+    PopupModalComponent,
+    DealCrmHeaderComponent
   ],
   imports: [
     CoreModule,
