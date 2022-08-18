@@ -50,7 +50,7 @@
       <ng-container *ngFor="let data of topDeals; let i = index;">
         <tr class="z-40 h-16 text-gray-700 bg-white rounded-lg">
           <td class="p-4">{{data?.dealID}}</td>
-          <td class="p-4">{{data?.dealHeader}}</td>
+          <td class="p-4">{{(data.dealHeader.length > 22) ? ((data.dealHeader) | slice:0:22)+'...':(data.dealHeader)}}</td>
           <td class="p-4">{{data?.dealStatus}}</td>
           <td class="p-4">{{data?.soldVouchers}}</td>
           <td class="pr-6 text-center">{{data?.soldVouchers}}&nbsp;&euro;</td>
