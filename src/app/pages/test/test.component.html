@@ -2,7 +2,7 @@
   <div class="flex flex-row justify-start">
     <li class="first">
       <a [ngClass]="router.url == '/business-page' ? '': 'text-gray-600'" routerLinkActive='activated' routerLink="/business-page">Business details</a>
-      <div class="flex justify-center">
+      <div class="flex justify-center pr-4.5">
         <hr [ngClass]="router.url == '/business-page' ? 'block': 'hidden'" class="horizontal">
       </div>
     </li>
@@ -16,7 +16,7 @@
 
     <li class="first" style="margin-left: 32px;">
       <a [ngClass]="router.url == '/security-page' ? '': 'text-gray-600'" routerLinkActive='activated' routerLink="/security-page">Security</a>
-      <div class="pl-7">
+      <div class="pl-5">
         <hr [ngClass]="router.url == '/security-page' ? 'block': 'hidden'" class="horizontal">
       </div>
     </li>
