@@ -364,7 +364,7 @@ export class Step4Component implements OnInit, OnDestroy {
     this.policyForm.patchValue({
       streetAddress: this.policy?.streetAddress,
       city: this.policy?.city,
-      zipCode: this.policy?.city
+      zipCode: this.policy?.zipCode
     })
     return await this.modal.open();
   }
