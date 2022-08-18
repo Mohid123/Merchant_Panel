@@ -144,7 +144,7 @@ export class FiltersComponent implements OnInit  {
 
   clear() {
     this.allSelected = false;
-    this.optionsList.length = 0;
+    // this.optionsList.length = 0;
     this.optionsListStatus.find((x: any) => x.checked = false);
     this.searchControl.setValue('');
     this.sendFilter.emit('');
