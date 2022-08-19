@@ -441,10 +441,8 @@ export class Step4Component implements OnInit, OnDestroy {
             voucher.voucherEndDate = '';
           } else {
             voucher.voucherValidity = 0;
-            voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day).getTime();
-            // const start = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day);
-            // console.log(moment(start).tz('Etc/GMT', false).utc().format("YYYY-MM-DD HH:mm"));
-            voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
+            voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day).setUTCHours(0,0,0,0);
+            voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).setUTCHours(0,0,0,0);
           }
         });
         const payload = this.newData;
@@ -463,8 +461,8 @@ export class Step4Component implements OnInit, OnDestroy {
             voucher.voucherEndDate = '';
           } else {
             voucher.voucherValidity = 0;
-            voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day).getTime();
-            voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
+            voucher.voucherStartDate = new Date(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day).setUTCHours(0,0,0,0);
+            voucher.voucherEndDate = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).setUTCHours(0,0,0,0);
           }
         });
         this.connection.sendData(this.data);

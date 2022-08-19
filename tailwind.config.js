@@ -33,6 +33,7 @@ const extendedSize = {
   88: '22rem',
   100: '25rem',
   116: '29rem',
+  104: '28.75rem',
   124: '31rem',
   128: '32rem',
   132: '33rem',
@@ -40,6 +41,7 @@ const extendedSize = {
   136: '34rem',
   150: '37.5rem',
   180: '45rem',
+  190: '47.75rem',
   204: '51rem',
   216: '54rem',
   240: '60rem',
@@ -81,6 +83,10 @@ module.exports = {
           '800': '#787F9F',
         }
       },
+      margin: {
+        '20.5': '5.313rem',
+        '30': '7.375rem'
+      },
       width: extendedSize,
       maxWidth: extendedSize,
       minWidth: extendedSize,
@@ -89,6 +95,7 @@ module.exports = {
       minHeight: extendedSize,
       padding: {
         4.5: '1.125rem',
+        15: '9.625rem'
       },
       fontSize: {
         'xxs': '0.625rem',

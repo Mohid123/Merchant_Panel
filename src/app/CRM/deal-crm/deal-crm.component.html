@@ -1,1 +1,452 @@
+<app-deal-crm-header></app-deal-crm-header>
+<div class="mx-20.5 my-8">
+  <div class="flex justify-between">
+    <div [formGroup]="crmForm">
+  <!--Title-->
+      <div class="h-24 fv-row 2xl:h-26">
+        <label class="text-base font-semibold my-3.5">Deal title</label>
+        <input maxlength="100" appTrim type="text" class="text-base font-normal text-black form-control max-w-190 h-12" formControlName="dealTitle" name="dealTitle" placeholder="Enter title of your deal"
+        [ngClass]="{
+          'is-invalid': f['dealTitle'].invalid && f['dealTitle'].touched,
+          'is-valid': f['dealTitle'].valid}">
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Deal title is required',
+          control: f['dealTitle']
+        }">
+        </ng-container>
+        <ng-container *ngIf="f['dealTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'Deal title should at least be 3 characters',
+            control: f['dealTitle']
+          }">
+        </ng-container>
+        <ng-container *ngIf="!f['dealTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'Special characters are not allowed',
+          control: f['dealTitle']
+        }">
+        </ng-container>
+      </div>
 
+      <!--User name and review info-->
+      <div class="my-7">
+        <span class="text-2xl font-semibold">King Spa And Sauna</span>
+        <div class="flex justify-start">
+          <span class="text-sm mt-3.5">5.0</span>
+          <div class="rating mx-2 mt-2.5">
+            <div class="rating-label me-1">
+                <i class="fas fa-star fs-9"></i>
+            </div>
+            <div class="rating-label me-1">
+                <i class="fas fa-star fs-9"></i>
+            </div>
+            <div class="rating-label me-1">
+                <i class="fas fa-star fs-9"></i>
+            </div>
+            <div class="rating-label me-1">
+                <i class="fas fa-star fs-9"></i>
+            </div>
+            <div class="rating-label me-1">
+                <i class="fas fa-star fs-9"></i>
+            </div>
+          </div>
+          <span class="text-sm mt-3.5" style="color:#0081E9;">50,293 Ratings</span>
+        </div>
+      </div>
+
+  <!--Subtitle-->
+      <div class="h-24 fv-row 2xl:h-26">
+        <label class="text-base font-semibold my-3.5">Deal sub-title</label>
+        <input maxlength="100" appTrim type="text" class="text-base font-normal text-black form-control max-w-190 h-12" formControlName="dealSubTitle" name="dealSubTitle" placeholder="Enter sub-title of your deal"
+        [ngClass]="{
+          'is-invalid': f['dealSubTitle'].invalid && f['dealSubTitle'].touched,
+          'is-valid': f['dealSubTitle'].valid}">
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Deal sub-title is required',
+          control: f['dealSubTitle']
+        }">
+        </ng-container>
+        <ng-container *ngIf="f['dealSubTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'Deal sub-title should at least be 3 characters',
+            control: f['dealSubTitle']
+          }">
+        </ng-container>
+        <ng-container *ngIf="!f['dealSubTitle']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'Special characters are not allowed',
+          control: f['dealSubTitle']
+        }">
+        </ng-container>
+      </div>
+
+  <!--Image-->
+      <div class="my-7" *ngIf="isLoggedIn == true">
+        <ng-container *ngFor="let image of imageArray; let i = index">
+          <div class="relative w-190 h-104" *ngIf="i == 0">
+            <img [src]="image.captureFileURL" class="w-190 h-104 object-cover rounded-md">
+            <i *ngIf="i == 0" class="absolute -top-4 -right-2 fa fa-times-circle z-50" style="font-size: xx-large!important; color: gray !important; background-color: white!important; border-radius: 100%;"></i>
+          </div>
+        </ng-container>
+      </div>
+
+    <!--Multiple Images-->
+      <div class="flex justify-start space-x-2" *ngIf="isLoggedIn == true">
+        <ng-container *ngFor="let images of imageArray; let index = index; let first = first">
+          <div class="w-16 h-14 relative" *ngIf="index >= 0">
+            <img [src]="images.captureFileURL" class="w-16 h-14 rounded-md" [ngClass]="first ? 'border-gray-400 rounded-md border-2 p-1': ''">
+            <i *ngIf="index >= 0" class="absolute -top-2 -right-2 fa fa-times-circle fa-lg z-50" style="color: gray !important; background-color: white!important; border-radius: 100%;"></i>
+          </div>
+        </ng-container>
+      </div>
+
+      <!--Swiper-->
+
+      <ng-container *ngIf="isLoggedIn == false && imageArray.length > 0">
+        <div class="my-7 w-190 h-104">
+          <swiper #swipe
+          style="--swiper-navigation-color: #fff;--swiper-pagination-color: #fff; --swiper-navigation-size: 20px;"
+          [spaceBetween]="3"
+          [navigation]="true"
+          [thumbs]="{ swiper: thumbsSwiper }"
+          class="mySwiper2">
+
+          <ng-template swiperSlide *ngFor="let url of imageArray; let i = index">
+            <img [src]="url.captureFileURL">
+          </ng-template>
+
+          </swiper>
+
+          <swiper
+            (swiper)="thumbsSwiper = $event"
+            [spaceBetween]="1"
+            [slidesPerView]="10"
+            [freeMode]="true"
+            [watchSlidesProgress]="true"
+            class="mySwiper">
+
+            <ng-template swiperSlide *ngFor="let url of imageArray; let i = index">
+              <img [src]="url.captureFileURL" class="w-16 h-14 p-0 rounded-md">
+            </ng-template>
+
+          </swiper>
+        </div>
+      </ng-container>
+
+
+  <!--highlights-->
+      <div class="h-24 fv-row 2xl:h-26" [ngClass]="isLoggedIn == true ? 'mb-7 mt-7': 'mb-7 mt-24'">
+        <label class="text-base font-semibold my-3.5">Highlights</label>
+        <input maxlength="100" appTrim type="text" class="text-base font-normal text-black form-control max-w-190 h-12" formControlName="highlights" name="highlights" placeholder="Enter highlights of your deal"
+        [ngClass]="{
+          'is-invalid': f['highlights'].invalid && f['highlights'].touched,
+          'is-valid': f['highlights'].valid}">
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Deal highlights is required',
+          control: f['highlights']
+        }">
+        </ng-container>
+        <ng-container *ngIf="!f['highlights']?.errors?.['minlength']" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'Special characters are not allowed',
+          control: f['highlights']
+        }">
+        </ng-container>
+      </div>
+
+  <!--about this deal-->
+      <div class="relative h-72 w-190 fv-row my-7">
+        <label class="text-base font-semibold my-3.5">About this deal</label>
+        <span [ngClass]="textLength(f['aboutThisDeal'].value) > 2000 ? 'text-red-500': 'text-black'" class="absolute z-50 text-xs top-16 right-4">{{textLength(f['aboutThisDeal'].value)}}/2000</span>
+        <ckeditor [editor]="Editor" (change)="f['aboutThisDeal'].markAsTouched()" [config]="config" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutThisDeal" name="aboutThisDeal" placeholder="aboutThisDeal" rows="5"
+        [ngClass]="{
+          'is-invalid': f['aboutThisDeal'].invalid && f['aboutThisDeal'].touched,
+          'is-valid': f['aboutThisDeal'].valid}"></ckeditor>
+          <ng-container *ngIf="(f['aboutThisDeal'].dirty || f['aboutThisDeal'].touched)">
+            <ng-container *ngIf="f['aboutThisDeal'].value == null || f['aboutThisDeal'].value == ''">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  About this deal is required
+                </span>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="f['aboutThisDeal'].value !== null && f['aboutThisDeal'].value !== '' && textLength(f['aboutThisDeal'].value) < 16">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  About this deal should be at least be 16 characters
+                </span>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="f['aboutThisDeal'].value !== null && f['aboutThisDeal'].value !== '' && textLength(f['aboutThisDeal'].value) > 2000">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  Upto 2000 characters are allowed
+                </span>
+              </div>
+            </ng-container>
+          </ng-container>
+      </div>
+
+  <!--read more-->
+      <div class="relative w-190 h-72 fv-row">
+        <label class="text-base font-semibold my-3.5">Read more</label>
+        <span [ngClass]="textLength(f['readMore'].value) > 2000 ? 'text-red-500': 'text-black'" class="absolute z-50 text-xs top-16 right-4">{{textLength(f['readMore'].value)}}/2000</span>
+        <ckeditor (change)="f['readMore'].markAsTouched()" [editor]="Editor" [config]="config" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="readMore" name="readMore" placeholder="readMore" rows="5"
+        [ngClass]="{
+          'is-invalid': f['readMore'].invalid && f['readMore'].touched,
+          'is-valid': f['readMore'].valid}"></ckeditor>
+        <ng-container *ngIf="(f['readMore'].dirty || f['readMore'].touched)">
+
+          <ng-container *ngIf="f['readMore'].value == null || f['readMore'].value == ''">
+            <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+              <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                Read more is required
+              </span>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="f['readMore'].value !== null && f['readMore'].value !== '' && textLength(f['readMore'].value) < 16">
+            <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+              <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                Read more should at least be 16 characters
+              </span>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="f['readMore'].value !== null && f['readMore'].value !== '' && textLength(f['readMore'].value) > 2000">
+            <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+              <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                Upto 2000 characters are allowed
+              </span>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+
+  <!--fine print-->
+      <div class="relative w-190 h-72 fv-row my-7">
+        <label class="text-base font-semibold my-3.5">The fine print</label>
+        <span [ngClass]="textLength(f['finePrints'].value) > 2000 ? 'text-red-500': 'text-black'" class="absolute z-50 text-xs top-16 right-4">{{textLength(f['finePrints'].value)}}/2000</span>
+        <ckeditor (change)="f['finePrints'].markAsTouched()" [editor]="Editor" [config]="config" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="finePrints" name="finePrints" placeholder="finePrints" rows="5"
+        [ngClass]="{
+          'is-invalid': f['finePrints'].invalid && f['finePrints'].touched,
+          'is-valid': f['finePrints'].valid}"></ckeditor>
+          <ng-container *ngIf="(f['finePrints'].dirty || f['finePrints'].touched)">
+
+            <ng-container *ngIf="f['finePrints'].value ==null || f['finePrints'].value == ''">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  The fine print is required
+                </span>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="f['finePrints'].value !== null && f['finePrints'].value !== '' && textLength(f['finePrints'].value) < 16">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  The fine print should at least be 16 characters
+                </span>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="f['finePrints'].value !== null && f['finePrints'].value !== '' && textLength(f['finePrints'].value) > 2000">
+              <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+                <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+                  Upto 2000 characters are allowed
+                </span>
+              </div>
+            </ng-container>
+          </ng-container>
+      </div>
+
+    </div>
+
+    <div class="flex flex-col items-end">
+      <div>
+        <button *ngIf="isLoggedIn == false" (click)="openSignInModal()" type="button" class="px-9 py-2.5 bg-white rounded-md text-sm" style="border: 1px solid #042F5333; color:#042F53;">Sign In</button>
+        <button *ngIf="isLoggedIn == true" type="button" class="px-9 py-2.5 bg-primary-400 rounded-md text-sm text-white">Save changes</button>
+      </div>
+
+      <div class="mb-2 mt-30 pr-12 max-w-100">
+        <span class="text-base font-semibold max-w-60">{{title}}</span>
+        <div class="flex justify-start">
+          <span class="line-through text-sm mt-4" style="color:#94A1B3;">320&nbsp;&euro;</span>
+          <span class="font-semibold text-sm mx-3.5 mt-4" style="color:#12B500;">220&nbsp;&euro;</span>
+          <div>
+            <button class="py-1 px-4.5 text-xxs rounded-xl mt-3.5 cursor-text" style="color: #12B500; background-color: #DBF4D9;">53% off</button>
+          </div>
+          <div>
+            <button [ngClass]="isLoggedIn == false ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="isLoggedIn == false" (click)="openModal()" type="button" class="ml-14 py-1.5 px-5 text-sm rounded-md mt-2.5" style="background-color:#EBF5FD; color: #0081E9;">Edit</button>
+          </div>
+        </div>
+        <hr style="border: 0.5px solid #96B1BC;" class="mb-4">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #modal>
+  <div class="border-white modal-header">
+    <h1 class="text-center">Edit Voucher</h1>
+    <div class="flex justify-end pb-8 m-0">
+      <button (click)="closeModal()" class="px-2 py-1 text-sm font-normal text-gray-500 bg-gray-300 rounded-full">
+        &#10006;
+      </button>
+    </div>
+  </div>
+  <div class="px-0 pt-2 modal-body">
+    <div>
+      <form class="px-6 mt-2 md:px-11 form" [formGroup]="editVouchers">
+        <div class="h-24 fv-row 2xl:h-26">
+          <label class="pb-2 text-gray-500">Voucher title</label>
+            <input maxlength="140" appTrim type="text" class="form-control" formControlName="title" name="title"
+            [ngClass]="{
+            'is-invalid': editVouchers.controls['title'].invalid && editVouchers.controls['title'].touched,
+            'is-valid': editVouchers.controls['title'].valid}">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Voucher title is required',
+            control: editVouchers.controls['title']
+          }">
+        </ng-container>
+        </div>
+
+        <div class="h-24 fv-row 2xl:h-26">
+          <label class="pb-2 text-gray-500">Original price</label>
+            <span class="absolute flex items-center h-11 "><i style="font-size:12px;" class="px-2.5 py-2.5 ml-2 xl:mt-1.5 2xl:mt-2 text-white bg-gray-500 rounded fas fa-euro-sign fa-lg"></i></span>
+            <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="originalPrice"
+            [ngClass]="{
+            'is-invalid': editVouchers.controls['originalPrice'].invalid && editVouchers.controls['originalPrice'].touched,
+            'is-valid':  editVouchers.controls['originalPrice'].valid}">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Original Price is required',
+              control: editVouchers.controls['originalPrice']
+            }">
+            </ng-container>
+          </div>
+
+          <div class="h-24 fv-row 2xl:h-26">
+            <label class="pb-2 text-gray-500">Deal price</label>
+              <span class="absolute flex items-center h-11"><i style="font-size:12px;" class="px-2.5 py-2.5 ml-2 xl:mt-1.5 2xl:mt-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
+              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+              [ngClass]="{
+                'is-invalid': editVouchers.controls['dealPrice'].invalid && editVouchers.controls['dealPrice'].touched,
+                'is-valid': editVouchers.controls['dealPrice'].valid && editVouchers.controls['dealPrice'].value != '' && editVouchers.controls['dealPrice'].value != null && editVouchers.controls['dealPrice'].value != undefined}">
+                <div class="text-xs text-danger"
+                *ngIf="editVouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
+                The deal price cannot be greater than the original price
+              </div>
+            </div>
+
+          <div class="h-24 fv-row 2xl:h-26">
+          <label class="pb-2 text-gray-500">Number of available vouchers</label>
+            <div class="flex items-center justify-between h-8 border-2 border-white rounded-sm w-28">
+              <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="editHandleMinus()">-</button>
+              <input maxlength="4" appNumbersOnly type="text" style="height: 24px !important;min-height: unset;" class="w-12 py-0.5 px-0 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+              <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="editHandlePlus()">+</button>
+            </div>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Please specify number of vouchers',
+              control: editVouchers.controls['numberOfVouchers']
+            }">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'min',
+            message: 'Please specify number of vouchers',
+            control: editVouchers.controls['numberOfVouchers']
+          }">
+        </ng-container>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="flex justify-between border-none modal-footer">
+    <button type="button" class="self-center w-24 h-10 text-sm text-gray-500 bg-gray-200 rounded-lg" (click)="closeModal()">Discard</button>
+    <button type="submit" class="self-center w-24 h-10 text-sm text-white rounded-lg bg-primary-400" [disabled]="editVouchers.invalid">Update</button>
+  </div>
+</ng-template>
+
+<ng-template #modal2>
+  <div class="border-white modal-header">
+    <h2 class="text-center">Sign in to admin account</h2>
+    <div class="flex justify-end pb-8 m-0">
+      <button (click)="closeSignInModal()" class="px-2 py-1 text-sm font-normal text-gray-500 bg-gray-300 rounded-full">
+        &#10006;
+      </button>
+    </div>
+  </div>
+
+  <div class="px-0 pt-2 modal-body">
+    <form class="px-6 mt-2 md:px-11 form" [formGroup]="signInForm">
+      <div class="h-24 fv-row 2xl:h-26">
+        <label class="pb-2 text-gray-500">Email</label>
+          <input appTrim type="text" class="form-control" formControlName="email" name="email"
+          [ngClass]="{
+          'is-invalid': signInForm.controls['email'].invalid && signInForm.controls['email'].touched,
+          'is-valid': signInForm.controls['email'].valid}">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Email is required',
+            control: signInForm.controls['email']}">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'pattern',
+            message: 'Email is invalid',
+            control: signInForm.controls['email']}">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'minLength',
+            message: 'Email should have at least 3 symbols',
+            control: signInForm.controls['email']}">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'maxLength',
+            message: 'Email should have maximum 360 symbols',
+            control: signInForm.controls['email']}">
+          </ng-container>
+      </div>
+
+      <div class="h-24 fv-row 2xl:h-26">
+        <label class="pb-2 text-gray-500">Password</label>
+        <div class="flex flex-row input-group-prepend justify-evenly">
+          <span class="absolute flex items-center mt-3 cursor-pointer right-12" (click)="passwordShowHide()"><i [ngClass]="passwordHide ? 'far fa-eye': 'far fa-eye-slash'" class="p-2 ml-2 text-gray-600 bg-white rounded"></i></span>
+          <input class="pr-20 form-control form-control-lg form-control-solid"
+            type="{{passwordHide ? 'password' : 'text'}}"
+            name="password"
+            autocomplete="off"
+            formControlName="password"
+          >
+        </div>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Password is required',
+          control: signInForm.controls['password']}">
+        </ng-container>
+      </div>
+
+      <div class="fv-row mt-3">
+        <button (click)="logInAsAdmin()" type="submit" class="py-3.5 text-sm text-white rounded-md w-full" style="background-color:#0081E9;">Sign in</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
+      <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>

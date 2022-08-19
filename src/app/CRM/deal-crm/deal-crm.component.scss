@@ -1,0 +1,185 @@
+@import "~swiper/css";
+@import "~swiper/css/free-mode";
+@import "~swiper/css/navigation";
+@import "~swiper/css/thumbs";
+
+body {
+  background: white!important;
+}
+
+textarea,
+input.form-control {
+  @apply text-xs lg:text-sm 2xl:text-base min-h-11;
+  background-color: transparent !important;
+  border: 0.5px solid #787f9f5e !important;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  border-radius: 5px;
+}
+textarea:focus,
+#dropdownBasic1.open,
+input.form-control:focus {
+  border-color: #0081E9 !important;
+}
+
+
+.ck.ck-toolbar.ck-toolbar_grouping {
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+  background-color: white !important;
+  padding: 0 12px !important;
+}
+
+.ck.ck-editor__main {
+  border: 1px solid #787f9f5e;
+  border-top: none;
+  border-bottom-left-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+}
+
+.ck-editor__editable_inline.ck-blurred {
+  margin: 0 12px;
+  border: none !important;
+  border-top: 0.5px solid #787f9f5e !important;
+}
+
+.ck-editor__top {
+  max-width: 900px!important;
+  border-radius: 8px!important;
+  border-top: #0081E9!important;
+  border-left: #0081E9!important;
+  border-right: #0081E9!important;
+}
+
+.ck-editor__editable_inline {
+  max-width: 900px!important;
+  min-height: 200px;
+  border: 0.5px solid #0081E9!important;
+}
+
+.ck.ck-content {
+  max-height: 12.5rem;
+  max-width: 900px!important;
+  border-bottom-left-radius: 11px !important;
+  border-bottom-right-radius: 11px !important;
+}
+
+.ck.ck-sticky-panel .ck-sticky-panel__content_sticky {
+  position: initial !important;
+}
+
+.ck.ck-sticky-panel__placeholder {
+  display: none !important;
+}
+
+.ck.ck-content ul,
+.ck.ck-content ul li{
+  list-style-type: inherit!important;
+}
+
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {
+  color: black!important;
+}
+
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline p i {
+  line-height: 1!important;
+  font-size: 1rem!important;
+  color: black!important;
+}
+
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-slide {
+  background-size: cover;
+  background-position: center;
+}
+
+.swiper-button-next {
+  @apply w-12 h-12 rounded-full bg-white text-gray-700 text-opacity-100 font-bold p-4
+}
+
+.swiper-button-prev {
+  @apply w-12 h-12 rounded-full bg-white text-gray-700 text-opacity-100 font-bold p-4
+}
+
+.mySwiper2 {
+  @apply w-190 object-cover rounded-md;
+  height: 28.75rem;
+}
+
+.mySwiper {
+  box-sizing: border-box;
+  padding: 2px 0;
+  height: 4.575rem;
+}
+
+.mySwiper .swiper-slide {
+  height: 4.375rem;
+  padding: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mySwiper .swiper-slide-thumb-active {
+  border-color: #3B82F6;
+  border: 2px solid #3B82F6;
+  border-radius: 4px;
+  padding: none;
+  cursor: pointer;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+@media(max-width: 640px) {
+  .ck-editor__top {
+    max-width: 100%!important;
+  }
+
+  .ck-editor__editable_inline {
+    max-width: 100%;
+  }
+}

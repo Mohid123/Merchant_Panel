@@ -23,6 +23,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CoreModule } from './@core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { PopupModalComponent } from './components/popup-modal/popup-modal.component';
 import { ProfileSliderComponent } from './components/profile-slider/profile-slider.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { BillingsComponent } from './pages/billings/billings.component';
@@ -34,8 +35,7 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { SecurityComponent } from './pages/security/security.component';
 import { SingleReviewComponent } from './pages/single-review/single-review.component';
 import { TestComponent } from './pages/test/test.component';
-import { PopupModalComponent } from './components/popup-modal/popup-modal.component';
-import { DealCrmHeaderComponent } from './CRM/deal-crm-header/deal-crm-header.component';
+// import { DealCrmHeaderComponent } from './CRM/deal-crm-header/deal-crm-header.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,7 @@ import { DealCrmHeaderComponent } from './CRM/deal-crm-header/deal-crm-header.co
     NewReviewsComponent,
     TruncationPipe,
     PopupModalComponent,
-    DealCrmHeaderComponent
+    // DealCrmHeaderComponent
   ],
   imports: [
     CoreModule,

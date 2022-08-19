@@ -32,9 +32,9 @@
               control: loginForm.controls['email']}">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: 'Email is invalid',
-                        control: loginForm.controls['email']}">
+            validation: 'pattern',
+            message: 'Email is invalid',
+            control: loginForm.controls['email']}">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'minLength',
@@ -62,9 +62,9 @@
           </div>
 
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'required',
-                        message: 'Password is required',
-                        control: loginForm.controls['password']}">
+            validation: 'required',
+            message: 'Password is required',
+            control: loginForm.controls['password']}">
           </ng-container>
           <div class="w-full text-right mt-7">
             <a routerLink="/auth/forgot-password" class="text-xs font-light text-blue-400 sm:text-sm xl:text-base 3xl:text-lg"
