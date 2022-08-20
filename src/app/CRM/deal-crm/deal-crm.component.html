@@ -5,7 +5,7 @@
   <!--Title-->
       <div class="h-24 fv-row 2xl:h-26">
         <label class="text-base font-semibold my-3.5">Deal title</label>
-        <input maxlength="100" appTrim type="text" class="text-base font-normal text-black form-control max-w-190 h-12" formControlName="dealTitle" name="dealTitle" placeholder="Enter title of your deal"
+        <input maxlength="100" appTrim type="text" class="h-12 text-base font-normal text-black form-control max-w-190" formControlName="dealTitle" name="dealTitle" placeholder="Enter title of your deal"
         [ngClass]="{
           'is-invalid': f['dealTitle'].invalid && f['dealTitle'].touched,
           'is-valid': f['dealTitle'].valid}">
@@ -58,7 +58,7 @@
   <!--Subtitle-->
       <div class="h-24 fv-row 2xl:h-26">
         <label class="text-base font-semibold my-3.5">Deal sub-title</label>
-        <input maxlength="100" appTrim type="text" class="text-base font-normal text-black form-control max-w-190 h-12" formControlName="dealSubTitle" name="dealSubTitle" placeholder="Enter sub-title of your deal"
+        <input maxlength="100" appTrim type="text" class="h-12 text-base font-normal text-black form-control max-w-190" formControlName="dealSubTitle" name="dealSubTitle" placeholder="Enter sub-title of your deal"
         [ngClass]="{
           'is-invalid': f['dealSubTitle'].invalid && f['dealSubTitle'].touched,
           'is-valid': f['dealSubTitle'].valid}">
@@ -86,23 +86,23 @@
       <div class="my-7" *ngIf="isLoggedIn == true">
         <ng-container *ngFor="let image of imageArray; let i = index">
           <div class="relative w-190 h-104" *ngIf="i == 0">
-            <img [src]="image.captureFileURL" class="w-190 h-104 object-cover rounded-md">
-            <i *ngIf="i == 0" class="absolute -top-4 -right-2 fa fa-times-circle z-50" style="font-size: xx-large!important; color: gray !important; background-color: white!important; border-radius: 100%;"></i>
+            <app-blur-hash class="object-cover rounded-md w-190 h-104" [blurHash]="image.blurHash" [imageSrc]="image.captureFileURL" [loading]="'lazy'"></app-blur-hash>
+            <i *ngIf="i == 0" class="absolute z-50 -top-4 -right-2 fa fa-times-circle" style="font-size: xx-large!important; color: gray !important; background-color: white!important; border-radius: 100%;"></i>
           </div>
         </ng-container>
       </div>
 
-    <!--Multiple Images-->
+  <!--Multiple Images-->
       <div class="flex justify-start space-x-2" *ngIf="isLoggedIn == true">
         <ng-container *ngFor="let images of imageArray; let index = index; let first = first">
-          <div class="w-16 h-14 relative" *ngIf="index >= 0">
-            <img [src]="images.captureFileURL" class="w-16 h-14 rounded-md" [ngClass]="first ? 'border-gray-400 rounded-md border-2 p-1': ''">
-            <i *ngIf="index >= 0" class="absolute -top-2 -right-2 fa fa-times-circle fa-lg z-50" style="color: gray !important; background-color: white!important; border-radius: 100%;"></i>
+          <div class="relative block object-cover w-16 h-14" *ngIf="index >= 0">
+            <app-blur-hash [first]="first" [blurHash]="images.blurHash" [imageSrc]="images.captureFileURL" class="block w-16 h-14"></app-blur-hash>
+            <i *ngIf="index >= 0" class="absolute z-50 -top-2 -right-2 fa fa-times-circle fa-lg" style="color: gray !important; background-color: white!important; border-radius: 100%;"></i>
           </div>
         </ng-container>
       </div>
 
-      <!--Swiper-->
+  <!--Swiper-->
 
       <ng-container *ngIf="isLoggedIn == false && imageArray.length > 0">
         <div class="my-7 w-190 h-104">
@@ -114,7 +114,7 @@
           class="mySwiper2">
 
           <ng-template swiperSlide *ngFor="let url of imageArray; let i = index">
-            <img [src]="url.captureFileURL">
+            <app-blur-hash style="display: block; width: 100%; height: 100%; object-fit: cover;" [imageSrc]="url.captureFileURL"></app-blur-hash>
           </ng-template>
 
           </swiper>
@@ -128,7 +128,7 @@
             class="mySwiper">
 
             <ng-template swiperSlide *ngFor="let url of imageArray; let i = index">
-              <img [src]="url.captureFileURL" class="w-16 h-14 p-0 rounded-md">
+              <app-blur-hash [imageSrc]="url.captureFileURL" class="w-16 p-0 h-14"></app-blur-hash>
             </ng-template>
 
           </swiper>
@@ -139,7 +139,7 @@
   <!--highlights-->
       <div class="h-24 fv-row 2xl:h-26" [ngClass]="isLoggedIn == true ? 'mb-7 mt-7': 'mb-7 mt-24'">
         <label class="text-base font-semibold my-3.5">Highlights</label>
-        <input maxlength="100" appTrim type="text" class="text-base font-normal text-black form-control max-w-190 h-12" formControlName="highlights" name="highlights" placeholder="Enter highlights of your deal"
+        <input maxlength="100" appTrim type="text" class="h-12 text-base font-normal text-black form-control max-w-190" formControlName="highlights" name="highlights" placeholder="Enter highlights of your deal"
         [ngClass]="{
           'is-invalid': f['highlights'].invalid && f['highlights'].touched,
           'is-valid': f['highlights'].valid}">
@@ -272,10 +272,10 @@
         <button *ngIf="isLoggedIn == true" type="button" class="px-9 py-2.5 bg-primary-400 rounded-md text-sm text-white">Save changes</button>
       </div>
 
-      <div class="mb-2 mt-30 pr-12 max-w-100">
+      <div class="pr-12 mb-2 mt-30 max-w-100">
         <span class="text-base font-semibold max-w-60">{{title}}</span>
         <div class="flex justify-start">
-          <span class="line-through text-sm mt-4" style="color:#94A1B3;">320&nbsp;&euro;</span>
+          <span class="mt-4 text-sm line-through" style="color:#94A1B3;">320&nbsp;&euro;</span>
           <span class="font-semibold text-sm mx-3.5 mt-4" style="color:#12B500;">220&nbsp;&euro;</span>
           <div>
             <button class="py-1 px-4.5 text-xxs rounded-xl mt-3.5 cursor-text" style="color: #12B500; background-color: #DBF4D9;">53% off</button>
@@ -433,7 +433,7 @@
         </ng-container>
       </div>
 
-      <div class="fv-row mt-3">
+      <div class="mt-3 fv-row">
         <button (click)="logInAsAdmin()" type="submit" class="py-3.5 text-sm text-white rounded-md w-full" style="background-color:#0081E9;">Sign in</button>
       </div>
     </form>

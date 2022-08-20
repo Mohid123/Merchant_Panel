@@ -165,6 +165,12 @@ input.form-control:focus {
   cursor: pointer;
 }
 
+.active {
+  border-color: #B5B5C3;
+  border: 2px solid #B5B5C3;
+  border-radius: 8px;
+}
+
 .swiper-slide img {
   display: block;
   width: 100%;

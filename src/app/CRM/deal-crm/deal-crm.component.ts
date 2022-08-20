@@ -27,7 +27,7 @@ export class DealCRMComponent implements OnInit {
       path: '',
       thumbnailURL: '',
       thumbnailPath: '',
-      blurHash: '',
+      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
       backgroundColorHex: ''
     },
     {
@@ -36,7 +36,7 @@ export class DealCRMComponent implements OnInit {
       path: '',
       thumbnailURL: '',
       thumbnailPath: '',
-      blurHash: '',
+      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
       backgroundColorHex: ''
     },
     {
@@ -45,7 +45,7 @@ export class DealCRMComponent implements OnInit {
       path: '',
       thumbnailURL: '',
       thumbnailPath: '',
-      blurHash: '',
+      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
       backgroundColorHex: ''
     },
     {
@@ -63,7 +63,7 @@ export class DealCRMComponent implements OnInit {
       path: '',
       thumbnailURL: '',
       thumbnailPath: '',
-      blurHash: '',
+      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
       backgroundColorHex: ''
     },
     {
@@ -72,7 +72,7 @@ export class DealCRMComponent implements OnInit {
       path: '',
       thumbnailURL: '',
       thumbnailPath: '',
-      blurHash: '',
+      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
       backgroundColorHex: ''
     },
     {
@@ -81,7 +81,7 @@ export class DealCRMComponent implements OnInit {
       path: '',
       thumbnailURL: '',
       thumbnailPath: '',
-      blurHash: '',
+      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
       backgroundColorHex: ''
     },
     {
@@ -90,7 +90,7 @@ export class DealCRMComponent implements OnInit {
       path: '',
       thumbnailURL: '',
       thumbnailPath: '',
-      blurHash: '',
+      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
       backgroundColorHex: ''
     },
     {
@@ -99,7 +99,7 @@ export class DealCRMComponent implements OnInit {
       path: '',
       thumbnailURL: '',
       thumbnailPath: '',
-      blurHash: '',
+      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
       backgroundColorHex: ''
     },
     {
@@ -108,7 +108,7 @@ export class DealCRMComponent implements OnInit {
       path: '',
       thumbnailURL: '',
       thumbnailPath: '',
-      blurHash: '',
+      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
       backgroundColorHex: ''
     }
   ];

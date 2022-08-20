@@ -35,6 +35,7 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { SecurityComponent } from './pages/security/security.component';
 import { SingleReviewComponent } from './pages/single-review/single-review.component';
 import { TestComponent } from './pages/test/test.component';
+// import { BlurHashComponent } from './CRM/blur-hash/blur-hash.component';
 // import { DealCrmHeaderComponent } from './CRM/deal-crm-header/deal-crm-header.component';
 
 @NgModule({
@@ -53,6 +54,7 @@ import { TestComponent } from './pages/test/test.component';
     NewReviewsComponent,
     TruncationPipe,
     PopupModalComponent,
+    // BlurHashComponent,
     // DealCrmHeaderComponent
   ],
   imports: [
