@@ -293,6 +293,11 @@ export class DealCRMComponent implements OnInit {
     this.closeSignInModal();
   }
 
+  saveChanges() {
+    this.isLoggedIn = false;
+    this.crmForm.disable();
+  }
+
   editHandlePlus() {
     this.editVouchers.patchValue({
       numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) + 1
