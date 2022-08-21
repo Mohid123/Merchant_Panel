@@ -93,7 +93,7 @@
       </div>
 
   <!--Multiple Images-->
-      <div class="flex justify-start space-x-2" *ngIf="isLoggedIn == true">
+      <div class="flex justify-start space-x-3" *ngIf="isLoggedIn == true">
         <ng-container *ngFor="let images of imageArray; let index = index; let first = first">
           <div class="relative block object-cover w-16 h-14" *ngIf="index >= 0">
             <app-blur-hash [first]="first" [blurHash]="images.blurHash" [imageSrc]="images.captureFileURL" class="block w-16 h-14"></app-blur-hash>
