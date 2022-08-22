@@ -1,8 +1,11 @@
-import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { MediaUpload } from '@core/models/requests/media-upload.model';
+import { ApiResponse } from '@core/models/response.model';
+import { MediaService } from '@core/services/media.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HotToastService } from '@ngneat/hot-toast';
 import { GreaterThanValidator } from 'src/app/modules/wizards/greater-than.validator';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from 'swiper';
 
@@ -20,6 +23,7 @@ export class DealCRMComponent implements OnInit {
   signInForm: FormGroup;
   media: any[] = [];
   thumbsSwiper: any;
+  urls: any[] = [];
   imageArray: MediaUpload[] = [
     {
       type: 'Image',
@@ -118,12 +122,16 @@ export class DealCRMComponent implements OnInit {
   title = 'General Spa admission for one';
   passwordHide: boolean = true;
   isLoggedIn: boolean = false;
+  file: any;
   @ViewChild('modal') private modal: TemplateRef<any>;
   @ViewChild('modal2') private modal2: TemplateRef<any>;
 
   constructor(
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private cf: ChangeDetectorRef,
+    private mediaService: MediaService,
+    private toast: HotToastService
     ) { }
 
   ngOnInit(): void {
@@ -316,5 +324,87 @@ export class DealCRMComponent implements OnInit {
     this.passwordHide = !this.passwordHide;
   }
 
+  clearImage(index: number) {
+    this.imageArray.splice(index, 1);
+  }
+
+  onClick(event: any) {
+    event.target.value = ''
+  }
+
+  onSelectFile(event: any) {
+    const files = event.target? event.target.files : event;
+    this.file = files && files.length;
+    if(this.file > 0 && this.file < 11) {
+
+      let i: number = 0;
+      for (const singlefile of files) {
+        var reader = new FileReader();
+        reader.readAsDataURL(singlefile);
+        this.urls.push(singlefile);
+        this.cf.detectChanges();
+        i++;
+      }
+      if(this.urls.length > 0) {
+        for (let index = 0; index < this.urls.length; index++) {
+
+          this.mediaService.uploadMedia('profile-images', this.urls[index])
+          .subscribe((res: ApiResponse<any>) => {
+
+            if(!res.hasErrors()) {
+              const result = [res.data];
+              let images: Array<any> = [];
+
+              images = result.map((image: any) => {
+                return {
+                  type: 'Image',
+                  captureFileURL: image.url,
+                  path: image.path,
+                  thumbnailURL: '',
+                  thumbnailPath: '',
+                  blurHash: '',
+                  backgroundColorHex: ''
+                }
+              });
+
+              this.imageArray.push(...images);
+
+              this.cf.detectChanges();
+              this.urls = [];
+              this.cf.detectChanges();
+              if(this.imageArray.length > 10) {
+                this.imageArray.pop();
+                this.cf.detectChanges();
+                this.toast.error('Upto 10 images are allowed', {
+                  style: {
+                    border: '1px solid #713200',
+                    padding: '16px',
+                    color: '#713200',
+                  },
+                  iconTheme: {
+                    primary: '#713200',
+                    secondary: '#FFFAEE',
+                  }
+                })
+              }
+            }
+          });
+        }
+      }
+    }
+    else {
+      this.toast.error('Please select upto 10 images', {
+        style: {
+          border: '1px solid #713200',
+          padding: '16px',
+          color: '#713200',
+        },
+        iconTheme: {
+          primary: '#713200',
+          secondary: '#FFFAEE',
+        }
+      })
+    }
+  }
 
 }
