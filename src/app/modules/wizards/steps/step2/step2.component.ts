@@ -236,9 +236,15 @@ export class Step2Component implements OnInit, OnDestroy {
       return;
     }
     if(parseInt(this.editVouchers.controls['dealPrice']?.value) >= 0) {
-      const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
-      const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
-      this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
+      if(parseInt(this.editVouchers.controls['dealPrice']?.value) == 0 && parseInt(this.editVouchers.controls['originalPrice']?.value) == 0) {
+
+        this.editVouchers.controls['discountPercentage']?.setValue('0');
+      }
+      else {
+        const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
+        const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
+        this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
+      }
     }
     else if(!parseInt(this.editVouchers.controls['dealPrice']?.value)) {
       const discountPrice = 100;
@@ -273,9 +279,15 @@ export class Step2Component implements OnInit, OnDestroy {
       return;
     }
     if (parseInt(this.vouchers.controls['dealPrice']?.value) >= 0) {
-      const dealPrice = Math.round(parseInt(this.voucherFormControl['originalPrice']?.value) - parseInt(this.voucherFormControl['dealPrice']?.value));
-      const discountPrice = Math.floor(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));
-      this.vouchers.controls['discountPercentage']?.setValue(discountPrice);
+
+      if(parseInt(this.vouchers.controls['dealPrice']?.value) == 0 && parseInt(this.vouchers.controls['originalPrice']?.value) == 0) {
+        this.vouchers.controls['discountPercentage']?.setValue('0');
+      }
+      else {
+        const dealPrice = Math.round(parseInt(this.voucherFormControl['originalPrice']?.value) - parseInt(this.voucherFormControl['dealPrice']?.value));
+        const discountPrice = Math.floor(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));
+        this.vouchers.controls['discountPercentage']?.setValue(discountPrice);
+      }
     }
     else if(!parseInt(this.vouchers.controls['dealPrice']?.value)) {
       const discountPrice = 100;
@@ -396,42 +408,36 @@ export class Step2Component implements OnInit, OnDestroy {
           voucher.voucherValidity = this.voucherValidity
         })
 
-        return new Promise((resolve, reject) => {
-
-          const payload = this.editData;
-          if(payload) {
-            return this.dealService.createDeal(payload)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((res: ApiResponse<any>) => {
-              if(!res.hasErrors()) {
-                this.connection.isSaving.next(false);
-                this.connection.sendSaveAndNext(res.data);
-                resolve('success')
-              }
-            })
-          }
-        })
+        const payload = this.editData;
+        if(payload) {
+          return this.dealService.createDeal(payload)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((res: ApiResponse<any>) => {
+            if(!res.hasErrors()) {
+              this.connection.isSaving.next(false);
+              this.connection.sendSaveAndNext(res.data);
+            }
+          })
+        }
+      break;
       case false:
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.newData.pageNumber = 2;
 
-        return new Promise((resolve, reject) => {
-          const payload = this.newData;
-          if(payload) {
+        const newPayload = this.newData;
 
-            return this.dealService.createDeal(payload)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((res: ApiResponse<any>) => {
-              if(!res.hasErrors()) {
-                this.connection.isSaving.next(false);
-                this.connection.sendSaveAndNext(res.data);
-                // this.connection.sendStep1(res.data)
-                resolve('success')
-              }
-            })
-          }
-        })
+        if(newPayload) {
+          return this.dealService.createDeal(newPayload)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((res: ApiResponse<any>) => {
+            if(!res.hasErrors()) {
+              this.connection.isSaving.next(false);
+              this.connection.sendSaveAndNext(res.data);
+              // this.connection.sendStep1(res.data)
+            }
+          })
+        }
       }
   }
 

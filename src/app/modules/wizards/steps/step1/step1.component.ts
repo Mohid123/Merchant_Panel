@@ -245,6 +245,9 @@ export class Step1Component implements OnInit, OnDestroy {
         deletedCheck: false,
         pageNumber: 1
       }
+      if(payload.subDeals.length == 0) {
+        delete payload.subDeals
+      }
 
       this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
@@ -263,6 +266,9 @@ export class Step1Component implements OnInit, OnDestroy {
         subDeals: this.responseVouchers ? this.responseVouchers : [],
         deletedCheck: false,
         pageNumber: 1
+      }
+      if(payload.subDeals.length == 0) {
+        delete payload.subDeals
       }
 
       this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
