@@ -1,13 +1,19 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { MediaUpload } from '@core/models/requests/media-upload.model';
 import { ApiResponse } from '@core/models/response.model';
 import { MediaService } from '@core/services/media.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
+import { Subject } from 'rxjs';
+import { first, takeUntil } from 'rxjs/operators';
 import { GreaterThanValidator } from 'src/app/modules/wizards/greater-than.validator';
+import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from 'swiper';
+import { AuthCredentials } from './../../@core/models/auth-credentials.model';
+import { DealService } from './../../@core/services/deal.service';
+import { AuthService } from './../../modules/auth/services/auth.service';
 
 SwiperCore.use([FreeMode, Navigation, Thumbs]);
 @Component({
@@ -16,7 +22,7 @@ SwiperCore.use([FreeMode, Navigation, Thumbs]);
   styleUrls: ['./deal-crm.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DealCRMComponent implements OnInit {
+export class DealCRMComponent implements OnInit, OnDestroy {
 
   crmForm: FormGroup;
   editVouchers: FormGroup;
@@ -24,98 +30,9 @@ export class DealCRMComponent implements OnInit {
   media: any[] = [];
   thumbsSwiper: any;
   urls: any[] = [];
-  imageArray: MediaUpload[] = [
-    {
-      type: 'Image',
-      captureFileURL: 'https://swiperjs.com/demos/images/nature-1.jpg',
-      path: '',
-      thumbnailURL: '',
-      thumbnailPath: '',
-      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-      backgroundColorHex: ''
-    },
-    {
-      type: 'Image',
-      captureFileURL: 'https://swiperjs.com/demos/images/nature-2.jpg',
-      path: '',
-      thumbnailURL: '',
-      thumbnailPath: '',
-      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-      backgroundColorHex: ''
-    },
-    {
-      type: 'Image',
-      captureFileURL: 'https://swiperjs.com/demos/images/nature-3.jpg',
-      path: '',
-      thumbnailURL: '',
-      thumbnailPath: '',
-      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-      backgroundColorHex: ''
-    },
-    {
-      type: 'Image',
-      captureFileURL: 'https://swiperjs.com/demos/images/nature-4.jpg',
-      path: '',
-      thumbnailURL: '',
-      thumbnailPath: '',
-      blurHash: '',
-      backgroundColorHex: ''
-    },
-    {
-      type: 'Image',
-      captureFileURL: 'https://swiperjs.com/demos/images/nature-5.jpg',
-      path: '',
-      thumbnailURL: '',
-      thumbnailPath: '',
-      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-      backgroundColorHex: ''
-    },
-    {
-      type: 'Image',
-      captureFileURL: 'https://swiperjs.com/demos/images/nature-6.jpg',
-      path: '',
-      thumbnailURL: '',
-      thumbnailPath: '',
-      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-      backgroundColorHex: ''
-    },
-    {
-      type: 'Image',
-      captureFileURL: 'https://swiperjs.com/demos/images/nature-7.jpg',
-      path: '',
-      thumbnailURL: '',
-      thumbnailPath: '',
-      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-      backgroundColorHex: ''
-    },
-    {
-      type: 'Image',
-      captureFileURL: 'https://swiperjs.com/demos/images/nature-8.jpg',
-      path: '',
-      thumbnailURL: '',
-      thumbnailPath: '',
-      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-      backgroundColorHex: ''
-    },
-    {
-      type: 'Image',
-      captureFileURL: 'https://swiperjs.com/demos/images/nature-9.jpg',
-      path: '',
-      thumbnailURL: '',
-      thumbnailPath: '',
-      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-      backgroundColorHex: ''
-    },
-    {
-      type: 'Image',
-      captureFileURL: 'https://swiperjs.com/demos/images/nature-10.jpg',
-      path: '',
-      thumbnailURL: '',
-      thumbnailPath: '',
-      blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
-      backgroundColorHex: ''
-    }
-  ];
+  imageArray: any[] = [];
+  subDeals: any[] = [];
+  uploaded: boolean = true;
 
   config: any;
   public Editor = ClassicEditor;
@@ -125,19 +42,30 @@ export class DealCRMComponent implements OnInit {
   file: any;
   @ViewChild('modal') private modal: TemplateRef<any>;
   @ViewChild('modal2') private modal2: TemplateRef<any>;
+  dealID: string;
+  voucherID: string;
+  voucherIndex: number;
+  dealData: MainDeal;
+  destroy$ = new Subject();
 
   constructor(
     private fb: FormBuilder,
     private modalService: NgbModal,
     private cf: ChangeDetectorRef,
     private mediaService: MediaService,
-    private toast: HotToastService
-    ) { }
+    private toast: HotToastService,
+    private activatedRoute : ActivatedRoute,
+    private dealService: DealService,
+    private authService: AuthService
+    ) {
+      this.dealID = this.activatedRoute.snapshot.params['dealId'];
+    }
 
   ngOnInit(): void {
     this.initCRMForm();
     this.initEditVocuhers();
     this.initSignInForm();
+    this.getDealByID()
     this.config = {
       placeholder: 'Type your content here...',
       toolbar: {
@@ -160,6 +88,32 @@ export class DealCRMComponent implements OnInit {
     }
   }
 
+  getDealByID() {
+    if(this.dealID) {
+      this.dealService.getDealByID(this.dealID).subscribe((res: ApiResponse<MainDeal>) => {
+        if(!res.hasErrors()) {
+          this.dealData = res.data;
+          this.imageArray = [];
+          this.imageArray.push(...this.dealData.mediaUrl);
+          if(this.imageArray.length > 10) {
+            this.imageArray.pop();
+            this.cf.detectChanges();
+          }
+          this.crmForm.patchValue({
+            dealTitle: this.dealData.dealHeader,
+            dealSubTitle: this.dealData.subTitle,
+            highlights: this.dealData.highlights,
+            aboutThisDeal: this.dealData.aboutThisDeal,
+            readMore: this.dealData.readMore,
+            finePrints: this.dealData.finePrints
+          });
+          this.subDeals = this.dealData.subDeals;
+          this.cf.detectChanges();
+        }
+      })
+    }
+  }
+
   initCRMForm() {
     this.crmForm = this.fb.group({
       dealTitle: [{value: '', disabled: this.isLoggedIn == false}, Validators.compose([
@@ -174,7 +128,7 @@ export class DealCRMComponent implements OnInit {
         Validators.pattern('^[a-zA-Z0-9., ]+')
         ])
       ],
-      mediaURL: this.media,
+      mediaURL: this.imageArray,
       highlights: [
         {value: '', disabled: this.isLoggedIn == false},
         Validators.compose([
@@ -268,13 +222,70 @@ export class DealCRMComponent implements OnInit {
     return result?.length;
   }
 
-  openModal() {
+  openModal(index: number) {
+    this.voucherIndex = index;
+    this.voucherID = this.subDeals[index]?._id;
+    this.editVouchers.patchValue({
+      originalPrice: this.subDeals[index]?.originalPrice,
+      dealPrice: this.subDeals[index]?.dealPrice,
+      numberOfVouchers: this.subDeals[index]?.numberOfVouchers,
+      title: this.subDeals[index]?.title,
+      discountPercentage: this.subDeals[index]?.discountPercentage
+    })
     return this.modalService.open(this.modal, {
       centered: true,
       size: 'md',
       backdrop: 'static',
       keyboard: false,
     });
+  }
+
+  updateVouchers() {
+    if(this.editVouchers.invalid) {
+      this.editVouchers.markAllAsTouched();
+      return;
+    }
+    else {
+      if (parseInt(this.editVouchers.controls['dealPrice']?.value) >= 0) {
+        if(parseInt(this.editVouchers.controls['dealPrice']?.value) == 0 && parseInt(this.editVouchers.controls['originalPrice']?.value) == 0) {
+          this.editVouchers.controls['discountPercentage']?.setValue('0');
+        }
+        else {
+          const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
+          const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
+          this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
+        }
+      }
+      else if(!parseInt(this.editVouchers.controls['dealPrice']?.value)) {
+        const discountPrice = 100;
+        this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
+      }
+      else {
+        this.editVouchers.controls['dealPrice']?.setValue('0');
+        const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
+        const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
+        this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
+      }
+    }
+
+    const payload : any = {
+      _id: this.voucherID,
+      originalPrice: this.editVouchers.get('originalPrice')?.value,
+      dealPrice: this.editVouchers.get('dealPrice')?.value,
+      numberOfVouchers: this.editVouchers.get('numberOfVouchers')?.value,
+      title: this.editVouchers.get('title')?.value,
+      discountPercentage: this.editVouchers.get('discountPercentage')?.value
+    }
+    this.subDeals[this.voucherIndex] = payload;
+    this.closeModal()
+    // if(payload) {
+    //   this.dealService.updateVoucher(this.voucherID, payload).subscribe((res: ApiResponse<any>) => {
+    //     if(!res.hasErrors()) {
+    //       console.log(res);
+    //       this.closeModal()
+    //     }
+    //   })
+    // }
   }
 
   closeModal() {
@@ -292,18 +303,52 @@ export class DealCRMComponent implements OnInit {
   }
 
   closeSignInModal() {
+    this.signInForm.reset();
     this.modalService.dismissAll();
   }
 
   logInAsAdmin() {
-    this.isLoggedIn = true;
-    this.crmForm.enable();
-    this.closeSignInModal();
+    this.authService.login((<AuthCredentials>this.signInForm.value))
+    .pipe(first(), takeUntil(this.destroy$)).subscribe((res: any) => {
+      if(!res.hasErrors()) {
+        if(res.data.role == 'Admin') {
+          this.isLoggedIn = true;
+          this.crmForm.enable();
+          this.closeSignInModal();
+        }
+        else {
+          this.toast.error('This user is not an admin');
+          this.closeSignInModal();
+        }
+      }
+    })
   }
 
   saveChanges() {
-    this.isLoggedIn = false;
-    this.crmForm.disable();
+    if(this.crmForm.invalid) {
+      this.crmForm.markAllAsTouched();
+      return
+    }
+    else {
+      // this.isLoggedIn = false;
+      this.uploaded = false;
+      this.dealData.dealHeader = this.crmForm.get('dealTitle')?.value;
+      this.dealData.subTitle = this.crmForm.get('dealSubTitle')?.value;
+      this.dealData.highlights = this.crmForm.get('highlights')?.value;
+      this.dealData.aboutThisDeal = this.crmForm.get('aboutThisDeal')?.value;
+      this.dealData.finePrints = this.crmForm.get('finePrints')?.value;
+      this.dealData.readMore = this.crmForm.get('readMore')?.value;
+      this.dealData.mediaUrl = this.imageArray;
+      this.dealData.subDeals = this.subDeals;
+      this.dealService.createDeal(this.dealData).subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.getDealByID();
+          this.uploaded = true;
+          this.toast.success('Deal updated successfully')
+        }
+      })
+      // this.crmForm.disable();
+    }
   }
 
   editHandlePlus() {
@@ -349,6 +394,7 @@ export class DealCRMComponent implements OnInit {
         for (let index = 0; index < this.urls.length; index++) {
 
           this.mediaService.uploadMedia('profile-images', this.urls[index])
+          .pipe(takeUntil(this.destroy$))
           .subscribe((res: ApiResponse<any>) => {
 
             if(!res.hasErrors()) {
@@ -405,6 +451,11 @@ export class DealCRMComponent implements OnInit {
         }
       })
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
   }
 
 }

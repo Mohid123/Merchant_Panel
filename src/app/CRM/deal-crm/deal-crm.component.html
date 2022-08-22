@@ -295,23 +295,34 @@
     <div class="flex flex-col items-end">
       <div>
         <button *ngIf="isLoggedIn == false" (click)="openSignInModal()" type="button" class="px-9 py-2.5 bg-white rounded-md text-sm" style="border: 1px solid #042F5333; color:#042F53;">Sign In</button>
-        <button (click)="saveChanges()" *ngIf="isLoggedIn == true" type="button" class="px-9 py-2.5 bg-primary-400 rounded-md text-sm text-white">Save changes</button>
+        <button (click)="saveChanges()" *ngIf="isLoggedIn == true" type="button" class="px-9 py-2.5 bg-primary-400 rounded-md text-sm text-white">
+          <ng-container *ngIf="uploaded == false">
+            <span class="indicator-progress" [style.display]="'block'">
+              Please wait...
+              <span class="align-middle spinner-border spinner-border-sm ms-2"></span>
+            </span>
+          </ng-container>
+          <ng-container *ngIf="uploaded == true">
+            <span class="indicator-label">Save changes</span>
+          </ng-container>
+        </button>
       </div>
-
-      <div class="xl:pr-8 1.5xl:pr-12 mb-2 mt-30 max-w-100">
-        <span class="text-base font-semibold max-w-60">{{title}}</span>
-        <div class="flex justify-start">
-          <span class="mt-4 text-sm line-through" style="color:#94A1B3;">320&nbsp;&euro;</span>
-          <span class="font-semibold text-sm mx-3.5 mt-4" style="color:#12B500;">220&nbsp;&euro;</span>
-          <div>
-            <button class="py-1 px-4.5 text-xxs rounded-xl mt-3.5 cursor-text" style="color: #12B500; background-color: #DBF4D9;">53% off</button>
-          </div>
-          <div>
-            <button [ngClass]="isLoggedIn == false ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="isLoggedIn == false" (click)="openModal()" type="button" class="ml-14 py-1.5 px-5 text-sm rounded-md mt-2.5" style="background-color:#EBF5FD; color: #0081E9;">Edit</button>
-          </div>
+        <div class="xl:pr-8 1.5xl:pr-12 mb-2 mt-30 max-w-100">
+          <ng-container *ngFor="let deal of subDeals; let i = index">
+            <span class="text-base font-semibold max-w-60">{{deal.title}}</span>
+            <div class="flex justify-start">
+              <span class="mt-4 text-sm line-through" style="color:#94A1B3;">{{deal.originalPrice}}&nbsp;&euro;</span>
+              <span class="font-semibold text-sm mx-3.5 mt-4" style="color:#12B500;">{{deal.dealPrice}}&nbsp;&euro;</span>
+              <div>
+                <button class="py-1 px-4.5 text-xxs rounded-xl mt-3.5 cursor-text" style="color: #12B500; background-color: #DBF4D9;">{{deal.discountPercentage.toFixed(2).replace('.',',')}} off</button>
+              </div>
+              <div>
+                <button [ngClass]="isLoggedIn == false ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="isLoggedIn == false" (click)="openModal(i)" type="button" class="ml-14 py-1.5 px-5 text-sm rounded-md mt-2.5" style="background-color:#EBF5FD; color: #0081E9;">Edit</button>
+              </div>
+            </div>
+            <hr style="border: 0.5px solid #96B1BC;" class="mb-4">
+          </ng-container>
         </div>
-        <hr style="border: 0.5px solid #96B1BC;" class="mb-4">
-      </div>
     </div>
   </div>
 </div>
@@ -397,7 +408,7 @@
 
   <div class="flex justify-between border-none modal-footer">
     <button type="button" class="self-center w-24 h-10 text-sm text-gray-500 bg-gray-200 rounded-lg" (click)="closeModal()">Discard</button>
-    <button type="submit" class="self-center w-24 h-10 text-sm text-white rounded-lg bg-primary-400" [disabled]="editVouchers.invalid">Update</button>
+    <button (click)="updateVouchers()" type="submit" class="self-center w-24 h-10 text-sm text-white rounded-lg bg-primary-400" [disabled]="editVouchers.invalid">Update</button>
   </div>
 </ng-template>
 
