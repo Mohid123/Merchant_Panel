@@ -15,6 +15,12 @@
   align-content: center;
 }
 
+span ol, ul {
+  list-style: inherit!important;
+  margin: 0;
+  padding-left: 2.7rem!important;
+}
+
 .main-body::-webkit-scrollbar {
   display: none;
   -ms-overflow-style: none;  /* IE and Edge */
