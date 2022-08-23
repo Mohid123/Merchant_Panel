@@ -6,7 +6,7 @@ import { ApiResponse } from '@core/models/response.model';
 import { MediaService } from '@core/services/media.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { GreaterThanValidator } from 'src/app/modules/wizards/greater-than.validator';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
@@ -47,6 +47,8 @@ export class DealCRMComponent implements OnInit, OnDestroy {
   voucherIndex: number;
   dealData: MainDeal;
   destroy$ = new Subject();
+  userData: BehaviorSubject<any> = new BehaviorSubject({});
+  userData$ = this.userData.asObservable();
 
   constructor(
     private fb: FormBuilder,
@@ -313,6 +315,8 @@ export class DealCRMComponent implements OnInit, OnDestroy {
       if(!res.hasErrors()) {
         if(res.data.role == 'Admin') {
           this.isLoggedIn = true;
+          this.userData.next(res.data);
+          console.log(this.userData);
           this.crmForm.enable();
           this.closeSignInModal();
         }

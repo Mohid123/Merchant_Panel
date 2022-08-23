@@ -31,27 +31,27 @@
 
       <!--User name and review info-->
       <div class="my-7">
-        <span class="text-2xl font-semibold">King Spa And Sauna</span>
+        <span class="text-2xl font-semibold">{{(userData$ | async)?.firstName}} {{(userData$ | async)?.lastName}}</span>
         <div class="flex justify-start">
-          <span class="text-sm mt-3.5">5.0</span>
-          <div class="rating mx-2 mt-2.5">
-            <div class="rating-label me-1">
+          <span class="text-sm mt-3.5">{{(userData$ | async)?.ratingsAverage?.toFixed(2)}}</span>
+          <div *ngIf="(userData$ | async).ratingsAverage" class="rating mx-2 mt-2.5">
+            <div class="rating-label me-1" [ngClass]="(userData$ | async)?.ratingsAverage > 0 ? 'checked': ''">
                 <i class="fas fa-star fs-9"></i>
             </div>
-            <div class="rating-label me-1">
+            <div class="rating-label me-1" [ngClass]="(userData$ | async)?.ratingsAverage > 1 ? 'checked': ''">
                 <i class="fas fa-star fs-9"></i>
             </div>
-            <div class="rating-label me-1">
+            <div class="rating-label me-1" [ngClass]="(userData$ | async)?.ratingsAverage > 2 ? 'checked': ''">
                 <i class="fas fa-star fs-9"></i>
             </div>
-            <div class="rating-label me-1">
+            <div class="rating-label me-1" [ngClass]="(userData$ | async)?.ratingsAverage > 3 ? 'checked': ''">
                 <i class="fas fa-star fs-9"></i>
             </div>
-            <div class="rating-label me-1">
+            <div class="rating-label me-1" [ngClass]="(userData$ | async)?.ratingsAverage > 4 ? 'checked': ''">
                 <i class="fas fa-star fs-9"></i>
             </div>
           </div>
-          <span class="text-sm mt-3.5" style="color:#0081E9;">50,293 Ratings</span>
+          <span *ngIf="(userData$ | async).totalReviews" class="text-sm mt-3.5" style="color:#0081E9;">{{(userData$ | async)?.totalReviews}} Ratings</span>
         </div>
       </div>
 
