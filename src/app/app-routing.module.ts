@@ -20,7 +20,7 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./_metronic/layout/layout.module').then((m) => m.LayoutModule),
   },
-  { path: 'dealCRM/:dealId',
+  { path: 'editDeal/:dealId',
     loadChildren: () => import('./CRM/deal-crm/deal-crm.module').then(m => m.DealCRMModule)
   },
   { path: '**', redirectTo: 'error/404' },

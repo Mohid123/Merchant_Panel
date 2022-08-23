@@ -62,16 +62,34 @@
 }
 
 ::placeholder {
-  color: #84b1ff;
+  color: #9BB3C8;
   opacity: 1; /* Firefox */
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
- color: #4185F9;
+ color: #9BB3C8;
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */
- color: #4185F9;
+ color: #9BB3C8;
+}
+
+.form-control {
+  @apply border-white
+}
+
+.input-group-prepend {
+  animation: slideIn 0.3s both ease-in;
+}
+
+@keyframes slideIn {
+	0% {
+		transform: scale(0, 1);
+	}
+
+	100% {
+		transform: scale(1, 1);
+	}
 }
 
 // .half-circle {

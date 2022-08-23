@@ -24,3 +24,8 @@ $mode: default;
 @import "~animate.css/animate.css";
 @import "./core/vendors/plugins/prismjs";
 @import "./core/vendors/plugins/formvalidation";
+
+@font-face {
+  font-family: 'Ranille';
+  src: local('Ranille'), url('../ranille-cufonfonts/RanilleNormal-Regular.woff') format('woff');
+}

@@ -1,16 +1,18 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ModalConfig } from '@core/models/modal.config';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { BillingsService } from '@pages/services/billings.service';
 import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import { OrdersService } from '@pages/services/orders.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
 import { Orders } from 'src/app/modules/wizards/models/order.model';
 import { MerchantStats } from './../../modules/wizards/models/merchant-stats.model';
+import { ReusableModalComponent } from './../../_metronic/layout/components/reusable-modal/reusable-modal.component';
 
 @Component({
   selector: 'app-order-management',
@@ -70,6 +72,8 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   appliedFilterPaymentStatus: boolean;
   temporaryHeader: any;
 
+  buttonToSearch: boolean = false;
+
   statusTypes = [
     {
       id: 0,
@@ -110,7 +114,22 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
       id: 4,
       paymentStatus: 'In process'
     }
-  ]
+  ];
+
+  valuesAvailable: boolean = false;
+  voucherSearchValues: Observable<Orders[]>;
+  singleVoucher: Observable<Orders | any>;
+  @ViewChild('modal') private modal: ReusableModalComponent;
+  public modalConfig: ModalConfig = {
+    onDismiss: () => {
+      return true
+    },
+    dismissButtonLabel: "Dismiss",
+    onClose: () => {
+      return true
+    },
+    closeButtonLabel: "Close"
+  }
 
 
   constructor(
@@ -148,6 +167,21 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
         checked: false
       }
     });
+
+    this.searchControl.valueChanges.pipe(debounceTime(800)).subscribe((value: string) => {
+      if(value != '' || value.length > 0) {
+        this.orderService.searchByVoucherID(value, 0, 10).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
+          if(!res.hasErrors()) {
+            console.log(res.data)
+            const voucherData = res.data.data;
+            this.voucherSearchValues = of(voucherData);
+            this.valuesAvailable = true;
+            this.cf.detectChanges();
+          }
+        })
+      }
+    })
+
   }
 
   getVouchersByMerchant() {
@@ -552,6 +586,15 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   next():void {
     this.page;
     this.getVouchersByMerchant();
+  }
+
+  async openModal(index: number) {
+    this.singleVoucher = this.voucherSearchValues.pipe(map(value => value[index]));
+    return await this.modal.open();
+  }
+
+  async closeModal() {
+    return await this.modal.close();
   }
 
   ngOnDestroy() {

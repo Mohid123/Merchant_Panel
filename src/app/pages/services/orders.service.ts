@@ -4,6 +4,7 @@ import { ApiResponse } from '@core/models/response.model';
 import { ApiService } from '@core/services/api.service';
 import { Observable } from 'rxjs';
 import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
+import { AuthService } from './../../modules/auth/services/auth.service';
 
 type OrdersData = OrdersList
 @Injectable({
@@ -11,7 +12,7 @@ type OrdersData = OrdersList
 })
 export class OrdersService extends ApiService<OrdersData> {
 
-  constructor(protected override http: HttpClient) {
+  constructor(protected override http: HttpClient, private authService: AuthService) {
     super(http)
   }
 
@@ -42,8 +43,9 @@ export class OrdersService extends ApiService<OrdersData> {
   }
 
 
-  searchByVoucherID(voucherID: number): Observable<ApiResponse<any>> {
-   return this.get(`/voucher/searchByVoucherId/${voucherID}`);
+  searchByVoucherID(voucherID: string, offset: any, limit: any): Observable<ApiResponse<any>> {
+   const merchantID = this.authService.currentUserValue?.id;
+   return this.get(`/voucher/searchByVoucherId/${merchantID}?voucherId=${voucherID}&offset=${offset}&limit=${limit}`);
   }
 
   getMerchantStatistics(merchantID: string | any, offset: any, limit: any): Observable<ApiResponse<any>> {

@@ -6,6 +6,7 @@ export interface Orders {
   dealID: string;
   dealName: string;
   merchantID: string;
+  merchantMongoID: string;
   customerID: string;
   amount: number;
   fee: number;

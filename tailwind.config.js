@@ -69,6 +69,7 @@ module.exports = {
         '3xl': '1920px',
       },
       colors: {
+        'primary-light': '#E2F1FC',
         'primary-50': '#C4E3FC',
         'primary-100': '#93C5FD',
         'primary-400': '#0081E9',
