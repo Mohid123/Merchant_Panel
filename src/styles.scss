@@ -147,6 +147,12 @@ input[type='file'] {
   background: black!important;
 }
 
+.pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none!important;
+}
+
 .page-item.active .page-link {
   z-index: 3 !important;
   color: #0081e9 !important;
