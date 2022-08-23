@@ -163,7 +163,7 @@ export class Step2Component implements OnInit, OnDestroy {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9., ]+')
+          Validators.pattern('^[a-zA-Z0-9.,-: ]+')
         ])
       ],
       discountPercentage: [
@@ -196,7 +196,7 @@ export class Step2Component implements OnInit, OnDestroy {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9., ]+')
+          Validators.pattern('^[a-zA-Z0-9.,-: ]+')
         ])
       ],
       discountPercentage: [

@@ -102,7 +102,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         this.deal.highlights,
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9., ]+')
+          Validators.pattern('^[a-zA-Z0-9.,-: ]+')
         ]),
       ],
       aboutThisDeal: [
