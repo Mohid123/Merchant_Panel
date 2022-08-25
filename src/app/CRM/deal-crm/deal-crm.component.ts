@@ -65,10 +65,18 @@ export class DealCRMComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if(this.authService.JwtToken) {
-      this.isLoggedIn = true;
+      if(this.authService.currentUserSubject.value?.role == 'Admin') {
+        this.isLoggedIn = true;
+        this.userData.next(this.authService.currentUserSubject.value)
+      }
+      else {
+        this.isLoggedIn = false;
+        this.userData.next({});
+      }
     }
     else {
       this.isLoggedIn = false;
+      this.userData.next({});
     }
     this.initCRMForm();
     this.initEditVocuhers();

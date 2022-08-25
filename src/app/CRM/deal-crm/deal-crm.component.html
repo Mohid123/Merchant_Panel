@@ -295,7 +295,7 @@
     <div class="flex flex-col items-end">
       <div>
         <button *ngIf="isLoggedIn == false" (click)="openSignInModal()" type="button" class="px-9 py-2.5 bg-white rounded-md text-sm" style="border: 1px solid #042F5333; color:#042F53;">Sign In</button>
-        <button (click)="saveChanges()" *ngIf="isLoggedIn == true" type="button" class="px-9 py-2.5 bg-primary-400 rounded-md text-sm text-white">
+        <button [ngClass]="((crmForm.invalid) || (imageArray.length == 0)) ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'" [disabled]="(crmForm.invalid) || (imageArray.length == 0)" (click)="saveChanges()" *ngIf="isLoggedIn == true" type="button" class="px-9 py-2.5 bg-primary-400 rounded-md text-sm text-white">
           <ng-container *ngIf="uploaded == false">
             <span class="indicator-progress" [style.display]="'block'">
               Please wait...
