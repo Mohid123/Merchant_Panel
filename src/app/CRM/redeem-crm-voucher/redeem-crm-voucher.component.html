@@ -9,9 +9,9 @@
   <div class="relative flex items-end justify-center" style="height: 12.5rem;">
     <img src="../../../assets/media/logos/bg-black.svg" class="absolute top-0 object-fill w-full" style="height: 8.25rem;">
     <img src="../../../assets/media/logos/voucher_icon.svg" class="absolute rounded-full">
-    <button (click)="closeModal()" style="background-color: #9399B2; color:#C2C5D3;" class="absolute px-2 py-1 text-sm font-normal rounded-full right-4 top-4">
+    <!-- <button (click)="closeModal()" style="background-color: #9399B2; color:#C2C5D3;" class="absolute px-2 py-1 text-sm font-normal rounded-full right-4 top-4">
       &#10006;
-    </button>
+    </button> -->
   </div>
 
   <div class="flex flex-col items-center justify-center pt-4 pb-10">
@@ -22,7 +22,7 @@
   </div>
 
   <div class="flex justify-start px-8 mb-5">
-    <img src="https://stagingdividealapi.dividisapp.com/media-upload/mediaFiles/profile-image/10951124b3f6fc5c60ae0e695a80c10a98.jpeg" style="width: 9.313rem;" class="object-cover h-20 rounded-md">
+    <img [src]="(singleVoucher | async)?.imageURL.captureFileURL" style="width: 9.313rem;" class="object-cover h-20 rounded-md">
     <div class="flex flex-col">
       <span class="pl-6 text-sm font-semibold text-black max-w-70">{{((singleVoucher | async)?.dealHeader.length > 35) ? (((singleVoucher | async)?.dealHeader) | slice:0:35)+'...':((singleVoucher | async)?.dealHeader)}}</span>
       <div class="flex justify-start pl-6 mt-3">
