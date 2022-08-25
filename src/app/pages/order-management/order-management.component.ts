@@ -177,7 +177,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   redeemVoucher() {
     this.orderService.redeemVoucherByMongoID(this.voucherMongoID).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
-        this.singleVoucher = of(res.data.updtaedVoucher);
+        this.singleVoucher = of(res.data.voucher);
       }
     })
   }

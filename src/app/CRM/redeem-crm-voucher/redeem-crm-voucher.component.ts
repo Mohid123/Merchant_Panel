@@ -86,7 +86,7 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
       if(!res.hasErrors()) {
         if(res.data.status == 'success') {
           this.pinForm.reset();
-          this.singleVoucher = of(res.data.updtaedVoucher)
+          this.singleVoucher = of(res.data.voucher)
         }
       }
     })
