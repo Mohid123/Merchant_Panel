@@ -18,5 +18,7 @@ export interface Orders {
   dealPrice: number;
   originalPrice: number;
   discountedPercentage: number;
+  redeemDate: number;
+  expiryDate: number;
   deletedCheck: boolean;
 }

@@ -27,6 +27,7 @@ import { PopupModalComponent } from './components/popup-modal/popup-modal.compon
 import { ProfileSliderComponent } from './components/profile-slider/profile-slider.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { RedeemCrmVoucherComponent } from './CRM/redeem-crm-voucher/redeem-crm-voucher.component';
+import { MainBlurHashComponent } from './modules/auth/components/blur-hash/blur-hash.component';
 import { BillingsComponent } from './pages/billings/billings.component';
 import { BusinessComponent } from './pages/business/business.component';
 import { NewReviewsComponent } from './pages/new-reviews/new-reviews.component';
@@ -56,7 +57,7 @@ import { TestComponent } from './pages/test/test.component';
     TruncationPipe,
     PopupModalComponent,
     RedeemCrmVoucherComponent,
-    // BlurHashComponent,
+    MainBlurHashComponent
     // DealCrmHeaderComponent
   ],
   imports: [

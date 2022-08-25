@@ -27,6 +27,11 @@
             control: passForm.controls['oldPass']
           }">
           </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'passExists',
+            message: 'Invalid password.',
+            control: passForm.controls['oldPass']}">
+        </ng-container>
         </td>
       </tr>
       <tr>

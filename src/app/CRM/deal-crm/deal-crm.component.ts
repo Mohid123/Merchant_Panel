@@ -7,7 +7,7 @@ import { MediaService } from '@core/services/media.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { first, takeUntil } from 'rxjs/operators';
 import { GreaterThanValidator } from 'src/app/modules/wizards/greater-than.validator';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from 'swiper';
@@ -38,7 +38,7 @@ export class DealCRMComponent implements OnInit, OnDestroy {
   public Editor = ClassicEditor;
   title = 'General Spa admission for one';
   passwordHide: boolean = true;
-  isLoggedIn: boolean = false;
+  isLoggedIn: boolean;
   file: any;
   @ViewChild('modal') private modal: TemplateRef<any>;
   @ViewChild('modal2') private modal2: TemplateRef<any>;
@@ -64,10 +64,16 @@ export class DealCRMComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
+    if(this.authService.JwtToken) {
+      this.isLoggedIn = true;
+    }
+    else {
+      this.isLoggedIn = false;
+    }
     this.initCRMForm();
     this.initEditVocuhers();
     this.initSignInForm();
-    this.getDealByID()
+    this.getDealByID();
     this.config = {
       placeholder: 'Type your content here...',
       toolbar: {
@@ -311,13 +317,12 @@ export class DealCRMComponent implements OnInit, OnDestroy {
   }
 
   logInAsAdmin() {
-    this.authService.loginForCRM((<AuthCredentials>this.signInForm.value))
-    .pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
+    this.authService.login((<AuthCredentials>this.signInForm.value))
+    .pipe(first(), takeUntil(this.destroy$)).subscribe((res: any) => {
       if(!res.hasErrors()) {
         if(res.data?.role == 'Admin') {
           this.isLoggedIn = true;
           this.userData.next(res.data);
-          console.log(this.userData);
           this.crmForm.enable();
           this.closeSignInModal();
         }
