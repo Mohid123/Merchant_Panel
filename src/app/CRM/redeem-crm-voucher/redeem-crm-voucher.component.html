@@ -58,13 +58,13 @@
 
   <ng-container *ngIf="(singleVoucher | async)?.status == 'Redeemed'">
     <div class="py-5 mt-4 text-base text-white rounded-b-md px-14 bg-primary-500">
-      This voucher has been redeemed on {{(singleVoucher | async)?.boughtDate | date: 'mediumDate'}}
+      This voucher has been redeemed on {{(singleVoucher | async)?.redeemDate | date: 'mediumDate'}}
     </div>
   </ng-container>
 
   <ng-container *ngIf="(singleVoucher | async)?.status == 'Expired'">
     <div class="py-5 mt-4 text-base text-center text-white rounded-b-md px-14" style="background-color: #F25858;">
-      This voucher expired on {{(singleVoucher | async)?.boughtDate | date: 'mediumDate'}}
+      This voucher expired on {{(singleVoucher | async)?.expiryDate | date: 'mediumDate'}}
     </div>
   </ng-container>
 </ng-template>
