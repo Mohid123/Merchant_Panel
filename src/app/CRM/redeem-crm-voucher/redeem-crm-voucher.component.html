@@ -1,0 +1,70 @@
+<div class="w-full h-20 bg-white" style="border-bottom: 0.5px solid #96B1BC;">
+  <div class="flex justify-center">
+    <img class="w-10 my-5 h-11" src="../../../assets/media/logos/updated_logo.svg">
+  </div>
+</div>
+
+
+<ng-template #modal>
+  <div class="relative flex items-end justify-center" style="height: 12.5rem;">
+    <img src="../../../assets/media/logos/bg-black.svg" class="absolute top-0 object-fill w-full" style="height: 8.25rem;">
+    <img src="../../../assets/media/logos/voucher_icon.svg" class="absolute rounded-full">
+    <button (click)="closeModal()" style="background-color: #9399B2; color:#C2C5D3;" class="absolute px-2 py-1 text-sm font-normal rounded-full right-4 top-4">
+      &#10006;
+    </button>
+  </div>
+
+  <div class="flex flex-col items-center justify-center pt-4 pb-10">
+    <div class="h-16 text-center w-80 pb-3.5">
+      <span style="font-family: Ranille; color: #000000; font-size: 20px;">REDEEM VOUCHER</span>
+    </div>
+    <span class="text-base text-primary-400">Voucher ID:&nbsp; &nbsp;<span class="text-base font-semibold text-primary-400">{{(singleVoucher | async)?.voucherID}}</span></span>
+  </div>
+
+  <div class="flex justify-start px-8 mb-5">
+    <img src="https://stagingdividealapi.dividisapp.com/media-upload/mediaFiles/profile-image/10951124b3f6fc5c60ae0e695a80c10a98.jpeg" style="width: 9.313rem;" class="object-cover h-20 rounded-md">
+    <div class="flex flex-col">
+      <span class="pl-6 text-sm font-semibold text-black max-w-70">{{((singleVoucher | async)?.dealHeader.length > 35) ? (((singleVoucher | async)?.dealHeader) | slice:0:35)+'...':((singleVoucher | async)?.dealHeader)}}</span>
+      <div class="flex justify-start pl-6 mt-3">
+        <span style="color: #94A1B3;" class="mt-2 mr-2 text-sm font-semibold line-through">{{(singleVoucher | async)?.net}}&nbsp;&euro;</span>
+        <span style="color: #12B500;" class="mx-2 mt-2 text-sm font-bold">{{(singleVoucher | async)?.fee}}&nbsp;&euro;</span>
+        <button style="color: #12B500; background-color: #DBF4D9; width: 4.75rem; height: 1.613rem; font-size: 12px;" class="mx-2 mt-1.5 font-bold rounded-xl">{{(singleVoucher | async)?.net}}% off</button>
+      </div>
+    </div>
+  </div>
+
+  <span style="color: #96B1BC;" class="px-8 mt-5">Merchant name<span class="ml-8 text-black">Ven Travels</span></span>
+
+  <ng-container *ngIf="(singleVoucher | async)?.status != 'Redeemed' && (singleVoucher | async)?.status != 'Expired'">
+    <div class="flex justify-start px-8 mt-5">
+      <img class="mr-3" src="../../../assets/media/logos/time-fast.svg"><span style="color: #96B1BC;" class="text-sm">Expiry Date:<span class="ml-5 text-black">{{(singleVoucher | async)?.boughtDate | date: 'mediumDate'}}</span></span>
+    </div>
+    <div class="flex justify-start px-8 mt-2">
+      <img class="mr-3" src="../../../assets/media/logos/q-mark.svg"><span style="color: #96B1BC;" class="text-sm">Status<span class="text-black ml-14">{{(singleVoucher | async)?.status}}</span></span>
+    </div>
+
+    <span class="mt-5 text-center">Enter your 4-digit redeem pincode</span>
+    <div class="flex justify-center pt-5" [formGroup]="pinForm">
+      <input (keyup)="onDigitInput($event)" formControlName="firstValue" maxlength="1" class="box-border w-8 pl-3 mx-1 text-gray-500 border-b-2 h-7 border-primary-400">
+      <input (keyup)="onDigitInput($event)" formControlName="secondValue" maxlength="1" class="box-border w-8 pl-3 mx-1 text-gray-500 border-b-2 h-7 border-primary-400">
+      <input (keyup)="onDigitInput($event)" formControlName="thirdValue" maxlength="1" class="box-border w-8 pl-3 mx-1 text-gray-500 border-b-2 h-7 border-primary-400">
+      <input (keyup)="onDigitInput($event)" formControlName="fourthValue" maxlength="1" class="box-border w-8 pl-3 mx-1 text-gray-500 border-b-2 h-7 border-primary-400">
+    </div>
+
+    <div class="flex justify-center mt-20 mb-6">
+      <button (click)="redeemVocuherbyPin()" type="button" class="py-3 text-sm text-white rounded-3xl px-14" style="background-color: #042F53;">Redeem voucher</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="(singleVoucher | async)?.status == 'Redeemed'">
+    <div class="py-5 mt-4 text-base text-white rounded-b-md px-14 bg-primary-500">
+      This voucher has been redeemed on {{(singleVoucher | async)?.boughtDate | date: 'mediumDate'}}
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="(singleVoucher | async)?.status == 'Expired'">
+    <div class="py-5 mt-4 text-base text-center text-white rounded-b-md px-14" style="background-color: #F25858;">
+      This voucher expired on {{(singleVoucher | async)?.boughtDate | date: 'mediumDate'}}
+    </div>
+  </ng-container>
+</ng-template>

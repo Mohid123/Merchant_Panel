@@ -55,4 +55,16 @@ export class OrdersService extends ApiService<OrdersData> {
     }
     return this.get(`/deal/getDealsReviewStatsByMerchant/${merchantID}`, param);
   }
+
+  getVoucherByMongoID(voucherID: string): Observable<ApiResponse<any>> {
+    return this.get(`/voucher/getVoucherByMongoId/${voucherID}`)
+  }
+
+  redeemVoucherByMongoID(voucherID: string): Observable<ApiResponse<any>> {
+    return this.get(`/voucher/redeemVoucher/${voucherID}`);
+  }
+
+  redeemVoucherByPinCode(param: any): Observable<ApiResponse<any>> {
+    return this.post(`/voucher/redeemVoucherByMerchantPin`, param)
+  }
 }

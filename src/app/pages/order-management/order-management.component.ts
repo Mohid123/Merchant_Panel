@@ -1,8 +1,7 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ModalConfig } from '@core/models/modal.config';
 import { ApiResponse } from '@core/models/response.model';
-import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BillingsService } from '@pages/services/billings.service';
 import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import { OrdersService } from '@pages/services/orders.service';
@@ -12,7 +11,6 @@ import { AuthService } from 'src/app/modules/auth';
 import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
 import { Orders } from 'src/app/modules/wizards/models/order.model';
 import { MerchantStats } from './../../modules/wizards/models/merchant-stats.model';
-import { ReusableModalComponent } from './../../_metronic/layout/components/reusable-modal/reusable-modal.component';
 
 @Component({
   selector: 'app-order-management',
@@ -119,17 +117,8 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   valuesAvailable: boolean = false;
   voucherSearchValues: Observable<Orders[]>;
   singleVoucher: Observable<Orders | any>;
-  @ViewChild('modal') private modal: ReusableModalComponent;
-  public modalConfig: ModalConfig = {
-    onDismiss: () => {
-      return true
-    },
-    dismissButtonLabel: "Dismiss",
-    onClose: () => {
-      return true
-    },
-    closeButtonLabel: "Close"
-  }
+  @ViewChild('modal') private modal: TemplateRef<any>;
+  voucherMongoID: string;
 
 
   constructor(
@@ -138,7 +127,8 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private calendar: NgbCalendar,
     private billingService: BillingsService,
-    private commonService: CommonFunctionsService
+    private commonService: CommonFunctionsService,
+    private modalService: NgbModal
     ) {
       this.page = 1;
       this.fromDate = '';
@@ -184,6 +174,14 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   }
 
+  redeemVoucher() {
+    this.orderService.redeemVoucherByMongoID(this.voucherMongoID).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.singleVoucher = of(res.data.updtaedVoucher);
+      }
+    })
+  }
+
   getVouchersByMerchant() {
     this.showData = false;
     const params: any = {
@@ -198,8 +196,25 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     .subscribe((res: ApiResponse<OrdersList>) => {
       if(!res.hasErrors()) {
         this.ordersData = res.data;
-        console.log(this.ordersData);
         this.showData = true;
+        this.cf.detectChanges();
+      }
+    })
+  }
+
+  refreshAfterDismiss() {
+    const params: any = {
+      voucherIDsArray : this.voucherIDsFilter?.filterData ? this.voucherIDsFilter?.filterData : [],
+      dealHeaderArray: this.dealHeadersFilters?.filterData ? this.dealHeadersFilters?.filterData : [],
+      voucherHeaderArray: this.voucherHeadersFilters?.filterData ? this.voucherHeadersFilters?.filterData : [],
+      voucherStatusArray: this.voucherStatusesFilters?.filterData ? this.voucherStatusesFilters?.filterData : [],
+      invoiceStatusArray: this.invoiceStatusesFilters?.filterData ? this.invoiceStatusesFilters?.filterData: [],
+    }
+    this.orderService.getVouchersByMerchantID(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, this.voucherID, this.dealHeader, this.voucherHeader, this.voucherStatus, this.invoiceStatus, this.deal, this.voucherheader, params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<OrdersList>) => {
+      if(!res.hasErrors()) {
+        this.ordersData = res.data;
         this.cf.detectChanges();
       }
     })
@@ -590,11 +605,19 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   async openModal(index: number) {
     this.singleVoucher = this.voucherSearchValues.pipe(map(value => value[index]));
-    return await this.modal.open();
+    this.voucherSearchValues.subscribe((value => this.voucherMongoID = value[index]?.voucherID));
+    return this.modalService.open(this.modal, {
+      centered: true,
+      size: 'md',
+      backdrop: 'static',
+      keyboard: false,
+    });
   }
 
   async closeModal() {
-    return await this.modal.close();
+    this.refreshAfterDismiss();
+    this.searchControl.setValue('');
+    return this.modalService.dismissAll();
   }
 
   ngOnDestroy() {

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RedeemCrmVoucherComponent } from './CRM/redeem-crm-voucher/redeem-crm-voucher.component';
 import { AuthGuard } from './modules/auth/services/auth.guard';
 
 export const routes: Routes = [
@@ -22,6 +23,9 @@ export const routes: Routes = [
   },
   { path: 'editDeal/:dealId',
     loadChildren: () => import('./CRM/deal-crm/deal-crm.module').then(m => m.DealCRMModule)
+  },
+  { path: 'redeemVoucher/:voucherId',
+    component: RedeemCrmVoucherComponent
   },
   { path: '**', redirectTo: 'error/404' },
 ];

@@ -26,6 +26,7 @@ import { AppComponent } from './app.component';
 import { PopupModalComponent } from './components/popup-modal/popup-modal.component';
 import { ProfileSliderComponent } from './components/profile-slider/profile-slider.component';
 import { SliderComponent } from './components/slider/slider.component';
+import { RedeemCrmVoucherComponent } from './CRM/redeem-crm-voucher/redeem-crm-voucher.component';
 import { BillingsComponent } from './pages/billings/billings.component';
 import { BusinessComponent } from './pages/business/business.component';
 import { NewReviewsComponent } from './pages/new-reviews/new-reviews.component';
@@ -54,6 +55,7 @@ import { TestComponent } from './pages/test/test.component';
     NewReviewsComponent,
     TruncationPipe,
     PopupModalComponent,
+    RedeemCrmVoucherComponent,
     // BlurHashComponent,
     // DealCrmHeaderComponent
   ],

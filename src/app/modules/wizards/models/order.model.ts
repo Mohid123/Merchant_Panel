@@ -4,8 +4,8 @@ export interface Orders {
   voucherHeader: string;
   dealHeader: string;
   dealID: string;
-  dealName: string;
   merchantID: string;
+  affiliateID: string;
   merchantMongoID: string;
   customerID: string;
   amount: number;
@@ -14,5 +14,9 @@ export interface Orders {
   status: string;
   paymentStatus: string;
   boughtDate: number;
+  imageURL: object;
+  dealPrice: number;
+  originalPrice: number;
+  discountedPercentage: number;
   deletedCheck: boolean;
 }
