@@ -14,6 +14,8 @@ export class ConnectionService {
   public isSavingObs = this.isSaving.asObservable();
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
 
+  dealIDServerErrorInterceptor = new BehaviorSubject('')
+
   private stepDataPageOne: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
 
   canRoute = new BehaviorSubject(false);

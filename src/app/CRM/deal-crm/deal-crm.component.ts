@@ -10,6 +10,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { GreaterThanValidator } from 'src/app/modules/wizards/greater-than.validator';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
+import { ConnectionService } from 'src/app/modules/wizards/services/connection.service';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from 'swiper';
 import { AuthCredentials } from './../../@core/models/auth-credentials.model';
 import { DealService } from './../../@core/services/deal.service';
@@ -58,9 +59,12 @@ export class DealCRMComponent implements OnInit, OnDestroy {
     private toast: HotToastService,
     private activatedRoute : ActivatedRoute,
     private dealService: DealService,
-    private authService: AuthService
+    private authService: AuthService,
+    private conn: ConnectionService
     ) {
       this.dealID = this.activatedRoute.snapshot.params['dealId'];
+      this.conn.dealIDServerErrorInterceptor.next(this.dealID);
+
     }
 
   ngOnInit(): void {
@@ -195,7 +199,7 @@ export class DealCRMComponent implements OnInit, OnDestroy {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9 ]+')
+          Validators.pattern('^[a-zA-Z0-9,-: ]+')
         ])
       ],
       discountPercentage: [
@@ -327,7 +331,7 @@ export class DealCRMComponent implements OnInit, OnDestroy {
   logInAsAdmin() {
     this.authService.login((<AuthCredentials>this.signInForm.value))
     .pipe(first(), takeUntil(this.destroy$)).subscribe((res: any) => {
-      if(!res.hasErrors()) {
+      if(res != null) {
         if(res.data?.role == 'Admin') {
           this.isLoggedIn = true;
           this.userData.next(res.data);
@@ -338,6 +342,10 @@ export class DealCRMComponent implements OnInit, OnDestroy {
           this.toast.error('This user is not an admin');
           this.closeSignInModal();
         }
+      }
+      else {
+        this.toast.error('Incorrect credentials');
+        this.closeSignInModal();
       }
     })
   }
