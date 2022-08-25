@@ -93,6 +93,38 @@ export class AuthService extends ApiService<AuthApiData> {
     );
   }
 
+  loginForCRM(params: AuthCredentials) {
+    return this.post('/auth/login', params).pipe(
+      map((result: ApiResponse<any>) => {
+        console.log('result: ', result);
+        if (!result.hasErrors()) {
+          // setItem(StorageItem.User, result?.data?.user || null);
+          // setItem(StorageItem.JwtToken, result?.data?.token || null);
+          if(result?.data?.user)
+          // this.currentUserSubject.next(result?.data?.user);
+          return result
+        }
+      }),
+      exhaustMap((res)=>{
+        if (res?.data?.user) {
+          return this.get('/users/getUserById/'+ res.data.user.id)
+        } else {
+          return of(null);
+        }
+      }),
+      tap((res)=> {
+        if(res && !res?.hasErrors()) {
+          this.updateUser(res.data)
+        }
+      }),
+      catchError((err) => {
+        console.error('err', err);
+        return of(undefined);
+      }),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
   logout() {
     this.currentUserSubject.next(null);
     setItem(StorageItem.User, null);

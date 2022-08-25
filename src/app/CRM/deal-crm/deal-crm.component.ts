@@ -7,7 +7,7 @@ import { MediaService } from '@core/services/media.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { GreaterThanValidator } from 'src/app/modules/wizards/greater-than.validator';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from 'swiper';
@@ -272,6 +272,7 @@ export class DealCRMComponent implements OnInit, OnDestroy {
 
     const payload : any = {
       _id: this.voucherID,
+
       originalPrice: this.editVouchers.get('originalPrice')?.value,
       dealPrice: this.editVouchers.get('dealPrice')?.value,
       numberOfVouchers: this.editVouchers.get('numberOfVouchers')?.value,
@@ -310,10 +311,10 @@ export class DealCRMComponent implements OnInit, OnDestroy {
   }
 
   logInAsAdmin() {
-    this.authService.login((<AuthCredentials>this.signInForm.value))
-    .pipe(first(), takeUntil(this.destroy$)).subscribe((res: any) => {
+    this.authService.loginForCRM((<AuthCredentials>this.signInForm.value))
+    .pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       if(!res.hasErrors()) {
-        if(res.data.role == 'Admin') {
+        if(res.data?.role == 'Admin') {
           this.isLoggedIn = true;
           this.userData.next(res.data);
           console.log(this.userData);
@@ -348,7 +349,7 @@ export class DealCRMComponent implements OnInit, OnDestroy {
         if(!res.hasErrors()) {
           this.getDealByID();
           this.uploaded = true;
-          this.toast.success('Deal updated successfully')
+          this.toast.success('Deal updated successfully');
         }
       })
       // this.crmForm.disable();
