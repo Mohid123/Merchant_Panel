@@ -80,7 +80,10 @@
            <ng-container *ngFor="let event of currentEvents; let index = index; trackBy: trackItem"> <!--{{event.netEarnings.toFixed(2).replace('.', ',')}}-->
             <tr class="text-left text-gray-600 bg-white rounded-lg">
               <td class="py-4 text-left pl-14" [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''">{{event.dealID}}</td>
-              <td [ngbTooltip]="event?.dealHeader" placement="top" [container]="'body'" [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''" class="p-4 text-left">{{(event.dealHeader.length > 22) ? ((event.dealHeader) | slice:0:22)+'...':(event.dealHeader)}}</td>
+              <td [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''" class="p-4 text-left">
+                <span class="cursor-pointer" *ngIf="event.dealHeader.length >= 22" [ngbTooltip]="event?.dealHeader" placement="top" [container]="'body'">{{(event.dealHeader.length > 22) ? ((event.dealHeader) | slice:0:22)+'...':(event.dealHeader)}}</span>
+                <span *ngIf="event.dealHeader.length < 22">{{(event.dealHeader.length > 22) ? ((event.dealHeader) | slice:0:22)+'...':(event.dealHeader)}}</span>
+              </td>
               <td [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''" class="p-4 text-left">{{event.dealStatus}}</td>
               <td [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''" style="padding-right: 105px;" class="text-right">{{event.soldVouchers}}</td>
               <td [style.color]="event.dealStatus == 'Needs attention' ? '#FF4B4B': ''" style="width: 140px; padding-right: 5px;" class="text-right">{{event.netEarnings.toFixed(2).replace('.', ',')}} &euro;</td>
@@ -126,7 +129,14 @@
                     <tbody class="relative">
                       <ng-container *ngFor="let voucher of event?.subDeals; let i = index; let first = first; let last = last">
                       <tr class="text-gray-600 rounded-lg">
-                        <td [ngbTooltip]="voucher?.title" placement="top" [container]="'body'" class="py-4 text-sm text-left pl-11">{{(voucher?.title?.length > 24) ? ((voucher.title) | slice:0:24)+'...':(voucher.title)}}</td>
+                        <td class="py-4 text-sm text-left pl-11">
+                          <span class="cursor-pointer" *ngIf="voucher?.title.length >= 24" [ngbTooltip]="voucher?.title" placement="top" [container]="'body'">
+                            {{(voucher?.title?.length > 24) ? ((voucher.title) | slice:0:24)+'...':(voucher.title)}}
+                          </span>
+                          <span *ngIf="voucher?.title.length < 24">
+                            {{(voucher?.title?.length > 24) ? ((voucher.title) | slice:0:24)+'...':(voucher.title)}}
+                          </span>
+                        </td>
                         <td class="py-4 text-sm text-left">{{voucher?.soldVouchers}}</td>
                         <td class="py-4 text-sm text-left">{{voucher?.numberOfVouchers}}</td>
                         <td class="py-4 text-sm text-right pr-28" style="width: 7.5rem;">{{voucher?.dealPrice.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>

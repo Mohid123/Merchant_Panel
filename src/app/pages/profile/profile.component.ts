@@ -127,8 +127,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
         profilePicURL: user?.profilePicURL
       });
       this.termsForm.patchValue(user);
-      this.galleries.push(user.gallery)
-      this.profileImage = user.profilePicURL;
+      this.images = [];
+      this.images.push(...user.gallery);
+      if(this.images.length > 10) {
+        this.images.pop();
+        this.cf.detectChanges();
+      }
+
+      this.image = user.profilePicURL;
    });
   }
 
@@ -215,7 +221,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
     this.userService.updateLocation(payload)
     .pipe(exhaustMap((res: any) => {
-      debugger
+
       if(!res.hasErrors()) {
         this.toast.success('Profile updated', {
           style: {
@@ -242,7 +248,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         website_socialAppLink: res?.data?.website_socialAppLink,
         profilePicURL: res?.data?.profilePicURL
       });
-      debugger
+
       console.log(res);
     })
   }
@@ -322,7 +328,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 }
               });
               this.images.push(...images);
-              console.log(this.images);
               this.cf.detectChanges();
               this.urls = [];
               this.cf.detectChanges();
@@ -389,7 +394,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 backgroundColorHex: ''
               }
             });
-            debugger
+
             this.image = image[0].captureFileURL;
             this.cf.detectChanges();
             this.multiples = [];
