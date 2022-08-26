@@ -10,6 +10,7 @@ export class AutoFocus implements AfterViewInit{
 	){}
 
 	ngAfterViewInit(){
+    debugger
 		this.elementRef.nativeElement.focus();
 	}
 }

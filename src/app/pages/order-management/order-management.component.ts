@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -119,6 +119,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   singleVoucher: Observable<Orders | any>;
   @ViewChild('modal') private modal: TemplateRef<any>;
   voucherMongoID: string;
+  @ViewChild('auto') auto: ElementRef;
 
 
   constructor(
@@ -184,6 +185,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
   switch() {
     this.buttonToSearch = true;
+    setTimeout(() => this.auto.nativeElement.focus());
   }
 
   getVouchersByMerchant() {

@@ -35,7 +35,7 @@
       <div *ngIf="buttonToSearch == true">
         <div class="relative flex justify-start input-group-prepend">
           <span class="absolute flex items-center mt-3 cursor-pointer right-3"><i (click)="buttonToSearch = false; valuesAvailable = false; searchControl.setValue('')" class="pb-2 not-italic leading-none text-gray-500 bg-white">&#10006;</i></span>
-          <input [autofocus]="true" autofocusField [formControl]="searchControl" placeholder="Search by voucher ID" class="h-10 pr-12 text-sm text-gray-500 pl-11 form-control" style="width: 18.313rem;">
+          <input #auto autofocus="true" [formControl]="searchControl" placeholder="Search by voucher ID" class="h-10 pr-12 text-sm text-gray-500 pl-11 form-control" style="width: 18.313rem;">
           <span class="absolute flex items-center pl-2 mt-3 cursor-pointer left-2"><img src="../../../assets/media/logos/search-glass.svg" class="pb-1"></span>
           <div #myDrop="ngbDropdown" [open]="valuesAvailable" ngbDropdown display="dynamic" placement="top" class="absolute block rounded-lg top-14">
             <div class="px-6 pb-3 space-y-2 overflow-y-auto w-68 max-h-50" ngbDropdownMenu>
@@ -210,7 +210,7 @@
   <div class="flex justify-start px-8 mb-5">
     <app-main-blur-hash [blurHash]="(singleVoucher | async)?.imageURL?.blurHash" [imageSrc]="(singleVoucher | async)?.imageURL.captureFileURL" style="width: 9.313rem;" class="object-cover h-20 rounded-md"></app-main-blur-hash>
     <div class="flex flex-col">
-      <span [ngbTooltip]="(singleVoucher | async)?.dealHeader" placement="top" [container]="'body'" class="pl-6 text-sm font-semibold text-black max-w-64">{{((singleVoucher | async)?.dealHeader.length > 35) ? (((singleVoucher | async)?.dealHeader) | slice:0:35)+'...':((singleVoucher | async)?.dealHeader)}}</span>
+      <span [ngbTooltip]="(singleVoucher | async)?.dealHeader" placement="top" [container]="'body'" class="w-8 pl-6 text-sm font-semibold text-black">{{((singleVoucher | async)?.dealHeader.length > 28) ? (((singleVoucher | async)?.dealHeader) | slice:0:28)+'...':((singleVoucher | async)?.dealHeader)}}</span>
       <div class="flex justify-start pl-6 mt-3">
         <span style="color: #94A1B3;" class="mt-2 mr-2 font-semibold line-through">{{(singleVoucher | async)?.originalPrice}}&nbsp;&euro;</span>
         <span style="color: #12B500;" class="mx-2 mt-2 font-bold">{{(singleVoucher | async)?.dealPrice}}&nbsp;&euro;</span>
