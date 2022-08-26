@@ -35,7 +35,7 @@
       <div *ngIf="buttonToSearch == true">
         <div class="relative flex justify-start input-group-prepend">
           <span class="absolute flex items-center mt-3 cursor-pointer right-3"><i (click)="buttonToSearch = false; valuesAvailable = false; searchControl.setValue('')" class="pb-2 not-italic leading-none text-gray-500 bg-white">&#10006;</i></span>
-          <input autofocus="true" [formControl]="searchControl" placeholder="Search by voucher ID" class="h-10 pr-12 text-sm text-gray-500 pl-11 form-control" style="width: 18.313rem;">
+          <input [autofocus]="true" autofocusField [formControl]="searchControl" placeholder="Search by voucher ID" class="h-10 pr-12 text-sm text-gray-500 pl-11 form-control" style="width: 18.313rem;">
           <span class="absolute flex items-center pl-2 mt-3 cursor-pointer left-2"><img src="../../../assets/media/logos/search-glass.svg" class="pb-1"></span>
           <div #myDrop="ngbDropdown" [open]="valuesAvailable" ngbDropdown display="dynamic" placement="top" class="absolute block rounded-lg top-14">
             <div class="px-6 pb-3 space-y-2 overflow-y-auto w-68 max-h-50" ngbDropdownMenu>
@@ -53,7 +53,7 @@
 
       <button
         *ngIf="buttonToSearch == false"
-        (click)="buttonToSearch = true"
+        (click)="switch()"
         class="h-10 px-5 text-sm text-white cursor-pointer bg-primary-500 xl:rounded-md">
         Redeem voucher
       </button>
@@ -137,8 +137,12 @@
           <ng-container *ngFor="let data of ordersData?.data; let i = index;">
           <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
             <td class="pr-4">{{(data.voucherID.toString().length > 30)? ((data.voucherID) | slice:0:30)+'..':(data.voucherID)}}</td>
-            <td class="pr-4">{{(data.dealHeader.length>30) ? ((data.dealHeader) | slice:0:30)+'..':(data.dealHeader)}}</td>
-            <td class="pr-4"> {{(data.voucherHeader.length>30)? ((data.voucherHeader) | slice:0:30)+'..':(data.voucherHeader)}}</td>
+            <td class="pr-4">
+              <span class="cursor-pointer" [ngbTooltip]="data?.dealHeader" placement="top" [container]="'body'">{{(data?.dealHeader.length>30) ? ((data?.dealHeader) | slice:0:30)+'..':(data?.dealHeader)}}</span>
+            </td>
+            <td class="pr-4">
+              <span class="cursor-pointer" [ngbTooltip]="data?.voucherHeader" placement="top" [container]="'body'">{{(data?.voucherHeader.length>30)? ((data?.voucherHeader) | slice:0:30)+'..':(data?.voucherHeader)}}</span>
+            </td>
             <td class="pr-12 text-right">{{data.amount.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
             <td class="pr-4 text-right">{{data.net.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
             <td class="pl-16 pr-4">{{data.status}}</td>

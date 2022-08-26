@@ -182,6 +182,10 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     })
   }
 
+  switch() {
+    this.buttonToSearch = true;
+  }
+
   getVouchersByMerchant() {
     this.showData = false;
     const params: any = {

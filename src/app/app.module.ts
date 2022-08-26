@@ -8,6 +8,7 @@ import { FiltersModule } from '@components/filters/filters.module';
 import { PendingSkeletonModule } from '@components/pending-skeleton/pending-skeleton.module';
 import { ReusableModalModule } from '@components/reusable-modal/reusable-modal.module';
 import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.module';
+import { AutoFocusModule } from '@core/directives/auto-focus/auto-focus.module';
 import { NumberOnlyModule } from '@core/directives/number-only/number-only.module';
 import { SortModule } from '@core/directives/sort/sort.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -84,7 +85,8 @@ import { TestComponent } from './pages/test/test.component';
     PendingSkeletonModule,
     HotToastModule.forRoot(),
     NgPasswordValidatorModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    AutoFocusModule
   ],
   providers: [
     // {

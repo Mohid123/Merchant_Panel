@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
@@ -13,7 +13,8 @@ import { ConnectionService } from './../../modules/wizards/services/connection.s
 @Component({
   selector: 'app-redeem-crm-voucher',
   templateUrl: './redeem-crm-voucher.component.html',
-  styleUrls: ['./redeem-crm-voucher.component.scss']
+  styleUrls: ['./redeem-crm-voucher.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
 
@@ -100,10 +101,10 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
   async openModal() {
     // this.singleVoucher = ;
     return this.modalService.open(this.modal, {
-      centered: true,
       size: 'md',
-      backdrop: 'static',
+      backdrop: false,
       keyboard: false,
+      modalDialogClass: 'new-styles'
     });
   }
 
