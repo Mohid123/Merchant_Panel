@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HotToastService } from '@ngneat/hot-toast';
 import { OrdersService } from '@pages/services/orders.service';
 import { Observable, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -28,7 +29,8 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private activatedRoute : ActivatedRoute,
     private orderService: OrdersService,
-    private conn: ConnectionService) { }
+    private conn: ConnectionService,
+    private toast: HotToastService) { }
 
   ngOnInit(): void {
     this.initPinCodeForm();
@@ -88,6 +90,9 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
           this.pinForm.reset();
           this.singleVoucher = of(res.data.voucher)
         }
+      }
+      else {
+        this.toast.error(res.errors[0].error.message)
       }
     })
   }
