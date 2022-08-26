@@ -14,7 +14,8 @@ export class ConnectionService {
   public isSavingObs = this.isSaving.asObservable();
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
 
-  dealIDServerErrorInterceptor = new BehaviorSubject('')
+  dealIDServerErrorInterceptor = new BehaviorSubject('');
+  modalDialogClass = new BehaviorSubject('')
 
   private stepDataPageOne: BehaviorSubject<MainDeal> = new BehaviorSubject<MainDeal>(new MainDeal);
 

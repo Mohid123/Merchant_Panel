@@ -4,6 +4,13 @@
   </div>
 </div>
 
+<ng-container *ngIf="isLoading == true">
+  <div class="flex flex-col items-center justify-center pt-40 align-middle">
+    <span class="indicator-progress" [style.display]="'block'">
+      <span style="width: 4rem; height: 4rem;" class="text-4xl align-middle spinner-border spinner-border-sm ms-2"></span>
+    </span>
+  </div>
+</ng-container>
 
 <ng-template #modal>
   <div class="relative w-full pb-10 h-26">
@@ -14,14 +21,14 @@
     </button> -->
   </div>
 
-  <div class="flex flex-col items-center justify-center pb-5 pt-28">
+  <div class="flex flex-col items-center justify-center" [ngClass]="((singleVoucher | async)?.status == 'Redeemed' || (singleVoucher | async)?.status == 'Expired') ? 'pt-14 pb-8': 'pt-28 pb-5'">
     <div class="text-center w-80 pb-3.5">
       <span style="font-family: Ranille; color: #000000; font-size: 20px;">REDEEM VOUCHER</span>
     </div>
     <span class="pt-2 text-base text-primary-400">Voucher ID:&nbsp; &nbsp;<span class="text-base font-semibold text-primary-400">{{(singleVoucher | async)?.voucherID}}</span></span>
   </div>
 
-  <div class="flex justify-start px-8 mb-5">
+  <div class="flex justify-start px-8" [ngClass]="((singleVoucher | async)?.status == 'Redeemed' || (singleVoucher | async)?.status == 'Expired') ? 'pb-12': 'pb-5'">
     <app-main-blur-hash [blurHash]="(singleVoucher | async)?.imageURL?.blurHash" [imageSrc]="(singleVoucher | async)?.imageURL.captureFileURL" style="width: 9.313rem;" class="object-cover h-20 rounded-md"></app-main-blur-hash>
     <div class="flex flex-col">
       <span [ngbTooltip]="(singleVoucher | async)?.dealHeader" placement="top" [container]="'body'" class="pl-6 text-sm font-semibold text-black max-w-70">{{((singleVoucher | async)?.dealHeader.length > 30) ? (((singleVoucher | async)?.dealHeader) | slice:0:30)+'...':((singleVoucher | async)?.dealHeader)}}</span>
@@ -57,7 +64,7 @@
   </ng-container>
 
   <ng-container *ngIf="(singleVoucher | async)?.status == 'Redeemed'">
-    <div class="py-5 mt-4 text-base text-white rounded-b-md px-14 bg-primary-500">
+    <div class="py-5 mt-4 text-white rounded-b-md px-14 bg-primary-500" style="font-size: 15px;">
       This voucher has been redeemed on {{(singleVoucher | async)?.redeemDate | date: 'mediumDate'}}
     </div>
   </ng-container>

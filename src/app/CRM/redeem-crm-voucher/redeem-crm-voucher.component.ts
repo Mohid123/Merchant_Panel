@@ -24,6 +24,9 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
   voucherID: string;
   destroy$ = new Subject();
   voucherIDForQuery: string;
+  condition: string;
+  modalDialogClass: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -31,26 +34,36 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
     private activatedRoute : ActivatedRoute,
     private orderService: OrdersService,
     private conn: ConnectionService,
-    private toast: HotToastService) { }
+    private toast: HotToastService) {}
 
   ngOnInit(): void {
     this.initPinCodeForm();
     this.voucherID = this.activatedRoute.snapshot.params['voucherId'];
     if(this.voucherID) {
-      this.getVoucherByMongoID();
+      this.getVoucherByMongoID().then(() => {
+        this.openModal();
+      });
     }
   }
 
   ngAfterViewInit() {
-    this.openModal();
+    // this.openModal();
   }
 
-  getVoucherByMongoID() {
-    this.orderService.getVoucherByMongoID(this.voucherID).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
-      if(!res.hasErrors()) {
-        this.voucherIDForQuery = res.data?.voucherID;
-        this.singleVoucher = of(res.data);
-      }
+  async getVoucherByMongoID() {
+    return new Promise((resolve, reject) => {
+      this.isLoading = true;
+      this.orderService.getVoucherByMongoID(this.voucherID).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.voucherIDForQuery = res.data?.voucherID;
+          this.singleVoucher = of(res.data);
+          resolve('success');
+          this.isLoading = false;
+        }
+        else {
+          reject('error')
+        }
+      })
     })
   }
 
@@ -99,12 +112,11 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
   }
 
   async openModal() {
-    // this.singleVoucher = ;
     return this.modalService.open(this.modal, {
       size: 'md',
       backdrop: false,
       keyboard: false,
-      modalDialogClass: 'new-styles'
+      modalDialogClass: this.conn.modalDialogClass.value
     });
   }
 

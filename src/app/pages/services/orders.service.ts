@@ -3,8 +3,10 @@ import { Injectable } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { ApiService } from '@core/services/api.service';
 import { Observable } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
 import { OrdersList } from 'src/app/modules/wizards/models/order-list.model';
 import { AuthService } from './../../modules/auth/services/auth.service';
+import { ConnectionService } from './../../modules/wizards/services/connection.service';
 
 type OrdersData = OrdersList
 @Injectable({
@@ -12,7 +14,7 @@ type OrdersData = OrdersList
 })
 export class OrdersService extends ApiService<OrdersData> {
 
-  constructor(protected override http: HttpClient, private authService: AuthService) {
+  constructor(protected override http: HttpClient, private authService: AuthService, private conn: ConnectionService) {
     super(http)
   }
 
@@ -57,7 +59,14 @@ export class OrdersService extends ApiService<OrdersData> {
   }
 
   getVoucherByMongoID(voucherID: string): Observable<ApiResponse<any>> {
-    return this.get(`/voucher/getVoucherByMongoId/${voucherID}`)
+    return this.get(`/voucher/getVoucherByMongoId/${voucherID}`).pipe(take(1), tap((res: any) => {
+      if(res.data.status == 'Redeemed' || res.data.status == 'Expired') {
+        this.conn.modalDialogClass.next('secondary-styles')
+      }
+      else {
+        this.conn.modalDialogClass.next('new-styles')
+      }
+    }))
   }
 
   redeemVoucherByMongoID(voucherID: string): Observable<ApiResponse<any>> {
