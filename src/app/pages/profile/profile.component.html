@@ -193,7 +193,7 @@
           <td class="w-0 pb-24">
             <span class="spanner">Profile picture</span>
           </td>
-          <ng-container *ngIf="!image">
+          <ng-container *ngIf="!image && uploadingSingleImage == false">
             <td class="w-0 pb-5 image-input image-input-outline image-upload">
               <div class="object-cover image-input-wrapper smaller-image">
                 <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
@@ -201,6 +201,16 @@
                   <input class="absolute top-0 w-20 h-20 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectSingle($event)">
                 </label>
               </div>
+            </ng-container>
+            <ng-container *ngIf="!image && uploadingSingleImage == true">
+              <td class="w-0 pb-5 image-input image-input-outline image-upload">
+                <div class="object-cover ml-2 image-input-wrapper smaller-image">
+                  <div class="flex flex-col items-center justify-center pt-6 align-middle">
+                    <span class="indicator-progress" [style.display]="'block'">
+                      <span style="width: 2rem; height: 2rem;" class="text-xl align-middle spinner-border spinner-border-sm ms-2"></span>
+                    </span>
+                  </div>
+                </div>
             </ng-container>
             <ng-container *ngIf="image">
               <td class="image-input image-input-outline">
@@ -210,12 +220,6 @@
                   <input (click)="clearImage()" type="reset" name="avatar" accept=".png, .jpg, .jpeg" multiple>
                   <input type="hidden" name="avatar_remove">
                 </label>
-                <!-- <span (click)="clearImage()" class="mb-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="cancel" data-bs-toggle="tooltip">
-                  <i class="bi bi-x fs-6" style="color: white;"></i>
-                </span>
-                <span (click)="clearImage()" class="mb-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="remove" data-bs-toggle="tooltip">
-                  <i class="bi bi-x fs-6" style="color: white;"></i>
-                </span> -->
               </td>
             </ng-container>
             <div class="flex flex-row mt-3 w-60">
@@ -246,18 +250,32 @@
           </td>
           <td class="w-0 pb-5">
 
-            <ng-container *ngIf="images.length == 0">
-              <div class="flex items-center justify-center align-middle large-image">
+              <div *ngIf="images.length == 0 && uploadingMultipleImages == false" class="flex items-center justify-center align-middle large-image">
                 <span class="absolute cursor-pointer"><img class="object-contain" style="width: 100px; height: 95px;" src="../../../assets/media/logos/active.svg"></span>
                 <input (change)="onSelectFile($event); onClick($event)" class="w-40 h-40 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" multiple>
               </div>
-            </ng-container>
+
+              <div *ngIf="uploadingMultipleImages == true && images.length == 0" class="large-image">
+                <div class="mt-1 image-input image-input-outline image-upload">
+                  <div class="object-cover ml-1 small-image image-input-wrapper">
+                    <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
+                      <span class="absolute top-0 flex items-center justify-center w-20 h-20">
+                        <div class="flex flex-col items-center justify-center align-middle">
+                          <span class="indicator-progress" [style.display]="'block'">
+                            <span style="width: 2rem; height: 2rem;" class="text-xl align-middle spinner-border spinner-border-sm ms-2"></span>
+                          </span>
+                        </div>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
 
             <ng-container *ngIf="images.length > 0">
               <div class="large-image">
                 <ng-container *ngFor="let multiple of images; let i = index">
                   <div class="m-1 image-input image-input-outline">
-                    <img class="object-cover border-2 border-gray-600 rounded-md w-80px h-80px" [src]="multiple.captureFileURL">
+                    <app-main-blur-hash class="object-cover border border-gray-600 rounded-xl w-80px h-80px" [imageSrc]="multiple.captureFileURL" [blurHash]="multiple.blurHash"></app-main-blur-hash>
                     <label class="z-50 mt-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px" data-kt-image-input-action="change">
                       <i class="bi bi-x fs-6" style="color: white;"></i>
                       <input (click)="images.splice(i, 1)" type="reset" name="avatar" accept=".png, .jpg, .jpeg" multiple>
@@ -265,6 +283,19 @@
                     </label>
                   </div>
                 </ng-container>
+                <div *ngIf="uploadingMultipleImages == true && images.length >= 0" class="image-input image-input-outline image-upload">
+                  <div class="object-cover ml-1 small-image image-input-wrapper">
+                    <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
+                      <span class="absolute top-0 flex items-center justify-center w-20 h-20">
+                        <div class="flex flex-col items-center justify-center align-middle">
+                          <span class="indicator-progress" [style.display]="'block'">
+                            <span style="width: 2rem; height: 2rem;" class="text-xl align-middle spinner-border spinner-border-sm ms-2"></span>
+                          </span>
+                        </div>
+                      </span>
+                    </label>
+                  </div>
+                </div>
                 <div class="image-input image-input-outline image-upload">
                   <div class="object-cover ml-1 small-image image-input-wrapper">
                     <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">

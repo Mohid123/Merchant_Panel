@@ -40,6 +40,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   galleries: any[] = [];
   profileImage: any;
   private unsubscribe: Subscription[] = [];
+  uploadingSingleImage: boolean = false;
+  uploadingMultipleImages: boolean = false;
 
   termsForm: FormGroup = this.fb.group({
     aboutUs: ['',Validators.minLength(40)],
@@ -129,7 +131,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.termsForm.patchValue(user);
       this.images = [];
       this.images.push(...user.gallery);
-      if(this.images.length > 10) {
+      if(this.images.length > 5) {
         this.images.pop();
         this.cf.detectChanges();
       }
@@ -153,6 +155,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
         website_socialAppLink: user?.website_socialAppLink,
         profilePicURL: user?.profilePicURL
       });
+      this.images = [];
+      this.images.push(...user?.gallery);
+      if(this.images.length > 5) {
+        this.images.pop();
+        this.cf.detectChanges();
+      }
       this.termsForm.patchValue(user);
     })
   }
@@ -186,8 +194,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       profilePicURL: this.image,
       website_socialAppLink: this.profileForm.value.website_socialAppLink
     }
-    if(param.gallery.length > 0 || param.profilePicURL != "") {
-      this.userService.updateMerchantprofile(param)
+    debugger
+    this.userService.updateMerchantprofile(param)
       .pipe(exhaustMap((res: any) => {
         if(!res.hasErrors()) {
           return this.userService.getUser();
@@ -196,18 +204,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
           return (res);
         }
       })).subscribe()
-    }
-    else if(param.website_socialAppLink != '') {
-      this.userService.updateMerchantprofile({website_socialAppLink: param.website_socialAppLink})
-      .pipe(exhaustMap((res: any) => {
-        if(!res.hasErrors()) {
-          return this.userService.getUser();
-        }
-        else {
-          return (res);
-        }
-      })).subscribe()
-    }
   }
 
   submitProfileChanges() {
@@ -300,7 +296,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   onSelectFile(event: any) {
     this.file = event.target.files && event.target.files.length;
+    if(this.images.length == 5) {
+      this.file = 0;
+    }
     if (this.file > 0 && this.file < 6) {
+      this.uploadingMultipleImages = true;
       let i: number = 0;
       for (const singlefile of event.target.files) {
         var reader = new FileReader();
@@ -327,6 +327,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                   backgroundColorHex: ''
                 }
               });
+              this.uploadingMultipleImages = false;
               this.images.push(...images);
               this.cf.detectChanges();
               this.urls = [];
@@ -352,7 +353,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     }
     else {
-      this.toast.error('Please select upto 5 images', {
+      this.toast.error('Upto 5 images are allowed', {
         style: {
           border: '1px solid #713200',
           padding: '16px',
@@ -367,7 +368,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onSelectSingle(event: any) {
-    // if (event.target.files && event.target.files[0]) {
+    this.uploadingSingleImage = true;
       this.url = event.target.files && event.target.files.length;
       if (this.url > 0) {
         let i: number = 0;
@@ -398,6 +399,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.image = image[0].captureFileURL;
             this.cf.detectChanges();
             this.multiples = [];
+            this.uploadingSingleImage = false;
           }
         })
       }
