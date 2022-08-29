@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   urls: any[] = [];
   url: any;
   image: string = '';
+  imageBlurHash: string = '';
   file: any;
   singleFile: any
   multiples: any[] = [];
@@ -136,7 +137,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.cf.detectChanges();
       }
 
-      this.image = user.profilePicURL;
+      this.image = user?.profilePicURL;
+      this.imageBlurHash = user?.profilePicBlurHash;
    });
   }
 
@@ -397,6 +399,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             });
 
             this.image = image[0].captureFileURL;
+            this.imageBlurHash = image[0]?.blurHash;
             this.cf.detectChanges();
             this.multiples = [];
             this.uploadingSingleImage = false;
@@ -412,6 +415,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   clearImage() {
     this.image = '';
+    this.imageBlurHash = '';
     this.profileImage = '';
     this.user.profilePicURL = ''
   }

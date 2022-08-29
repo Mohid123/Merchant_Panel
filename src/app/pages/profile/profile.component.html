@@ -214,7 +214,7 @@
             </ng-container>
             <ng-container *ngIf="image">
               <td class="image-input image-input-outline">
-                <img class="object-cover border-2 border-gray-500 rounded-md w-85px h-90px" [src]="image">
+                <app-main-blur-hash class="object-cover border-2 border-gray-500 rounded-md w-85px h-90px" [imageSrc]="image" [blurHash]="imageBlurHash"></app-main-blur-hash>
                 <label class="z-50 mt-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="change">
                   <i class="bi bi-x fs-4" style="color: white;"></i>
                   <input (click)="clearImage()" type="reset" name="avatar" accept=".png, .jpg, .jpeg" multiple>
