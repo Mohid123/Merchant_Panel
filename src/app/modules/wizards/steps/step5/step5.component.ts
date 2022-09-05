@@ -69,7 +69,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     closeButtonLabel: "Close",
     size: 'sm'
   }
-  start: string = '';
+  start: string;
 
   currentEvents: EventApi[] = [];
   calendarOptions: CalendarOptions = {
@@ -88,6 +88,10 @@ export class Step5Component implements OnInit, AfterViewInit {
     firstDay: 1,
     height: 'auto',
     displayEventTime: false,
+    initialDate: moment().add(2, 'days').format('YYYY-MM-DD'),
+    validRange: {
+      start: moment().add(2, 'days').format('YYYY-MM-DD')
+    },
     // select: this.handleDateSelect.bind(this),
     moreLinkClick: 'popover',
     dateClick: this.handleDateClick.bind(this),
@@ -156,8 +160,10 @@ export class Step5Component implements OnInit, AfterViewInit {
   }
 
   editDealCase() {
+
     this.secondReciever = this.connection.getSaveAndNext().pipe(take(1)).subscribe((response: MainDeal) => {
       if(response.startDate) {
+
         const startDate = new Date(response.startDate);
         const endDate = new Date(response.endDate);
         const newStart = moment(startDate).format("YYYY-MM-DD");
@@ -214,16 +220,17 @@ export class Step5Component implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.fullCalendar.getApi().gotoDate(this.start);
+
     if(this.start == '') {
-      this.fullCalendar.options!.initialDate = moment().add(2, 'days').format('YYYY-MM-DD');
-      this.fullCalendar.options!.validRange = {
+      this.calendarOptions.initialDate = moment().add(2, 'days').format('YYYY-MM-DD');
+      this.calendarOptions.validRange = {
         start: moment().add(2, 'days').format('YYYY-MM-DD')
       }
       this.fullCalendar.getApi().render();
     }
     else {
-      this.fullCalendar.options!.initialDate = this.start;
-      this.fullCalendar.options!.validRange = {
+      this.calendarOptions.initialDate = this.start;
+      this.calendarOptions.validRange = {
         start: this.start
       }
       this.fullCalendar.getApi().render();
@@ -311,11 +318,12 @@ export class Step5Component implements OnInit, AfterViewInit {
 
   editDates() {
     const start = this.start;
+
     const end = this.endDateInView;
     const newStart = new Date(start);
     const newEnd = new Date(end);
-    const ngbStart = { day: newStart.getUTCDate(), month: newStart.getUTCMonth() + 1, year: newStart.getUTCFullYear() }
-    const ngbEnd = { day: newEnd.getUTCDate(), month: newEnd.getUTCMonth() + 1, year: newEnd.getUTCFullYear() }
+    const ngbStart = { day: newStart?.getUTCDate(), month: newStart?.getUTCMonth() + 1, year: newStart?.getUTCFullYear() }
+    const ngbEnd = { day: newEnd?.getUTCDate(), month: newEnd?.getUTCMonth() + 1, year: newEnd?.getUTCFullYear() }
     this.modalService.open(this.modal4, {
       centered: true,
       size: 'sm',

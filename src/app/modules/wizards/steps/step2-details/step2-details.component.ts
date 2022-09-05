@@ -45,7 +45,6 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   ) {
     this.connection.getData().pipe(takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
       this.data = response;
-      console.log(this.data)
     })
   }
 
