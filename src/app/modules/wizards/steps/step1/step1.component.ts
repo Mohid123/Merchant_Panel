@@ -338,15 +338,15 @@ export class Step1Component implements OnInit, OnDestroy {
                     }
                   });
 
-                  this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, ...media]
+                  this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, ...media]
                   if(this.videoUrls.length > 0) {
 
-                    this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, ...this.videoUrls]
+                    this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, ...this.videoUrls]
                   }
                   else if(this.videoFromEdit) {
 
                     this.firstSaveData.mediaUrl.shift();
-                    this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, this.videoFromEdit]
+                    this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, this.videoFromEdit]
                   }
                 }
                 this.firstSaveData.subDeals = this.responseVouchers ? this.responseVouchers : [];
@@ -609,6 +609,9 @@ export class Step1Component implements OnInit, OnDestroy {
     this.multiples.splice((j*this.columnSize)+i, 1);
     this.urls.splice((j*this.columnSize)+i, 1);
     this.dealForm.controls['mediaUrl'].setValue(this.urls);
+    }
+    if(this.editMedia.length > 0) {
+      this.editMedia.splice(i, 1)
     }
     this.getItemsTable(true);
     this.dealForm.controls['mediaUrl'].setValue(this.urls);
