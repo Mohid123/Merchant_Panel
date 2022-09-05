@@ -22,7 +22,7 @@
         <div class="flex justify-center">
           <div class="w-full mb-10 lg:w-4/6">
             <input
-              appNumbersOnly
+              (keyup)="isNumberKey($event)"
               appSpaceBetween
               maxlength="40"
               type="text"

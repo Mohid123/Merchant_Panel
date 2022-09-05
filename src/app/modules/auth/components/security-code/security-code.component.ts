@@ -55,6 +55,14 @@ export class SecurityCodeComponent implements OnInit, OnDestroy {
     });
   }
 
+  isNumberKey(event: any){
+    let charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)){
+      return false;
+    }
+    return true;
+  }
+
   resendOTP() {
     this.authService.forgotPassword(this.authService.emailSubject$.value)
     .pipe(takeUntil(this.destroy$))
