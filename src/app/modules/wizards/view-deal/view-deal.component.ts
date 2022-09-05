@@ -963,6 +963,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.dealIDsFilters = [];
     this.dealHeadersFilters = [];
     this.dealStatusesFilters = [];
+    this.filteredStatus.forEach((val: any) => val.checked = false);
     this.header = '';
     this.dealID = '';
     this.searchPage = 1;

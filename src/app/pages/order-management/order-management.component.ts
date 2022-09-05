@@ -592,6 +592,8 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.filteredVoucherNameSearch = [];
     this.filteredVoucherIDSearch = [];
     this.filteredDealHeaderSearch = [];
+    this.filteredInvoiceStatus.forEach((val: any) => val.checked = false);
+    this.filteredStatusResult.forEach((val: any) => val.checked = false);
     this.voucherID = '';
     this.dealHeader = '';
     this.deal = '';
