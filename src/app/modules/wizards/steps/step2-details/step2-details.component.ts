@@ -45,6 +45,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   ) {
     this.connection.getData().pipe(takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
       this.data = response;
+      console.log(this.data)
     })
   }
 
@@ -102,7 +103,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         this.deal.highlights,
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9.,-: ]+')
+          Validators.pattern('^[a-zA-Z0-9.,-:éë ]+')
         ]),
       ],
       aboutThisDeal: [
@@ -127,6 +128,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
     this.dealForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: MainDeal) => {
       this.cf.detectChanges();
+      this.connection.sendData({...this.data, ...val})
       this.updateParentModel(val, true);
     });
   }

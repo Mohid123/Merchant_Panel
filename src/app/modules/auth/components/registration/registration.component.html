@@ -95,25 +95,20 @@
 
           <div class="h-90px fv-row 2xl:h-26">
             <label class="mb-1 text-sm text-gray-400 2xl:text-base font-extralight 2xl:mb-2 form-label">Email</label>
-            <input appMaxLength length="30" class="form-control form-control-lg form-control-solid" type="email" name="email"
+            <input appMaxLength length="200" class="form-control form-control-lg form-control-solid" type="email" name="email"
             placeholder="Daviddeens@gmail.com"
               formControlName="email" autocomplete="off" [ngClass]="{
               'is-invalid': f['email'].invalid && f['email'].touched,
               'is-valid': f['email'].valid}" />
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                          validation: 'required',
-                          message: 'Email is required',
-                          control: f['email']}">
+                validation: 'required',
+                message: 'Email is required',
+                control: f['email']}">
             </ng-container>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                          validation: 'pattern',
-                          message: 'Email is invalid',
-                          control: f['email']}">
-            </ng-container>
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                          validation: 'maxlength',
-                          message: 'Email should have maximum 60 letters',
-                          control: f['email']}">
+                validation: 'pattern',
+                message: 'Email is invalid',
+                control: f['email']}">
             </ng-container>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'emailExists',
@@ -127,7 +122,7 @@
 
           <div class="h-90px fv-row 2xl:h-26">
             <label class="mb-1 text-sm text-gray-400 2xl:text-base font-extralight 2xl:mb-2 form-label">Mobile</label>
-            <div class="flex">
+            <div class="relative flex">
               <input appMaxLength length="15"
                 formControlName="phoneNumber"
                 name="phoneNumber"
@@ -138,27 +133,11 @@
                 [ng2TelInputOptions]="{initialCountry: 'be'}"
                 (countryChange)="onCountryChange($event)">
             </div>
-
             <ng-container *ngIf="f['phoneNumber'].touched" [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                          validation: 'required',
-                          message: 'Phone number is required',
-                          control: f['phoneNumber']}">
+              validation: 'required',
+              message: 'Phone number is required',
+              control: f['phoneNumber']}">
             </ng-container>
-            <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                          validation: 'validatePhoneNumber',
-                          message: 'Mobile is invalid',
-                          control: f['phoneNumber']}">
-            </ng-container> -->
-            <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                          validation: 'min',
-                          message: 'Mobile should have 9 letters',
-                          control: f['phoneNumber']}">
-            </ng-container> -->
-            <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                          validation: 'max',
-                          message: 'Mobile should have 9 letters',
-                          control: f['phoneNumber']}">
-            </ng-container> -->
           </div>
 
           <div class="flex justify-between">
@@ -187,7 +166,7 @@
               <input maxlength="16" class="form-control form-control-lg form-control-solid" type="text" name="vatNumber"
                 placeholder="BE0123123123"
                 formControlName="vatNumber" autocomplete="off" [ngClass]="{
-                'is-invalid': f['vatNumber'].invalid && f['vatNumber'].touched && f['vatNumber']?.hasError('notAvailable'),
+                'is-invalid': f['vatNumber'].invalid && f['vatNumber'].touched && f['vatNumber'].hasError('notAvailable'),
                 'is-valid': f['vatNumber'].valid}" />
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'required',

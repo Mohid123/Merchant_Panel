@@ -612,6 +612,16 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
+          if(item.dealStatus == 'Draft') {
+            return {
+              title: null,
+              start: null,
+              end: null,
+              backgroundColor: '',
+              borderColor: '',
+              extendedProps: {}
+            }
+          }
           if(item.dealStatus == 'In review') {
             return {
               title:item.dealHeader,
@@ -637,6 +647,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#10B981',
+              borderColor: '#10B981',
               extendedProps: {
                 dealID: item.dealID,
                 sold: item.soldVouchers,
@@ -711,6 +723,16 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
+          if(item.dealStatus == 'Draft') {
+            return {
+              title: null,
+              start: null,
+              end: null,
+              backgroundColor: '',
+              borderColor: '',
+              extendedProps: {}
+            }
+          }
           if(item.dealStatus == 'In review') {
             return {
               title:item.dealHeader,
@@ -736,6 +758,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
               title:item.dealHeader,
               start: moment(item.startDate).format('YYYY-MM-DD'),
               end: moment(item.endDate).format('YYYY-MM-DD'),
+              backgroundColor: '#10B981',
+              borderColor: '#10B981',
               extendedProps: {
                 dealID: item.dealID,
                 sold: item.soldVouchers,

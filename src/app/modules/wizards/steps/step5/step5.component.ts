@@ -69,6 +69,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     closeButtonLabel: "Close",
     size: 'sm'
   }
+  start: string = '';
 
   currentEvents: EventApi[] = [];
   calendarOptions: CalendarOptions = {
@@ -87,10 +88,6 @@ export class Step5Component implements OnInit, AfterViewInit {
     firstDay: 1,
     height: 'auto',
     displayEventTime: false,
-    initialDate: moment().add(2, 'days').format('YYYY-MM-DD'),
-    validRange: {
-      start: moment().add(2, 'days').format('YYYY-MM-DD')
-    },
     // select: this.handleDateSelect.bind(this),
     moreLinkClick: 'popover',
     dateClick: this.handleDateClick.bind(this),
@@ -118,7 +115,6 @@ export class Step5Component implements OnInit, AfterViewInit {
   startDate: any;
   calendarApi: any;
   allDay: any;
-  start: string;
   end: string;
   today: any;
   endDateInView: any;
@@ -148,6 +144,7 @@ export class Step5Component implements OnInit, AfterViewInit {
         this.data = response;
       })
       this.uploaded = true;
+      this.editDealCase();
   }
 
   ngOnInit() {
@@ -156,7 +153,6 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.initSelectDateForm();
     const current = new Date();
     this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2};
-    this.editDealCase();
   }
 
   editDealCase() {
@@ -217,8 +213,21 @@ export class Step5Component implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.fullCalendar.getApi().render();
-    this.fullCalendar.getApi().gotoDate(this.start)
+    this.fullCalendar.getApi().gotoDate(this.start);
+    if(this.start == '') {
+      this.fullCalendar.options!.initialDate = moment().add(2, 'days').format('YYYY-MM-DD');
+      this.fullCalendar.options!.validRange = {
+        start: moment().add(2, 'days').format('YYYY-MM-DD')
+      }
+      this.fullCalendar.getApi().render();
+    }
+    else {
+      this.fullCalendar.options!.initialDate = this.start;
+      this.fullCalendar.options!.validRange = {
+        start: this.start
+      }
+      this.fullCalendar.getApi().render();
+    }
   }
 
   initSelectDateForm() {

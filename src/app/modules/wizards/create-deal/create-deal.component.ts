@@ -18,13 +18,14 @@ export class CreateDealComponent implements OnInit {
   receiver: Subscription;
   data: MainDeal;
 
-  constructor(private toast: HotToastService, public connection: ConnectionService, private cf: ChangeDetectorRef) {}
-
-  ngOnInit(): void {
+  constructor(private toast: HotToastService, public connection: ConnectionService, private cf: ChangeDetectorRef) {
     this.connection.sendData(new MainDeal);
     this.receiver = this.connection.getData().subscribe((res: any) => {
       this.data = res;
     })
+  }
+
+  ngOnInit(): void {
   }
 
   updateDeal = (part: Partial<MainDeal>, isFormValid: boolean) => {
@@ -37,10 +38,19 @@ export class CreateDealComponent implements OnInit {
   nextStep() {
     this.connection.isSaving.next(true);
     if(this.connection.currentStep$.value == 4) {
-      if(new Date(this.data?.subDeals[0]?.voucherStartDate?.year, this.data?.subDeals[0]?.voucherStartDate?.month - 1, this.data?.subDeals[0]?.voucherStartDate?.day).getTime() > new Date(this.data?.subDeals[0]?.voucherEndDate?.year, this.data?.subDeals[0]?.voucherEndDate?.month - 1, this.data?.subDeals[0]?.voucherEndDate?.day).getTime()) {
-        this.toast.warning('Start date cannot exceed End date');
-        this.connection.isSaving.next(false);
-        return;
+      if(this.data.subDeals) {
+        if(new Date(this.data?.subDeals[0]?.voucherStartDate?.year, this.data?.subDeals[0]?.voucherStartDate?.month - 1, this.data?.subDeals[0]?.voucherStartDate?.day).getTime() > new Date(this.data?.subDeals[0]?.voucherEndDate?.year, this.data?.subDeals[0]?.voucherEndDate?.month - 1, this.data?.subDeals[0]?.voucherEndDate?.day).getTime()) {
+          this.toast.warning('Start date cannot exceed End date');
+          this.connection.isSaving.next(false);
+          return;
+        }
+        else {
+          const nextStep = this.connection.currentStep$.value + 1;
+          if (nextStep > this.formsCount) {
+            return;
+          }
+          this.connection.currentStep$.next(nextStep);
+        }
       }
       else {
         const nextStep = this.connection.currentStep$.value + 1;

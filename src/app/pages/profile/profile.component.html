@@ -327,14 +327,14 @@
 
 <div class="card card-business">
 
-  <div class="py-6 border-0 border-transparent cursor-pointer card-header">
-    <h3 class="flex items-center mt-2 2xl:ml-24 fw-bolder">Set Business Hours</h3>
+  <div class="py-6 border-0 border-transparent cursor-pointer xl:mx-8 1.7xl:mx-20 3xl:mx-24 card-header">
+    <h3 class="flex items-center mt-2 fw-bolder">Set Business Hours</h3>
 
     <ng-container *ngIf="!isEditBusinessHours">
-      <button (click)="editBusinessHours()" [ngClass]="isLeftVisible == false ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="isLeftVisible == false" class="2xl:mr-24 edit-btn">Edit</button>
+      <button (click)="editBusinessHours()" [ngClass]="isLeftVisible == false ? 'opacity-60 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="isLeftVisible == false" class="edit-btn">Edit</button>
     </ng-container>
 
-    <div class="flex justify-end mr-24 border-none" *ngIf="isEditBusinessHours || (this.isLoading$ | async)">
+    <div class="flex justify-end border-none" *ngIf="isEditBusinessHours || (this.isLoading$ | async)">
       <button class="discard-button" routerLinkActive="active" (click)="discardBusinessHours()">Discard</button>
       <button type="button" class="save-button" [disabled]="(isLoading$ | async)" (click)="saveBusinessHours(); saveTerms()">
         <ng-container *ngIf="!(isLoading$ | async); else Loading">Save</ng-container>
@@ -396,7 +396,7 @@
     </div>
 
     <div class="py-2 mb-3 ml-32" style="border-style: none!important;">
-        <h3 class="m-0 font-normal">About us</h3>
+        <h3 class="m-0 fw-bolder">About us</h3>
     </div>
 
     <div class="ml-32 mr-20">
@@ -406,7 +406,7 @@
         </div>
 
         <div class="py-2">
-          <h3 class="font-normal">Fine print</h3>
+          <h3 class="fw-bolder">Fine print</h3>
         </div>
 
         <div class="pb-1">

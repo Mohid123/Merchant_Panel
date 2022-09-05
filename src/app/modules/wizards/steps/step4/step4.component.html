@@ -113,7 +113,7 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'min',
-                message: 'Please specify validity period',
+                message: 'Voucher validity period should be at least 30 days',
                 control: form.controls['voucherValidity']
               }">
               </ng-container>

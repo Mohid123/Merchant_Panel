@@ -313,7 +313,7 @@ export class Step4Component implements OnInit, OnDestroy {
         this.newData.subDeals[0]?.voucherValidity,
         Validators.compose([
           Validators.required,
-          Validators.min(1)
+          Validators.min(30)
         ])
       ]
     });
