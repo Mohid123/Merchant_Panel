@@ -22,20 +22,20 @@ export class NumbersOnlyDirective {
     return true;
   }
 
-  @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent):void {
-    if(event?.clipboardData?.getData('text/plain')) {
-      this.renderer.setProperty(
-        this.el.nativeElement,
-        'value',
-        (this.el.nativeElement.value + event?.clipboardData?.getData('text/plain'))
-        .slice(0, 5)
-        .replace(',', '.')
-        .replace(/[^\d.]/g, '')
-        .replace(/\./, "x")
-        .replace(/\./g, "")
-        .replace(/x/, "."))
-      }
-    event.preventDefault();
-  }
+  // @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent):void {
+  //   if(event?.clipboardData?.getData('text/plain')) {
+  //     this.renderer.setProperty(
+  //       this.el.nativeElement,
+  //       'value',
+  //       (this.el.nativeElement.value + event?.clipboardData?.getData('text/plain'))
+  //       .slice(0, 5)
+  //       .replace(',', '.')
+  //       .replace(/[^\d.]/g, '')
+  //       .replace(/\./, "x")
+  //       .replace(/\./g, "")
+  //       .replace(/x/, "."))
+  //     }
+  //   event.preventDefault();
+  // }
 
 }

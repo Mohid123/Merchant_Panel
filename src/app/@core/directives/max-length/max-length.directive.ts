@@ -29,15 +29,15 @@ export class MaxLengthDirective {
     this.isControlLastKey = event?.key == 'Control';
   }
 
-    @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent):void {
-      if(event?.clipboardData?.getData('text/plain')) {
-        this.renderer.setProperty(
-          this.el.nativeElement,
-          'value',
-          (this.el.nativeElement.value + event?.clipboardData?.getData('text/plain')).slice(0,+this.length)
-          );
-        }
-      event.preventDefault();
-  }
+    // @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent):void {
+    //   if(event?.clipboardData?.getData('text/plain')) {
+    //     this.renderer.setProperty(
+    //       this.el.nativeElement,
+    //       'value',
+    //       (this.el.nativeElement.value + event?.clipboardData?.getData('text/plain')).slice(0,+this.length)
+    //       );
+    //     }
+    //   event.preventDefault();
+  // }
 
 }
