@@ -353,7 +353,7 @@
           <ng-container *ngFor="let formControls of businessHoursFromControl.controls;let i=index" [formGroupName]="i" >
           <tr class="relative flex items-center justify-center border-0">
             <td class="pl-10 day">
-                <div class="d-flex flex-column">
+                <div class="d-flex flex-column text-sm">
                     <input type="checkbox" formControlName="isWorkingDay" [id]="formControls.value.day">
                     <label [for]="formControls.value.day">
                       <div>
@@ -395,11 +395,11 @@
       </table>
     </div>
 
-    <div class="py-2 mb-3 ml-32" style="border-style: none!important;">
+    <div class="py-2 mb-3 xl:ml-16 1.5xl:ml-20 1.7xl:ml-32" style="border-style: none!important;">
         <h3 class="m-0 fw-bolder">About us</h3>
     </div>
 
-    <div class="ml-32 mr-20">
+    <div class="xl:ml-16 1.5xl:ml-20 1.7xl:ml-32 mr-20">
       <form class="form row" [formGroup]="termsForm">
         <div class="pb-5">
           <ckeditor [disabled]="!isEditBusinessHours" formControlName="aboutUs" [editor]="Editor" [config]="config"></ckeditor>

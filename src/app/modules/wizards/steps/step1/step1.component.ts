@@ -447,7 +447,7 @@ export class Step1Component implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.pattern('^[a-zA-Z0-9.,-:èë ]+')
+          Validators.pattern('^[a-zA-Z0-9.,-:èëéà ]+')
         ]),
       ],
       subTitle: [
@@ -455,7 +455,7 @@ export class Step1Component implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.pattern('^[a-zA-Z0-9.,-:èë ]+')
+          Validators.pattern('^[a-zA-Z0-9.,-:èëéà ]+')
         ]),
       ],
       mediaUrl: [

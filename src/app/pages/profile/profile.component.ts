@@ -119,7 +119,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.user = user;
       this.setbusinessHours();
       if(user)
-      console.log(this.user)
       this.profileForm.patchValue({
         tradeName: user?.personalDetail?.tradeName,
         streetAddress: user?.personalDetail?.streetAddress,
@@ -196,7 +195,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       profilePicURL: this.image,
       website_socialAppLink: this.profileForm.value.website_socialAppLink
     }
-    debugger
+
     this.userService.updateMerchantprofile(param)
       .pipe(exhaustMap((res: any) => {
         if(!res.hasErrors()) {
@@ -246,7 +245,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         website_socialAppLink: res?.data?.website_socialAppLink,
         profilePicURL: res?.data?.profilePicURL
       });
-
+      this.setbusinessHours();
       console.log(res);
     })
   }
@@ -451,8 +450,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       businessHours: this.fb.array( [])
     });
    const businessHours = !!this.user?.businessHours?.length ? this.user?.businessHours : initalBusinessHours;
-   // console.log('businessHours:',businessHours);
    this.businessHoursForm.controls['id'].setValue(this.user?.id);
+
     businessHours.forEach(businessHour => {
      this.addBusinessHour(businessHour)
     })
@@ -475,11 +474,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   saveBusinessHours() {
     if(!this.validateBusinessHours()) {
+
       return;
     }
     if(this.validateBusinessHours()) {
+
       this.isLoading$.next(true);
       this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
+
         if(!res.hasErrors()) {
           return this.userService.getUser();
         } else {

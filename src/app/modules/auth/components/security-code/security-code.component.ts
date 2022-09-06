@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { HotToastService } from '@ngneat/hot-toast';
-import { Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, timer } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 
@@ -27,6 +27,10 @@ export class SecurityCodeComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
 
   private unsubscribe: Subscription[] = [];
+  subscribeTimer = new BehaviorSubject(60);
+  afterComplete = new BehaviorSubject(false);
+  subscribeTimer$ = this.subscribeTimer.asObservable();
+  timeLeft: number = 60;
 
   constructor(
     private fb: FormBuilder,
@@ -41,7 +45,21 @@ export class SecurityCodeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
-    this.authService.emailSubject$.value
+    this.authService.emailSubject$.value;
+    if(this.afterComplete.value == false) {
+      this.startTimer();
+    }
+  }
+
+  startTimer() {
+    const source = timer(1000, 1000);
+    const time = source.subscribe(val => {
+      this.subscribeTimer.next(this.timeLeft - val);
+      if(this.timeLeft == val) {
+        this.afterComplete.next(true);
+        time.unsubscribe();
+      }
+    });
   }
 
   initForm() {
@@ -78,7 +96,8 @@ export class SecurityCodeComponent implements OnInit, OnDestroy {
             primary: '#84cc16',
             secondary: '#064e3b',
           },
-        })
+        });
+        this.startTimer();
       }
       else {
         this.toast.error(res.errors[0]?.error?.message, {

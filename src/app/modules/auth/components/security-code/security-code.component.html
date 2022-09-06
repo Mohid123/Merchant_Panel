@@ -7,7 +7,7 @@
         <div class="w-full text-center mb-9">
           <h1 class="mb-5 text-base font-semibold text-black md:text-4xl">Enter security code</h1>
           <div class="w-full py-2 bg-gray-200 px-18 md:px-24 md:py-4">
-            <span class="mb-3 text-xs font-normal text-center text-gray-600 md:text-sm lg:text-base">We sent a 6-digit code to email@xxx.com. This code will expire after 24 hours.</span>
+            <span class="mb-3 text-xs font-normal text-center text-gray-600 md:text-sm lg:text-base">We sent a 6-digit code to email@xxx.com. <span [ngClass]="(subscribeTimer$ | async)! == 0 ? 'mb-3 text-xs font-normal text-center text-red-500 md:text-sm lg:text-base': 'hidden'">OTP expired! Resend again to get a new OTP</span> <span [ngClass]="(subscribeTimer$ | async)! > 0 ? 'mb-3 text-xs font-normal text-center text-gray-600 md:text-sm lg:text-base': 'hidden'">This code will expire in</span>&nbsp;<span *ngIf="(subscribeTimer$ | async)! > 0" [ngClass]="(subscribeTimer$ | async)! <= 10 ? 'text-red-500': 'text-primary-400'">{{subscribeTimer$ | async}}</span>&nbsp;<span [ngClass]="(subscribeTimer$ | async)! > 0 ? 'mb-3 text-xs font-normal text-center text-gray-600 md:text-sm lg:text-base': 'hidden'">seconds</span></span>
           </div>
         </div>
 
@@ -22,7 +22,7 @@
         <div class="flex justify-center">
           <div class="w-full mb-10 lg:w-4/6">
             <input
-              (keyup)="isNumberKey($event)"
+              appNumbersOnly
               appSpaceBetween
               maxlength="40"
               type="text"
