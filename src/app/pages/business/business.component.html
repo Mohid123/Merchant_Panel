@@ -255,7 +255,7 @@
             <span class="spanner">Street address</span>
           </td>
           <td class="pb-4">
-            <input class="form-control" formControlName="streetAddress" maxlength="195">
+            <input class="form-control" formControlName="streetAddress" maxlength="300">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Street address is required',
