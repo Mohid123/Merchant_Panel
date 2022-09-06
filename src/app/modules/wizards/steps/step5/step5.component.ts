@@ -147,7 +147,9 @@ export class Step5Component implements OnInit, AfterViewInit {
     private common: CommonFunctionsService) {
       this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
         this.data = response;
-        this.voucherEndDate = response.subDeals[0]?.voucherEndDate
+        if(response.subDeals) {
+          this.voucherEndDate = response.subDeals[0]?.voucherEndDate
+        }
 
       })
       this.uploaded = true;
@@ -289,13 +291,13 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.fullCalendar.getApi().removeAllEvents();
     const startDate = new Date(this.dateForm.get('startDate')?.value?.year, this.dateForm.get('startDate')?.value?.month - 1, this.dateForm.get('startDate')?.value?.day).getTime();
     const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day).getTime();
-    debugger
-    if(endDate > this.voucherEndDate) {
-      this.toast.error('Deal end date cannot exceed redeem end date');
-      this.fullCalendar.getApi().removeAllEvents();
-      return;
+    if(this.voucherEndDate != 0) {
+      if(endDate > this.voucherEndDate) {
+        this.toast.error('Deal end date cannot exceed redeem end date');
+        this.fullCalendar.getApi().removeAllEvents();
+        return;
+      }
     }
-    debugger
     this.start = moment(startDate).format("YYYY-MM-DD");
     this.endDateInView = moment(endDate).format("YYYY-MM-DD");
     this.end = moment(endDate).add(1, 'days').format("YYYY-MM-DD");
