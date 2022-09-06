@@ -297,7 +297,7 @@
                   </div>
                 </div>
                 <div class="image-input image-input-outline image-upload">
-                  <div class="object-cover ml-1 small-image image-input-wrapper">
+                  <div *ngIf="images.length < 5" class="object-cover ml-1 small-image image-input-wrapper">
                     <label class="absolute top-0 w-20 h-20 btn btn-xs btn-icon btn-hover-text-primary">
                       <span class="absolute top-0 flex items-center justify-center w-20 h-20"><img class="object-contain w-14 h-14" src="../../../assets/media/logos/active.svg"></span>
                       <input class="absolute top-0 w-20 h-20 cursor-pointer" type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event); onClick($event)" multiple>
@@ -353,7 +353,7 @@
           <ng-container *ngFor="let formControls of businessHoursFromControl.controls;let i=index" [formGroupName]="i" >
           <tr class="relative flex items-center justify-center border-0">
             <td class="pl-10 day">
-                <div class="d-flex flex-column text-sm">
+                <div class="text-sm d-flex flex-column">
                     <input type="checkbox" formControlName="isWorkingDay" [id]="formControls.value.day">
                     <label [for]="formControls.value.day">
                       <div>
