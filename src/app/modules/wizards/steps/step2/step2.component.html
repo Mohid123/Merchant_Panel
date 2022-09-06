@@ -85,6 +85,12 @@
                 control: vouchers.controls['originalPrice']
               }">
               </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: 'Special characters/alphabets are not allowed',
+                control: vouchers.controls['originalPrice']
+              }">
+              </ng-container>
             </div>
 
             <div class="h-24 fv-row 2xl:h-26">
@@ -94,6 +100,12 @@
               [ngClass]="{
                 'is-invalid': vouchers.controls['dealPrice']?.invalid && vouchers.controls['dealPrice']?.touched,
                 'is-valid': vouchers.controls['dealPrice']?.valid && vouchers.controls['dealPrice']?.value != '' && vouchers.controls['dealPrice']?.value != null}">
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'pattern',
+                  message: 'Special characters/alphabets are not allowed',
+                  control: vouchers.controls['dealPrice']
+                }">
+                </ng-container>
                 <div class="text-xs text-danger"
                 *ngIf="vouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
                 The deal price cannot be greater than the original price
@@ -118,6 +130,12 @@
               message: 'Please specify number of vouchers',
               control: vouchers.controls['numberOfVouchers']
             }">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'pattern',
+            message: 'Special characters/alphabets are not allowed',
+            control: vouchers.controls['numberOfVouchers']
+          }">
           </ng-container>
             <svg *ngIf="subDeals.length == 0" width="100%" height="25px">
               <line height="0.5px" x1="0" y1="13" x2="100%" y2="13" style="stroke-dasharray: 6, 6;stroke: #9BB3C8;stroke-width: 0.5px;"></line>
@@ -179,6 +197,11 @@
               control: editVouchers.controls['originalPrice']
             }">
             </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Special characters/alphabets are not allowed',
+              control: editVouchers.controls['originalPrice']}">
+            </ng-container>
           </div>
 
           <div class="h-24 fv-row 2xl:h-26">
@@ -188,6 +211,11 @@
               [ngClass]="{
                 'is-invalid': editVouchers.controls['dealPrice']?.invalid && editVouchers.controls['dealPrice']?.touched,
                 'is-valid': editVouchers.controls['dealPrice']?.valid && editVouchers.controls['dealPrice']?.value != '' && editVouchers.controls['dealPrice']?.value != null && editVouchers.controls['dealPrice']?.value != undefined}">
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'pattern',
+                  message: 'Special characters/alphabets are not allowed',
+                  control: editVouchers.controls['dealPrice']}">
+                </ng-container>
                 <!--&& editVouchers.controls['dealPrice']?.value != '' && editVouchers.controls['dealPrice']?.value != null && editVouchers.controls['dealPrice']?.value != undefined-->
                 <div class="text-xs text-danger"
                 *ngIf="editVouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
@@ -214,6 +242,12 @@
             control: editVouchers.controls['numberOfVouchers']
           }">
         </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'Special characters/alphabets are not allowed',
+          control: editVouchers.controls['numberOfVouchers']
+        }">
+      </ng-container>
           <svg *ngIf="subDeals.length == 0" width="100%" height="25px">
             <line height="0.5px" x1="0" y1="13" x2="100%" y2="13" style="stroke-dasharray: 6, 6;stroke: #9BB3C8;stroke-width: 0.5px;"></line>
          </svg>

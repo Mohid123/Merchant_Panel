@@ -147,16 +147,21 @@ export class Step2Component implements OnInit, OnDestroy {
         '',
         Validators.compose([
         Validators.required,
+        Validators.pattern('^[0-9 ]+')
         ]),
       ],
       dealPrice: [
-        ''
+        '',
+        Validators.compose([
+          Validators.pattern('^[0-9 ]+')
+        ])
       ],
       numberOfVouchers: [
        '0',
         Validators.compose([
         Validators.required,
-        Validators.min(1)
+        Validators.min(1),
+        Validators.pattern('^[0-9 ]+')
         ])
       ],
       title: [
@@ -167,7 +172,10 @@ export class Step2Component implements OnInit, OnDestroy {
         ])
       ],
       discountPercentage: [
-        0
+        0,
+        Validators.compose([
+          Validators.pattern('^[0-9 ]+')
+        ])
       ]
       }, {
         validator: GreaterThanValidator('originalPrice', 'dealPrice')
@@ -180,16 +188,21 @@ export class Step2Component implements OnInit, OnDestroy {
         '',
         Validators.compose([
         Validators.required,
+        Validators.pattern('^[0-9 ]+')
         ]),
       ],
       dealPrice: [
-        ''
+        '',
+        Validators.compose([
+          Validators.pattern('^[0-9 ]+')
+        ])
       ],
       numberOfVouchers: [
         '0',
         Validators.compose([
         Validators.required,
-        Validators.min(1)
+        Validators.min(1),
+        Validators.pattern('^[0-9 ]+')
         ])
       ],
       title: [
@@ -200,7 +213,10 @@ export class Step2Component implements OnInit, OnDestroy {
         ])
       ],
       discountPercentage: [
-        0
+        0,
+        Validators.compose([
+          Validators.pattern('^[0-9 ]+')
+        ])
       ]
       }, {
         validator: GreaterThanValidator('originalPrice', 'dealPrice')

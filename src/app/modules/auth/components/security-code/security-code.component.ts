@@ -67,7 +67,8 @@ export class SecurityCodeComponent implements OnInit, OnDestroy {
       securityCode: [
         '',
         Validators.compose([
-          Validators.required
+          Validators.required,
+          Validators.pattern('^[0-9 ]+')
         ]),
       ],
     });
