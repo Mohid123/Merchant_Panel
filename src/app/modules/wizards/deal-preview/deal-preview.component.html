@@ -193,7 +193,7 @@
         <div class="flex flex-col mt-24 overflow-x-scroll">
           <ng-container *ngFor="let subDeal of subDeals; let i = index">
               <div class="flex flex-wrap w-full">
-                <span class="w-56 ml-6 text-sm text-left 2xl:ml-6">{{subDeal?.subTitle}}</span>
+                <span class="w-56 ml-6 text-sm text-left 2xl:ml-6">{{subDeal?.title}}</span>
               </div>
               <div class="flex justify-start mt-2 ml-6 font-thin 2xl:ml-7 flex-nowrap">
                 <i class="text-sm text-gray-600 fas fa-euro-sign">&nbsp;{{subDeal?.originalPrice}}</i>
@@ -202,7 +202,7 @@
                   <i style="font-style: normal;" class="mt-1 ml-3 text-xs text-blue-500 fw-bolder">{{subDeal?.discountPercentage.toFixed(2).replace('.', ',')}}% off</i>
                 </ng-container>
               </div>
-              <span class="w-56 ml-5 text-sm font-thin text-center 2xl:ml-5">Number of available vouchers <span class="px-2 py-0.5 text-xs text-blue-500 bg-blue-200 rounded-md">{{subDeal?.numberOfVouchers}}</span></span>
+              <!-- <span class="w-56 ml-5 text-sm font-thin text-center 2xl:ml-5">Number of available vouchers <span class="px-2 py-0.5 text-xs text-blue-500 bg-blue-200 rounded-md">{{subDeal?.numberOfVouchers}}</span></span> -->
               <!-- <div class="flex justify-end mt-2">
                 <i class="p-1 text-gray-600 bg-gray-300 cursor-pointer fas fa-pencil-alt fa-xs rounded-circle" ></i>
                 <i class="p-1 ml-1 text-gray-600 bg-gray-300 cursor-pointer fas fa-trash fa-xs rounded-circle"></i>

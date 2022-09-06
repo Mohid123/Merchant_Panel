@@ -36,6 +36,7 @@ export class DealPreviewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.conn.getData().pipe(takeUntil(this.unsubscribe)).subscribe((res: any) => {
       this.mainDeal = res;
+      this.cf.detectChanges()
       this.subDeals = this.mainDeal.subDeals ? this.mainDeal.subDeals : [];
       this.urls = this.mainDeal.mediaUrl ? this.mainDeal?.mediaUrl.filter(img => img?.startsWith('data:image')) : [];
       this.cf.detectChanges();
