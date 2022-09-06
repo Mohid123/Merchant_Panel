@@ -231,6 +231,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             secondary: '#064e3b',
           },
         })
+        this.setbusinessHours();
         return this.userService.getUser();
         } else {
           return (res);
@@ -245,8 +246,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         website_socialAppLink: res?.data?.website_socialAppLink,
         profilePicURL: res?.data?.profilePicURL
       });
-      this.setbusinessHours();
-      console.log(res);
     })
   }
 
@@ -452,7 +451,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
    const businessHours = !!this.user?.businessHours?.length ? this.user?.businessHours : initalBusinessHours;
    this.businessHoursForm.controls['id'].setValue(this.user?.id);
 
-    businessHours.forEach(businessHour => {
+    businessHours?.forEach(businessHour => {
      this.addBusinessHour(businessHour)
     })
   }
@@ -527,13 +526,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   validateBusinessHours() {
     let valid = true;
-    this.businessHoursForm.value.businessHours.forEach((businessHours:BusinessHours) => {
+    this.businessHoursForm.value?.businessHours?.forEach((businessHours:BusinessHours) => {
       if(valid && !businessHours.isWorkingDay || (
           businessHours.firstStartTime.length &&
           businessHours.firstEndTime.length &&
           businessHours.secondStartTime.length &&
           businessHours.secondEndTime.length)){
-            console.log('valid day:', businessHours.day);
           }
           else {
             valid = false;
