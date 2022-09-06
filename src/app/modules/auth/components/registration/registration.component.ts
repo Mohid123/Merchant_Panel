@@ -216,8 +216,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    console.log('registrationForm:',this.registrationForm);
-    debugger
     this.hasError = false;
     const result: {
       [key: string]: string;
@@ -226,9 +224,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       result[key] = this.f[key].value;
     });
 
-    debugger
     const newModel = new RegisterModel();
     newModel.setModel(result);
+    if(newModel.phoneNumber?.startsWith('0')) {
+      newModel.phoneNumber = newModel.phoneNumber.substring(1)
+    }
     newModel.phoneNumber = '+' + this.countryCode  + newModel.phoneNumber;
     const registrationSubscr = this.authService
       .registration(newModel)
@@ -237,7 +237,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         if(!registerModel.hasErrors()){
           this.registrationSuccess = true; // need to remove in live version or while api intigration
         } else {
-          console.log('eeeeee:',registerModel.errors);
           this.toast.error(registerModel.errors[0].error.message);
         }
       });
