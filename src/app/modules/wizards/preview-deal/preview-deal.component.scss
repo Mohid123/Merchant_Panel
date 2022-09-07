@@ -1,0 +1,103 @@
+@import "~swiper/css";
+@import "~swiper/css/free-mode";
+@import "~swiper/css/navigation";
+@import "~swiper/css/thumbs";
+
+body {
+  background: #F5F8FA!important;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 1.125rem;
+  background: #F5F8FA;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-slide {
+  background-size: cover;
+  background-position: center;
+}
+
+.swiper-button-next {
+  @apply w-12 h-12 rounded-full bg-white text-gray-700 text-opacity-100 font-bold p-4
+}
+
+.swiper-button-prev {
+  @apply w-12 h-12 rounded-full bg-white text-gray-700 text-opacity-100 font-bold p-4
+}
+
+.mySwiper2 {
+  @apply w-190 object-cover rounded-md;
+  height: 28.75rem;
+}
+
+.mySwiper {
+  box-sizing: border-box;
+  padding: 2px 0;
+  height: 4.575rem;
+}
+
+.mySwiper .swiper-slide {
+  height: 4.275rem;
+  padding: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mySwiper .swiper-slide-thumb-active {
+  border-color: #3B82F6;
+  border: 2px solid #3B82F6;
+  border-radius: 0.5rem;
+  padding: none;
+  cursor: pointer;
+}
+
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+span ol, ul {
+  list-style: inherit!important;
+  margin: 0;
+  padding-left: 2.7rem!important;
+}
+
+span p i {
+  font-size: 0.875rem!important;
+}

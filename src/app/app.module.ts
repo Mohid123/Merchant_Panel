@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { BlurHashModule } from '@components/blur-hash/blur-hash.module';
 import { FiltersModule } from '@components/filters/filters.module';
 import { PendingSkeletonModule } from '@components/pending-skeleton/pending-skeleton.module';
 import { ReusableModalModule } from '@components/reusable-modal/reusable-modal.module';
@@ -28,7 +29,6 @@ import { PopupModalComponent } from './components/popup-modal/popup-modal.compon
 import { ProfileSliderComponent } from './components/profile-slider/profile-slider.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { RedeemCrmVoucherComponent } from './CRM/redeem-crm-voucher/redeem-crm-voucher.component';
-import { MainBlurHashComponent } from './modules/auth/components/blur-hash/blur-hash.component';
 import { BillingsComponent } from './pages/billings/billings.component';
 import { BusinessComponent } from './pages/business/business.component';
 import { NewReviewsComponent } from './pages/new-reviews/new-reviews.component';
@@ -38,8 +38,6 @@ import { ReviewsComponent } from './pages/reviews/reviews.component';
 import { SecurityComponent } from './pages/security/security.component';
 import { SingleReviewComponent } from './pages/single-review/single-review.component';
 import { TestComponent } from './pages/test/test.component';
-// import { BlurHashComponent } from './CRM/blur-hash/blur-hash.component';
-// import { DealCrmHeaderComponent } from './CRM/deal-crm-header/deal-crm-header.component';
 
 @NgModule({
   declarations: [
@@ -57,8 +55,7 @@ import { TestComponent } from './pages/test/test.component';
     NewReviewsComponent,
     TruncationPipe,
     PopupModalComponent,
-    RedeemCrmVoucherComponent,
-    MainBlurHashComponent
+    RedeemCrmVoucherComponent
     // DealCrmHeaderComponent
   ],
   imports: [
@@ -86,7 +83,8 @@ import { TestComponent } from './pages/test/test.component';
     HotToastModule.forRoot(),
     NgPasswordValidatorModule,
     InfiniteScrollModule,
-    AutoFocusModule
+    AutoFocusModule,
+    BlurHashModule
   ],
   providers: [
     // {

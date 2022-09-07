@@ -1,0 +1,154 @@
+<div *ngIf="dataLoading == false" class="w-full my-8">
+  <div class="flex justify-between">
+    <div class="flex flex-col max-w-190">
+      <span class="mb-3 text-4xl font-bold max-w-190">{{dealData?.dealHeader}}</span>
+      <span class="mb-4 text-2xl font-normal max-w-190">{{dealData?.merchantDetails?.legalName}}</span>
+      <span class="mb-3 text-base font-normal text-gray-600">{{dealData?.subTitle}}</span>
+      <ng-container *ngIf="imageArray.length > 0">
+        <div class="mb-3 w-190 h-104">
+          <swiper #swipe
+            style="--swiper-navigation-color: #fff;--swiper-pagination-color: #fff; --swiper-navigation-size: 20px;"
+            [spaceBetween]="3"
+            [navigation]="true"
+            [thumbs]="{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }"
+            [lazy]="true"
+            class="mySwiper2">
+
+            <ng-template swiperSlide *ngFor="let url of imageArray; let i = index">
+              <app-main-blur-hash style="display: block; width: 100%; height: 100%; object-fit: cover;" [imageSrc]="url.captureFileURL"></app-main-blur-hash>
+            </ng-template>
+
+          </swiper>
+
+          <swiper
+            (swiper)="thumbsSwiper = $event"
+            [spaceBetween]="1"
+            [slidesPerView]="10"
+            [freeMode]="true"
+            [watchSlidesProgress]="true"
+            [lazy]="true"
+            class="mySwiper">
+
+            <ng-template swiperSlide *ngFor="let url of imageArray; let i = index">
+              <app-main-blur-hash [imageSrc]="url.captureFileURL" class="w-16 p-0 h-14"></app-main-blur-hash>
+            </ng-template>
+
+          </swiper>
+        </div>
+      </ng-container>
+      <span class="mb-5 text-3xl font-bold mt-28">Highlights</span>
+      <span *ngIf="dealData?.highlights != ''" style="color: #728A9F;" class="mb-8 text-base font-normal max-w-190" [innerHTML]="dealData?.highlights"></span>
+      <span *ngIf="dealData?.highlights == ''" class="mb-8 text-base font-normal text-gray-500">This deal has no "Highlights"</span>
+
+      <span class="mb-5 text-3xl font-bold">About this deal</span>
+      <span *ngIf="dealData?.aboutThisDeal != ''" style="color: #728A9F;" class="mb-8 text-base font-normal max-w-190" [innerHTML]="dealData?.aboutThisDeal"></span>
+      <span *ngIf="dealData?.aboutThisDeal == ''" class="mb-8 text-base font-normal text-gray-500">This deal has no "About this deal"</span>
+
+      <span class="mb-5 text-3xl font-bold">Read more</span>
+      <span *ngIf="dealData?.readMore != ''" style="color: #728A9F;" class="mb-8 text-base font-normal max-w-190" [innerHTML]="dealData?.readMore"></span>
+      <span *ngIf="dealData?.readMore == ''" class="mb-8 text-base font-normal text-gray-500">This deal has no "Read more"</span>
+
+      <span class="mb-5 text-3xl font-bold">Fine print</span>
+      <span *ngIf="dealData?.finePrints != ''" style="color: #728A9F;" class="mb-8 text-base font-normal max-w-190" [innerHTML]="dealData?.finePrints"></span>
+      <span *ngIf="dealData?.finePrints == ''" class="mb-8 text-base font-normal text-gray-500">This deal has no "Fine print"</span>
+
+    </div>
+
+    <div class="flex flex-col items-end">
+      <div class="xl:pr-8 1.5xl:pr-12 mb-2 mt-36 max-w-100">
+        <ng-container *ngIf="subDeals.length > 0 || subDeals != []; else noSubDeals">
+          <ng-container *ngFor="let deal of subDeals; let i = index">
+            <span class="text-base font-semibold max-w-60">{{deal.title}}</span>
+            <div class="flex justify-start">
+              <span class="mt-4 text-sm line-through" style="color:#94A1B3;">{{deal.originalPrice}}&nbsp;&euro;</span>
+              <span class="font-semibold text-sm mx-3.5 mt-4" style="color:#12B500;">{{deal.dealPrice}}&nbsp;&euro;</span>
+              <div>
+                <button class="py-1 px-4.5 text-xxs rounded-xl mt-3.5 cursor-text" style="color: #12B500; background-color: #DBF4D9;">{{deal.discountPercentage.toFixed(2).replace('.',',')}} off</button>
+              </div>
+            </div>
+            <hr style="border: 0.5px solid #96B1BC;" class="mb-4">
+          </ng-container>
+        </ng-container>
+        <ng-template #noSubDeals>
+          <div class="flex flex-col mt-24 ml-6">
+            <div class="w-full">
+              <div class="flex justify-center align-bottom">
+                <img src="../../../../assets/media/logos/box.svg" class="w-2/6 h-2/6">
+              </div>
+              <div class="flex justify-center ml-6 align-bottom 2xl:ml-0">
+                <span class="h-10 mt-2 text-xs font-thin text-center text-gray-500">Your sub voucher details will appear here.</span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--skeleton-->
+<div *ngIf="dataLoading == true" class="w-full my-8">
+  <div class="flex justify-between">
+    <div class="flex flex-col max-w-190">
+      <span class="inline-block py-2 mb-3 bg-gray-300 border-2 rounded-sm"></span>
+      <span class="inline-block py-1.5 mb-3 bg-gray-300 border-2 rounded-sm max-w-135"></span>
+      <span class="inline-block py-1 mt-2.5 mb-3 bg-gray-300 border-2 rounded-sm max-w-26"></span>
+
+      <span class="inline-block bg-gray-300 rounded-lg h-104 animate-pulse w-190"></span>
+      <div class="flex mb-7 justify-evenly">
+        <div *ngFor="let i of Arr(num).fill(1)" class="flex w-16 my-4 justify-evenly">
+          <span class="inline-block w-16 bg-gray-300 rounded-lg h-14 animate-pulse"></span>
+        </div>
+      </div>
+
+      <span class="inline-block py-2 mt-3 mb-6 bg-gray-300 border-2 rounded-sm"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 mt-1 mb-8 bg-gray-300 border-2 rounded-xl max-w-44"></span>
+
+      <span class="inline-block py-2 mt-3 mb-6 bg-gray-300 border-2 rounded-sm"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 mt-1 mb-8 bg-gray-300 border-2 rounded-xl max-w-44"></span>
+
+      <span class="inline-block py-2 mt-3 mb-6 bg-gray-300 border-2 rounded-sm"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 mt-1 mb-8 bg-gray-300 border-2 rounded-xl max-w-44"></span>
+
+      <span class="inline-block py-2 mt-3 mb-6 bg-gray-300 border-2 rounded-sm"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 my-1 bg-gray-300 border-2 rounded-xl max-w-100"></span>
+      <span class="inline-block py-0.5 mt-1 mb-8 bg-gray-300 border-2 rounded-xl max-w-44"></span>
+
+
+    </div>
+
+    <div class="flex flex-col items-end">
+      <div class="xl:pr-8 1.5xl:pr-12 mb-2 mt-24 max-w-100">
+        <span class="inline-block py-1 bg-gray-300 border-2 rounded-sm max-w-60 w-60"></span>
+        <div class="flex justify-start">
+          <span class="inline-block w-7 h-2.5 mx-2 bg-gray-300 border-2 rounded-sm mt-4"></span>
+          <span class="inline-block w-7 h-2.5 mx-2 bg-gray-300 border-2 rounded-sm mt-4"></span>
+          <div>
+            <button class="inline-block w-16 py-2 mx-1 bg-gray-300 border-2 rounded-xl"></button>
+          </div>
+        </div>
+
+        <span class="inline-block py-1 mt-12 bg-gray-300 border-2 rounded-sm max-w-60 w-60"></span>
+        <div class="flex justify-start">
+          <span class="inline-block w-7 h-2.5 mx-2 bg-gray-300 border-2 rounded-sm mt-4"></span>
+          <span class="inline-block w-7 h-2.5 mx-2 bg-gray-300 border-2 rounded-sm mt-4"></span>
+          <div>
+            <button class="inline-block w-16 py-2 mx-1 bg-gray-300 border-2 rounded-xl"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
