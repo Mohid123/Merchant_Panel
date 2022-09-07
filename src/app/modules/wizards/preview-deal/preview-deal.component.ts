@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { Subject } from 'rxjs';
 import SwiperCore, { FreeMode, Navigation, Thumbs } from 'swiper';
+import { SwiperComponent } from 'swiper/angular';
 
 SwiperCore.use([FreeMode, Navigation, Thumbs]);
 
@@ -23,6 +24,8 @@ export class PreviewDealComponent implements OnInit {
   Arr = Array;
   num: number = 10;
   dataLoading: boolean = true;
+  @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
+  @ViewChild('swiper2', { static: false }) swiper2?: SwiperComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -65,7 +68,10 @@ export class PreviewDealComponent implements OnInit {
           this.subDeals = this.dealData.subDeals;
           this.cf.detectChanges();
           this.dataLoading = false;
-          this.cf.detectChanges()
+          this.cf.detectChanges();
+          this.swiper?.swiperRef.init();
+          this.swiper2?.swiperRef.init();
+          this.cf.detectChanges();
         }
       })
     }

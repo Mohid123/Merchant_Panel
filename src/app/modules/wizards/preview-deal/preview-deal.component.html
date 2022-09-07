@@ -1,12 +1,14 @@
 <div *ngIf="dataLoading == false" class="w-full my-8">
   <div class="flex justify-between">
     <div class="flex flex-col max-w-190">
-      <span class="mb-3 text-4xl font-bold max-w-190">{{dealData?.dealHeader}}</span>
+      <span *ngIf="dealData?.dealHeader.length >= 32" [ngbTooltip]="dealData?.dealHeader" placement="bottom" [container]="'body'" class="mb-3 text-4xl font-bold max-w-190">{{(dealData?.dealHeader.length > 32) ? ((dealData?.dealHeader) | slice:0:32)+'...':(dealData?.dealHeader)}}</span>
+      <span *ngIf="dealData?.dealHeader.length < 32" class="mb-3 text-4xl font-bold max-w-190">{{(dealData?.dealHeader.length > 32) ? ((dealData?.dealHeader) | slice:0:32)+'...':(dealData?.dealHeader)}}</span>
       <span class="mb-4 text-2xl font-normal max-w-190">{{dealData?.merchantDetails?.legalName}}</span>
-      <span class="mb-3 text-base font-normal text-gray-600">{{dealData?.subTitle}}</span>
+      <span *ngIf="dealData?.subTitle.length >= 32" [ngbTooltip]="dealData?.subTitle" placement="bottom" [container]="'body'" class="mb-3 text-base font-normal text-gray-600">{{(dealData?.subTitle.length > 32) ? ((dealData?.subTitle) | slice:0:32)+'...':(dealData?.subTitle)}}</span>
+      <span *ngIf="dealData?.subTitle.length < 32" class="mb-3 text-base font-normal text-gray-600">{{(dealData?.subTitle.length > 32) ? ((dealData?.subTitle) | slice:0:32)+'...':(dealData?.subTitle)}}</span>
       <ng-container *ngIf="imageArray.length > 0">
         <div class="mb-3 w-190 h-104">
-          <swiper #swipe
+          <swiper #swiper
             style="--swiper-navigation-color: #fff;--swiper-pagination-color: #fff; --swiper-navigation-size: 20px;"
             [spaceBetween]="3"
             [navigation]="true"
@@ -21,6 +23,7 @@
           </swiper>
 
           <swiper
+            #swiper2
             (swiper)="thumbsSwiper = $event"
             [spaceBetween]="1"
             [slidesPerView]="10"
