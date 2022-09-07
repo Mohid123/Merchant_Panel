@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperModule } from 'swiper/angular';
 import { BlurHashComponent } from '../blur-hash/blur-hash.component';
 
@@ -22,7 +23,8 @@ import { DealCRMComponent } from './deal-crm.component';
     FormsModule,
     ReactiveFormsModule,
     CKEditorModule,
-    SwiperModule
+    SwiperModule,
+    NgbModule
   ]
 })
 export class DealCRMModule { }

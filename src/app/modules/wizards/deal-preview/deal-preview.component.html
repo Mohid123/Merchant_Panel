@@ -90,13 +90,13 @@
         <span class="pt-4 pl-5 text-base font-semibold">Highlights</span>
 
         <ng-container *ngIf="!mainDeal?.highlights">
-          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed text-gray-600 lorem">
+          <span style="color: #728A9F!important;" class="pt-3 pl-5 text-sm font-thin leading-relaxed lorem">
             Your deal highlights...
           </span>
         </ng-container>
 
         <ng-container *ngIf="mainDeal?.highlights">
-          <span style="color: #728A9F;" class="pt-3 pl-5 text-sm font-thin leading-relaxed lorem" style="width: 23.838rem;">
+          <span class="pt-3 pl-5 text-sm font-thin leading-relaxed lorem" style="width: 23.838rem; color: #728A9F!important;">
             {{mainDeal?.highlights}}
           </span>
         </ng-container>

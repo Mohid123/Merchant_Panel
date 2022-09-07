@@ -56,7 +56,7 @@
       </div>
 
   <!--Subtitle-->
-      <div class="h-24 fv-row 2xl:h-26 mb-5">
+      <div class="h-24 mb-5 fv-row 2xl:h-26">
         <label class="text-base font-semibold my-3.5">Deal sub-title</label>
         <input maxlength="100" appTrim type="text" class="h-12 text-base font-normal text-black form-control max-w-190" formControlName="dealSubTitle" name="dealSubTitle" placeholder="Enter sub-title of your deal"
         [ngClass]="{
@@ -309,7 +309,8 @@
       </div>
         <div class="xl:pr-8 1.5xl:pr-12 mb-2 mt-30 max-w-100">
           <ng-container *ngFor="let deal of subDeals; let i = index">
-            <span class="text-base font-semibold max-w-60">{{deal.title}}</span>
+            <span *ngIf="deal.title.length >= 26" [ngbTooltip]="deal.title" placement="top" [container]="'body'" class="text-base font-semibold cursor-pointer max-w-40">{{(deal.title.length > 26) ? ((deal.title) | slice:0:26)+'...':(deal.title)}}</span>
+            <span *ngIf="deal.title.length < 26">{{(deal.title.length > 26) ? ((deal.title) | slice:0:26)+'...':(deal.title)}}</span>
             <div class="flex justify-start">
               <span class="mt-4 text-sm line-through" style="color:#94A1B3;">{{deal.originalPrice}}&nbsp;&euro;</span>
               <span class="font-semibold text-sm mx-3.5 mt-4" style="color:#12B500;">{{deal.dealPrice}}&nbsp;&euro;</span>
