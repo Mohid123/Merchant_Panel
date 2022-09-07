@@ -40,7 +40,7 @@ import { VerticalComponent } from './vertical/vertical.component';
 import { ViewDealComponent } from './view-deal/view-deal.component';
 // import { ViewDealComponent } from './view-deal/view-deal.component';
 import { BlurHashModule } from '@components/blur-hash/blur-hash.module';
-import { PreviewDealComponent } from './preview-deal/preview-deal.component';
+// import { PreviewDealComponent } from './preview-deal/preview-deal.component';
 import { WizardsComponent } from './wizards.component';
 
 
@@ -66,7 +66,7 @@ FullCalendarModule.registerPlugins([
     PopoverWrapperComponent,
     SideDrawerComponent,
     DealPreviewComponent,
-    PreviewDealComponent,
+    // PreviewDealComponent,
   ],
   imports: [
     CommonModule,

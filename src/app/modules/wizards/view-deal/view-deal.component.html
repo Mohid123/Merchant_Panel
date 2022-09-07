@@ -91,10 +91,10 @@
                 <div style="all: unset" ngbDropdown placement="bottom">
                   <i ngbDropdownToggle class="fas fa-ellipsis-h fa-sm p-1.5 bg-gray-100 rounded-md cursor-pointer mr-1.5"></i>
                   <div class="z-50" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button [routerLink]="['/deals/preview-deal/', event.id]" ngbDropdownItem class="flex justify-start px-3 my-2">
+                    <a target="_blank" href="{{event?.dealPreviewURL}}" ngbDropdownItem class="flex justify-start px-3 my-2">
                       <img src="../../../../assets/media/icons/preview.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Preview</span>
-                    </button>
+                    </a>
                     <button *ngIf="event.dealStatus == 'Draft' || event.dealStatus == 'Needs attention' || event.dealStatus == 'Published' || event.dealStatus == 'Scheduled'" (click)="editDeal(index)" ngbDropdownItem class="flex justify-start px-3 my-2">
                       <img src="../../../../assets/media/icons/editing.svg" class="mt-1 mr-2">
                       <span class="text-sm text-gray-600">Edit</span>

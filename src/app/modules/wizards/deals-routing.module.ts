@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CanActivateGuard } from '../auth/services/can-activate.guard';
 import { CreateDealComponent } from './create-deal/create-deal.component';
-import { PreviewDealComponent } from './preview-deal/preview-deal.component';
 import { VerticalComponent } from './vertical/vertical.component';
 import { ViewDealComponent } from './view-deal/view-deal.component';
 import { WizardsComponent } from './wizards.component';
@@ -25,11 +24,11 @@ const routes: Routes = [
         component: ViewDealComponent,
         canActivate: [CanActivateGuard]
       },
-      {
-        path: 'preview-deal/:dealId',
-        component: PreviewDealComponent,
-        canActivate: [CanActivateGuard]
-      },
+      // {
+      //   path: 'preview-deal/:dealId',
+      //   component: PreviewDealComponent,
+      //   canActivate: [CanActivateGuard]
+      // },
       { path: '', redirectTo: 'horizontal', pathMatch: 'full' },
       { path: '**', redirectTo: 'horizontal', pathMatch: 'full' },
     ],
