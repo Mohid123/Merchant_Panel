@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
@@ -26,6 +26,9 @@ export class PreviewDealComponent implements OnInit {
   dataLoading: boolean = true;
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   @ViewChild('swiper2', { static: false }) swiper2?: SwiperComponent;
+  @ViewChild('videoPlayer') videoplayer: ElementRef;
+  public play = true;
+  public pause = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -55,12 +58,7 @@ export class PreviewDealComponent implements OnInit {
         if(!res.hasErrors()) {
           this.dealData = res.data;
           this.imageArray = [];
-          const imagesOnly = this.dealData.mediaUrl.filter((value: any) => {
-            if(value.type == 'Image') {
-              return value
-            }
-          })
-          this.imageArray.push(...imagesOnly);
+          this.imageArray.push(...this.dealData.mediaUrl);
           if(this.imageArray.length > 11) {
             this.imageArray.pop();
             this.cf.detectChanges();
@@ -74,6 +72,55 @@ export class PreviewDealComponent implements OnInit {
           this.cf.detectChanges();
         }
       })
+    }
+  }
+
+  playPause() {
+    var myVideo: any = document.getElementById('my_video_1');
+    // myVideo.muted = true
+    if (myVideo.paused)
+     myVideo.play();
+    else
+     myVideo.pause();
+    if(this.play == true) {
+      this.play = false;
+      this.pause = true;
+    } else {
+      this.play = true;
+      this.pause = false;
+    }
+  }
+
+  toggleVideo(event: any) {
+    this.videoplayer.nativeElement.play();
+  }
+
+  slideChange(event: any) {
+    var myVideo: any = document.getElementById('my_video_1');
+    if(myVideo.play) {
+      myVideo.pause();
+    }
+    if(myVideo.pause()) {
+      this.play = true;
+      this.pause = false;
+    } else {
+      this.play = true;
+      this.pause = false;
+    }
+  }
+
+  pauseVideo() {
+    var myVideo: any = document.getElementById('my_video_1');
+    // myVideo.muted = true
+    if(myVideo.play) {
+      myVideo.pause()
+    }
+    if(myVideo.pause()) {
+      this.play = true;
+      this.pause = false;
+    } else {
+      this.play = true;
+      this.pause = false;
     }
   }
 

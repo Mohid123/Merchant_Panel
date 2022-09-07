@@ -14,10 +14,17 @@
             [navigation]="true"
             [thumbs]="{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }"
             [lazy]="true"
+            (slideNextTransitionStart)="slideChange($event)"
             class="mySwiper2">
 
             <ng-template swiperSlide *ngFor="let url of imageArray; let i = index">
-              <app-main-blur-hash style="display: block; width: 100%; height: 100%; object-fit: cover;" [imageSrc]="url.captureFileURL"></app-main-blur-hash>
+              <app-main-blur-hash *ngIf="url.type == 'Image'" style="display: block; width: 100%; height: 100%; object-fit: cover;" [imageSrc]="url.captureFileURL"></app-main-blur-hash>
+              <video id="my_video_1" #videoPlayer  controls class="relative" [src]="url.captureFileURL" style="display: block; width: 100%; height: 100%; object-fit: cover;" *ngIf="url.type == 'Video'"></video>
+              <button (click)="playPause()" *ngIf="url.type === 'Video'"
+              class="absolute p-4 font-bold text-gray-700 text-opacity-100 bg-white bg-opacity-50 rounded-full shadow-2xl hover:bg-white w-15 h-15">
+              <img *ngIf="play" src="../../../../assets/media/logos/play.png" alt="">
+              <img *ngIf="pause" src="../../../../assets/media/logos/pause-icon.png" alt="">
+            </button>
             </ng-template>
 
           </swiper>
@@ -33,7 +40,8 @@
             class="mySwiper">
 
             <ng-template swiperSlide *ngFor="let url of imageArray; let i = index">
-              <app-main-blur-hash [imageSrc]="url.captureFileURL" class="w-16 p-0 h-14"></app-main-blur-hash>
+              <app-main-blur-hash (click)="pauseVideo()" *ngIf="url.type == 'Image'" [imageSrc]="url.captureFileURL" class="w-16 p-0 h-14"></app-main-blur-hash>
+              <video class="rounded-lg" (click)="pauseVideo()" controls [src]="url.captureFileURL" style="display: block; width: 90%; height: 90%; object-fit: cover;" *ngIf="url.type == 'Video'"></video>
             </ng-template>
 
           </swiper>
