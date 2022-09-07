@@ -48,7 +48,7 @@ export class PreviewDealComponent implements OnInit {
   getDealByID() {
     this.dataLoading = true;
     if(this.dealId) {
-      this.dealService.getDealByID(this.dealId).subscribe((res: ApiResponse<any>) => {
+      this.dealService.getDealByIDNew(this.dealId).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.dealData = res.data;
           this.imageArray = [];

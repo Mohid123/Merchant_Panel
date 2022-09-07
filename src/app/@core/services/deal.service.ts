@@ -64,6 +64,12 @@ export class DealService extends ApiService<deal> {
     }))
   }
 
+  getDealByIDNew(dealID: string): Observable<ApiResponse<any>> {
+    return this.get(`/deal/getDealForMerchantPanel/${dealID}`).pipe(tap((res: any) => {
+      console.log(res);
+    }))
+  }
+
   updateVoucher(dealID: string, voucher: any): Observable<ApiResponse<any>> {
     return this.post(`/deal/updateDeal/${dealID}`, voucher).pipe(tap((res: any) => {
       console.log(res);
