@@ -472,11 +472,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   saveBusinessHours() {
-    if(!this.validateBusinessHours()) {
+    // if(!this.validateBusinessHours()) {
 
-      return;
-    }
-    if(this.validateBusinessHours()) {
+    //   return;
+    // }
+    // if(this.validateBusinessHours()) {
 
       this.isLoading$.next(true);
       this.userService.updateBusinessHours(this.businessHoursForm.value).pipe(exhaustMap((res:any) => {
@@ -496,15 +496,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }));
   // } else {
   //   this.toast.warning('Enter business hours')
-    }
+    // }
   }
 
   saveTerms() {
-    if(!this.validateBusinessHours()) {
-      this.toast.warning('Please fill in all open fields');
-      return;
-    }
-    else {
+    // if(!this.validateBusinessHours()) {
+    //   this.toast.warning('Please fill in all open fields');
+    //   return;
+    // }
+    // else {
       this.userService.updateMerchantprofile(this.termsForm.value).pipe(exhaustMap((res:any) => {
         if(!res.hasErrors()) {
           this.toast.success('Data saved')
@@ -520,7 +520,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.toast.error('error');
         this.isEditBusinessHours = false;
       }));
-    }
+    // }
 
   }
 
