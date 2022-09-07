@@ -52,8 +52,13 @@ export class PreviewDealComponent implements OnInit {
         if(!res.hasErrors()) {
           this.dealData = res.data;
           this.imageArray = [];
-          this.imageArray.push(...this.dealData.mediaUrl);
-          if(this.imageArray.length > 10) {
+          const imagesOnly = this.dealData.mediaUrl.filter((value: any) => {
+            if(value.type == 'Image') {
+              return value
+            }
+          })
+          this.imageArray.push(...imagesOnly);
+          if(this.imageArray.length > 11) {
             this.imageArray.pop();
             this.cf.detectChanges();
           }
