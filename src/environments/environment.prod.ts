@@ -20,7 +20,7 @@ export const environment = {
       'title': 'Demo 1',
       'description': 'Default Dashboard',
       'published': true,
-      'thumbnail': './assets/media/demos/divideals.png'
+      // 'thumbnail': './assets/media/demos/divideals.png'
     },
 
     'demo2': {

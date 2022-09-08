@@ -39,6 +39,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   multiples: any[] = [];
   images: MediaUpload[] = [];
   galleries: any[] = [];
+  imagesEditable: boolean = false;
   profileImage: any;
   private unsubscribe: Subscription[] = [];
   uploadingSingleImage: boolean = false;
@@ -143,6 +144,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   discardChanges() {
     this.isLeftVisible = true;
+    this.imagesEditable = false;
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
       this.user = user;
       this.setbusinessHours();
@@ -156,6 +158,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         website_socialAppLink: user?.website_socialAppLink,
         profilePicURL: user?.profilePicURL
       });
+      this.image = user?.profilePicURL;
       this.images = [];
       this.images.push(...user?.gallery);
       if(this.images.length > 5) {
@@ -195,7 +198,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       profilePicURL: this.image,
       website_socialAppLink: this.profileForm.value.website_socialAppLink
     }
-
+    this.imagesEditable = false;
     this.userService.updateMerchantprofile(param)
       .pipe(exhaustMap((res: any) => {
         if(!res.hasErrors()) {
@@ -415,7 +418,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.image = '';
     this.imageBlurHash = '';
     this.profileImage = '';
-    this.user.profilePicURL = ''
+    this.imagesEditable = true;
   }
 
   get businessHoursFromControl() {
