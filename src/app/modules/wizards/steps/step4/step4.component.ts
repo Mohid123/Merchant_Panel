@@ -120,7 +120,7 @@ export class Step4Component implements OnInit, OnDestroy {
           if(response.subDeals) {
             this.isObject = typeof response?.subDeals[0]?.voucherStartDate;
           }
-          debugger
+
           if(response?.subDeals[0]?.voucherStartDate && this.isObject != "object") {
             const newStart = new Date(response?.subDeals[0]?.voucherStartDate);
             const newEnd = new Date(response?.subDeals[0]?.voucherEndDate);

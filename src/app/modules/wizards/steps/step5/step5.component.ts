@@ -147,7 +147,9 @@ export class Step5Component implements OnInit, AfterViewInit {
     private common: CommonFunctionsService) {
       this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
         this.data = response;
-        this.voucherEndDate = response?.subDeals[0]?.voucherEndDate
+        if(response?.subDeals[0]?.voucherEndDate) {
+          this.voucherEndDate = response?.subDeals[0]?.voucherEndDate
+        }
 
       })
       this.uploaded = true;
