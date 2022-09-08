@@ -11,7 +11,7 @@
 
     <div *ngIf="imagesEditable == true" class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
       <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
-      <button [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="submit" class="save-button" (click)="submitProfileChanges(); submitImages()">Save</button>
+      <button [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="submit" class="save-button" (click)="submitImagesForImageCase()">Save</button>
     </div>
 
     <div *ngIf="imagesEditable == true" class="flex justify-center mt-2">
@@ -86,7 +86,7 @@
             </ng-container>
             <ng-container *ngIf="image">
               <td class="image-input image-input-outline">
-                <app-main-blur-hash class="object-cover border-2 border-gray-500 rounded-xl w-85px h-90px" [imageSrc]="image" [blurHash]="imageBlurHash"></app-main-blur-hash>
+                <app-main-blur-hash class="object-cover border-2 border-gray-500 rounded-xl w-85px h-90px" [imageSrc]="image+'?size=142'" [blurHash]="imageBlurHash"></app-main-blur-hash>
                 <label class="z-50 mt-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-20px h-20px" data-kt-image-input-action="change">
                   <i class="bi bi-x fs-4" style="color: white;"></i>
                   <input (click)="clearImage()" type="reset" name="avatar" accept=".png, .jpg, .jpeg" multiple>
@@ -145,7 +145,7 @@
               <div class="large-image">
                 <ng-container *ngFor="let multiple of images; let i = index">
                   <div class="m-1 image-input image-input-outline">
-                    <app-main-blur-hash class="object-cover border border-gray-600 rounded-xl w-80px h-80px" [imageSrc]="multiple.captureFileURL" [blurHash]="multiple.blurHash"></app-main-blur-hash>
+                    <app-main-blur-hash class="object-cover border border-gray-600 rounded-xl w-80px h-80px" [imageSrc]="multiple.captureFileURL+'?size=142'" [blurHash]="multiple.blurHash"></app-main-blur-hash>
                     <label class="z-50 mt-1 bg-gray-500 shadow btn btn-icon btn-circle btn-active-color-primary w-15px h-15px" data-kt-image-input-action="change">
                       <i class="bi bi-x fs-6" style="color: white;"></i>
                       <input (click)="images.splice(i, 1); imagesEditable = true" type="reset" name="avatar" accept=".png, .jpg, .jpeg" multiple>

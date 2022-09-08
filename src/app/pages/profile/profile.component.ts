@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   })
 
   config: any;
-  public Editor = ClassicEditor
+  public Editor = ClassicEditor;
 
   profileForm: FormGroup = this.fb.group({
     tradeName: ['',
@@ -116,30 +116,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe((res) => (this.isLoading = res));
       this.unsubscribe.push(loadingSubscr);
 
-    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
-      this.user = user;
-      this.setbusinessHours();
-      if(user)
-      this.profileForm.patchValue({
-        tradeName: user?.personalDetail?.tradeName,
-        streetAddress: user?.personalDetail?.streetAddress,
-        zipCode: user?.personalDetail?.zipCode,
-        city: user?.personalDetail?.city,
-        googleMapPin: user?.personalDetail?.googleMapPin,
-        website_socialAppLink: user?.website_socialAppLink,
-        profilePicURL: user?.profilePicURL
-      });
-      this.termsForm.patchValue(user);
-      this.images = [];
-      this.images.push(...user.gallery);
-      if(this.images.length > 5) {
-        this.images.pop();
-        this.cf.detectChanges();
-      }
-
-      this.image = user?.profilePicURL;
-      this.imageBlurHash = user?.profilePicBlurHash;
-   });
+      this.userService.getUser().pipe(takeUntil(this.destroy$)).subscribe();
   }
 
   discardChanges() {
@@ -170,6 +147,30 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.user = user;
+      this.setbusinessHours();
+      if(user)
+      this.profileForm.patchValue({
+        tradeName: user?.personalDetail?.tradeName,
+        streetAddress: user?.personalDetail?.streetAddress,
+        zipCode: user?.personalDetail?.zipCode,
+        city: user?.personalDetail?.city,
+        googleMapPin: user?.personalDetail?.googleMapPin,
+        website_socialAppLink: user?.website_socialAppLink,
+        profilePicURL: user?.profilePicURL
+      });
+      this.termsForm.patchValue(user);
+      this.images = [];
+      this.images.push(...user.gallery);
+      if(this.images.length > 5) {
+        this.images.pop();
+        this.cf.detectChanges();
+      }
+
+      this.image = user?.profilePicURL;
+      this.imageBlurHash = user?.profilePicBlurHash;
+   });
 
     this.config = {
       placeholder: 'Type your content here...',
@@ -208,6 +209,30 @@ export class ProfileComponent implements OnInit, OnDestroy {
           return (res);
         }
       })).subscribe()
+  }
+
+  submitImagesForImageCase() {
+    const param = {
+      gallery: this.images,
+      profilePicURL: this.image
+    }
+    this.isLeftVisible = true;
+    this.imagesEditable = false;
+    this.userService.updateMerchantprofile(param).subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.toast.success('Profile updated', {
+          style: {
+            border: '1px solid #65a30d',
+            padding: '16px',
+            color: '#3f6212',
+          },
+          iconTheme: {
+            primary: '#84cc16',
+            secondary: '#064e3b',
+          },
+        })
+      }
+    })
   }
 
   submitProfileChanges() {
