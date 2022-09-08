@@ -570,6 +570,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.complete();
     this.destroy$.unsubscribe();
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
 }
