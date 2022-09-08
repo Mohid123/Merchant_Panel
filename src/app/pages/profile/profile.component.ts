@@ -223,17 +223,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     .pipe(exhaustMap((res: any) => {
 
       if(!res.hasErrors()) {
-        this.toast.success('Profile updated', {
-          style: {
-            border: '1px solid #65a30d',
-            padding: '16px',
-            color: '#3f6212',
-          },
-          iconTheme: {
-            primary: '#84cc16',
-            secondary: '#064e3b',
-          },
-        })
         this.setbusinessHours();
         return this.userService.getUser();
         } else {
@@ -249,6 +238,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
         website_socialAppLink: res?.data?.website_socialAppLink,
         profilePicURL: res?.data?.profilePicURL
       });
+      this.toast.success('Profile updated', {
+        style: {
+          border: '1px solid #65a30d',
+          padding: '16px',
+          color: '#3f6212',
+        },
+        iconTheme: {
+          primary: '#84cc16',
+          secondary: '#064e3b',
+        },
+      })
     })
   }
 
@@ -303,6 +303,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.file = 0;
     }
     if (this.file > 0 && this.file < 6) {
+      this.imagesEditable = true;
       this.uploadingMultipleImages = true;
       let i: number = 0;
       for (const singlefile of event.target.files) {
@@ -372,6 +373,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   onSelectSingle(event: any) {
     this.uploadingSingleImage = true;
+    this.imagesEditable = true;
       this.url = event.target.files && event.target.files.length;
       if (this.url > 0) {
         let i: number = 0;

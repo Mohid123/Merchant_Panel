@@ -11,7 +11,7 @@
 
     <div *ngIf="imagesEditable == true" class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
       <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
-      <button type="submit" class="save-button" (click)="submitProfileChanges(); submitImages()">Save</button>
+      <button [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="submit" class="save-button" (click)="submitProfileChanges(); submitImages()">Save</button>
     </div>
 
     <div *ngIf="imagesEditable == true" class="flex justify-center mt-2">
@@ -199,7 +199,7 @@
 
     <div class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
       <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
-      <button type="submit" class="save-button" (click)="submitProfileChanges(); submitImages()">Save</button>
+      <button [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="submit" class="save-button" (click)="submitProfileChanges(); submitImages()">Save</button>
     </div>
 
     <div class="flex justify-center mt-2">
