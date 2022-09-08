@@ -44,16 +44,16 @@
         <th class="p-4 font-semibold cursor-pointer">Deal ID</th>
         <th class="p-4 font-semibold cursor-pointer">Deal header</th>
         <th class="p-4 font-semibold cursor-pointer">Status</th>
-        <th class="p-4 font-semibold cursor-pointer">Voucher sold</th>
-        <th class="p-4 font-semibold cursor-pointer">Total net earnings</th>
+        <th class="font-semibold cursor-pointer" style="width: 200px; max-width: 200px;">Voucher sold</th>
+        <th class="font-semibold cursor-pointer" style="width: 200px; max-width: 200px;">Total net earnings</th>
       </thead>
       <ng-container *ngFor="let data of topDeals; let i = index;">
         <tr class="z-40 h-16 text-gray-700 bg-white rounded-lg">
           <td class="p-4">{{data?.dealID}}</td>
           <td class="p-4">{{(data.dealHeader.length > 22) ? ((data.dealHeader) | slice:0:22)+'...':(data.dealHeader)}}</td>
           <td class="p-4">{{data?.dealStatus}}</td>
-          <td class="pr-6 text-center">{{data?.soldVouchers}}</td>
-          <td class="pr-6 text-center">{{data?.netEarnings.toFixed(2).replace('.',',')}}&nbsp;&euro;</td>
+          <td style="width: 140px; padding-right: 100px" class="text-right">{{data?.soldVouchers}}</td>
+          <td style="width: 140px; padding-right: 65px;" class="text-right">{{data?.netEarnings.toFixed(2).replace('.',',')}}&nbsp;&euro;</td>
         </tr>
       </ng-container>
 
