@@ -78,6 +78,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private userService: UserService
     ) {
       this.validityPass = false;
+      this.userService.getUser().pipe(takeUntil(this.destroy$)).subscribe();
     }
 
   ngOnInit(): void {
