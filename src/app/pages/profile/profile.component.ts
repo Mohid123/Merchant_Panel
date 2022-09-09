@@ -446,6 +446,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.image = '';
     this.imageBlurHash = '';
     this.profileImage = '';
+    this.authService.UserImage = '';
     this.imagesEditable = true;
   }
 
