@@ -76,9 +76,9 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       this.newData = response;
       this.id = response?.id;
       if((response.dealStatus == 'Draft' || response.dealStatus == 'Needs attention') && response.id) {
-        if(response.highlights) {
+        if(response.aboutThisDeal) {
           this.dealForm.patchValue({
-            highlights: response.highlights,
+            // highlights: response.highlights,
             aboutThisDeal: response.aboutThisDeal,
             readMore: response.readMore,
             finePrints: response.finePrints
