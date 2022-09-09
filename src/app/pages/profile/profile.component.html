@@ -10,7 +10,7 @@
     </div>
 
     <div *ngIf="imagesEditable == true" class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
-      <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
+      <button [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="button" class="discard-button" (click)="discardChanges()">Discard</button>
       <button [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="submit" class="save-button" (click)="submitImagesForImageCase()">Save</button>
     </div>
 
@@ -198,7 +198,7 @@
     <span class="secondary-title">How do you want to appear?</span>
 
     <div class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
-      <button type="button" class="discard-button" (click)="discardChanges()">Discard</button>
+      <button [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="button" class="discard-button" (click)="discardChanges()">Discard</button>
       <button [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="submit" class="save-button" (click)="submitProfileChanges(); submitImages()">Save</button>
     </div>
 

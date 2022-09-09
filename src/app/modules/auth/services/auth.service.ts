@@ -26,12 +26,18 @@ export class AuthService extends ApiService<AuthApiData> {
 
   // public fields
   currentUser$: Observable<User | null>;
+  userImage: BehaviorSubject<any> = new BehaviorSubject('');
+  userImage$: Observable<any> = this.userImage.asObservable();
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<User | null>;
   isLoadingSubject: BehaviorSubject<boolean>;
   userPolicy: Partial<User>;
   tokenSubject$: BehaviorSubject<string>;
   emailSubject$: BehaviorSubject<string>;
+
+  set UserImage(image: any) {
+    this.userImage.next(image)
+  }
 
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;

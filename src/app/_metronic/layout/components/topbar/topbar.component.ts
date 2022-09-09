@@ -3,6 +3,7 @@ import { User } from '@core/models/user.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
+import { UserService } from 'src/app/modules/auth/services/user.service';
 import { LayoutService } from '../../core/layout.service';
 
 @Component({
@@ -17,14 +18,18 @@ export class TopbarComponent implements OnInit {
   toolbarButtonIconSizeClass = 'svg-icon-1';
   headerLeft: string = 'menu';
   destroy$ = new Subject();
-  user: User | null;
+  user: User | any;
 
-  constructor(private layout: LayoutService, private authService: AuthService) {}
+  constructor(private layout: LayoutService, private authService: AuthService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.headerLeft = this.layout.getProp('header.left') as string;
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
       this.user = user;
    });
+   this.authService.userImage$.pipe(takeUntil(this.destroy$)).subscribe((image: string) => {
+    debugger
+    this.user.profilePicURL = image;
+ });
   }
 }

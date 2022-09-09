@@ -218,7 +218,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
     this.isLeftVisible = true;
     this.imagesEditable = false;
-    this.userService.updateMerchantprofile(param).subscribe((res: ApiResponse<any>) => {
+    this.userService.updateMerchantprofile(param).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
         this.toast.success('Profile updated', {
           style: {
@@ -364,17 +364,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
               if(this.images.length > 5) {
                 this.images.pop();
                 this.cf.detectChanges();
-                this.toast.error('Upto 5 images are allowed', {
-                  style: {
-                    border: '1px solid #713200',
-                    padding: '16px',
-                    color: '#713200',
-                  },
-                  iconTheme: {
-                    primary: '#713200',
-                    secondary: '#FFFAEE',
-                  }
-                })
+                // this.toast.error('Upto 5 images are allowed', {
+                //   style: {
+                //     border: '1px solid #713200',
+                //     padding: '16px',
+                //     color: '#713200',
+                //   },
+                //   iconTheme: {
+                //     primary: '#713200',
+                //     secondary: '#FFFAEE',
+                //   }
+                // })
               }
             }
           });
@@ -427,6 +427,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             });
 
             this.image = image[0].captureFileURL;
+            this.authService.UserImage = image[0].captureFileURL;
             this.imageBlurHash = image[0]?.blurHash;
             this.cf.detectChanges();
             this.multiples = [];
