@@ -165,15 +165,15 @@ export class Step4Component implements OnInit, OnDestroy {
         }
       })
 
-      const current = new Date("Wed June 29 2022 16:53:33 GMT+0500 (Pakistan Standard Time)");
-      this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2}
+      const current = new Date();
       if(!!this.isLastDay(current)) {
-        console.log('Its the last day! Yay!!');
         this.minDate = { year: current.getFullYear(), month: current.getMonth() + 2, day: 2}
       }
       else if(!!this.isSecondLastDay(current)) {
-        debugger
-        console.log('Its the second-last day!');
+        this.minDate = { year: current.getFullYear(), month: current.getMonth() + 2, day: 1}
+      }
+      else {
+        this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2}
       }
   }
 
@@ -247,7 +247,7 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   isSecondLastDay(date: any) {
-    return new Date(date.getTime()).getDate() === 1;
+    return (new Date(date.getTime() + 86400000).getDate() === 30 || new Date(date.getTime() + 86400000).getDate() === 31);
   }
 
   selectCheckBox(targetType: CheckBoxType) {
@@ -446,6 +446,7 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   sendDraftData() {
+    debugger
     if(this.form.disabled || this.form.invalid) {
       this.form.markAllAsTouched();
       return;
