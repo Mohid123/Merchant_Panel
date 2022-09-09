@@ -26,8 +26,8 @@ export class AuthService extends ApiService<AuthApiData> {
 
   // public fields
   currentUser$: Observable<User | null>;
-  userImage: BehaviorSubject<any> = new BehaviorSubject('');
-  userImage$: Observable<any> = this.userImage.asObservable();
+  userImage: BehaviorSubject<any>;
+  userImage$: Observable<any>;
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<User | null>;
   isLoadingSubject: BehaviorSubject<boolean>;
@@ -62,6 +62,8 @@ export class AuthService extends ApiService<AuthApiData> {
     this.isLoading$ = this.isLoadingSubject.asObservable();
     this.tokenSubject$ = new BehaviorSubject<string>('');
     this.emailSubject$ = new BehaviorSubject<string>('');
+    this.userImage = new BehaviorSubject(this.user?.profilePicURL);
+    this.userImage$ = this.userImage.asObservable();
 
   }
 
