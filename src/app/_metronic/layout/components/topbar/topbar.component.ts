@@ -28,7 +28,6 @@ export class TopbarComponent implements OnInit {
       this.user = user;
    });
    this.authService.userImage$.pipe(takeUntil(this.destroy$)).subscribe((image: string) => {
-    debugger
     this.user.profilePicURL = image;
  });
   }

@@ -8,7 +8,7 @@
         <div class="text-xs font-medium text-center text-primary-400 md:text-sm xl:text-base">Make sure the customer understands the details of your offer(s).</div>
       </div>
       <!--Form-->
-      <div class="h-24 fv-row 2xl:h-26">
+      <!-- <div class="h-24 fv-row 2xl:h-26">
         <label class="form-label">Highlights</label>
         <input maxlength="140" appTrim type="text " class="text-sm font-thin form-control" formControlName="highlights" name="highlights" placeholder="Enter title of your deal"
         [ngClass]="{
@@ -32,7 +32,7 @@
           control: dealForm.controls['highlights']
         }">
         </ng-container>
-      </div>
+      </div> -->
 
       <div class="relative h-72 fv-row">
         <label class="form-label">About this deal</label>
@@ -78,13 +78,13 @@
           'is-valid': f['readMore'].valid}"></ckeditor>
           <ng-container *ngIf="(dealForm.controls['readMore'].dirty || dealForm.controls['readMore'].touched)">
 
-            <ng-container *ngIf="dealForm.controls['readMore'].value == null || dealForm.controls['readMore'].value == ''">
+            <!-- <ng-container *ngIf="dealForm.controls['readMore'].value == null || dealForm.controls['readMore'].value == ''">
               <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
                 <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
                   Read more is required
                 </span>
               </div>
-            </ng-container>
+            </ng-container> -->
 
             <ng-container *ngIf="dealForm.controls['readMore'].value !== null && dealForm.controls['readMore'].value !== '' && textLength(dealForm.controls['readMore'].value) < 16">
               <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
@@ -113,13 +113,13 @@
           'is-valid': f['finePrints'].valid}"></ckeditor>
           <ng-container *ngIf="(dealForm.controls['finePrints'].dirty || dealForm.controls['finePrints'].touched)">
 
-            <ng-container *ngIf="dealForm.controls['finePrints'].value ==null || dealForm.controls['finePrints'].value == ''">
+            <!-- <ng-container *ngIf="dealForm.controls['finePrints'].value ==null || dealForm.controls['finePrints'].value == ''">
               <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
                 <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
                   The fine print is required
                 </span>
               </div>
-            </ng-container>
+            </ng-container> -->
 
             <ng-container *ngIf="dealForm.controls['finePrints'].value !== null && dealForm.controls['finePrints'].value !== '' && textLength(dealForm.controls['finePrints'].value) < 16">
               <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">

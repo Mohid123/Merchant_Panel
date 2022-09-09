@@ -98,13 +98,13 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
   initDealForm() {
     this.dealForm = this.fb.group({
-      highlights: [
-        this.deal.highlights,
-        Validators.compose([
-          Validators.required,
-          Validators.pattern('^[a-zA-Z0-9.,-:èëéà ]+')
-        ]),
-      ],
+      // highlights: [
+      //   this.deal.highlights,
+      //   Validators.compose([
+      //     Validators.required,
+      //     Validators.pattern('^[a-zA-Z0-9.,-:èëéà ]+')
+      //   ]),
+      // ],
       aboutThisDeal: [
         this.deal.aboutThisDeal,
         Validators.compose([
@@ -113,15 +113,15 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       ],
       readMore: [
         this.deal.readMore,
-        Validators.compose([
-          Validators.required
-        ]),
+        // Validators.compose([
+        //   Validators.required
+        // ]),
       ],
       finePrints: [
         this.deal.finePrints,
-        Validators.compose([
-          Validators.required
-        ]),
+        // Validators.compose([
+        //   Validators.required
+        // ]),
       ],
     })
 
@@ -159,7 +159,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
      }
      else {
       this.data.aboutThisDeal = this.dealForm.get('aboutThisDeal')?.value;
-      this.data.highlights = this.dealForm.get('highlights')?.value;
+      // this.data.highlights = this.dealForm.get('highlights')?.value;
       this.data.finePrints = this.dealForm.get('finePrints')?.value;
       this.data.readMore = this.dealForm.get('readMore')?.value;
       this.connection.sendData(this.data);
@@ -168,7 +168,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       this.connection.isSaving.next(true);
       this.newData.pageNumber = 3;
       this.newData.aboutThisDeal = this.dealForm.get('aboutThisDeal')?.value;
-      this.newData.highlights = this.dealForm.get('highlights')?.value;
+      // this.newData.highlights = this.dealForm.get('highlights')?.value;
       this.newData.finePrints = this.dealForm.get('finePrints')?.value;
       this.newData.readMore = this.dealForm.get('readMore')?.value;
       return new Promise((resolve, reject) => {
