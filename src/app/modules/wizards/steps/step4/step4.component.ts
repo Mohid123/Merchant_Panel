@@ -167,10 +167,22 @@ export class Step4Component implements OnInit, OnDestroy {
 
       const current = new Date();
       if(!!this.isLastDay(current)) {
-        this.minDate = { year: current.getFullYear(), month: current.getMonth() + 2, day: 2}
+        if(!!this.isLastDayofYear(current)) {
+          this.minDate = { year: current.getFullYear() + 1, month: 1, day: 2}
+        }
+        else {
+          this.minDate = { year: current.getFullYear(), month: current.getMonth() + 2, day: 2}
+        }
       }
       else if(!!this.isSecondLastDay(current)) {
-        this.minDate = { year: current.getFullYear(), month: current.getMonth() + 2, day: 1}
+        if(!!this.isSecondLastDayofYear(current)) {
+          debugger
+          this.minDate = { year: current.getFullYear() + 1, month: 1, day: 1}
+        }
+        else {
+          debugger
+          this.minDate = { year: current.getFullYear(), month: current.getMonth() + 2, day: 1}
+        }
       }
       else {
         this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2}
@@ -247,7 +259,32 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   isSecondLastDay(date: any) {
-    return (new Date(date.getTime() + 86400000).getDate() === 30 || new Date(date.getTime() + 86400000).getDate() === 31);
+    const year = date.getFullYear();
+    const leap = new Date(year, 1, 29).getDate() === 29;
+    const checkFeb = date.toDateString();
+    if(leap) {
+      if(checkFeb.includes('Feb 28')) {
+        return new Date(date.getTime() + 86400000).getDate() === 29;
+      }
+    }
+    else {
+      if(checkFeb.includes('Feb 27')) {
+       return new Date(date.getTime() + 86400000).getDate() === 28;
+      }
+      else {
+        return (new Date(date.getTime() + 86400000).getDate() === 30 || new Date(date.getTime() + 86400000).getDate() === 31);
+      }
+    }
+  }
+
+  isLastDayofYear(date: any) {
+    const year = date.getFullYear();
+    return new Date(year, 11, 31).toDateString() === date.toDateString();
+  }
+
+  isSecondLastDayofYear(date: any) {
+    const year = date.getFullYear();
+    return new Date(year, 11, 30).toDateString() === date.toDateString();
   }
 
   selectCheckBox(targetType: CheckBoxType) {
