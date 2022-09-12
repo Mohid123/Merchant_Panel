@@ -225,21 +225,22 @@ export class Step5Component implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.fullCalendar.getApi().gotoDate(this.start);
+    this.fullCalendar.getApi().render();
 
-    if(this.start == '') {
-      this.calendarOptions.initialDate = moment().add(2, 'days').format('YYYY-MM-DD');
-      this.calendarOptions.validRange = {
-        start: moment().add(2, 'days').format('YYYY-MM-DD')
-      }
-      this.fullCalendar.getApi().render();
-    }
-    else {
-      this.calendarOptions.initialDate = this.start;
-      this.calendarOptions.validRange = {
-        start: this.start
-      }
-      this.fullCalendar.getApi().render();
-    }
+    // if(this.start == '') {
+    //   this.calendarOptions.initialDate = moment().add(2, 'days').format('YYYY-MM-DD');
+    //   this.calendarOptions.validRange = {
+    //     start: moment().add(2, 'days').format('YYYY-MM-DD')
+    //   }
+    //   this.fullCalendar.getApi().render();
+    // }
+    // else {
+    //   this.calendarOptions.initialDate = this.start;
+    //   this.calendarOptions.validRange = {
+    //     start: this.start
+    //   }
+    //   this.fullCalendar.getApi().render();
+    // }
   }
 
   initSelectDateForm() {

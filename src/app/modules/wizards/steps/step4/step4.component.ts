@@ -176,11 +176,9 @@ export class Step4Component implements OnInit, OnDestroy {
       }
       else if(!!this.isSecondLastDay(current)) {
         if(!!this.isSecondLastDayofYear(current)) {
-          debugger
           this.minDate = { year: current.getFullYear() + 1, month: 1, day: 1}
         }
         else {
-          debugger
           this.minDate = { year: current.getFullYear(), month: current.getMonth() + 2, day: 1}
         }
       }
@@ -483,7 +481,6 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   sendDraftData() {
-    debugger
     if(this.form.disabled || this.form.invalid) {
       this.form.markAllAsTouched();
       return;
