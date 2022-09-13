@@ -173,7 +173,10 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       this.newData.readMore = this.dealForm.get('readMore')?.value;
       return new Promise((resolve, reject) => {
         const payload = this.newData;
-        this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
+        const payloadWithoutMedia: any = this.newData;
+        delete payloadWithoutMedia.mediaUrl;
+        debugger
+        this.dealService.createDeal(payloadWithoutMedia).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
           if(!res.hasErrors()) {
             this.connection.isSaving.next(false);
             this.connection.sendSaveAndNext(res.data);

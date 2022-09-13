@@ -441,10 +441,13 @@ export class Step2Component implements OnInit, OnDestroy {
         this.nextClick.emit('');
         this.newData.pageNumber = 2;
 
+        debugger
         const newPayload = this.newData;
-
-        if(newPayload) {
-          return this.dealService.createDeal(newPayload)
+        const payloadWithoutMedia: any = this.newData;
+        delete payloadWithoutMedia.mediaUrl;
+        debugger
+        if(payloadWithoutMedia) {
+          return this.dealService.createDeal(payloadWithoutMedia)
           .pipe(takeUntil(this.destroy$))
           .subscribe((res: ApiResponse<any>) => {
             if(!res.hasErrors()) {

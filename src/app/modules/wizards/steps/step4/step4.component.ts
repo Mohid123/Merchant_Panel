@@ -165,7 +165,7 @@ export class Step4Component implements OnInit, OnDestroy {
         }
       })
 
-      const current = new Date();
+      const current = new Date("Sat Dec 31 2022 10:00:06 GMT+0500 (Pakistan Standard Time)");
       if(!!this.isLastDay(current)) {
         if(!!this.isLastDayofYear(current)) {
           this.minDate = { year: current.getFullYear() + 1, month: 1, day: 2}
@@ -183,6 +183,7 @@ export class Step4Component implements OnInit, OnDestroy {
         }
       }
       else {
+
         this.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2}
       }
   }
@@ -253,26 +254,44 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   isLastDay(date: any) {
+
     return new Date(date.getTime() + 86400000).getDate() === 1;
   }
 
   isSecondLastDay(date: any) {
+    const localDate = new Date();
+    const currentYear = localDate.getFullYear();
+    const currentMonth = localDate.getMonth() + 1;
     const year = date.getFullYear();
     const leap = new Date(year, 1, 29).getDate() === 29;
     const checkFeb = date.toDateString();
+
     if(leap) {
       if(checkFeb.includes('Feb 28')) {
         return new Date(date.getTime() + 86400000).getDate() === 29;
       }
     }
     else {
+
       if(checkFeb.includes('Feb 27')) {
+
        return new Date(date.getTime() + 86400000).getDate() === 28;
       }
       else {
-        return (new Date(date.getTime() + 86400000).getDate() === 30 || new Date(date.getTime() + 86400000).getDate() === 31);
+        if(this.getDaysInMonth(currentYear, currentMonth) === 31) {
+
+          return new Date(date.getTime() + 86400000).getDate() === 31
+        }
+        else if(this.getDaysInMonth(currentYear, currentMonth) === 30) {
+
+          return new Date(date.getTime() + 86400000).getDate() === 30
+        }
       }
     }
+  }
+
+  getDaysInMonth(year: any, month: any) {
+    return new Date(year, month, 0).getDate();
   }
 
   isLastDayofYear(date: any) {
@@ -502,7 +521,9 @@ export class Step4Component implements OnInit, OnDestroy {
           }
         });
         const payload = this.newData;
-        this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
+        const payloadWithoutMedia: any = this.newData;
+        delete payloadWithoutMedia.mediaUrl;
+        this.dealService.createDeal(payloadWithoutMedia).pipe(takeUntil(this.destroy$))
         .subscribe((res: ApiResponse<any>) => {
           if(!res.hasErrors()) {
             this.connection.isSaving.next(false);
