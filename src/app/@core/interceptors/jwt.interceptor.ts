@@ -23,12 +23,20 @@ export class JwtInterceptor implements HttpInterceptor {
     // console.log('JwtInterceptor:',request);
     const isLoggedIn = !!this.authService.currentUserValue;
     const token = this.authService.JwtToken;
+    const crmToken = this.authService.CrmToken;
     const isApiUrl = request.url.startsWith(environment.apiUrl);
     if(isLoggedIn == false && this.authService.tokenSubject$.value) {
       console.log(this.authService.tokenSubject$.value);
       request = request.clone({
         setHeaders: {
           Authorization: `${this.authService.tokenSubject$.value}`,
+        },
+      });
+    }
+    else if(crmToken) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `${crmToken}`,
         },
       });
     }

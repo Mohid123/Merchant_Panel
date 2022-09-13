@@ -30,6 +30,8 @@ export class AuthService extends ApiService<AuthApiData> {
   userImage$: Observable<any>;
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<User | null>;
+  crmUserObs$: Observable<User | null>;
+  crmUserSubject: BehaviorSubject<User | null>;
   isLoadingSubject: BehaviorSubject<boolean>;
   userPolicy: Partial<User>;
   tokenSubject$: BehaviorSubject<string>;
@@ -51,6 +53,10 @@ export class AuthService extends ApiService<AuthApiData> {
     return getItem(StorageItem.JwtToken)?.toString() || '';
   }
 
+  get CrmToken(): string {
+    return this.getCrmCreds('crmToken')?.toString() || ''
+  }
+
   constructor(
     protected override http: HttpClient,
     private router: Router
@@ -58,6 +64,8 @@ export class AuthService extends ApiService<AuthApiData> {
     super(http);
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<User | null>(<User>getItem(StorageItem.User));
+    this.crmUserSubject = new BehaviorSubject<User | null>(this.getCrmCreds('crmUser'));
+    this.crmUserObs$ = this.crmUserSubject.asObservable();
     this.currentUser$ = this.currentUserSubject.asObservable();
     this.isLoading$ = this.isLoadingSubject.asObservable();
     this.tokenSubject$ = new BehaviorSubject<string>('');
@@ -66,6 +74,11 @@ export class AuthService extends ApiService<AuthApiData> {
     this.userImage$ = this.userImage.asObservable();
 
   }
+
+  getCrmCreds(itemName: any): any | null {
+    const item = localStorage.getItem(itemName);
+    return item ? JSON.parse(item) : null;
+  };
 
   // public methods
   login(params: AuthCredentials) {
@@ -91,6 +104,27 @@ export class AuthService extends ApiService<AuthApiData> {
       tap((res)=> {
         if(res && !res?.hasErrors()) {
           this.updateUser(res.data)
+        }
+      }),
+      catchError((err) => {
+        console.error('err', err);
+        return of(undefined);
+      }),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
+  loginAsAdmin(params: AuthCredentials) {
+    this.isLoadingSubject.next(true);
+    return this.post('/auth/loginAdmin', params).pipe(
+      map((result: ApiResponse<any>) => {
+        console.log('result',result);
+        if (!result.hasErrors()) {
+          localStorage.setItem('crmUser', JSON.stringify(result?.data?.user || null))
+          localStorage.setItem('crmToken', JSON.stringify(result?.data?.token || null))
+          if(result?.data?.user)
+          this.crmUserSubject.next(result?.data?.user)
+          return result
         }
       }),
       catchError((err) => {

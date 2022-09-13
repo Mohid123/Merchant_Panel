@@ -68,10 +68,10 @@ export class DealCRMComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
-    if(this.authService.JwtToken) {
-      if(this.authService.currentUserSubject.value?.role == 'Admin') {
+    if(this.authService.CrmToken) {
+      if(this.authService.crmUserSubject.value?.role == 'Admin') {
         this.isLoggedIn = true;
-        this.userData.next(this.authService.currentUserSubject.value)
+        this.userData.next(this.authService.crmUserSubject.value)
       }
       else {
         this.isLoggedIn = false;
@@ -329,22 +329,16 @@ export class DealCRMComponent implements OnInit, OnDestroy {
   }
 
   logInAsAdmin() {
-    this.authService.login((<AuthCredentials>this.signInForm.value))
+    this.authService.loginAsAdmin((<AuthCredentials>this.signInForm.value))
     .pipe(first(), takeUntil(this.destroy$)).subscribe((res: any) => {
       if(res != null) {
-        if(res.data?.role == 'Admin') {
-          this.isLoggedIn = true;
-          this.userData.next(res.data);
-          this.crmForm.enable();
-          this.closeSignInModal();
-        }
-        else {
-          this.toast.error('This user is not an admin');
-          this.closeSignInModal();
-        }
+        this.isLoggedIn = true;
+        this.userData.next(res.data);
+        this.crmForm.enable();
+        this.closeSignInModal();
       }
       else {
-        this.toast.error('Incorrect credentials');
+        this.toast.error('This user is not an admin');
         this.closeSignInModal();
       }
     })
