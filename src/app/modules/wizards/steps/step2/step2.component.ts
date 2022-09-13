@@ -440,12 +440,9 @@ export class Step2Component implements OnInit, OnDestroy {
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.newData.pageNumber = 2;
-
-        debugger
         const newPayload = this.newData;
         const payloadWithoutMedia: any = this.newData;
         delete payloadWithoutMedia.mediaUrl;
-        debugger
         if(payloadWithoutMedia) {
           return this.dealService.createDeal(payloadWithoutMedia)
           .pipe(takeUntil(this.destroy$))

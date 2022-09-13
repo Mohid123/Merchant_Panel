@@ -350,7 +350,9 @@ export class Step1Component implements OnInit, OnDestroy {
                   }
                 }
                 this.firstSaveData.subDeals = this.responseVouchers ? this.responseVouchers : [];
-                return this.dealService.createDeal(this.firstSaveData);
+                const payloadWithoutMedia: any = this.firstSaveData;
+                delete payloadWithoutMedia.subDeals;
+                return this.dealService.createDeal(payloadWithoutMedia);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
                   this.connection.isSavingNextData(false);
@@ -420,7 +422,10 @@ export class Step1Component implements OnInit, OnDestroy {
                   }
                 }
                 this.firstSaveData.subDeals = this.responseSaveAndNextVocuhers ? this.responseSaveAndNextVocuhers : [];
-                return this.dealService.createDeal(this.firstSaveData);
+                const payloadWithoutMedia: any = this.firstSaveData;
+                delete payloadWithoutMedia.subDeals;
+                debugger
+                return this.dealService.createDeal(payloadWithoutMedia);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
                   this.connection.isSavingNextData(false);

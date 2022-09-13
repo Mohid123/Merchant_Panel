@@ -149,13 +149,13 @@ export class DealCRMComponent implements OnInit, OnDestroy {
         ])
       ],
       mediaURL: this.imageArray,
-      highlights: [
-        {value: '', disabled: this.isLoggedIn == false},
-        Validators.compose([
-          Validators.required,
-          Validators.pattern('^[a-zA-Z0-9., ]+')
-        ]),
-      ],
+      // highlights: [
+      //   {value: '', disabled: this.isLoggedIn == false},
+      //   Validators.compose([
+      //     Validators.required,
+      //     Validators.pattern('^[a-zA-Z0-9., ]+')
+      //   ]),
+      // ],
       aboutThisDeal: [
         {value: '', disabled: this.isLoggedIn == false},
         Validators.compose([
@@ -164,15 +164,15 @@ export class DealCRMComponent implements OnInit, OnDestroy {
       ],
       readMore: [
         {value: '', disabled: this.isLoggedIn == false},
-        Validators.compose([
-          Validators.required
-        ]),
+        // Validators.compose([
+        //   Validators.required
+        // ]),
       ],
       finePrints: [
         {value: '', disabled: this.isLoggedIn == false},
-        Validators.compose([
-          Validators.required
-        ]),
+        // Validators.compose([
+        //   Validators.required
+        // ]),
       ]
     })
   }

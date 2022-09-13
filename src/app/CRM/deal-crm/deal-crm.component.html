@@ -31,27 +31,27 @@
 
       <!--User name and review info-->
       <div class="my-7">
-        <span class="text-2xl font-semibold">{{(userData$ | async)?.firstName}} {{(userData$ | async)?.lastName}}</span>
+        <span class="text-2xl font-semibold">{{dealData?.merchantDetails?.legalName}}</span>
         <div class="flex justify-start">
-          <span class="text-sm mt-3.5">{{(userData$ | async)?.ratingsAverage?.toFixed(2)}}</span>
-          <div *ngIf="(userData$ | async).ratingsAverage" class="rating mx-2 mt-2.5">
-            <div class="rating-label me-1" [ngClass]="(userData$ | async)?.ratingsAverage > 0 ? 'checked': ''">
+          <span class="text-sm mt-3.5">{{dealData?.merchantDetails?.ratingsAverage?.toFixed(2).replace('.', ',')}}</span>
+          <div *ngIf="dealData?.merchantDetails?.ratingsAverage" class="rating mx-2 mt-2.5">
+            <div class="rating-label me-1" [ngClass]="dealData?.merchantDetails?.ratingsAverage > 0 ? 'checked': ''">
                 <i class="fas fa-star fs-9"></i>
             </div>
-            <div class="rating-label me-1" [ngClass]="(userData$ | async)?.ratingsAverage > 1 ? 'checked': ''">
+            <div class="rating-label me-1" [ngClass]="dealData?.merchantDetails?.ratingsAverage > 1 ? 'checked': ''">
                 <i class="fas fa-star fs-9"></i>
             </div>
-            <div class="rating-label me-1" [ngClass]="(userData$ | async)?.ratingsAverage > 2 ? 'checked': ''">
+            <div class="rating-label me-1" [ngClass]="dealData?.merchantDetails?.ratingsAverage > 2 ? 'checked': ''">
                 <i class="fas fa-star fs-9"></i>
             </div>
-            <div class="rating-label me-1" [ngClass]="(userData$ | async)?.ratingsAverage > 3 ? 'checked': ''">
+            <div class="rating-label me-1" [ngClass]="dealData?.merchantDetails?.ratingsAverage > 3 ? 'checked': ''">
                 <i class="fas fa-star fs-9"></i>
             </div>
-            <div class="rating-label me-1" [ngClass]="(userData$ | async)?.ratingsAverage > 4 ? 'checked': ''">
+            <div class="rating-label me-1" [ngClass]="dealData?.merchantDetails?.ratingsAverage > 4 ? 'checked': ''">
                 <i class="fas fa-star fs-9"></i>
             </div>
           </div>
-          <span *ngIf="(userData$ | async).totalReviews" class="text-sm mt-3.5" style="color:#0081E9;">{{(userData$ | async)?.totalReviews}} Ratings</span>
+          <span *ngIf="dealData?.merchantDetails?.totalReviews" class="text-sm mt-3.5" style="color:#0081E9;">{{(userData$ | async)?.totalReviews}} Ratings</span>
         </div>
       </div>
 
@@ -163,7 +163,7 @@
 
 
   <!--highlights-->
-      <div class="h-24 fv-row 2xl:h-26" [ngClass]="isLoggedIn == true ? 'mb-7 mt-7': 'mb-7 mt-24'">
+      <!-- <div class="h-24 fv-row 2xl:h-26" [ngClass]="isLoggedIn == true ? 'mb-7 mt-7': 'mb-7 mt-24'">
         <label class="text-base font-semibold my-3.5">Highlights</label>
         <input maxlength="100" appTrim type="text" class="h-12 text-base font-normal text-black form-control max-w-190" formControlName="highlights" name="highlights" placeholder="Enter highlights of your deal"
         [ngClass]="{
@@ -181,7 +181,7 @@
           control: f['highlights']
         }">
         </ng-container>
-      </div>
+      </div> -->
 
   <!--about this deal-->
       <div class="relative h-72 w-190 fv-row my-7">
@@ -228,13 +228,13 @@
           'is-valid': f['readMore'].valid}"></ckeditor>
         <ng-container *ngIf="(f['readMore'].dirty || f['readMore'].touched)">
 
-          <ng-container *ngIf="f['readMore'].value == null || f['readMore'].value == ''">
+          <!-- <ng-container *ngIf="f['readMore'].value == null || f['readMore'].value == ''">
             <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
               <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
                 Read more is required
               </span>
             </div>
-          </ng-container>
+          </ng-container> -->
 
           <ng-container *ngIf="f['readMore'].value !== null && f['readMore'].value !== '' && textLength(f['readMore'].value) < 16">
             <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
@@ -264,13 +264,13 @@
           'is-valid': f['finePrints'].valid}"></ckeditor>
           <ng-container *ngIf="(f['finePrints'].dirty || f['finePrints'].touched)">
 
-            <ng-container *ngIf="f['finePrints'].value ==null || f['finePrints'].value == ''">
+            <!-- <ng-container *ngIf="f['finePrints'].value ==null || f['finePrints'].value == ''">
               <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
                 <span  class="fv-help-block text-xxs 2xl:text-xs 2xl:mb-2" role="alert">
                   The fine print is required
                 </span>
               </div>
-            </ng-container>
+            </ng-container> -->
 
             <ng-container *ngIf="f['finePrints'].value !== null && f['finePrints'].value !== '' && textLength(f['finePrints'].value) < 16">
               <div class="w-full fv-plugins-message-container text-xxs 2xl:text-xs">
@@ -307,19 +307,15 @@
           </ng-container>
         </button>
       </div>
-        <div class="xl:pr-8 1.5xl:pr-12 mb-2 mt-30 max-w-100">
+        <div class="xl:pr-8 1.5xl:pr-12 mb-2 mt-30 w-full" style="max-width: 22rem;">
           <ng-container *ngFor="let deal of subDeals; let i = index">
             <span *ngIf="deal.title.length >= 26" [ngbTooltip]="deal.title" placement="top" [container]="'body'" class="text-base font-semibold cursor-pointer max-w-40">{{(deal.title.length > 26) ? ((deal.title) | slice:0:26)+'...':(deal.title)}}</span>
             <span *ngIf="deal.title.length < 26">{{(deal.title.length > 26) ? ((deal.title) | slice:0:26)+'...':(deal.title)}}</span>
-            <div class="flex justify-start">
-              <span class="mt-4 text-sm line-through" style="color:#94A1B3;">{{deal.originalPrice}}&nbsp;&euro;</span>
-              <span class="font-semibold text-sm mx-3.5 mt-4" style="color:#12B500;">{{deal.dealPrice}}&nbsp;&euro;</span>
-              <div>
-                <button class="py-1 px-4.5 text-xxs rounded-xl mt-3.5 cursor-text" style="color: #12B500; background-color: #DBF4D9;">{{deal.discountPercentage.toFixed(2).replace('.',',')}} off</button>
-              </div>
-              <div>
-                <button [ngClass]="isLoggedIn == false ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="isLoggedIn == false" (click)="openModal(i)" type="button" class="ml-14 py-1.5 px-5 text-sm rounded-md mt-2.5" style="background-color:#EBF5FD; color: #0081E9;">Edit</button>
-              </div>
+            <div class="flex justify-between">
+              <span class="mt-4 text-sm font-semibold" style="color:#12B500;">{{deal.dealPrice}}&nbsp;&euro;</span>
+              <span class="mt-4 text-sm line-through mx-3.5" style="color:#94A1B3;">{{deal.originalPrice}}&nbsp;&euro;</span>
+              <button class="w-18 h-5 text-xxs rounded-xl mt-4 cursor-text" style="color: #12B500; background-color: #DBF4D9;">{{deal.discountPercentage.toFixed(2).replace('.',',')}}% off</button>
+              <button [ngClass]="isLoggedIn == false ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="isLoggedIn == false" (click)="openModal(i)" type="button" class="py-1.5 px-5 ml-20 text-sm rounded-md mt-2.5" style="background-color:#EBF5FD; color: #0081E9;">Edit</button>
             </div>
             <hr style="border: 0.5px solid #96B1BC;" class="mb-4">
           </ng-container>

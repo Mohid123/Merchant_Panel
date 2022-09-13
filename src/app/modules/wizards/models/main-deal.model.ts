@@ -14,6 +14,7 @@ export class MainDeal {
   endDate: string;
   subDeals: Vouchers[];
   termsAndCondition: string;
+  merchantDetails?: Merchant;
   merchantID: string;
   dealStatus: string;
   deletedCheck?: boolean;
@@ -41,6 +42,14 @@ export class MainDeal {
 export class Deals {
   data: MainDeal[];
   totalDeals?: number;
+}
+
+export interface Merchant {
+  id: string | any;
+  ratingsAverage: number | any;
+  totalReviews: number | any;
+  legalName: string | any;
+  city: string | any;
 }
 
 
