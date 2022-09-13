@@ -165,7 +165,7 @@ export class Step4Component implements OnInit, OnDestroy {
         }
       })
 
-      const current = new Date("Sat Dec 31 2022 10:00:06 GMT+0500 (Pakistan Standard Time)");
+      const current = new Date();
       if(!!this.isLastDay(current)) {
         if(!!this.isLastDayofYear(current)) {
           this.minDate = { year: current.getFullYear() + 1, month: 1, day: 2}
