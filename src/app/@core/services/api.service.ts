@@ -31,6 +31,16 @@ export class ApiService<T> {
     return new HttpHeaders(header);
   }
 
+  public setCrmHeaders(crmToken: string): HttpHeaders {
+    const token = crmToken
+    const header = {
+      ...headersConfig,
+      'Content-Type': 'application/json',
+      'Authorization': `${token}`
+    };
+    return new HttpHeaders(header);
+  }
+
   private setHeadersForMedia(): HttpHeaders {
     const header = {
       ...headersConfig,
@@ -77,6 +87,17 @@ export class ApiService<T> {
         options
       )
     );
+  }
+
+  public postCrm(
+    path: string,
+    body: Object = {},
+    token: any
+  ): Observable<ApiResponse<T>> {
+    // Add safe, URL encoded_page parameter
+    return this.mapAndCatchError<T>(
+      this.http.post<ApiResponse<T>>(`${environment.apiUrl}${path}`, JSON.stringify(body), token)
+      );
   }
 
   public postMedia(

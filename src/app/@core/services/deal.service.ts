@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { AuthService } from 'src/app/modules/auth';
 import { Deals, MainDeal } from './../../modules/wizards/models/main-deal.model';
 import { ApiService } from './api.service';
 
@@ -14,12 +15,19 @@ export class DealService extends ApiService<deal> {
 
   constructor(
     protected override http: HttpClient,
+    private authService: AuthService
   ) {
     super(http);
   }
 
   createDeal(deal: MainDeal) {
     return this.post('/deal/createDeal', deal);
+  }
+
+  createDealCrm(deal: MainDeal) {
+    const options = { headers: this.setCrmHeaders(this.authService.CrmToken) };
+    debugger
+    return this.postCrm('/deal/createDeal', deal, options);
   }
 
   getTopRatedDeals(merchantID: string | any): Observable<ApiResponse<deal>> {

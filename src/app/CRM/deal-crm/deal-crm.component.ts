@@ -360,7 +360,7 @@ export class DealCRMComponent implements OnInit, OnDestroy {
       this.dealData.readMore = this.crmForm.get('readMore')?.value;
       this.dealData.mediaUrl = this.imageArray;
       this.dealData.subDeals = this.subDeals;
-      this.dealService.createDeal(this.dealData).subscribe((res: ApiResponse<any>) => {
+      this.dealService.createDealCrm(this.dealData).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.getDealByID();
           this.uploaded = true;

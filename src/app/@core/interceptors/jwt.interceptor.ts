@@ -33,13 +33,6 @@ export class JwtInterceptor implements HttpInterceptor {
         },
       });
     }
-    else if(crmToken) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `${crmToken}`,
-        },
-      });
-    }
     else if (isLoggedIn && isApiUrl) {
       request = request.clone({
         setHeaders: {
