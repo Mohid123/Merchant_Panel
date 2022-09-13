@@ -24,13 +24,13 @@ export class BusinessComponent implements OnInit, OnDestroy {
     firstName: ['',
     Validators.compose([
       Validators.required,
-      Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
+      Validators.pattern(`^[a-zA-Z0-9.,"'-:èëéà ]+`)
     ])],
 
     lastName: ['',
     Validators.compose([
       Validators.required,
-      Validators.pattern('^[ a-zA-Z][a-zA-Z ]*$')
+      Validators.pattern(`^[a-zA-Z0-9.,"'-:èëéà ]+`)
     ])],
 
     phoneNumber: ['',
