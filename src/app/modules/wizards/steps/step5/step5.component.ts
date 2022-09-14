@@ -151,25 +151,26 @@ export class Step5Component implements OnInit, AfterViewInit {
         if(response?.subDeals[0]?.voucherEndDate) {
           this.voucherEndDate = response?.subDeals[0]?.voucherEndDate;
           const voucherRedeemDate = new Date(this.voucherEndDate)
-          if(!!this.isLastDay(voucherRedeemDate)) {
-            if(!!this.isLastDayofYear(voucherRedeemDate)) {
-              this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear() + 1, month: 1, day: 1}
-            }
-            else {
-              this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 2, day: 1}
-            }
-          }
-          else if(!!this.isSecondLastDay(voucherRedeemDate)) {
-            if(!!this.isSecondLastDayofYear(voucherRedeemDate)) {
-              this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear() + 1, month: 1, day: 1}
-            }
-            else {
-              this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate() + 1}
-            }
-          }
-          else {
-            this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate()}
-          }
+          this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate()}
+        //   if(!!this.isLastDay(voucherRedeemDate)) {
+        //     if(!!this.isLastDayofYear(voucherRedeemDate)) {
+        //       this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear() + 1, month: 1, day: 1}
+        //     }
+        //     else {
+        //       this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate()}
+        //     }
+        //   }
+        //   else if(!!this.isSecondLastDay(voucherRedeemDate)) {
+        //     if(!!this.isSecondLastDayofYear(voucherRedeemDate)) {
+        //       this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate()}
+        //     }
+        //     else {
+        //       this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate()}
+        //     }
+        //   }
+        //   else {
+        //     this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate()}
+        //   }
         }
 
       })
