@@ -2,6 +2,19 @@
   display: none;
 }
 
+.star {
+  --br-font-size: 22px!important;
+  --br-active-color: #FCCA3F !important;
+  --br-inactive-color: #D2D2D2;
+}
+
+.starling {
+  --br-font-size: 22px!important;
+  --br-active-color: #BFA041 !important;
+  --br-inactive-color: #D2D2D2;
+}
+
+
 .circle {
   border-radius: 50%;
   width: 41px;

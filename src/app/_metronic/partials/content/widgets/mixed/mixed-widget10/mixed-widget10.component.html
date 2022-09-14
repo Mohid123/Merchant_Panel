@@ -1,14 +1,14 @@
-<div class="p-0 card-body d-flex flex-column" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
-  <div class="pb-0 flex-grow-1 card-p">
+<div class="p-0 card-body d-flex flex-column" style="border-radius: 8px; width: 388px;">
+  <div class="px-6 py-6 pb-0 border-none rounded-b-none flex-grow-1 card rounded-t-md" style="width: 388px;">
     <div class="flex-wrap d-flex flex-stack">
-      <div class="me-2">
-        <a class="font-medium text-gray-700 fs-3">
-         Revenue Graph
+      <div>
+        <a class="text-base font-semibold text-black">
+         Vouchers Sold &nbsp;<span style="color: #728A9F;" class="mb-3 text-xs">Per Day</span>
         </a>
 
-        <div class="text-muted fs-7 fw-bold">
+        <!-- <div class="text-muted fs-7 fw-bold">
           Finance and accounting reports
-        </div>
+        </div> -->
       </div>
 
       <!-- <div class="fw-bolder fs-3" [ngClass]="'text-' + chartColor">$24,500</div> -->
@@ -19,6 +19,8 @@
     #chartRef
     class="mixed-widget-7-chart card-rounded-bottom"
     [style.height]="chartHeight"
+    [style.width]="chartWidth"
+    [style.background]="'white'"
   >
     <apx-chart
       [series]="chartOptions.series"

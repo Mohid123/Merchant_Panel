@@ -1,10 +1,10 @@
-<div class="flex flex-row justify-between py-5 border-0 card-header" style="background-color: #0081E9;">
-  <h3 class="text-white card-title">Sales Statistics</h3>
+<div class="flex flex-row justify-between py-5 border-0 card-header first" style="background-color: #0081E9;">
+  <h3 class="text-base text-white">Sales Statistics</h3>
   <img src="../../../../../../../assets/media/logos/gen025.svg" style="filter: invert(100%);">
 </div>
 <!-- end::Header -->
 <!-- begin::Body -->
-<div class="p-0 card-body" style="box-shadow: 0 0.1rem 1rem 0.25rem rgb(0 0 0 / 5%); border-radius: 8px;">
+<div class="p-0 card-body firstly" style="border-radius: 8px;">
   <!-- begin::Chart -->
   <div
     #chartRef
@@ -29,35 +29,41 @@
   </div>
   <!-- end::Chart -->
   <!-- begin::Stats -->
-  <div class="card-p mt-n20 position-relative">
+  <div class="px-5 1.5xl:px-8 bg-white rounded-b-md 2xl:px-10 3xl:px-12 card position-relative h-54">
     <!-- begin::Row -->
-    <div class="row g-0">
+    <div class="absolute flex justify-center -top-14 g-0">
       <!-- begin::Col -->
-      <div class="px-6 py-8 text-center bg-blue-100 col rounded-2 me-7 mb-7">
-        <a  class="text-base font-semibold text-gray-500"> Total Deals </a>
-        <span class="my-2 text-2xl font-semibold text-blue-500 text-primary d-block">{{totalStats?.totalDeals}}</span>
+      <div class="mr-1 text-center 2xl:mr-2 col rounded-2 mb-7 fixed-card" style="background-color: #EEF6FF;">
+        <span class="mt-5 text-center d-block" style="font-size: 0.813rem; color:#728A9F; font-weight: 600;"> Deals Published </span>
+        <span class="my-2 text-xxl text-primary-400 d-block">540</span>
       </div>
       <!-- end::Col -->
       <!-- begin::Col -->
-      <div class="px-6 py-8 text-center bg-green-100 col rounded-2 mb-7">
-        <a class="text-base font-semibold text-gray-500"> Scheduled Deals </a>
-        <span class="my-2 text-2xl font-semibold text-green-500 d-block">{{totalStats?.scheduledDeals}}</span>
+      <div class="ml-1 text-center 2xl:ml-2 col rounded-2 mb-7 fixed-card" style="background-color: #F8FFEE;">
+        <span class="mt-5 text-center d-block" style="font-size: 0.813rem; color:#728A9F; font-weight: 600;"> Vouchers Sold </span>
+        <span class="my-2 text-xxl d-block" style="color:#12C861;">420</span>
       </div>
       <!-- end::Col -->
     </div>
     <!-- end::Row -->
     <!-- begin::Row -->
-    <div class="row g-0">
+    <div class="absolute flex justify-center g-0 top-16">
       <!-- begin::Col -->
-      <div class="px-6 py-8 text-center col rounded-2 me-7" style="background-color: #FFF1D1;">
-        <a  class="text-base font-semibold text-gray-500"> Pending Deals </a>
-        <span class="my-2 text-2xl font-semibold text-yellow-500 d-block">{{totalStats?.pendingDeals}}</span>
+      <div class="mr-1 text-center 2xl:mr-2 col rounded-2 mb-7 fixed-card" style="background-color: #FFF1D1;">
+        <span class="mt-5 text-center d-block" style="font-size: 0.813rem; color:#728A9F; font-weight: 600;"> Net Revenue </span>
+        <div class="flex justify-center">
+          <span class="my-2 text-xxl d-block" style="color:#EFAF1B">4000</span>
+          <img class="ml-2" src="../../../../../../../assets/media/logos/euro.svg">
+        </div>
       </div>
       <!-- end::Col -->
       <!-- begin::Col -->
-      <div class="px-6 py-8 text-center bg-red-100 col rounded-2">
-        <a  class="text-base font-semibold text-gray-500"> Sold Deals </a>
-        <span class="my-2 text-2xl font-semibold text-red-500 d-block">{{totalStats?.publishedDeals}}</span>
+      <div class="ml-1 text-center 2xl:ml-2 col rounded-2 mb-7 fixed-card" style="background-color: #FFEEEE;">
+        <span class="mt-5 text-center d-block" style="font-size: 0.813rem; color:#728A9F; font-weight: 600;"> Overall Rating </span>
+        <div class="flex justify-center">
+          <img class="mr-2" src="../../../../../../../assets/media/logos/star.svg">
+          <span class="my-2 text-xxl d-block" style="color: #FE4897">3,6</span>
+        </div>
       </div>
       <!-- end::Col -->
     </div>
@@ -65,3 +71,47 @@
   </div>
   <!-- end::Stats -->
 </div>
+
+<style>
+.fixed-card {
+  width: 8.688rem!important;
+  height: 6.688rem!important;
+  background-color: #EEF6FF;
+}
+
+.first {
+  width: 331px;
+}
+
+.firstly {
+  width: 331px;
+}
+
+@media (max-width: 1280px) {
+  .fixed-card {
+    width: 8rem!important;
+    height: 6rem!important;
+    background-color: #EEF6FF;
+  }
+}
+
+@media(min-width: 1600px) and (max-width: 1920px) {
+  .first {
+    width: 400px;
+  }
+
+  .firstly {
+    width: 400px;
+  }
+}
+
+@media(min-width: 1440px) and (max-width: 1536px) {
+  .first {
+    width: 360px;
+  }
+
+  .firstly {
+    width: 360px;
+  }
+}
+</style>

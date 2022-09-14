@@ -1,6 +1,8 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalConfig } from '@core/models/modal.config';
+import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -18,6 +20,17 @@ import { ConfirmPasswordValidator } from './password-validator';
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({transform: 'translateY(-100%)'}),
+        animate('225ms ease-in-out', style({transform: 'translateY(0%)'}))
+      ]),
+      transition(':leave', [
+        animate('325ms ease-in-out', style({transform: 'translateY(-100%)', opacity: '0'}))
+      ])
+    ])
+  ]
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -38,11 +51,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   destroy$ = new Subject();
   topDeals: any;
   offset: number = 0;
-  limit: number = 10;
+  limit: number = 5;
   reciever: Subscription;
   oldpPass: string;
   validityPass: boolean;
   passwordHide: boolean = true;
+  currentEvents: any;
+  dealData: any;
 
   options: NgPasswordValidatorOptions = {
     placement: "bottom",
@@ -210,15 +225,57 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getTopDealsByMerchant() {
     this.showData = false;
-    this.dealService.getTopRatedDeals(this.authService.currentUserValue?.id).pipe(takeUntil(this.destroy$))
-    .subscribe((res: any) => {
-      if(!res.hasErrors()) {
-        this.topDeals = res.data;
+    const params: any = {}
+    this.dealService.getDeals(1, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', '', params)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: any)=> {
+      if (!res.hasErrors()) {
+        this.dealData = res.data;
+        this.currentEvents = res.data.data;
         this.showData = true;
         this.cf.detectChanges();
       }
     })
   }
+
+  duplicateDeal(index: number) {
+    this.currentEvents[index].id = '';
+    this.currentEvents[index].dealID = '';
+    this.currentEvents[index].isCollapsed = false;
+    delete this.currentEvents[index].createdAt;
+    delete this.currentEvents[index].updatedAt;
+    this.currentEvents[index].isDuplicate = true;
+    this.dealService.createDeal(this.currentEvents[index]).pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.getTopDealsByMerchant();
+        this.toast.success('Deal successfully duplicated', {
+          duration: 1000
+        })
+      }
+    })
+  }
+
+  // async editDeal(index: number) {
+  //   return await this.router.navigate(['/deals/create-deal']).finally(() => {
+  //     switch (this.currentEvents[index]?.dealStatus) {
+  //       case 'Draft':
+  //         this.conn.sendStep1(this.currentEvents[index]);
+  //       break;
+  //       case 'Needs attention':
+  //         this.conn.sendStep1(this.currentEvents[index]);
+  //       break;
+  //       case 'Published':
+  //         this.conn.currentStep$.next(4);
+  //         this.conn.sendSaveAndNext(this.currentEvents[index]);
+  //       break;
+  //       case 'Scheduled':
+  //         this.conn.currentStep$.next(4);
+  //         this.conn.sendSaveAndNext(this.currentEvents[index]);
+  //       break;
+  //     }
+  //   });
+  // }
 
   ngOnDestroy() {
     this.destroy$.complete();

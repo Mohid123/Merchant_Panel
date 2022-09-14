@@ -7,12 +7,13 @@ import { getCSSVariableValue } from '../../../../../kt/_utils';
 export class MixedWidget11Component implements OnInit {
   @Input() chartColor: string = '';
   @Input() chartHeight: string;
+  @Input() chartWidth: string;
   chartOptions: any = {};
 
   constructor() {}
 
   ngOnInit(): void {
-    this.chartOptions = getChartOptions(this.chartHeight, this.chartColor);
+    this.chartOptions = getChartOptions(this.chartHeight, this.chartColor, this.chartWidth);
   }
 
   // initializeSalesChart() {
@@ -32,27 +33,24 @@ export class MixedWidget11Component implements OnInit {
   // }
 }
 
-function getChartOptions(chartHeight: string, chartColor: string) {
-  const labelColor = getCSSVariableValue('--bs-gray-400');
+function getChartOptions(chartHeight: string, chartColor: string, chartWidth: string) {
+  const labelColor =  '#728A9F';
   const borderColor = getCSSVariableValue('--bs-gray-300');
   const secondaryColor = getCSSVariableValue('--bs-gray-800');
-  const baseColor = getCSSVariableValue('--bs-gray-400');
+  const baseColor = '#0081E9'
 
   return {
     series: [
       {
-        name: 'Net Profit',
-        data: [50, 60, 70, 80, 60, 50, 70, 60],
-      },
-      {
-        name: 'Revenue',
-        data: [50, 60, 70, 80, 60, 50, 70, 60],
+        name: 'Net Revenue',
+        data: [50, 120, 270, 380, 160, 50, 170, 260, 120, 400, 50, 340],
       },
     ],
     chart: {
       fontFamily: 'inherit',
       type: 'bar',
       height: chartHeight,
+      width: chartWidth,
       toolbar: {
         show: false,
       },
@@ -60,8 +58,8 @@ function getChartOptions(chartHeight: string, chartColor: string) {
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: '50%',
-        borderRadius: 5,
+        columnWidth: '70%',
+        borderRadius: 1,
       },
     },
     legend: {
@@ -76,7 +74,7 @@ function getChartOptions(chartHeight: string, chartColor: string) {
       colors: ['transparent'],
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       axisBorder: {
         show: false,
       },

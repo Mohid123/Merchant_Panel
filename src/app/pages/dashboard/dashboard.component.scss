@@ -64,3 +64,59 @@ tr {
 .custom-day.faded {
   background-color: rgba(2, 117, 216, 0.5);
 }
+
+.common {
+  width: 331px;
+  height: 536px
+}
+
+.common-10 {
+  width: 388px;
+}
+
+.first {
+  width: 331px;
+}
+
+.star {
+  --br-font-size: 22px!important;
+  --br-active-color: #FCCA3F !important;
+  --br-inactive-color: #D2D2D2;
+}
+
+.br-default {
+  --br-font-size: 22px!important;
+}
+
+.br-units {
+  font-size: 22px!important;
+}
+
+.text-main {
+  font-size: 15px;
+}
+
+@media(min-width: 1440px) and (max-width: 1536px) {
+  .common {
+    width: 360px;
+  }
+
+  .first {
+    width: 360px;
+  }
+}
+
+@media(min-width: 1600px) and (max-width: 1920px) {
+  .common {
+    width: 431px;
+    height: 536px
+  }
+
+  // .common-10 {
+  //   width: 400px;
+  // }
+
+  .first {
+    width: 400px;
+  }
+}

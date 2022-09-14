@@ -19,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TruncationPipe } from '@pages/pipe/truncation.pipe';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
+import { BarRatingModule } from 'ngx-bar-rating';
 import { ClipboardModule } from 'ngx-clipboard';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
@@ -84,7 +85,8 @@ import { TestComponent } from './pages/test/test.component';
     NgPasswordValidatorModule,
     InfiniteScrollModule,
     AutoFocusModule,
-    BlurHashModule
+    BlurHashModule,
+    BarRatingModule
   ],
   providers: [
     // {

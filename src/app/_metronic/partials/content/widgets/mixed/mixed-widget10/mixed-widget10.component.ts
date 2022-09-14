@@ -7,32 +7,34 @@ import { getCSSVariableValue } from '../../../../../kt/_utils';
 export class MixedWidget10Component implements OnInit {
   @Input() chartColor: string = '';
   @Input() chartHeight: string;
+  @Input() chartWidth: string;
   chartOptions: any = {};
 
   constructor() {}
 
   ngOnInit(): void {
-    this.chartOptions = getChartOptions(this.chartHeight, this.chartColor);
+    this.chartOptions = getChartOptions(this.chartHeight, this.chartColor, this.chartWidth);
   }
 }
 
-function getChartOptions(chartHeight: string, chartColor: string) {
+function getChartOptions(chartHeight: string, chartColor: string, chartWidth: string) {
   const labelColor = getCSSVariableValue('--bs-gray-800');
-  const strokeColor = getCSSVariableValue('--bs-gray-300');
-  const baseColor = getCSSVariableValue('--bs-' + chartColor);
+  const strokeColor = getCSSVariableValue('--bs-gray-200');
+  const baseColor = '#E4721C';
   const lightColor = getCSSVariableValue('--bs-light-' + chartColor);
 
   return {
     series: [
       {
-        name: 'Net Profit',
-        data: [15, 25, 15, 40, 20, 50],
+        name: 'Vouchers sold',
+        data: [131, 222, 200, 240, 220, 250, 400, 23, 45, 490, 12, 176],
       },
     ],
     chart: {
       fontFamily: 'inherit',
       type: 'area',
       height: chartHeight,
+      width: chartWidth,
       toolbar: {
         show: false,
       },
@@ -53,6 +55,7 @@ function getChartOptions(chartHeight: string, chartColor: string) {
     fill: {
       type: 'solid',
       opacity: 0.2,
+      colors:[baseColor]
     },
     stroke: {
       curve: 'smooth',
@@ -61,7 +64,7 @@ function getChartOptions(chartHeight: string, chartColor: string) {
       colors: [baseColor],
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       axisBorder: {
         show: false,
       },
@@ -90,7 +93,7 @@ function getChartOptions(chartHeight: string, chartColor: string) {
     },
     yaxis: {
       min: 0,
-      max: 60,
+      max: 500,
       labels: {
         show: false,
         style: {
@@ -123,10 +126,11 @@ function getChartOptions(chartHeight: string, chartColor: string) {
     tooltip: {
       style: {
         fontSize: '12px',
+        background: 'white'
       },
       y: {
         formatter: function (val: number) {
-          return '$' + val + ' thousands';
+          return val;
         },
       },
     },

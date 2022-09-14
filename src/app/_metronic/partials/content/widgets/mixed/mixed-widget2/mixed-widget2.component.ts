@@ -52,7 +52,7 @@ function getChartOptions(
     series: [
       {
         name: 'Net Profit',
-        data: [30, 45, 32, 70, 40, 40, 40],
+        data: [30, 45, 32, 70, 40, 60, 40, 89, 45, 38, 32, 56],
       },
     ],
     chart: {
@@ -96,7 +96,7 @@ function getChartOptions(
       colors: ['#003C6D'],
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       axisBorder: {
         show: false,
       },
@@ -122,7 +122,7 @@ function getChartOptions(
     },
     yaxis: {
       min: 0,
-      max: 80,
+      max: 100,
       labels: {
         show: false,
         style: {
@@ -158,7 +158,7 @@ function getChartOptions(
       },
       y: {
         formatter: function (val: number) {
-          return '$' + val + ' thousands';
+          return '$' + val + ' thousand';
         },
       },
       marker: {

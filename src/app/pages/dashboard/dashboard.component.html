@@ -1,63 +1,159 @@
 <!-- begin::Row -->
-<div class="flex flex-row flex-wrap justify-between mb-5">
-  <span class="text-3xl font-semibold text-black">Analytics</span>
+<div class="flex flex-row flex-wrap justify-between w-full mb-5">
+  <span class="text-3xl font-bold text-black">Analytics</span>
   <button data-kt-menu-trigger="click" class="px-6 py-3 text-sm font-thin text-white bg-blue-500 btn" [routerLink]="['/deals/create-deal']">Create a Deal</button>
 </div>
 
-<div class="row gy-5 g-xl-8">
-  <div class="col-xxl-4">
+<div class="flex justify-between flex-nowrap">
+  <div class="first">
     <app-mixed-widget2
-      class="card card-xl-stretch mb-xl-8"
+      class="card card-xl-stretch max-h-84"
       chartColor="danger"
-      chartHeight="200px"
+      chartHeight="249px"
       strokeColor="#cb1e46"
     ></app-mixed-widget2>
   </div>
 
-  <div class="col-xxl-4">
+  <div>
     <app-mixed-widget10
-      class="mb-5 card card-xxl-stretch-50 mb-xl-8"
-      chartColor="blue"
-      chartHeight="150px"
+      class="mb-4 card card-xxl-stretch-50 common-10"
+      chartColor="#FFEBDC"
+      chartHeight="190px"
+      chartWidth="100%"
     ></app-mixed-widget10>
     <app-mixed-widget11
-      class="mb-5 card card-xxl-stretch-50 mb-xl-8"
+      class="card card-xxl-stretch-50 common-10"
       chartColor="gray"
-      chartHeight="175px"
+      chartHeight="190px"
+      chartWidth="100%"
     ></app-mixed-widget11>
   </div>
 
-  <div class="col-xxl-4">
-    <app-lists-widget5 class="card card-xxl-stretch"></app-lists-widget5>
+  <div>
+    <app-lists-widget5 class="card card-xxl-stretch common"></app-lists-widget5>
   </div>
 </div>
 <!-- end::Row -->
+
+<div class="pb-4 pt-7">
+  <span class="text-base font-semibold">Published Deals</span>
+</div>
+
 
  <ng-container *ngIf="showData == false">
   <app-table-skeleton></app-table-skeleton>
 </ng-container>
 
 <ng-container *ngIf="showData == true">
-  <div class="mt-4 mb-10 table-container px-7" style="background: #FFFFFF 0% 0% no-repeat padding-box; border-radius: 7px 7px 0px 0px;">
+  <div class="mb-8 bg-white rounded-md shadow-sm table-container">
     <table class="w-full">
-      <thead ngbDropdown display="dynamic" id="dropdownBasic2" class="text-left text-black bg-white border-b-2 border-gray-200 border-dotted rounded-lg h-14 ">
-        <th class="p-4 font-semibold cursor-pointer">Deal ID</th>
-        <th class="p-4 font-semibold cursor-pointer">Deal header</th>
-        <th class="p-4 font-semibold cursor-pointer">Status</th>
-        <th class="font-semibold cursor-pointer" style="width: 200px; max-width: 200px;">Voucher sold</th>
-        <th class="font-semibold cursor-pointer" style="width: 200px; max-width: 200px;">Total net earnings</th>
-      </thead>
-      <ng-container *ngFor="let data of topDeals; let i = index;">
-        <tr class="z-40 h-16 text-gray-700 bg-white rounded-lg">
-          <td class="p-4">{{data?.dealID}}</td>
-          <td class="p-4">{{(data.dealHeader.length > 22) ? ((data.dealHeader) | slice:0:22)+'...':(data.dealHeader)}}</td>
-          <td class="p-4">{{data?.dealStatus}}</td>
-          <td style="width: 140px; padding-right: 100px" class="text-right">{{data?.soldVouchers}}</td>
-          <td style="width: 140px; padding-right: 65px;" class="text-right">{{data?.netEarnings.toFixed(2).replace('.',',')}}&nbsp;&euro;</td>
+      <thead class="relative">
+        <tr class="text-left text-gray-700 bg-white rounded-lg">
+          <th class="py-4 font-semibold text-main pl-14">Deal ID &nbsp;</th>
+          <th class="p-4 font-semibold text-main">Deal &nbsp;</th>
+          <th class="font-semibold text-main" style="width: 200px; max-width: 200px;">Voucher sold</th>
+          <th class="p-4 font-semibold text-main" style="max-width: 120px;">Average rating &nbsp;</th>
+          <th class="font-semibold text-main" style="width: 100px; max-width: 200px;">Total net earnings</th>
         </tr>
-      </ng-container>
+        <div id="borderBottomMain"></div>
+      </thead>
+      <tbody class="relative">
+       <ng-container *ngFor="let event of currentEvents; let index = index;"> <!--{{event.netEarnings.toFixed(2).replace('.', ',')}}-->
+        <tr class="text-left text-gray-600 bg-white rounded-lg">
+          <td class="py-4 text-left pl-14">{{event.dealID}}</td>
+          <td class="p-4 text-left">
+            <span class="cursor-pointer" *ngIf="event.dealHeader.length >= 22" [ngbTooltip]="event?.dealHeader" placement="top" [container]="'body'">{{(event.dealHeader.length > 22) ? ((event.dealHeader) | slice:0:22)+'...':(event.dealHeader)}}</span>
+            <span *ngIf="event.dealHeader.length < 22">{{(event.dealHeader.length > 22) ? ((event.dealHeader) | slice:0:22)+'...':(event.dealHeader)}}</span>
+          </td>
+          <td style="padding-right: 105px;" class="text-right">{{event.soldVouchers}}</td>
+          <td class="flex justify-start p-4 text-left">
+            <bar-rating class="mb-2 star" [rate]="event.ratingsAverage" [max]="5" [readOnly]="true"></bar-rating>
+            <span class="mt-1.5 ml-2">{{event.ratingsAverage.toFixed(1).replace('.',',')}}</span>
+          </td>
+          <td style="width: 140px; padding-right: 5px;" class="text-right">{{event.netEarnings.toFixed(2).replace('.', ',')}} &euro;</td>
+          <td class="flex justify-center px-8 py-4">
+            <div style="all: unset" ngbDropdown placement="bottom">
+              <i ngbDropdownToggle class="fas fa-ellipsis-h fa-sm p-1.5 bg-gray-100 rounded-md cursor-pointer mr-1.5"></i>
+              <div class="z-50" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <a target="_blank" href="{{event?.dealPreviewURL}}" ngbDropdownItem class="flex justify-start px-3 my-2">
+                  <img src="../../../../assets/media/icons/preview.svg" class="mt-1 mr-2">
+                  <span class="text-sm text-gray-600">Preview</span>
+                </a>
+                <button *ngIf="event.dealStatus == 'Draft' || event.dealStatus == 'Needs attention' || event.dealStatus == 'Published' || event.dealStatus == 'Scheduled'" ngbDropdownItem class="flex justify-start px-3 my-2">
+                  <img src="../../../../assets/media/icons/editing.svg" class="mt-1 mr-2">
+                  <span class="text-sm text-gray-600">Edit</span>
+                </button> <!--(click)="editDeal(index)"-->
+                <button *ngIf="event.dealStatus == 'Published' || event.dealStatus == 'Expired'" ngbDropdownItem class="flex justify-start px-3 my-2" (click)="duplicateDeal(index)">
+                  <img src="../../../../assets/media/icons/Dublicate.svg" class="mt-1 mr-2">
+                  <span class="text-sm text-gray-600">Duplicate</span>
+                </button>
+                <!-- <button (click)="deleteDeal(event.id)" ngbDropdownItem>Delete</button> -->
+              </div>
+            </div>
+            <button [ngClass]="event.subDeals?.length == 0 || event.subDeals == [] ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="event.subDeals?.length == 0 || event.subDeals == []" (click)="event.isCollapsed = !event.isCollapsed">
+              <i [ngClass]="!event.isCollapsed ? 'fas fa-chevron-down fa-sm p-1.5': 'fas fa-chevron-up fa-sm p-1.5'" class="bg-gray-100 rounded-md"></i>
+            </button>
+          </td>
+        </tr>
+        <div [ngClass]="index == 6 ? 'hidden': 'block'" id="borderMain"></div>
+        <tr [@slideInOut] *ngIf="event.isCollapsed == true" class="z-0 w-full text-center bg-white">
+          <td colspan="12">
+              <table class="p-4 rounded-lg" style="width: 97.5%; margin-left: auto; margin-right: auto; margin-bottom: 12px; background-color: rgb(226 237 254);">
+                <thead class="relative">
+                  <tr class="rounded-lg" style="color:#545A60;">
+                    <th class="py-4 text-sm font-semibold text-left pl-11" style="width: 350px; max-width: 350px;">Voucher</th>
+                    <th class="py-4 text-sm font-semibold text-left" style="width: 9.375rem; max-width: 9.375rem;">Sold</th>
+                    <th class="py-4 text-sm font-semibold text-left" style="width: 9.375rem; max-width: 9.375rem;">Available</th>
+                    <th class="py-4 text-sm font-semibold text-right pr-28" style="width: 7.5rem; max-width: 7.5rem;">Value</th>
+                    <th class="py-4 text-sm font-semibold text-left" style="width: 7.5rem; max-width: 7.5rem;">Total sold</th>
+                    <th class="py-4 text-sm font-semibold text-left" style="width: 7.5rem; max-width: 7.5rem;">Net earnings</th>
+                  </tr>
+                  <div id="borderBottom"></div>
+                </thead>
+                <tbody class="relative">
+                  <ng-container *ngFor="let voucher of event?.subDeals; let i = index; let first = first; let last = last">
+                  <tr class="text-gray-600 rounded-lg">
+                    <td class="py-4 text-sm text-left pl-11">
+                      <span class="cursor-pointer" *ngIf="voucher?.title.length >= 24" [ngbTooltip]="voucher?.title" placement="top" [container]="'body'">
+                        {{(voucher?.title?.length > 24) ? ((voucher.title) | slice:0:24)+'...':(voucher.title)}}
+                      </span>
+                      <span *ngIf="voucher?.title.length < 24">
+                        {{(voucher?.title?.length > 24) ? ((voucher.title) | slice:0:24)+'...':(voucher.title)}}
+                      </span>
+                    </td>
+                    <td class="py-4 text-sm text-left">{{voucher?.soldVouchers}}</td>
+                    <td class="py-4 text-sm text-left">{{voucher?.numberOfVouchers}}</td>
+                    <td class="py-4 text-sm text-right pr-28" style="width: 7.5rem;">{{voucher?.dealPrice.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
+                    <td class="py-4 text-sm text-right" style="width: 7.5rem; padding-right: 3.25rem;">{{voucher?.grossEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
+                    <td class="py-4 text-sm text-right" style="width: 7.5rem; padding-right: 1.875rem;">{{voucher?.netEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td> <!--ye wala-->
+                    <td [ngClass]="event.dealStatus == 'In review' ? 'invisible pl-20 py-4': 'pl-20 py-4 text-sm'">
+                      <img class="cursor-pointer" src="../../../../assets/media/icons/edit.svg">
+                    </td>
+                  </tr> <!--(click)="openNew(index, i)"-->
+                  <div id="borderBottom"></div>
+                  <tr *ngIf="last" class="w-full">
+                    <td colspan="12">
+                      <ng-container *ngIf="event.startDate && event.endDate">
+                        <tr class="w-full text-sm text-left text-gray-500">
+                          <td class="py-4 pr-4 pl-11">Published from &nbsp;<span class="text-black">{{event?.startDate | date: 'dd-MM-yyyy'}} until {{event?.endDate | date: 'dd-MM-yyyy'}}</span></td>
+                          <ng-container *ngIf="voucher?.voucherStartDate && voucher?.voucherEndDate">
+                            <td class="px-4 py-4">Validity date &nbsp;<span class="text-black">{{voucher?.voucherEndDate | date: 'dd-MM-yyyy'}}</span></td>
+                          </ng-container>
+                          <ng-container *ngIf="voucher?.voucherValidity">
+                            <td class="px-4 py-4">Voucher is valid for &nbsp;<span class="text-black">{{voucher?.voucherValidity}}</span>&nbsp; days</td>
+                          </ng-container>
+                        </tr>
+                      </ng-container>
+                    </td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+          </td>
+        </tr>
+       </ng-container>
 
-      <ng-container *ngIf="topDeals.length == 0">
+       <!-- <ng-container *ngIf="currentEvents.length == 0">
         <tr class="w-full text-center">
           <td colspan="8" class="w-full pt-12 text-xl font-semibold text-gray-700">
             No Record Found
@@ -68,8 +164,16 @@
             It seems we can't find any results.
           </td>
         </tr>
-      </ng-container>
+      </ng-container> -->
     </table>
+    <!-- <div class="flex justify-end px-5 pb-2 pt-14">
+      <ngb-pagination
+      [(page)]="page"
+      [pageSize]="limit"
+      [collectionSize]="dealData?.totalDeals"
+      [maxSize]="5" [boundaryLinks]="false" (pageChange)="next()">
+    </ngb-pagination>
+    </div> -->
   </div>
 </ng-container>
 

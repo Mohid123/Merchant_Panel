@@ -78,7 +78,7 @@
             <td class="pr-4">{{(data.dealHeader.length>30)? ((data.dealHeader) | slice:0:30)+'..':(data.dealHeader)}}</td>
             <td class="pr-4">{{data.dealID}}</td>
             <td class="pr-4">{{data.totalReviews}}</td>
-            <td class="pr-4">
+            <!-- <td class="pr-4">
               <div class="rating">
                 <div class="rating-label me-1" [ngClass]="data.ratingsAverage > 0 ? 'checked': ''">
                     <i class="fas fa-star fs-8"></i>
@@ -97,6 +97,10 @@
                 </div>
                 <span class="pt-1 ml-3" style="color: #515151;">{{data.ratingsAverage}}</span>
               </div>
+            </td> -->
+            <td class="flex justify-start py-4 pr-4 text-left">
+              <bar-rating class="mb-2 star" [rate]="data.ratingsAverage" [max]="5" [readOnly]="true"></bar-rating>
+              <span class="mt-1.5 ml-3">{{data.ratingsAverage.toFixed(1).replace('.',',')}}</span>
             </td>
             <td>
               <button [disabled]="data.totalReviews == 0" [routerLink]="['/single-review/', data._id]"
