@@ -124,8 +124,8 @@ export class Step4Component implements OnInit, OnDestroy {
           if(response?.subDeals[0]?.voucherStartDate && this.isObject != "object") {
             const newStart = new Date(response?.subDeals[0]?.voucherStartDate);
             const newEnd = new Date(response?.subDeals[0]?.voucherEndDate);
-            newStart.setDate(newStart.getDate() + 1);
-            newEnd.setDate(newEnd.getDate() + 1);
+            newStart.setDate(newStart.getDate());
+            newEnd.setDate(newEnd.getDate());
             this.ngbStart = { day: newStart.getUTCDate(), month: newStart.getUTCMonth() + 1, year: newStart.getUTCFullYear() }
             this.ngbEnd = { day: newEnd.getUTCDate(), month: newEnd.getUTCMonth() + 1, year: newEnd.getUTCFullYear() }
           }

@@ -151,7 +151,7 @@
                         <td colspan="12">
                           <ng-container *ngIf="event.startDate && event.endDate">
                             <tr class="w-full text-sm text-left text-gray-500">
-                              <td class="py-4 pr-4 pl-11">Published from &nbsp;<span class="text-black">{{event?.startDate | date: 'dd-MM-yyyy'}} until {{event?.endDate | date: 'dd-MM-yyyy'}}</span></td>
+                              <td class="py-4 pr-4 pl-11">Published from &nbsp;<span class="text-black">{{event?.publishDateStart | date: 'dd-MM-yyyy'}} until {{event?.publishDateEnd | date: 'dd-MM-yyyy'}}</span></td>
                               <ng-container *ngIf="voucher?.voucherStartDate && voucher?.voucherEndDate">
                                 <td class="px-4 py-4">Validity date &nbsp;<span class="text-black">{{voucher?.voucherEndDate | date: 'dd-MM-yyyy'}}</span></td>
                               </ng-container>

@@ -111,6 +111,9 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   voucherId: string;
   dealIDForEdit: string;
   voucherIndex: any;
+  publishStartDate: any;
+  publishEndDate: any;
+  voucherValidityDate: any;
 
 
   statusTypes = [
@@ -271,7 +274,15 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     .subscribe((res: any)=> {
       if (!res.hasErrors()) {
         this.dealData = res.data;
-        this.currentEvents = res.data.data;
+        this.currentEvents = res.data.data.map((data: any) => {
+          data.publishDateStart = new Date(data.startDate).setUTCHours(0,0,0,0);
+          data.publishDateEnd = new Date(data.endDate).setUTCHours(0,0,0,0);
+          data.subDeals.map((subdeal: any) => {
+            subdeal.voucherStartDate = new Date(subdeal.voucherStartDate).setUTCHours(0,0,0,0);
+            subdeal.voucherEndDate = new Date(subdeal.voucherEndDate).setUTCHours(0,0,0,0);
+          })
+          return data
+        });
         console.log(this.currentEvents)
         this.showData = true;
         this.cf.detectChanges();

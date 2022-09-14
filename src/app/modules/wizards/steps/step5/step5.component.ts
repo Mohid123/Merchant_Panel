@@ -150,7 +150,8 @@ export class Step5Component implements OnInit, AfterViewInit {
         this.data = response;
         if(response?.subDeals[0]?.voucherEndDate) {
           this.voucherEndDate = response?.subDeals[0]?.voucherEndDate;
-          const voucherRedeemDate = new Date(this.voucherEndDate)
+          const voucherRedeemDate = new Date(new Date(this.voucherEndDate).setUTCHours(0,0,0,0));
+          console.log(voucherRedeemDate)
           this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate()}
         //   if(!!this.isLastDay(voucherRedeemDate)) {
         //     if(!!this.isLastDayofYear(voucherRedeemDate)) {
