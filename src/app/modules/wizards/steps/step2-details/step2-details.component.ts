@@ -175,7 +175,6 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
         const payload = this.newData;
         const payloadWithoutMedia: any = this.newData;
         delete payloadWithoutMedia.mediaUrl;
-        debugger
         this.dealService.createDeal(payloadWithoutMedia).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
           if(!res.hasErrors()) {
             this.connection.isSaving.next(false);

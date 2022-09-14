@@ -99,6 +99,7 @@
           name="dp"
           [minDate]="dateForm.get('startDate')?.value"
           formControlName="endDate"
+          [maxDate]="endDateToBindInCalendar"
           ngbDatepicker
           #d="ngbDatepicker"
           (click)="d.toggle()"

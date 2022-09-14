@@ -10,6 +10,8 @@
 /* utilities */
 @import './tailwindcss/utilities.css';
 
+// @import '../node_modules/ngx-bar-rating/themes/br-default-theme.scss';
+
 // @font-face {
 //   font-family: 'Ranille';
 //   src: local('Ranille'), url('src/assets/ranille-cufonfonts/RanilleNormalRegular-axEpm.woff') format('woff');
@@ -19,6 +21,10 @@
 
 // Replace above style with this SCSS file to enable dark mode styles
 //@import "./assets/sass/style.dark";
+
+.br-default {
+  --br-font-size: 22px!important;
+}
 
 .form-control,
 input[type=date] {
@@ -86,6 +92,14 @@ input[type='file'] {
   border-top: 0.5px solid #787f9f5e !important;
 }
 
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred ul, ol {
+  color: black!important;
+}
+
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-focused ul, ol {
+  color: black!important;
+}
+
 .ck-editor__top {
   max-width: 900px!important;
   border-radius: 8px!important;
@@ -118,6 +132,11 @@ input[type='file'] {
 .ck.ck-content ul,
 .ck.ck-content ul li{
   list-style-type: inherit!important;
+}
+
+div ul.ck.ck-reset.ck-list {
+  padding-left: 0px!important;
+  color: black!important;
 }
 
 .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline {

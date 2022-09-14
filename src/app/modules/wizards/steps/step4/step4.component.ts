@@ -254,7 +254,6 @@ export class Step4Component implements OnInit, OnDestroy {
   }
 
   isLastDay(date: any) {
-
     return new Date(date.getTime() + 86400000).getDate() === 1;
   }
 

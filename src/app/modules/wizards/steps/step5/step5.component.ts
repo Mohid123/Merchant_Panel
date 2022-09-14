@@ -124,6 +124,7 @@ export class Step5Component implements OnInit, AfterViewInit {
   endDateInView: any;
   id: string;
   voucherEndDate: any;
+  endDateToBindInCalendar: any;
 
   @ViewChild('popContent', { static: true }) popContent: TemplateRef<any>;
   popoversMap = new Map<any, ComponentRef<PopoverWrapperComponent>>();
@@ -148,7 +149,27 @@ export class Step5Component implements OnInit, AfterViewInit {
       this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
         this.data = response;
         if(response?.subDeals[0]?.voucherEndDate) {
-          this.voucherEndDate = response?.subDeals[0]?.voucherEndDate
+          this.voucherEndDate = response?.subDeals[0]?.voucherEndDate;
+          const voucherRedeemDate = new Date(this.voucherEndDate)
+          if(!!this.isLastDay(voucherRedeemDate)) {
+            if(!!this.isLastDayofYear(voucherRedeemDate)) {
+              this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear() + 1, month: 1, day: 1}
+            }
+            else {
+              this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 2, day: 1}
+            }
+          }
+          else if(!!this.isSecondLastDay(voucherRedeemDate)) {
+            if(!!this.isSecondLastDayofYear(voucherRedeemDate)) {
+              this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear() + 1, month: 1, day: 1}
+            }
+            else {
+              this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate() + 1}
+            }
+          }
+          else {
+            this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate()}
+          }
         }
 
       })
@@ -162,6 +183,56 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.initSelectDateForm();
     const current = new Date();
     this.today = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() + 2};
+  }
+
+  isLastDay(date: any) {
+    return new Date(date.getTime() + 86400000).getDate() === 1;
+  }
+
+  isSecondLastDay(date: any) {
+    const localDate = new Date();
+    const currentYear = localDate.getFullYear();
+    const currentMonth = localDate.getMonth() + 1;
+    const year = date.getFullYear();
+    const leap = new Date(year, 1, 29).getDate() === 29;
+    const checkFeb = date.toDateString();
+
+    if(leap) {
+      if(checkFeb.includes('Feb 28')) {
+        return new Date(date.getTime() + 86400000).getDate() === 29;
+      }
+    }
+    else {
+
+      if(checkFeb.includes('Feb 27')) {
+
+       return new Date(date.getTime() + 86400000).getDate() === 28;
+      }
+      else {
+        if(this.getDaysInMonth(currentYear, currentMonth) === 31) {
+
+          return new Date(date.getTime() + 86400000).getDate() === 31
+        }
+        else if(this.getDaysInMonth(currentYear, currentMonth) === 30) {
+
+          return new Date(date.getTime() + 86400000).getDate() === 30
+        }
+      }
+    }
+  }
+
+  getDaysInMonth(year: any, month: any) {
+    return new Date(year, month, 0).getDate();
+  }
+
+  isLastDayofYear(date: any) {
+    const year = date.getFullYear();
+    return new Date(year, 11, 31).toDateString() === date.toDateString();
+  }
+
+  isSecondLastDayofYear(date: any) {
+    const year = date.getFullYear();
+    return new Date(year, 11, 30).toDateString() === date.toDateString();
   }
 
   editDealCase() {
