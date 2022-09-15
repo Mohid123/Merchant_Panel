@@ -30,18 +30,25 @@ export class MediaService extends ApiService<uploadMedia> {
   }
 
   uploadMedia(folderName: string, file:any): Observable<ApiResponse<uploadMedia>>{
-    this.uploadInProgress.next(true);
+    if(file.type == 'video/mp4' || file.type == 'video/flv') {
+      this.uploadInProgress.next(false);
+    }
+    else {
+      this.uploadInProgress.next(true);
+    }
     const formData: FormData = new FormData();
     formData.append('file', file);
     return this.postMedia(`/media-upload/mediaFiles/${folderName}`, formData,).pipe(tap((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
-        let value = this.dataCount.value;
-        this.dataCount.next(value - 1);
-        this.valueChanged.emit(this.dataCount.value);
-        if(this.dataCount.value == 0) {
-          this.uploadInProgress.next(false);
-          this.afterUpload.next(false);
-          this.valueChanged.emit(0);
+        if(!res.data.url.endsWith('.mp4')) {
+          let value = this.dataCount.value;
+          this.dataCount.next(value - 1);
+          this.valueChanged.emit(this.dataCount.value);
+          if(this.dataCount.value == 0) {
+            this.uploadInProgress.next(false);
+            this.afterUpload.next(false);
+            this.valueChanged.emit(0);
+          }
         }
       }
     }));

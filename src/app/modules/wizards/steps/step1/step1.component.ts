@@ -574,13 +574,15 @@ export class Step1Component implements OnInit, OnDestroy {
       this.temporaryVideo = this.file;
       this.loadingVideo = true;
       this.cf.detectChanges();
-      this.mediaService.uploadMedia('deal', this.temporaryVideo).subscribe((res: any) => {
+      this.mediaService.uploadMedia('deal', this.temporaryVideo).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
         if(!res.hasErrors()) {
           this.videoService.convertUrlToFile(res.data.url).then((result) => {
             this.videoService.generateThumbnail(result, 'any-image').then((result) => {
               this.thumbnail = result;
+              this.mediaService.totalCount.next(1);
+              this.mediaService.dataCount.next(1);
             }).finally(() => {
-              this.mediaService.uploadMedia('deal', this.thumbnail).subscribe((thumbnailResponse: any) => {
+              this.mediaService.uploadMedia('deal', this.thumbnail).pipe(takeUntil(this.destroy$)).subscribe((thumbnailResponse: any) => {
                 this.url = thumbnailResponse.data.url
                 this.loadingVideo = false;
                 this.cf.detectChanges();
