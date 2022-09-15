@@ -29,7 +29,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     { id:3, img: '../../../../../assets/media/icons/Dinings.svg', name:'Dining', disabled: false },
     { id:4, img: '../../../../../assets/media/icons/sports.svg', name:'Sports & Adventures', disabled: false },
     { id:5, img: '../../../../../assets/media/icons/experience.svg', name:'Experiences at Home', disabled: false },
-    { id:1, img: '../../../../../assets/media/icons/spa.svg', name:'Spa & Holistic', disabled: false },
+    { id:1, img: '../../../../../assets/media/icons/spa.svg', name:'Spa & Holistic Wellness', disabled: false },
     { id:6, img: '../../../../../assets/media/icons/Personal-growth.svg', name:'Personal Development', disabled: false },
     { id:7, img: '../../../../../assets/media/icons/concert-event-tickets.svg', name:'Concerts & Event Tickets', disabled: false },
     { id:8, img: '../../../../../assets/media/icons/Pet-treatments.svg', name:'Pet Treatments', disabled: false },

@@ -100,7 +100,7 @@
             </td> -->
             <td class="flex justify-start py-4 pr-4 text-left">
               <bar-rating class="mb-2 star" [rate]="data.ratingsAverage" [max]="5" [readOnly]="true"></bar-rating>
-              <span class="mt-1.5 ml-3">{{data.ratingsAverage.toFixed(1).replace('.',',')}}</span>
+              <span class="mt-1.5 ml-3">{{data.ratingsAverage.toFixed(1)}}</span>
             </td>
             <td>
               <button [disabled]="data.totalReviews == 0" [routerLink]="['/single-review/', data._id]"

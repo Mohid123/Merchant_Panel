@@ -68,7 +68,7 @@
           <td style="padding-right: 105px;" class="text-right">{{event.soldVouchers}}</td>
           <td class="flex justify-start p-4 text-left">
             <bar-rating class="mb-2 star" [rate]="event.ratingsAverage" [max]="5" [readOnly]="true"></bar-rating>
-            <span class="mt-1.5 ml-2">{{event.ratingsAverage.toFixed(1).replace('.',',')}}</span>
+            <span class="mt-1.5 ml-2">{{event.ratingsAverage.toFixed(1)}}</span>
           </td>
           <td style="width: 140px; padding-right: 5px;" class="text-right">{{event.netEarnings.toFixed(2).replace('.', ',')}} &euro;</td>
           <td class="flex justify-center px-8 py-4">

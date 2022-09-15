@@ -52,6 +52,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   config: any;
   public Editor = ClassicEditor;
+  uploaded: boolean = true
 
   profileForm: FormGroup = this.fb.group({
     tradeName: ['',
@@ -194,6 +195,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   submitImages() {
+    this.uploaded = false;
     const param: any = {
       gallery: this.images,
       profilePicURL: this.image,
@@ -212,12 +214,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   submitImagesForImageCase() {
+    this.uploaded = false;
     const param = {
       gallery: this.images,
       profilePicURL: this.image
     }
-    this.isLeftVisible = true;
-    this.imagesEditable = false;
     this.userService.updateMerchantprofile(param).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
         this.toast.success('Profile updated', {
@@ -230,13 +231,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
             primary: '#84cc16',
             secondary: '#064e3b',
           },
-        })
+        });
+        this.uploaded = true;
+        this.cf.detectChanges();
+        this.isLeftVisible = true;
+        this.cf.detectChanges();
+        this.imagesEditable = false;
+        this.cf.detectChanges();
       }
     })
   }
 
   submitProfileChanges() {
-    this.isLeftVisible = true;
     const payload: PersonalDetail = {
       tradeName: this.profileForm.value.tradeName,
       streetAddress: this.profileForm.value.streetAddress,
@@ -246,7 +252,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
     this.userService.updateLocation(payload)
     .pipe(exhaustMap((res: any) => {
-
       if(!res.hasErrors()) {
         this.setbusinessHours();
         return this.userService.getUser();
@@ -273,7 +278,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
           primary: '#84cc16',
           secondary: '#064e3b',
         },
-      })
+      });
+      this.isLeftVisible = true;
+      this.cf.detectChanges();
+      this.uploaded = true;
+      this.cf.detectChanges();
     })
   }
 

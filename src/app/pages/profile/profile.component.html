@@ -11,7 +11,22 @@
 
     <div *ngIf="imagesEditable == true" class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
       <button [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="button" class="discard-button" (click)="discardChanges()">Discard</button>
-      <button [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="submit" class="save-button" (click)="submitImagesForImageCase()">Save</button>
+      <button
+        [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'"
+        [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true"
+        type="submit"
+        class="save-button"
+        (click)="submitImagesForImageCase()">
+        <ng-container *ngIf="uploaded == false">
+          <span class="text-xs indicator-progress" [style.display]="'block'">
+            Saving...
+            <span class="w-3 h-3 align-middle spinner-border spinner-border-sm"></span>
+          </span>
+        </ng-container>
+        <ng-container *ngIf="uploaded == true">
+          <span class="indicator-label">Save</span>
+        </ng-container>
+      </button>
     </div>
 
     <div *ngIf="imagesEditable == true" class="flex justify-center mt-2">
@@ -199,7 +214,23 @@
 
     <div class="flex justify-end pb-2 pr-20 mt-6 mb-2 mr-1 3xl:pr-32">
       <button [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="button" class="discard-button" (click)="discardChanges()">Discard</button>
-      <button [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true" type="submit" class="save-button" (click)="submitProfileChanges(); submitImages()">Save</button>
+      <button
+      [ngClass]="(uploadingMultipleImages == true || uploadingSingleImage == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'"
+      [disabled]="uploadingMultipleImages == true || uploadingSingleImage == true"
+      type="submit"
+      class="save-button"
+      (click)="submitProfileChanges();
+      submitImages()">
+      <ng-container *ngIf="uploaded == false">
+        <span class="text-xs indicator-progress" [style.display]="'block'">
+          Saving...
+          <span class="w-3 h-3 align-middle spinner-border spinner-border-sm"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="uploaded == true">
+        <span class="indicator-label">Save</span>
+      </ng-container>
+    </button>
     </div>
 
     <div class="flex justify-center mt-2">

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEventType, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Observable, of } from 'rxjs';
@@ -104,13 +104,34 @@ export class ApiService<T> {
     path: string,
     body: any = {}
   ): Observable<ApiResponse<T>> {
-    // Add safe, URL encoded_page parameter
     return this.mapAndCatchError<T>(
-      this.http.post<ApiResponse<T>>(
-        `${environment.apiUrl}${path}`,
-        body
-      )
-    );
+      this.http.post<ApiResponse<T>>(`${environment.apiUrl}${path}`, body));
+  }
+
+  // In case of monitoring request progress
+
+  public postMediaProgress(path: string, body: any = {}, progress: number): Observable<ApiResponse<T>> {
+    return new Observable((success) => {
+      const req = new HttpRequest('POST', `${environment.apiUrl}${path}`, body, {
+        reportProgress: true
+      });
+     this.http.request(req).subscribe((event: any) => {
+        switch (event.type) {
+          case HttpEventType.Sent:
+            break;
+          case HttpEventType.ResponseHeader:
+            break;
+          case HttpEventType.UploadProgress:
+            progress = Math.round(event.loaded / event.total * 100);
+            break;
+          case HttpEventType.Response:
+            success.next(event.body);
+            setTimeout(() => {
+            progress = 0;
+          }, 0);
+        }
+      })
+    })
   }
 
   public put(

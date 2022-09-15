@@ -72,7 +72,7 @@
             </td> -->
             <td class="flex justify-start py-4 pr-4 text-left">
               <bar-rating class="mb-2 star" [rate]="data.totalRating" [max]="5" [readOnly]="true"></bar-rating>
-              <span class="mt-1.5 ml-3">{{data.totalRating.toFixed(1).replace('.',',')}}</span>
+              <span class="mt-1.5 ml-3">{{data.totalRating.toFixed(1)}}</span>
             </td>
             <td>
               <button (click)="openReviewModal(data._id, data.voucherID)" class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
@@ -111,7 +111,7 @@
         <div class="flex justify-center">
           <span class="mr-2" style="color: #D9B23E;">Rating</span>
           <bar-rating class="-mt-1.5 starling" [rate]="data.totalRating" [max]="5" [readOnly]="true"></bar-rating>
-          <span class="ml-2" style="color: #A17900;">{{data.totalRating.toFixed(1).replace('.', ',')}}</span>
+          <span class="ml-2" style="color: #A17900;">{{data.totalRating.toFixed(1)}}</span>
         </div>
       </div>
     </div>
@@ -126,7 +126,7 @@
 
         <bar-rating class="-mt-1.5 star" [rate]="ratings.ratingScore" [max]="5" [readOnly]="true"></bar-rating>
 
-        <span class="px-3 text-black text-sm2">{{ratings?.ratingScore.toFixed(1).replace('.',',')}}</span>
+        <span class="px-3 text-black text-sm2">{{ratings?.ratingScore.toFixed(1)}}</span>
         <span class="px-3 text-black text-sm2">{{ratings?.ratingName}}</span>
       </div>
     </ng-container>

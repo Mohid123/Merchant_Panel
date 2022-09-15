@@ -193,32 +193,38 @@ export class Step1Component implements OnInit, OnDestroy {
         this.cf.detectChanges();
         this.editMedia = res.mediaUrl;
 
-        res.mediaUrl.filter((image: MediaUpload) => {
+        if(res.mediaUrl.length == 0) {
+          this.loadingVideo = false;
+          this.showImageSkeleton = false;
+        }
+        else {
+          res.mediaUrl.filter((image: MediaUpload) => {
 
-          if(image.captureFileURL.endsWith('.mp4')) {
-            this.videoFromEdit = image;
-            this.editUrl = image.captureFileURL;
-            this.cf.detectChanges();
-          }
-          else {
-            this.videoService.getBase64ImageFromUrl(image.captureFileURL)
-            .then((result: any) => {
-              this.multiples.push(result);
+            if(image.captureFileURL.endsWith('.mp4')) {
+              this.videoFromEdit = image;
+              this.editUrl = image.captureFileURL;
               this.cf.detectChanges();
-              this.initTable();
-              this.urls.push(result);
-              this.cf.detectChanges();
-              this.dealForm.updateValueAndValidity({emitEvent: true});
-              this.showImageSkeleton = false;
-            })
-            .catch(err => console.log(err));
+            }
+            else {
+              this.videoService.getBase64ImageFromUrl(image.captureFileURL)
+              .then((result: any) => {
+                this.multiples.push(result);
+                this.cf.detectChanges();
+                this.initTable();
+                this.urls.push(result);
+                this.cf.detectChanges();
+                this.dealForm.updateValueAndValidity({emitEvent: true});
+                this.showImageSkeleton = false;
+              })
+              .catch(err => console.log(err));
 
-            // this.videoService.convertUrlToFile(image.captureFileURL).then((result) => {
-            //   this.media.push(result);
-            // })
-            // .catch(err => console.log(err));
-          }
-        });
+              // this.videoService.convertUrlToFile(image.captureFileURL).then((result) => {
+              //   this.media.push(result);
+              // })
+              // .catch(err => console.log(err));
+            }
+          });
+        }
         this.categoryEdit = res.subCategory;
         this.cf.detectChanges();
       }
@@ -312,6 +318,8 @@ export class Step1Component implements OnInit, OnDestroy {
               })
             }
             if(this.media.length > 0) {
+              this.mediaService.dataCount.next(this.media.length);
+              this.mediaService.totalCount.next(this.media.length);
               this.media.forEach((file: any) => {
                 mediaUpload.push(this.mediaService.uploadMedia('deal', file));
               });
@@ -388,6 +396,10 @@ export class Step1Component implements OnInit, OnDestroy {
             const mediaUpload: Array<Observable<any>> = [];
 
             if(this.media.length > 0) {
+
+              this.mediaService.dataCount.next(this.media.length);
+              this.mediaService.totalCount.next(this.media.length);
+
               this.media.forEach((file: any) => {
                 mediaUpload.push(this.mediaService.uploadMedia('deal', file));
               });
@@ -424,7 +436,6 @@ export class Step1Component implements OnInit, OnDestroy {
                 this.firstSaveData.subDeals = this.responseSaveAndNextVocuhers ? this.responseSaveAndNextVocuhers : [];
                 const payloadWithoutMedia: any = this.firstSaveData;
                 delete payloadWithoutMedia.subDeals;
-                debugger
                 return this.dealService.createDeal(payloadWithoutMedia);
                 })).subscribe((res: any) => {
                 if(!res.hasErrors()) {
@@ -615,8 +626,15 @@ export class Step1Component implements OnInit, OnDestroy {
     this.urls.splice((j*this.columnSize)+i, 1);
     this.dealForm.controls['mediaUrl'].setValue(this.urls);
     }
-    if(this.editMedia.length > 0) {
-      this.editMedia.splice(i, 1)
+    if(this.editMedia) {
+      if(this.editMedia.length > 0) {
+        this.editMedia.splice(i, 1)
+      }
+    }
+    if(this.media) {
+      if(this.media.length > 0) {
+        this.media.splice(i, 1)
+      }
     }
     this.getItemsTable(true);
     this.dealForm.controls['mediaUrl'].setValue(this.urls);
