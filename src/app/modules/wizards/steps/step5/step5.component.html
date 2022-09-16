@@ -83,6 +83,7 @@
           (keydown)="$event.preventDefault()"
           name="dp"
           [minDate]="today"
+          [maxDate]="endDateToBindInCalendar"
           formControlName="startDate"
           ngbDatepicker
           #c="ngbDatepicker"
@@ -136,6 +137,7 @@
           (keydown)="$event.preventDefault()"
           name="dp"
           [minDate]="today"
+          [maxDate]="endDateToBindInCalendar"
           formControlName="startDate"
           ngbDatepicker
           #c="ngbDatepicker"
@@ -152,6 +154,7 @@
           (keydown)="$event.preventDefault()"
           name="dp"
           [minDate]="dateForm.get('startDate')?.value"
+          [maxDate]="endDateToBindInCalendar"
           formControlName="endDate"
           ngbDatepicker
           #d="ngbDatepicker"
