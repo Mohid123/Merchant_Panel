@@ -413,7 +413,7 @@ export class DealCRMComponent implements OnInit, OnDestroy {
       if(this.urls.length > 0) {
         for (let index = 0; index < this.urls.length; index++) {
 
-          this.mediaService.uploadMedia('profile-images', this.urls[index])
+          this.mediaService.uploadMediaOtherThanDeal('profile-images', this.urls[index])
           .pipe(takeUntil(this.destroy$))
           .subscribe((res: ApiResponse<any>) => {
 

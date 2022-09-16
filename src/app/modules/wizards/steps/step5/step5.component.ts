@@ -147,6 +147,7 @@ export class Step5Component implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private resolver: ComponentFactoryResolver,
     private common: CommonFunctionsService) {
+
       this.mediaService.uploadInProgress$.subscribe((value: boolean) => {
         this.startedUpload = value;
       });
@@ -158,7 +159,6 @@ export class Step5Component implements OnInit, AfterViewInit {
           const voucherRedeemDate = new Date(new Date(this.voucherEndDate).setUTCHours(0,0,0,0));
           this.endDateToBindInCalendar = { year: voucherRedeemDate.getFullYear(), month: voucherRedeemDate.getMonth() + 1, day: voucherRedeemDate.getDate()}
         }
-
       })
       this.uploaded = true;
       this.editDealCase();
@@ -300,6 +300,10 @@ export class Step5Component implements OnInit, AfterViewInit {
     this.fullCalendar.getApi().removeAllEvents();
     const startDate = new Date(this.dateForm.get('startDate')?.value?.year, this.dateForm.get('startDate')?.value?.month - 1, this.dateForm.get('startDate')?.value?.day).getTime();
     const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day).getTime();
+    if(startDate > endDate) {
+      this.dateForm.invalid;
+      return;
+    }
     if(this.voucherEndDate != 0) {
       if(endDate > this.voucherEndDate) {
         this.toast.error('Deal end date cannot exceed redeem end date');

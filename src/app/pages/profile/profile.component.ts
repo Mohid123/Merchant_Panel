@@ -349,7 +349,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
       if(this.urls.length > 0) {
         for (let index = 0; index < this.urls.length; index++) {
-          this.mediaService.uploadMedia('profile-images', this.urls[index])
+          this.mediaService.uploadMediaOtherThanDeal('profile-images', this.urls[index])
           .subscribe((res: ApiResponse<any>) => {
             if(!res.hasErrors()) {
               const result = [res.data];
@@ -420,7 +420,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         }
       }
       for (let index = 0; index < this.multiples.length; index++) {
-        this.mediaService.uploadMedia('profile-image', this.multiples[index]).subscribe((res: ApiResponse<any>) => {
+        this.mediaService.uploadMediaOtherThanDeal('profile-image', this.multiples[index]).subscribe((res: ApiResponse<any>) => {
           if(!res.hasErrors()) {
             const result = [res.data];
             const image = result.map((image: any) => {

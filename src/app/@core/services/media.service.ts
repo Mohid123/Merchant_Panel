@@ -39,7 +39,7 @@ export class MediaService extends ApiService<uploadMedia> {
     }
     const formData: FormData = new FormData();
     formData.append('file', file);
-    return this.postMedia(`/media-upload/mediaFiles/${folderName}`, formData,).pipe(tap((res: ApiResponse<any>) => {
+    return this.postMedia(`/media-upload/mediaFiles/${folderName}`, formData).pipe(tap((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
         if(!res.data.url.endsWith('.mp4')) {
           let value = this.dataCount.value;
@@ -53,6 +53,16 @@ export class MediaService extends ApiService<uploadMedia> {
         }
       }
     }));
+  }
+
+  uploadMediaOtherThanDeal(folderName: string, file:any): Observable<ApiResponse<uploadMedia>> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    return this.postMedia(`/media-upload/mediaFiles/${folderName}`, formData).pipe(tap((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        console.log(res)
+      }
+    }))
   }
 
   public subscribeToProgressEvents(subscribeFn: (x: number) => any): void {

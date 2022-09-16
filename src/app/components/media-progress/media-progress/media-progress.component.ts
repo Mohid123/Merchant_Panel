@@ -42,11 +42,6 @@ export class MediaProgressComponent implements OnInit {
     });
 
     this.updateProgress$ = this.media.dataCount$;
-
-    // this.media.subscribeToProgressEvents((count: number) => {
-    //   this.updateProgress.next(count);
-    //   this.cf.detectChanges();
-    // })
   }
 
   ngOnInit(): void {

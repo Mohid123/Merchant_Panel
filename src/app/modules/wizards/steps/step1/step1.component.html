@@ -85,7 +85,7 @@
         </div>
         <div class="h-24 fv-row 2xl:h-26">
           <label class="form-label">Deal sub-title</label>
-          <input maxlength="140" appTrim type="text " class="text-base font-normal text-black form-control" formControlName="subTitle" name="subTitle" placeholder="Enter subtitle of your deal"
+          <input maxlength="200" appTrim type="text " class="text-base font-normal text-black form-control" formControlName="subTitle" name="subTitle" placeholder="Enter subtitle of your deal"
           [ngClass]="{
             'is-invalid': f['subTitle'].invalid && f['subTitle'].touched,
             'is-valid': f['subTitle'].valid}">

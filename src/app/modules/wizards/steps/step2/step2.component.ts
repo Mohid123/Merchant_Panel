@@ -62,12 +62,12 @@ export class Step2Component implements OnInit, OnDestroy {
   singleVoucher: Vouchers;
   vouchers: FormGroup;
   editVouchers: FormGroup;
-  saveEditDeal: boolean;
+  saveEditDeal: boolean = false;
   voucherStartDate: any;
   voucherEndDate: any;
   voucherValidity: any;
 
-  @Input() deal: Partial<MainDeal>
+  @Input() deal: Partial<MainDeal>;
 
   subDeals: any[] = [];
   vouchersForEdit: any
@@ -100,8 +100,7 @@ export class Step2Component implements OnInit, OnDestroy {
     this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
       this.id = response?.id;
-
-      if(response.subDeals?.length > 0) {
+      if(response.subDeals?.length > 0 && this.saveEditDeal == false) {
         this.data.subDeals = response.subDeals;
         this.subDeals = this.data.subDeals ? this.data.subDeals : [];
         this.newData.subDeals = this.data.subDeals ? this.data.subDeals : [];
@@ -111,8 +110,6 @@ export class Step2Component implements OnInit, OnDestroy {
         this.connection.sendData(this.data);
       }
     });
-
-    this.saveEditDeal = false;
   }
 
   ngOnInit() {
@@ -242,15 +239,22 @@ export class Step2Component implements OnInit, OnDestroy {
 
   async edit(index:any) {
     this.editIndex = index;
-    this.editVouchers.patchValue(this.subDeals[index]);
+    this.editVouchers.patchValue({
+      originalPrice: this.subDeals[index]?.originalPrice,
+      dealPrice: this.subDeals[index]?.dealPrice,
+      numberOfVouchers: this.subDeals[index]?.numberOfVouchers,
+      title: this.subDeals[index]?.title,
+    });
     await this.modal.open();
   }
 
   editVoucher() {
     if(this.editVouchers.invalid) {
+
       this.editVouchers.markAllAsTouched();
       return;
     }
+
     if(parseInt(this.editVouchers.controls['dealPrice']?.value) >= 0) {
       if(parseInt(this.editVouchers.controls['dealPrice']?.value) == 0 && parseInt(this.editVouchers.controls['originalPrice']?.value) == 0) {
 

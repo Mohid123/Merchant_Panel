@@ -263,7 +263,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   public trackItem (index: number, item: MainDeal) {
-    return index;
+    return item?.id;
   }
 
   getDealsByMerchantID() {

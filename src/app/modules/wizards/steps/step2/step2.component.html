@@ -182,6 +182,12 @@
             control: editVouchers.controls['title']
           }">
         </ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'Special characters are not allowed',
+          control: editVouchers.controls['title']
+        }">
+      </ng-container>
         </div>
 
         <div class="h-24 fv-row 2xl:h-26">
@@ -257,7 +263,7 @@
   </div>
 
   <div class="border-none modal-footer">
-    <button type="button" class="self-center w-24 h-10 text-sm text-white rounded-lg bg-primary-400" (click)="editVoucher()" [disabled]="editVouchers.invalid">Save</button>
+    <button type="button" class="self-center w-24 h-10 text-sm text-white rounded-lg bg-primary-400" (click)="editVoucher()">Save</button>
   </div>
 </app-reusable-modal>
 
