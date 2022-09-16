@@ -227,7 +227,7 @@
       <span class="contact-details">Company details</span>
       <div class="flex justify-end pr-20 mt-6">
         <button type="button" class="discard-button" (click)="discardLower()">Discard</button>
-        <button [ngClass]="companyForm.invalid ? 'opacity-50': 'opacity-100'" type="submit" class="save-button" (click)="editCompanyForm()" [disabled]="companyForm.invalid">Save</button>
+        <button [ngClass]="companyForm.invalid ? 'opacity-50': 'opacity-100'" type="submit" class="save-button" [disabled]="companyForm.invalid" (click)="editCompanyForm()">Save</button>
       </div>
     </div>
     <div class="flex justify-center mt-10">
@@ -241,7 +241,7 @@
             <span class="spanner">Legal name</span>
           </td>
           <td class="pb-4">
-            <input class="form-control" formControlName="legalName" maxlength="25">
+            <input class="form-control" formControlName="legalName">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'Legal name is required',
@@ -288,7 +288,7 @@
             <span class="spanner">City</span>
           </td>
           <td class="pb-4">
-            <input class="form-control" formControlName="city" maxlength="25">
+            <input class="form-control" formControlName="city" maxlength="45">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'City is required',

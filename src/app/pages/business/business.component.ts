@@ -139,28 +139,34 @@ export class BusinessComponent implements OnInit, OnDestroy {
   }
 
   editCompanyForm() {
-    this.secondLeftVisible = true;
-    this.userService.updateMerchantprofile(this.companyForm.value)
-    .pipe(exhaustMap((res: any) => {
-      if(!res.hasErrors()) {
-        this.toast.success('Company details updated', {
-          style: {
-            border: '1px solid #65a30d',
-            padding: '16px',
-            color: '#3f6212',
-          },
-          iconTheme: {
-            primary: '#84cc16',
-            secondary: '#064e3b',
-          },
-        })
-        return this.userService.getUser();
-        } else {
-          return (res);
-        }
-    })).subscribe((res: any) => {
-      console.log(res);
-    })
+    if(this.companyForm.invalid) {
+      this.companyForm.markAllAsTouched();
+      return
+    }
+    else {
+      this.secondLeftVisible = true;
+      this.userService.updateMerchantprofile(this.companyForm.value)
+      .pipe(exhaustMap((res: any) => {
+        if(!res.hasErrors()) {
+          this.toast.success('Company details updated', {
+            style: {
+              border: '1px solid #65a30d',
+              padding: '16px',
+              color: '#3f6212',
+            },
+            iconTheme: {
+              primary: '#84cc16',
+              secondary: '#064e3b',
+            },
+          })
+          return this.userService.getUser();
+          } else {
+            return (res);
+          }
+      })).subscribe((res: any) => {
+        console.log(res);
+      })
+    }
   }
 
 
