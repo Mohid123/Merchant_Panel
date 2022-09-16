@@ -33,7 +33,7 @@ export class MediaProgressComponent implements OnInit {
           this.afterUpload = true;
           this.cf.detectChanges();
           this.media.afterUpload.next(true);
-        }, 2000)
+        }, 3000)
       }
     })
 
