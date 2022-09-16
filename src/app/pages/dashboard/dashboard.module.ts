@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MediaProgressModule } from '@components/media-progress/media-progress/media-progress.module';
 import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
@@ -27,7 +28,8 @@ import { DashboardComponent } from './dashboard.component';
     ReactiveFormsModule,
     FormsModule,
     NgPasswordValidatorModule,
-    BarRatingModule
+    BarRatingModule,
+    MediaProgressModule
   ],
 })
 export class DashboardModule {}

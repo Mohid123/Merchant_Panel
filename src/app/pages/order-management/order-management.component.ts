@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
+import { MediaService } from '@core/services/media.service';
 import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BillingsService } from '@pages/services/billings.service';
 import { CommonFunctionsService } from '@pages/services/common-functions.service';
@@ -69,6 +70,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   appliedFilterStatus: boolean;
   appliedFilterPaymentStatus: boolean;
   temporaryHeader: any;
+  updateProgress: Observable<number>;
 
   buttonToSearch: boolean = false;
 
@@ -129,11 +131,13 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     private calendar: NgbCalendar,
     private billingService: BillingsService,
     private commonService: CommonFunctionsService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private media: MediaService
     ) {
       this.page = 1;
       this.fromDate = '';
       this.toDate = '';
+      this.updateProgress = this.media.dataCount$;
     }
 
   ngOnInit(): void {

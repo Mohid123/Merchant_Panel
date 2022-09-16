@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { BlurHashModule } from '@components/blur-hash/blur-hash.module';
 import { FiltersModule } from '@components/filters/filters.module';
+import { MediaProgressModule } from '@components/media-progress/media-progress/media-progress.module';
 import { PendingSkeletonModule } from '@components/pending-skeleton/pending-skeleton.module';
 import { ReusableModalModule } from '@components/reusable-modal/reusable-modal.module';
 import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.module';
@@ -86,7 +87,8 @@ import { TestComponent } from './pages/test/test.component';
     InfiniteScrollModule,
     AutoFocusModule,
     BlurHashModule,
-    BarRatingModule
+    BarRatingModule,
+    MediaProgressModule
   ],
   providers: [
     // {

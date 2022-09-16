@@ -2,22 +2,22 @@
   <mat-expansion-panel (closed)="closePanel()" (opened)="openPanel()" [expanded]="isExpanded" class="bg-light-dark">
     <mat-expansion-panel-header class="bg-dark specific-class">
       <ng-container *ngIf="isExpanded == true">
-        <mat-panel-description *ngIf="progressCount > 1" class="py-3.5 text-left" style="width: 100%; font-size: 13px; color: #F5F8FA;">
-          Uploading {{progressCount}} items
+        <mat-panel-description *ngIf="(progressCount | async)! > 1" class="py-3.5 text-left" style="width: 100%; font-size: 13px; color: #F5F8FA;">
+          Uploading {{(progressCount | async)}} items
         </mat-panel-description>
-        <mat-panel-description *ngIf="progressCount == 1" class="py-3.5 text-left" style="width: 100%; font-size: 13px; color: #F5F8FA;">
-          Uploading {{progressCount}} item
+        <mat-panel-description *ngIf="(progressCount | async) == 1" class="py-3.5 text-left" style="width: 100%; font-size: 13px; color: #F5F8FA;">
+          Uploading {{(progressCount | async)}} item
         </mat-panel-description>
       </ng-container>
       <ng-container *ngIf="isExpanded == false">
-        <mat-panel-description class="py-3.5 text-left" *ngIf="!updateProgress" style="color: #F5F8FA; font-size: 13px;">Uploading 1 of {{progressCount}}...</mat-panel-description>
-        <mat-panel-description class="py-3.5 text-left" *ngIf="updateProgress" style="color: #F5F8FA; font-size: 13px;">Uploading {{1 + (progressCount - updateProgress)}} of {{progressCount}}...</mat-panel-description>
+        <mat-panel-description class="py-3.5 text-left" *ngIf="!(updateProgress$ | async)" style="color: #F5F8FA; font-size: 13px;">Uploading 1 of {{(progressCount | async)}}...</mat-panel-description>
+        <mat-panel-description class="py-3.5 text-left" *ngIf="(updateProgress$ | async)" style="color: #F5F8FA; font-size: 13px;">Uploading {{1 + ((progressCount | async)! - (updateProgress$ | async)!)}} of {{(progressCount | async)}}...</mat-panel-description>
       </ng-container>
     </mat-expansion-panel-header>
     <ng-container *ngIf="startedUpload == true">
       <div class="flex justify-between pt-3.5">
-        <span *ngIf="!updateProgress" style="color: #5C6878; font-size: 13px;">Uploading 1 of {{progressCount}}...</span>
-        <span *ngIf="updateProgress" style="color: #5C6878; font-size: 13px;">Uploading {{1 + (progressCount - updateProgress)}} of {{progressCount}}...</span>
+        <span *ngIf="!(updateProgress$ | async)" style="color: #5C6878; font-size: 13px;">Uploading {{1 + (progressCount | async)! - (progressCount | async)!}} of {{(progressCount | async)}}...</span>
+        <span *ngIf="(updateProgress$ | async)" style="color: #5C6878; font-size: 13px;">Uploading {{1 + ((progressCount | async)! - (updateProgress$ | async)!)}} of {{(progressCount | async)}}...</span>
         <span class="indicator-progress" [style.display]="'block'">
           <span class="w-4 h-4 mb-2.5 -mr-1 spinner-border spinner-border-sm text-primary-400"></span>
         </span>
@@ -29,11 +29,11 @@
 <mat-accordion *ngIf="afterUpload == false" class="custom">
   <mat-expansion-panel [expanded]="true" class="bg-light-dark">
     <mat-expansion-panel-header class="bg-dark specific-class">
-      <mat-panel-description *ngIf="progressCount > 1" class="py-3.5 text-left" style="width: 100%; font-size: 13px; color: #F5F8FA;">
-      {{progressCount}} uploads complete
+      <mat-panel-description *ngIf="(progressCount | async)! > 1" class="py-3.5 text-left" style="width: 100%; font-size: 13px; color: #F5F8FA;">
+      {{(progressCount | async)}} uploads complete
       </mat-panel-description>
-      <mat-panel-description *ngIf="progressCount == 1" class="py-3.5 text-left" style="width: 100%; font-size: 13px; color: #F5F8FA;">
-        {{progressCount}} upload complete
+      <mat-panel-description *ngIf="(progressCount | async)! == 1" class="py-3.5 text-left" style="width: 100%; font-size: 13px; color: #F5F8FA;">
+        {{(progressCount | async)}} upload complete
       </mat-panel-description>
     </mat-expansion-panel-header>
     <ng-container *ngIf="afterUpload == false">

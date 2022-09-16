@@ -15,6 +15,7 @@ type uploadMedia = MediaUpload | ResponseAddMedia | any;
 export class MediaService extends ApiService<uploadMedia> {
 
   dataCount: BehaviorSubject<number> = new BehaviorSubject(0);
+  dataCount$: Observable<number> = this.dataCount.asObservable();
   totalCount: BehaviorSubject<number> = new BehaviorSubject(0);
   totalCount$: Observable<number> = this.totalCount.asObservable();
   @Output() valueChanged: EventEmitter<number> = new EventEmitter<number>();
