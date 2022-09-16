@@ -287,7 +287,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
-          if(item.dealStatus == 'Draft') {
+          if(item.dealStatus == 'Draft' || item.dealStatus == 'Expired') {
             return {
               title: null,
               start: null,
@@ -623,7 +623,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
-          if(item.dealStatus == 'Draft') {
+          if(item.dealStatus == 'Draft' || item.dealStatus == 'Expired') {
             return {
               title: null,
               start: null,
@@ -734,7 +734,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         this.showData = true;
         this.cf.detectChanges();
         this.calendarOptions.events = res.data.data.map((item: MainDeal) => {
-          if(item.dealStatus == 'Draft') {
+          if(item.dealStatus == 'Draft' || item.dealStatus == 'Expired') {
             return {
               title: null,
               start: null,

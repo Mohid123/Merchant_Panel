@@ -79,11 +79,11 @@
                   <img src="../../../../assets/media/icons/preview.svg" class="mt-1 mr-2">
                   <span class="text-sm text-gray-600">Preview</span>
                 </a>
-                <button *ngIf="event.dealStatus == 'Draft' || event.dealStatus == 'Needs attention' || event.dealStatus == 'Published' || event.dealStatus == 'Scheduled'" ngbDropdownItem class="flex justify-start px-3 my-2">
+                <button ngbDropdownItem class="flex justify-start px-3 my-2">
                   <img src="../../../../assets/media/icons/editing.svg" class="mt-1 mr-2">
                   <span class="text-sm text-gray-600">Edit</span>
                 </button> <!--(click)="editDeal(index)"-->
-                <button *ngIf="event.dealStatus == 'Published' || event.dealStatus == 'Expired'" ngbDropdownItem class="flex justify-start px-3 my-2" (click)="duplicateDeal(index)">
+                <button ngbDropdownItem class="flex justify-start px-3 my-2"> <!--(click)="duplicateDeal(index)"-->
                   <img src="../../../../assets/media/icons/Dublicate.svg" class="mt-1 mr-2">
                   <span class="text-sm text-gray-600">Duplicate</span>
                 </button>
