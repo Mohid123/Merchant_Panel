@@ -84,9 +84,9 @@
 
   <!--Image-->
       <div class="mb-2.5 mt-7" *ngIf="isLoggedIn == true">
-        <ng-container *ngFor="let image of imageArray; let i = index">
+        <ng-container *ngFor="let image of imageArray; let i = index; let first = first">
           <div class="relative w-190 h-104" *ngIf="i == 0">
-            <app-blur-hash class="object-cover rounded-md w-190 h-104" [blurHash]="image.blurHash" [imageSrc]="image.captureFileURL" [loading]="'lazy'"></app-blur-hash>
+            <app-blur-hash class="object-cover rounded-md w-190 h-104" [blurHash]="image.blurHash" [imageSrc]="first ? image.captureFileURL+'?size=764' : image.captureFileURL+'?size=142'" [loading]="'lazy'"></app-blur-hash>
             <i (click)="clearImage(i)" *ngIf="i == 0" class="absolute z-50 not-italic leading-10 text-center text-white cursor-pointer w-11 h-11 -top-5 -right-2" style="background-color: #7F827E; border-radius: 100%;">&#10006;</i>
           </div>
         </ng-container>
@@ -113,7 +113,7 @@
       <div class="flex justify-start space-x-3" *ngIf="isLoggedIn == true">
         <ng-container *ngFor="let images of imageArray; let index = index; let first = first">
           <div class="relative block object-cover w-16 h-14" *ngIf="index >= 0">
-            <app-blur-hash [first]="first" [blurHash]="images.blurHash" [imageSrc]="images.captureFileURL" class="block w-16 h-14"></app-blur-hash>
+            <app-blur-hash [first]="first" [blurHash]="images.blurHash" [imageSrc]="first ? images.captureFileURL+'?size=764' : images.captureFileURL+'?size=142'" class="block w-16 h-14"></app-blur-hash>
             <i (click)="clearImage(index)" *ngIf="index >= 0" class="absolute z-50 w-5 h-5 not-italic leading-5 text-center text-white cursor-pointer text-xxs -top-1 -right-1" style="background-color: #7F827E; border-radius: 100%;">&#10006;</i>
           </div>
         </ng-container>
@@ -138,8 +138,8 @@
             [lazy]="true"
             class="mySwiper2">
 
-            <ng-template swiperSlide *ngFor="let url of imageArray; let i = index">
-              <app-blur-hash style="display: block; width: 100%; height: 100%; object-fit: cover;" [imageSrc]="url.captureFileURL"></app-blur-hash>
+            <ng-template swiperSlide *ngFor="let url of imageArray; let i = index; let first = first">
+              <app-blur-hash style="display: block; width: 100%; height: 100%; object-fit: cover;" [imageSrc]="first ? url.captureFileURL+'?size=764' : url.captureFileURL+'?size=142'"></app-blur-hash>
             </ng-template>
 
           </swiper>
@@ -153,8 +153,8 @@
             [lazy]="true"
             class="mySwiper">
 
-            <ng-template swiperSlide *ngFor="let url of imageArray; let i = index">
-              <app-blur-hash [imageSrc]="url.captureFileURL" class="w-16 p-0 h-14"></app-blur-hash>
+            <ng-template swiperSlide *ngFor="let url of imageArray; let i = index; let first = first">
+              <app-blur-hash [imageSrc]="first ? url.captureFileURL+'?size=764' : url.captureFileURL+'?size=142'" class="w-16 p-0 h-14"></app-blur-hash>
             </ng-template>
 
           </swiper>
@@ -314,7 +314,7 @@
             <div class="flex justify-between">
               <span class="mt-4 text-sm font-semibold" style="color:#12B500;">{{deal.dealPrice}}&nbsp;&euro;</span>
               <span class="mt-4 text-sm line-through mx-3.5" style="color:#94A1B3;">{{deal.originalPrice}}&nbsp;&euro;</span>
-              <button class="w-18 h-5 text-xxs rounded-xl mt-4 cursor-text" style="color: #12B500; background-color: #DBF4D9;">{{deal.discountPercentage.toFixed(2).replace('.',',')}}% off</button>
+              <button class="h-5 mt-4 w-18 text-xxs rounded-xl cursor-text" style="color: #12B500; background-color: #DBF4D9;">{{deal.discountPercentage.toFixed(2).replace('.',',')}}% off</button>
               <button [ngClass]="isLoggedIn == false ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="isLoggedIn == false" (click)="openModal(i)" type="button" class="py-1.5 px-5 ml-20 text-sm rounded-md mt-2.5" style="background-color:#EBF5FD; color: #0081E9;">Edit</button>
             </div>
             <hr style="border: 0.5px solid #96B1BC;" class="mb-4">

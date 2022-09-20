@@ -510,9 +510,9 @@ export class Step4Component implements OnInit, OnDestroy {
       return new Promise((resolve, reject) => {
         this.newData.subDeals?.forEach((voucher) => {
           if (this.form.get('voucherValidity')?.value) {
-            voucher.voucherValidity = this.form.get('voucherValidity')?.value;
-            voucher.voucherStartDate = '';
-            voucher.voucherEndDate = '';
+            voucher.voucherValidity = parseInt(this.form.get('voucherValidity')?.value);
+            voucher.voucherStartDate = 0;
+            voucher.voucherEndDate = 0;
           } else {
             voucher.voucherValidity = 0;
             voucher.voucherStartDate = new Date(new Date().setUTCFullYear(this.form.get('voucherStartDate')?.value?.year, this.form.get('voucherStartDate')?.value?.month - 1, this.form.get('voucherStartDate')?.value?.day)).setUTCHours(0,0,0,0);
