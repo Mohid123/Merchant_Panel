@@ -237,7 +237,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9 ]+')
+          Validators.pattern(`^[a-zA-Z0-9.,"'-:èëéà ]+`)
         ])
       ],
       discountPercentage: [
