@@ -87,7 +87,8 @@ module.exports = {
       },
       margin: {
         '20.5': '5.313rem',
-        '30': '7.375rem'
+        '30': '7.375rem',
+        '85': '22.5rem'
       },
       width: extendedSize,
       maxWidth: extendedSize,

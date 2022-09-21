@@ -23,7 +23,6 @@ export class UserService extends ApiService<AuthApiData> {
   }
 
   getUser() {
-    console.log(this.authService.currentUserValue?.id);
     return this.get('/users/getUserById/'+ this.authService.currentUserValue?.id).pipe(tap((res:any)=> {
       if(!res.hasErrors()) {
         this.authService.updateUser(res.data)
@@ -32,7 +31,7 @@ export class UserService extends ApiService<AuthApiData> {
   }
 
   updateBusinessHours(params : {businessHours: BusinessHours[]}){
-    return this.post('/users/updateBusinessHours',{id:this.authService.currentUserValue?.id ,...params})
+    return this.post('/users/updateBusinessHours',{id: this.authService.currentUserValue?.id ,...params})
   }
 
   updateIBAN(merchantID: string | any, iban: string) {

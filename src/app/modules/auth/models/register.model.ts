@@ -30,7 +30,7 @@ export class RegisterModel {
     this.vatNumber = model.vatNumber || '';
     this.website_socialAppLink = model.website_socialAppLink;
     this.role = 'Merchant';
-    this.status= 'Pending';
+    this.status= 'New';
     this.businessHours = [
       {
         "day": "MN",

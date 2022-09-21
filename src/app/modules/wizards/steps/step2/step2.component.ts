@@ -437,6 +437,9 @@ export class Step2Component implements OnInit, OnDestroy {
               this.connection.isSaving.next(false);
               this.connection.sendSaveAndNext(res.data);
             }
+            else {
+              this.toast.error('Failed to save deal draft')
+            }
           })
         }
       break;
@@ -455,6 +458,9 @@ export class Step2Component implements OnInit, OnDestroy {
               this.connection.isSaving.next(false);
               this.connection.sendSaveAndNext(res.data);
               // this.connection.sendStep1(res.data)
+            }
+            else {
+              this.toast.error('Failed to save deal draft')
             }
           })
         }

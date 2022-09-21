@@ -2,11 +2,14 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, O
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ApiResponse } from '@core/models/response.model';
+import { User } from '@core/models/user.model';
 import { DealService } from '@core/services/deal.service';
+import { HotToastService } from '@ngneat/hot-toast';
 import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
+import { AuthService } from './../../../auth/services/auth.service';
 import { ConnectionService } from './../../services/connection.service';
 
 @Component({
@@ -18,6 +21,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
   config: any;
   public Editor = ClassicEditor;
+  user: User;
 
   data: MainDeal;
   newData: MainDeal;
@@ -41,11 +45,17 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     private fb: FormBuilder,
     public connection: ConnectionService,
     private dealService: DealService,
-    private common: CommonFunctionsService
+    private common: CommonFunctionsService,
+    private authService: AuthService,
+    private toast: HotToastService
   ) {
     this.connection.getData().pipe(takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
       this.data = response;
-    })
+    });
+
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.user = user;
+    });
   }
 
   ngOnInit(): void {
@@ -71,17 +81,28 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       }
     }
 
-
     this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
       this.id = response?.id;
       if((response.dealStatus == 'Draft' || response.dealStatus == 'Needs attention') && response.id) {
         if(response.aboutThisDeal) {
           this.dealForm.patchValue({
-            // highlights: response.highlights,
-            aboutThisDeal: response.aboutThisDeal,
+            aboutThisDeal: response.aboutThisDeal
+          })
+        }
+        if(response.readMore) {
+          this.dealForm.patchValue({
             readMore: response.readMore,
+          })
+        }
+        if(response.finePrints) {
+          this.dealForm.patchValue({
             finePrints: response.finePrints
+          })
+        }
+        else {
+          this.dealForm.patchValue({
+            finePrints: this.user?.finePrint
           })
         }
         if(response.subDeals.length > 0) {
@@ -149,11 +170,11 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
   sendDraftData() {
     if(this.dealForm.invalid
      || this.textLength(this.dealForm.get('aboutThisDeal')?.value) > 2000
-     || this.textLength(this.dealForm.get('aboutThisDeal')?.value) < 16
+     || (this.textLength(this.dealForm.get('aboutThisDeal')?.value) > 0 && this.textLength(this.dealForm.get('aboutThisDeal')?.value) < 16)
      || this.textLength(this.dealForm.get('readMore')?.value) > 2000
-     || this.textLength(this.dealForm.get('readMore')?.value) < 16
+     || (this.textLength(this.dealForm.get('readMore')?.value) > 0 && this.textLength(this.dealForm.get('readMore')?.value) < 16)
      || this.textLength(this.dealForm.get('finePrints')?.value) > 2000
-     || this.textLength(this.dealForm.get('finePrints')?.value) < 16 ) {
+     || (this.textLength(this.dealForm.get('finePrints')?.value) > 0 && this.textLength(this.dealForm.get('finePrints')?.value) < 16) ) {
       this.dealForm.markAllAsTouched();
       return;
      }
@@ -179,7 +200,11 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
           if(!res.hasErrors()) {
             this.connection.isSaving.next(false);
             this.connection.sendSaveAndNext(res.data);
-            resolve('success')
+            resolve('success');
+          }
+          else {
+            reject('error');
+            this.toast.error('Failed to save deal draft');
           }
         })
       })

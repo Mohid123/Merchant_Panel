@@ -315,6 +315,9 @@ export class Step1Component implements OnInit, OnDestroy {
                   console.log(res.data);
                   resolve('success')
                 }
+                else {
+                  this.toast.error('Failed to save deal draft')
+                }
               })
             }
             if(this.media.length > 0) {
@@ -361,12 +364,16 @@ export class Step1Component implements OnInit, OnDestroy {
                 const payloadWithoutMedia: any = this.firstSaveData;
                 delete payloadWithoutMedia.subDeals;
                 return this.dealService.createDeal(payloadWithoutMedia);
-                })).subscribe((res: any) => {
+                }))
+                .subscribe((res: any) => {
                 if(!res.hasErrors()) {
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);
                   resolve('success')
+                }
+                else {
+                  this.toast.error('Failed to save deal draft')
                 }
               })
             }
@@ -384,6 +391,9 @@ export class Step1Component implements OnInit, OnDestroy {
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);
                   resolve('success')
+                }
+                else {
+                  this.toast.error('Failed to save deal draft');
                 }
               });
             }
@@ -437,12 +447,16 @@ export class Step1Component implements OnInit, OnDestroy {
                 const payloadWithoutMedia: any = this.firstSaveData;
                 delete payloadWithoutMedia.subDeals;
                 return this.dealService.createDeal(payloadWithoutMedia);
-                })).subscribe((res: any) => {
+                }))
+                .subscribe((res: any) => {
                 if(!res.hasErrors()) {
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);
                   resolve('success')
+                }
+                else {
+                  this.toast.error('Failed to save deal draft');
                 }
             })
           });

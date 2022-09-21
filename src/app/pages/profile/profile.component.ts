@@ -1,10 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { CdkDragDrop, CdkDragEnter, CdkDragMove, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ApiResponse } from '@core/models/response.model';
 import { HotToastService } from '@ngneat/hot-toast';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { exhaustMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { debounceTime, exhaustMap, takeUntil } from 'rxjs/operators';
 import { UrlValidator } from 'src/app/modules/auth/components/registration/url.validator';
 import { BusinessHours, initalBusinessHours } from 'src/app/modules/auth/models/business-hours.modal';
 import { UserService } from 'src/app/modules/auth/services/user.service';
@@ -44,6 +45,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   uploadingSingleImage: boolean = false;
   uploadingMultipleImages: boolean = false;
+  previousValueAboutUs: string;
+  previousValueFinePrint: string;
 
   termsForm: FormGroup = this.fb.group({
     aboutUs: ['',Validators.minLength(40)],
@@ -52,7 +55,26 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   config: any;
   public Editor = ClassicEditor;
-  uploaded: boolean = true
+  uploaded: boolean = true;
+  aboutUsIsEdited: BehaviorSubject<any> = new BehaviorSubject(false);
+  aboutUsIsEdited$: Observable<boolean> = this.aboutUsIsEdited.asObservable();
+  finePrintIsEdited: BehaviorSubject<any> = new BehaviorSubject(false);
+  finePrintIsEdited$: Observable<boolean> = this.finePrintIsEdited.asObservable();
+
+  change: boolean = false;
+  dragIndex: number;
+  itemIndex: number;
+  boxWidth = 60;
+  columnSize: number;
+  itemsTable: any;
+  dragStarted: boolean = false;
+  @ViewChild('dropListContainer') dropListContainer?: ElementRef;
+  @ViewChild('rowLayout') rowLayout?: HTMLElement;
+  dropListReceiverElement?: HTMLElement;
+  dragDropInfo?: {
+    dragIndex: number;
+    dropIndex: number;
+  };
 
   profileForm: FormGroup = this.fb.group({
     tradeName: ['',
@@ -98,7 +120,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     ],
 
     profilePicURL: this.image,
-    gallery: this.images
+    gallery: this.urls
   }
   , {
     validator: UrlValidator('website_socialAppLink'),
@@ -112,39 +134,33 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private mediaService: MediaService) {
 
+      this.config = {
+        toolbar: {
+          styles: [
+              'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
+              ],
+          items: [
+            'heading',
+            'fontSize',
+            'bold',
+            'italic',
+            'underline',
+            'highlight',
+            'alignment',
+            'indent',
+            'outdent',
+            'undo',
+            'redo'
+          ]
+        }
+      }
+
       const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
       this.unsubscribe.push(loadingSubscr);
 
       this.userService.getUser().pipe(takeUntil(this.destroy$)).subscribe();
-  }
-
-  discardChanges() {
-    this.isLeftVisible = true;
-    this.imagesEditable = false;
-    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
-      this.user = user;
-      this.setbusinessHours();
-      if(user)
-      this.profileForm.patchValue({
-        tradeName: user?.personalDetail?.tradeName,
-        streetAddress: user?.personalDetail?.streetAddress,
-        zipCode: user?.personalDetail?.zipCode,
-        city: user?.personalDetail?.city,
-        googleMapPin: user?.personalDetail?.googleMapPin,
-        website_socialAppLink: user?.website_socialAppLink,
-        profilePicURL: user?.profilePicURL
-      });
-      this.image = user?.profilePicURL;
-      this.images = [];
-      this.images.push(...user?.gallery);
-      if(this.images.length > 5) {
-        this.images.pop();
-        this.cf.detectChanges();
-      }
-      this.termsForm.patchValue(user);
-    })
   }
 
   ngOnInit(): void {
@@ -162,42 +178,83 @@ export class ProfileComponent implements OnInit, OnDestroy {
         profilePicURL: user?.profilePicURL
       });
       this.termsForm.patchValue(user);
-      this.images = [];
-      this.images.push(...user.gallery);
-      if(this.images.length > 5) {
-        this.images.pop();
+      this.previousValueAboutUs = this.termsForm.controls['aboutUs']?.value;
+      this.previousValueFinePrint = this.termsForm.controls['finePrint']?.value;
+      this.urls = [];
+      this.urls.push(...user.gallery);
+      this.initTable();
+      if(this.urls.length > 5) {
+        this.urls.pop();
         this.cf.detectChanges();
+        this.initTable();
       }
 
       this.image = user?.profilePicURL;
       this.imageBlurHash = user?.profilePicBlurHash;
    });
 
-    this.config = {
-      placeholder: 'Type your content here...',
-      toolbar: {
-        styles: [
-            'alignLeft', 'alignCenter', 'alignRight', 'full', 'side'
-            ],
-        items: [
-          'heading',
-          'fontSize',
-          'bold',
-          'italic',
-          'underline',
-          'highlight',
-          'alignment',
-          'undo',
-          'redo'
-        ]
-      }
+   this.termsForm.controls['aboutUs']?.valueChanges
+   .pipe(
+    debounceTime(600),
+    takeUntil(this.destroy$))
+   .subscribe((value: string) => {
+    if(this.previousValueAboutUs !== value) {
+      this.aboutUsIsEdited.next(true);
     }
+    else {
+      this.aboutUsIsEdited.next(false);
+    }
+   });
+
+   this.termsForm.controls['finePrint']?.valueChanges
+   .pipe(
+    debounceTime(600),
+    takeUntil(this.destroy$))
+   .subscribe((value: string) => {
+    if(this.previousValueFinePrint !== value) {
+      this.finePrintIsEdited.next(true);
+    }
+    else {
+      this.finePrintIsEdited.next(false);
+    }
+   })
+
+  }
+
+  discardChanges() {
+    this.userService.getUser().pipe(takeUntil(this.destroy$)).subscribe();
+    this.isLeftVisible = true;
+    this.imagesEditable = false;
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      this.user = user;
+      this.setbusinessHours();
+      if(user)
+      this.profileForm.patchValue({
+        tradeName: user?.personalDetail?.tradeName,
+        streetAddress: user?.personalDetail?.streetAddress,
+        zipCode: user?.personalDetail?.zipCode,
+        city: user?.personalDetail?.city,
+        googleMapPin: user?.personalDetail?.googleMapPin,
+        website_socialAppLink: user?.website_socialAppLink,
+        profilePicURL: user?.profilePicURL
+      });
+      this.image = user?.profilePicURL;
+      this.urls = [];
+      this.urls.push(...user?.gallery);
+      this.initTable();
+      if(this.urls.length > 5) {
+        this.urls.pop();
+        this.cf.detectChanges();
+        this.initTable();
+      }
+      this.termsForm.patchValue(user);
+    })
   }
 
   submitImages() {
     this.uploaded = false;
     const param: any = {
-      gallery: this.images,
+      gallery: this.urls,
       profilePicURL: this.image,
       website_socialAppLink: this.profileForm.value.website_socialAppLink
     }
@@ -216,7 +273,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   submitImagesForImageCase() {
     this.uploaded = false;
     const param = {
-      gallery: this.images,
+      gallery: this.urls,
       profilePicURL: this.image
     }
     this.userService.updateMerchantprofile(param).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
@@ -331,9 +388,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     })
   }
 
-  onSelectFile(event: any) {
+  onSelectFile(event: any, isImages: boolean) {
     this.file = event.target.files && event.target.files.length;
-    if(this.images.length == 5) {
+    const files = event.target? event.target.files : event;
+    if(this.urls.length == 5) {
       this.file = 0;
     }
     if (this.file > 0 && this.file < 6) {
@@ -343,13 +401,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
       for (const singlefile of event.target.files) {
         var reader = new FileReader();
         reader.readAsDataURL(singlefile);
-        this.urls.push(singlefile);
+        this.images.push(singlefile);
         this.cf.detectChanges();
         i++;
       }
-      if(this.urls.length > 0) {
-        for (let index = 0; index < this.urls.length; index++) {
-          this.mediaService.uploadMediaOtherThanDeal('profile-images', this.urls[index])
+      if(this.images.length > 0) {
+        for (let index = 0; index < this.images.length; index++) {
+          this.mediaService.uploadMediaOtherThanDeal('profile-images', this.images[index])
           .subscribe((res: ApiResponse<any>) => {
             if(!res.hasErrors()) {
               const result = [res.data];
@@ -366,25 +424,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 }
               });
               this.uploadingMultipleImages = false;
-              this.images.push(...images);
+              this.urls.push(...images);
               this.cf.detectChanges();
-              this.urls = [];
+              this.images = [];
               this.cf.detectChanges();
-              if(this.images.length > 5) {
-                this.images.pop();
+              if(this.urls.length > 5) {
+                this.urls.pop();
                 this.cf.detectChanges();
-                // this.toast.error('Upto 5 images are allowed', {
-                //   style: {
-                //     border: '1px solid #713200',
-                //     padding: '16px',
-                //     color: '#713200',
-                //   },
-                //   iconTheme: {
-                //     primary: '#713200',
-                //     secondary: '#FFFAEE',
-                //   }
-                // })
               }
+              if(files.length == i) {
+                this.initTable();
+                this.getItemsTable();
+              }
+              this.cf.detectChanges();
             }
           });
         }
@@ -530,9 +582,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       })).subscribe((res:any) => {
         this.isLoading$.next(false);
         this.isEditBusinessHours = false;
+        this.toast.success('Business hours saved');
       },(error => {
         this.isLoading$.next(false);
-        this.toast.error('error');
+        this.toast.error(error);
         this.isEditBusinessHours = false;
       }));
   // } else {
@@ -540,26 +593,48 @@ export class ProfileComponent implements OnInit, OnDestroy {
     // }
   }
 
-  saveTerms() {
+  saveAboutUs() {
     // if(!this.validateBusinessHours()) {
     //   this.toast.warning('Please fill in all open fields');
     //   return;
     // }
     // else {
-      this.userService.updateMerchantprofile(this.termsForm.value).pipe(exhaustMap((res:any) => {
+      this.userService.updateMerchantprofile({aboutUs: this.termsForm.get('aboutUs')?.value})
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
+          this.previousValueAboutUs = '';
+          this.isLoading$.next(false);
+          this.aboutUsIsEdited.next(false);
           this.toast.success('Data saved')
-          return this.userService.getUser();
-        } else {
-          return (res);
         }
-      })).subscribe((res:any) => {
-        this.isLoading$.next(false);
-        this.isEditBusinessHours = false;
       },(error=> {
         this.isLoading$.next(false);
-        this.toast.error('error');
-        this.isEditBusinessHours = false;
+        this.toast.error(error);
+        this.aboutUsIsEdited.next(false);
+      }));
+    // }
+
+  }
+
+  saveFinePrint() {
+    // if(!this.validateBusinessHours()) {
+    //   this.toast.warning('Please fill in all open fields');
+    //   return;
+    // }
+    // else {
+      this.userService.updateMerchantprofile({finePrint: this.termsForm.get('finePrint')?.value})
+      .pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
+        if(!res.hasErrors()) {
+          this.previousValueFinePrint = this.termsForm.get('finePrint')?.value;
+          this.isLoading$.next(false);
+          this.finePrintIsEdited.next(false);
+          this.toast.success('Data saved')
+        }
+      },(error=> {
+        this.isLoading$.next(false);
+        this.toast.error(error);
+        this.finePrintIsEdited.next(false);
       }));
     // }
 
@@ -601,6 +676,142 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
       return null;
     }
+  }
+
+  dragEntered(event: CdkDragEnter<any>) {
+    const drag = event.item;
+    const dropList = event.container;
+    const dragIndex = drag.data;
+    const dropIndex = dropList.data;
+
+    this.dragDropInfo = { dragIndex, dropIndex };
+
+    const phContainer = dropList.element.nativeElement;
+    const phElement = phContainer.querySelector('.cdk-drag-placeholder');
+
+    if (phElement) {
+      phContainer.removeChild(phElement);
+      phContainer.parentElement?.insertBefore(phElement, phContainer);
+
+      moveItemInArray(this.urls, dragIndex, dropIndex);
+    }
+  }
+
+  dragMoved(event: CdkDragMove<any>) {
+    if (!this.dropListContainer || !this.dragDropInfo) return;
+
+    const placeholderElement =
+      this.dropListContainer.nativeElement.querySelector(
+        '.cdk-drag-placeholder'
+      );
+
+    const receiverElement =
+      this.dragDropInfo.dragIndex > this.dragDropInfo.dropIndex
+        ? placeholderElement?.nextElementSibling
+        : placeholderElement?.previousElementSibling;
+
+    if (!receiverElement) {
+      return;
+    }
+
+    receiverElement.style.display = 'none';
+    this.dropListReceiverElement = receiverElement;
+  }
+
+  dragDropped(event: CdkDragDrop<any>) {
+    if (!this.dropListReceiverElement) {
+      return;
+    }
+
+    this.dropListReceiverElement.style.removeProperty('display');
+    this.dropListReceiverElement = undefined;
+    this.dragDropInfo = undefined;
+  }
+
+  onDragStarted(index: number): void {
+    this.dragStarted = true;
+  }
+
+  initTable() {
+    this.itemsTable = this.urls
+      .filter((_, outerIndex) => outerIndex % this.columnSize == 0) // create outter list of rows
+      .map((
+        _,
+        rowIndex
+      ) =>
+        this.urls.slice(
+          rowIndex * this.columnSize,
+          rowIndex * this.columnSize + this.columnSize
+        )
+      );
+      this.cf.detectChanges();
+  }
+
+  getItemsTable(forceReset?:any): any[][] {
+    document.getElementById('drop-list-main');
+    const width  = document.getElementById('drop-list-main')?.clientWidth || 400;
+    if(width) {
+      const columnSize = Math.floor(width / this.boxWidth);
+      if (forceReset || columnSize != this.columnSize) {
+        this.columnSize = columnSize;
+        this.initTable();
+      }
+    }
+    return this.itemsTable;
+  }
+
+  reorderDroppedItem(event: CdkDragDrop<any[]>, index: number) {
+    this.dragStarted = false;
+
+    this.change = true;
+    if (event.previousContainer.id.includes('DropZone') && event.container.id.includes('DropZone')) {
+      if (index == this.dragIndex) { // if same row
+        moveItemInArray(
+          this.urls,
+          (this.columnSize * index) + this.itemIndex,
+          (this.columnSize * index) + event.currentIndex
+        );
+        this.resetonDrop();
+      }
+      else { // if different row
+        moveItemInArray(
+          this.urls,
+          (this.columnSize * this.dragIndex) + this.itemIndex,
+          (this.columnSize * index) + event.currentIndex
+        );
+      }
+      this.resetonDrop();
+    }
+  }
+
+  drop() {
+    this.resetonDrop();
+  }
+
+  resetonDrop() {
+    this.dragStarted = false;
+    this.initTable();
+  }
+
+  onDragStartedDropZone(index: number, itemIndex:number) {
+    this.dragStarted = true;
+    this.dragIndex = index;
+    this.itemIndex = itemIndex;
+  }
+
+  hasRecivingClass(div:HTMLDivElement) {
+    return div.classList.contains('cdk-drop-list-receiving')
+  }
+
+  clearImageDrag(j: any, i: any) {
+    this.imagesEditable = true;
+    if(j == 0) {
+    this.urls.splice(i, 1);
+  } else {
+    this.urls.splice((j * this.columnSize)+i, 1);
+    }
+    this.getItemsTable(true);
+    this.cf.detectChanges();
   }
 
   ngOnDestroy() {

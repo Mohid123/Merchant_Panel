@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   passwordHide: boolean = true;
   currentEvents: any;
   dealData: any;
+  page: number;
 
   options: NgPasswordValidatorOptions = {
     placement: "bottom",
@@ -92,6 +93,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private passService: PasswordService,
     private userService: UserService
     ) {
+      this.page = 1;
       this.validityPass = false;
       this.userService.getUser().pipe(takeUntil(this.destroy$)).subscribe();
     }
@@ -226,7 +228,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   getTopDealsByMerchant() {
     this.showData = false;
     const params: any = {}
-    this.dealService.getDeals(1, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', '', params)
+    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', '', params)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: any)=> {
       if (!res.hasErrors()) {
@@ -254,6 +256,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       }
     })
+  }
+
+  next(): void {
+    this.page;
+    this.getTopDealsByMerchant();
   }
 
   // async editDeal(index: number) {

@@ -21,10 +21,10 @@ export class MainBlurHashComponent implements AfterViewInit {
 
   private imageSrcValue!: string;
   @Input()
-  get imageSrc(): string {
+  get imageSrc(): string | any {
     return this.imageSrcValue;
   }
-  set imageSrc(value: string) {
+  set imageSrc(value: string | any) {
     this.imageSrcValue = value;
   }
 

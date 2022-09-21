@@ -529,6 +529,10 @@ export class Step4Component implements OnInit, OnDestroy {
             this.connection.sendSaveAndNext(res.data);
             resolve('success')
           }
+          else {
+            reject('error')
+            this.toast.error('Failed to create deal');
+          }
         });
         this.data.subDeals?.forEach((voucher) => {
           if (this.form.get('voucherValidity')?.value) {

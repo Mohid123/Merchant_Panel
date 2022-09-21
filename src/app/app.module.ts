@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +26,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CoreModule } from './@core/core.module';
+import { DragAnDropUploadModule } from './@core/directives/drag-an-drop-upload/drag-an-drop-upload.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PopupModalComponent } from './components/popup-modal/popup-modal.component';
@@ -61,7 +63,7 @@ import { TestComponent } from './pages/test/test.component';
     // DealCrmHeaderComponent
   ],
   imports: [
-    CoreModule,
+  CoreModule,
     FiltersModule,
     BrowserModule,
     FormsModule,
@@ -88,7 +90,9 @@ import { TestComponent } from './pages/test/test.component';
     AutoFocusModule,
     BlurHashModule,
     BarRatingModule,
-    MediaProgressModule
+    MediaProgressModule,
+    DragDropModule,
+    DragAnDropUploadModule
   ],
   providers: [
     // {
