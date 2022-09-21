@@ -126,8 +126,8 @@
                     <td class="py-4 text-sm text-right pr-28" style="width: 7.5rem;">{{voucher?.dealPrice.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
                     <td class="py-4 text-sm text-right" style="width: 7.5rem; padding-right: 3.25rem;">{{voucher?.grossEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
                     <td class="py-4 text-sm text-right" style="width: 7.5rem; padding-right: 1.875rem;">{{voucher?.netEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td> <!--ye wala-->
-                    <td [ngClass]="event.dealStatus == 'In review' ? 'invisible pl-20 py-4': 'pl-20 py-4 text-sm'">
-                      <img class="cursor-pointer" src="../../../../assets/media/icons/edit.svg">
+                    <td>
+                      <img class="py-4 pl-20 text-sm cursor-pointer" src="../../../../assets/media/icons/edit.svg">
                     </td>
                   </tr> <!--(click)="openNew(index, i)"-->
                   <div id="borderBottom"></div>
