@@ -1,3 +1,12 @@
+input.form-control {
+  background-color: transparent !important;
+  border: 0.5px solid #787f9f5e !important;
+}
+
+input.form-control:focus {
+  border-color: #0081E9 !important;
+}
+
 .mat-tab-label {
   @apply mt-5 w-5 h-2 relative;
   opacity: 1!important;
@@ -245,7 +254,7 @@ input::-webkit-datetime-edit-fields-wrapper {
 }
 
 .fc .fc-toolbar-title {
-  margin-right: 5.75rem!important;
+  margin-right: 4.5rem!important;
   font-weight: 500;
   font-size: 18px!important;
   color: #313131;

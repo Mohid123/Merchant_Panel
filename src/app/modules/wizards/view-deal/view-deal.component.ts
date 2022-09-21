@@ -919,10 +919,24 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.selectedIndex = index;
     this.voucherIndex = editIndex;
     this.dealIDForEdit = this.currentEvents[index].id;
-    // console.log('dealID: ', this.dealIDForEdit)
     this.voucherId = this.currentEvents[index].subDeals[editIndex]?._id;
-    // console.log('voucherID: ', this.voucherId);
-    this.editVouchers.patchValue(this.currentEvents[index].subDeals[editIndex])
+    this.editVouchers.patchValue({
+      originalPrice: this.currentEvents[index].subDeals[editIndex]?.originalPrice,
+      dealPrice: this.currentEvents[index].subDeals[editIndex]?.dealPrice,
+      numberOfVouchers: this.currentEvents[index].subDeals[editIndex]?.numberOfVouchers,
+      title: this.currentEvents[index].subDeals[editIndex]?.title
+      })
+    if(this.currentEvents[index]?.dealStatus == 'Published') {
+      this.editVouchers.get('originalPrice')?.disable();
+      this.editVouchers.get('dealPrice')?.disable();
+      this.editVouchers.get('title')?.disable();
+    }
+    else {
+      this.editVouchers.get('originalPrice')?.enable();
+      this.editVouchers.get('dealPrice')?.enable();
+      this.editVouchers.get('title')?.enable();
+      this.editVouchers.get('numberOfVouchers')?.enable();
+    }
     return await this.modal.open();
   }
 
