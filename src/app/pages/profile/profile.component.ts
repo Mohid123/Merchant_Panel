@@ -606,7 +606,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.previousValueAboutUs = '';
           this.isLoading$.next(false);
           this.aboutUsIsEdited.next(false);
-          this.toast.success('Data saved')
+          this.toast.success('Data saved');
+          return this.userService.getUser().subscribe();
         }
       },(error=> {
         this.isLoading$.next(false);
@@ -629,7 +630,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.previousValueFinePrint = this.termsForm.get('finePrint')?.value;
           this.isLoading$.next(false);
           this.finePrintIsEdited.next(false);
-          this.toast.success('Data saved')
+          this.toast.success('Data saved');
+          return this.userService.getUser().subscribe();
         }
       },(error=> {
         this.isLoading$.next(false);
@@ -781,6 +783,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         );
       }
       this.resetonDrop();
+      this.imagesEditable = true;
     }
   }
 
