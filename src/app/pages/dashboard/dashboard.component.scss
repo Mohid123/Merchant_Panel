@@ -96,6 +96,16 @@ tr {
   font-size: 15px;
 }
 
+@media(max-width: 1280px) {
+  .common-10 {
+    width: 320px;
+  }
+
+  .first {
+    width: 300px;
+  }
+}
+
 @media(min-width: 1440px) and (max-width: 1536px) {
   .common {
     width: 360px;

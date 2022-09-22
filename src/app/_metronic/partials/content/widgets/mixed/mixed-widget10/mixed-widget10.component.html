@@ -1,5 +1,5 @@
-<div class="p-0 card-body d-flex flex-column" style="border-radius: 8px; width: 388px;">
-  <div class="px-6 py-6 pb-0 border-none rounded-b-none flex-grow-1 card rounded-t-md" style="width: 388px;">
+<div class="p-0 card-body d-flex flex-column first" style="border-radius: 8px;">
+  <div class="px-6 py-6 pb-0 border-none rounded-b-none flex-grow-1 card rounded-t-md firstly">
     <div class="flex-wrap d-flex flex-stack">
       <div>
         <a class="text-base font-semibold text-black">
@@ -39,3 +39,23 @@
     ></apx-chart>
   </div>
 </div>
+
+<style>
+  .first {
+    width: 388px;
+  }
+
+  .firstly {
+    width: 388px;
+  }
+
+  @media(max-width: 1280px) {
+    .first {
+      width: 320px;
+    }
+
+    .firstly {
+      width: 320px;
+    }
+  }
+</style>
