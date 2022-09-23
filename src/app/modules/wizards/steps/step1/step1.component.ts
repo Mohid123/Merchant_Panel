@@ -8,6 +8,7 @@ import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { MediaService } from '@core/services/media.service';
 import { HotToastService } from '@ngneat/hot-toast';
+import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import { forkJoin, Observable, of, Subject, Subscription } from 'rxjs';
 import { map, mergeMap, take, takeUntil } from 'rxjs/operators';
 import { VideoProcessingService } from '../../services/video-to-img.service';
@@ -111,6 +112,7 @@ export class Step1Component implements OnInit, OnDestroy {
     private cf: ChangeDetectorRef,
     private router: Router,
     private connection: ConnectionService,
+    private common: CommonFunctionsService,
     private categoryService: CategoryService,
     private toast: HotToastService,
     public breakpointObserver: BreakpointObserver,
@@ -245,7 +247,6 @@ export class Step1Component implements OnInit, OnDestroy {
         subCategory: this.dealForm.get('subCategory')?.value,
         dealHeader: this.dealForm.get('dealHeader')?.value,
         subTitle: this.dealForm.get('subTitle')?.value,
-        mediaUrl: this.editMedia ? this.editMedia : [],
         id: this.responseID ? this.responseID : '',
         subDeals: this.responseSaveAndNextVocuhers ? this.responseSaveAndNextVocuhers : [],
         deletedCheck: false,
@@ -258,7 +259,7 @@ export class Step1Component implements OnInit, OnDestroy {
       this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.firstSaveData = res.data;
-          this.connection.sendSaveAndNext(this.firstSaveData)
+          this.connection.sendSaveAndNext(this.firstSaveData);
         }
       })
     }
@@ -267,7 +268,6 @@ export class Step1Component implements OnInit, OnDestroy {
         subCategory: this.dealForm.get('subCategory')?.value,
         dealHeader: this.dealForm.get('dealHeader')?.value,
         subTitle: this.dealForm.get('subTitle')?.value,
-        mediaUrl: this.editMedia ? this.editMedia : [],
         id: this.id ? this.id : '',
         subDeals: this.responseVouchers ? this.responseVouchers : [],
         deletedCheck: false,
@@ -348,19 +348,16 @@ export class Step1Component implements OnInit, OnDestroy {
                       backgroundColorHex: ''
                     }
                   });
-
-                  this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, ...media]
+                  this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, ...media];
                   if(this.videoUrls.length > 0) {
-
                     this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, ...this.videoUrls]
                   }
                   else if(this.videoFromEdit) {
-
                     this.firstSaveData.mediaUrl.shift();
                     this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, this.videoFromEdit]
                   }
+                  this.firstSaveData.subDeals = this.responseVouchers ? this.responseVouchers : [];
                 }
-                this.firstSaveData.subDeals = this.responseVouchers ? this.responseVouchers : [];
                 const payloadWithoutMedia: any = this.firstSaveData;
                 delete payloadWithoutMedia.subDeals;
                 return this.dealService.createDeal(payloadWithoutMedia);

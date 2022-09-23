@@ -2,6 +2,83 @@
 
 <div class="flex flex-col w-full h-auto gap-2 mt-9 md:flex-row">
   <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
+    <form class="self-center form max-w-150" [formGroup]="dateForm">
+      <div class="mb-9 lg:text-center">
+        <h1 class="mt-1 mb-2.5 text-lg text-center md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl">Let's get this crazy deal scheduled!</h1>
+        <div style="color: #0081E9;" class="text-xs font-medium text-center md:text-sm xl:text-base 3xl:text-lg">When would you like your deal to be visible on our platform?</div>
+      </div>
+
+
+      <div class="flex flex-row justify-center w-full ml-20 align-middle">
+        <div class="flex flex-col justify-start align-top xl:mr-28 xl:pr-2">
+          <div class="flex flex-row">
+            <span class="text-sm mt-0.5 font-medium form-check-label">Start Date</span>
+            <!-- &nbsp;<span class="text-black">*</span> -->
+          </div>
+          <div class="w-auto mt-2 mb-3 input-icon lg:w-96">
+            <span class="absolute flex items-center mt-2 ml-1"><i (click)="x.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+            <input
+              placeholder="dd-mm-yyyy"
+              (keydown)="disableManual($event)"
+              [minDate]="form.get('voucherStartDate')?.value ? form.get('voucherStartDate')?.value : minDate"
+              [maxDate]="form.get('voucherEndDate')?.value"
+              name="dp"
+              ngbDatepicker
+              #x="ngbDatepicker"
+              (click)="x.toggle()"
+              style="width: 20.983rem;"
+              class="pl-12 text-sm font-thin border-gray-400 cursor-pointer form-control"
+              formControlName="startDate"
+              name="startDate"
+              [container]="'body'"
+            >
+          </div>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Start date for the deal is required',
+            control: dateForm.controls['startDate']
+          }">
+          </ng-container>
+
+            <span class="text-sm font-medium form-check-label">End Date</span>
+            <!-- &nbsp;<span class="text-black">*</span> -->
+            <div class="flex-auto w-auto mt-2 input-icon lg:w-96">
+              <span class="absolute flex items-center mt-2 ml-1"><i (click)="y.toggle();" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+              <input
+              placeholder="dd-mm-yyyy"
+              [minDate]="dateForm.get('startDate')?.value ? dateForm.get('startDate')?.value : form.get('voucherStartDate')?.value"
+              [maxDate]="form.get('voucherEndDate')?.value"
+              (keydown)="disableManual($event)"
+              name="dp"
+              ngbDatepicker
+              #y="ngbDatepicker"
+              (click)="y.toggle()"
+              style="width: 20.983rem;"
+              class="pl-12 text-sm font-thin border-gray-400 cursor-pointer form-control"
+              formControlName="endDate"
+              name="endDate"
+              [container]="'body'"
+              >
+            </div>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'End date for the deal is required',
+              control: dateForm.controls['endDate']
+            }">
+            </ng-container>
+        </div>
+      </div>
+
+      <div class="pb-3 mt-5 button-calendar-opener">
+        <button (click)="openDateModal()" class="text-sm text-white rounded-lg bg-primary-400 w-84 h-11">Go to calendar view</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<div class="flex flex-col w-full h-auto gap-2 mt-4 pb-44 md:flex-row">
+  <div class="flex justify-center w-full px-6 pt-6 pb-12 shadow-sm md:overflow-y-auto card card-custom">
       <!--title-->
       <form class="self-center form max-w-135" [formGroup]="form">
         <div class="mb-9 lg:text-center">
@@ -9,9 +86,9 @@
           <div style="color: #0081E9;" class="text-xs font-medium text-center md:text-sm xl:text-base 3xl:text-lg">Let's finish off with the last details.</div>
         </div>
         <!--form-->
-        <div class="flex flex-col justify-center align-start">
+        <div class="flex flex-col items-center justify-center align-middle">
           <label class="mb-6 mr-2.5 form-label">When can the customer redeem their voucher?</label>
-            <div class="flex flex-row justify-center w-full align-middle">
+            <div class="flex flex-row justify-center w-full ml-32 align-middle">
 
               <label class="mb-6 text-sm md:text-base form-check form-check-solid">
                 <input
@@ -34,7 +111,8 @@
                     placeholder="dd-mm-yyyy"
                     [disabled]="currentlyChecked !== check_box_type.ONE"
                     (keydown)="disableManual($event)"
-                    [minDate]="minDate"
+                    [minDate]="dateForm.get('startDate')?.value ? dateForm.get('startDate')?.value : minDate"
+                    [maxDate]="dateForm.get('endDate')?.value"
                     name="dp"
                     ngbDatepicker
                     #c="ngbDatepicker"
@@ -62,6 +140,7 @@
                     [disabled]="currentlyChecked !== check_box_type.ONE"
                     placeholder="dd-mm-yyyy"
                     [minDate]="form.get('voucherStartDate')?.value"
+                    [maxDate]="dateForm.get('endDate')?.value"
                     (keydown)="disableManual($event)"
                     name="dp"
                     ngbDatepicker
@@ -84,7 +163,7 @@
               </div>
             </div>
 
-            <div class="flex flex-row justify-center w-full align-middle">
+            <div class="flex flex-row justify-center w-full ml-32 align-middle">
               <label class="text-sm mt-7 md:text-base form-check form-check-solid">
                 <input
                 class="w-4 h-4 mt-1 rounded-full form-check-input"
@@ -234,12 +313,38 @@
         </div>
       </form> -->
       <!--[ngClass]="(dealStatus == 'Published' || dealStatus == 'Scheduled') ? 'pt-14' : ''"-->
-      <div class="flex justify-evenly pt-14 min-h-14 3xl:mr-0 2xl:h-20">
-        <button [disabled]="disableBackButton || connection.isSaving.value == true" [ngClass]="(disableBackButton || connection.isSaving.value == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100'" (click)="returnToPrevious()" class="self-center w-24 h-10 text-sm text-gray-600 bg-gray-300 rounded-lg xl:mr-28 1.5xl:mr-12 2xl:mr-0 2xl:ml-6 2xl:h-12">Back</button>
-        <button [ngClass]="form.invalid ? 'opacity-50 cursor-not-allowed': 'opacity-100 cursor-pointer'" (click)="sendDraftData()" class="self-center w-32 h-10 text-sm text-white rounded-lg 2xl:h-12 bg-primary-400">Save & next</button>
+      <div class="flex justify-center pt-14 min-h-14 3xl:mr-0 2xl:h-20">
+        <button [disabled]="disableBackButton || connection.isSaving.value == true" [ngClass]="(disableBackButton || connection.isSaving.value == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100'" (click)="returnToPrevious()" class="w-22 h-10 text-sm bg-gray-300 rounded-lg text-opacity-20 mr-14" style="background-color: #9BB3C8; color: #5C6878;">Back</button>
+        <button *ngIf="startedUpload == false" class="text-sm text-white rounded-lg h-10 ml-14" style="background-color: #55C987; width: 9.688rem;" (click)="sendDraftData()">
+          <ng-container *ngIf="uploaded == false">
+            <span class="indicator-progress text-sm" [style.display]="'block'">
+              Saving...
+              <span class="align-middle spinner-border spinner-border-sm ms-2"></span>
+            </span>
+          </ng-container>
+          <ng-container *ngIf="uploaded == true">
+            <span class="indicator-label">Save & Send</span>
+          </ng-container>
+        </button>
+        <button *ngIf="startedUpload == true" [ngbTooltip]="'Please wait for images to upload...'" [container]="'body'" class="text-sm text-white rounded-lg opacity-50 cursor-not-allowed h-10" style="background-color: #55C987; width: 9.688rem;">Save & Send</button>
       </div>
   </div>
 </div>
+
+<app-reusable-modal #modal [modalConfig]="modalConfig">
+  <div class="relative modal-header">
+    <img src="../../../../../assets/media/icons/tick_mark.svg" class="absolute w-12 h-12 left-56 -top-7">
+  </div>
+  <div class="p-6 text-center modal-body">
+    <div class="flex flex-col">
+      <span class="mb-8">Your deal has successfully been sent for review. We will process it within <strong>24hrs</strong>.</span>
+      <div class="flex justify-center">
+        <button (click)="closeModal()" class="px-12 py-2 text-white bg-gray-900 rounded-md">OK</button>
+      </div>
+    </div>
+  </div>
+
+</app-reusable-modal>
 
 
 <ng-template #formError let-control="control" let-message="message" let-validation="validation">
@@ -252,11 +357,32 @@
   </ng-container>
 </ng-template>
 
+<ng-template #dateModal>
+  <div class="relative border modal-content border-primary-500">
+    <div class="absolute z-50 -top-3 -right-2">
+      <button (click)="closeDateModal()" class="flex items-center justify-center rounded-full w-7 h-7" style="background-color: #D6D6DC; color: #707070; font-weight: 600;">&#x2715;</button>
+    </div>
+    <div class="relative p-12 bg-gray-200 card card-custom card-stretch">
+      <full-calendar #fullCalendar [options]="calendarOptions" [deepChangeDetection]="true"></full-calendar>
+    </div>
+  </div>
+</ng-template>
+
 <app-media-progress></app-media-progress>
 
 <!-- <span class="text-2xl">{{data.termsAndCondition}}</span> -->
 
 <style>
+  .button-calendar-opener {
+    margin-left: 7.9rem;
+  }
+
+  @media(min-width:1280px) and (max-width: 1599px) {
+    .button-calendar-opener {
+      margin-left: 7.65rem;
+    }
+  }
+
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -296,6 +422,64 @@ input::-webkit-datetime-edit-fields-wrapper {
   background-color: #EBF5FD;
   color: #0081E9;
   border-radius: 8px;
+}
+
+.fc-direction-ltr .fc-button-group>.fc-button:not(:first-child) {
+  margin-left: -1px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  width: 4rem!important;
+}
+
+.fc-direction-ltr .fc-button-group>.fc-button:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  width: 4rem!important;
+}
+
+.fc .fc-toolbar-title {
+  margin-right: 2rem!important;
+  font-weight: 500;
+  font-size: 16px!important;
+  color: #4E5970;
+  margin-bottom: 1rem!important;
+  }
+
+.fc .fc-today-button {
+  text-transform: capitalize!important;
+  background: white!important;
+  color: black!important;
+  border: 1px solid white!important;
+  padding-left: 30px!important;
+  padding-top: 8px!important;
+  padding-bottom: 8px!important;
+  padding-right: 30px!important;
+  font-size: 14px!important;
+}
+
+.fc .fc-prev-button {
+  background: black!important;
+  box-shadow: none!important;
+}
+
+.fc .fc-next-button {
+  background: black!important;
+  box-shadow: none!important;
+}
+
+.fc-daygrid-day .fc-day .fc-day-disabled {
+  background-color: #F2F3F4!important;
+}
+
+.fc .fc-daygrid-day-frame {
+  position: relative!important;
+  min-height: 100%!important;
+  background: white!important;
+  cursor: pointer!important;
+}
+
+.date-large {
+  max-width: 70rem!important;
 }
 
 </style>

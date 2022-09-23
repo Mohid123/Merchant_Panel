@@ -1,5 +1,5 @@
-<div class="flex justify-around pt-8 pb-10 mx-85">
-  <div class="relative">
+<div class="flex justify-center pt-8 pb-10">
+  <div class="relative mr-28">
     <div class="relative z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs bg-primary-500">
       <span class="font-semibold" [ngClass]="conn.currentStep$.value > 1 ? 'fas fa-check' : 'show-number'"></span>
       <div class="class-name"></div>
@@ -7,7 +7,7 @@
     <span style="color: #414950;" class="absolute inline-block text-xs whitespace-nowrap mt-1.5 -right-3">Set Deal</span>
   </div>
 
-  <div class="relative">
+  <div class="relative mr-28">
     <div class="relative z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs bg-primary-500">
       <span class="font-semibold" [ngClass]="conn.currentStep$.value > 2 ? 'fas fa-check' : 'show-number2'"></span>
       <div class="class-name"></div>
@@ -15,7 +15,7 @@
     <span style="color: #414950;" class="absolute inline-block text-xs whitespace-nowrap mt-1.5 -right-9">Create Voucher</span>
   </div>
 
-  <div class="relative">
+  <div class="relative mr-28">
     <div class="relative z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs bg-primary-500">
       <span class="font-semibold" [ngClass]="conn.currentStep$.value > 3 ? 'fas fa-check' : 'show-number3'"></span>
       <div class="class-name"></div>
@@ -23,7 +23,7 @@
     <span style="color: #414950;" class="absolute inline-block text-xs whitespace-nowrap mt-1.5 -right-3">Details</span>
   </div>
 
-  <div class="relative ml-1.5">
+  <div class="relative ml-2.5">
     <div class="z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs bg-primary-500">
       <span class="font-semibold" [ngClass]="conn.currentStep$.value > 4 ? 'fas fa-check z-50' : 'show-number4'"></span>
     </div>

@@ -8,7 +8,7 @@ import { ConnectionService } from '../services/connection.service';
   templateUrl: './create-deal.component.html',
 })
 export class CreateDealComponent implements OnInit {
-  formsCount = 5;
+  formsCount = 4;
   deal$: BehaviorSubject<MainDeal> =
     new BehaviorSubject<MainDeal>(new MainDeal);
   isCurrentFormValid$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
