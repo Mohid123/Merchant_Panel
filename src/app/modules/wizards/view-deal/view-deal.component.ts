@@ -280,6 +280,8 @@ export class ViewDealComponent implements OnInit, OnDestroy {
           data.subDeals.map((subdeal: any) => {
             subdeal.voucherStartDate = new Date(subdeal.voucherStartDate).setUTCHours(0,0,0,0);
             subdeal.voucherEndDate = new Date(subdeal.voucherEndDate).setUTCHours(0,0,0,0);
+            subdeal.originalPrice = subdeal.originalPrice.toString().replace('.', ',');
+            subdeal.dealPrice = subdeal.dealPrice.toString().replace('.', ',');
           })
           return data
         });
