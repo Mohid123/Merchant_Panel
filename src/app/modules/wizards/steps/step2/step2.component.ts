@@ -126,7 +126,11 @@ export class Step2Component implements OnInit, OnDestroy {
     this.connection.getStep1().subscribe((res: any) => {
       if((res.dealStatus == 'Draft' || res.dealStatus == 'Needs attention') && res.id) {
         this.editID = res.id;
-        this.subDeals = res.subDeals;
+        this.subDeals = res.subDeals.map((value: any) => {
+          value.originalPrice = value.originalPrice.toString().replace('.', ',');
+          value.dealPrice = value.dealPrice.toString().replace('.', ',');
+          return value
+        });
         this.voucherStartDate = res.subDeals[0]?.voucherStartDate ? res.subDeals[0]?.voucherStartDate : '';
         this.voucherEndDate = res.subDeals[0]?.voucherEndDate ? res.subDeals[0]?.voucherEndDate : '';
         this.voucherValidity = res.subDeals[0]?.voucherValidity ? res.subDeals[0]?.voucherValidity : '';
@@ -257,25 +261,25 @@ export class Step2Component implements OnInit, OnDestroy {
       return;
     }
 
-    if(parseInt(this.editVouchers.controls['dealPrice']?.value) >= 0) {
-      if(parseInt(this.editVouchers.controls['dealPrice']?.value) == 0 && parseInt(this.editVouchers.controls['originalPrice']?.value) == 0) {
+    if(parseFloat(this.editVouchers.controls['dealPrice']?.value) >= 0) {
+      if(parseFloat(this.editVouchers.controls['dealPrice']?.value) == 0 && parseFloat(this.editVouchers.controls['originalPrice']?.value) == 0) {
 
         this.editVouchers.controls['discountPercentage']?.setValue('0');
       }
       else {
-        const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
-        const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
+        const dealPrice = Math.round(parseFloat(this.editVouchers.controls['originalPrice']?.value) - parseFloat(this.editVouchers.controls['dealPrice']?.value));
+        const discountPrice = Math.floor(100 * dealPrice/parseFloat(this.editVouchers.controls['originalPrice']?.value));
         this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
       }
     }
-    else if(!parseInt(this.editVouchers.controls['dealPrice']?.value)) {
+    else if(!parseFloat(this.editVouchers.controls['dealPrice']?.value)) {
       const discountPrice = 100;
       this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
     }
     else {
       this.editVouchers.controls['dealPrice']?.setValue('0');
-      const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
-      const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
+      const dealPrice = Math.round(parseFloat(this.editVouchers.controls['originalPrice']?.value) - parseFloat(this.editVouchers.controls['dealPrice']?.value));
+      const discountPrice = Math.floor(100 * dealPrice/parseFloat(this.editVouchers.controls['originalPrice']?.value));
       this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
     }
     if(this.editIndex >= 0) {
@@ -300,25 +304,25 @@ export class Step2Component implements OnInit, OnDestroy {
       this.vouchers.markAllAsTouched();
       return;
     }
-    if (parseInt(this.vouchers.controls['dealPrice']?.value) >= 0) {
+    if (parseFloat(this.vouchers.controls['dealPrice']?.value) >= 0) {
 
-      if(parseInt(this.vouchers.controls['dealPrice']?.value) == 0 && parseInt(this.vouchers.controls['originalPrice']?.value) == 0) {
+      if(parseFloat(this.vouchers.controls['dealPrice']?.value) == 0 && parseFloat(this.vouchers.controls['originalPrice']?.value) == 0) {
         this.vouchers.controls['discountPercentage']?.setValue('0');
       }
       else {
-        const dealPrice = Math.round(parseInt(this.voucherFormControl['originalPrice']?.value) - parseInt(this.voucherFormControl['dealPrice']?.value));
-        const discountPrice = Math.floor(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));
+        const dealPrice = Math.round(parseFloat(this.voucherFormControl['originalPrice']?.value) - parseFloat(this.voucherFormControl['dealPrice']?.value));
+        const discountPrice = Math.floor(100 * dealPrice/parseFloat(this.voucherFormControl['originalPrice']?.value));
         this.vouchers.controls['discountPercentage']?.setValue(discountPrice);
       }
     }
-    else if(!parseInt(this.vouchers.controls['dealPrice']?.value)) {
+    else if(!parseFloat(this.vouchers.controls['dealPrice']?.value)) {
       const discountPrice = 100;
       this.vouchers.controls['discountPercentage']?.setValue(discountPrice);
     }
     else {
       this.vouchers.controls['dealPrice']?.setValue('0');
-      const dealPrice = Math.round(parseInt(this.voucherFormControl['originalPrice']?.value) - parseInt(this.voucherFormControl['dealPrice']?.value));
-      const discountPrice = Math.floor(100 * dealPrice/parseInt(this.voucherFormControl['originalPrice']?.value));
+      const dealPrice = Math.round(parseFloat(this.voucherFormControl['originalPrice']?.value) - parseFloat(this.voucherFormControl['dealPrice']?.value));
+      const discountPrice = Math.floor(100 * dealPrice/parseFloat(this.voucherFormControl['originalPrice']?.value));
       this.vouchers.controls['discountPercentage']?.setValue(discountPrice);
     }
     if(this.editIndex >= 0) {
@@ -423,13 +427,16 @@ export class Step2Component implements OnInit, OnDestroy {
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.editData.pageNumber = 2;
+        this.subDeals.forEach((voucher: any) => {
+          voucher.originalPrice = parseFloat(voucher.originalPrice.toString().replace(',' , '.'));
+          voucher.dealPrice = parseFloat(voucher.dealPrice.toString().replace(',' , '.'));
+        });
         this.editData.subDeals = this.subDeals;
-        this.editData.subDeals.forEach((voucher) => {
+        this.editData.subDeals.forEach((voucher: any) => {
           voucher.voucherStartDate = this.voucherStartDate;
           voucher.voucherEndDate = this.voucherEndDate;
-          voucher.voucherValidity = this.voucherValidity
-        })
-
+          voucher.voucherValidity = this.voucherValidity;
+        });
         const payload = this.editData;
         if(payload) {
           return this.dealService.createDeal(payload)
@@ -449,6 +456,10 @@ export class Step2Component implements OnInit, OnDestroy {
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.newData.pageNumber = 2;
+        this.newData.subDeals.forEach((subdeal: any) => {
+          subdeal.originalPrice = parseFloat(subdeal.originalPrice.replace(',' , '.'));
+          subdeal.dealPrice = parseFloat(subdeal.dealPrice.replace(',' , '.'));
+        });
         const newPayload = this.newData;
         const payloadWithoutMedia: any = this.newData;
         delete payloadWithoutMedia.mediaUrl;
