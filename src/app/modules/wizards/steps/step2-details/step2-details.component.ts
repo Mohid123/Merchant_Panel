@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -47,8 +48,10 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     private dealService: DealService,
     private common: CommonFunctionsService,
     private authService: AuthService,
-    private toast: HotToastService
+    private toast: HotToastService,
+    viewportScroller: ViewportScroller
   ) {
+    viewportScroller.scrollToPosition([0,0]);
     this.connection.getData().pipe(takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
       this.data = response;
     });

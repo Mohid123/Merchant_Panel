@@ -1,5 +1,6 @@
 import { CdkDragDrop, CdkDragEnter, CdkDragMove, moveItemInArray } from '@angular/cdk/drag-drop';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { ViewportScroller } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -118,8 +119,10 @@ export class Step1Component implements OnInit, OnDestroy {
     public breakpointObserver: BreakpointObserver,
     private mediaService: MediaService,
     private dealService: DealService,
-    private videoService: VideoProcessingService
+    private videoService: VideoProcessingService,
+    viewportScroller: ViewportScroller
   ) {
+    viewportScroller.scrollToPosition([0,0]);
     this.breakpointObserver.observe(['(min-width: 1600px)']).pipe(map((result) => result.matches)).subscribe(res => {
       if(res) {
         this.boxWidth = 88;

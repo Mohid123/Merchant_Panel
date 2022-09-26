@@ -4,7 +4,7 @@
   <div class="flex justify-center w-full p-6 shadow-sm md:overflow-y-auto card card-custom">
     <form class="self-center form max-w-150" [formGroup]="dateForm">
       <div class="mb-9 lg:text-center">
-        <h1 class="mt-1 mb-2.5 text-lg text-center md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl">Let's get this crazy deal scheduled!</h1>
+        <h1 class="mt-1 mb-2.5 text-lg text-center md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl text-black">Let's get this crazy deal scheduled!</h1>
         <div style="color: #0081E9;" class="text-xs font-medium text-center md:text-sm xl:text-base 3xl:text-lg">When would you like your deal to be visible on our platform?</div>
       </div>
 
@@ -12,11 +12,11 @@
       <div class="flex flex-row justify-center w-full ml-20 align-middle">
         <div class="flex flex-col justify-start align-top xl:mr-28 xl:pr-2">
           <div class="flex flex-row">
-            <span class="text-sm mt-0.5 font-medium form-check-label">Start Date</span>
+            <span class="text-sm mt-0.5 font-medium form-check-label" style="color: #313131;">Start Date</span>
             <!-- &nbsp;<span class="text-black">*</span> -->
           </div>
           <div class="w-auto mt-2 mb-3 input-icon lg:w-96">
-            <span class="absolute flex items-center mt-2 ml-1"><i (click)="x.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+            <span class="absolute flex items-center mt-2 ml-1"><img  (click)="x.toggle()" src="../../../../../assets/media/logos/blue-cal.svg" class="w-4 h-4 mt-2 ml-2 text-blue-600"></span>
             <input
               placeholder="dd-mm-yyyy"
               (keydown)="disableManual($event)"
@@ -40,10 +40,10 @@
           }">
           </ng-container>
 
-            <span class="text-sm font-medium form-check-label">End Date</span>
+            <span class="text-sm font-medium form-check-label" style="color: #313131;">End Date</span>
             <!-- &nbsp;<span class="text-black">*</span> -->
             <div class="flex-auto w-auto mt-2 input-icon lg:w-96">
-              <span class="absolute flex items-center mt-2 ml-1"><i (click)="y.toggle();" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+              <span class="absolute flex items-center mt-2 ml-1"><img (click)="y.toggle();" src="../../../../../assets/media/logos/blue-cal.svg" class="w-4 h-4 mt-2 ml-2 text-blue-600"></span>
               <input
               placeholder="dd-mm-yyyy"
               [minDate]="dateForm.get('startDate')?.value ? dateForm.get('startDate')?.value : form.get('voucherStartDate')?.value"
@@ -82,12 +82,12 @@
       <!--title-->
       <form class="self-center form max-w-135" [formGroup]="form">
         <div class="mb-9 lg:text-center">
-          <h1 class="mt-1 mb-2.5 text-lg text-center md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl">Almost there.</h1>
+          <h1 class="mt-1 mb-2.5 text-lg text-center md:text-xl xl:text-2xxl xl:font-semibold 2xl:text-3xl 3xl:text-4xl text-black">Almost there.</h1>
           <div style="color: #0081E9;" class="text-xs font-medium text-center md:text-sm xl:text-base 3xl:text-lg">Let's finish off with the last details.</div>
         </div>
         <!--form-->
         <div class="flex flex-col items-center justify-center align-middle">
-          <label class="mb-6 mr-2.5 form-label">When can the customer redeem their voucher?</label>
+          <label class="mb-6 mr-2.5 form-label">When can the customer redeem their subdeal?</label>
             <div class="flex flex-row justify-center w-full ml-32 align-middle">
 
               <label class="mb-6 text-sm md:text-base form-check form-check-solid">
@@ -103,14 +103,14 @@
 
               <div class="flex flex-col justify-start align-top xl:mr-28 xl:pr-2">
                 <div class="flex flex-row">
-                  <span class="text-sm mt-0.5 font-medium form-check-label">Start Date</span>
+                  <span class="text-sm mt-0.5 font-medium form-check-label" style="color: #313131;">Start Date</span>
                   <!-- &nbsp;<span class="text-black">*</span> -->
                 </div>
                 <div class="w-auto mt-2 mb-3 input-icon lg:w-96">
-                  <span class="absolute flex items-center mt-2 ml-1"><i (click)="c.toggle()" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+                  <span class="absolute flex items-center mt-2 ml-1"><img (click)="c.toggle()" src="../../../../../assets/media/logos/blue-cal.svg" class="w-4 h-4 mt-2 ml-2 text-blue-600"></span>
                   <input
                     placeholder="dd-mm-yyyy"
-                    [disabled]="currentlyChecked !== check_box_type.ONE"
+                    [disabled]="currentlyChecked !== check_box_type.ONE || dealStatus == 'Published'"
                     (keydown)="disableManual($event)"
                     [minDate]="dateForm.get('startDate')?.value ? dateForm.get('startDate')?.value : minDate"
                     [maxDate]="dateForm.get('endDate')?.value"
@@ -127,18 +127,18 @@
                 </div>
                 <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                   validation: 'required',
-                  message: 'Start date for the voucher is required',
+                  message: 'Start date for the subdeal is required',
                   control: form.controls['voucherStartDate']
                 }">
                 </ng-container>
 
                 <label class="w-auto mt-1 text-sm xl:mt-1 form-check form-check-solid md:text-base lg:w-96" style="padding-left: 0px;">
-                  <span class="text-sm font-medium form-check-label">End Date</span>
+                  <span class="text-sm font-medium form-check-label" style="color: #313131;">End Date</span>
                   <!-- &nbsp;<span class="text-black">*</span> -->
                   <div class="flex-auto w-auto mt-2 input-icon lg:w-96">
-                    <span class="absolute flex items-center mt-2 ml-1"><i (click)="d.toggle();" class="p-2 ml-2 text-blue-600 rounded far fa-calendar-alt"></i></span>
+                    <span class="absolute flex items-center mt-2 ml-1"><img (click)="d.toggle();" src="../../../../../assets/media/logos/blue-cal.svg" class="w-4 h-4 mt-2 ml-2 text-blue-600"></span>
                     <input
-                    [disabled]="currentlyChecked !== check_box_type.ONE"
+                    [disabled]="currentlyChecked !== check_box_type.ONE || dealStatus == 'Published'"
                     placeholder="dd-mm-yyyy"
                     [minDate]="form.get('voucherStartDate')?.value"
                     [maxDate]="dateForm.get('endDate')?.value"
@@ -176,7 +176,7 @@
                 >
               </label>
 
-              <span class="w-48 text-sm font-medium form-check-label" style="margin-top: 1.8rem;">Voucher is valid for</span>
+              <span class="w-48 text-sm font-medium form-check-label" style="margin-top: 1.8rem;">Subdeal is valid for</span>
               <div class="relative mt-4">
                 <!-- <div class="flex flex-col w-full h-8 border-2 border-white rounded-sm md:flex-row"> -->
                   <div class="flex flex-row w-full">
@@ -196,7 +196,7 @@
               </ng-container>
               <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                 validation: 'min',
-                message: 'Voucher validity period should be at least 30 days',
+                message: 'Subdeal validity period should be at least 30 days',
                 control: form.controls['voucherValidity']
               }">
               </ng-container>
@@ -316,10 +316,10 @@
       </form> -->
       <!--[ngClass]="(dealStatus == 'Published' || dealStatus == 'Scheduled') ? 'pt-14' : ''"-->
       <div class="flex justify-center pt-14 min-h-14 3xl:mr-0 2xl:h-20">
-        <button [disabled]="disableBackButton || connection.isSaving.value == true" [ngClass]="(disableBackButton || connection.isSaving.value == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100'" (click)="returnToPrevious()" class="w-22 h-11 text-sm bg-gray-300 rounded-lg text-opacity-20 mr-14" style="background-color: #9BB3C8; color: #5C6878;">Back</button>
+        <button [disabled]="disableBackButton || connection.isSaving.value == true" [ngClass]="(disableBackButton || connection.isSaving.value == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100'" (click)="returnToPrevious()" class="mr-10 text-sm bg-gray-300 rounded-lg w-22 h-11 text-opacity-20" style="background-color: #9BB3C8; color: #5C6878;">Back</button>
         <button *ngIf="startedUpload == false" class="text-sm text-white rounded-lg h-11 ml-14" style="background-color: #55C987; width: 9.688rem;" (click)="sendDraftData()">
           <ng-container *ngIf="uploaded == false">
-            <span class="indicator-progress text-sm" [style.display]="'block'">
+            <span class="text-sm indicator-progress" [style.display]="'block'">
               Saving...
               <span class="align-middle spinner-border spinner-border-sm ms-2"></span>
             </span>
@@ -328,7 +328,7 @@
             <span class="indicator-label">Save & Send</span>
           </ng-container>
         </button>
-        <button *ngIf="startedUpload == true" [ngbTooltip]="'Please wait for images to upload...'" [container]="'body'" class="text-sm text-white rounded-lg opacity-50 cursor-not-allowed h-10" style="background-color: #55C987; width: 9.688rem;">Save & Send</button>
+        <button *ngIf="startedUpload == true" [ngbTooltip]="'Please wait for images to upload...'" [container]="'body'" class="h-10 text-sm text-white rounded-lg opacity-50 cursor-not-allowed" style="background-color: #55C987; width: 9.688rem;">Save & Send</button>
       </div>
   </div>
 </div>
@@ -403,7 +403,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   width: 20px;
   height: 20px;
   padding-left: 10px;
-  background-image: url('../../../../../assets/media/icons/calendar.svg');
+  background-image: url('../../../../../assets/media/logos/blue-cal.svg');
   filter: invert(0);
   cursor: pointer!important;
 }
@@ -481,7 +481,68 @@ input::-webkit-datetime-edit-fields-wrapper {
 }
 
 .date-large {
-  max-width: 70rem!important;
+    max-width: 70rem!important;
+    width: 70rem!important;
+    height: 80%!important;
+    position: absolute!important;
+    top: 10%!important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+@media(max-width: 1920px) {
+  .date-large {
+    max-width: 70rem!important;
+    width: 70rem!important;
+    height: 80%!important;
+    position: absolute!important;
+    top: 10%!important;
+    left: 26.5%!important;
+  }
+}
+
+@media(min-width: 1536px) and (max-width: 1600px){
+  .date-large {
+    max-width: 70rem!important;
+    width: 70rem!important;
+    height: 80%!important;
+    position: absolute!important;
+    top: 10%!important;
+    left: 21%!important;
+  }
+}
+
+@media(max-width: 1440px) {
+  .date-large {
+    max-width: 70rem!important;
+    width: 70rem!important;
+    height: 80%!important;
+    position: absolute!important;
+    top: 10%!important;
+    left: 19%!important;
+  }
+}
+
+@media(max-width: 1366px) {
+  .date-large {
+    max-width: 70rem!important;
+    width: 70rem!important;
+    height: 80%!important;
+    position: absolute!important;
+    top: 10%!important;
+    left: 17.2%!important;
+  }
+}
+
+@media(min-width: 1280px) and (max-width: 1365px) {
+  .date-large {
+    max-width: 65rem!important;
+    width: 65rem!important;
+    height: 80%!important;
+    position: absolute!important;
+    top: 10%!important;
+    left: 18.2%!important;
+  }
 }
 
 </style>

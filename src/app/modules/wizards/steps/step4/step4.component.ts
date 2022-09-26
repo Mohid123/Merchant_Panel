@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -148,8 +149,10 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
     private videoService: VideoProcessingService,
     private modalService: NgbModal,
     private mediaService: MediaService,
-    private common: CommonFunctionsService) {
+    private common: CommonFunctionsService,
+    viewportScroller: ViewportScroller) {
 
+      viewportScroller.scrollToPosition([0,0]);
       this.disableBackButton = false;
 
       this.mediaService.uploadInProgress$.subscribe((value: boolean) => {
@@ -554,7 +557,6 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
     this.calendarOptions.initialDate = this.start;
 
     return this.modalService.open(this.dateModal, {
-      centered: true,
       size: 'xl',
       backdrop: 'static',
       keyboard: false,

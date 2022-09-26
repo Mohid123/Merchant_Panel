@@ -41,6 +41,7 @@ import { ViewDealComponent } from './view-deal/view-deal.component';
 import { BlurHashModule } from '@components/blur-hash/blur-hash.module';
 // import { PreviewDealComponent } from './preview-deal/preview-deal.component';
 import { MediaProgressModule } from '@components/media-progress/media-progress/media-progress.module';
+import { AllowTwoDecimalModule } from './../../@core/directives/two-decimal/allow-two-decimal.module';
 import { WizardsComponent } from './wizards.component';
 
 
@@ -70,7 +71,7 @@ FullCalendarModule.registerPlugins([
     // PreviewDealComponent,
   ],
   imports: [
-  CommonModule,
+    CommonModule,
     DealsRoutingModule,
     ReactiveFormsModule,
     InlineSVGModule,
@@ -97,7 +98,8 @@ FullCalendarModule.registerPlugins([
     MaxLengthModule,
     FiltersModule,
     BlurHashModule,
-    MediaProgressModule
+    MediaProgressModule,
+    AllowTwoDecimalModule
   ],
   // entryComponents: [PopoverWrapperComponent],
   providers: [

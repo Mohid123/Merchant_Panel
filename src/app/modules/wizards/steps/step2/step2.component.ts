@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
@@ -86,9 +87,10 @@ export class Step2Component implements OnInit, OnDestroy {
     private authService: AuthService,
     private dealService: DealService,
     private common: CommonFunctionsService,
-    private cf: ChangeDetectorRef
+    private cf: ChangeDetectorRef,
+    viewportScroller: ViewportScroller
     ) {
-
+      viewportScroller.scrollToPosition([0,0]);
     this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
       this.data = response;
       // this.subDeals = this.data.subDeals ? this.data.subDeals : [];
@@ -144,13 +146,13 @@ export class Step2Component implements OnInit, OnDestroy {
         '',
         Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9 ]+')
+        Validators.pattern('^[0-9. ]+')
         ]),
       ],
       dealPrice: [
         '',
         Validators.compose([
-          Validators.pattern('^[0-9 ]+')
+          Validators.pattern('^[0-9. ]+')
         ])
       ],
       numberOfVouchers: [
