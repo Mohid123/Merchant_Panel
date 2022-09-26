@@ -277,7 +277,33 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
           'redo'
         ]
       }
-    }
+    };
+
+    this.dateForm.get('startDate')?.valueChanges
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((value: any) => {
+      const startDate = new Date(value?.year, value?.month - 1, value?.day).getTime();
+      if(this.dateForm.get('endDate')?.value != "" || this.dateForm.get('endDate')?.value != null) {
+        const end = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day).getTime();
+        if(startDate > end) {
+          this.dateForm.get('startDate')?.setValue('');
+          this.toast.warning('Start date cannot exceed the end date');
+        }
+      }
+    })
+
+    this.form.get('voucherStartDate')?.valueChanges
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((value: any) => {
+      const startDate = new Date(value?.year, value?.month - 1, value?.day).getTime();
+      if(this.form.get('voucherEndDate')?.value != "" || this.form.get('voucherEndDate')?.value != null) {
+        const end = new Date(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day).getTime();
+        if(startDate > end) {
+          this.form.get('voucherStartDate')?.setValue('');
+          this.toast.warning('Start date cannot exceed the end date');
+        }
+      }
+    })
 
   }
 
@@ -286,7 +312,7 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
       this.fullCalendar?.getApi().render();
     });
 
-    if(this.dealStatus == 'Published') {
+    if(this.dealStatus == 'Published' || this.dealStatus == 'Scheduled') {
       this.form.get('voucherStartDate')?.disable();
       this.form.get('voucherEndDate')?.disable();
       this.form.get('voucherValidity')?.disable();

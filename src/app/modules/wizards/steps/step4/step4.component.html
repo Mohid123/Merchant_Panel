@@ -97,6 +97,7 @@
                 type="checkbox"
                 (click)="selectCheckBox(check_box_type.ONE); disableCheckBox();"
                 [checked]="currentlyChecked === check_box_type.ONE"
+                [disabled]="dealStatus == 'Published' || dealStatus == 'Scheduled'"
                 >
               </label>
 
@@ -171,6 +172,7 @@
                 style="border: 1px solid black;"
                 (click)="selectCheckBox(check_box_type.TWO); disableCheckBox();"
                 [checked]="currentlyChecked === check_box_type.TWO || form.controls['voucherValidity']?.value"
+                [disabled]="dealStatus == 'Published' || dealStatus == 'Scheduled'"
                 >
               </label>
 
@@ -314,8 +316,8 @@
       </form> -->
       <!--[ngClass]="(dealStatus == 'Published' || dealStatus == 'Scheduled') ? 'pt-14' : ''"-->
       <div class="flex justify-center pt-14 min-h-14 3xl:mr-0 2xl:h-20">
-        <button [disabled]="disableBackButton || connection.isSaving.value == true" [ngClass]="(disableBackButton || connection.isSaving.value == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100'" (click)="returnToPrevious()" class="w-22 h-10 text-sm bg-gray-300 rounded-lg text-opacity-20 mr-14" style="background-color: #9BB3C8; color: #5C6878;">Back</button>
-        <button *ngIf="startedUpload == false" class="text-sm text-white rounded-lg h-10 ml-14" style="background-color: #55C987; width: 9.688rem;" (click)="sendDraftData()">
+        <button [disabled]="disableBackButton || connection.isSaving.value == true" [ngClass]="(disableBackButton || connection.isSaving.value == true) ? 'opacity-50 cursor-not-allowed': 'opacity-100'" (click)="returnToPrevious()" class="w-22 h-11 text-sm bg-gray-300 rounded-lg text-opacity-20 mr-14" style="background-color: #9BB3C8; color: #5C6878;">Back</button>
+        <button *ngIf="startedUpload == false" class="text-sm text-white rounded-lg h-11 ml-14" style="background-color: #55C987; width: 9.688rem;" (click)="sendDraftData()">
           <ng-container *ngIf="uploaded == false">
             <span class="indicator-progress text-sm" [style.display]="'block'">
               Saving...
