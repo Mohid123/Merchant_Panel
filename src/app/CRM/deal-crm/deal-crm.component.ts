@@ -139,13 +139,13 @@ export class DealCRMComponent implements OnInit, OnDestroy {
       dealTitle: [{value: '', disabled: this.isLoggedIn == false}, Validators.compose([
         Validators.required,
         Validators.minLength(3),
-        Validators.pattern('^[a-zA-Z0-9., ]+')
+        Validators.pattern(`^[a-zA-Z0-9.,"'-:èëéà ]+`)
         ]),
       ],
       dealSubTitle: [{value: '', disabled: this.isLoggedIn == false}, Validators.compose([
         Validators.required,
         Validators.minLength(3),
-        Validators.pattern('^[a-zA-Z0-9., ]+')
+        Validators.pattern(`^[a-zA-Z0-9.,"'-:èëéà ]+`)
         ])
       ],
       mediaURL: this.imageArray,
@@ -249,8 +249,7 @@ export class DealCRMComponent implements OnInit, OnDestroy {
       originalPrice: this.subDeals[index]?.originalPrice,
       dealPrice: this.subDeals[index]?.dealPrice,
       numberOfVouchers: this.subDeals[index]?.numberOfVouchers,
-      title: this.subDeals[index]?.title,
-      discountPercentage: this.subDeals[index]?.discountPercentage
+      title: this.subDeals[index]?.title
     })
     return this.modalService.open(this.modal, {
       centered: true,

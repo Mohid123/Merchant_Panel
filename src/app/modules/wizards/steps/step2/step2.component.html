@@ -28,7 +28,7 @@
                 <div class="flex justify-between">
                   <div class="flex justify-between">
                     <p class="text-sm" style="color:#414950">
-                      Number of available vouchers
+                      Number of available subdeals
                     </p>
                     <span class="bg-primary-50 font-semibold rounded-md ml-4 h-6 text-primary-400 text-xs px-2.5 py-1">
                       {{singleDeal?.numberOfVouchers}}
@@ -115,7 +115,7 @@
             </div>
 
             <div class="h-24 mb-3 fv-row 2xl:h-26">
-            <label class="form-label">Number of available vouchers</label>
+            <label class="form-label">Number of available subdeals</label>
               <div class="flex items-center mb-1.5 justify-between h-8 border-2 border-white rounded-sm w-28">
                 <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="handleMinus()">-</button>
                 <input maxlength="4" appNumbersOnly type="text" style="height: 24px !important;min-height: unset;" class="w-12 py-0.5 px-0 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
@@ -195,7 +195,7 @@
         <div class="h-24 fv-row 2xl:h-26">
           <label class="form-label">Original price</label>
             <span class="absolute flex items-center h-11 "><i style="font-size:12px;" class="px-2.5 py-2 ml-2 xl:mt-1.5 2xl:mt-2 text-white bg-gray-500 rounded fas fa-euro-sign fa-lg"></i></span>
-            <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="originalPrice"
+            <input maxlength="5" appAllowTwoDecimal type="text" class="pl-12 form-control" formControlName="originalPrice"
             [ngClass]="{
             'is-invalid': editVouchers.controls['originalPrice']?.invalid && editVouchers.controls['originalPrice']?.touched,
             'is-valid':  editVouchers.controls['originalPrice']?.valid}">
@@ -215,7 +215,7 @@
           <div class="h-24 fv-row 2xl:h-26">
             <label class="form-label">Deal price</label>
               <span class="absolute flex items-center h-11"><i style="font-size:12px;" class="px-2.5 py-2 ml-2 xl:mt-1.5 2xl:mt-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
-              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+              <input maxlength="7" appAllowTwoDecimal type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
               [ngClass]="{
                 'is-invalid': editVouchers.controls['dealPrice']?.invalid && editVouchers.controls['dealPrice']?.touched,
                 'is-valid': editVouchers.controls['dealPrice']?.valid && editVouchers.controls['dealPrice']?.value != '' && editVouchers.controls['dealPrice']?.value != null && editVouchers.controls['dealPrice']?.value != undefined}">
@@ -232,10 +232,10 @@
             </div>
 
           <div class="h-24 fv-row 2xl:h-26">
-          <label class="form-label">Number of available vouchers</label>
+          <label class="form-label">Number of available subdeals</label>
             <div class="flex items-center justify-between h-8 border-2 border-white rounded-sm w-28">
               <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="editHandleMinus()">-</button>
-              <input maxlength="4" appNumbersOnly type="text" style="height: 24px !important;min-height: unset;" class="w-12 py-0.5 px-0 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+              <input maxlength="7" appNumbersOnly type="text" style="height: 24px !important;min-height: unset;" class="w-12 py-0.5 px-0 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
               <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="editHandlePlus()">+</button>
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{

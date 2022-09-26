@@ -75,7 +75,7 @@
               <span class="mt-1.5 ml-3">{{data.totalRating.toFixed(1)}}</span>
             </td>
             <td>
-              <button (click)="openReviewModal(data._id, data.voucherID)" class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
+              <button (click)="openReviewModal(data.id, data.voucherID, data.voucherMongoID)" class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
             </td>
           </tr>
         </ng-container>

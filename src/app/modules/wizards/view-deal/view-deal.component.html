@@ -237,7 +237,7 @@
       <form class="px-6 mt-2 md:px-11 form" [formGroup]="editVouchers">
         <div class="h-24 fv-row 2xl:h-26">
           <label class="pb-2 text-gray-500">Voucher title</label>
-            <input maxlength="140" appTrim type="text" class="form-control" formControlName="title" name="title"
+            <input maxlength="140" appTrim type="text" class="form-control deal-input" formControlName="title" name="title"
             [ngClass]="{
             'is-invalid': editVouchers.controls['title']?.invalid && editVouchers.controls['title']?.touched,
             'is-valid': editVouchers.controls['title']?.valid}">
@@ -252,7 +252,7 @@
         <div class="h-24 fv-row 2xl:h-26">
           <label class="pb-2 text-gray-500">Original price</label>
             <span class="absolute flex items-center h-11 "><i style="font-size:12px;" class="px-2.5 py-2.5 ml-2 xl:mt-1.5 2xl:mt-2 text-white bg-gray-500 rounded fas fa-euro-sign fa-lg"></i></span>
-            <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="originalPrice"
+            <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control deal-input" formControlName="originalPrice"
             [ngClass]="{
             'is-invalid': editVouchers.controls['originalPrice']?.invalid && editVouchers.controls['originalPrice']?.touched,
             'is-valid':  editVouchers.controls['originalPrice']?.valid}">
@@ -267,7 +267,7 @@
           <div class="h-24 fv-row 2xl:h-26">
             <label class="pb-2 text-gray-500">Deal price</label>
               <span class="absolute flex items-center h-11"><i style="font-size:12px;" class="px-2.5 py-2.5 ml-2 xl:mt-1.5 2xl:mt-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
-              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control" formControlName="dealPrice" name="dealPrice"
+              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control deal-input" formControlName="dealPrice" name="dealPrice"
               [ngClass]="{
                 'is-invalid': editVouchers.controls['dealPrice']?.invalid && editVouchers.controls['dealPrice']?.touched,
                 'is-valid': editVouchers.controls['dealPrice']?.valid && editVouchers.controls['dealPrice']?.value != '' && editVouchers.controls['dealPrice']?.value != null && editVouchers.controls['dealPrice']?.value != undefined}">

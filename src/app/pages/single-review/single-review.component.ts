@@ -39,6 +39,7 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
   merchantReplyData: BehaviorSubject<any> = new BehaviorSubject({});
   merchantReplyDataObservable: Observable<any> = this.merchantReplyData.asObservable();
   voucherID: string;
+  voucherMongoID: string;
   reviewID: string;
 
   @ViewChild('modal') private modal: TemplateRef<any>
@@ -61,6 +62,7 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.reviewId = this.activatedRoute.snapshot.params['dealId'];
+    console.log(this.activatedRoute.snapshot.params)
     this.getReviewsByMerchant();
     this.initReplyForm()
   }
@@ -80,7 +82,7 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<SingleReview>) => {
       this.reviewData = res.data;
-      // console.log(this.reviewData)
+      console.log(this.reviewData)
       // this.reviewData.Reviews.forEach((value: any) => {
       //   console.log(moment(value.voucherRedeemedDate).format('YYYY-MM-DD'));
       // })
@@ -101,11 +103,12 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     this.getReviewsByMerchant();
   }
 
-  openReviewModal(reviewID: string, voucherID: string) {
+  openReviewModal(reviewID: string, voucherID: string, voucherMongoID: string) {
     this.reviewID = reviewID;
     this.voucherID = voucherID;
+    this.voucherMongoID = voucherMongoID;
     this.reviewData.Reviews?.find((value: any) => {
-      if(value._id == this.reviewID) {
+      if(value.id == this.reviewID) {
         this.ReplySubject.value?.pop();
         this.reviewValues.push(value);
         this.ReplySubject.next(this.reviewValues);
@@ -142,10 +145,11 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
       reviewID: this.reviewID,
       merchantID: this.authService.currentUserValue?.id,
       voucherID: this.voucherID,
-      merchantName: this.authService.currentUserValue?.firstName,
-      legalName: this.authService.currentUserValue?.legalName,
-      profilePicURL: this.authService.currentUserValue?.profilePicURL,
+      // merchantName: this.authService.currentUserValue?.firstName,
+      // legalName: this.authService.currentUserValue?.legalName,
+      // profilePicURL: this.authService.currentUserValue?.profilePicURL,
       merchantReplyText: this.replyForm.get('merchantReplyText')?.value,
+      voucherMongoID: this.voucherMongoID,
       deletedCheck: false
     }
     this.reviewService.createReply(payload).pipe(takeUntil(this.destroy$), exhaustMap((res: any): any => {

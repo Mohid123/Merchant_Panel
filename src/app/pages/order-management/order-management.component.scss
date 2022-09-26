@@ -76,11 +76,12 @@
 
 .myinput.form-control {
   background-color: white !important;
+  border: 0.5px solid white;
 }
 
 .myinput.form-control:focus {
   background-color: white !important;
-  border: 0.5px solid #64b1f0;
+  border: 0.5px solid #abd3f3;
 }
 
 .input-group-prepend {
