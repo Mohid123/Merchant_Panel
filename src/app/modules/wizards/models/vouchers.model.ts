@@ -4,7 +4,7 @@ export class Vouchers {
   originalPrice?: string;
   dealPrice?: string;
   discountPercentage?: number;
-  // details?: string;
+  platformNetEarning?: number;
   numberOfVouchers?: number;
   grossEarning?: number;
   netEarning?: number;

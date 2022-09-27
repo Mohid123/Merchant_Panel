@@ -430,6 +430,7 @@ export class Step2Component implements OnInit, OnDestroy {
         this.subDeals.forEach((voucher: any) => {
           voucher.originalPrice = parseFloat(voucher.originalPrice.toString().replace(',' , '.'));
           voucher.dealPrice = parseFloat(voucher.dealPrice.toString().replace(',' , '.'));
+          voucher.platformNetEarning = 0;
         });
         this.editData.subDeals = this.subDeals;
         this.editData.subDeals.forEach((voucher: any) => {
@@ -457,9 +458,11 @@ export class Step2Component implements OnInit, OnDestroy {
         this.nextClick.emit('');
         this.newData.pageNumber = 2;
         this.newData.subDeals.forEach((subdeal: any) => {
-          subdeal.originalPrice = parseFloat(subdeal.originalPrice.replace(',' , '.'));
-          subdeal.dealPrice = parseFloat(subdeal.dealPrice.replace(',' , '.'));
+          subdeal.originalPrice = parseFloat(subdeal.originalPrice.toString().replace(',' , '.'));
+          subdeal.dealPrice = parseFloat(subdeal.dealPrice.toString().replace(',' , '.'));
+          subdeal.platformNetEarning = 0;
         });
+        debugger
         const newPayload = this.newData;
         const payloadWithoutMedia: any = this.newData;
         delete payloadWithoutMedia.mediaUrl;

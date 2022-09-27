@@ -152,6 +152,11 @@ export class Step1Component implements OnInit, OnDestroy {
     this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       if(response) {
         this.responseID = response?.id;
+        response.subDeals = response.subDeals?.map((value: any) => {
+          value.originalPrice = value.originalPrice.toString().replace(',', '.');
+          value.dealPrice = value.dealPrice.toString().replace('.', '.');
+          return value
+        });
         this.responseSaveAndNextVocuhers = response.subDeals;
       }
     })
@@ -185,6 +190,11 @@ export class Step1Component implements OnInit, OnDestroy {
         this.showImageSkeleton = true;
         this.inCaseNoEditData = res;
         this.id = res.id;
+        res.subDeals = res.subDeals.map((value: any) => {
+          value.originalPrice = value.originalPrice.toString().replace(',', '.');
+          value.dealPrice = value.dealPrice.toString().replace(',', '.');
+          return value
+        });
         this.responseVouchers = res.subDeals;
         this.editDealCheck = true;
         this.saveEditDeal = true;
