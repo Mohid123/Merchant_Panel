@@ -26,7 +26,6 @@ export class DealService extends ApiService<deal> {
 
   createDealCrm(deal: MainDeal) {
     const options = { headers: this.setCrmHeaders(this.authService.CrmToken) };
-    debugger
     return this.postCrm('/deal/createDeal', deal, options);
   }
 

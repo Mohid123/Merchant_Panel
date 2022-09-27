@@ -1,8 +1,10 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ApiResponse } from '@core/models/response.model';
+import { User } from '@core/models/user.model';
 import { MediaService } from '@core/services/media.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -50,6 +52,8 @@ export class DealCRMComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   userData: BehaviorSubject<any> = new BehaviorSubject({});
   userData$ = this.userData.asObservable();
+  isEditMode: boolean = false;
+  user: User | any;
 
   constructor(
     private fb: FormBuilder,
@@ -64,6 +68,11 @@ export class DealCRMComponent implements OnInit, OnDestroy {
     ) {
       this.dealID = this.activatedRoute.snapshot.params['dealId'];
       this.conn.dealIDServerErrorInterceptor.next(this.dealID);
+      // this.authService.crmUserObs$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
+      //   if(user) {
+      //     this.user = user;
+      //   }
+      // })
 
     }
 
@@ -127,6 +136,21 @@ export class DealCRMComponent implements OnInit, OnDestroy {
             readMore: this.dealData.readMore,
             finePrints: this.dealData.finePrints
           });
+          this.dealData.subDeals.map((subdeal: any) => {
+            if(subdeal.originalPrice.toString().includes('.')) {
+              subdeal.originalPrice = subdeal.originalPrice.toString().replace('.', ',');
+            }
+            // else {
+            //   subdeal.originalPrice = subdeal.originalPrice.toFixed(2).replace('.', ',')
+            // }
+            if(subdeal.dealPrice.toString().includes('.')) {
+              subdeal.dealPrice = subdeal.dealPrice.toString().replace('.', ',');
+            }
+            // else {
+            //   subdeal.dealPrice = subdeal.dealPrice.toFixed(2).replace('.', ',');
+            // }
+            return subdeal
+          })
           this.subDeals = this.dealData.subDeals;
           this.cf.detectChanges();
         }
@@ -136,13 +160,13 @@ export class DealCRMComponent implements OnInit, OnDestroy {
 
   initCRMForm() {
     this.crmForm = this.fb.group({
-      dealTitle: [{value: '', disabled: this.isLoggedIn == false}, Validators.compose([
+      dealTitle: [{value: '', disabled: this.isEditMode == false}, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.pattern(`^[a-zA-Z0-9.,"'-:èëéà ]+`)
         ]),
       ],
-      dealSubTitle: [{value: '', disabled: this.isLoggedIn == false}, Validators.compose([
+      dealSubTitle: [{value: '', disabled: this.isEditMode == false}, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.pattern(`^[a-zA-Z0-9.,"'-:èëéà ]+`)
@@ -157,19 +181,19 @@ export class DealCRMComponent implements OnInit, OnDestroy {
       //   ]),
       // ],
       aboutThisDeal: [
-        {value: '', disabled: this.isLoggedIn == false},
+        {value: '', disabled: this.isEditMode == false},
         Validators.compose([
           Validators.required
         ]),
       ],
       readMore: [
-        {value: '', disabled: this.isLoggedIn == false},
+        {value: '', disabled: this.isEditMode == false},
         // Validators.compose([
         //   Validators.required
         // ]),
       ],
       finePrints: [
-        {value: '', disabled: this.isLoggedIn == false},
+        {value: '', disabled: this.isEditMode == false},
         // Validators.compose([
         //   Validators.required
         // ]),
@@ -183,10 +207,12 @@ export class DealCRMComponent implements OnInit, OnDestroy {
         '',
         Validators.compose([
         Validators.required,
+        Validators.pattern('^[0-9, ]+')
         ]),
       ],
       dealPrice: [
-        ''
+        '',
+        Validators.pattern('^[0-9, ]+')
       ],
       numberOfVouchers: [
         '0',
@@ -265,24 +291,24 @@ export class DealCRMComponent implements OnInit, OnDestroy {
       return;
     }
     else {
-      if (parseInt(this.editVouchers.controls['dealPrice']?.value) >= 0) {
-        if(parseInt(this.editVouchers.controls['dealPrice']?.value) == 0 && parseInt(this.editVouchers.controls['originalPrice']?.value) == 0) {
+      if (parseFloat(this.editVouchers.controls['dealPrice']?.value) >= 0) {
+        if(parseFloat(this.editVouchers.controls['dealPrice']?.value) == 0 && parseFloat(this.editVouchers.controls['originalPrice']?.value) == 0) {
           this.editVouchers.controls['discountPercentage']?.setValue('0');
         }
         else {
-          const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
-          const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
+          const dealPrice = Math.round(parseFloat(this.editVouchers.controls['originalPrice']?.value) - parseFloat(this.editVouchers.controls['dealPrice']?.value));
+          const discountPrice = Math.floor(100 * dealPrice/parseFloat(this.editVouchers.controls['originalPrice']?.value));
           this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
         }
       }
-      else if(!parseInt(this.editVouchers.controls['dealPrice']?.value)) {
+      else if(!parseFloat(this.editVouchers.controls['dealPrice']?.value)) {
         const discountPrice = 100;
         this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
       }
       else {
         this.editVouchers.controls['dealPrice']?.setValue('0');
-        const dealPrice = Math.round(parseInt(this.editVouchers.controls['originalPrice']?.value) - parseInt(this.editVouchers.controls['dealPrice']?.value));
-        const discountPrice = Math.floor(100 * dealPrice/parseInt(this.editVouchers.controls['originalPrice']?.value));
+        const dealPrice = Math.round(parseFloat(this.editVouchers.controls['originalPrice']?.value) - parseFloat(this.editVouchers.controls['dealPrice']?.value));
+        const discountPrice = Math.floor(100 * dealPrice/parseFloat(this.editVouchers.controls['originalPrice']?.value));
         this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
       }
     }
@@ -333,7 +359,6 @@ export class DealCRMComponent implements OnInit, OnDestroy {
       if(res != null) {
         this.isLoggedIn = true;
         this.userData.next(res.data);
-        this.crmForm.enable();
         this.closeSignInModal();
       }
       else {
@@ -341,6 +366,12 @@ export class DealCRMComponent implements OnInit, OnDestroy {
         this.closeSignInModal();
       }
     })
+  }
+
+  enableEditMode() {
+    this.isEditMode = true;
+    this.cf.detectChanges();
+    this.crmForm.enable();
   }
 
   saveChanges() {
@@ -358,12 +389,23 @@ export class DealCRMComponent implements OnInit, OnDestroy {
       this.dealData.finePrints = this.crmForm.get('finePrints')?.value;
       this.dealData.readMore = this.crmForm.get('readMore')?.value;
       this.dealData.mediaUrl = this.imageArray;
+      this.subDeals.map((subdeal: any) => {
+        subdeal.originalPrice = parseFloat(subdeal.originalPrice.toString().replace(',','.'));
+        subdeal.dealPrice = parseFloat(subdeal.dealPrice.toString().replace(',','.'));
+        return subdeal
+      })
       this.dealData.subDeals = this.subDeals;
       this.dealService.createDealCrm(this.dealData).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.getDealByID();
           this.uploaded = true;
           this.toast.success('Deal updated successfully');
+          this.isEditMode = false;
+          this.cf.detectChanges();
+          this.crmForm.disable();
+        }
+        else {
+          this.toast.error('Failed to save changes')
         }
       })
       // this.crmForm.disable();
@@ -470,6 +512,10 @@ export class DealCRMComponent implements OnInit, OnDestroy {
         }
       })
     }
+  }
+
+  drop(event: CdkDragDrop<any[]>) {
+    moveItemInArray(this.imageArray, event.previousIndex, event.currentIndex);
   }
 
   ngOnDestroy() {
