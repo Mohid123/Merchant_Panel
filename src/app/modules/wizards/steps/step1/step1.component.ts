@@ -319,7 +319,9 @@ export class Step1Component implements OnInit, OnDestroy {
                   resolve('success')
                 }
                 else {
-                  this.toast.error('Failed to save deal draft')
+                  this.toast.error('Failed to save deal draft');
+                  this.connection.isSavingNextData(false);
+                  reject('error')
                 }
               })
             }
@@ -373,7 +375,9 @@ export class Step1Component implements OnInit, OnDestroy {
                   resolve('success')
                 }
                 else {
-                  this.toast.error('Failed to save deal draft')
+                  this.toast.error('Failed to save deal draft');
+                  this.connection.isSavingNextData(false);
+                  reject('error')
                 }
               })
             }
@@ -394,6 +398,8 @@ export class Step1Component implements OnInit, OnDestroy {
                 }
                 else {
                   this.toast.error('Failed to save deal draft');
+                  this.connection.isSavingNextData(false);
+                  reject('error')
                 }
               });
             }
@@ -457,6 +463,8 @@ export class Step1Component implements OnInit, OnDestroy {
                 }
                 else {
                   this.toast.error('Failed to save deal draft');
+                  this.connection.isSavingNextData(false);
+                  reject('error')
                 }
             })
           });

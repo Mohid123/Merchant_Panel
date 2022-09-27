@@ -117,7 +117,7 @@
                   <table class="p-4 rounded-lg" style="width: 97.5%; margin-left: auto; margin-right: auto; margin-bottom: 12px; background-color: rgb(226 237 254);">
                     <thead class="relative">
                       <tr class="rounded-lg" style="color:#545A60;">
-                        <th class="py-4 text-sm font-semibold text-left pl-11" style="width: 350px; max-width: 350px;">Sub Deal</th>
+                        <th class="py-4 text-sm font-semibold text-left pl-11" style="width: 350px; max-width: 350px;">Sub deal</th>
                         <th class="py-4 text-sm font-semibold text-left" style="width: 9.375rem; max-width: 9.375rem;">Sold</th>
                         <th class="py-4 text-sm font-semibold text-left" style="width: 9.375rem; max-width: 9.375rem;">Available</th>
                         <th class="py-4 text-sm font-semibold text-right pr-28" style="width: 7.5rem; max-width: 7.5rem;">Value</th>
@@ -140,8 +140,8 @@
                         <td class="py-4 text-sm text-left">{{voucher?.soldVouchers}}</td>
                         <td class="py-4 text-sm text-left">{{voucher?.numberOfVouchers}}</td>
                         <td class="py-4 text-sm text-right pr-28" style="width: 7.5rem;">{{voucher?.dealPrice}}&nbsp;&euro;</td>
-                        <td class="py-4 text-sm text-right" style="width: 7.5rem; padding-right: 3.25rem;">{{voucher?.grossEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
-                        <td class="py-4 text-sm text-right" style="width: 7.5rem; padding-right: 1.875rem;">{{voucher?.netEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td> <!--ye wala-->
+                        <td class="py-4 text-sm text-right" style="width: 7.5rem; padding-right: 3.85rem;">{{voucher?.grossEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
+                        <td class="py-4 text-sm text-right" style="width: 7.5rem; padding-right: 2.4rem;">{{voucher?.netEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td> <!--ye wala-->
                         <td class="py-4 xl:pl-2 1.5xl:pl-4 2xl:pl-12 text-sm text-left w-28">
                           <img class="text-sm cursor-pointer" (click)="openNew(index, i)" src="../../../../assets/media/icons/edit.svg">
                         </td>
@@ -252,7 +252,7 @@
         <div class="h-24 fv-row 2xl:h-26">
           <label class="pb-2 text-gray-500">Original price</label>
             <span class="absolute flex items-center h-11 "><i style="font-size:12px;" class="px-2.5 py-2.5 ml-2 xl:mt-1.5 2xl:mt-2 text-white bg-gray-500 rounded fas fa-euro-sign fa-lg"></i></span>
-            <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control deal-input" formControlName="originalPrice"
+            <input appAllowTwoDecimal type="text" class="pl-12 form-control deal-input" formControlName="originalPrice"
             [ngClass]="{
             'is-invalid': editVouchers.controls['originalPrice']?.invalid && editVouchers.controls['originalPrice']?.touched,
             'is-valid':  editVouchers.controls['originalPrice']?.valid}">
@@ -267,7 +267,7 @@
           <div class="h-24 fv-row 2xl:h-26">
             <label class="pb-2 text-gray-500">Deal price</label>
               <span class="absolute flex items-center h-11"><i style="font-size:12px;" class="px-2.5 py-2.5 ml-2 xl:mt-1.5 2xl:mt-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
-              <input maxlength="5" appNumbersOnly type="text" class="pl-12 form-control deal-input" formControlName="dealPrice" name="dealPrice"
+              <input appAllowTwoDecimal type="text" class="pl-12 form-control deal-input" formControlName="dealPrice" name="dealPrice"
               [ngClass]="{
                 'is-invalid': editVouchers.controls['dealPrice']?.invalid && editVouchers.controls['dealPrice']?.touched,
                 'is-valid': editVouchers.controls['dealPrice']?.valid && editVouchers.controls['dealPrice']?.value != '' && editVouchers.controls['dealPrice']?.value != null && editVouchers.controls['dealPrice']?.value != undefined}">
