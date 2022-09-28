@@ -964,7 +964,7 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
-        this.toast.success('Voucher updated!');
+        this.toast.success('Sub deal updated!');
         this.modal.close().then(() => {
           this.getDealsByMerchantID();
         });
