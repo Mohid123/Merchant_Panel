@@ -423,6 +423,11 @@ export class ViewDealComponent implements OnInit, OnDestroy {
     this.currentEvents[index].isCollapsed = false;
     delete this.currentEvents[index].createdAt;
     delete this.currentEvents[index].updatedAt;
+    this.currentEvents[index]?.subDeals.map((value: any) => {
+      value.originalPrice = parseFloat(value.originalPrice.toString().replace(',' , '.'));
+      value.dealPrice = parseFloat(value.dealPrice.toString().replace(',' , '.'));
+      return value
+    });
     this.currentEvents[index].isDuplicate = true;
     this.dealService.createDeal(this.currentEvents[index]).pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
