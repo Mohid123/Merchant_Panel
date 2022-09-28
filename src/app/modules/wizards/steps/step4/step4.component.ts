@@ -186,6 +186,11 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
 
           if(response.subDeals) {
             this.isObject = typeof response?.subDeals[0]?.voucherStartDate;
+            response.subDeals = response.subDeals?.map((value: any) => {
+              value.originalPrice = parseFloat(value.originalPrice.toString().replace(',', '.'));
+              value.dealPrice = parseFloat(value.dealPrice.toString().replace('.', '.'));
+              return value
+            });
           }
 
           if(response?.subDeals[0]?.voucherStartDate && this.isObject != "object") {
@@ -579,12 +584,15 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendDraftData() {
-    if(this.form.disabled == true || this.form.invalid == true || !this.dateForm.get('startDate')?.value || !this.dateForm.get('endDate')?.value) {
+    debugger
+    if(this.form.invalid == true || !this.dateForm.get('startDate')?.value || !this.dateForm.get('endDate')?.value) {
+      debugger
       this.form.markAllAsTouched();
       this.dateForm.markAllAsTouched();
       return;
     }
     else {
+      debugger
       this.uploaded = false;
       this.newData.pageNumber = 4;
       return new Promise((resolve, reject) => {
