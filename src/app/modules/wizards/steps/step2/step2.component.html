@@ -240,13 +240,13 @@
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
-              message: 'Please specify number of vouchers',
+              message: 'Please specify number of sub deals',
               control: editVouchers.controls['numberOfVouchers']
             }">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'min',
-            message: 'Please specify number of vouchers',
+            message: 'Please specify number of sub deals',
             control: editVouchers.controls['numberOfVouchers']
           }">
         </ng-container>

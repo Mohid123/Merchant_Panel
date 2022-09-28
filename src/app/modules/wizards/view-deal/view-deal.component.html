@@ -156,7 +156,7 @@
                                 <td class="px-4 py-4">Validity date &nbsp;<span class="text-black">{{voucher?.voucherEndDate | date: 'dd-MM-yyyy'}}</span></td>
                               </ng-container>
                               <ng-container *ngIf="voucher?.voucherValidity">
-                                <td class="px-4 py-4">Voucher is valid for &nbsp;<span class="text-black">{{voucher?.voucherValidity}}</span>&nbsp; days</td>
+                                <td class="px-4 py-4">Sub deal is valid for &nbsp;<span class="text-black">{{voucher?.voucherValidity}}</span>&nbsp; days</td>
                               </ng-container>
                             </tr>
                           </ng-container>
@@ -225,7 +225,7 @@
 
 <app-reusable-modal #modal [modalConfig]="modalConfig">
   <div class="border-white modal-header">
-    <h1 class="text-center">Edit Voucher</h1>
+    <h1 class="text-center">Edit Sub deal</h1>
     <div class="flex justify-end pb-8 m-0">
       <button (click)="closeModal()" class="px-2 py-1 text-sm font-normal text-gray-500 bg-gray-300 rounded-full">
         &#10006;
@@ -236,14 +236,14 @@
     <div>
       <form class="px-6 mt-2 md:px-11 form" [formGroup]="editVouchers">
         <div class="h-24 fv-row 2xl:h-26">
-          <label class="pb-2 text-gray-500">Voucher title</label>
+          <label class="pb-2 text-gray-500">Sub deal title</label>
             <input maxlength="140" appTrim type="text" class="form-control deal-input" formControlName="title" name="title"
             [ngClass]="{
             'is-invalid': editVouchers.controls['title']?.invalid && editVouchers.controls['title']?.touched,
             'is-valid': editVouchers.controls['title']?.valid}">
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'required',
-            message: 'Voucher title is required',
+            message: 'Sub deal title is required',
             control: editVouchers.controls['title']
           }">
         </ng-container>
@@ -278,7 +278,7 @@
             </div>
 
           <div class="h-24 fv-row 2xl:h-26">
-          <label class="pb-2 text-gray-500">Number of available vouchers</label>
+          <label class="pb-2 text-gray-500">Number of available sub deals</label>
             <div class="flex items-center justify-between h-8 border-2 border-white rounded-sm w-28">
               <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="editHandleMinus()">-</button>
               <input maxlength="4" appNumbersOnly type="text" style="height: 24px !important;min-height: unset;" class="w-12 py-0.5 px-0 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
@@ -286,13 +286,13 @@
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
-              message: 'Please specify number of vouchers',
+              message: 'Please specify number of sub deals',
               control: editVouchers.controls['numberOfVouchers']
             }">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'min',
-            message: 'Please specify number of vouchers',
+            message: 'Please specify number of sub deals',
             control: editVouchers.controls['numberOfVouchers']
           }">
         </ng-container>
