@@ -25,7 +25,14 @@
       <tbody>
         <ng-container *ngFor="let data of newReviews; let i = index;">
           <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
-            <td class="pr-4">{{data.subDealHeader}}</td>
+            <td class="pr-4">
+              <span class="cursor-pointer" *ngIf="data.subDealHeader.length >= 24" [ngbTooltip]="data.subDealHeader" placement="top" [container]="'body'">
+                {{(data.subDealHeader.length > 24) ? ((data.subDealHeader) | slice:0:24)+'...':(data.subDealHeader)}}
+              </span>
+              <span *ngIf="data.subDealHeader.length < 24">
+                {{(data.subDealHeader.length > 24) ? ((data.subDealHeader) | slice:0:24)+'...':(data.subDealHeader)}}
+              </span>
+            </td>
             <td class="pr-4">{{data.voucherID}}</td>
             <td class="pr-4">{{data.voucherRedeemedDate | date:'dd-MM-yyyy'}}</td>
             <td class="pr-4">{{data.updatedAt | date:'dd-MM-yyyy'}}</td>
@@ -54,7 +61,7 @@
               <span class="mt-1.5 ml-3">{{data.totalRating.toFixed(1)}}</span>
             </td>
             <td>
-              <button (click)="openReviewModal(data.id, data.voucherID); updateReview(data.id)" class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
+              <button (click)="openReviewModal(data.id, data.voucherID, data.voucherMongoID); updateReview(data.id)" class="px-6 py-2 text-sm font-semibold text-blue-500 bg-blue-100 rounded-md hover:bg-blue-600 hover:text-white">View</button>
             </td>
           </tr>
         </ng-container>

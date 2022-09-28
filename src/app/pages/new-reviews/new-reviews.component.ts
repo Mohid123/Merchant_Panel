@@ -34,6 +34,7 @@ export class NewReviewsComponent implements OnInit {
   replyView: boolean = false;
   replyForm: FormGroup;
   updateReviewID: string;
+  voucherMongoID: string;
 
   @ViewChild('modal') private modal: TemplateRef<any>
 
@@ -71,9 +72,10 @@ export class NewReviewsComponent implements OnInit {
     })
   }
 
-  openReviewModal(reviewID: string, voucherID: string) {
+  openReviewModal(reviewID: string, voucherID: string, voucherMongoID: string) {
     this.reviewID = reviewID;
     this.voucherID = voucherID;
+    this.voucherMongoID = voucherMongoID
     this.newReviews.find((value: Reviews) => {
       if(value.id == this.reviewID) {
         this.ReplySubject.value?.pop();
@@ -118,9 +120,9 @@ export class NewReviewsComponent implements OnInit {
       reviewID: this.reviewID,
       merchantID: this.authService.currentUserValue?.id,
       voucherID: this.voucherID,
-      merchantName: this.authService.currentUserValue?.firstName,
-      legalName: this.authService.currentUserValue?.legalName,
-      profilePicURL: this.authService.currentUserValue?.profilePicURL,
+      // merchantName: this.authService.currentUserValue?.firstName,
+      // legalName: this.authService.currentUserValue?.legalName,
+      // profilePicURL: this.authService.currentUserValue?.profilePicURL,
       merchantReplyText: this.replyForm.get('merchantReplyText')?.value,
       deletedCheck: false
     }

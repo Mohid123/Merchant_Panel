@@ -3,8 +3,8 @@ export class Reviews {
   dealMongoID?: string;
   dealId?: string;
   dealHeader?: string;
-  subDealHeader?: string;
-  voucherMongoID?: string;
+  subDealHeader?: string | any;
+  voucherMongoID?: string | any;
   voucherID?: string | any;
   customerID?: string;
   merchantID?: string;
