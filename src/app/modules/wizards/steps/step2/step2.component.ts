@@ -267,8 +267,10 @@ export class Step2Component implements OnInit, OnDestroy {
         this.editVouchers.controls['discountPercentage']?.setValue('0');
       }
       else {
-        const dealPrice = Math.round(parseFloat(this.editVouchers.controls['originalPrice']?.value) - parseFloat(this.editVouchers.controls['dealPrice']?.value));
-        const discountPrice = Math.floor(100 * dealPrice/parseFloat(this.editVouchers.controls['originalPrice']?.value));
+
+        const dealPrice = parseFloat(this.editVouchers.controls['originalPrice']?.value) - parseFloat(this.editVouchers.controls['dealPrice']?.value);
+        const discountPrice = 100 * dealPrice/parseFloat(this.editVouchers.controls['originalPrice']?.value);
+
         this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
       }
     }
@@ -278,8 +280,8 @@ export class Step2Component implements OnInit, OnDestroy {
     }
     else {
       this.editVouchers.controls['dealPrice']?.setValue('0');
-      const dealPrice = Math.round(parseFloat(this.editVouchers.controls['originalPrice']?.value) - parseFloat(this.editVouchers.controls['dealPrice']?.value));
-      const discountPrice = Math.floor(100 * dealPrice/parseFloat(this.editVouchers.controls['originalPrice']?.value));
+      const dealPrice = parseFloat(this.editVouchers.controls['originalPrice']?.value) - parseFloat(this.editVouchers.controls['dealPrice']?.value);
+      const discountPrice = 100 * dealPrice/parseFloat(this.editVouchers.controls['originalPrice']?.value);
       this.editVouchers.controls['discountPercentage']?.setValue(discountPrice);
     }
     if(this.editIndex >= 0) {
@@ -310,9 +312,11 @@ export class Step2Component implements OnInit, OnDestroy {
         this.vouchers.controls['discountPercentage']?.setValue('0');
       }
       else {
-        const dealPrice = Math.round(parseFloat(this.voucherFormControl['originalPrice']?.value) - parseFloat(this.voucherFormControl['dealPrice']?.value));
-        const discountPrice = Math.floor(100 * dealPrice/parseFloat(this.voucherFormControl['originalPrice']?.value));
+        const dealPrice = parseFloat(this.voucherFormControl['originalPrice']?.value) - parseFloat(this.voucherFormControl['dealPrice']?.value);
+
+        const discountPrice = 100 * dealPrice/parseFloat(this.voucherFormControl['originalPrice']?.value);
         this.vouchers.controls['discountPercentage']?.setValue(discountPrice);
+
       }
     }
     else if(!parseFloat(this.vouchers.controls['dealPrice']?.value)) {
@@ -321,8 +325,8 @@ export class Step2Component implements OnInit, OnDestroy {
     }
     else {
       this.vouchers.controls['dealPrice']?.setValue('0');
-      const dealPrice = Math.round(parseFloat(this.voucherFormControl['originalPrice']?.value) - parseFloat(this.voucherFormControl['dealPrice']?.value));
-      const discountPrice = Math.floor(100 * dealPrice/parseFloat(this.voucherFormControl['originalPrice']?.value));
+      const dealPrice = parseFloat(this.voucherFormControl['originalPrice']?.value) - parseFloat(this.voucherFormControl['dealPrice']?.value);
+      const discountPrice = 100 * dealPrice/parseFloat(this.voucherFormControl['originalPrice']?.value);
       this.vouchers.controls['discountPercentage']?.setValue(discountPrice);
     }
     if(this.editIndex >= 0) {
@@ -462,7 +466,7 @@ export class Step2Component implements OnInit, OnDestroy {
           subdeal.dealPrice = parseFloat(subdeal.dealPrice.toString().replace(',' , '.'));
           subdeal.platformNetEarning = 0;
         });
-        debugger
+
         const newPayload = this.newData;
         const payloadWithoutMedia: any = this.newData;
         delete payloadWithoutMedia.mediaUrl;
