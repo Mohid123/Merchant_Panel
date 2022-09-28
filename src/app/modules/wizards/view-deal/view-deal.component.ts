@@ -16,7 +16,6 @@ import { AuthService } from 'src/app/modules/auth';
 import { Deals, MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { ReusableModalComponent } from 'src/app/_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { GreaterThanValidator } from '../greater-than.validator';
-import { Vouchers } from '../models/vouchers.model';
 import { createEventId } from '../steps/step4/event-utils';
 import { ModalConfig } from './../../../@core/models/modal.config';
 import { ConnectionService } from './../services/connection.service';
@@ -958,11 +957,14 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   }
 
   saveEditVoucherOnListView() {
-    const voucher: Vouchers = {
+    const originalPrice = parseFloat(this.editVouchers.get('originalPrice')?.value.toString().replace(',' , '.'));
+    const dealPrice = parseFloat(this.editVouchers.get('dealPrice')?.value.toString().replace(',' , '.'));
+    debugger
+    const voucher: any = {
       voucherID: this.voucherId,
       title: this.editVouchers.get('title')?.value,
-      originalPrice: this.editVouchers.get('originalPrice')?.value,
-      dealPrice: this.editVouchers.get('dealPrice')?.value,
+      originalPrice: originalPrice,
+      dealPrice: dealPrice,
       numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value)
     }
     this.dealService.updateVoucher(this.dealIDForEdit, {subDeals: voucher})
