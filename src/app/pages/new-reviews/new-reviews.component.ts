@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,7 +11,8 @@ import { AuthService } from './../../modules/auth/services/auth.service';
 @Component({
   selector: 'app-new-reviews',
   templateUrl: './new-reviews.component.html',
-  styleUrls: ['./new-reviews.component.scss']
+  styleUrls: ['./new-reviews.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class NewReviewsComponent implements OnInit {
 
@@ -123,7 +124,6 @@ export class NewReviewsComponent implements OnInit {
       merchantReplyText: this.replyForm.get('merchantReplyText')?.value,
       deletedCheck: false
     }
-    debugger
     this.reviewService.createReply(payload).pipe(takeUntil(this.destroy$), exhaustMap((res: any): any => {
       if(!res.hasErrors()) {
         this.switchToReply = false;
