@@ -180,9 +180,9 @@
               <div class="relative mt-4">
                 <!-- <div class="flex flex-col w-full h-8 border-2 border-white rounded-sm md:flex-row"> -->
                   <div class="flex flex-row w-full">
-                    <button [disabled]="btnDisable == true" class="h-full mt-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14 hover:bg-blue-300 hover:text-gray-600" (click)="handleMinus()">-</button>
-                    <input [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'" maxlength="3" placeholder="0" appNumbersOnly type="text" style="border-width: 1px;" class="w-3/12 mt-2 text-xs text-center rounded-md h-7 form-control" formControlName="voucherValidity" name="voucherValidity">
-                    <button [disabled]="btnDisable == true" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14 hover:bg-blue-300 hover:text-gray-600" (click)="handlePlus()">+</button>
+                    <button [disabled]="btnDisable == true || dealStatus == 'Published' || dealStatus == 'Scheduled'" class="h-full mt-2 mr-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14 hover:bg-blue-300 hover:text-gray-600" (click)="handleMinus()">-</button>
+                    <input [disabled]="dealStatus == 'Published' || dealStatus == 'Scheduled'" [ngClass]="form.controls['voucherValidity'].disabled ? 'border-gray-500 text-gray-500': 'border-blue-500 text-black'" maxlength="3" placeholder="0" appNumbersOnly type="text" style="border-width: 1px;" class="w-3/12 mt-2 text-xs text-center rounded-md h-7 form-control" formControlName="voucherValidity" name="voucherValidity">
+                    <button [disabled]="btnDisable == true || dealStatus == 'Published' || dealStatus == 'Scheduled'" class="h-full mt-2 ml-2 text-xl font-bold text-gray-500 bg-gray-200 rounded-md w-14 hover:bg-blue-300 hover:text-gray-600" (click)="handlePlus()">+</button>
                     <div class="flex flex-row w-full ml-2 tracking-wider lg:mt-2">
                       <span class="mt-1 ml-2 text-sm font-medium">days after purchase</span>
                     </div>
