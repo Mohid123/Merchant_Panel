@@ -603,7 +603,7 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
         const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day).getTime();
         this.newData.startDate = moment(startDate).format("YYYY-MM-DD");
         this.newData.endDate = moment(endDate).format("YYYY-MM-DD");
-        this.newData.dealStatus = 'In Review';
+        this.newData.dealStatus = 'In review';
         const payload = this.newData;
         this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
         .subscribe((res: ApiResponse<any>) => {
