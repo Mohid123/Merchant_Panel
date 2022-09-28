@@ -83,7 +83,7 @@
       </div>
 
   <!--Image-->
-      <div class="mb-2.5 mt-7" *ngIf="isEditMode == true">
+      <div class="mb-2.5 mt-7" *ngIf="afterSave == true">
         <ng-container *ngFor="let image of imageArray; let i = index; let first = first">
           <div class="relative w-190 h-104" *ngIf="i == 0">
             <app-blur-hash class="object-cover rounded-md w-190 h-104" [blurHash]="image.blurHash" [imageSrc]="first ? image.captureFileURL+'?size=764' : image.captureFileURL+'?size=142'" [loading]="'lazy'"></app-blur-hash>
@@ -110,7 +110,7 @@
       </div>
 
   <!--Multiple Images-->
-      <div cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" class="flex justify-start space-x-3" *ngIf="isEditMode == true">
+      <div cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" class="flex justify-start space-x-3" *ngIf="afterSave == true">
         <ng-container *ngFor="let images of imageArray; let index = index; let first = first">
           <div cdkDrag class="relative block object-cover w-16 h-14" *ngIf="index >= 0">
             <app-blur-hash [first]="first" [blurHash]="images.blurHash" [imageSrc]="first ? images.captureFileURL+'?size=764' : images.captureFileURL+'?size=142'" class="block w-16 h-14"></app-blur-hash>
@@ -128,7 +128,7 @@
 
   <!--Swiper-->
 
-      <ng-container *ngIf="isEditMode == false && imageArray.length > 0">
+      <ng-container *ngIf="afterSave == false && imageArray.length > 0">
         <div class="my-7 w-190 h-104">
           <swiper #swipe
             style="--swiper-navigation-color: #fff;--swiper-pagination-color: #fff; --swiper-navigation-size: 20px;"
@@ -316,7 +316,7 @@
               <span class="w-20 mt-4 text-xxs 1.5xl:text-sm font-semibold text-left" style="color:#12B500;">{{deal.dealPrice}}&nbsp;&euro;</span>
               <span class="mt-4 text-xxs 1.5xl:text-sm line-through mx-3.5 text-left w-20" style="color:#94A1B3;">{{deal.originalPrice}}&nbsp;&euro;</span>
               <button class="h-5 mt-4 text-center w-36 text-xxs rounded-xl cursor-text" style="color: #12B500; background-color: #DBF4D9;">{{deal.discountPercentage.toFixed(2).replace('.',',')}}% off</button>
-              <button [ngClass]="isEditMode == false ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="isEditMode == false" (click)="openModal(i)" type="button" class="py-1.5 px-5 ml-20 text-sm rounded-md mt-2.5" style="background-color:#EBF5FD; color: #0081E9;">Edit</button>
+              <button [ngClass]="afterSave == false ? 'cursor-not-allowed': 'cursor-pointer'" [disabled]="afterSave == false" (click)="openModal(i)" type="button" class="py-1.5 px-5 ml-20 text-sm rounded-md mt-2.5" style="background-color:#EBF5FD; color: #0081E9;">Edit</button>
             </div>
             <hr style="border: 0.5px solid #96B1BC;" class="mb-4">
           </ng-container>

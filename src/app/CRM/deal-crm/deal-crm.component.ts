@@ -54,6 +54,7 @@ export class DealCRMComponent implements OnInit, OnDestroy {
   userData$ = this.userData.asObservable();
   isEditMode: boolean = false;
   user: User | any;
+  afterSave: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -370,6 +371,7 @@ export class DealCRMComponent implements OnInit, OnDestroy {
 
   enableEditMode() {
     this.isEditMode = true;
+    this.afterSave = true;
     this.cf.detectChanges();
     this.crmForm.enable();
   }
@@ -381,6 +383,8 @@ export class DealCRMComponent implements OnInit, OnDestroy {
     }
     else {
       // this.isLoggedIn = false;
+      this.crmForm.disable();
+      this.afterSave = false;
       this.uploaded = false;
       this.dealData.dealHeader = this.crmForm.get('dealTitle')?.value;
       this.dealData.subTitle = this.crmForm.get('dealSubTitle')?.value;
@@ -402,7 +406,6 @@ export class DealCRMComponent implements OnInit, OnDestroy {
           this.toast.success('Deal updated successfully');
           this.isEditMode = false;
           this.cf.detectChanges();
-          this.crmForm.disable();
         }
         else {
           this.toast.error('Failed to save changes')
