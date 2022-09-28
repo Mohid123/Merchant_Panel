@@ -184,7 +184,7 @@
       </div> -->
 
   <!--about this deal-->
-      <div class="relative h-72 w-190 fv-row mb-7 mt-20">
+      <div class="relative h-72 w-190 fv-row mb-7 mt-7" [ngClass]="afterSave == false ? 'mt-20' : 'mt-7'">
         <label class="text-base font-semibold my-3.5">About this deal</label>
         <span [ngClass]="textLength(f['aboutThisDeal'].value) > 2000 ? 'text-red-500': 'text-black'" class="absolute z-50 text-xs top-16 right-4">{{textLength(f['aboutThisDeal'].value)}}/2000</span>
         <ckeditor [editor]="Editor" (change)="f['aboutThisDeal'].markAsTouched()" [config]="config" type="text font-weight-light" class="p-0 text-sm font-thin border-none form-control" formControlName="aboutThisDeal" name="aboutThisDeal" placeholder="aboutThisDeal" rows="5"
@@ -328,7 +328,7 @@
 
 <ng-template #modal>
   <div class="border-white modal-header">
-    <h1 class="text-center">Edit Voucher</h1>
+    <h1 class="text-center">Edit Sub deal</h1>
     <div class="flex justify-end pb-8 m-0">
       <button (click)="closeModal()" class="px-2 py-1 text-sm font-normal text-gray-500 bg-gray-300 rounded-full">
         &#10006;
@@ -339,14 +339,14 @@
     <div>
       <form class="px-6 mt-2 md:px-11 form" [formGroup]="editVouchers">
         <div class="h-24 fv-row 2xl:h-26">
-          <label class="pb-2 text-gray-500">Voucher title</label>
+          <label class="pb-2 text-gray-500">Sub deal title</label>
             <input maxlength="140" appTrim type="text" class="form-control" formControlName="title" name="title"
             [ngClass]="{
             'is-invalid': editVouchers.controls['title'].invalid && editVouchers.controls['title'].touched,
             'is-valid': editVouchers.controls['title'].valid}">
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'required',
-            message: 'Voucher title is required',
+            message: 'Sub deal title is required',
             control: editVouchers.controls['title']
           }">
         </ng-container>
@@ -395,13 +395,13 @@
             </div>
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
-              message: 'Please specify number of vouchers',
+              message: 'Please specify number of sub deals',
               control: editVouchers.controls['numberOfVouchers']
             }">
           </ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'min',
-            message: 'Please specify number of vouchers',
+            message: 'Please specify number of sub deals',
             control: editVouchers.controls['numberOfVouchers']
           }">
         </ng-container>
