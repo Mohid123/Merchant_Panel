@@ -22,7 +22,7 @@
     [style.width]="chartWidth"
     [style.background]="'white'"
   >
-    <apx-chart
+    <apx-chart *ngIf="(isLoading$ | async) == false"
       [series]="chartOptions.series"
       [chart]="chartOptions.chart"
       [xaxis]="chartOptions.xaxis"
@@ -37,6 +37,13 @@
       [markers]="chartOptions.markers"
       [plotOptions]="chartOptions.plotOptions"
     ></apx-chart>
+    <ng-container *ngIf="(isLoading$ | async) == true">
+      <div class="flex justify-center align-middle items-center mb-4" style="height: 190px;">
+        <span class="indicator-progress" [style.display]="'block'">
+          <span class="align-middle spinner-border spinner-border-sm w-6 h-6"></span>
+        </span>
+      </div>
+    </ng-container>
   </div>
 </div>
 

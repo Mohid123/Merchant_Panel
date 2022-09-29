@@ -11,7 +11,7 @@
     class="mixed-widget-2-chart card-rounded-bottom"
     style="background-color: #0081E9;"
   >
-    <apx-chart
+    <apx-chart *ngIf="(isLoading$ | async) == false"
       [series]="chartOptions.series"
       [chart]="chartOptions.chart"
       [xaxis]="chartOptions.xaxis"
@@ -26,6 +26,13 @@
       [markers]="chartOptions.markers"
       [plotOptions]="chartOptions.plotOptions"
     ></apx-chart>
+    <ng-container *ngIf="(isLoading$ | async) == true">
+      <div class="flex justify-center align-middle items-center mb-4" style="height: 249px;">
+        <span class="indicator-progress" [style.display]="'block'" style="color: white;">
+          <span class="align-middle spinner-border spinner-border-sm w-8 h-8" style="color: white;"></span>
+        </span>
+      </div>
+    </ng-container>
   </div>
   <!-- end::Chart -->
   <!-- begin::Stats -->
@@ -35,13 +42,23 @@
       <!-- begin::Col -->
       <div class="mr-1 text-center 2xl:mr-2 col rounded-2 mb-7 fixed-card" style="background-color: #EEF6FF;">
         <span class="mt-5 text-center d-block" style="font-size: 0.813rem; color:#728A9F; font-weight: 600;"> Deals Published </span>
-        <span class="my-2 1.25xl:text-xxl xl:text-xl text-primary-400 d-block">540</span>
+        <span *ngIf="(isLoading$ | async) == false" class="my-2 1.25xl:text-xxl xl:text-xl text-primary-400 d-block">{{(netRevenue | async)?.totalDeals}}</span>
+        <ng-container *ngIf="(isLoading$ | async) == true">
+          <span class="indicator-progress mt-4 2xl:mr-2 mr-1" [style.display]="'block'">
+            <span class="align-middle spinner-border spinner-border-sm w-5 h-5"></span>
+          </span>
+        </ng-container>
       </div>
       <!-- end::Col -->
       <!-- begin::Col -->
       <div class="ml-1 text-center 2xl:ml-2 col rounded-2 mb-7 fixed-card" style="background-color: #F8FFEE;">
         <span class="mt-5 text-center d-block" style="font-size: 0.813rem; color:#728A9F; font-weight: 600;"> Vouchers Sold </span>
-        <span class="my-2 1.25xl:text-xxl xl:text-xl d-block" style="color:#12C861;">420</span>
+        <span *ngIf="(isLoading$ | async) == false" class="my-2 1.25xl:text-xxl xl:text-xl d-block" style="color:#12C861;">{{(netRevenue | async)?.totalVouchersSold}}</span>
+        <ng-container *ngIf="(isLoading$ | async) == true">
+          <span class="indicator-progress my-2 2xl:mr-2 mr-1" [style.display]="'block'">
+            <span class="align-middle spinner-border spinner-border-sm w-5 h-5"></span>
+          </span>
+        </ng-container>
       </div>
       <!-- end::Col -->
     </div>
@@ -51,10 +68,15 @@
       <!-- begin::Col -->
       <div class="mr-1 text-center 2xl:mr-2 col rounded-2 mb-7 fixed-card" style="background-color: #FFF1D1;">
         <span class="mt-5 text-center d-block" style="font-size: 0.813rem; color:#728A9F; font-weight: 600;"> Net Revenue </span>
-        <div class="flex justify-center">
-          <span class="my-2 1.25xl:text-xxl xl:text-xl d-block" style="color:#EFAF1B">4000</span>
+        <div *ngIf="(isLoading$ | async) == false" class="flex justify-center">
+          <span class="my-2 1.25xl:text-xxl xl:text-xl d-block" style="color:#EFAF1B; max-width: 82%;">{{(netRevenue | async)?.netRevenue?.toFixed(0)}}</span>
           <img class="ml-2" src="../../../../../../../assets/media/logos/euro.svg">
         </div>
+        <ng-container *ngIf="(isLoading$ | async) == true">
+          <span class="indicator-progress my-2 2xl:mr-2 mr-1" [style.display]="'block'">
+            <span class="align-middle spinner-border spinner-border-sm w-5 h-5"></span>
+          </span>
+        </ng-container>
       </div>
       <!-- end::Col -->
       <!-- begin::Col -->
@@ -62,7 +84,12 @@
         <span class="mt-5 text-center d-block" style="font-size: 0.813rem; color:#728A9F; font-weight: 600;"> Overall Rating </span>
         <div class="flex justify-center">
           <img class="mr-2" src="../../../../../../../assets/media/logos/star.svg">
-          <span class="my-2 1.25xl:text-xxl xl:text-xl d-block" style="color: #FE4897">3.6</span>
+          <span *ngIf="(isLoading$ | async) == false" class="my-2 1.25xl:text-xxl xl:text-xl d-block" style="color: #FE4897">{{(netRevenue | async)?.overallRating?.toFixed(1)}}</span>
+          <ng-container *ngIf="(isLoading$ | async) == true">
+            <span class="indicator-progress my-2 2xl:mr-2 mr-1" [style.display]="'block'">
+              <span class="align-middle spinner-border spinner-border-sm w-5 h-5"></span>
+            </span>
+          </ng-container>
         </div>
       </div>
       <!-- end::Col -->

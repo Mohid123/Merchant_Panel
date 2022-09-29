@@ -1,11 +1,13 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ModalConfig } from '@core/models/modal.config';
 import { ApiResponse } from '@core/models/response.model';
 import { DealService } from '@core/services/deal.service';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
+import { AnalyticsService } from '@pages/services/analytics.service';
 import { NgPasswordValidatorOptions } from 'ng-password-validator';
 import { Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
@@ -13,6 +15,7 @@ import { AuthService } from 'src/app/modules/auth';
 import { CustomValidators } from './../../modules/auth/components/reset-password/custom-validators';
 import { PasswordService } from './../../modules/auth/services/password-service';
 import { UserService } from './../../modules/auth/services/user.service';
+import { ConnectionService } from './../../modules/wizards/services/connection.service';
 import { ReusableModalComponent } from './../../_metronic/layout/components/reusable-modal/reusable-modal.component';
 import { ConfirmPasswordValidator } from './password-validator';
 
@@ -86,12 +89,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private dealService: DealService,
+    private analytics: AnalyticsService,
     private authService: AuthService,
     private cf: ChangeDetectorRef,
     private fb: FormBuilder,
     private toast: HotToastService,
     private passService: PasswordService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router,
+    private conn: ConnectionService
     ) {
       this.page = 1;
       this.validityPass = false;
@@ -227,13 +233,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getTopDealsByMerchant() {
     this.showData = false;
-    const params: any = {}
-    this.dealService.getDeals(this.page, this.authService.currentUserValue?.id, this.offset, this.limit, '', '', '', '', params)
+    this.analytics.getPublishedDeals(this.page, this.limit)
     .pipe(takeUntil(this.destroy$))
     .subscribe((res: any)=> {
       if (!res.hasErrors()) {
         this.dealData = res.data;
-        this.currentEvents = res.data.data;
+        this.currentEvents = res.data.deals;
         this.showData = true;
         this.cf.detectChanges();
       }
@@ -246,9 +251,16 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentEvents[index].isCollapsed = false;
     delete this.currentEvents[index].createdAt;
     delete this.currentEvents[index].updatedAt;
+    this.currentEvents[index]?.subDeals.map((value: any) => {
+      value.originalPrice = parseFloat(value.originalPrice.toString().replace(',' , '.'));
+      value.dealPrice = parseFloat(value.dealPrice.toString().replace(',' , '.'));
+      return value
+    });
+    debugger
     this.currentEvents[index].isDuplicate = true;
     this.dealService.createDeal(this.currentEvents[index]).pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
+      debugger
       if(!res.hasErrors()) {
         this.getTopDealsByMerchant();
         this.toast.success('Deal successfully duplicated', {
@@ -263,26 +275,26 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getTopDealsByMerchant();
   }
 
-  // async editDeal(index: number) {
-  //   return await this.router.navigate(['/deals/create-deal']).finally(() => {
-  //     switch (this.currentEvents[index]?.dealStatus) {
-  //       case 'Draft':
-  //         this.conn.sendStep1(this.currentEvents[index]);
-  //       break;
-  //       case 'Needs attention':
-  //         this.conn.sendStep1(this.currentEvents[index]);
-  //       break;
-  //       case 'Published':
-  //         this.conn.currentStep$.next(4);
-  //         this.conn.sendSaveAndNext(this.currentEvents[index]);
-  //       break;
-  //       case 'Scheduled':
-  //         this.conn.currentStep$.next(4);
-  //         this.conn.sendSaveAndNext(this.currentEvents[index]);
-  //       break;
-  //     }
-  //   });
-  // }
+  async editDeal(index: number) {
+    return await this.router.navigate(['/deals/create-deal']).finally(() => {
+      switch (this.currentEvents[index]?.dealStatus) {
+        case 'Draft':
+          this.conn.sendStep1(this.currentEvents[index]);
+        break;
+        case 'Needs attention':
+          this.conn.sendStep1(this.currentEvents[index]);
+        break;
+        case 'Published':
+          this.conn.currentStep$.next(4);
+          this.conn.sendSaveAndNext(this.currentEvents[index]);
+        break;
+        case 'Scheduled':
+          this.conn.currentStep$.next(4);
+          this.conn.sendSaveAndNext(this.currentEvents[index]);
+        break;
+      }
+    });
+  }
 
   ngOnDestroy() {
     this.destroy$.complete();

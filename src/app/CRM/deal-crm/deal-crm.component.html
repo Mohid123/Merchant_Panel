@@ -5,7 +5,7 @@
   <!--Title-->
       <div class="h-24 fv-row 2xl:h-26">
         <label class="text-base font-semibold my-3.5">Deal title</label>
-        <input maxlength="100" appTrim type="text" class="h-12 text-base font-normal text-black form-control max-w-190" formControlName="dealTitle" name="dealTitle" placeholder="Enter title of your deal"
+        <input appTrim type="text" class="h-12 text-base font-normal text-black form-control max-w-190" formControlName="dealTitle" name="dealTitle" placeholder="Enter title of your deal"
         [ngClass]="{
           'is-invalid': f['dealTitle'].invalid && f['dealTitle'].touched,
           'is-valid': f['dealTitle'].valid}">
@@ -58,7 +58,7 @@
   <!--Subtitle-->
       <div class="h-24 mb-5 fv-row 2xl:h-26">
         <label class="text-base font-semibold my-3.5">Deal sub-title</label>
-        <input maxlength="100" appTrim type="text" class="h-12 text-base font-normal text-black form-control max-w-190" formControlName="dealSubTitle" name="dealSubTitle" placeholder="Enter sub-title of your deal"
+        <input appTrim type="text" class="h-12 text-base font-normal text-black form-control max-w-190" formControlName="dealSubTitle" name="dealSubTitle" placeholder="Enter sub-title of your deal"
         [ngClass]="{
           'is-invalid': f['dealSubTitle'].invalid && f['dealSubTitle'].touched,
           'is-valid': f['dealSubTitle'].valid}">

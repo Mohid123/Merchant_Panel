@@ -1,5 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ApiResponse } from '@core/models/response.model';
+import { AnalyticsService } from '@pages/services/analytics.service';
+import * as moment from 'moment';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
+import { NetRevenue, revenueVouchers } from './../../../../../../modules/wizards/models/revenue.model';
 @Component({
   selector: 'app-mixed-widget11',
   templateUrl: './mixed-widget11.component.html',
@@ -9,139 +15,150 @@ export class MixedWidget11Component implements OnInit {
   @Input() chartHeight: string;
   @Input() chartWidth: string;
   chartOptions: any = {};
+  public netRevenue: Observable<NetRevenue>;
+  public voucherRevenue: Observable<revenueVouchers[]>;
+  public data: any = [];
+  public categories: any = [];
+  private isLoading: BehaviorSubject<any> = new BehaviorSubject(false);
+  public isLoading$: Observable<boolean> = this.isLoading.asObservable();
 
-  constructor() {}
+
+  constructor(private analytics: AnalyticsService, private cf: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.chartOptions = getChartOptions(this.chartHeight, this.chartColor, this.chartWidth);
+    this.isLoading.next(true);
+    this.getStats().then( async() => {
+      this.voucherRevenue.subscribe((vouchers: revenueVouchers[]) => {
+        this.data = vouchers.map((vocuher: revenueVouchers) => vocuher.netRevenue.toFixed(0)).reverse();
+        this.categories = vouchers.map((vocuher: revenueVouchers) => moment(vocuher.month).format('MMM')).reverse();
+        this.cf.detectChanges();
+        this.chartOptions = this.getChartOptions(this.chartHeight, this.chartColor, this.chartWidth);
+        this.cf.detectChanges();
+        this.isLoading.next(false);
+     })
+    });
+
+    this.chartOptions = this.getChartOptions(this.chartHeight, this.chartColor, this.chartWidth);
   }
 
-  // initializeSalesChart() {
-  //   const labelColor = getCSSVariableValue('--bs-gray-400');
-  //   const borderColor = getCSSVariableValue('--bs-gray-300');
-  //   const secondaryColor = getCSSVariableValue('--bs-gray-800');
-  //   const baseColor = getCSSVariableValue('--bs-gray-400');
+  getStats() {
+    return new Promise((resolve) => {
+      this.netRevenue = this.analytics.getNetRevenue().pipe(map((res: ApiResponse<NetRevenue>) => res.data));
+      this.voucherRevenue = this.netRevenue.pipe(map((res: NetRevenue) => res.vouchers));
+      resolve('success');
+    })
+  }
 
-  //   this.chartOptions = {
-  //     series: [
-  //       {
-  //         name: 'Net Profit',
-  //         data:
-  //       }
-  //     ]
-  //   }
-  // }
-}
+  getChartOptions(chartHeight: string, chartColor: string, chartWidth: string) {
+    const labelColor =  '#728A9F';
+    const borderColor = getCSSVariableValue('--bs-gray-300');
+    const secondaryColor = getCSSVariableValue('--bs-gray-800');
+    const baseColor = '#0081E9'
 
-function getChartOptions(chartHeight: string, chartColor: string, chartWidth: string) {
-  const labelColor =  '#728A9F';
-  const borderColor = getCSSVariableValue('--bs-gray-300');
-  const secondaryColor = getCSSVariableValue('--bs-gray-800');
-  const baseColor = '#0081E9'
-
-  return {
-    series: [
-      {
-        name: 'Net Revenue',
-        data: [50, 120, 270, 380, 160, 50, 170, 260, 120, 400, 50, 340],
+    return {
+      series: [
+        {
+          name: 'Net Revenue',
+          data: this.data,
+        },
+      ],
+      chart: {
+        fontFamily: 'inherit',
+        type: 'bar',
+        height: chartHeight,
+        width: chartWidth,
+        toolbar: {
+          show: false,
+        },
       },
-    ],
-    chart: {
-      fontFamily: 'inherit',
-      type: 'bar',
-      height: chartHeight,
-      width: chartWidth,
-      toolbar: {
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '70%',
+          borderRadius: 1,
+        },
+      },
+      legend: {
         show: false,
       },
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: '70%',
-        borderRadius: 1,
+      dataLabels: {
+        enabled: false,
       },
-    },
-    legend: {
-      show: false,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ['transparent'],
-    },
-    xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      axisBorder: {
-        show: false,
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ['transparent'],
       },
-      axisTicks: {
-        show: false,
-      },
-      labels: {
-        style: {
-          colors: labelColor,
-          fontSize: '12px',
+      xaxis: {
+        categories: this.categories,
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        labels: {
+          style: {
+            colors: labelColor,
+            fontSize: '12px',
+          },
         },
       },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: labelColor,
-          fontSize: '12px',
-        },
-      },
-    },
-    fill: {
-      type: 'solid',
-    },
-    states: {
-      normal: {
-        filter: {
-          type: 'none',
-          value: 0,
-        },
-      },
-      hover: {
-        filter: {
-          type: 'none',
-          value: 0,
-        },
-      },
-      active: {
-        allowMultipleDataPointsSelection: false,
-        filter: {
-          type: 'none',
-          value: 0,
-        },
-      },
-    },
-    tooltip: {
-      style: {
-        fontSize: '12px',
-      },
-      y: {
-        formatter: function (val: number) {
-          return '$' + val + ' revenue';
-        },
-      },
-    },
-    colors: [baseColor, secondaryColor],
-    grid: {
-      padding: {
-        top: 10,
-      },
-      borderColor: borderColor,
-      strokeDashArray: 4,
       yaxis: {
-        lines: {
-          show: true,
+        labels: {
+          style: {
+            colors: labelColor,
+            fontSize: '12px',
+          },
         },
       },
-    },
-  };
+      fill: {
+        type: 'solid',
+      },
+      states: {
+        normal: {
+          filter: {
+            type: 'none',
+            value: 0,
+          },
+        },
+        hover: {
+          filter: {
+            type: 'none',
+            value: 0,
+          },
+        },
+        active: {
+          allowMultipleDataPointsSelection: false,
+          filter: {
+            type: 'none',
+            value: 0,
+          },
+        },
+      },
+      tooltip: {
+        style: {
+          fontSize: '12px',
+        },
+        y: {
+          formatter: function (val: number) {
+            return val + ' €';
+          },
+        },
+      },
+      colors: [baseColor, secondaryColor],
+      grid: {
+        padding: {
+          top: 10,
+        },
+        borderColor: borderColor,
+        strokeDashArray: 4,
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+    };
+  }
 }

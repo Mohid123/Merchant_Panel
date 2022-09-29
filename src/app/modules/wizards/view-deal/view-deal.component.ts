@@ -959,7 +959,6 @@ export class ViewDealComponent implements OnInit, OnDestroy {
   saveEditVoucherOnListView() {
     const originalPrice = parseFloat(this.editVouchers.get('originalPrice')?.value.toString().replace(',' , '.'));
     const dealPrice = parseFloat(this.editVouchers.get('dealPrice')?.value.toString().replace(',' , '.'));
-    debugger
     const voucher: any = {
       voucherID: this.voucherId,
       title: this.editVouchers.get('title')?.value,

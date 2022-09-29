@@ -79,11 +79,11 @@
                   <img src="../../../../assets/media/icons/preview.svg" class="mt-1 mr-2">
                   <span class="text-sm text-gray-600">Preview</span>
                 </a>
-                <button ngbDropdownItem class="flex justify-start px-3 my-2">
+                <button ngbDropdownItem class="flex justify-start px-3 my-2" (click)="editDeal(index)">
                   <img src="../../../../assets/media/icons/editing.svg" class="mt-1 mr-2">
                   <span class="text-sm text-gray-600">Edit</span>
                 </button> <!--(click)="editDeal(index)"-->
-                <button ngbDropdownItem class="flex justify-start px-3 my-2"> <!--(click)="duplicateDeal(index)"-->
+                <button ngbDropdownItem class="flex justify-start px-3 my-2" (click)="duplicateDeal(index)"> <!--(click)="duplicateDeal(index)"-->
                   <img src="../../../../assets/media/icons/Dublicate.svg" class="mt-1 mr-2">
                   <span class="text-sm text-gray-600">Duplicate</span>
                 </button>
@@ -166,14 +166,14 @@
         </tr>
       </ng-container>
     </table>
-    <div class="flex justify-end px-5 pb-2 pt-14">
+    <!-- <div class="flex justify-end px-5 pb-2 pt-14">
       <ngb-pagination
       [(page)]="page"
       [pageSize]="limit"
-      [collectionSize]="dealData?.totalDeals"
+      [collectionSize]="dealData?.totalCount"
       [maxSize]="5" [boundaryLinks]="false" (pageChange)="next()">
     </ngb-pagination>
-    </div>
+    </div> -->
   </div>
 </ng-container>
 
