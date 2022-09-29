@@ -44,3 +44,92 @@ body {
   max-height: 39.7rem;
   height: auto
 }
+
+.main-image {
+  width: 9.313rem;
+}
+
+.discount {
+  color: #12B500;
+  background-color: #DBF4D9;
+  width: 4.75rem;
+  height: 1.613rem;
+  font-size: 12px;
+}
+
+.redeem-voucher {
+  font-size: 15px;
+}
+
+.expired-voucher {
+  font-size: 15px;
+}
+
+@media(min-width: 360px) and (max-width: 764px) {
+  .new-styles {
+    max-width: 21.5rem!important;
+    width: 21.5rem!important;
+    position: absolute;
+    top: 3.7rem;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .secondary-styles {
+    max-width: 21.5rem!important;
+    width: 21.5rem!important;
+    position: absolute;
+    top: 7.7rem;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .circular-image {
+    @apply w-20 h-20 top-14;
+  }
+
+  .main-image {
+    @apply h-18 w-18;
+  }
+
+  .dealHeader {
+    @apply text-xs;
+  }
+
+  .discount {
+    color: #12B500;
+    background-color: #DBF4D9;
+    width: 3.75rem;
+    height: 1rem;
+    font-size: 10px;
+  }
+
+  .fee {
+    @apply text-xs
+  }
+
+  .net {
+    @apply text-xs
+  }
+
+  .merchant {
+    @apply text-sm
+  }
+
+  .header-div {
+    @apply pt-3;
+  }
+
+  .expired-voucher {
+    @apply text-sm px-8;
+  }
+
+  .redeem-voucher {
+    @apply px-4;
+    font-size: 13px;
+  }
+}

@@ -15,7 +15,7 @@
 <ng-template #modal>
   <div class="relative w-full pb-10 h-26">
     <img src="../../../assets/media/logos/bg-black.svg" class="absolute top-0 object-cover w-full rounded-t-md h-26">
-    <img src="../../../assets/media/logos/voucher_icon.svg" class="absolute left-0 right-0 w-32 h-32 mx-auto rounded-full top-5">
+    <img src="../../../assets/media/logos/voucher_icon.svg" class="absolute left-0 right-0 mx-auto rounded-full lg:w-32 lg:h-32 lg:top-5 circular-image">
     <!-- <button (click)="closeModal()" style="background-color: #9399B2; color:#C2C5D3;" class="absolute px-2 py-1 text-sm font-normal rounded-full right-4 top-4">
       &#10006;
     </button> -->
@@ -29,18 +29,18 @@
   </div>
 
   <div class="flex justify-start px-8" [ngClass]="((singleVoucher | async)?.status == 'Redeemed' || (singleVoucher | async)?.status == 'Expired') ? 'pb-12': 'pb-5'">
-    <app-main-blur-hash [blurHash]="(singleVoucher | async)?.imageURL?.blurHash" [imageSrc]="(singleVoucher | async)?.imageURL.captureFileURL" style="width: 9.313rem;" class="object-cover h-20 rounded-md"></app-main-blur-hash>
-    <div class="flex flex-col">
-      <span [ngbTooltip]="(singleVoucher | async)?.dealHeader" placement="top" [container]="'body'" class="pl-6 text-sm font-semibold text-black max-w-70">{{((singleVoucher | async)?.dealHeader.length > 30) ? (((singleVoucher | async)?.dealHeader) | slice:0:30)+'...':((singleVoucher | async)?.dealHeader)}}</span>
+    <app-main-blur-hash [blurHash]="(singleVoucher | async)?.imageURL?.blurHash" [imageSrc]="(singleVoucher | async)?.imageURL.captureFileURL" class="object-cover lg:h-20 lg:rounded-md main-image"></app-main-blur-hash>
+    <div class="flex flex-col header-div">
+      <span [ngbTooltip]="(singleVoucher | async)?.dealHeader" placement="top" [container]="'body'" class="pl-6 font-semibold text-black lg:text-sm max-w-70 dealHeader">{{((singleVoucher | async)?.dealHeader.length > 30) ? (((singleVoucher | async)?.dealHeader) | slice:0:30)+'...':((singleVoucher | async)?.dealHeader)}}</span>
       <div class="flex justify-start pl-6 mt-3">
-        <span style="color: #94A1B3;" class="mt-2 mr-2 font-semibold line-through">{{(singleVoucher | async)?.net}}&nbsp;&euro;</span>
-        <span style="color: #12B500;" class="mx-2 mt-2 font-bold">{{(singleVoucher | async)?.fee}}&nbsp;&euro;</span>
-        <button tabindex="-1" style="color: #12B500; background-color: #DBF4D9; width: 4.75rem; height: 1.613rem; font-size: 12px;" class="mx-2 mt-1.5 font-bold rounded-xl">{{(singleVoucher | async)?.net}}% off</button>
+        <span style="color: #94A1B3;" class="mt-2 mr-2 font-semibold line-through net">{{(singleVoucher | async)?.net}}&nbsp;&euro;</span>
+        <span style="color: #12B500;" class="mx-2 mt-2 font-bold fee">{{(singleVoucher | async)?.fee}}&nbsp;&euro;</span>
+        <button tabindex="-1" class="mx-2 mt-1.5 font-bold rounded-xl discount">{{(singleVoucher | async)?.discountedPercentage.toFixed(2).replace('.', ',')}}% off</button>
       </div>
     </div>
   </div>
 
-  <span style="color: #96B1BC;" class="px-8">Merchant name<span class="ml-8 text-black">Ven Travels</span></span>
+  <span style="color: #96B1BC;" class="px-8 merchant">Merchant name<span class="ml-8 text-black merchant">Ven Travels</span></span>
 
   <ng-container *ngIf="(singleVoucher | async)?.status != 'Redeemed' && (singleVoucher | async)?.status != 'Expired'">
     <div class="flex justify-start px-8 mt-5">
@@ -64,13 +64,13 @@
   </ng-container>
 
   <ng-container *ngIf="(singleVoucher | async)?.status == 'Redeemed'">
-    <div class="py-5 mt-4 text-white rounded-b-md px-14 bg-primary-500" style="font-size: 15px;">
+    <div class="py-5 mt-4 text-center text-white rounded-b-md lg:px-14 bg-primary-500 redeem-voucher">
       This voucher has been redeemed on {{(singleVoucher | async)?.redeemDate | date: 'mediumDate'}}
     </div>
   </ng-container>
 
   <ng-container *ngIf="(singleVoucher | async)?.status == 'Expired'">
-    <div class="py-5 mt-4 text-base text-center text-white rounded-b-md px-14" style="background-color: #F25858;">
+    <div class="py-5 mt-4 text-center text-white rounded-b-md lg:px-14 expired-voucher" style="background-color: #F25858;">
       This voucher expired on {{(singleVoucher | async)?.expiryDate | date: 'mediumDate'}}
     </div>
   </ng-container>

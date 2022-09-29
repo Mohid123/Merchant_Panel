@@ -56,6 +56,7 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
       this.orderService.getVoucherByMongoID(this.voucherID).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.voucherIDForQuery = res.data?.voucherID;
+          console.log(res.data)
           this.singleVoucher = of(res.data);
           resolve('success');
           this.isLoading = false;
