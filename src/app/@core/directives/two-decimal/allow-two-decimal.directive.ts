@@ -5,7 +5,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class AllowTwoDecimalDirective {
   // Allow decimal numbers and negative values
-  private regex: RegExp = new RegExp(/^\d*\,?\d{0,2}$/g);
+  private regex: RegExp = new RegExp(/^\d*[\.,\,]?\d{0,2}$/g);
   position: number
   // Allow key codes for special events. Reflect :
   // Backspace, tab, end, home
@@ -21,11 +21,11 @@ export class AllowTwoDecimalDirective {
     }
     let current: string = this.el.nativeElement.value;
     this.position = this.el.nativeElement.selectionStart;
-    const next: string = [current.slice(0, this.position), event.key == 'Decimal' ? ',' : event.key, current.slice(this.position)].join('');
+    const next: string = [current.slice(0, this.position), event.key == 'Decimal' ? (',' || '.') : event.key, current.slice(this.position)].join('');
     if (next && !String(next).match(this.regex)) {
       event.preventDefault();
     }
-    if(next.length > 5 && !next.includes(',')) {
+    if(next.length > 5 && !next.includes(',') && !next.includes('.')) {
       event.preventDefault();
     }
     if(next.length > 8) {

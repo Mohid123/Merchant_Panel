@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Inject, Injectable, Output } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MediaUpload } from '../models/requests/media-upload.model';
 import { ResponseAddMedia } from '../models/response-add-media.model';
@@ -51,6 +51,9 @@ export class MediaService extends ApiService<uploadMedia> {
             this.valueChanged.emit(0);
           }
         }
+      }
+      else {
+        throwError('Failed to upload media').subscribe();
       }
     }));
   }

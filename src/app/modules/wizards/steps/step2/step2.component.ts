@@ -150,13 +150,13 @@ export class Step2Component implements OnInit, OnDestroy {
         '',
         Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9, ]+')
+        Validators.pattern('^[0-9., ]+')
         ]),
       ],
       dealPrice: [
         '',
         Validators.compose([
-          Validators.pattern('^[0-9, ]+')
+          Validators.pattern('^[0-9., ]+')
         ])
       ],
       numberOfVouchers: [
@@ -191,13 +191,13 @@ export class Step2Component implements OnInit, OnDestroy {
         '',
         Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9, ]+')
+        Validators.pattern('^[0-9., ]+')
         ]),
       ],
       dealPrice: [
         '',
         Validators.compose([
-          Validators.pattern('^[0-9, ]+')
+          Validators.pattern('^[0-9., ]+')
         ])
       ],
       numberOfVouchers: [
@@ -289,6 +289,11 @@ export class Step2Component implements OnInit, OnDestroy {
     } else {
       this.subDeals.push(this.editVouchers.value);
     }
+    this.subDeals.map((value: any) => {
+      value.originalPrice = value.originalPrice.toString().replace('.', ',');
+      value.dealPrice = value.dealPrice.toString().replace('.', ',');
+      return value
+    });
     this.data.subDeals = this.subDeals;
     this.newData.subDeals = this.subDeals;
 
@@ -334,6 +339,11 @@ export class Step2Component implements OnInit, OnDestroy {
     } else {
       this.subDeals.push(this.vouchers.value);
     }
+    this.subDeals.map((value: any) => {
+      value.originalPrice = value.originalPrice.toString().replace('.', ',');
+      value.dealPrice = value.dealPrice.toString().replace('.', ',');
+      return value
+    });
     this.data.subDeals = this.subDeals;
 
     this.newData.subDeals = this.subDeals;

@@ -128,7 +128,7 @@
       <ngb-pagination
           [(page)]="page"
           [pageSize]="limit"
-          [collectionSize]="reviewsData?.data.length"
+          [collectionSize]="reviewsData?.filteredDealCount"
           [maxSize]="5" [boundaryLinks]="false" (pageChange)="next()">
         </ngb-pagination>
     </div>

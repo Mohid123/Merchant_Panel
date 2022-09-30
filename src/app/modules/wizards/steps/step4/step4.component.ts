@@ -589,6 +589,7 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
       debugger
       this.form.markAllAsTouched();
       this.dateForm.markAllAsTouched();
+      this.toast.warning('Please select valid dates for the deal and sub deal/s');
       return;
     }
     else {
@@ -611,7 +612,7 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
         const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day).getTime();
         this.newData.startDate = moment(startDate).format("YYYY-MM-DD");
         this.newData.endDate = moment(endDate).format("YYYY-MM-DD");
-        this.newData.dealStatus = 'In review';
+        this.newData.dealStatus = 'Published';
         const payload = this.newData;
         this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
         .subscribe((res: ApiResponse<any>) => {

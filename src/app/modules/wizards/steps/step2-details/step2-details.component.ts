@@ -195,8 +195,13 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
       // this.newData.highlights = this.dealForm.get('highlights')?.value;
       this.newData.finePrints = this.dealForm.get('finePrints')?.value;
       this.newData.readMore = this.dealForm.get('readMore')?.value;
+      this.newData.subDeals.forEach((subdeal: any) => {
+        subdeal.originalPrice = parseFloat(subdeal.originalPrice.toString().replace(',' , '.'));
+        subdeal.dealPrice = parseFloat(subdeal.dealPrice.toString().replace(',' , '.'));
+      });
       return new Promise((resolve, reject) => {
         const payload = this.newData;
+
         const payloadWithoutMedia: any = this.newData;
         delete payloadWithoutMedia.mediaUrl;
         this.dealService.createDeal(payloadWithoutMedia).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
