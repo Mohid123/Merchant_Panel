@@ -322,6 +322,7 @@ export class Step1Component implements OnInit, OnDestroy {
     else {
       switch (this.saveEditDeal) {
         case true:
+
           this.nextClick.emit('');
           this.connection.isSaving.next(true);
           this.firstSave();
@@ -331,7 +332,11 @@ export class Step1Component implements OnInit, OnDestroy {
               this.inCaseNoEditData.subCategory = this.dealForm.get('subCategory')?.value;
               this.inCaseNoEditData.dealHeader = this.dealForm.get('dealHeader')?.value;
               this.inCaseNoEditData.subTitle = this.dealForm.get('subTitle')?.value;
+              if(this.responseSaveAndNextVocuhers) {
+                this.responseVouchers = this.responseSaveAndNextVocuhers;
+              }
               this.inCaseNoEditData.subDeals = this.responseVouchers;
+
               return this.dealService.createDeal(this.inCaseNoEditData)
               .pipe(takeUntil(this.destroy$))
               .subscribe((res: ApiResponse<any>) => {
@@ -339,6 +344,8 @@ export class Step1Component implements OnInit, OnDestroy {
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);
+                  this.urls = [];
+                  this.multiples = [];
                   resolve('success')
                 }
                 else {
@@ -351,6 +358,7 @@ export class Step1Component implements OnInit, OnDestroy {
             if(this.media.length > 0) {
               this.mediaService.dataCount.next(this.media.length);
               this.mediaService.totalCount.next(this.media.length);
+
               this.media.forEach((file: any) => {
                 mediaUpload.push(this.mediaService.uploadMedia('deal', file));
               });
@@ -365,6 +373,7 @@ export class Step1Component implements OnInit, OnDestroy {
                   }
                 });
                 if(images.length > 0) {
+
                   const media = images.map((image: any) => {
                     return {
                       type: 'Image',
@@ -384,7 +393,12 @@ export class Step1Component implements OnInit, OnDestroy {
                     this.firstSaveData.mediaUrl.shift();
                     this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, this.videoFromEdit]
                   }
+
+                  if(this.responseSaveAndNextVocuhers) {
+                    this.responseVouchers = this.responseSaveAndNextVocuhers;
+                  }
                   this.firstSaveData.subDeals = this.responseVouchers ? this.responseVouchers : [];
+
                 }
                 const payloadWithoutMedia: any = this.firstSaveData;
                 delete payloadWithoutMedia.subDeals;
@@ -395,6 +409,8 @@ export class Step1Component implements OnInit, OnDestroy {
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);
+                  this.urls = [];
+                  this.multiples = [];
                   resolve('success')
                 }
                 else {
@@ -417,6 +433,8 @@ export class Step1Component implements OnInit, OnDestroy {
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);
+                  this.urls = [];
+                  this.multiples = [];
                   resolve('success')
                 }
                 else {
@@ -667,6 +685,12 @@ export class Step1Component implements OnInit, OnDestroy {
     if(j==0) {
     this.multiples.splice(i, 1);
     this.urls.splice(i, 1);
+    if(this.media) {
+      if(this.media.length > 0) {
+        this.media.splice(i, 1);
+        this.mediaService.dataCount.next(this.media.length);
+      }
+    }
     this.dealForm.controls['mediaUrl'].setValue(this.urls);
   } else {
     this.multiples.splice((j*this.columnSize)+i, 1);
@@ -680,9 +704,16 @@ export class Step1Component implements OnInit, OnDestroy {
     }
     if(this.media) {
       if(this.media.length > 0) {
-        this.media.splice(i, 1)
+        this.media.splice(j, 1);
+        this.mediaService.dataCount.next(this.media.length);
+        console.log(this.media)
       }
     }
+    // if(this.images) {
+    //   if(this.images.length > 0) {
+    //     this.images.splice(i, 1);
+    //   }
+    // }
     this.getItemsTable(true);
     this.dealForm.controls['mediaUrl'].setValue(this.urls);
     this.cf.detectChanges();

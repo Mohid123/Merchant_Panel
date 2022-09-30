@@ -75,6 +75,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   @Input() mainDeal: Partial<MainDeal>
   @Input() images: any;
+  sendDataToPrevious: any;
 
   public discount: number;
 
@@ -102,6 +103,10 @@ export class Step2Component implements OnInit, OnDestroy {
     this.dataReciever = this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
       this.newData = response;
       this.id = response?.id;
+      if(response) {
+
+        this.sendDataToPrevious = response;
+      }
       if(response.subDeals?.length > 0 && this.saveEditDeal == false) {
         this.data.subDeals = response.subDeals;
         this.subDeals = this.data.subDeals ? this.data.subDeals : [];
@@ -498,6 +503,8 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   returnToPrevious() {
+    this.connection.sendSaveAndNext(this.sendDataToPrevious);
+    this.connection.sendStep1(this.sendDataToPrevious);
     this.prevClick.emit('');
     // this.common.deleteDealByID(this.id);
   }
