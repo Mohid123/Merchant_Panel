@@ -188,7 +188,7 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
             this.isObject = typeof response?.subDeals[0]?.voucherStartDate;
             response.subDeals = response.subDeals?.map((value: any) => {
               value.originalPrice = parseFloat(value.originalPrice.toString().replace(',', '.'));
-              value.dealPrice = parseFloat(value.dealPrice.toString().replace('.', '.'));
+              value.dealPrice = parseFloat(value.dealPrice.toString().replace(',', '.'));
               return value
             });
           }

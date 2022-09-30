@@ -1,5 +1,6 @@
 export class NetRevenue {
   totalDeals: number;
+  maxRevenueForMonth: number;
   totalVouchersSold: number;
   overallRating: number;
   netRevenue: number;

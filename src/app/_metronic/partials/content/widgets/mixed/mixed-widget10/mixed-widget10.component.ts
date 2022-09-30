@@ -19,6 +19,7 @@ export class MixedWidget10Component implements OnInit, OnDestroy {
   voucherRevenue: Observable<any>;
   data: any = [];
   categories: any = [];
+  max: number;
   private isLoading: BehaviorSubject<any> = new BehaviorSubject(false);
   public isLoading$: Observable<boolean> = this.isLoading.asObservable();
 

@@ -154,7 +154,7 @@ export class Step1Component implements OnInit, OnDestroy {
         this.responseID = response?.id;
         response.subDeals = response.subDeals?.map((value: any) => {
           value.originalPrice = value.originalPrice.toString().replace(',', '.');
-          value.dealPrice = value.dealPrice.toString().replace('.', '.');
+          value.dealPrice = value.dealPrice.toString().replace(',', '.');
           return value
         });
         this.responseSaveAndNextVocuhers = response.subDeals;
@@ -256,10 +256,10 @@ export class Step1Component implements OnInit, OnDestroy {
 
   firstSave() {
     if(this.saveEditDeal == false) {
-      if(this.responseSaveAndNextVocuhers.length > 0) {
+      if(this.responseSaveAndNextVocuhers) {
         this.responseSaveAndNextVocuhers.map((value: any) => {
           value.originalPrice = value.originalPrice.toString().replace(',', '.');
-          value.dealPrice = value.dealPrice.toString().replace('.', '.');
+          value.dealPrice = value.dealPrice.toString().replace(',', '.');
           return value
         });
       }
@@ -284,10 +284,10 @@ export class Step1Component implements OnInit, OnDestroy {
       })
     }
     else {
-      if(this.responseVouchers.length > 0) {
+      if(this.responseVouchers) {
         this.responseVouchers.map((value: any) => {
           value.originalPrice = value.originalPrice.toString().replace(',', '.');
-          value.dealPrice = value.dealPrice.toString().replace('.', '.');
+          value.dealPrice = value.dealPrice.toString().replace(',', '.');
           return value
         });
       }
@@ -307,7 +307,7 @@ export class Step1Component implements OnInit, OnDestroy {
       this.dealService.createDeal(payload).subscribe((res: ApiResponse<any>) => {
         if(!res.hasErrors()) {
           this.firstSaveData = res.data;
-          this.connection.sendSaveAndNext(this.firstSaveData)
+          this.connection.sendSaveAndNext(this.firstSaveData);
         }
       })
     }
@@ -339,7 +339,6 @@ export class Step1Component implements OnInit, OnDestroy {
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);
-                  console.log(res.data);
                   resolve('success')
                 }
                 else {
