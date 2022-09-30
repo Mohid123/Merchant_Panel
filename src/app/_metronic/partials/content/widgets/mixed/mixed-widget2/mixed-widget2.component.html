@@ -83,7 +83,7 @@
       <div class="ml-1 text-center 2xl:ml-2 col rounded-2 mb-7 fixed-card" style="background-color: #FFEEEE;">
         <span class="mt-5 text-center d-block" style="font-size: 0.813rem; color:#728A9F; font-weight: 600;"> Overall Rating </span>
         <div class="flex justify-center">
-          <img class="mr-2" src="../../../../../../../assets/media/logos/star.svg">
+          <img *ngIf="(isLoading$ | async) == false" class="mr-2" src="../../../../../../../assets/media/logos/star.svg">
           <span *ngIf="(isLoading$ | async) == false" class="my-2 1.25xl:text-xxl xl:text-xl d-block" style="color: #FE4897">{{(netRevenue | async)?.overallRating?.toFixed(1)}}</span>
           <ng-container *ngIf="(isLoading$ | async) == true">
             <span class="indicator-progress my-2 2xl:mr-2 mr-1" [style.display]="'block'">
