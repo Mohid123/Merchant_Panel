@@ -12,6 +12,7 @@ import { NgPasswordValidatorOptions } from 'ng-password-validator';
 import { Subject, Subscription } from 'rxjs';
 import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
+import { GreaterThanValidator } from 'src/app/modules/wizards/greater-than.validator';
 import { CustomValidators } from './../../modules/auth/components/reset-password/custom-validators';
 import { PasswordService } from './../../modules/auth/services/password-service';
 import { UserService } from './../../modules/auth/services/user.service';
@@ -38,6 +39,7 @@ import { ConfirmPasswordValidator } from './password-validator';
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('modal') private modal: ReusableModalComponent;
+  @ViewChild('editModal') private editModal: ReusableModalComponent;
   public modalConfig: ModalConfig = {
     onDismiss: () => {
       return true
@@ -62,6 +64,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   currentEvents: any;
   dealData: any;
   page: number;
+  voucherId: string;
+  dealIDForEdit: string;
+  voucherIndex: any;
+  selectedIndex: any;
+  editVouchers: FormGroup;
 
   options: NgPasswordValidatorOptions = {
     placement: "bottom",
@@ -110,10 +117,84 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     })
     this.getTopDealsByMerchant();
     this.initPassForm();
+    this.initEditVouchers();
   }
 
   ngAfterViewInit(): void {
     this.checkNewuser();
+  }
+
+  initEditVouchers() {
+    this.editVouchers = this.fb.group({
+      originalPrice: [
+        '',
+        Validators.compose([
+        Validators.required,
+        ]),
+      ],
+      dealPrice: [
+        ''
+      ],
+      numberOfVouchers: [
+        '0',
+        Validators.compose([
+        Validators.required,
+        Validators.min(1)
+        ])
+      ],
+      title: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(`^[a-zA-Z0-9.,"'-:èëéà ]+`)
+        ])
+      ],
+      discountPercentage: [
+        0
+      ]
+      }, {
+        validator: GreaterThanValidator('originalPrice', 'dealPrice')
+    })
+  }
+
+  editHandlePlus() {
+    this.editVouchers.patchValue({
+      numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) + 1
+    });
+  }
+
+  editHandleMinus() {
+    if(this.editVouchers.controls['numberOfVouchers'].value >= 1) {
+      this.editVouchers.patchValue({
+        numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) - 1
+      });
+    }
+  }
+
+  saveEditVoucherOnListView() {
+    const originalPrice = parseFloat(this.editVouchers.get('originalPrice')?.value.toString().replace(',' , '.'));
+    const dealPrice = parseFloat(this.editVouchers.get('dealPrice')?.value.toString().replace(',' , '.'));
+    const voucher: any = {
+      voucherID: this.voucherId,
+      title: this.editVouchers.get('title')?.value,
+      originalPrice: originalPrice,
+      dealPrice: dealPrice,
+      numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value)
+    }
+    this.dealService.updateVoucher(this.dealIDForEdit, {subDeals: voucher})
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: ApiResponse<any>) => {
+      if(!res.hasErrors()) {
+        this.toast.success('Sub deal updated!');
+        this.editModal.close().then(() => {
+          this.getTopDealsByMerchant();
+        });
+      }
+      else {
+        this.toast.error(res.errors[0].error.message);
+        this.editModal.close();
+      }
+    })
   }
 
   checkNewuser() {
@@ -229,6 +310,36 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async closeModal() {
     return await this.modal.close();
+  }
+
+  async openEditModal(index: any, editIndex: any) {
+    this.selectedIndex = index;
+    this.voucherIndex = editIndex;
+    this.dealIDForEdit = this.currentEvents[index].id;
+    this.voucherId = this.currentEvents[index].subDeals[editIndex]?._id;
+    this.editVouchers.patchValue({
+      originalPrice: this.currentEvents[index].subDeals[editIndex]?.originalPrice,
+      dealPrice: this.currentEvents[index].subDeals[editIndex]?.dealPrice,
+      numberOfVouchers: this.currentEvents[index].subDeals[editIndex]?.numberOfVouchers,
+      title: this.currentEvents[index].subDeals[editIndex]?.title
+      })
+    if(this.currentEvents[index]?.dealStatus == 'Published') {
+      this.editVouchers.get('originalPrice')?.disable();
+      this.editVouchers.get('dealPrice')?.disable();
+      this.editVouchers.get('title')?.disable();
+    }
+    else {
+      this.editVouchers.get('originalPrice')?.enable();
+      this.editVouchers.get('dealPrice')?.enable();
+      this.editVouchers.get('title')?.enable();
+      this.editVouchers.get('numberOfVouchers')?.enable();
+    }
+    return await this.editModal.open();
+  }
+
+  async closeEditModal() {
+    this.editVouchers.reset();
+    return await this.editModal.close();
   }
 
   getTopDealsByMerchant() {

@@ -83,10 +83,10 @@
                   <img src="../../../../assets/media/icons/editing.svg" class="mt-1 mr-2">
                   <span class="text-sm text-gray-600">Edit</span>
                 </button> <!--(click)="editDeal(index)"-->
-                <button ngbDropdownItem class="flex justify-start px-3 my-2" (click)="duplicateDeal(index)"> <!--(click)="duplicateDeal(index)"-->
+                <!-- <button ngbDropdownItem class="flex justify-start px-3 my-2" (click)="duplicateDeal(index)">
                   <img src="../../../../assets/media/icons/Dublicate.svg" class="mt-1 mr-2">
                   <span class="text-sm text-gray-600">Duplicate</span>
-                </button>
+                </button> -->
                 <!-- <button (click)="deleteDeal(event.id)" ngbDropdownItem>Delete</button> -->
               </div>
             </div>
@@ -127,7 +127,7 @@
                     <td class="py-4 text-sm text-right" style="width: 7.5rem; padding-right: 3.25rem;">{{voucher?.grossEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td>
                     <td class="py-4 text-sm text-right" style="width: 7.5rem; padding-right: 1.875rem;">{{voucher?.netEarning.toFixed(2).replace('.', ',')}}&nbsp;&euro;</td> <!--ye wala-->
                     <td class="py-4 xl:pl-2 1.5xl:pl-4 2xl:pl-12 text-sm text-left w-28">
-                      <img class="text-sm cursor-pointer" src="../../../../assets/media/icons/edit.svg">
+                      <img class="text-sm cursor-pointer" (click)="openEditModal(index, i)" src="../../../../assets/media/icons/edit.svg">
                     </td>
                   </tr> <!--(click)="openNew(index, i)"-->
                   <div id="borderBottom"></div>
@@ -270,6 +270,91 @@
 
   <div class="flex justify-center mb-8">
     <button [ngClass]="newPassForm.invalid ? 'opacity-50': ''" [disabled]="newPassForm.invalid" (click)="resetPassword(); closeModal()" class="px-10 py-2 text-white bg-blue-500 rounded-md">Save</button>
+  </div>
+</app-reusable-modal>
+
+
+<app-reusable-modal #editModal [modalConfig]="modalConfig">
+  <div class="border-white modal-header">
+    <h1 class="text-center">Edit Sub deal</h1>
+    <div class="flex justify-end pb-8 m-0">
+      <button (click)="closeEditModal()" class="px-2 py-1 text-sm font-normal text-gray-500 bg-gray-300 rounded-full">
+        &#10006;
+      </button>
+    </div>
+  </div>
+  <div class="px-0 pt-2 modal-body">
+    <div>
+      <form class="px-6 mt-2 md:px-11 form" [formGroup]="editVouchers">
+        <div class="h-24 fv-row 2xl:h-26">
+          <label class="pb-2 text-gray-500">Sub deal title</label>
+            <input maxlength="140" appTrim type="text" class="form-control deal-input" formControlName="title" name="title"
+            [ngClass]="{
+            'is-invalid': editVouchers.controls['title']?.invalid && editVouchers.controls['title']?.touched,
+            'is-valid': editVouchers.controls['title']?.valid}">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Sub deal title is required',
+            control: editVouchers.controls['title']
+          }">
+        </ng-container>
+        </div>
+
+        <div class="h-24 fv-row 2xl:h-26">
+          <label class="pb-2 text-gray-500">Original price</label>
+            <span class="absolute flex items-center h-11 "><i style="font-size:12px;" class="px-2.5 py-2.5 ml-2 xl:mt-1.5 2xl:mt-2 text-white bg-gray-500 rounded fas fa-euro-sign fa-lg"></i></span>
+            <input appAllowTwoDecimal type="text" class="pl-12 form-control deal-input" formControlName="originalPrice"
+            [ngClass]="{
+            'is-invalid': editVouchers.controls['originalPrice']?.invalid && editVouchers.controls['originalPrice']?.touched,
+            'is-valid':  editVouchers.controls['originalPrice']?.valid}">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Original Price is required',
+              control: editVouchers.controls['originalPrice']
+            }">
+            </ng-container>
+          </div>
+
+          <div class="h-24 fv-row 2xl:h-26">
+            <label class="pb-2 text-gray-500">Deal price</label>
+              <span class="absolute flex items-center h-11"><i style="font-size:12px;" class="px-2.5 py-2.5 ml-2 xl:mt-1.5 2xl:mt-2 text-white rounded fas fa-euro-sign fa-lg bg-success"></i></span>
+              <input appAllowTwoDecimal type="text" class="pl-12 form-control deal-input" formControlName="dealPrice" name="dealPrice"
+              [ngClass]="{
+                'is-invalid': editVouchers.controls['dealPrice']?.invalid && editVouchers.controls['dealPrice']?.touched,
+                'is-valid': editVouchers.controls['dealPrice']?.valid && editVouchers.controls['dealPrice']?.value != '' && editVouchers.controls['dealPrice']?.value != null && editVouchers.controls['dealPrice']?.value != undefined}">
+                <div class="text-xs text-danger"
+                *ngIf="editVouchers.controls['dealPrice']?.errors?.['confirmedValidator']">
+                The deal price cannot be greater than the original price
+              </div>
+            </div>
+
+          <div class="h-24 fv-row 2xl:h-26">
+          <label class="pb-2 text-gray-500">Number of available sub deals</label>
+            <div class="flex items-center justify-between h-8 border-2 border-white rounded-sm w-28">
+              <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="editHandleMinus()">-</button>
+              <input maxlength="4" appNumbersOnly type="text" style="height: 24px !important;min-height: unset;" class="w-12 py-0.5 px-0 text-xs text-center rounded-md form-control" placeholder="0" formControlName="numberOfVouchers" name="numberOfVouchers">
+              <button class="w-6 h-6 text-gray-500 bg-gray-200 rounded-md hover:text-primary-500 hover:bg-primary-100" (click)="editHandlePlus()">+</button>
+            </div>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Please specify number of sub deals',
+              control: editVouchers.controls['numberOfVouchers']
+            }">
+          </ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'min',
+            message: 'Please specify number of sub deals',
+            control: editVouchers.controls['numberOfVouchers']
+          }">
+        </ng-container>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="flex justify-between border-none modal-footer">
+    <button type="button" class="self-center w-24 h-10 text-sm text-gray-500 bg-gray-200 rounded-lg" (click)="closeEditModal()">Discard</button>
+    <button (click)="saveEditVoucherOnListView()" type="submit" class="self-center w-24 h-10 text-sm text-white rounded-lg bg-primary-400" [disabled]="editVouchers.invalid">Update</button>
   </div>
 </app-reusable-modal>
 
