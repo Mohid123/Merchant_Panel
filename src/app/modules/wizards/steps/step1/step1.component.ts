@@ -255,6 +255,11 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   firstSave() {
+    this.responseSaveAndNextVocuhers.map((value: any) => {
+      value.originalPrice = value.originalPrice.toString().replace(',', '.');
+      value.dealPrice = value.dealPrice.toString().replace('.', '.');
+      return value
+    });
     if(this.saveEditDeal == false) {
       const payload: any = {
         subCategory: this.dealForm.get('subCategory')?.value,
@@ -277,6 +282,11 @@ export class Step1Component implements OnInit, OnDestroy {
       })
     }
     else {
+      this.responseVouchers.map((value: any) => {
+        value.originalPrice = value.originalPrice.toString().replace(',', '.');
+        value.dealPrice = value.dealPrice.toString().replace('.', '.');
+        return value
+      });
       const payload: any = {
         subCategory: this.dealForm.get('subCategory')?.value,
         dealHeader: this.dealForm.get('dealHeader')?.value,
