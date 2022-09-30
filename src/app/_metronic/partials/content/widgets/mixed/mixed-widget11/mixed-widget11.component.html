@@ -4,8 +4,8 @@
 >
   <div class="flex-wrap 1.25xl:px-4 xl:px-2 d-flex flex-stack flex-grow-1">
     <span class="1.25xl:text-base xl:text-sm xl:pl-2 font-semibold text-dark d-block">Net Revenue</span>
-    <span style="color:#728A9F;" class="mr-5 1.25xl:text-xs xl:text-xxs">{{(netRevenue | async)?.from}} - {{(netRevenue | async)?.to}}</span>
-    <span class="mr-3 1.25xl:text-base xl:text-sm text-black">{{(netRevenue | async)?.yearlyRevenue?.toFixed(0)}}&nbsp; &euro;</span>
+    <span *ngIf="(isLoading$ | async) == false" style="color:#728A9F;" class="mr-5 1.25xl:text-xs xl:text-xxs">{{(finalRes | async)?.from}} - {{(finalRes | async)?.to}}</span>
+    <span *ngIf="(isLoading$ | async) == false" class="mr-3 1.25xl:text-base xl:text-sm text-black">{{(finalRes | async)?.yearlyRevenue?.toFixed(0)}}&nbsp; &euro;</span>
   </div>
 
   <div #chartRef class="mixed-widget-10-chart" [style.height]="chartHeight" [style.width]="chartWidth">
@@ -25,9 +25,9 @@
       [plotOptions]="chartOptions.plotOptions"
     ></apx-chart>
     <ng-container *ngIf="(isLoading$ | async) == true">
-      <div class="flex justify-center align-middle items-center mb-4" style="height: 190px;">
+      <div class="flex items-center justify-center mb-4 align-middle" style="height: 190px;">
         <span class="indicator-progress" [style.display]="'block'">
-          <span class="align-middle spinner-border spinner-border-sm w-6 h-6"></span>
+          <span class="w-6 h-6 align-middle spinner-border spinner-border-sm"></span>
         </span>
       </div>
     </ng-container>

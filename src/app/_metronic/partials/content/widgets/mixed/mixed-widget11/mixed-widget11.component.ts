@@ -2,8 +2,9 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { AnalyticsService } from '@pages/services/analytics.service';
 import * as moment from 'moment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { getMonths } from 'src/app/modules/wizards/models/revenue.model';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
 import { NetRevenue, revenueVouchers } from './../../../../../../modules/wizards/models/revenue.model';
 @Component({
@@ -16,6 +17,7 @@ export class MixedWidget11Component implements OnInit {
   @Input() chartWidth: string;
   chartOptions: any = {};
   public netRevenue: Observable<NetRevenue>;
+  finalRes: Observable<NetRevenue>;
   public voucherRevenue: Observable<revenueVouchers[]>;
   public data: any = [];
   public categories: any = [];
@@ -35,6 +37,16 @@ export class MixedWidget11Component implements OnInit {
         this.chartOptions = this.getChartOptions(this.chartHeight, this.chartColor, this.chartWidth);
         this.cf.detectChanges();
         this.isLoading.next(false);
+     })
+
+      this.netRevenue.subscribe((data: NetRevenue) => {
+      const from = data.from.substring(0,2);
+      const to = data.to.substring(0,2);
+      const values = [from, to];
+      const res = getMonths(values);
+      data.from = res[0] + '' +  data.from.slice(2, 8);
+      data.to = res[1] + '' + data.to.slice(2, 8);
+      this.finalRes = of(data);
      })
     });
 

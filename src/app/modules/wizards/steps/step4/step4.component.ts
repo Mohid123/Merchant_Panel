@@ -592,6 +592,11 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
       this.toast.warning('Please select valid dates for the deal and sub deal/s');
       return;
     }
+    if(new Date(new Date().setUTCFullYear(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day)).setUTCHours(0,0,0,0) < new Date(new Date().setUTCFullYear(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day)).setUTCHours(0,0,0,0)) {
+      debugger
+      this.toast.warning('Please select valid dates for the deal and sub deal/s');
+      return;
+    }
     else {
       debugger
       this.uploaded = false;
@@ -612,7 +617,7 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
         const endDate = new Date(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day).getTime();
         this.newData.startDate = moment(startDate).format("YYYY-MM-DD");
         this.newData.endDate = moment(endDate).format("YYYY-MM-DD");
-        this.newData.dealStatus = 'Published';
+        this.newData.dealStatus = 'In review';
         const payload = this.newData;
         this.dealService.createDeal(payload).pipe(takeUntil(this.destroy$))
         .subscribe((res: ApiResponse<any>) => {

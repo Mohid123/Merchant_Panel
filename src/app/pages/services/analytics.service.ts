@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
 import { ApiService } from '@core/services/api.service';
 import { Observable } from 'rxjs';
-import { NetRevenue, SoldVouchers } from 'src/app/modules/wizards/models/revenue.model';
+import { ActivityData, NetRevenue, SoldVouchers } from 'src/app/modules/wizards/models/revenue.model';
 import { MainDeal } from './../../modules/wizards/models/main-deal.model';
 
 @Injectable({
@@ -31,5 +31,14 @@ export class AnalyticsService extends ApiService<any> {
       offset: page ? limit * page : 0
     }
     return this.get(`/deal/getPublishedDealsForMerchant`, params)
+  }
+
+  getAllActivities(page: number, limit: any): Observable<ApiResponse<ActivityData>> {
+    page--;
+    const params: any = {
+      limit: limit,
+      offset: page ? limit * page : 0
+    }
+    return this.get('/activity/getAllActivities', params);
   }
 }

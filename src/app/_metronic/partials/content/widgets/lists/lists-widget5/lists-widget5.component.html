@@ -4,7 +4,7 @@
   <div class="border-0 card-header align-items-center common">
     <div class="flex flex-col justify-start">
       <span class="mt-5 mb-2 font-semibold text-black 1.25xl:text-base xl:text-sm">Activities</span>
-      <span style="color: #728A9F;" class="mt-4 mb-2 1.25xl:text-base xl:text-sm">340 Sales</span>
+      <span style="color: #728A9F;" class="mt-4 mb-2 1.25xl:text-base xl:text-sm">{{(activityData | async)?.totalActivities}} Sales</span>
     </div>
     <!-- <div class="card-toolbar">
 
@@ -27,146 +27,28 @@
   <!-- end::Header-->
   <!-- begin::Body-->
   <div class="pt-4 card-body common example" style="height: 420px; overflow-y: scroll;">
-    <!-- begin::Timeline-->
     <div class="timeline-label">
-      <!-- begin::Item-->
-      <div class="timeline-item">
-        <!-- begin::Label-->
-        <div style="color:#728A9F;" class="text-sm timeline-label">08:42</div>
-        <!-- end::Label-->
-        <!-- begin::Badge-->
-        <div class="timeline-badge">
-          <i class="text-xl fa fa-genderless text-warning"></i>
+      <ng-container *ngFor="let activity of (activityData | async)?.data; let i = index; let first = first" [ngSwitch]="activity.activityType">
+        <div class="timeline-item">
+
+          <div style="color:#728A9F;" class="text-sm timeline-label">{{activity.activityTime | date:'hh:mm'}}</div>
+
+          <div class="timeline-badge">
+            <i *ngSwitchCase="'VoucherPurchased'" class="text-xl fa fa-genderless text-warning"></i>
+            <i *ngSwitchCase="'DealPublished'" class="text-xl fa fa-genderless text-primary"></i>
+            <i *ngSwitchCase="'DealScheduled'" class="text-xl fa fa-genderless text-success"></i>
+            <i *ngSwitchCase="'DealExpired'" class="text-xl fa fa-genderless text-danger"></i>
+            <i *ngSwitchCase="'VoucherRedeemed'" class="text-xl fa fa-genderless text-info"></i>
+            <i *ngSwitchCase="'VocuherExpired'" class="text-xl fa fa-genderless text-secondary"></i>
+          </div>
+
+          <div style="color: #414950;" class="text-sm timeline-content ps-3">
+            {{activity.message}}
+          </div>
+
         </div>
-        <!-- end::Badge-->
-        <!-- begin::Text-->
-        <div style="color: #414950;" class="text-sm timeline-content ps-3">
-          Outlines keep you honest. And keep structure
-        </div>
-        <!-- end::Text-->
-      </div>
-      <!-- end::Item-->
-      <!-- begin::Item-->
-      <div class="timeline-item">
-        <!-- begin::Label-->
-        <div style="color:#728A9F;" class="text-sm timeline-label">10:00</div>
-        <!-- end::Label-->
-        <!-- begin::Badge-->
-        <div class="timeline-badge">
-          <i class="text-xl fa fa-genderless text-success"></i>
-        </div>
-        <!-- end::Badge-->
-        <!-- begin::Content-->
-        <div style="color: #414950;" class="text-sm timeline-content ps-3">
-          AEOL meeting
-        </div>
-        <!-- end::Content-->
-      </div>
-      <!-- end::Item-->
-      <!-- begin::Item-->
-      <div class="timeline-item">
-        <!-- begin::Label-->
-        <div style="color:#728A9F;" class="text-sm timeline-label">14:37</div>
-        <!-- end::Label-->
-        <!-- begin::Badge-->
-        <div class="timeline-badge">
-          <i class="text-xl fa fa-genderless text-danger"></i>
-        </div>
-        <!-- end::Badge-->
-        <!-- begin::Desc-->
-        <div style="color: #414950;" class="text-sm timeline-content ps-3">
-          Make deposit
-        </div>
-        <!-- end::Desc-->
-      </div>
-      <!-- end::Item-->
-      <!-- begin::Item-->
-      <div class="timeline-item">
-        <!-- begin::Label-->
-        <div style="color:#728A9F;" class="text-sm timeline-label">16:50</div>
-        <!-- end::Label-->
-        <!-- begin::Badge-->
-        <div class="timeline-badge">
-          <i class="text-xl fa fa-genderless text-primary"></i>
-        </div>
-        <!-- end::Badge-->
-        <!-- begin::Text-->
-        <div style="color: #414950;" class="text-sm timeline-content ps-3">
-          Indulging in poorly driving and keep structure keep great
-        </div>
-        <!-- end::Text-->
-      </div>
-      <!-- end::Item-->
-      <!-- begin::Item-->
-      <div class="timeline-item">
-        <!-- begin::Label-->
-        <div style="color:#728A9F;" class="text-sm timeline-label">21:03</div>
-        <!-- end::Label-->
-        <!-- begin::Badge-->
-        <div class="timeline-badge">
-          <i class="text-xl fa fa-genderless text-danger"></i>
-        </div>
-        <!-- end::Badge-->
-        <!-- begin::Desc-->
-        <div style="color: #414950;" class="text-sm timeline-content ps-3">
-          New order placed
-        </div>
-        <!-- end::Desc-->
-      </div>
-      <!-- end::Item-->
-      <!-- begin::Item-->
-      <div class="timeline-item">
-        <!-- begin::Label-->
-        <div style="color:#728A9F;" class="text-sm timeline-label">16:50</div>
-        <!-- end::Label-->
-        <!-- begin::Badge-->
-        <div class="timeline-badge">
-          <i class="text-xl fa fa-genderless text-primary"></i>
-        </div>
-        <!-- end::Badge-->
-        <!-- begin::Text-->
-        <div style="color: #414950;" class="text-sm timeline-content ps-3">
-          Indulging in poorly driving and keep structure keep great
-        </div>
-        <!-- end::Text-->
-      </div>
-      <!-- end::Item-->
-      <!-- begin::Item-->
-      <div class="timeline-item">
-        <!-- begin::Label-->
-        <div style="color:#728A9F;" class="text-sm timeline-label">21:03</div>
-        <!-- end::Label-->
-        <!-- begin::Badge-->
-        <div class="timeline-badge">
-          <i class="text-xl fa fa-genderless text-danger"></i>
-        </div>
-        <!-- end::Badge-->
-        <!-- begin::Desc-->
-        <div style="color: #414950;" class="text-sm timeline-content ps-3">
-          New order placed
-        </div>
-        <!-- end::Desc-->
-      </div>
-      <!-- end::Item-->
-      <!-- begin::Item-->
-      <div class="timeline-item">
-        <!-- begin::Label-->
-        <div style="color:#728A9F;" class="text-sm timeline-label">10:30</div>
-        <!-- end::Label-->
-        <!-- begin::Badge-->
-        <div class="timeline-badge">
-          <i class="text-xl fa fa-genderless text-success"></i>
-        </div>
-        <!-- end::Badge-->
-        <!-- begin::Text-->
-        <div style="color: #414950;" class="text-sm timeline-content ps-3">
-          Finance KPI Mobile app launch preparion meeting
-        </div>
-        <!-- end::Text-->
-      </div>
-      <!-- end::Item-->
+      </ng-container>
     </div>
-    <!-- end::Timeline-->
   </div>
 </div>
 

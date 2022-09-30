@@ -26,7 +26,6 @@ export class MixedWidget2Component implements OnInit {
 
   ngOnInit(): void {
     this.isLoading.next(true);
-    // this.netRevenue.subscribe((data: NetRevenue) => data.)
     this.getStats().then( async() => {
       this.voucherRevenue.subscribe((vouchers: revenueVouchers[]) => {
         this.data = vouchers.map((vocuher: revenueVouchers) => vocuher.netRevenue.toFixed(0)).reverse();
@@ -39,7 +38,7 @@ export class MixedWidget2Component implements OnInit {
         );
         this.cf.detectChanges();
         this.isLoading.next(false);
-     })
+     });
     });
 
     this.chartOptions = this.getChartOptions(
