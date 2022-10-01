@@ -125,6 +125,9 @@ export class Step2Component implements OnInit, OnDestroy {
     this.address = this.authService.currentUserValue?.streetAddress;
     this.updateParentModel({}, true);
     this.editDealData();
+    if(this.subDeals.length > 0 && this.saveEditDeal == false) {
+      this.newData.subDeals = this.subDeals;
+    }
   }
 
   editDealData() {
@@ -476,13 +479,18 @@ export class Step2Component implements OnInit, OnDestroy {
         this.connection.isSaving.next(true);
         this.nextClick.emit('');
         this.newData.pageNumber = 2;
-        this.newData.subDeals.forEach((subdeal: any) => {
+        if(this.subDeals.length > 0 && this.saveEditDeal == false) {
+          this.newData.subDeals = this.subDeals;
+        }
+        this.newData.subDeals.map((subdeal: any) => {
           subdeal.originalPrice = parseFloat(subdeal.originalPrice.toString().replace(',' , '.'));
           subdeal.dealPrice = parseFloat(subdeal.dealPrice.toString().replace(',' , '.'));
           subdeal.platformNetEarning = 0;
+          return subdeal
         });
 
         const newPayload = this.newData;
+
         const payloadWithoutMedia: any = this.newData;
         delete payloadWithoutMedia.mediaUrl;
         if(payloadWithoutMedia) {
@@ -503,8 +511,10 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   returnToPrevious() {
-    this.connection.sendSaveAndNext(this.sendDataToPrevious);
-    this.connection.sendStep1(this.sendDataToPrevious);
+    if(this.saveEditDeal == true) {
+      this.connection.sendSaveAndNext(this.sendDataToPrevious);
+      this.connection.sendStep1(this.sendDataToPrevious);
+    }
     this.prevClick.emit('');
     // this.common.deleteDealByID(this.id);
   }

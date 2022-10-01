@@ -137,11 +137,12 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.initDealForm();
     this.updateParentModel({}, this.checkForm());
 
     this.editDealData();
-    this.categoryService.getAllCategoriesDetail(0,0).pipe(take(1)).subscribe((res) => {
+    this.categoryService.getAllCategoriesDetail(0,0).pipe(take(1), takeUntil(this.destroy$)).subscribe((res) => {
       if(!res.hasErrors()){
         const categoryList = res.data.data;
         this.categoryList = of(categoryList);
@@ -149,7 +150,7 @@ export class Step1Component implements OnInit, OnDestroy {
       }
     });
 
-    this.connection.getSaveAndNext().subscribe((response: MainDeal) => {
+    this.connection.getSaveAndNext().pipe(takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
       if(response) {
         this.responseID = response?.id;
         response.subDeals = response.subDeals?.map((value: any) => {
@@ -158,6 +159,34 @@ export class Step1Component implements OnInit, OnDestroy {
           return value
         });
         this.responseSaveAndNextVocuhers = response.subDeals;
+        if(this.saveEditDeal == false && response.pageNumber > 1) {
+          this.urls = [];
+          this.multiples = [];
+        }
+        if(this.saveEditDeal == false && response?.mediaUrl?.length > 0) {
+          response.mediaUrl.filter((image: MediaUpload) => {
+
+            if(image.captureFileURL.endsWith('.mp4')) {
+              this.videoFromEdit = image;
+              this.editUrl = image.captureFileURL;
+              this.cf.detectChanges();
+            }
+            else {
+              this.videoService.getBase64ImageFromUrl(image.captureFileURL)
+              .then((result: any) => {
+                this.multiples.push(result);
+                this.cf.detectChanges();
+                this.initTable();
+                this.urls.push(result);
+                this.cf.detectChanges();
+                this.dealForm.updateValueAndValidity({emitEvent: true});
+                this.showImageSkeleton = false;
+                this.cf.detectChanges();
+              })
+              .catch(err => console.log(err));
+            }
+          });
+        }
       }
     })
 
@@ -184,7 +213,7 @@ export class Step1Component implements OnInit, OnDestroy {
   }
 
   editDealData() {
-    this.connection.getStep1()
+    this.connection.getStep1().pipe(takeUntil(this.destroy$))
     .subscribe((res: any) => {
       if((res.dealStatus == 'Draft' || res.dealStatus == 'Needs attention') && res.id) {
         this.showImageSkeleton = true;
@@ -230,6 +259,7 @@ export class Step1Component implements OnInit, OnDestroy {
                 this.cf.detectChanges();
                 this.dealForm.updateValueAndValidity({emitEvent: true});
                 this.showImageSkeleton = false;
+                this.cf.detectChanges();
               })
               .catch(err => console.log(err));
 
@@ -385,6 +415,7 @@ export class Step1Component implements OnInit, OnDestroy {
                       backgroundColorHex: ''
                     }
                   });
+
                   this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, ...media];
                   if(this.videoUrls.length > 0) {
                     this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, ...this.videoUrls]
@@ -451,7 +482,29 @@ export class Step1Component implements OnInit, OnDestroy {
           this.firstSave();
           return new Promise((resolve, reject) => {
             const mediaUpload: Array<Observable<any>> = [];
-
+            if(this.media.length == 0) {
+              this.firstSaveData.subCategory = this.dealForm.get('subCategory')?.value;
+              this.firstSaveData.dealHeader = this.dealForm.get('dealHeader')?.value;
+              this.firstSaveData.subTitle = this.dealForm.get('subTitle')?.value;
+              this.firstSaveData.subDeals = this.responseVouchers;
+              return this.dealService.createDeal(this.firstSaveData)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe((res: ApiResponse<any>) => {
+                if(!res.hasErrors()) {
+                  this.connection.isSavingNextData(false);
+                  this.cf.detectChanges();
+                  this.connection.sendSaveAndNext(res.data);
+                  this.urls = [];
+                  this.multiples = [];
+                  resolve('success')
+                }
+                else {
+                  this.toast.error('Failed to save deal draft');
+                  this.connection.isSavingNextData(false);
+                  reject('error')
+                }
+              })
+            }
             if(this.media.length > 0) {
 
               this.mediaService.dataCount.next(this.media.length);
@@ -460,6 +513,7 @@ export class Step1Component implements OnInit, OnDestroy {
               this.media.forEach((file: any) => {
                 mediaUpload.push(this.mediaService.uploadMedia('deal', file));
               });
+
             }
             forkJoin(mediaUpload)
               .pipe(
@@ -471,7 +525,7 @@ export class Step1Component implements OnInit, OnDestroy {
                 });
                 if(images.length > 0) {
 
-                  this.firstSaveData.mediaUrl = images.map((image: any) => {
+                  const media = images.map((image: any) => {
                     return {
                       type: 'Image',
                       captureFileURL: image.data.url,
@@ -482,6 +536,8 @@ export class Step1Component implements OnInit, OnDestroy {
                       backgroundColorHex: ''
                     }
                   });
+
+                  this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, ...media];
                   if(this.videoUrls.length > 0) {
                     this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, ...this.videoUrls]
                   }
@@ -490,6 +546,7 @@ export class Step1Component implements OnInit, OnDestroy {
                     this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, this.videoFromEdit]
                   }
                 }
+
                 this.firstSaveData.subDeals = this.responseSaveAndNextVocuhers ? this.responseSaveAndNextVocuhers : [];
                 const payloadWithoutMedia: any = this.firstSaveData;
                 delete payloadWithoutMedia.subDeals;
@@ -500,6 +557,9 @@ export class Step1Component implements OnInit, OnDestroy {
                   this.connection.isSavingNextData(false);
                   this.cf.detectChanges();
                   this.connection.sendSaveAndNext(res.data);
+                  this.urls = [];
+                  this.multiples = [];
+                  this.media = [];
                   resolve('success')
                 }
                 else {
