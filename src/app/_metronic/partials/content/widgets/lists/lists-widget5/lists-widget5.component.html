@@ -10,31 +10,39 @@
   <div *ngIf="(isLoading$ | async) == false" class="border-0 card-header align-items-center common">
     <div class="flex flex-col justify-start">
       <span class="mt-5 mb-2 font-semibold text-black 1.25xl:text-base xl:text-sm">Activities</span>
-      <span style="color: #728A9F;" class="mt-4 mb-2 1.25xl:text-base xl:text-sm">{{(activityData | async)?.totalActivities}} Sales</span>
+      <span *ngIf="(activityData | async)?.totalActivities > 0" style="color: #728A9F;" class="mt-4 mb-2 1.25xl:text-base xl:text-sm">{{(activityData | async)?.totalActivities}} Sales</span>
+      <span *ngIf="(activityData | async)?.totalActivities == 0" style="color: #728A9F;" class="mt-4 mb-2 1.25xl:text-base xl:text-sm">0 Sales</span>
     </div>
   </div>
 
   <div class="pt-4 card-body common example" style="height: 420px; overflow-y: scroll;">
-    <div *ngIf="(isLoading$ | async) == false" class="timeline-label">
-      <ng-container *ngFor="let activity of (activityData | async)?.data; let i = index; let first = first" [ngSwitch]="activity.activityType">
-        <div class="timeline-item">
-          <div style="color:#728A9F;" class="text-sm timeline-label">{{activity.activityTime | date:'hh:mm'}}</div>
+    <ng-container *ngIf="(activityData | async)?.data.length == 0">
+      <div class="flex items-center justify-center align-middle">
+        <span class="py-5 text-gray-600">No activity data</span>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="(activityData | async)?.data.length > 0">
+      <div *ngIf="(isLoading$ | async) == false" class="timeline-label">
+        <ng-container *ngFor="let activity of (activityData | async)?.data; let i = index; let first = first" [ngSwitch]="activity.activityType">
+          <div class="timeline-item">
+            <div style="color:#728A9F;" class="text-sm timeline-label">{{activity.activityTime | date:'hh:mm'}}</div>
 
-          <div class="timeline-badge">
-            <i *ngSwitchCase="'VoucherPurchased'" class="text-xl fa fa-genderless text-warning"></i>
-            <i *ngSwitchCase="'DealPublished'" class="text-xl fa fa-genderless text-primary"></i>
-            <i *ngSwitchCase="'DealScheduled'" class="text-xl fa fa-genderless text-success"></i>
-            <i *ngSwitchCase="'DealExpired'" class="text-xl fa fa-genderless text-danger"></i>
-            <i *ngSwitchCase="'VoucherRedeemed'" class="text-xl fa fa-genderless text-info"></i>
-            <i *ngSwitchCase="'VocuherExpired'" class="text-xl fa fa-genderless text-secondary"></i>
-          </div>
+            <div class="timeline-badge">
+              <i *ngSwitchCase="'VoucherPurchased'" class="text-xl fa fa-genderless text-warning"></i>
+              <i *ngSwitchCase="'DealPublished'" class="text-xl fa fa-genderless text-primary"></i>
+              <i *ngSwitchCase="'DealScheduled'" class="text-xl fa fa-genderless text-success"></i>
+              <i *ngSwitchCase="'DealExpired'" class="text-xl fa fa-genderless text-danger"></i>
+              <i *ngSwitchCase="'VoucherRedeemed'" class="text-xl fa fa-genderless text-info"></i>
+              <i *ngSwitchCase="'VocuherExpired'" class="text-xl fa fa-genderless text-secondary"></i>
+            </div>
 
-          <div style="color: #414950;" class="text-sm timeline-content ps-3">
-            {{activity.message}}
+            <div style="color: #414950;" class="text-sm timeline-content ps-3">
+              {{activity.message}}
+            </div>
           </div>
-        </div>
-      </ng-container>
-    </div>
+        </ng-container>
+      </div>
+    </ng-container>
   </div>
 </div>
 
