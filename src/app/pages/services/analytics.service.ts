@@ -39,6 +39,6 @@ export class AnalyticsService extends ApiService<any> {
       limit: limit,
       offset: page ? limit * page : 0
     }
-    return this.get('/activity/getAllActivities', params);
+    return this.get('/activity/getActivityByMerchant', params);
   }
 }
