@@ -1,11 +1,10 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { ApiResponse } from '@core/models/response.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '@core/models/user.model';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, exhaustMap, map, takeUntil } from 'rxjs/operators';
+import { exhaustMap, takeUntil } from 'rxjs/operators';
 import { CustomValidators } from 'src/app/modules/auth/components/reset-password/custom-validators';
 import { ConfirmedValidator } from 'src/app/modules/auth/components/reset-password/password.validator';
 import { AuthService } from './../../modules/auth/services/auth.service';
@@ -120,7 +119,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required
         ]),
-        this.passwordValidator()
+        // this.passwordValidator()
       ],
 
       password: [
@@ -176,6 +175,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       if(!res.hasErrors()) {
         return this.userService.getUser();
       } else {
+        this.toast.error(res.message);
         return (res);
       }
     }))
@@ -212,21 +212,21 @@ export class SecurityComponent implements OnInit, OnDestroy {
     })
   }
 
-  passwordValidator() {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.valueChanges || control.pristine) {
-        return null;
-      }
-      else {
-        this.cf.detectChanges();
-        return this.authService.matchPasswords(control.value).pipe(
-          distinctUntilChanged(),
-          debounceTime(600),
-          map((res: ApiResponse<any>) => (res.data == false ? {passExists: true} : null))
-        )
-      }
-    };
-}
+//   passwordValidator() {
+//     return (control: AbstractControl): ValidationErrors | null => {
+//       if (!control.valueChanges || control.pristine) {
+//         return null;
+//       }
+//       else {
+//         this.cf.detectChanges();
+//         return this.authService.matchPasswords(control.value).pipe(
+//           distinctUntilChanged(),
+//           debounceTime(600),
+//           map((res: ApiResponse<any>) => (res.data == false ? {passExists: true} : null))
+//         )
+//       }
+//     };
+// }
 
   ngOnDestroy() {
     this.destroy$.complete();

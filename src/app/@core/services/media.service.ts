@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Inject, Injectable, Output } from '@angular/core';
+import { HotToastService } from '@ngneat/hot-toast';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MediaUpload } from '../models/requests/media-upload.model';
@@ -26,7 +27,8 @@ export class MediaService extends ApiService<uploadMedia> {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    protected override http: HttpClient,) {
+    protected override http: HttpClient,
+    private toast: HotToastService) {
     super(http);
   }
 
@@ -53,7 +55,11 @@ export class MediaService extends ApiService<uploadMedia> {
         }
       }
       else {
-        throwError('Failed to upload media').subscribe();
+        throwError(new Error('Failed to upload media')).subscribe((err) => {
+          console.error('Media Error:', err);
+          this.toast.error(err);
+        });
+
       }
     }));
   }
