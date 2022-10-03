@@ -1,36 +1,23 @@
 <!-- begin::Header-->
 <div class="common" style="border-radius: 8px; overflow-y: hidden;">
 
-  <div class="border-0 card-header align-items-center common">
+  <div *ngIf="(isLoading$ | async) == true" class="flex items-center justify-center mb-4 align-middle" style="height: 190px">
+    <span class="indicator-progress" [style.display]="'block'">
+      <span class="w-6 h-6 align-middle spinner-border spinner-border-sm"></span>
+    </span>
+  </div>
+
+  <div *ngIf="(isLoading$ | async) == false" class="border-0 card-header align-items-center common">
     <div class="flex flex-col justify-start">
       <span class="mt-5 mb-2 font-semibold text-black 1.25xl:text-base xl:text-sm">Activities</span>
       <span style="color: #728A9F;" class="mt-4 mb-2 1.25xl:text-base xl:text-sm">{{(activityData | async)?.totalActivities}} Sales</span>
     </div>
-    <!-- <div class="card-toolbar">
-
-      <button
-        type="button"
-        class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
-        data-kt-menu-trigger="click"
-        data-kt-menu-placement="bottom-end"
-        data-kt-menu-flip="top-end"
-      >
-        <span
-          [inlineSVG]="'./assets/media/icons/duotune/general/gen024.svg'"
-          class="svg-icon svg-icon-2"
-        ></span>
-      </button>
-      <app-dropdown-menu1></app-dropdown-menu1>
-
-    </div> -->
   </div>
-  <!-- end::Header-->
-  <!-- begin::Body-->
+
   <div class="pt-4 card-body common example" style="height: 420px; overflow-y: scroll;">
-    <div class="timeline-label">
+    <div *ngIf="(isLoading$ | async) == false" class="timeline-label">
       <ng-container *ngFor="let activity of (activityData | async)?.data; let i = index; let first = first" [ngSwitch]="activity.activityType">
         <div class="timeline-item">
-
           <div style="color:#728A9F;" class="text-sm timeline-label">{{activity.activityTime | date:'hh:mm'}}</div>
 
           <div class="timeline-badge">
@@ -45,7 +32,6 @@
           <div style="color: #414950;" class="text-sm timeline-content ps-3">
             {{activity.message}}
           </div>
-
         </div>
       </ng-container>
     </div>

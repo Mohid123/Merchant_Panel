@@ -21,6 +21,7 @@ export class MixedWidget2Component implements OnInit {
   public categories: any = [];
   private isLoading: BehaviorSubject<any> = new BehaviorSubject(false);
   public isLoading$: Observable<boolean> = this.isLoading.asObservable();
+  public maxRevenue: number;
 
   constructor(private analytics: AnalyticsService, private cf: ChangeDetectorRef) {}
 
@@ -39,6 +40,17 @@ export class MixedWidget2Component implements OnInit {
         this.cf.detectChanges();
         this.isLoading.next(false);
      });
+
+     this.netRevenue.subscribe((data: NetRevenue) => {
+      const rev = data.maxRevenueForMonth;
+      this.maxRevenue = Math.round(rev + 50000);
+      this.cf.detectChanges();
+        this.chartOptions = this.getChartOptions(
+          this.chartHeight,
+          this.chartColor,
+          this.strokeColor
+        );
+     })
     });
 
     this.chartOptions = this.getChartOptions(
@@ -60,7 +72,7 @@ export class MixedWidget2Component implements OnInit {
     return {
       series: [
         {
-          name: 'Net Profit',
+          name: 'Net Revenue',
           data: this.data
         },
       ],
@@ -131,7 +143,7 @@ export class MixedWidget2Component implements OnInit {
       },
       yaxis: {
         min: 0,
-        max: 800000,
+        max: this.maxRevenue,
         labels: {
           show: false,
           style: {

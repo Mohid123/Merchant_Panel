@@ -23,6 +23,7 @@ export class MixedWidget11Component implements OnInit {
   public categories: any = [];
   private isLoading: BehaviorSubject<any> = new BehaviorSubject(false);
   public isLoading$: Observable<boolean> = this.isLoading.asObservable();
+  public maxRevenue: number;
 
 
   constructor(private analytics: AnalyticsService, private cf: ChangeDetectorRef) {}
@@ -40,14 +41,18 @@ export class MixedWidget11Component implements OnInit {
      })
 
       this.netRevenue.subscribe((data: NetRevenue) => {
-      const from = data.from.substring(0,2);
-      const to = data.to.substring(0,2);
-      const values = [from, to];
-      const res = getMonths(values);
-      data.from = res[0] + '' +  data.from.slice(2, 8);
-      data.to = res[1] + '' + data.to.slice(2, 8);
-      this.finalRes = of(data);
-     })
+        const rev = data.maxRevenueForMonth;
+        this.maxRevenue = Math.round(rev + 50000);
+        this.cf.detectChanges();
+        this.chartOptions = this.getChartOptions(this.chartHeight, this.chartColor, this.chartWidth);
+        const from = data.from.substring(0,2);
+        const to = data.to.substring(0,2);
+        const values = [from, to];
+        const res = getMonths(values);
+        data.from = res[0] + '' +  data.from.slice(2, 8);
+        data.to = res[1] + '' + data.to.slice(2, 8);
+        this.finalRes = of(data);
+      })
     });
 
     this.chartOptions = this.getChartOptions(this.chartHeight, this.chartColor, this.chartWidth);

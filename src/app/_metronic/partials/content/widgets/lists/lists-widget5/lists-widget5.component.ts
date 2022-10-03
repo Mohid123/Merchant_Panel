@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ApiResponse } from '@core/models/response.model';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ActivityData } from 'src/app/modules/wizards/models/revenue.model';
 import { AnalyticsService } from './../../../../../../pages/services/analytics.service';
@@ -14,19 +14,24 @@ export class ListsWidget5Component implements OnInit {
 
   page: number;
   limit: number;
-  activityData: Observable<any>
+  activityData: Observable<any>;
+  private isLoading: BehaviorSubject<any> = new BehaviorSubject(false);
+  public isLoading$: Observable<boolean> = this.isLoading.asObservable();
 
-  constructor(private analytics: AnalyticsService) {
+  constructor(private analytics: AnalyticsService, private cf: ChangeDetectorRef) {
     this.page = 1;
     this.limit = 8
   }
 
   ngOnInit(): void {
-    this.getAllActivities();
+    this.isLoading.next(true);
+    this.getAllActivities().then(() => {
+      this.isLoading.next(false);
+    });
   }
 
-  getAllActivities() {
-    this.activityData = this.analytics.getAllActivities(this.page, this.limit).pipe(map((res: ApiResponse<ActivityData>) => res.data))
+  async getAllActivities() {
+    this.activityData = this.analytics.getAllActivities(this.page, this.limit).pipe(map((res: ApiResponse<ActivityData>) => res.data));
   }
 
 }
