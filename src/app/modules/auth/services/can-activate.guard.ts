@@ -26,9 +26,19 @@ export class CanActivateGuard implements CanActivate {
         this.conn.isEditMode = false;
         this.conn.sendSaveAndNext({});
         this.conn.sendData({});
+        this.conn.sendEditValue.next(false);
         this.conn.sendStep1({});
       }
       return this.conn.getRoutePopup;
+    }
+    else if(routePop == 1 && this.conn.isEditTrue?.value == false) {
+      this.conn.currentStep$.next(1);
+      this.conn.isEditMode = false;
+      this.conn.sendSaveAndNext({});
+      this.conn.sendData({});
+      this.conn.sendEditValue.next(false);
+      this.conn.sendStep1({});
+      return true;
     }
     else {
       return true;

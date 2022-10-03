@@ -4,7 +4,7 @@ import { ApiResponse } from '@core/models/response.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewsService } from '@pages/services/reviews.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { exhaustMap, takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { Reviews } from 'src/app/modules/wizards/models/reviews.model';
 import { AuthService } from './../../modules/auth/services/auth.service';
 
@@ -126,7 +126,7 @@ export class NewReviewsComponent implements OnInit {
       merchantReplyText: this.replyForm.get('merchantReplyText')?.value,
       deletedCheck: false
     }
-    this.reviewService.createReply(payload).pipe(takeUntil(this.destroy$), exhaustMap((res: any): any => {
+    this.reviewService.createReply(payload).pipe(takeUntil(this.destroy$), map((res: any) => {
       if(!res.hasErrors()) {
         this.switchToReply = false;
         this.getNewReviewsForMerchant();

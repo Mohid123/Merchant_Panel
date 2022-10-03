@@ -126,6 +126,10 @@ export class Step2Component implements OnInit, OnDestroy {
     if(this.subDeals.length > 0 && this.saveEditDeal == false) {
       this.newData.subDeals = this.subDeals;
     }
+    if(this.connection.sendEditValue.value == true) {
+      debugger
+      this.saveEditDeal = true;
+    }
   }
 
   editDealData() {
@@ -511,6 +515,7 @@ export class Step2Component implements OnInit, OnDestroy {
 
   returnToPrevious() {
     if(this.saveEditDeal == true) {
+      this.connection.sendEditValue.next(this.saveEditDeal);
       this.connection.sendSaveAndNext(this.sendDataToPrevious);
       this.connection.sendStep1(this.sendDataToPrevious);
     }

@@ -13,6 +13,7 @@ export class ConnectionService {
   public isSaving: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isSavingObs = this.isSaving.asObservable();
   currentStep$: BehaviorSubject<number> = new BehaviorSubject(1);
+  sendEditValue: BehaviorSubject<any> = new BehaviorSubject(false);
 
   dealIDServerErrorInterceptor = new BehaviorSubject('');
   modalDialogClass = new BehaviorSubject('')

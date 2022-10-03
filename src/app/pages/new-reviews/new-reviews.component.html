@@ -170,7 +170,7 @@
     </div>
 
     <div class="relative flex justify-start px-32 pb-12" *ngIf="(merchantReplyDataObservable | async)?.merchantReplyText && switchToReply == false">
-      <span class="absolute top-0 px-4.5 py-2.5 text-lg font-semibold text-center text-black rounded-full" style="background-color: #E2F1FC; border-radius: 100%; left: 90px;">{{(merchantReplyDataObservable | async)?.legalName.substring(0, 1)}}</span>
+      <span class="absolute top-0 px-4.5 py-2.5 text-lg font-semibold text-center text-black rounded-full" style="background-color: #E2F1FC; border-radius: 100%; left: 90px;">{{(merchantReplyDataObservable | async)?.legalName?.substring(0, 1)}}</span>
       <span style="color: #515151" class="px-6 text-sm"><span class="text-black text-sm2">{{(merchantReplyDataObservable | async)?.legalName}}</span><br>{{(merchantReplyDataObservable | async)?.merchantReplyText}}</span>
     </div>
 </ng-template>
