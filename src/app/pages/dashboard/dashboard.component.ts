@@ -109,7 +109,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.page = 1;
       this.validityPass = false;
       this.userService.getUser().pipe(takeUntil(this.destroy$)).subscribe();
-    }
+  }
 
   ngOnInit(): void {
     this.reciever = this.passService.getData().subscribe((response: any) => {
@@ -367,16 +367,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       value.dealPrice = parseFloat(value.dealPrice.toString().replace(',' , '.'));
       return value
     });
-    debugger
     this.currentEvents[index].isDuplicate = true;
     this.dealService.createDeal(this.currentEvents[index]).pipe(takeUntil(this.destroy$))
     .subscribe((res: ApiResponse<any>) => {
-      debugger
       if(!res.hasErrors()) {
         this.getTopDealsByMerchant();
         this.toast.success('Deal successfully duplicated', {
           duration: 1000
-        })
+        });
       }
     })
   }

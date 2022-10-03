@@ -43,6 +43,10 @@ export class DealPreviewComponent implements OnInit, OnDestroy {
     });
   }
 
+  convertToNumber(value: any) {
+    return parseFloat(value);
+  }
+
 
   ngOnDestroy() {
     this.unsubscribe.complete();

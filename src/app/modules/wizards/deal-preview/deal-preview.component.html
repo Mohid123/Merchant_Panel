@@ -151,7 +151,7 @@
               <img src="../../../../assets/media/logos/box.svg" class="w-2/6 h-2/6">
             </div>
             <div class="flex justify-center ml-6 align-bottom 2xl:ml-0">
-              <span class="h-10 mt-2 text-xs font-thin text-center text-gray-500">Your sub voucher details will appear here.</span>
+              <span class="h-10 mt-2 text-xs font-thin text-center text-gray-500">Your sub deal details will appear here.</span>
             </div>
           </div>
         </div>
@@ -197,7 +197,7 @@
               </div>
               <div class="flex justify-start mt-2 ml-6 font-thin 2xl:ml-7 flex-nowrap">
                 <i class="text-sm text-gray-600 fas fa-euro-sign">&nbsp;{{subDeal?.originalPrice}}</i>
-                <ng-container *ngIf="subDeal?.dealPrice > 0">
+                <ng-container *ngIf="convertToNumber(subDeal?.dealPrice) > 0">
                   <i class="ml-3 text-sm text-green-400 fas fa-euro-sign">&nbsp;{{subDeal?.dealPrice}}</i>
                   <i style="font-style: normal;" class="mt-1 ml-3 text-xs text-blue-500 fw-bolder">{{subDeal?.discountPercentage.toFixed(2).replace('.', ',')}}% off</i>
                 </ng-container>
