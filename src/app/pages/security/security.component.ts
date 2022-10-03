@@ -175,7 +175,18 @@ export class SecurityComponent implements OnInit, OnDestroy {
       if(!res.hasErrors()) {
         return this.userService.getUser();
       } else {
-        this.toast.error(res.message);
+        this.toast.error(res.errors[0]?.error?.message, {
+          style: {
+            border: '1px solid #713200',
+            padding: '16px',
+            color: '#713200',
+          },
+          iconTheme: {
+            primary: '#713200',
+            secondary: '#FFFAEE',
+          }
+        })
+        this.isLoading$.next(false);
         return (res);
       }
     }))
