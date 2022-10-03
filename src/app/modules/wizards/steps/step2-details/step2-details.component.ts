@@ -59,7 +59,7 @@ export class Step2DetailsComponent implements OnInit, AfterViewInit, OnDestroy  
 
     this.connection.getData().pipe(take(1), takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
       this.data = response;
-      this.connection.sendData(this.data);
+      this.connection.sendData(this.data)
     });
 
   }
@@ -120,7 +120,7 @@ export class Step2DetailsComponent implements OnInit, AfterViewInit, OnDestroy  
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {this.connection.sendData(this.data)}, 800);
+    setTimeout(() => {this.connection.sendData(this.data)}, 2000);
   }
 
   get f() {

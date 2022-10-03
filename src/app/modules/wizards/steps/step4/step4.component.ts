@@ -14,7 +14,7 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import * as moment from 'moment';
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { UserService } from 'src/app/modules/auth/services/user.service';
 import { ModalConfig } from '../../../../@core/models/modal.config';
@@ -159,9 +159,10 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
         this.startedUpload = value;
       });
 
-      this.reciever = this.connection.getData().subscribe((response: MainDeal) => {
+      this.reciever = this.connection.getData().pipe(take(1), takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
         if(response) {
           this.data = response;
+          this.connection.sendData(this.data);
         }
       });
 
@@ -235,6 +236,8 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
             });
             this.disableBackButton = true
           }
+
+          this.connection.sendData(this.data);
         }
       })
 
@@ -265,7 +268,7 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.initDateForm();
     this.initSelectDateForm();
-    this.updateParentModel({}, true);
+    this.updateParentModel(this.data, true);
 
     this.config = {
       language: 'en',
@@ -319,6 +322,8 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.fullCalendar?.getApi().render();
     });
+
+    setTimeout(() => {this.connection.sendData(this.data)}, 2000);
 
     if(this.dealStatus == 'Published' || this.dealStatus == 'Scheduled') {
       this.form.get('voucherStartDate')?.disable();
