@@ -1,7 +1,7 @@
 <div class="flex flex-col justify-center mt-4 lg:flex-row lg:justify-between">
   <div class="flex justify-start">
-    <span style="font-size: 26px;" class="mr-3 font-bold">{{reviewData?.dealHeader}}</span>
-    <span class="mt-2.5 text-base text-gray-700 underline cursor-pointer">{{reviewData?.dealID}}</span>
+    <span style="font-size: 26px;" class="mr-3 font-bold">{{reviewData?.deal?.dealHeader}}</span>
+    <span class="mt-2.5 text-base text-gray-700 underline cursor-pointer">{{reviewData?.deal?.dealID}}</span>
   </div>
   <div class="text-gray-600 cursor-pointer hover:text-primary-400">
     <span [routerLink]="['/reviews']"><span style="font-size: 25px;">&#8249;</span>&nbsp;&nbsp;Reviews & ratings</span>
@@ -19,12 +19,12 @@
         <div style="padding: 0.875rem;" class="w-40 h-20 mr-4 bg-white">
           <span class="mb-1.5 text-sm font-medium">Total reviews</span>
           <br>
-          <span class="text-base font-semibold text-xxl" style="color: #0FB947;">{{reviewData?.totalReviews}}</span>
+          <span class="text-base font-semibold text-xxl" style="color: #0FB947;">{{reviewData?.deal?.totalReviews}}</span>
         </div>
         <div style="padding: 0.875rem;" class="w-40 h-20 bg-white">
           <span class="mb-1.5 text-sm font-medium">Average rating</span>
           <br>
-          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">{{reviewData?.ratingsAverage}}</span>
+          <span class="text-base font-semibold text-xxl" style="color: #F1B33F;">{{reviewData?.deal?.ratingsAverage}}</span>
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@
         <th class="pr-4 font-semibold cursor-pointer same-font">Rating</th>
       </thead>
       <tbody>
-        <ng-container *ngFor="let data of reviewData?.Reviews; let i = index;">
+        <ng-container *ngFor="let data of reviewData?.deal?.Reviews; let i = index;">
           <tr class="z-40 h-16 text-left text-gray-700 bg-white border-b-2 border-gray-200 border-dotted rounded-lg">
             <td class="pr-4">{{data.voucherID}}</td>
             <td class="pr-4">{{data.voucherRedeemedDate | date: 'dd-MM-yyyy'}}</td>
@@ -85,7 +85,7 @@
       <ngb-pagination
           [(page)]="page"
           [pageSize]="limit"
-          [collectionSize]="reviewData?.totalReviews"
+          [collectionSize]="reviewData?.totalReviewsCount"
           [maxSize]="5" [boundaryLinks]="false" (pageChange)="next()">
         </ngb-pagination>
     </div>

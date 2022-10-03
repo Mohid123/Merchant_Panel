@@ -14,13 +14,17 @@ export class ListsWidget5Component implements OnInit {
 
   page: number;
   limit: number;
-  activityData: Observable<any>;
+  activityData: any;
   private isLoading: BehaviorSubject<any> = new BehaviorSubject(false);
   public isLoading$: Observable<boolean> = this.isLoading.asObservable();
+  disableInfiniteScroll: BehaviorSubject<any> = new BehaviorSubject(false);
+  disableInfiniteScroll$: Observable<boolean> = this.disableInfiniteScroll.asObservable();
+  merchantActivities: any;
+  totalActivities: number;
 
   constructor(private analytics: AnalyticsService, private cf: ChangeDetectorRef) {
     this.page = 1;
-    this.limit = 8
+    this.limit = 10
   }
 
   ngOnInit(): void {
@@ -31,7 +35,33 @@ export class ListsWidget5Component implements OnInit {
   }
 
   async getAllActivities() {
-    this.activityData = this.analytics.getAllActivities(this.page, this.limit).pipe(map((res: ApiResponse<ActivityData>) => res.data));
+    this.analytics.getAllActivities(this.page, this.limit).pipe(map((res: ApiResponse<ActivityData>) => {
+      if(!res.hasErrors()) {
+        this.merchantActivities = res.data.data;
+        this.totalActivities = res.data.totalActivities;
+        this.cf.detectChanges();
+      }
+    })).subscribe();
+  }
+
+  onScrollDown() {
+    this.page++;
+    if(this.page <= 5) {
+      this.analytics.getAllActivities(this.page, this.limit).pipe(map((res: ApiResponse<ActivityData>) => {
+        if(!res.hasErrors()) {
+          this.activityData = res.data.data;
+          this.cf.detectChanges();
+          this.totalActivities = res.data.totalActivities;
+          this.merchantActivities = [...this.merchantActivities, ...this.activityData];
+          debugger
+          this.cf.detectChanges();
+        }
+      })).subscribe();
+    }
+    else if(this.page > 5) {
+      debugger
+      this.disableInfiniteScroll.next(true);
+    }
   }
 
 }

@@ -7,6 +7,7 @@ import { TableSkeletonModule } from '@components/table-skeleton/table-skeleton.m
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { BarRatingModule } from "ngx-bar-rating";
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { WidgetsModule } from '../../_metronic/partials';
 import { ReusableModalModule } from './../../_metronic/layout/components/reusable-modal/reusable-modal.module';
 import { DashboardComponent } from './dashboard.component';
@@ -29,7 +30,8 @@ import { DashboardComponent } from './dashboard.component';
     FormsModule,
     NgPasswordValidatorModule,
     BarRatingModule,
-    MediaProgressModule
+    MediaProgressModule,
+    InfiniteScrollModule
   ],
 })
 export class DashboardModule {}

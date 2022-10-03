@@ -107,7 +107,7 @@ export class SingleReviewComponent implements OnInit, OnDestroy {
     this.reviewID = reviewID;
     this.voucherID = voucherID;
     this.voucherMongoID = voucherMongoID;
-    this.reviewData.Reviews?.find((value: any) => {
+    this.reviewData?.deal?.Reviews?.find((value: any) => {
       if(value.id == this.reviewID) {
         this.ReplySubject.value?.pop();
         this.reviewValues.push(value);

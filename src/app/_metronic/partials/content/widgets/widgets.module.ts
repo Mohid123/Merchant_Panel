@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { InlineSVGModule } from 'ng-inline-svg';
 // Advanced Tables
@@ -19,25 +19,22 @@ import { ListsWidget4Component } from './lists/lists-widget4/lists-widget4.compo
 import { ListsWidget8Component } from './lists/lists-widget8/lists-widget8.component';
 // Mixed
 import { MixedWidget1Component } from './mixed/mixed-widget1/mixed-widget1.component';
-import { MixedWidget4Component } from './mixed/mixed-widget4/mixed-widget4.component';
-import { MixedWidget6Component } from './mixed/mixed-widget6/mixed-widget6.component';
 import { MixedWidget10Component } from './mixed/mixed-widget10/mixed-widget10.component';
 import { MixedWidget11Component } from './mixed/mixed-widget11/mixed-widget11.component';
+import { MixedWidget4Component } from './mixed/mixed-widget4/mixed-widget4.component';
+import { MixedWidget6Component } from './mixed/mixed-widget6/mixed-widget6.component';
 // Tiles
 import { TilesWidget1Component } from './tiles/tiles-widget1/tiles-widget1.component';
-import { TilesWidget3Component } from './tiles/tiles-widget3/tiles-widget3.component';
 import { TilesWidget10Component } from './tiles/tiles-widget10/tiles-widget10.component';
 import { TilesWidget11Component } from './tiles/tiles-widget11/tiles-widget11.component';
 import { TilesWidget12Component } from './tiles/tiles-widget12/tiles-widget12.component';
 import { TilesWidget13Component } from './tiles/tiles-widget13/tiles-widget13.component';
 import { TilesWidget14Component } from './tiles/tiles-widget14/tiles-widget14.component';
+import { TilesWidget3Component } from './tiles/tiles-widget3/tiles-widget3.component';
 // Other
-import { DropdownMenusModule } from '../dropdown-menus/dropdown-menus.module';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { ListsWidget2Component } from './lists/lists-widget2/lists-widget2.component';
-import { ListsWidget5Component } from './lists/lists-widget5/lists-widget5.component';
-import { ListsWidget6Component } from './lists/lists-widget6/lists-widget6.component';
-import { ListsWidget7Component } from './lists/lists-widget7/lists-widget7.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { DropdownMenusModule } from '../dropdown-menus/dropdown-menus.module';
 import { ChartsWidget1Component } from './charts/charts-widget1/charts-widget1.component';
 import { ChartsWidget2Component } from './charts/charts-widget2/charts-widget2.component';
 import { ChartsWidget3Component } from './charts/charts-widget3/charts-widget3.component';
@@ -51,6 +48,10 @@ import { FeedsWidget3Component } from './feeds/feeds-widget3/feeds-widget3.compo
 import { FeedsWidget4Component } from './feeds/feeds-widget4/feeds-widget4.component';
 import { FeedsWidget5Component } from './feeds/feeds-widget5/feeds-widget5.component';
 import { FeedsWidget6Component } from './feeds/feeds-widget6/feeds-widget6.component';
+import { ListsWidget2Component } from './lists/lists-widget2/lists-widget2.component';
+import { ListsWidget5Component } from './lists/lists-widget5/lists-widget5.component';
+import { ListsWidget6Component } from './lists/lists-widget6/lists-widget6.component';
+import { ListsWidget7Component } from './lists/lists-widget7/lists-widget7.component';
 import { MixedWidget2Component } from './mixed/mixed-widget2/mixed-widget2.component';
 import { MixedWidget3Component } from './mixed/mixed-widget3/mixed-widget3.component';
 import { MixedWidget5Component } from './mixed/mixed-widget5/mixed-widget5.component';
@@ -64,6 +65,11 @@ import { StatsWidget4Component } from './stats/stats-widget4/stats-widget4.compo
 import { StatsWidget5Component } from './stats/stats-widget5/stats-widget5.component';
 import { StatsWidget6Component } from './stats/stats-widget6/stats-widget6.component';
 import { TablesWidget1Component } from './tables/tables-widget1/tables-widget1.component';
+import { TablesWidget10Component } from './tables/tables-widget10/tables-widget10.component';
+import { TablesWidget11Component } from './tables/tables-widget11/tables-widget11.component';
+import { TablesWidget12Component } from './tables/tables-widget12/tables-widget12.component';
+import { TablesWidget13Component } from './tables/tables-widget13/tables-widget13.component';
+import { TablesWidget14Component } from './tables/tables-widget14/tables-widget14.component';
 import { TablesWidget2Component } from './tables/tables-widget2/tables-widget2.component';
 import { TablesWidget3Component } from './tables/tables-widget3/tables-widget3.component';
 import { TablesWidget4Component } from './tables/tables-widget4/tables-widget4.component';
@@ -72,11 +78,6 @@ import { TablesWidget6Component } from './tables/tables-widget6/tables-widget6.c
 import { TablesWidget7Component } from './tables/tables-widget7/tables-widget7.component';
 import { TablesWidget8Component } from './tables/tables-widget8/tables-widget8.component';
 import { TablesWidget9Component } from './tables/tables-widget9/tables-widget9.component';
-import { TablesWidget10Component } from './tables/tables-widget10/tables-widget10.component';
-import { TablesWidget11Component } from './tables/tables-widget11/tables-widget11.component';
-import { TablesWidget12Component } from './tables/tables-widget12/tables-widget12.component';
-import { TablesWidget13Component } from './tables/tables-widget13/tables-widget13.component';
-import { TablesWidget14Component } from './tables/tables-widget14/tables-widget14.component';
 
 @NgModule({
   declarations: [
@@ -160,6 +161,7 @@ import { TablesWidget14Component } from './tables/tables-widget14/tables-widget1
     InlineSVGModule,
     NgApexchartsModule,
     NgbDropdownModule,
+    InfiniteScrollModule
   ],
   exports: [
     // Advanced Tables

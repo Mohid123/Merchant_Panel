@@ -16,7 +16,8 @@ export class revenueVouchers {
 }
 
 export class SoldVouchers {
-  soldVouchers: soldVouchers[];
+  counts: soldVouchers[];
+  maxCount: number;
 }
 
 export class soldVouchers {
