@@ -38,7 +38,8 @@ export class DealPreviewComponent implements OnInit, OnDestroy {
       this.mainDeal = res;
       this.cf.detectChanges()
       this.subDeals = this.mainDeal.subDeals ? this.mainDeal.subDeals : [];
-      this.urls = this.mainDeal.mediaUrl ? this.mainDeal?.mediaUrl.filter(img => img?.startsWith('data:image')) : [];
+      this.cf.detectChanges();
+      this.urls = this.mainDeal?.mediaUrl ? this.mainDeal?.mediaUrl.filter(img => img?.startsWith('data:image')) : [];
       this.cf.detectChanges();
     });
   }

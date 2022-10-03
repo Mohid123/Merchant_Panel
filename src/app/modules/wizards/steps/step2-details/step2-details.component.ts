@@ -1,5 +1,5 @@
 import { ViewportScroller } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ApiResponse } from '@core/models/response.model';
@@ -8,7 +8,7 @@ import { DealService } from '@core/services/deal.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { CommonFunctionsService } from '@pages/services/common-functions.service';
 import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { MainDeal } from 'src/app/modules/wizards/models/main-deal.model';
 import { AuthService } from './../../../auth/services/auth.service';
 import { ConnectionService } from './../../services/connection.service';
@@ -18,7 +18,7 @@ import { ConnectionService } from './../../services/connection.service';
   templateUrl: './step2-details.component.html',
   styleUrls: ['./step2-details.component.scss']
 })
-export class Step2DetailsComponent implements OnInit, OnDestroy  {
+export class Step2DetailsComponent implements OnInit, AfterViewInit, OnDestroy  {
 
   config: any;
   public Editor = ClassicEditor;
@@ -52,13 +52,16 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     viewportScroller: ViewportScroller
   ) {
     viewportScroller.scrollToPosition([0,0]);
-    this.connection.getData().pipe(takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
-      this.data = response;
-    });
 
     this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user: User | any) => {
       this.user = user;
     });
+
+    this.connection.getData().pipe(take(1), takeUntil(this.destroy$)).subscribe((response: MainDeal) => {
+      this.data = response;
+      this.connection.sendData(this.data);
+    });
+
   }
 
   ngOnInit(): void {
@@ -116,6 +119,10 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
     });
   }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {this.connection.sendData(this.data)}, 800);
+  }
+
   get f() {
     return this.dealForm.controls;
   }
@@ -151,7 +158,7 @@ export class Step2DetailsComponent implements OnInit, OnDestroy  {
 
     this.dealForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: MainDeal) => {
       this.cf.detectChanges();
-      this.connection.sendData({...this.data, ...val})
+      this.connection.sendData({...this.data, ...val});
       this.updateParentModel(val, true);
     });
   }

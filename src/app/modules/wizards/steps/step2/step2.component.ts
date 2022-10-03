@@ -104,17 +104,15 @@ export class Step2Component implements OnInit, OnDestroy {
       this.newData = response;
       this.id = response?.id;
       if(response) {
-
         this.sendDataToPrevious = response;
       }
       if(response.subDeals?.length > 0 && this.saveEditDeal == false) {
         this.data.subDeals = response.subDeals;
-        this.subDeals = this.data.subDeals ? this.data.subDeals : [];
-        this.newData.subDeals = this.data.subDeals ? this.data.subDeals : [];
+        this.subDeals = this.data.subDeals;
+        this.newData.subDeals = this.data.subDeals;
         if(this.subDeals.length > 0) {
           this.addVoucher = false;
         }
-        this.connection.sendData(this.data);
       }
     });
   }
@@ -492,6 +490,7 @@ export class Step2Component implements OnInit, OnDestroy {
         const newPayload = this.newData;
 
         const payloadWithoutMedia: any = this.newData;
+        // this.connection.sendData(payloadWithoutMedia)
         delete payloadWithoutMedia.mediaUrl;
         if(payloadWithoutMedia) {
           return this.dealService.createDeal(payloadWithoutMedia)
