@@ -531,9 +531,18 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handlePlus() {
-    this.form.patchValue({
-      voucherValidity: parseInt(this.form.get('voucherValidity')?.value) + 1
-    });
+    if(this.form.get('voucherValidity')?.value != "") {
+      this.form.patchValue({
+        voucherValidity: parseInt(this.form.get('voucherValidity')?.value) + 1
+      });
+    }
+    else {
+      this.form.get('voucherValidity')?.setValue(0);
+      this.form.valid;
+      this.form.patchValue({
+        voucherValidity: parseInt(this.form.get('voucherValidity')?.value) + 1
+      });
+    }
   }
 
   openDateModal() {
@@ -589,21 +598,21 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendDraftData() {
-    debugger
-    if(this.form.invalid == true || !this.dateForm.get('startDate')?.value || !this.dateForm.get('endDate')?.value) {
-      debugger
+    if(this.form.invalid == true || !this.form.value || !this.dateForm.get('startDate')?.value || !this.dateForm.get('endDate')?.value) {
       this.form.markAllAsTouched();
       this.dateForm.markAllAsTouched();
       this.toast.warning('Please select valid dates for the deal and sub deal/s');
       return;
     }
     if(new Date(new Date().setUTCFullYear(this.dateForm.get('endDate')?.value?.year, this.dateForm.get('endDate')?.value?.month - 1, this.dateForm.get('endDate')?.value?.day)).setUTCHours(0,0,0,0) < new Date(new Date().setUTCFullYear(this.form.get('voucherEndDate')?.value?.year, this.form.get('voucherEndDate')?.value?.month - 1, this.form.get('voucherEndDate')?.value?.day)).setUTCHours(0,0,0,0)) {
-      debugger
       this.toast.warning('Please select valid dates for the deal and sub deal/s');
       return;
     }
+    if(this.form.value && this.form.get('voucherValidity')?.value < 30) {
+      this.form.markAllAsTouched();
+      return;
+    }
     else {
-      debugger
       this.uploaded = false;
       this.newData.pageNumber = 4;
       return new Promise((resolve, reject) => {

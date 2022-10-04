@@ -397,9 +397,18 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   editHandlePlus() {
-    this.editVouchers.patchValue({
-      numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) + 1
-    });
+    if(this.editVouchers.get('numberOfVouchers')?.value != "") {
+      this.editVouchers.patchValue({
+        numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) + 1
+      });
+    }
+    else {
+      this.editVouchers.get('numberOfVouchers')?.setValue(0);
+      this.editVouchers.valid;
+      this.editVouchers.patchValue({
+        numberOfVouchers: parseInt(this.editVouchers.get('numberOfVouchers')?.value) + 1
+      });
+    }
   }
 
   editHandleMinus() {
@@ -419,9 +428,18 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   handlePlus() {
-    this.vouchers.patchValue({
-      numberOfVouchers: parseInt(this.vouchers.get('numberOfVouchers')?.value) + 1
-    });
+    if(this.vouchers.get('numberOfVouchers')?.value != "") {
+      this.vouchers.patchValue({
+        numberOfVouchers: parseInt(this.vouchers.get('numberOfVouchers')?.value) + 1
+      });
+    }
+    else {
+      this.vouchers.get('numberOfVouchers')?.setValue(0);
+      this.vouchers.valid;
+      this.vouchers.patchValue({
+        numberOfVouchers: parseInt(this.vouchers.get('numberOfVouchers')?.value) + 1
+      });
+    }
   }
 
   async openNew() {
