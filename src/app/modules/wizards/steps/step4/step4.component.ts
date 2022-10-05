@@ -326,7 +326,6 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.connection.isSavingNext().pipe(takeUntil(this.destroy$)).subscribe((value: any) => {
         if(value == false) {
-          debugger
           this.connection.sendData(this.data)
         }
       })
@@ -615,7 +614,21 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
       this.toast.warning('Please select valid dates for the deal and sub deal/s');
       return;
     }
-    if(this.form.value && this.form.get('voucherValidity')?.value < 30) {
+    if(this.form.disabled) {
+
+      this.toast.warning('Please select valid dates for sub deals');
+      this.form.markAllAsTouched();
+      return;
+    }
+    if(this.form.get('voucherStartDate')?.enabled && !this.form.get('voucherStartDate')?.value) {
+
+      this.toast.warning('Please select valid dates for sub deals');
+      this.form.markAllAsTouched();
+      return;
+    }
+    else if(this.form.get('voucherValidity')?.enabled && this.form.get('voucherValidity')?.value < 30) {
+
+      this.toast.warning('Please select valid dates for sub deals');
       this.form.markAllAsTouched();
       return;
     }

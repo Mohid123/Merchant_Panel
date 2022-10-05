@@ -123,7 +123,6 @@ export class Step2DetailsComponent implements OnInit, AfterViewInit, OnDestroy  
     setTimeout(() => {
       this.connection.isSavingNext().pipe(takeUntil(this.destroy$)).subscribe((value: any) => {
         if(value == false) {
-          debugger
           this.connection.sendData(this.data)
         }
       })

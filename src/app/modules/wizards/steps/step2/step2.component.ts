@@ -127,7 +127,6 @@ export class Step2Component implements OnInit, OnDestroy {
       this.newData.subDeals = this.subDeals;
     }
     if(this.connection.sendEditValue.value == true) {
-      debugger
       this.saveEditDeal = true;
     }
   }
