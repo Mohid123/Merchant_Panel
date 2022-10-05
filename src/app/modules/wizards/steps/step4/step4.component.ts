@@ -323,7 +323,14 @@ export class Step4Component implements OnInit, AfterViewInit, OnDestroy {
       this.fullCalendar?.getApi().render();
     });
 
-    setTimeout(() => {this.connection.sendData(this.data)}, 2000);
+    setTimeout(() => {
+      this.connection.isSavingNext().pipe(takeUntil(this.destroy$)).subscribe((value: any) => {
+        if(value == false) {
+          debugger
+          this.connection.sendData(this.data)
+        }
+      })
+    })
 
     if(this.dealStatus == 'Published' || this.dealStatus == 'Scheduled') {
       this.form.get('voucherStartDate')?.disable();

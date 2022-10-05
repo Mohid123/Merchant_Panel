@@ -97,8 +97,8 @@ export class ConnectionService {
 
   // get and set isSaving
 
-  isSavingNext(): boolean {
-    return this.isSaving.value;
+  isSavingNext(): Observable<any> {
+    return this.isSaving.asObservable();
   }
 
   isSavingNextData(data: any) {

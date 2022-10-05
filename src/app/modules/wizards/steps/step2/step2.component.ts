@@ -486,7 +486,7 @@ export class Step2Component implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroy$))
           .subscribe((res: ApiResponse<any>) => {
             if(!res.hasErrors()) {
-              this.connection.isSaving.next(false);
+              this.connection.isSavingNextData(false);
               this.connection.sendSaveAndNext(res.data);
             }
             else {
@@ -519,7 +519,7 @@ export class Step2Component implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroy$))
           .subscribe((res: ApiResponse<any>) => {
             if(!res.hasErrors()) {
-              this.connection.isSaving.next(false);
+              this.connection.isSavingNextData(false);
               this.connection.sendSaveAndNext(res.data);
               // this.connection.sendStep1(res.data)
             }

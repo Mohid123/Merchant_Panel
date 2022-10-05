@@ -120,7 +120,14 @@ export class Step2DetailsComponent implements OnInit, AfterViewInit, OnDestroy  
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {this.connection.sendData(this.data)}, 2000);
+    setTimeout(() => {
+      this.connection.isSavingNext().pipe(takeUntil(this.destroy$)).subscribe((value: any) => {
+        if(value == false) {
+          debugger
+          this.connection.sendData(this.data)
+        }
+      })
+    })
   }
 
   get f() {
@@ -213,7 +220,7 @@ export class Step2DetailsComponent implements OnInit, AfterViewInit, OnDestroy  
         delete payloadWithoutMedia.mediaUrl;
         this.dealService.createDeal(payloadWithoutMedia).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
           if(!res.hasErrors()) {
-            this.connection.isSaving.next(false);
+            this.connection.isSavingNextData(false);
             this.connection.sendSaveAndNext(res.data);
             resolve('success');
           }
