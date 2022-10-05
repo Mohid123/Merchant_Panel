@@ -32,8 +32,8 @@ export class MixedWidget10Component implements OnInit, OnDestroy {
       this.voucherRevenue.subscribe((voucher: SoldVouchers) => {
         this.max = Math.round(voucher.maxCount + 10);
         this.cf.detectChanges();
-        this.data = voucher.counts.map((data: soldVouchers) => data.count);
-        this.categories = voucher.counts.map((data: soldVouchers) => moment(data.createdAt).format('YYYY-MM-DD'));
+        this.data = voucher.counts?.map((data: soldVouchers) => data.count);
+        this.categories = voucher.counts?.map((data: soldVouchers) => moment(data.createdAt).format('YYYY-MM-DD'));
         this.cf.detectChanges();
         this.chartOptions = this.getChartOptions(this.chartHeight, this.chartColor, this.chartWidth);
         this.cf.detectChanges();
@@ -61,7 +61,7 @@ export class MixedWidget10Component implements OnInit, OnDestroy {
       series: [
         {
           name: 'Vouchers sold',
-          data: this.data,
+          data: this.data ? this.data : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         },
       ],
       chart: {
