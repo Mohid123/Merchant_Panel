@@ -1,6 +1,6 @@
 <div class="flex justify-center pt-8 pb-10">
   <div class="relative mr-28">
-    <div class="relative z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs bg-primary-500">
+    <div class="relative z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs" [ngClass]="conn.currentStep$.value > 1 ? 'bg-primary-500' : 'bg-primary-100'">
       <span class="font-semibold" [ngClass]="conn.currentStep$.value > 1 ? 'fas fa-check' : 'show-number'"></span>
       <div class="class-name"></div>
     </div>
@@ -8,7 +8,7 @@
   </div>
 
   <div class="relative mr-28">
-    <div class="relative z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs bg-primary-500">
+    <div class="relative z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs" [ngClass]="conn.currentStep$.value > 2 ? 'bg-primary-500' : 'bg-primary-100'">
       <span class="font-semibold" [ngClass]="conn.currentStep$.value > 2 ? 'fas fa-check' : 'show-number2'"></span>
       <div class="class-name"></div>
     </div>
@@ -16,7 +16,7 @@
   </div>
 
   <div class="relative mr-28">
-    <div class="relative z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs bg-primary-500">
+    <div class="relative z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs" [ngClass]="conn.currentStep$.value > 3 ? 'bg-primary-500' : 'bg-primary-100'">
       <span class="font-semibold" [ngClass]="conn.currentStep$.value > 3 ? 'fas fa-check' : 'show-number3'"></span>
       <div class="class-name"></div>
     </div>
@@ -24,7 +24,7 @@
   </div>
 
   <div class="relative ml-2.5">
-    <div class="z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs bg-primary-500">
+    <div class="z-50 flex flex-col items-center justify-center w-5 h-5 text-white align-middle rounded-full text-xxs" [ngClass]="conn.currentStep$.value > 4 ? 'bg-primary-500' : 'bg-primary-100'">
       <span class="font-semibold" [ngClass]="conn.currentStep$.value > 4 ? 'fas fa-check z-50' : 'show-number4'"></span>
     </div>
     <span style="color: #414950;" class="absolute inline-block text-xs whitespace-nowrap mt-1.5 -right-3.5">Schedule</span>
