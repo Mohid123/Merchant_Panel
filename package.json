@@ -51,6 +51,7 @@
     "moment": "^2.29.3",
     "ng-apexcharts": "^1.5.12",
     "ng-inline-svg": "^13.0.0",
+    "ng-otp-input": "^1.8.5",
     "ng-password-validator": "^1.2.2",
     "ng2-tel-input": "^2.3.0",
     "ngx-bar-rating": "^3.0.0",

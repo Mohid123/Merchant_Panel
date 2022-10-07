@@ -20,6 +20,7 @@ import { HotToastModule } from '@ngneat/hot-toast';
 import { TranslateModule } from '@ngx-translate/core';
 import { TruncationPipe } from '@pages/pipe/truncation.pipe';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { NgOtpInputModule } from 'ng-otp-input';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { BarRatingModule } from 'ngx-bar-rating';
 import { ClipboardModule } from 'ngx-clipboard';
@@ -92,7 +93,8 @@ import { TestComponent } from './pages/test/test.component';
     BarRatingModule,
     MediaProgressModule,
     DragDropModule,
-    DragAnDropUploadModule
+    DragAnDropUploadModule,
+    NgOtpInputModule
   ],
   providers: [
     // {

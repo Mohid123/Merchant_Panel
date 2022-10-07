@@ -65,6 +65,19 @@ body {
   font-size: 15px;
 }
 
+.otp-input {
+  width: 40px!important;
+  height: 35px!important;
+  border-radius: 0px!important;
+  text-align: center!important;
+  font-size: 14px!important;
+  box-sizing: border-box!important;
+  border-bottom: 2px solid #0081E9!important;
+  border-right: 1px solid white!important;
+  border-left: 1px solid white!important;
+  border-top: 1px solid white!important;
+}
+
 @media(min-width: 360px) and (max-width: 764px) {
   .new-styles {
     max-width: 21.5rem!important;

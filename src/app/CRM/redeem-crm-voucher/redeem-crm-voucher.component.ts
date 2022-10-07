@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiResponse } from '@core/models/response.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,13 +20,14 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
 
   singleVoucher: Observable<Orders | any>;
   @ViewChild('modal') private modal: TemplateRef<any>;
-  pinForm: FormGroup;
+  pinValue: string;
   voucherID: string;
   destroy$ = new Subject();
   voucherIDForQuery: string;
   condition: string;
   modalDialogClass: string = '';
   isLoading: boolean = false;
+  otpValue: FormControl = new FormControl();
 
   constructor(
     private modalService: NgbModal,
@@ -37,7 +38,10 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
     private toast: HotToastService) {}
 
   ngOnInit(): void {
-    this.initPinCodeForm();
+    this.otpValue.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: any) => {
+      console.log(value)
+      this.pinValue = value
+    })
     this.voucherID = this.activatedRoute.snapshot.params['voucherId'];
     if(this.voucherID) {
       this.getVoucherByMongoID().then(() => {
@@ -68,41 +72,15 @@ export class RedeemCrmVoucherComponent implements OnInit, AfterViewInit {
     })
   }
 
-  onDigitInput(event: any){
-    let element;
-    if (event.code !== 'Backspace')
-        element = event.srcElement.nextElementSibling;
-     if (event.code === 'Backspace')
-        element = event.srcElement.previousElementSibling;
-     if(element == null)
-        return;
-     else
-      element.focus();
-  }
-
-  initPinCodeForm() {
-    this.pinForm = this.fb.group({
-      firstValue: new FormControl('', Validators.maxLength(1)),
-      secondValue: new FormControl('', Validators.maxLength(1)),
-      thirdValue: new FormControl('', Validators.maxLength(1)),
-      fourthValue: new FormControl('', Validators.maxLength(1)),
-    })
-  }
-
   redeemVocuherbyPin() {
-    const pinFormValue = [this.pinForm.value];
-    const pinCode = Object.values(pinFormValue).map((value: any) => {
-      const values = [value.firstValue, value.secondValue, value.thirdValue, value.fourthValue].join('')
-      return values
-    });
     const payload = {
       voucherID: this.voucherIDForQuery,
-      pin: pinCode[0]
+      pin: this.pinValue
     }
+    debugger
     this.orderService.redeemVoucherByPinCode(payload).pipe(takeUntil(this.destroy$)).subscribe((res: ApiResponse<any>) => {
       if(!res.hasErrors()) {
         if(res.data.status == 'success') {
-          this.pinForm.reset();
           this.singleVoucher = of(res.data.voucher)
         }
       }
