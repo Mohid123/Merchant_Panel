@@ -49,7 +49,7 @@ export class UserService extends ApiService<AuthApiData> {
   }
 
   updateLocation(param: any) {
-    const merchantId = this.authService.currentUserValue?.userID;
+    const merchantId = this.authService.currentUserValue?.merchantID;
     return this.post(`/location/updateLocation/${merchantId}`, param);
   }
 }
