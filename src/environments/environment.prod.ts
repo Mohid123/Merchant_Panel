@@ -7,7 +7,7 @@ export const environment = {
   appVersion: 'v8.0.34',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
-  apiUrl: 'https://stagingdividealapi.dividisapp.com',
+  apiUrl: 'https://signupdividealapi.dividisapp.com',
   appThemeName: 'Divideals',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
   appHTMLIntegration: 'https://preview.keenthemes.com/metronic8/divideals/documentation/base/helpers/flex-layouts.html',
