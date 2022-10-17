@@ -10,7 +10,7 @@ export class RegisterModel {
   city: string;
   province: number | null;
   website_socialAppLink: string;
-  role: string;
+  // role: string;
   status: string;
   businessHours: any;
   vatNumber: string;
@@ -29,7 +29,7 @@ export class RegisterModel {
     this.province = model.province || null;
     this.vatNumber = model.vatNumber || '';
     this.website_socialAppLink = model.website_socialAppLink;
-    this.role = 'Merchant';
+    // this.role = 'Merchant';
     this.status= 'New';
     this.businessHours = [
       {
