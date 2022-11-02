@@ -482,30 +482,30 @@ export class Step1Component implements OnInit, OnDestroy {
           this.firstSave();
           return new Promise((resolve, reject) => {
             const mediaUpload: Array<Observable<any>> = [];
-            // if(this.media.length == 0) {
-            //
-            //   this.firstSaveData.subCategory = this.dealForm.get('subCategory')?.value;
-            //   this.firstSaveData.dealHeader = this.dealForm.get('dealHeader')?.value;
-            //   this.firstSaveData.subTitle = this.dealForm.get('subTitle')?.value;
-            //   this.firstSaveData.subDeals = this.responseVouchers;
-            //   return this.dealService.createDeal(this.firstSaveData)
-            //   .pipe(takeUntil(this.destroy$))
-            //   .subscribe((res: ApiResponse<any>) => {
-            //     if(!res.hasErrors()) {
-            //       this.connection.isSavingNextData(false);
-            //       this.cf.detectChanges();
-            //       this.connection.sendSaveAndNext(res.data);
-            //       this.urls = [];
-            //       this.multiples = [];
-            //       resolve('success')
-            //     }
-            //     else {
-            //       this.toast.error('Failed to save deal draft');
-            //       this.connection.isSavingNextData(false);
-            //       reject('error')
-            //     }
-            //   })
-            // }
+            if(this.media.length == 0) {
+            
+              this.firstSaveData.subCategory = this.dealForm.get('subCategory')?.value;
+              this.firstSaveData.dealHeader = this.dealForm.get('dealHeader')?.value;
+              this.firstSaveData.subTitle = this.dealForm.get('subTitle')?.value;
+              this.firstSaveData.subDeals = this.responseVouchers;
+              return this.dealService.createDeal(this.firstSaveData)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe((res: ApiResponse<any>) => {
+                if(!res.hasErrors()) {
+                  this.connection.isSavingNextData(false);
+                  this.cf.detectChanges();
+                  this.connection.sendSaveAndNext(res.data);
+                  this.urls = [];
+                  this.multiples = [];
+                  resolve('success')
+                }
+                else {
+                  this.toast.error('Failed to save deal draft');
+                  this.connection.isSavingNextData(false);
+                  reject('error')
+                }
+              })
+            }
             if(this.media.length > 0) {
 
               this.mediaService.dataCount.next(this.media.length);
