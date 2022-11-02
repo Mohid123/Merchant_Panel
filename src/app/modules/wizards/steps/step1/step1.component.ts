@@ -352,7 +352,6 @@ export class Step1Component implements OnInit, OnDestroy {
     else {
       switch (this.saveEditDeal) {
         case true:
-
           this.nextClick.emit('');
           this.connection.isSaving.next(true);
           this.firstSave();
@@ -478,33 +477,35 @@ export class Step1Component implements OnInit, OnDestroy {
           });
         case false:
           this.nextClick.emit('');
+
           this.connection.isSaving.next(true);
           this.firstSave();
           return new Promise((resolve, reject) => {
             const mediaUpload: Array<Observable<any>> = [];
-            if(this.media.length == 0) {
-              this.firstSaveData.subCategory = this.dealForm.get('subCategory')?.value;
-              this.firstSaveData.dealHeader = this.dealForm.get('dealHeader')?.value;
-              this.firstSaveData.subTitle = this.dealForm.get('subTitle')?.value;
-              this.firstSaveData.subDeals = this.responseVouchers;
-              return this.dealService.createDeal(this.firstSaveData)
-              .pipe(takeUntil(this.destroy$))
-              .subscribe((res: ApiResponse<any>) => {
-                if(!res.hasErrors()) {
-                  this.connection.isSavingNextData(false);
-                  this.cf.detectChanges();
-                  this.connection.sendSaveAndNext(res.data);
-                  this.urls = [];
-                  this.multiples = [];
-                  resolve('success')
-                }
-                else {
-                  this.toast.error('Failed to save deal draft');
-                  this.connection.isSavingNextData(false);
-                  reject('error')
-                }
-              })
-            }
+            // if(this.media.length == 0) {
+            //
+            //   this.firstSaveData.subCategory = this.dealForm.get('subCategory')?.value;
+            //   this.firstSaveData.dealHeader = this.dealForm.get('dealHeader')?.value;
+            //   this.firstSaveData.subTitle = this.dealForm.get('subTitle')?.value;
+            //   this.firstSaveData.subDeals = this.responseVouchers;
+            //   return this.dealService.createDeal(this.firstSaveData)
+            //   .pipe(takeUntil(this.destroy$))
+            //   .subscribe((res: ApiResponse<any>) => {
+            //     if(!res.hasErrors()) {
+            //       this.connection.isSavingNextData(false);
+            //       this.cf.detectChanges();
+            //       this.connection.sendSaveAndNext(res.data);
+            //       this.urls = [];
+            //       this.multiples = [];
+            //       resolve('success')
+            //     }
+            //     else {
+            //       this.toast.error('Failed to save deal draft');
+            //       this.connection.isSavingNextData(false);
+            //       reject('error')
+            //     }
+            //   })
+            // }
             if(this.media.length > 0) {
 
               this.mediaService.dataCount.next(this.media.length);
@@ -525,6 +526,7 @@ export class Step1Component implements OnInit, OnDestroy {
                 });
                 if(images.length > 0) {
 
+
                   const media = images.map((image: any) => {
                     return {
                       type: 'Image',
@@ -537,7 +539,8 @@ export class Step1Component implements OnInit, OnDestroy {
                     }
                   });
 
-                  this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl, ...media];
+                  this.firstSaveData.mediaUrl = [...this.firstSaveData?.mediaUrl || [], ...media];
+
                   if(this.videoUrls.length > 0) {
                     this.firstSaveData.mediaUrl = [...this.firstSaveData.mediaUrl, ...this.videoUrls]
                   }
@@ -548,7 +551,9 @@ export class Step1Component implements OnInit, OnDestroy {
                 }
 
                 this.firstSaveData.subDeals = this.responseSaveAndNextVocuhers ? this.responseSaveAndNextVocuhers : [];
+
                 const payloadWithoutMedia: any = this.firstSaveData;
+
                 delete payloadWithoutMedia.subDeals;
                 return this.dealService.createDeal(payloadWithoutMedia);
                 }))
@@ -766,7 +771,6 @@ export class Step1Component implements OnInit, OnDestroy {
       if(this.media.length > 0) {
         this.media.splice(j, 1);
         this.mediaService.dataCount.next(this.media.length);
-        console.log(this.media)
       }
     }
     // if(this.images) {
